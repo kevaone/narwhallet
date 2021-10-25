@@ -17,15 +17,15 @@ Until initial beta release recommended to use a read-only or watch wallet.
 *recommended to use a virtual environment for separation and to ensure no dependency conflicts*
 
 ### venv example
-mkdir K1
-cd K1
-python3 -m venv ./venv
-source ./venv/bin/activate
+mkdir K1<br/>
+cd K1<br/>
+python3 -m venv ./venv<br/>
+source ./venv/bin/activate<br/>
 
 ### Download repo & Install requirements
-git clone https://github.com/kevaone/narwhallet
-cd narwhallet
-pip install -r ./requirements.txt
+git clone https://github.com/kevaone/narwhallet.git<br/>
+cd narwhallet<br/>
+pip install -r ./requirements.txt<br/>
 
 ### Launch
 python3 ./narwhallet.py
@@ -38,7 +38,9 @@ python3 ./narwhallet_web.py
 
 Once web launched can navigate to http://localhost:8099/
 
-It is also highly recommended you run your own instance of ElectrumX. If you have large wallets or large number of wallets you will probably be throttled updating against public peers; Running your own ElectrumX you can adjust for your needs. Can download ElectrumX here: https://github.com/kevacoin-project/electrumx
+It is also highly recommended you run your own instance of ElectrumX. If you have large wallets or large number of wallets you will probably be throttled updating against public peers; Running your own ElectrumX you can adjust for your needs.
+
+Can download ElectrumX here: https://github.com/kevacoin-project/electrumx
 
 
 ## Wallets Supported
