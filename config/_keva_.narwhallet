@@ -1,0 +1,19 @@
+{
+    "name": "_keva_.narwhallet",
+    "mnemonic": null,
+    "seed": null,
+    "extended_prv": null,
+    "extended_pub": null,
+    "coin": "KEVACOIN",
+    "bip": "bip49",
+    "kind": 3,
+    "balance": 0.0,
+    "locked": false,
+    "state_lock": 0,
+    "last_updated": null,
+    "account_index": 0,
+    "change_index": 0,
+    "addresses": [],
+    "change_addresses": [],
+    "namespaces": []
+}

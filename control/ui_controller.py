@@ -1,0 +1,848 @@
+import os
+import json
+import shutil
+import time
+from typing import Dict, List
+from PyQt5.QtCore import QThread, Qt
+from PyQt5.QtGui import QClipboard
+
+from control.narwhallet_settings import MNarwhalletSettings
+from control.ui.dialogs import MDialogs
+from control.shared import MShared
+
+from core.kui.main import NarwhalletUI
+from core.kui.kexc_worker import Worker
+
+from core.kex import KEXclient
+from core.kcl.file_utils import ConfigLoader
+from core.kcl.db_utils import SQLInterface
+from core.kcl.db_utils import Scripts as DBScripts
+# from core.kcl.models.psbt_decoder import keva_psbt
+
+from core.kcl.models.wallet import MWallet
+from core.kcl.models.wallets import MWallets
+from core.kcl.models.address import MAddress
+from core.kcl.models.transactions import MTransactions
+from core.kcl.models.namespaces import MNamespaces
+from core.kcl.models.book_addresses import MBookAddresses
+from core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
+from core.kcl.wallet_utils import _wallet_utils as WalletUtils
+
+
+class NarwhalletController():
+    def __init__(self, view: NarwhalletUI, program_path: str,
+                 clipboard: QClipboard):
+        self._v: NarwhalletUI = view
+        self.ui = self._v.ui
+        self.program_path: str = program_path
+        self.user_path: str = self.set_paths()
+        self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
+        self.settings: MNarwhalletSettings = MNarwhalletSettings()
+        self.wallets: MWallets = MWallets()
+        self.tx_cache: MTransactions = MTransactions()
+        self.ns_cache: MNamespaces = MNamespaces()
+        self.address_book: MBookAddresses = MBookAddresses()
+        self._t: Dict[str, QThread] = {}
+        self._o: Dict[str, Worker] = {}
+        self.KEX: KEXclient = KEXclient()
+        self.ws: int = -1  # NOTE Selected wallet index in table
+        self._clipboard: QClipboard = clipboard
+
+        self.dialogs: MDialogs = MDialogs(self.user_path,
+                                          self.settings,
+                                          self._v, self.KEX, self.wallets,
+                                          self.tx_cache, self.address_book,
+                                          self.add_wallet_watch,
+                                          self.create_watch_wallet,
+                                          MShared.get_K,
+                                          self.refresh_namespace_tab_data,
+                                          self.ns_cache)
+
+        self.load_settings()
+        self.load_wallets()
+        self._connectSignals()
+
+    def copy_to_clipboard(self, data):
+        self._clipboard.setText(data)
+
+    def set_paths(self) -> str:
+        _user_home = os.path.expanduser('~')
+        _narwhallet_path = os.path.join(_user_home, '.narwhallet')
+
+        if os.path.isdir(_narwhallet_path) is False:
+            # TODO Add error handling
+            os.mkdir(_narwhallet_path)
+            os.mkdir(os.path.join(_narwhallet_path, 'wallets'))
+
+        if os.path.isdir(os.path.join(_narwhallet_path,
+                                      'narwhallet_web')) is False:
+            os.mkdir(os.path.join(_narwhallet_path, 'narwhallet_web'))
+            os.mkdir(os.path.join(os.path.join(_narwhallet_path,
+                                               'narwhallet_web'), 'themes'))
+            _dth = os.path.join(self.program_path, 'config/themes/default')
+            _dthd = os.path.join(os.path.join(_narwhallet_path,
+                                              'narwhallet_web'),
+                                 'themes/default')
+            shutil.copytree(_dth, _dthd)
+
+        if os.path.isfile(os.path.join(_narwhallet_path,
+                                       'settings.json')) is False:
+            print('settings.json created.')
+            shutil.copy(os.path.join(self.program_path,
+                                     'config/settings.json'), _narwhallet_path)
+
+        if os.path.isfile(os.path.join(_narwhallet_path,
+                                       'strap.json')) is False:
+            print('strap.json created.')
+            shutil.copy(os.path.join(self.program_path,
+                                     'config/strap.json'), _narwhallet_path)
+
+        if os.path.isfile(os.path.join(_narwhallet_path,
+                                       'narwhallet.addressbook')) is False:
+            print('narwhallet.addressbook created.')
+            shutil.copy(os.path.join(self.program_path,
+                                     'config/narwhallet.addressbook'),
+                        _narwhallet_path)
+
+        return _narwhallet_path
+
+    def create_watch_wallet(self, name: str):
+        _w = MWallet()
+        _w.set_kind(3)
+        _w.set_coin('KEVACOIN')
+        _w.set_bip('bip49')
+        _w.set_name(name)
+        self.wallets._fromMWallet(_w)
+        self.wallets.save_wallet(_w.name)
+        self.ui.w_tab.tbl_w.add_wallet(_w.toDict())
+
+    def load_wallets(self):
+        self.wallets.set_root_path(os.path.join(self.user_path, 'wallets'))
+        for file in os.listdir(self.wallets.root_path):
+            _tf = os.path.isdir(os.path.join(self.wallets.root_path, file))
+            if _tf is False:
+                self.wallets.load_wallet(file)
+                _w = self.wallets.get_wallet_by_name(file)
+                if _w is not None:
+                    self.ui.w_tab.tbl_w.add_wallet(_w.toDict())
+                    if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
+                        self.ui.u_tab.wallet_select.addItem(_w.name)
+
+        self.refresh_namespace_tab_data()
+
+    def load_settings(self):
+        # TODO Clean up
+        self.set_dat = ConfigLoader(os.path.join(self.user_path,
+                                                 'settings.json'))
+        self.set_dat.load()
+        self.settings.fromDict(self.set_dat.data)
+
+        _db_cache = SQLInterface(self.cache_path)
+        _db_cache.setup_tables()
+
+        try:
+            self.address_book.load_address_book(self.user_path)
+            (self.ui.ab_tab.tbl_addr
+             .add_bookaddresses(self.address_book.toDictList()))
+        except Exception:
+            print('Error Loading address book')
+
+        self.ui.settings_tab.path_meta_e.setPlainText(self.user_path)
+
+        _sync: Dict[str, List[bool, bool, int]] = self.settings.sync
+        self.ui.settings_tab.s_a_wallet.setChecked(_sync['wallets'][0])
+        self.ui.settings_tab.s_a_df.setChecked(_sync['datafeed'][0])
+        self.ui.settings_tab.s_a_fav.setChecked(_sync['favorites'][0])
+        self.ui.settings_tab.s_t_wallet_l.setChecked(_sync['wallets'][1])
+        self.ui.settings_tab.s_t_df_l.setChecked(_sync['datafeed'][1])
+        self.ui.settings_tab.s_t_fav_l.setChecked(_sync['favorites'][1])
+        self.ui.settings_tab.s_t_wallet_e.setText(str(_sync['wallets'][2]))
+        self.ui.settings_tab.s_t_df_e.setText(str(_sync['datafeed'][2]))
+        self.ui.settings_tab.s_t_fav_e.setText(str(_sync['favorites'][2]))
+
+        self.KEX.active_peer = self.settings.primary_peer
+        for peer in self.settings.electrumx_peers:
+            self.ui.settings_tab.elxp_tbl.add_peer(peer[0], peer[1],
+                                                   peer[2], peer[3])
+
+            _ = self.KEX.add_peer(peer[1], int(peer[2]),
+                                  peer[3] == 'True', peer[4] == 'True')
+
+        if self.settings.electrumx_auto_connect:
+            (self.ui.settings_tab.elxp_tbl
+             .update_peer_status(self.settings.primary_peer, 'connecting...'))
+            _tn = self.KEX.peers[self.settings.primary_peer].host
+            _tn = _tn + ':'
+            _tn = _tn + str(self.KEX.peers[self.settings.primary_peer].port)
+            self.threader(_tn,
+                          self.KEX.peers[self.settings.primary_peer].connect,
+                          None, None, self.ex_c, self.settings.primary_peer)
+        self.ui.settings_tab.elxp_tbl.update_active(self.settings.primary_peer)
+
+        for gateway in self.settings.ipfs_gateways:
+            self.ui.settings_tab.ipfs_tbl.add_gateway_from_list(gateway)
+        (self.ui.settings_tab.ipfs_tbl
+         .update_active(self.settings.primary_ipfs_gateway))
+
+        (self.ui.settings_tab.lineEdit_2
+         .setText(self.settings.data_feeds['nft_data']))
+        self.ui.w_tab.tbl_addr2.hideColumn(6)
+        # TODO Add settings tab entry to control setting.
+        self.ui.w_tab.tabWidget_2.setTabVisible(2, self.settings.show_change)
+
+    def threader(self, name: str, command, command_params_1,
+                 command_params_2, work_done_func, optional: int = None):
+        # 1 - create Worker and Thread inside the Form, no parent!
+        self._o[name] = Worker(name, command, command_params_1,
+                               command_params_2, optional)
+        self._t[name] = QThread()
+        # 2 - Connect Worker`s Signals to Form method slots to post data.
+        self._o[name].work_done.connect(work_done_func)
+        # 3 - Move the Worker object to the Thread object
+        self._o[name].moveToThread(self._t[name])
+        # 4 - Connect Worker Signals to the Thread slots
+        self._o[name].finished.connect(self._t[name].quit)
+        # 5 - Connect Thread started signal to Worker operational slot method
+        if 'timer' not in name:
+            self._t[name].started.connect(self._o[name].do_work)
+        else:
+            self._t[name].started.connect(self._o[name].do_timer_work)
+        # 6 - Start the thread
+        self._t[name].start()
+
+    def p(self, i: int):
+        pass
+
+    def pd(self, i: int):
+        self.ui.ns_tab.ns_tab_text_key_value.setPlainText(str(i))
+
+    def lock_wallet(self, name):
+        _reloaded = self.wallets.relock_wallet(name)
+        if _reloaded is True:
+            _r = self.ui.w_tab.tbl_w.findItems(name, Qt.MatchFlag.MatchExactly)
+            if len(_r) == 1:
+                (self.ui.w_tab.tbl_w
+                 .update_wallet(self.wallets
+                                .get_wallet_by_name(name), _r[0].row()))
+                if self.ui.w_tab.tbl_w.currentRow() == _r[0].row():
+                    self.refresh_wallet_data_tabs('', '', _r[0].row())
+
+    def t_restart(self, i: str):
+        # print('timer restarting', i)
+        self._t[i].quit()
+        self._t[i].wait()
+
+        if i == 'wallet_lock_timer':
+            for wallet in self.wallets.wallets:
+                self.lock_wallet(wallet.name)
+
+            self.threader(i, time.sleep, 60, None, self.t_restart)
+        else:
+            if self.settings.sync[i.replace('_timer', '')][1] is True:
+                if 'wallets' in i:
+                    print('wallets sync')
+                elif 'datafeed' in i:
+                    print('datafeed sync')
+                elif 'favorites' in i:
+                    print('favorites sync')
+            if self.settings.sync[i.replace('_timer', '')][2] >= 60:
+                self.threader(i, time.sleep,
+                              self.settings.sync[i.replace('_timer', '')][2],
+                              None, self.t_restart)
+
+    def t_cleanup(self):
+        for k, t in self._o.items():
+            t.b = 1
+
+        for k, t in self._t.items():
+            if t.isRunning():
+                print('Closing thread', k)
+                t.quit()
+                t.wait()
+
+    def _connectSignals(self):
+        self.ui.tabWidget.tabBarClicked.connect(self.p)
+        self.ui.tabWidget.tabBarDoubleClicked.connect(self.pd)
+
+        self.ui.w_tab.tbl_w.itemSelectionChanged.connect(self.wallet_selected)
+        self.ui.w_tab.tbl_w.cellClicked.connect(self.wallet_selected)
+        self.ui.w_tab.tbl_addr.cellClicked.connect(self.w_address_selected)
+        self.ui.w_tab.tbl_addr2.cellClicked.connect(self.w_c_address_selected)
+        self.ui.w_tab.tbl_tx.cellClicked.connect(self.w_tx_selected)
+        self.ui.w_tab.btn_addr.clicked.connect(self._get_unused_address)
+        self.ui.w_tab.btn_addr2.clicked.connect(self._get_unused_changeaddress)
+        self.ui.w_tab.cpmnemonic.mousePressEvent = self.w_mnemnomic_copy_click
+        self.ui.w_tab.cpseed.mousePressEvent = self.wallet_seed_copy_click
+        self.ui.w_tab.cpxprv.mousePressEvent = self.wallet_xprv_copy_click
+        self.ui.w_tab.cpxpub.mousePressEvent = self.wallet_xpub_copy_click
+        self.ui.ab_tab.tbl_addr.cellClicked.connect(self.ab_address_selected)
+        self.ui.ns_tab.tbl_ns.itemSelectionChanged.connect(self.ns_selected)
+        self.ui.ns_tab.tbl_ns.cellClicked.connect(self.ns_cell_clicked)
+        (self.ui.ns_tab.list_ns_keys
+         .itemSelectionChanged.connect(self.ns_key_selected))
+        self.ui.ns_tab.btn_val_edit.clicked.connect(self.ns_key_value_edit)
+        self.ui.ns_tab.btn_val_save.clicked.connect(self.ns_key_value_save)
+        self.ui.ns_tab.btn_val_del.clicked.connect(self.ns_key_delete_click)
+        self.ui.ns_tab.sel_ns_sc_bvpic.mousePressEvent = self.ns_sc_copy_click
+        self.ui.ns_tab.sel_ns_n_bvpic.mousePressEvent = self.ns_name_copy_click
+        (self.ui.u_tab.wallet_select
+         .currentTextChanged.connect(self.sign_wallet_changed))
+        (self.ui.u_tab.sa_e
+         .currentTextChanged.connect(self.sign_address_changed))
+        self.ui.u_tab.sbutton.clicked.connect(self.sign_message)
+        self.ui.u_tab.vbutton.clicked.connect(self.verify_message)
+        self.ui.u_tab.mv_submit.clicked.connect(self.util_submit)
+        (self.ui.settings_tab.elxp_tbl
+         .cellClicked.connect(self.electrumx_peer_selected))
+        (self.ui.settings_tab.ipfs_tbl
+         .cellClicked.connect(self.ipfs_gateway_selected))
+        # Dialogs
+        self.ui.w_tab.btn_send.clicked.connect(self.dialogs.simple_send_dialog)
+        (self.ui.ns_tab.btn_create
+         .clicked.connect(self.dialogs.create_namespace_send_dialog))
+        (self.ui.ns_tab.btn_fav
+         .clicked.connect(self.dialogs.add_namespace_favorite_dialog))
+        (self.ui.ns_tab.btn_key_add
+         .clicked.connect(self.dialogs.create_namespace_key_send_dialog))
+        (self.ui.w_tab.btn_watch_addr
+         .clicked.connect(self.dialogs.add_wallet_watch_address_dialog))
+        (self.ui.w_tab.btn_create
+         .clicked.connect(self.dialogs.create_wallet_dialog))
+        (self.ui.w_tab.btn_restore
+         .clicked.connect(self.dialogs.restore_wallet_dialog))
+        (self.ui.w_tab.btn_watch
+         .clicked.connect(self.dialogs.add_wallet_watch_dialog))
+        (self.ui.ab_tab.btn_create
+         .clicked.connect(self.dialogs.add_addressbook_item_dialog))
+        (self.ui.settings_tab.elxp_btn_add
+         .clicked.connect(self.dialogs.add_electrumx_peer_dialog))
+
+        self.ui.settings_tab.s_a_wallet.clicked.connect(self.save_settings)
+        self.ui.settings_tab.s_a_df.clicked.connect(self.save_settings)
+        self.ui.settings_tab.s_a_fav.clicked.connect(self.save_settings)
+        self.ui.settings_tab.s_t_wallet_l.clicked.connect(self.save_settings)
+        self.ui.settings_tab.s_t_df_l.clicked.connect(self.save_settings)
+        self.ui.settings_tab.s_t_fav_l.clicked.connect(self.save_settings)
+        ((self.ui.settings_tab.s_t_wallet_e
+         .textChanged.connect(self.save_settings)))
+        self.ui.settings_tab.s_t_df_e.textChanged.connect(self.save_settings)
+        self.ui.settings_tab.s_t_fav_e.textChanged.connect(self.save_settings)
+
+        self.threader('wallet_lock_timer', time.sleep,
+                      60, None, self.t_restart)
+
+        if self.settings.sync['wallets'][2] >= 60:
+            self.threader('wallets_timer', time.sleep,
+                          self.settings.sync['wallets'][2],
+                          None, self.t_restart)
+        # self.threader('datafeed_timer', time.sleep,
+        #               self.settings.sync['datafeed'][2],
+        #               None, self.t_restart)
+        if self.settings.sync['favorites'][2] >= 60:
+            self.threader('favorites_timer', time.sleep,
+                          self.settings.sync['favorites'][2],
+                          None, self.t_restart)
+
+    def util_submit(self, i):
+        _selected = self.ui.u_tab.m_select.currentText()
+        _input = self.ui.u_tab.msa_e.toPlainText()
+        _results = self.ui.u_tab.mvs_result.toPlainText()
+        if self.ui.u_tab.mishex.isChecked() is True:
+            _input_value = _input.replace('\n', '')
+            _input_value = ConvUtils.HexStringToBytes(_input_value)
+
+        if _selected == 'Sha256':
+            _result = ConvUtils.BytesToHexString(CryptoUtils.Sha256(_input))
+        elif _selected == 'dSha256':
+            _result = CryptoUtils.Sha256(CryptoUtils.Sha256(_input))
+            _result = ConvUtils.BytesToHexString(_result)
+        elif _selected == 'Hash160':
+            _result = ConvUtils.BytesToHexString(CryptoUtils.Hash160(_input))
+        elif _selected == 'int4byte':
+            _input = int(_input)
+            _result = ConvUtils.IntegerToBytes(_input, 4, 'little')
+            _result = ConvUtils.BytesToHexString(_result)
+        elif _selected == 'int8byte':
+            _input = int(_input)
+            _result = ConvUtils.IntegerToBytes(_input, 8, 'little')
+            _result = ConvUtils.BytesToHexString(_result)
+        elif _selected == 'Reverse':
+            _result = ConvUtils.ReverseBytes(_input)
+            _result = ConvUtils.BytesToHexString(_result)
+
+        self.ui.u_tab.mvs_result.setPlainText(_result + '\n' + _results)
+
+    def wa_ad_click(self, row: int, column: int):
+        self.ui.w_tab.tbl_addr.selectRow(row)
+
+    def ex_c(self, n: str, m: str, i: int):
+        self.ui.settings_tab.elxp_tbl.update_peer_status(i, m)
+
+        if m == 'connected':
+            self.threader('server version', self.KEX.call,
+                          self.KEX.api.server.version, ['Narwhallet', 1.4],
+                          self.ex_command_results, None)
+            self.threader('block count', self.KEX.call,
+                          self.KEX.api.blockchain_block.count, [],
+                          self.ex_command_results, None)
+
+    def save_settings(self):
+        _s = self.settings.sync
+        _s['wallets'][0] = self.ui.settings_tab.s_a_wallet.isChecked()
+        _s['datafeed'][0] = self.ui.settings_tab.s_a_df.isChecked()
+        _s['favorites'][0] = self.ui.settings_tab.s_a_fav.isChecked()
+        _s['wallets'][1] = self.ui.settings_tab.s_t_wallet_l.isChecked()
+        _s['datafeed'][1] = self.ui.settings_tab.s_t_df_l.isChecked()
+        _s['favorites'][1] = self.ui.settings_tab.s_t_fav_l.isChecked()
+        _s['wallets'][2] = int(self.ui.settings_tab.s_t_wallet_e.text())
+        _s['datafeed'][2] = int(self.ui.settings_tab.s_t_df_e.text())
+        _s['favorites'][2] = int(self.ui.settings_tab.s_t_fav_e.text())
+        self.set_dat.save(json.dumps(self.settings.toDict()))
+
+    def refresh_wallet_data_tabs(self, n: str, m: str, i: int):
+        _n = self.ui.w_tab.tbl_w.item(i, 3).text()
+        wallet = self.wallets.get_wallet_by_name(_n)
+        if wallet is not None:
+            if i == self.ws:
+                (self.ui.w_tab.tbl_addr
+                 .add_addresses(wallet.addresses.toDictList()))
+                if self.ui.w_tab.tabWidget_2.isTabVisible(2):
+                    (self.ui.w_tab.tbl_addr2
+                     .add_addresses(wallet.change_addresses.toDictList()))
+                (self.ui.w_tab.tbl_tx
+                 .add_transactions(self._display_wallet_tx(wallet)))
+                self.ui.w_tab.set_info_values(wallet)
+            (self.ui.w_tab.tbl_w.item(i, 6)
+             .setText(str(round(wallet.balance, 8))))
+            (self.ui.w_tab.tbl_w.item(i, 7)
+             .setText(MShared.get_timestamp(wallet.last_updated)[1]))
+
+            wallet.set_updating(False)
+            self.ui.w_tab.tbl_w.cellWidget(i, 8).ani.stop()
+
+        self.ui.w_tab.tbl_w.resizeColumnsToContents()
+        self.refresh_namespace_tab_data()
+
+    def refresh_namespace_tab_data(self):
+        # TODO Cleanup
+        self.ui.ns_tab.tbl_ns.clear_rows()
+        _db_cache = SQLInterface(self.cache_path)
+        _asa = _db_cache.execute_sql(DBScripts.SELECT_NS_VIEW_1, (), 3)
+
+        nd = []
+        for p in _asa:
+            _key_count = _db_cache.execute_sql(DBScripts.SELECT_NS_COUNT,
+                                               (p[0], ), 3)
+            _block = _db_cache.execute_sql(DBScripts.SELECT_NS_BLOCK,
+                                           (p[0], ), 3)
+            _oa = _db_cache.execute_sql(DBScripts.SELECT_NS_LAST_ADDRESS,
+                                        (p[0], ), 3)
+            pd = {}
+            pd['namespaceid'] = p[0]
+            pd['address'] = _oa[0][0]
+            pd['key_count'] = _key_count[0][0]
+            _bl = _block[0][0]
+            pd['shortcode'] = str(len(str(_bl)))+str(_bl)+str(_block[0][1])
+
+            pd['date'] = time.time()
+            for wallet in self.wallets.wallets:
+                if wallet.kind == 0:
+                    for address in wallet.addresses.addresses:
+                        if _oa[0][0] == address.address:
+                            pd['wallet'] = wallet.name
+                    # TODO Notify user if namespace detected in change address
+                    for address in wallet.change_addresses.addresses:
+                        if _oa[0][0] == address.address:
+                            pd['wallet'] = wallet.name
+
+            if 'wallet' not in pd:
+                for wallet in self.wallets.wallets:
+                    if wallet.kind == 1 or wallet.kind == 3:
+                        for address in wallet.addresses.addresses:
+                            if _oa[0][0] == address.address:
+                                pd['wallet'] = wallet.name
+
+            if 'wallet' in pd:
+                nd.append(pd)
+        self.ui.ns_tab.tbl_ns.add_namespaces('_w.name', nd)
+
+    def ex_command_results(self, n: str, m: str, i: int):
+        _m = self.ui.settings_tab.settings_debug_text.toPlainText()
+        _m = _m + '\n' + n + ':\n' + m
+        self.ui.settings_tab.settings_debug_text.setPlainText(_m)
+
+        # TODO: Cleanup functions/callbacks; this hack temporary
+        if i != -1:
+            self.ui.w_tab.tbl_w.item(i, 7).setText(MShared.get_timestamp()[1])
+            self.ui.w_tab.tbl_w.resizeColumnsToContents()
+
+    def wallet_lock(self, wallet: MWallet):
+        if wallet.state_lock == 0:
+            _msg = 'Wallet is not encrypted.\n\nDo you wish to encrypt?'
+            _warn = self.dialogs.warning_dialog(_msg, True, 0)
+            if _warn == 1:
+                _up = self.dialogs.lockbox_dialog(1)
+                if _up != '':
+                    wallet.set_k(_up)
+                    wallet.set_state_lock(1)
+                    wallet.set_locked(False)
+                    self.wallets.save_wallet(wallet.name)
+                    self.lock_wallet(wallet.name)
+
+    def electrumx_peer_selected(self, row: int, column: int):
+        if column == 9:
+            self.ui.settings_tab.elxp_tbl.update_active(row)
+            self.KEX.peers[self.settings.primary_peer].disconnect()
+            (self.ui.settings_tab.elxp_tbl
+             .update_peer_status(self.settings.primary_peer, 'disconnected'))
+            self.settings.set_primary_peer(row)
+            self.set_dat.save(json.dumps(self.settings.toDict()))
+            (self.ui.settings_tab.elxp_tbl
+             .update_peer_status(self.settings.primary_peer, 'connecting...'))
+            self.KEX.active_peer = self.settings.primary_peer
+            _tn = self.KEX.peers[self.settings.primary_peer].host
+            _tn = _tn + ':'
+            _tn = _tn + str(self.KEX.peers[self.settings.primary_peer].port)
+            self.threader(_tn,
+                          self.KEX.peers[self.settings.primary_peer].connect,
+                          None, None, self.ex_c, self.settings.primary_peer)
+
+    def ipfs_gateway_selected(self, row: int, column: int):
+        if column == 7:
+            self.ui.settings_tab.ipfs_tbl.update_active(row)
+            self.settings.set_primary_ipfs_gateway(row)
+            self.set_dat.save(json.dumps(self.settings.toDict()))
+
+    def wallet_selected(self, row: int = -1, column: int = -1):
+        if row == -1:
+            row = self.ui.w_tab.tbl_w.selectedRanges()
+            if len(row) > 0:
+                row = row[0].topRow()
+            else:
+                row = -1
+        else:
+            self.ui.w_tab.tbl_w.selectRow(row)
+
+        if self.ws != row:
+            self.ws = row
+
+        _n = self.ui.w_tab.tbl_w.item(row, 3).text()
+        _w = self.wallets.get_wallet_by_name(_n)
+
+        if column == 1:
+            self.wallet_lock(_w)
+
+        if _w.locked is True and column == 1:
+            _ulk = self.dialogs.lockbox_dialog(0)
+            if _ulk != '':
+                _w.set_k(_ulk)
+                self.wallets.load_wallet(_w.name, _w)
+
+                if _w.coin is not None:
+                    _w.set_locked(False)
+                    self.ui.w_tab.tbl_w.update_wallet(_w, row)
+                    self.refresh_namespace_tab_data()
+                    if _w.kind != 1 and _w.kind != 3:
+                        self.ui.u_tab.wallet_select.addItem(_w.name)
+
+        self.ui.w_tab.tbl_addr.add_addresses(_w.addresses.toDictList())
+        if self.ui.w_tab.tabWidget_2.isTabVisible(2):
+            (self.ui.w_tab.tbl_addr2
+             .add_addresses(_w.change_addresses.toDictList()))
+        self.ui.w_tab.tbl_tx.add_transactions(self._display_wallet_tx(_w))
+        self.ui.w_tab.set_info_values(_w)
+        _last_update = _w.last_updated
+
+        if column == 8 and _w.locked is False:
+            if _last_update != '' and _last_update is not None:
+                _current_time = MShared.get_timestamp()[0]
+                if _current_time - float(_last_update) >= 60:
+                    if _w.updating is not True:
+                        _w.set_updating(True)
+                        self.ui.w_tab.tbl_w.cellWidget(row, 8).ani.start()
+                        self.update_wallet(_w, row)
+            else:
+                if _w.updating is not True:
+                    _w.set_updating(True)
+                    self.ui.w_tab.tbl_w.cellWidget(row, 8).ani.start()
+                    self.update_wallet(_w, row)
+
+    def w_tx_selected(self, row: int, column: int):
+        self.ui.w_tab.tbl_tx.selectRow(row)
+        if column == 0:
+            self.dialogs.view_wallet_transaction_dialog(row, column)
+
+    def w_address_selected(self, row: int, column: int):
+        self.ui.w_tab.tbl_addr.selectRow(row)
+        if column == 0:
+            self.dialogs.view_wallet_address_dialog(row, column)
+        elif column == 6:
+            _data = self.ui.w_tab.tbl_addr.item(row, 1).text()
+            self.copy_to_clipboard(_data)
+
+    def w_c_address_selected(self, row: int, column: int):
+        self.ui.w_tab.tbl_addr2.selectRow(row)
+        if column == 0:
+            self.dialogs.view_wallet_change_address_dialog(row, column)
+
+    def w_mnemnomic_copy_click(self, data):
+        self.copy_to_clipboard(self.ui.w_tab.wmnemonic.toPlainText())
+
+    def wallet_seed_copy_click(self, data):
+        self.copy_to_clipboard(self.ui.w_tab.wseed.toPlainText())
+
+    def wallet_xprv_copy_click(self, data):
+        self.copy_to_clipboard(self.ui.w_tab.wxprv.toPlainText())
+
+    def wallet_xpub_copy_click(self, data):
+        self.copy_to_clipboard(self.ui.w_tab.wxpub.toPlainText())
+
+    def ab_address_selected(self, row: int, column: int):
+        self.ui.ab_tab.tbl_addr.selectRow(row)
+        _a = self.ui.ab_tab.tbl_addr.item(row, 3).text()
+
+        if column == 0:
+            self.dialogs.view_addressbook_item_dialog(row)
+        elif column == 7:
+            _msg = 'Are you sure you want to delete this address?'
+            _warn = self.dialogs.warning_dialog(_msg, True, 0)
+            if _warn == 1:
+                _rm = self.address_book.remove_address(_a)
+                if _rm is True:
+                    self.address_book.save_address_book()
+                    (self.ui.ab_tab.tbl_addr
+                     .add_bookaddresses(self.address_book.toDictList()))
+        elif column == 8:
+            self.copy_to_clipboard(self.ui.ab_tab.tbl_addr.item(row, 3).text())
+
+    def ns_cell_clicked(self, row: int, column: int):
+        if column == 7:
+            _msg = 'Are you sure you want to transfer this Namespace?'
+            _warn = self.dialogs.warning_dialog(_msg, True, 0)
+            if _warn == 1:
+                self.dialogs.transfer_namespace_send_dialog()
+
+    def ns_selected(self):
+        row = self.ui.ns_tab.tbl_ns.selectedRanges()
+        if len(row) > 0:
+            row = row[0].topRow()
+        else:
+            return
+
+        _n = self.ui.ns_tab.tbl_ns.item(row, 2).text()
+        _ns = self.ui.ns_tab.tbl_ns.item(row, 5).text()
+        if _n == 'live' or _n == 'favorites':
+            _w = MWallet()
+            _w.set_kind(3)
+        else:
+            _w = self.wallets.get_wallet_by_name(_n)
+
+        _db_cache = SQLInterface(self.cache_path)
+        _key_count = _db_cache.execute_sql(DBScripts.SELECT_NS_COUNT,
+                                           (_ns, ), 3)
+        if len(_key_count) > 0:
+            _ns = self.ns_cache.get_namespace_by_id(_ns, _db_cache)
+
+            if _w.kind != 1 and _w.kind != 3:
+                self.ui.ns_tab.btn_key_add.setEnabled(True)
+                self.ui.ns_tab.btn_val_edit.setEnabled(False)
+            else:
+                self.ui.ns_tab.btn_key_add.setEnabled(False)
+                self.ui.ns_tab.btn_val_edit.setEnabled(False)
+            (self.ui.ns_tab.sel_ns_sc
+             .setText(self.ui.ns_tab.tbl_ns.item(row, 3).text()))
+            (self.ui.ns_tab.sel_ns_name
+             .setText(self.ui.ns_tab.tbl_ns.item(row, 5).text()))
+            self.ui.ns_tab.list_ns_keys.add_keys(_ns)
+            self.ui.ns_tab.ns_tab_text_key_value.setPlainText('')
+
+    def ns_sc_copy_click(self, data):
+        self.copy_to_clipboard(self.ui.ns_tab.sel_ns_sc.text())
+
+    def ns_name_copy_click(self, data):
+        self.copy_to_clipboard(self.ui.ns_tab.sel_ns_name.text())
+
+    def ns_key_delete_click(self, data):
+        _msg = 'Are you sure you want to delete this key?'
+        _warn = self.dialogs.warning_dialog(_msg, True, 0)
+        if _warn == 1:
+            self.dialogs.delete_namespace_key_send_dialog()
+
+    def ns_key_selected(self):
+        row = self.ui.ns_tab.tbl_ns.currentRow()
+        _n = self.ui.ns_tab.tbl_ns.item(row, 2).text()
+        _ns = self.ui.ns_tab.tbl_ns.item(row, 5).text()
+        if _n == 'live' or _n == 'favorites':
+            _w = MWallet()
+            _w.set_kind(3)
+        else:
+            _w = self.wallets.get_wallet_by_name(_n)
+
+        key = self.ui.ns_tab.list_ns_keys.currentItem()
+
+        _db_cache = SQLInterface(self.cache_path)
+        _key_value = _db_cache.execute_sql(DBScripts.SELECT_NS_KEY_VALUE,
+                                           (_ns, key.text()), 3)
+
+        if len(_key_value) > 0:
+            (self.ui.ns_tab.ns_tab_text_key_value
+             .setPlainText(str(_key_value[0][0])))
+
+        if _w.kind != 1 and _w.kind != 3:
+            self.ui.ns_tab.btn_val_edit.setEnabled(True)
+            self.ui.ns_tab.btn_val_del.setEnabled(True)
+        else:
+            self.ui.ns_tab.btn_val_edit.setEnabled(False)
+            self.ui.ns_tab.btn_val_del.setEnabled(False)
+
+    def sign_wallet_changed(self, data: str):
+        self.ui.u_tab.sa_e.clear()
+        self.ui.u_tab.sa_e.addItem('-', '-')
+        if data != '-':
+            _w = self.wallets.get_wallet_by_name(data)
+            for index in range(0, _w.addresses.count):
+                add = _w.addresses.get_address_by_index(index)
+                self.ui.u_tab.sa_e.addItem(add.address, str(index)+':1')
+            for index in range(0, _w.change_addresses.count):
+                add = _w.change_addresses.get_address_by_index(index)
+                self.ui.u_tab.sa_e.addItem(add.address, str(index)+':0')
+        self.ui.u_tab.ss_e.setPlainText('')
+
+    def sign_address_changed(self, data: str):
+        self.ui.u_tab.ss_e.setPlainText('')
+
+    def sign_message(self, data: str):
+        self.ui.u_tab.ss_e.setPlainText('')
+        _n = self.ui.u_tab.wallet_select.currentText()
+        _w = self.wallets.get_wallet_by_name(_n)
+        _i_t = self.ui.u_tab.sa_e.currentData().split(':')
+        _index = int(_i_t[0])
+        # if _w.kind == 2:
+        #     _ul = self.dialogs.lockbox_dialog(0)
+        #     # TODO Test selected address can be derived using pass
+        #     return False
+
+        if self.ui.u_tab.thl_ac.isChecked() is True:
+            _signature = _w.sign_message(_index,
+                                         self.ui.u_tab.sm_e.toPlainText(),
+                                         int(_i_t[1]))
+        else:
+            _data = self.ui.u_tab.thl_bcl.text()
+            _signature = _w.sign_message(_index,
+                                         MShared._load_message_file(_data),
+                                         int(_i_t[1]))
+        self.ui.u_tab.ss_e.setPlainText(_signature)
+        return True
+
+    def verify_message(self, data: str):
+        if self.ui.u_tab.vthl_ac.isChecked() is True:
+            _v = WalletUtils.verify_message(self.ui.u_tab.vs_e.toPlainText(),
+                                            self.ui.u_tab.va_e.toPlainText(),
+                                            self.ui.u_tab.vm_e.toPlainText())
+        else:
+            _data = MShared._load_message_file(self.ui.u_tab.vthl_bcl.text())
+            _v = WalletUtils.verify_message(self.ui.u_tab.vs_e.toPlainText(),
+                                            self.ui.u_tab.va_e.toPlainText(),
+                                            _data)
+        self.ui.u_tab.success_label.setText(_v)
+
+    def ns_key_value_edit(self):
+        self.ui.ns_tab.btn_val_edit.setVisible(False)
+        self.ui.ns_tab.btn_val_save.setVisible(True)
+        self.ui.ns_tab.ns_tab_text_key_value.setEnabled(True)
+
+    def ns_key_value_save(self):
+        self.ui.ns_tab.btn_val_edit.setVisible(True)
+        self.ui.ns_tab.btn_val_save.setVisible(False)
+        self.ui.ns_tab.ns_tab_text_key_value.setEnabled(False)
+        self.dialogs.edit_namespace_key_send_dialog()
+
+    def add_wallet_watch(self, address: str, label: str = None,
+                         save: bool = True):
+        _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
+        _w = self.wallets.get_wallet_by_name(_n)
+
+        _w.addresses._fromPool(address, label)
+        if save is True:
+            self.wallets.save_wallet(_w.name)
+
+    def update_wallet(self, wallet: MWallet, row: int):
+        self.threader(wallet.name + ' -update wallet:', self._update_wallet,
+                      wallet, None, self.refresh_wallet_data_tabs, row)
+
+    def _update_wallet(self, wallet: MWallet):
+        _db_cache = SQLInterface(self.cache_path)
+        MShared.get_histories(wallet, self.KEX)
+        MShared.get_balances(wallet, self.KEX)
+        MShared.list_unspents(wallet, self.KEX)
+        MShared.get_transactions(wallet, self.KEX, _db_cache, self.tx_cache,
+                                 self.ns_cache)
+        _update_time = MShared.get_timestamp()
+        wallet.set_last_updated(_update_time[0])
+        self.wallets.save_wallet(wallet.name)
+
+        return 'True'
+
+    def _display_wallet_tx(self, wallet: MWallet) -> list:
+        _tx_d = {}
+        _tx_d = self.__display_wallet_tx(wallet.addresses.addresses,
+                                         _tx_d)
+        _tx_d = self.__display_wallet_tx(wallet.change_addresses.addresses,
+                                         _tx_d)
+        _tx_d_list = list(_tx_d.values())
+        _tx_d_list.sort(reverse=True, key=MTransactions.sort_dict)
+
+        return _tx_d_list
+
+    def __display_wallet_tx(self, addresses: List[MAddress],
+                            _tx_d: dict) -> dict:
+        _db_cache = SQLInterface(self.cache_path)
+        for _a in addresses:
+            for _t in _a.history:
+                _trx = self.tx_cache.get_tx_by_txid(_t['tx_hash'], _db_cache)
+
+                if _trx is not None:
+                    if _trx.txid not in _tx_d:
+                        _tx_d[_trx.txid] = {}
+                        _tx_d[_trx.txid]['txid'] = _trx.txid
+                        _tx_d[_trx.txid]['time'] = _trx.time
+                        _tx_d[_trx.txid]['blockhash'] = _trx.blockhash
+                        _tx_d[_trx.txid]['amount'] = 0.0
+
+                    for _in in _trx.vin:
+                        _vo = _in.vout
+                        _in_tx = self.tx_cache.get_tx_by_txid(_in.txid,
+                                                              _db_cache)
+
+                        if _in_tx is not None:
+                            for _out in _in_tx.vout:
+                                if (_a.address in _out.scriptPubKey.addresses
+                                        and _out.n == _vo):
+                                    _am = _tx_d[_trx.txid]['amount']
+                                    _am = _am - _out.value
+                                    _tx_d[_trx.txid]['amount'] = _am
+
+                    for _out in _trx.vout:
+                        if _a.address in _out.scriptPubKey.addresses:
+                            _am = _tx_d[_trx.txid]['amount']
+                            _tx_d[_trx.txid]['amount'] = _am + _out.value
+                    _tx_d[_trx.txid]['confirmations'] = _trx.confirmations
+        return _tx_d
+
+    def _get_unused_address(self):
+        _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
+        _w = self.wallets.get_wallet_by_name(_n)
+        _a = _w.get_unused_address()
+        self.ui.w_tab.tbl_addr.add_address({'address': _a, 'received': 0.0,
+                                           'sent': 0.0, 'balance': 0.0})
+        self.ui.w_tab.tbl_addr.resizeColumnsToContents()
+        self.wallets.save_wallet(_w.name)
+
+    def _get_unused_changeaddress(self):
+        _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
+        _w = self.wallets.get_wallet_by_name(_n)
+        _a = _w.get_unused_change_address()
+        self.ui.w_tab.tbl_addr2.add_address({'address': _a, 'received': 0.0,
+                                            'sent': 0.0, 'balance': 0.0})
+        self.ui.w_tab.tbl_addr2.resizeColumnsToContents()
+        self.wallets.save_wallet(_w.name)
