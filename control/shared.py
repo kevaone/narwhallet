@@ -1,6 +1,7 @@
 import base64  # TODO Check and add if missing to ConvUtils
 import datetime
 import json
+import math
 import time
 
 from typing import List
@@ -91,6 +92,17 @@ class MShared():
         if _block_count != '':
             _block_count = json.loads(_block_count)['result']
         return _block_count
+
+    @staticmethod
+    def get_fee_rate(KEX: KEXclient) -> int:
+        _fee = KEX.call(KEX.api.blockchain.estimatefee, [2])
+        if _fee != '':
+            _fee = json.loads(_fee)['result']
+            _fee = math.ceil((_fee*100000000)/1024)
+        else:
+            _fee = -1
+
+        return _fee
 
     @staticmethod
     def get_balances(wallet: MWallet, KEX: KEXclient):

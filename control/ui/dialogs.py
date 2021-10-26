@@ -70,15 +70,12 @@ class MDialogs():
         _di.ui.wallets = self.wallets
         _di.ui.tx_cache = self.tx_cache
         _di.ui.KEX = self.KEX
-        _fee = self.KEX.call(self.KEX.api.blockchain.estimatefee, [2])
-        if _fee != '':
-            _fee = json.loads(_fee)['result']
-        else:
-            _ = self.warning_dialog('Call Error, could not get fee rate',
+        _fee = MShared.get_fee_rate(self.KEX)
+        if _fee == -1:
+            _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
-
-        _fee = math.ceil((_fee*100000000)/1024)
+        
         _di.ui.user_path = self.user_path
         _di.ui._new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
@@ -122,15 +119,12 @@ class MDialogs():
         _di.ui.wallets = self.wallets
         _di.ui.tx_cache = self.tx_cache
         _di.ui.KEX = self.KEX
-        _fee = self.KEX.call(self.KEX.api.blockchain.estimatefee, [2])
-        if _fee != '':
-            _fee = json.loads(_fee)['result']
-        else:
-            _ = self.warning_dialog('Call Error, could not get fee rate',
+        _fee = MShared.get_fee_rate(self.KEX)
+        if _fee == -1:
+            _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _fee = math.ceil((_fee*100000000)/1024)
         _di.ui.user_path = self.user_path
         _di.ui._new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
@@ -174,15 +168,12 @@ class MDialogs():
         _di.ui.wallets = self.wallets
         _di.ui.tx_cache = self.tx_cache
         _di.ui.KEX = self.KEX
-        _fee = self.KEX.call(self.KEX.api.blockchain.estimatefee, [2])
-        if _fee != '':
-            _fee = json.loads(_fee)['result']
-        else:
-            _ = self.warning_dialog('Call Error, could not get fee rate',
+        _fee = MShared.get_fee_rate(self.KEX)
+        if _fee == -1:
+            _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _fee = math.ceil((_fee*100000000)/1024)
         _di.ui.user_path = self.user_path
         _di.ui._new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
@@ -239,15 +230,12 @@ class MDialogs():
         _di.ui.wallets = self.wallets
         _di.ui.tx_cache = self.tx_cache
         _di.ui.KEX = self.KEX
-        _fee = self.KEX.call(self.KEX.api.blockchain.estimatefee, [2])
-        if _fee != '':
-            _fee = json.loads(_fee)['result']
-        else:
-            _ = self.warning_dialog('Call Error, could not get fee rate',
+        _fee = MShared.get_fee_rate(self.KEX)
+        if _fee == -1:
+            _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _fee = math.ceil((_fee*100000000)/1024)
         _di.ui.user_path = self.user_path
         _di.ui._new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
@@ -307,15 +295,12 @@ class MDialogs():
         _di.ui.wallets = self.wallets
         _di.ui.tx_cache = self.tx_cache
         _di.ui.KEX = self.KEX
-        _fee = self.KEX.call(self.KEX.api.blockchain.estimatefee, [2])
-        if _fee != '':
-            _fee = json.loads(_fee)['result']
-        else:
-            _ = self.warning_dialog('Call Error, could not get fee rate',
+        _fee = MShared.get_fee_rate(self.KEX)
+        if _fee == -1:
+            _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _fee = math.ceil((_fee*100000000)/1024)
         _di.ui.user_path = self.user_path
         _di.ui._new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
@@ -374,15 +359,12 @@ class MDialogs():
         _di.ui.wallets = self.wallets
         _di.ui.tx_cache = self.tx_cache
         _di.ui.KEX = self.KEX
-        _fee = self.KEX.call(self.KEX.api.blockchain.estimatefee, [2])
-        if _fee != '':
-            _fee = json.loads(_fee)['result']
-        else:
-            _ = self.warning_dialog('Call Error, could not get fee rate',
+        _fee = MShared.get_fee_rate(self.KEX)
+        if _fee == -1:
+            _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _fee = math.ceil((_fee*100000000)/1024)
         _di.ui.user_path = self.user_path
         _di.ui._new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
