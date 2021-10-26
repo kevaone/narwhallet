@@ -179,10 +179,11 @@ class _show_hide_frame(QFrame):
         self._box = _show_hide(kind, index)
         self._vl_0.addLayout(self._box)
         if kind == 'vin':
-            self._vl_0.addWidget(_tx_in(inp))
+            self._x = _tx_in(inp)
         else:
-            self._vl_0.addWidget(_tx_out(inp))
+            self._x = _tx_out(inp)
 
+        self._vl_0.addWidget(self._x)
         self._box.pic.mousePressEvent = self._display
 
     def _display(self, event):
