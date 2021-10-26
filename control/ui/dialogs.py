@@ -196,7 +196,7 @@ class MDialogs():
         _di.ui.w.setEnabled(False)
 
         _di.ui._ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.ui._namespace_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ui._ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
 
         _di.ui.set_availible_usxo(True)
 
@@ -387,7 +387,7 @@ class MDialogs():
         _di.ui.w.setEnabled(False)
 
         _di.ui._ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.ui._namespace_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ui._ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
         _di.ui.set_availible_usxo(True)
 
         for _addr in self.address_book.addresses:
