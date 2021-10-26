@@ -52,9 +52,6 @@ class NarwhalletController():
                                           self.settings,
                                           self._v, self.KEX, self.wallets,
                                           self.tx_cache, self.address_book,
-                                          self.add_wallet_watch,
-                                          self.create_watch_wallet,
-                                          self.refresh_namespace_tab_data,
                                           self.ns_cache)
 
         self.load_settings()
@@ -105,15 +102,34 @@ class NarwhalletController():
 
         return _narwhallet_path
 
-    def create_watch_wallet(self, name: str):
-        _w = MWallet()
-        _w.set_kind(3)
-        _w.set_coin('KEVACOIN')
-        _w.set_bip('bip49')
-        _w.set_name(name)
-        self.wallets._fromMWallet(_w)
-        self.wallets.save_wallet(_w.name)
-        self.ui.w_tab.tbl_w.add_wallet(_w.toDict())
+    def create_watch_wallet(self):
+        _name = self.dialogs.add_wallet_watch_dialog()
+        if _name is not None:
+            _w = MWallet()
+            _w.set_kind(3)
+            _w.set_coin('KEVACOIN')
+            _w.set_bip('bip49')
+            _w.set_name(_name)
+            self.wallets._fromMWallet(_w)
+            self.wallets.save_wallet(_w.name)
+            self.ui.w_tab.tbl_w.add_wallet(_w.toDict())
+
+    def add_wallet_watch(self):
+        _a, _l = self.dialogs.add_wallet_watch_address_dialog()
+        if _a is not None:
+            _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
+            _w = self.wallets.get_wallet_by_name(_n)
+            _w.addresses._fromPool(_a, _l)
+            self.wallets.save_wallet(_w.name)
+
+    def add_namespace_favorite(self):
+        _shortcode = self.dialogs.add_namespace_favorite_dialog()
+        if _shortcode is not None:
+            _db_cache = SQLInterface(self.cache_path)
+            MShared.get_K(int(_shortcode), 'favorites',
+                       _db_cache, self.KEX, self.tx_cache, self.ns_cache)
+
+            self.refresh_namespace_tab_data()
 
     def load_wallets(self):
         self.wallets.set_root_path(os.path.join(self.user_path, 'wallets'))
@@ -300,17 +316,17 @@ class NarwhalletController():
         (self.ui.ns_tab.btn_create
          .clicked.connect(self.dialogs.create_namespace_send_dialog))
         (self.ui.ns_tab.btn_fav
-         .clicked.connect(self.dialogs.add_namespace_favorite_dialog))
+         .clicked.connect(self.add_namespace_favorite))
         (self.ui.ns_tab.btn_key_add
          .clicked.connect(self.dialogs.create_namespace_key_send_dialog))
         (self.ui.w_tab.btn_watch_addr
-         .clicked.connect(self.dialogs.add_wallet_watch_address_dialog))
+         .clicked.connect(self.add_wallet_watch))
         (self.ui.w_tab.btn_create
          .clicked.connect(self.dialogs.create_wallet_dialog))
         (self.ui.w_tab.btn_restore
          .clicked.connect(self.dialogs.restore_wallet_dialog))
         (self.ui.w_tab.btn_watch
-         .clicked.connect(self.dialogs.add_wallet_watch_dialog))
+         .clicked.connect(self.create_watch_wallet))
         (self.ui.ab_tab.btn_create
          .clicked.connect(self.dialogs.add_addressbook_item_dialog))
         (self.ui.settings_tab.elxp_btn_add
@@ -757,15 +773,6 @@ class NarwhalletController():
         self.ui.ns_tab.btn_val_save.setVisible(False)
         self.ui.ns_tab.ns_tab_text_key_value.setEnabled(False)
         self.dialogs.edit_namespace_key_send_dialog()
-
-    def add_wallet_watch(self, address: str, label: str = None,
-                         save: bool = True):
-        _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
-        _w = self.wallets.get_wallet_by_name(_n)
-
-        _w.addresses._fromPool(address, label)
-        if save is True:
-            self.wallets.save_wallet(_w.name)
 
     def update_wallet(self, wallet: MWallet, row: int):
         self.threader(wallet.name + ' -update wallet:', self._update_wallet,

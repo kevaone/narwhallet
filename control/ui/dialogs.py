@@ -40,8 +40,7 @@ class MDialogs():
                  narwhallet_settings: MNarwhalletSettings,
                  _view: NarwhalletUI, KEX: KEXclient,
                  wallets: MWallets, tx_cache: MTransactions,
-                 address_book: MBookAddresses, add_wallet_watch,
-                 create_watch_wallet, refresh_namespace_tab_data, ns_cache):
+                 address_book: MBookAddresses, ns_cache):
         self.user_path = user_path
         self._v = _view
         self.ui = self._v.ui
@@ -50,9 +49,6 @@ class MDialogs():
         self.tx_cache = tx_cache
         self.settings = narwhallet_settings
         self.address_book = address_book
-        self.add_wallet_watch = add_wallet_watch
-        self.create_watch_wallet = create_watch_wallet
-        self.refresh_namespace_tab_data = refresh_namespace_tab_data
         # TODO Refine this
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
         self._db_cache = SQLInterface(self.cache_path)
@@ -345,7 +341,8 @@ class MDialogs():
             _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
-    def add_wallet_watch_address_dialog(self):
+    @staticmethod
+    def add_wallet_watch_address_dialog():
         _di = QDialog()
         _di.ui = Ui_add_watch_addr_dlg()
         _di.ui.setupUi(_di)
@@ -353,12 +350,21 @@ class MDialogs():
         _result = _di.exec_()
 
         if _result != 0:
+            _a = _di.ui.address_d.text()
             _l = _di.ui.label_d.text()
+            if _a == '':
+                _a = None
+
             if _l == '':
                 _l = None
-            self.add_wallet_watch(_di.ui.address_d.text(), _l)
+        else:
+            _a = None
+            _l = None
 
-    def add_wallet_watch_dialog(self):
+        return _a, _l
+
+    @staticmethod
+    def add_wallet_watch_dialog() -> str:
         _di = QDialog()
         _di.ui = Ui_add_wallet_watch_dlg()
         _di.ui.setupUi(_di)
@@ -366,7 +372,13 @@ class MDialogs():
         _result = _di.exec_()
 
         if _result != 0:
-            self.create_watch_wallet(_di.ui.name_d.text())
+            _name = _di.ui.name_d.text()
+            if _name == '':
+                _name = None
+        else:
+            _name = None
+
+        return _name
 
     def add_namespace_favorite_dialog(self):
         _di = QDialog()
@@ -376,9 +388,13 @@ class MDialogs():
         _result = _di.exec_()
 
         if _result != 0:
-            MShared.get_K(int(_di.ui.name_d.text()), 'favorites',
-                       self._db_cache, self.KEX, self.tx_cache, self.ns_cache)
-            self.refresh_namespace_tab_data()
+            _shortcode = _di.ui.name_d.text()
+            if _shortcode == '':
+                _shortcode = None
+        else:
+            _shortcode = None
+
+        return _shortcode
 
     def create_wallet_dialog(self):
         _di = QDialog()
@@ -390,6 +406,7 @@ class MDialogs():
 
         if _result != 0:
             _func_call = _di.ui.ret_wallet()
+            ###
             self.wallets._fromMWallet(_func_call)
             self.wallets.save_wallet(_func_call.name)
             (self.ui.w_tab.tbl_w
@@ -407,6 +424,7 @@ class MDialogs():
 
         if _result != 0:
             _func_call = _di.ui.ret_wallet()
+            ###
             self.wallets._fromMWallet(_func_call)
             self.wallets.save_wallet(_func_call.name)
             (self.ui.w_tab.tbl_w
@@ -602,6 +620,7 @@ class MDialogs():
 
         if _result != 0:
             _func_call = _di.ui.ret_address()
+            ###
             if _func_call.address not in self.address_book.addresses:
                 self.address_book._addresses[_func_call.address] = _func_call
                 self.address_book.save_address_book()
