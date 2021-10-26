@@ -1,7 +1,7 @@
-import datetime
 import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLabel
+from control.shared import MShared
 
 
 class _transaction_table(QTableWidget):
@@ -53,11 +53,6 @@ class _transaction_table(QTableWidget):
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 
-    def time_to_str(self, time):
-        _d = (datetime.datetime
-              .fromtimestamp(time).strftime('%Y-%m-%d %H:%M:%S'))
-        return _d
-
     def _add_transaction(self, transaction_data: dict):
         _al_center = QtCore.Qt.AlignCenter
         _if_iied = QtCore.Qt.ItemIsEditable
@@ -76,7 +71,7 @@ class _transaction_table(QTableWidget):
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
 
-        _date = QTableWidgetItem(self.time_to_str(transaction_data['time']))
+        _date = QTableWidgetItem(MShared.get_timestamp(transaction_data['time'])[1])
         _date.setFlags(_if_iied | _if_iis | _if_iide)
         _date.setForeground(QtCore.Qt.black)
 

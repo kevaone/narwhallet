@@ -1,8 +1,8 @@
-import datetime
 import json
 import urllib
 
 from control import NarwhalletWebController
+from control.shared import MShared
 from core.kcl.models.namespace import MNamespace
 from core.kws.kits.microblog import Feed
 
@@ -31,10 +31,6 @@ class _Api():
             return nsid, 'namespace'
         except Exception:
             return nsid, None
-
-    def get_tx_time(self, _tx):
-        _tx_time = datetime.datetime.fromtimestamp(_tx)
-        return _tx_time.strftime('%Y-%m-%d %H:%M:%S')
 
     def get_profile_theme(self, _id):
         return self.content_path+'/../theme/default/'

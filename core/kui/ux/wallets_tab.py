@@ -1,4 +1,3 @@
-import datetime
 import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
@@ -7,7 +6,7 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QFrame, QHBoxLayout,
                              QLabel, QSpacerItem, QSizePolicy, QPushButton,
                              QPlainTextEdit, QScrollArea, QSplitter,
                              QTabWidget)
-
+from control.shared import MShared
 from core.kui.ux.widgets.wallets_table import _wallets_table
 from core.kui.ux.widgets.wallets_addresses_table import _wallets_addr_tbl
 from core.kui.ux.widgets.wallets_transaction_table import _transaction_table
@@ -422,8 +421,4 @@ class Ui_WalletTab(QObject):
             self.wlocked.setText('False')
 
         if wallet.last_updated is not None:
-            self.wlast_updated.setText(self.time_to_str(wallet.last_updated))
-
-    def time_to_str(self, time):
-        _d = datetime.datetime.fromtimestamp(time)
-        return _d.strftime('%Y-%m-%d %H:%M:%S')
+            self.wlast_updated.setText(MShared.get_timestamp(wallet.last_updated)[1])

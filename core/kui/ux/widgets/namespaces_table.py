@@ -1,7 +1,7 @@
-import datetime
 import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLabel
+from control.shared import MShared
 
 
 class _namespaces_table(QTableWidget):
@@ -45,10 +45,6 @@ class _namespaces_table(QTableWidget):
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 
-    def time_to_str(self, time):
-        _date = datetime.datetime.fromtimestamp(time)
-        return _date.strftime('%Y-%m-%d %H:%M:%S')
-
     def _add_namespace(self, namespace_data: dict):
         _al_center = QtCore.Qt.AlignCenter
         _if_iis = QtCore.Qt.ItemIsSelectable
@@ -66,7 +62,7 @@ class _namespaces_table(QTableWidget):
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
 
-        _date = QTableWidgetItem(self.time_to_str(namespace_data['date']), 0)
+        _date = QTableWidgetItem(MShared.get_timestamp(namespace_data['date'])[1], 0)
         _date.setFlags(_if_iie | _if_iis)
         _date.setForeground(QtCore.Qt.black)
 

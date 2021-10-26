@@ -2,8 +2,8 @@ import os
 import json
 import bleach
 import re
-import datetime
 
+from control.shared import MShared
 # from core.kcl.models.namespace import MNamespace
 
 
@@ -28,10 +28,6 @@ class Feed():
             _data = f.read()
 
         return _data
-
-    def get_tx_time(self, _tx):
-        _tx_time = datetime.datetime.fromtimestamp(_tx)
-        return _tx_time.strftime('%Y-%m-%d %H:%M:%S')
 
     def get_feed_meta(self, section):
         return self.strap_content(section+'_feed_meta.html')
@@ -157,7 +153,7 @@ class Feed():
                 _res = self.replace_content(key[5], _value)
 
             _tx = tx_cache.get_tx_by_txid(key[2], cache_interface)
-            _res = _res.replace('$time', self.get_tx_time(_tx.time))
+            _res = _res.replace('$time', MShared.get_timestamp(_tx.time)[1])
 
             # TODO Add reply tracking to core namespace classes
             _replies = ''

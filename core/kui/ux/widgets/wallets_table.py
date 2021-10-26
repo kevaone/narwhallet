@@ -1,9 +1,8 @@
-import datetime
 import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap, QTransform
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLabel
-
+from control.shared import MShared
 from core.kcl.models.wallet import MWallet
 
 
@@ -128,9 +127,7 @@ class _wallets_table(QTableWidget):
         if 'last_updated' in wallet_data:
             if wallet_data['last_updated'] is not None:
                 _time_stamp = wallet_data['last_updated']
-                _upd = (datetime.datetime
-                        .fromtimestamp(_time_stamp)
-                        .strftime('%Y-%m-%d %H:%M:%S'))
+                _upd = MShared.get_timestamp(_time_stamp)[1]
 
         _updated = QTableWidgetItem(_upd)
         _updated.setFlags(_if_iie | _if_iis)
@@ -180,9 +177,7 @@ class _wallets_table(QTableWidget):
             _kvpic.setPixmap(_kpic)
 
         if _w.last_updated is not None:
-            _upd = (datetime.datetime
-                    .fromtimestamp(_w.last_updated)
-                    .strftime('%Y-%m-%d %H:%M:%S'))
+            _upd = MShared.get_timestamp(_w.last_updated)[1]
         else:
             _upd = '-'
 
