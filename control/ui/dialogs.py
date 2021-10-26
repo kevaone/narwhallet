@@ -97,20 +97,8 @@ class MDialogs():
                 _w.set_updating(False)
 
         if _result != 0:
-            _bc_result = self.KEX.call(self.KEX.api.bc_tx.broadcast,
-                                       [_di.ui.raw_tx])
-            if _bc_result != '':
-                _bc_result = json.loads(_bc_result)
-
-                if 'error' in _bc_result.keys():
-                    _msg = _bc_result['error']
-                    _msg_t = 1
-                else:
-                    _msg = 'TX Sent!'
-                    _msg_t = 2
-                _ = self.warning_dialog(_msg, False, _msg_t)
-            else:
-                _ = self.warning_dialog('Call Error', False, 1)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def create_namespace_send_dialog(self):
         _di = QDialog()
@@ -146,20 +134,8 @@ class MDialogs():
                 _w.set_updating(False)
 
         if _result != 0:
-            _bc_result = self.KEX.call(self.KEX.api.bc_tx.broadcast,
-                                       [_di.ui.raw_tx])
-            if _bc_result != '':
-                _bc_result = json.loads(_bc_result)
-
-                if 'error' in _bc_result.keys():
-                    _msg = _bc_result['error']
-                    _msg_t = 1
-                else:
-                    _msg = 'TX Sent!'
-                    _msg_t = 2
-                _ = self.warning_dialog(_msg, False, _msg_t)
-            else:
-                _ = self.warning_dialog('Call Error', False, 1)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def create_namespace_key_send_dialog(self):
         _di = QDialog()
@@ -206,22 +182,8 @@ class MDialogs():
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = self.KEX.call(self.KEX.api.bc_tx.broadcast,
-                                       [_di.ui.raw_tx])
-            if _bc_result != '':
-                _bc_result = json.loads(_bc_result)
-
-                if 'error' in _bc_result.keys():
-                    _msg = _bc_result['error']
-                    _msg_t = 1
-                else:
-                    _msg = 'TX Sent!'
-                    _msg_t = 2
-                    # TODO Check if new key was bid and track used usxo's if so
-
-                _ = self.warning_dialog(_msg, False, _msg_t)
-            else:
-                _ = self.warning_dialog('Call Error', False, 1)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def edit_namespace_key_send_dialog(self):
         _di = QDialog()
@@ -273,20 +235,8 @@ class MDialogs():
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = self.KEX.call(self.KEX.api.bc_tx.broadcast,
-                                       [_di.ui.raw_tx])
-            if _bc_result != '':
-                _bc_result = json.loads(_bc_result)
-
-                if 'error' in _bc_result.keys():
-                    _msg = _bc_result['error']
-                    _msg_t = 1
-                else:
-                    _msg = 'TX Sent!'
-                    _msg_t = 2
-                _ = self.warning_dialog(_msg, False, _msg_t)
-            else:
-                _ = self.warning_dialog('Call Error', False, 1)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def delete_namespace_key_send_dialog(self):
         _di = QDialog()
@@ -337,20 +287,8 @@ class MDialogs():
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = self.KEX.call(self.KEX.api.bc_tx.broadcast,
-                                       [_di.ui.raw_tx])
-            if _bc_result != '':
-                _bc_result = json.loads(_bc_result)
-
-                if 'error' in _bc_result.keys():
-                    _msg = _bc_result['error']
-                    _msg_t = 1
-                else:
-                    _msg = 'TX Sent!'
-                    _msg_t = 2
-                _ = self.warning_dialog(_msg, False, _msg_t)
-            else:
-                _ = self.warning_dialog('Call Error', False, 1)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def transfer_namespace_send_dialog(self):
         _di = QDialog()
@@ -408,20 +346,8 @@ class MDialogs():
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = self.KEX.call(self.KEX.api.bc_tx.broadcast,
-                                       [_di.ui.raw_tx])
-            if _bc_result != '':
-                _bc_result = json.loads(_bc_result)
-
-                if 'error' in _bc_result.keys():
-                    _msg = _bc_result['error']
-                    _msg_t = 1
-                else:
-                    _msg = 'TX Sent!'
-                    _msg_t = 2
-                _ = self.warning_dialog(_msg, False, _msg_t)
-            else:
-                _ = self.warning_dialog('Call Error', False, 1)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def add_wallet_watch_address_dialog(self):
         _di = QDialog()

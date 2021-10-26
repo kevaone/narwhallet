@@ -105,6 +105,24 @@ class MShared():
         return _fee
 
     @staticmethod
+    def broadcast(tx: str, KEX: KEXclient) -> tuple:
+        _result = KEX.call(KEX.api.bc_tx.broadcast, [tx])
+        if _result != '':
+            _result = json.loads(_result)
+
+            if 'error' in _result.keys():
+                _msg = _result['error']
+                _msg_t = 1
+            else:
+                _msg = 'TX Sent!'
+                _msg_t = 2
+        else:
+            _msg = 'Call Error'
+            _msg_t = 1
+
+        return (_msg_t, _msg)
+
+    @staticmethod
     def get_balances(wallet: MWallet, KEX: KEXclient):
         _th = []
         _tid = {}
