@@ -54,7 +54,6 @@ class NarwhalletController():
                                           self.tx_cache, self.address_book,
                                           self.add_wallet_watch,
                                           self.create_watch_wallet,
-                                          MShared.get_K,
                                           self.refresh_namespace_tab_data,
                                           self.ns_cache)
 

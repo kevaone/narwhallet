@@ -1,8 +1,6 @@
 import json
-import math
 import os
 import time
-from typing import Callable
 
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox
 
@@ -36,15 +34,14 @@ from core.kui.ux.dialogs.add_namespace_favorite import Ui_add_ns_fav_dlg
 
 
 # TODO Add time check to abort send dialogs if left open to long
-# While sending dialogs open encrypted wallets will remain unlocked...
+# NOTE While sending dialogs open encrypted wallets will remain unlocked...
 class MDialogs():
     def __init__(self, user_path: str,
                  narwhallet_settings: MNarwhalletSettings,
                  _view: NarwhalletUI, KEX: KEXclient,
                  wallets: MWallets, tx_cache: MTransactions,
                  address_book: MBookAddresses, add_wallet_watch,
-                 create_watch_wallet, get_K: Callable,
-                 refresh_namespace_tab_data, ns_cache):
+                 create_watch_wallet, refresh_namespace_tab_data, ns_cache):
         self.user_path = user_path
         self._v = _view
         self.ui = self._v.ui
@@ -55,7 +52,6 @@ class MDialogs():
         self.address_book = address_book
         self.add_wallet_watch = add_wallet_watch
         self.create_watch_wallet = create_watch_wallet
-        self.get_K = get_K
         self.refresh_namespace_tab_data = refresh_namespace_tab_data
         # TODO Refine this
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
@@ -380,7 +376,7 @@ class MDialogs():
         _result = _di.exec_()
 
         if _result != 0:
-            self.get_K(int(_di.ui.name_d.text()), 'favorites',
+            MShared.get_K(int(_di.ui.name_d.text()), 'favorites',
                        self._db_cache, self.KEX, self.tx_cache, self.ns_cache)
             self.refresh_namespace_tab_data()
 
