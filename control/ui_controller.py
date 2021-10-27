@@ -385,10 +385,10 @@ class NarwhalletController():
         # self.threader('datafeed_timer', time.sleep,
         #               self.settings.sync['datafeed'][2],
         #               None, self.t_restart)
-        if self.settings.sync['favorites'][2] >= 60:
-            self.threader('favorites_timer', time.sleep,
-                          self.settings.sync['favorites'][2],
-                          None, self.t_restart)
+        # if self.settings.sync['favorites'][2] >= 60:
+        #     self.threader('favorites_timer', time.sleep,
+        #                   self.settings.sync['favorites'][2],
+        #                   None, self.t_restart)
 
     def util_submit(self, i):
         _selected = self.ui.u_tab.m_select.currentText()
