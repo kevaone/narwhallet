@@ -656,7 +656,7 @@ class MShared():
                      ns_cache: MNamespaces, _db_cache: SQLInterface,
                      deep: bool = True):
         for _h in _a_hist:
-            if isinstance(_h, dict):  # TODO refine upstream to remove check
+            if not isinstance(_h, dict):  # TODO refine upstream to remove check
                 _btrx = None
             else:
                 _btrx = tx_cache.get_tx_by_txid(_h['tx_hash'], _db_cache)
