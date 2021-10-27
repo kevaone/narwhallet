@@ -102,6 +102,23 @@ class NarwhalletController():
 
         return _narwhallet_path
 
+    def _add_wallet(self, wallet: MWallet):
+        self.wallets._fromMWallet(wallet)
+        self.wallets.save_wallet(wallet.name)
+        self.ui.w_tab.tbl_w.add_wallet(wallet.toDict())
+        if wallet.kind != 1:
+            self.ui.u_tab.wallet_select.addItem(wallet.name)
+
+    def create_wallet(self):
+        _wallet = self.dialogs.create_wallet_dialog()
+        if _wallet is not None:
+            self._add_wallet(_wallet)
+
+    def restore_wallet(self):
+        _wallet = self.dialogs.restore_wallet_dialog()
+        if _wallet is not None:
+            self._add_wallet(_wallet)
+
     def create_watch_wallet(self):
         _name = self.dialogs.add_wallet_watch_dialog()
         if _name is not None:
@@ -322,9 +339,9 @@ class NarwhalletController():
         (self.ui.w_tab.btn_watch_addr
          .clicked.connect(self.add_wallet_watch))
         (self.ui.w_tab.btn_create
-         .clicked.connect(self.dialogs.create_wallet_dialog))
+         .clicked.connect(self.create_wallet))
         (self.ui.w_tab.btn_restore
-         .clicked.connect(self.dialogs.restore_wallet_dialog))
+         .clicked.connect(self.restore_wallet))
         (self.ui.w_tab.btn_watch
          .clicked.connect(self.create_watch_wallet))
         (self.ui.ab_tab.btn_create

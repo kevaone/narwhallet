@@ -396,7 +396,8 @@ class MDialogs():
 
         return _shortcode
 
-    def create_wallet_dialog(self):
+    @staticmethod
+    def create_wallet_dialog():
         _di = QDialog()
         _di.ui = Ui_create_wallet_dlg()
         _di.ui.setupUi(_di)
@@ -405,17 +406,14 @@ class MDialogs():
         # _xp = int(_di.ui.lineEdit_1.text())
 
         if _result != 0:
-            _func_call = _di.ui.ret_wallet()
-            ###
-            self.wallets._fromMWallet(_func_call)
-            self.wallets.save_wallet(_func_call.name)
-            (self.ui.w_tab.tbl_w
-             .add_wallet(self.wallets
-                         .get_wallet_by_name(_func_call.name).toDict()))
-            if _func_call.kind != 1:
-                self.ui.u_tab.wallet_select.addItem(_func_call.name)
+            _wallet = _di.ui.ret_wallet()
+        else:
+            _wallet = None
 
-    def restore_wallet_dialog(self):
+        return _wallet
+
+    @staticmethod
+    def restore_wallet_dialog():
         _di = QDialog()
         _di.ui = Ui_restore_wallet_dlg()
         _di.ui.setupUi(_di)
@@ -423,13 +421,11 @@ class MDialogs():
         _result = _di.exec_()
 
         if _result != 0:
-            _func_call = _di.ui.ret_wallet()
-            ###
-            self.wallets._fromMWallet(_func_call)
-            self.wallets.save_wallet(_func_call.name)
-            (self.ui.w_tab.tbl_w
-             .add_wallet(self.wallets
-                         .get_wallet_by_name(_func_call.name).toDict()))
+            _wallet = _di.ui.ret_wallet()
+        else:
+            _wallet = None
+
+        return _wallet
 
     @staticmethod
     def warning_dialog(message, isYesNo, msgType):
