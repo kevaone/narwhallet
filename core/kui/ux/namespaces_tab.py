@@ -59,7 +59,7 @@ class Ui_NamespacesTab(QObject):
         self.frame_9.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_9.setFrameShadow(QFrame.Shadow.Raised)
         self.ns_tab_btn_mine.setVisible(False)
-        # self.btn_fav.setVisible(False)
+        self.btn_fav.setVisible(False)
         self.frame_11.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_11.setFrameShadow(QFrame.Shadow.Raised)
         self.frame_10.setFrameShape(QFrame.Shape.StyledPanel)
