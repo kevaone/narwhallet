@@ -536,10 +536,10 @@ class MShared():
                                                          _out.addresses[0],
                                                          _db_cache))
 
-                            if test_root is True:
-                                MShared._test_root(wallet, _out, KEX,
-                                                   _db_cache, tx_cache,
-                                                   ns_cache)
+                                    if test_root is True:
+                                        MShared._test_root(wallet, _out, KEX,
+                                                           _db_cache, tx_cache,
+                                                           ns_cache)
 
     @staticmethod
     def _test_root(wallet: MWallet, _out: MScriptPubKey, KEX: KEXclient,
