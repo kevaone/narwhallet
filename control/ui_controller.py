@@ -139,6 +139,15 @@ class NarwhalletController():
             _w.addresses._fromPool(_a, _l)
             self.wallets.save_wallet(_w.name)
 
+    def add_addressbook_item(self):
+        _address = self.dialogs.add_addressbook_item_dialog()
+        if _address is not None:
+            if _address.address not in self.address_book.addresses:
+                self.address_book._addresses[_address.address] = _address
+                self.address_book.save_address_book()
+                self.ui.ab_tab.tbl_addr._add_bookaddress(_address.toDict())
+                self.ui.ab_tab.tbl_addr.resizeColumnsToContents()
+
     def add_namespace_favorite(self):
         _shortcode = self.dialogs.add_namespace_favorite_dialog()
         if _shortcode is not None:
@@ -345,7 +354,7 @@ class NarwhalletController():
         (self.ui.w_tab.btn_watch
          .clicked.connect(self.create_watch_wallet))
         (self.ui.ab_tab.btn_create
-         .clicked.connect(self.dialogs.add_addressbook_item_dialog))
+         .clicked.connect(self.add_addressbook_item))
         (self.ui.settings_tab.elxp_btn_add
          .clicked.connect(self.dialogs.add_electrumx_peer_dialog))
 

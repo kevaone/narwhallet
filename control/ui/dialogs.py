@@ -10,7 +10,9 @@ from control.shared import MShared
 from core.kcl.file_utils import ConfigLoader
 from core.kcl.db_utils import SQLInterface
 from core.kcl.models.wallets import MWallets
+from core.kcl.models.wallet import MWallet
 from core.kcl.models.book_addresses import MBookAddresses
+from core.kcl.models.book_address import MBookAddress
 from core.kcl.models.transactions import MTransactions
 
 from core.kex import KEXclient
@@ -53,7 +55,7 @@ class MDialogs():
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
         self._db_cache = SQLInterface(self.cache_path)
         self.ns_cache = ns_cache
-        # self.address_book = MBookAddresses()
+
 
     def simple_send_dialog(self):
         _di = QDialog()
@@ -67,7 +69,7 @@ class MDialogs():
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
-        
+
         _di.ui.user_path = self.user_path
         _di.ui._new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
@@ -81,7 +83,6 @@ class MDialogs():
             _aa = self.address_book.addresses[_addr].address
             _abi = self.address_book.addresses[_addr].name + ' - ' + _aa
             _di.ui.address_book.addItem(_abi, _aa)
-        # _di.show()
         _result = _di.exec_()
 
         for _w in self.wallets.wallets:
@@ -118,7 +119,6 @@ class MDialogs():
                 _di.ui.w.addItem(_w.name + ' - ' + str(round(_w.balance, 8)),
                                  _w.name)
 
-        # _di.show()
         _result = _di.exec_()
 
         for _w in self.wallets.wallets:
@@ -162,13 +162,10 @@ class MDialogs():
         _di.ui.w.addItem(_w, _w)
         _di.ui.w.setCurrentIndex(1)
         _di.ui.w.setEnabled(False)
-
         _di.ui._ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _di.ui._ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
 
         _di.ui.set_availible_usxo(True)
-
-        # _di.show()
         _result = _di.exec_()
 
         _wallet.set_updating(False)
@@ -220,8 +217,6 @@ class MDialogs():
         _di.ui.txb_build_simple_send()
         _di.ui.next_btn.setVisible(False)
         _di.ui.back_btn.setVisible(False)
-
-        # _di.show()
         _result = _di.exec_()
 
         _wallet.set_updating(False)
@@ -273,8 +268,6 @@ class MDialogs():
         _di.ui.txb_build_simple_send()
         _di.ui.next_btn.setVisible(False)
         _di.ui.back_btn.setVisible(False)
-
-        # _di.show()
         _result = _di.exec_()
         _wallet.set_updating(False)
 
@@ -331,8 +324,6 @@ class MDialogs():
         _di.ui.key_v.setText('wxfr')
         _di.ui.next_btn.setEnabled(False)
         _di.ui._isTransfer = True
-
-        # _di.show()
         _result = _di.exec_()
 
         _wallet.set_updating(False)
@@ -346,7 +337,6 @@ class MDialogs():
         _di = QDialog()
         _di.ui = Ui_add_watch_addr_dlg()
         _di.ui.setupUi(_di)
-        # _di.show()
         _result = _di.exec_()
 
         if _result != 0:
@@ -368,7 +358,6 @@ class MDialogs():
         _di = QDialog()
         _di.ui = Ui_add_wallet_watch_dlg()
         _di.ui.setupUi(_di)
-        # _di.show()
         _result = _di.exec_()
 
         if _result != 0:
@@ -380,11 +369,11 @@ class MDialogs():
 
         return _name
 
-    def add_namespace_favorite_dialog(self):
+    @staticmethod
+    def add_namespace_favorite_dialog():
         _di = QDialog()
         _di.ui = Ui_add_ns_fav_dlg()
         _di.ui.setupUi(_di)
-        # _di.show()
         _result = _di.exec_()
 
         if _result != 0:
@@ -397,13 +386,11 @@ class MDialogs():
         return _shortcode
 
     @staticmethod
-    def create_wallet_dialog():
+    def create_wallet_dialog() -> MWallet:
         _di = QDialog()
         _di.ui = Ui_create_wallet_dlg()
         _di.ui.setupUi(_di)
-        # _di.show()
         _result = _di.exec_()
-        # _xp = int(_di.ui.lineEdit_1.text())
 
         if _result != 0:
             _wallet = _di.ui.ret_wallet()
@@ -413,11 +400,10 @@ class MDialogs():
         return _wallet
 
     @staticmethod
-    def restore_wallet_dialog():
+    def restore_wallet_dialog() -> MWallet:
         _di = QDialog()
         _di.ui = Ui_restore_wallet_dlg()
         _di.ui.setupUi(_di)
-        # _di.show()
         _result = _di.exec_()
 
         if _result != 0:
@@ -495,7 +481,7 @@ class MDialogs():
 
         _di.ui.set_qr(self.ui.w_tab.tbl_addr.item(row, 1).text())
         _di.ui.set_qr_uri(self.ui.w_tab.tbl_addr.item(row, 1).text())
-        # _di.show()
+
         _result = _di.exec_()
 
         if _result != 0:
@@ -533,7 +519,6 @@ class MDialogs():
          .setText(self.ui.w_tab.tbl_addr2.item(row, 4).text()))
         _di.ui.details_locked_d.setText('<todo>')
 
-        # _di.show()
         _result = _di.exec_()
 
         if _result != 0:
@@ -581,7 +566,6 @@ class MDialogs():
         _di = QDialog(self._v)
         _di.ui = Ui_add_electrumx_peer_dlg()
         _di.ui.setupUi(_di)
-        # _di.show()
         _result = _di.exec_()
 
         # TODO: type validate before dialog accept
@@ -607,21 +591,19 @@ class MDialogs():
             _dat = ConfigLoader(os.path.join(self.user_path, 'settings.json'))
             _dat.save(json.dumps(self.settings.toDict(), indent=4).encode())
 
-    def add_addressbook_item_dialog(self):
+    @staticmethod
+    def add_addressbook_item_dialog() -> MBookAddress:
         _di = QDialog()
         _di.ui = Ui_add_ab_item_dlg()
         _di.ui.setupUi(_di)
-        # _di.show()
         _result = _di.exec_()
 
         if _result != 0:
-            _func_call = _di.ui.ret_address()
-            ###
-            if _func_call.address not in self.address_book.addresses:
-                self.address_book._addresses[_func_call.address] = _func_call
-                self.address_book.save_address_book()
-                self.ui.ab_tab.tbl_addr._add_bookaddress(_func_call.toDict())
-                self.ui.ab_tab.tbl_addr.resizeColumnsToContents()
+            _address = _di.ui.ret_address()
+        else:
+            _address = None
+
+        return _address
 
     def view_addressbook_item_dialog(self, row):
         _di = QDialog(self._v)
