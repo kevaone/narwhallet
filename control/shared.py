@@ -516,21 +516,25 @@ class MShared():
                                                  _db_cache))
                         else:
                             if _o[0] == 'OP_KEVA_DELETE':
-                                _ = (ns_cache
-                                     ._fromRawValues(_merkle['block_height'],
-                                                     _merkle['pos'],
-                                                     _trx.txid, _o[1], _o[0],
-                                                     _o[2], '', '_special',
-                                                     _out.addresses[0],
-                                                     _db_cache))
+                                _ = ns_cache.delete_key(_o[1], _o[2], _merkle['block_height'], _db_cache)
                             else:
-                                _ = (ns_cache
-                                     ._fromRawValues(_merkle['block_height'],
-                                                     _merkle['pos'],
-                                                     _trx.txid, _o[1], _o[0],
-                                                     _o[2], _o[3], '_special',
-                                                     _out.addresses[0],
-                                                     _db_cache))
+                                _key = ns_cache.get_namespace_by_key(_o[1], _o[2], _db_cache)
+                                if len(_key) > 0 and _o[2][:4] != '0001':
+                                    _ = (ns_cache
+                                        .update_key(_merkle['block_height'],
+                                                    _merkle['pos'],
+                                                    _trx.txid, _o[1],
+                                                    _o[2], _o[3], '_special',
+                                                    _out.addresses[0],
+                                                    _db_cache))
+                                else:
+                                    _ = (ns_cache
+                                         ._fromRawValues(_merkle['block_height'],
+                                                         _merkle['pos'],
+                                                         _trx.txid, _o[1], _o[0],
+                                                         _o[2], _o[3], '_special',
+                                                         _out.addresses[0],
+                                                         _db_cache))
 
                             if test_root is True:
                                 MShared._test_root(wallet, _out, KEX,
@@ -552,14 +556,15 @@ class MShared():
             if _root_hist != '':
                 _root_hist = json.loads(_root_hist)['result']
                 _tracker = []
+
                 if wallet.kind == EWalletKind.WATCH:
-                    MShared.scan_history(_o[1], _tracker, 'wallet_name',
+                    MShared.scan_history(_o[1], _tracker, wallet,
                                          _out.addresses[0], _root_hist, KEX,
                                          tx_cache, ns_cache, _db_cache, False)
                 else:
-                    MShared.scan_history(_o[1], _tracker, 'wallet_name',
+                    MShared.scan_history(_o[1], _tracker, wallet,
                                          _out.addresses[0], _root_hist, KEX,
-                                         tx_cache, ns_cache, _db_cache)
+                                         tx_cache, ns_cache, _db_cache, False)
 
     @staticmethod
     def __get_tx_by_batch(_th: list, KEX: KEXclient, _db_cache: SQLInterface,

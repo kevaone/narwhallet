@@ -64,6 +64,13 @@ class MNamespaces():
                                           (namespaceid, ), 3)
         return _ns
 
+    def get_namespace_by_key(self, namespaceid: str, key: str,
+                            cache_interface: SQLInterface) -> MNamespace:
+        namespaceid = self.convert_to_namespaceid(namespaceid)
+        _ns = cache_interface.execute_sql(Scripts.SELECT_NS_BY_KEY,
+                                          (namespaceid, self._decode(key)), 3)
+        return _ns
+
     def get_ns_by_shortcode(self, shortcode: int,
                             cache_interface: SQLInterface) -> MNamespace:
         _bs = str(shortcode)
@@ -91,6 +98,24 @@ class MNamespaces():
             namespaceid = self.convert_to_namespaceid(namespaceid)
         _ns = cache_interface.execute_sql(Scripts.SELECT_NS_ROOT_TEST,
                                           (namespaceid, ), 3)
+        return _ns
+
+    def update_key(self, block: int, n: int, tx: str,
+                       namespaceid: str, key: str, value: str,
+                       special: str, address: str,
+                       cache_interface: SQLInterface):
+
+        namespaceid = self.convert_to_namespaceid(namespaceid)
+        _row = cache_interface.execute_sql(Scripts.UPDATE_NS_KEY,
+                                           (block, n, tx,
+                                            self._decode(value),
+                                            special, address, namespaceid, self._decode(key), block), 1)
+        return _row
+
+    def delete_key(self, ns, key, block, cache_interface: SQLInterface):
+        ns = self.convert_to_namespaceid(ns)
+        _ns = cache_interface.execute_sql(Scripts.DELETE_NS_KEY,
+                                          (ns, self._decode(key), block, ), 1)
         return _ns
 
     # def update_namespace(self, ns: MNamespace,

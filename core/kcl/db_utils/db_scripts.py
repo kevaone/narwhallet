@@ -42,6 +42,7 @@ class Scripts(Enum):
         address FROM ns_cache WHERE ns = ? ORDER BY block desc;'
     SELECT_NS_BY_POS = 'SELECT ns FROM ns_cache WHERE block = ? AND n = ?;'
     SELECT_NS_BY_TXID = 'SELECT ns FROM ns_cache WHERE txid = ? AND ns = ?;'
+    SELECT_NS_BY_KEY = 'SELECT ns, key FROM ns_cache WHERE ns = ? AND key = ?;'
     SELECT_NS_VIEW_1 = 'SELECT DISTINCT ns FROM ns_cache;'
     SELECT_NS_COUNT = 'SELECT COUNT(ns) FROM ns_cache WHERE ns = ?;'
     SELECT_NS_BLOCK = 'SELECT block, n FROM ns_cache WHERE ns = ? \
@@ -70,7 +71,12 @@ class Scripts(Enum):
         size = ?, vsize = ?, locktime = ?, vin = ?, vout = ?, \
             blockhash = ?, confirmations = ?, time = ?, blocktime = ?, \
                 hex = ? WHERE txid = ?;'
+    UPDATE_NS_KEY = 'UPDATE ns_cache SET block = ?, n = ?, txid = ?, \
+        value = ?, special = ?, address = ? WHERE ns = ? AND key = ? \
+            AND block < ?;'
     UPDATE_NFT = 'UPDATE nft_cache SET tx = ?, data = ? WHERE tx = ?;'
     DELETE_TX = 'DELETE FROM tx_cache WHERE tx = ?;'
     DELETE_NS = 'DELETE FROM ns_cache WHERE ns = ?;'
+    DELETE_NS_KEY = 'DELETE FROM ns_cache WHERE ns = ? AND key = ? \
+        AND block < ?;'
     DELETE_NFT = 'DELETE FROM nft_cache WHERE tx = ?;'
