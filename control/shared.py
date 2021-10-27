@@ -511,7 +511,6 @@ class MShared():
                                                  _merkle['pos'],
                                                  _trx.txid, _o[1], _o[0],
                                                  '5f4b4556415f4e535f', _o[2],
-                                                 '_special',
                                                  _out.addresses[0],
                                                  _db_cache))
                         else:
@@ -524,7 +523,7 @@ class MShared():
                                         .update_key(_merkle['block_height'],
                                                     _merkle['pos'],
                                                     _trx.txid, _o[1],
-                                                    _o[2], _o[3], '_special',
+                                                    _o[2], _o[3],
                                                     _out.addresses[0],
                                                     _db_cache))
                                 else:
@@ -532,7 +531,7 @@ class MShared():
                                          ._fromRawValues(_merkle['block_height'],
                                                          _merkle['pos'],
                                                          _trx.txid, _o[1], _o[0],
-                                                         _o[2], _o[3], '_special',
+                                                         _o[2], _o[3],
                                                          _out.addresses[0],
                                                          _db_cache))
 
@@ -657,7 +656,10 @@ class MShared():
                      ns_cache: MNamespaces, _db_cache: SQLInterface,
                      deep: bool = True):
         for _h in _a_hist:
-            _btrx = tx_cache.get_tx_by_txid(_h['tx_hash'], _db_cache)
+            if isinstance(_h, dict):  # TODO refine upstream to remove check
+                _btrx = None
+            else:
+                _btrx = tx_cache.get_tx_by_txid(_h['tx_hash'], _db_cache)
             if _btrx is None:
                 _tx = MShared.__get_tx(_h['tx_hash'], KEX, True)
                 if _tx is not None:

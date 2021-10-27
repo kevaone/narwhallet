@@ -38,17 +38,43 @@ class MNamespaces():
                 # print('error', _d2, value)
         return _d2
 
+    # TODO Move types to own class; stubbing as strings here for now
+    @staticmethod
+    def get_key_type(key, value) -> str:
+        _type = None
+        if key == '_KEVA_NS_':
+            _type = 'root_ns'
+        elif key == '\x01_KEVA_NS_':
+            _type = 'root_ns_update'
+        elif key[:4] == '0001' and len(key) == 68:
+            if value[:5] == '70736':
+                _type = 'nft_bid'
+            else:
+                _type = 'reply'
+        elif key[:4] == '0002' and len(key) == 68:
+            _type = 'repost'
+        elif key[:4] == '0003' and len(key) == 68:
+            _type = 'reward'
+        elif key[:4] == '0004' and len(key) == 68:
+            _type = 'nft_auction'
+        elif key[:4] == '0005' and len(key) == 68:
+            _type = 'nft_confirm_sell'
+
+        return _type
+
     def _fromRawValues(self, block: int, n: int, tx: str,
                        namespaceid: str, op: str, key: str, value: str,
-                       special: str, address: str,
-                       cache_interface: SQLInterface):
+                       address: str, cache_interface: SQLInterface):
 
         _ns = self.convert_to_namespaceid(namespaceid)
+        key = self._decode(key)
+        value = self._decode(value)
         _row = cache_interface.execute_sql(Scripts.INSERT_NS,
                                            (block, n, tx, _ns, op,
-                                            self._decode(key),
-                                            self._decode(value),
-                                            special, address), 2)
+                                            key,
+                                            value,
+                                            self.get_key_type(key, value),
+                                            address), 2)
         return _row
 
     def _get_namespace_by_id(self, txid: str, namespaceid: str,
@@ -102,14 +128,16 @@ class MNamespaces():
 
     def update_key(self, block: int, n: int, tx: str,
                        namespaceid: str, key: str, value: str,
-                       special: str, address: str,
-                       cache_interface: SQLInterface):
+                       address: str, cache_interface: SQLInterface):
 
         namespaceid = self.convert_to_namespaceid(namespaceid)
+        key = self._decode(key)
+        value = self._decode(value)
         _row = cache_interface.execute_sql(Scripts.UPDATE_NS_KEY,
-                                           (block, n, tx,
-                                            self._decode(value),
-                                            special, address, namespaceid, self._decode(key), block), 1)
+                                           (block, n, tx, value,
+                                            self.get_key_type(key, value),
+                                            address, namespaceid,
+                                            key, block), 1)
         return _row
 
     def delete_key(self, ns, key, block, cache_interface: SQLInterface):
