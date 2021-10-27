@@ -1,9 +1,6 @@
 import os
 from control.narwhallet_settings import MNarwhalletSettings
 from control.narwhallet_web_settings import MNarwhalletWebSettings
-
-from core.kcl.models.transactions import MTransactions
-from core.kcl.models.namespaces import MNamespaces
 from core.kex import KEXclient
 from core.kcl.file_utils import ConfigLoader
 
@@ -19,10 +16,6 @@ class NarwhalletWebController():
         self.set_dat = ConfigLoader(_settings_file)
         self.set_dat.load()
         self.settings.fromDict(self.set_dat.data)
-        self.tx_cache = MTransactions()
-        self.ns_cache = MNamespaces()
-        # self.address_book = MBookAddresses()
-        # self._db_cache = _db_cache
         self.KEX = KEXclient()
 
         _user_home = os.path.expanduser('~')

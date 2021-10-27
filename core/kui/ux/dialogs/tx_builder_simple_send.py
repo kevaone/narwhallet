@@ -10,10 +10,9 @@ from control.shared import MShared
 from core.ksc import Scripts
 from core.kcl.bip_utils.base58 import Base58Decoder
 from core.kcl.bip_utils.utils import ConvUtils
+from core.kcl.models.cache import MCache
 from core.kcl.models.wallets import MWallets
-from core.kcl.models.transactions import MTransactions
 from core.kcl.models.transaction_builder import MTransactionBuilder
-from core.kcl.db_utils import SQLInterface
 
 
 class Ui_simple_send_dlg(QObject):
@@ -26,7 +25,7 @@ class Ui_simple_send_dlg(QObject):
         _bb_br_ac = QDialogButtonBox.AcceptRole
 
         self.wallets: MWallets = None
-        self.tx_cache: MTransactions = None
+        self.cache: MCache = None
         self.KEX = None
         self.user_path = None
         self._new_tx = MTransactionBuilder()
@@ -202,8 +201,6 @@ class Ui_simple_send_dlg(QObject):
             self.address_select.setText('Book')
 
     def txb_w_changed(self, data):
-        cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
-        _db_cache = SQLInterface(cache_path)
         if data != '-':
             _n = self.w.currentData()
             wallet = self.wallets.get_wallet_by_name(_n)
@@ -213,12 +210,12 @@ class Ui_simple_send_dlg(QObject):
 
             for tx in _tmp_usxo:
                 # TODO Check for usxo's used by bids
-                _tx = self.tx_cache.get_tx_by_txid(tx['tx_hash'], _db_cache)
+                _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
 
                 if _tx is None:
                     _tx = MShared.__get_tx(tx['tx_hash'], self.KEX, True)
                     if _tx is not None:
-                        _tx = self.tx_cache.add_fromJson(_tx, _db_cache)
+                        _tx = self.cache.tx.add_fromJson(_tx)
 
                 if _tx is not None:
                     if _tx.confirmations is not None:

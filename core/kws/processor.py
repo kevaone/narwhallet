@@ -3,7 +3,7 @@ import socket
 from core.kws.http import request as _Request
 from core.kws.http import response as _Response
 from core.kws.api import _Api
-from core.kcl.db_utils import SQLInterface
+from core.kcl.models.cache import MCache
 from control import NarwhalletWebController
 from control.shared import MShared
 
@@ -16,9 +16,9 @@ class Processor():
         self.content_path: str = self.control.theme_path
 
         self.api_path = b'/'
-        self._db_cache: SQLInterface = SQLInterface(self.control.db_file)
+        self.cache: MCache = MCache(self.control.db_file)
 
-        self.sAPI = _Api(self.content_path, self.control)
+        self.sAPI = _Api(self.control, self.cache)
 
     def process(self, _connection: socket.socket):
         try:
@@ -103,27 +103,21 @@ class Processor():
                         _short_code = _short_code.decode()
 
                     if isinstance(_short_code, int):
-                        _namespace = (self.control.ns_cache
-                                      .get_ns_by_shortcode(_short_code,
-                                                           self._db_cache))
+                        _namespace = (self.cache.ns
+                                      .get_ns_by_shortcode(_short_code))
                     else:
-                        _namespace = (self.control.ns_cache
-                                      .get_namespace_by_id(_short_code,
-                                                           self._db_cache))
+                        _namespace = (self.cache.ns
+                                      .get_namespace_by_id(_short_code))
 
                     if len(_namespace) == 0:
                         if isinstance(_short_code, int):
                             MShared.get_K(_short_code, 'live',
-                                          self._db_cache, self.control.KEX,
-                                          self.control.tx_cache,
-                                          self.control.ns_cache)
-                            _namespace = (self.control.ns_cache
-                                          .get_ns_by_shortcode(_short_code,
-                                                               self._db_cache))
+                                          self.cache, self.control.KEX)
+                            _namespace = (self.cache.ns
+                                          .get_ns_by_shortcode(_short_code))
 
                     if len(_namespace) > 0:
-                        _result_data = self.sAPI.get_microblog(_namespace,
-                                                               self._db_cache)
+                        _result_data = self.sAPI.get_microblog(_namespace)
                         _c = 'profile_feed_meta.html'
                         _ci = {'$feed': _result_data}
                         _response.body_from_parts(content=_c,

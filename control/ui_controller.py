@@ -16,15 +16,12 @@ from core.kui.kexc_worker import Worker
 
 from core.kex import KEXclient
 from core.kcl.file_utils import ConfigLoader
-from core.kcl.db_utils import SQLInterface
-from core.kcl.db_utils import Scripts as DBScripts
 # from core.kcl.models.psbt_decoder import keva_psbt
 
+from core.kcl.models.cache import MCache
 from core.kcl.models.wallet import MWallet
 from core.kcl.models.wallets import MWallets
 from core.kcl.models.address import MAddress
-from core.kcl.models.transactions import MTransactions
-from core.kcl.models.namespaces import MNamespaces
 from core.kcl.models.book_addresses import MBookAddresses
 from core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
 from core.kcl.wallet_utils import _wallet_utils as WalletUtils
@@ -41,8 +38,7 @@ class NarwhalletController():
         self.settings: MNarwhalletSettings = MNarwhalletSettings()
         self.web_settings: MNarwhalletWebSettings = MNarwhalletWebSettings()
         self.wallets: MWallets = MWallets()
-        self.tx_cache: MTransactions = MTransactions()
-        self.ns_cache: MNamespaces = MNamespaces()
+        self.cache = MCache(self.cache_path)
         self.address_book: MBookAddresses = MBookAddresses()
         self._t: Dict[str, QThread] = {}
         self._o: Dict[str, Worker] = {}
@@ -53,8 +49,7 @@ class NarwhalletController():
         self.dialogs: MDialogs = MDialogs(self.user_path,
                                           self.settings,
                                           self._v, self.KEX, self.wallets,
-                                          self.tx_cache, self.address_book,
-                                          self.ns_cache)
+                                          self.cache, self.address_book)
 
         self.load_settings()
         self.load_wallets()
@@ -153,9 +148,8 @@ class NarwhalletController():
     def add_namespace_favorite(self):
         _shortcode = self.dialogs.add_namespace_favorite_dialog()
         if _shortcode is not None:
-            _db_cache = SQLInterface(self.cache_path)
             MShared.get_K(int(_shortcode), 'favorites',
-                       _db_cache, self.KEX, self.tx_cache, self.ns_cache)
+                       self.cache, self.KEX)
 
             self.refresh_namespace_tab_data()
 
@@ -185,8 +179,7 @@ class NarwhalletController():
         self.wset_dat.load()
         self.web_settings.fromDict(self.wset_dat.data)
 
-        _db_cache = SQLInterface(self.cache_path)
-        _db_cache.setup_tables()
+        self.cache.interface.setup_tables()
 
         try:
             self.address_book.load_address_book(self.user_path)
@@ -488,17 +481,19 @@ class NarwhalletController():
     def refresh_namespace_tab_data(self):
         # TODO Cleanup
         self.ui.ns_tab.tbl_ns.clear_rows()
-        _db_cache = SQLInterface(self.cache_path)
-        _asa = _db_cache.execute_sql(DBScripts.SELECT_NS_VIEW_1, (), 3)
+        _asa = self.cache.ns.get_view()
 
         nd = []
         for p in _asa:
-            _key_count = _db_cache.execute_sql(DBScripts.SELECT_NS_COUNT,
-                                               (p[0], ), 3)
-            _block = _db_cache.execute_sql(DBScripts.SELECT_NS_BLOCK,
-                                           (p[0], ), 3)
-            _oa = _db_cache.execute_sql(DBScripts.SELECT_NS_LAST_ADDRESS,
-                                        (p[0], ), 3)
+            _key_count = self.cache.ns.key_count(p[0])
+            _block = self.cache.ns.ns_block(p[0])
+            _oa = self.cache.ns.last_address(p[0])
+            # _key_count = _db_cache.execute_sql(_db_cache.scripts.SELECT_NS_COUNT,
+            #                                    (p[0], ), 3)
+            # _block = _db_cache.execute_sql(_db_cache.scripts.SELECT_NS_BLOCK,
+            #                                (p[0], ), 3)
+            # _oa = _db_cache.execute_sql(_db_cache.scripts.SELECT_NS_LAST_ADDRESS,
+            #                             (p[0], ), 3)
             pd = {}
             pd['namespaceid'] = p[0]
             pd['address'] = _oa[0][0]
@@ -699,11 +694,10 @@ class NarwhalletController():
         else:
             _w = self.wallets.get_wallet_by_name(_n)
 
-        _db_cache = SQLInterface(self.cache_path)
-        _key_count = _db_cache.execute_sql(DBScripts.SELECT_NS_COUNT,
-                                           (_ns, ), 3)
+        _key_count = self.cache.ns.key_count(_ns)
+
         if len(_key_count) > 0:
-            _ns = self.ns_cache.get_namespace_by_id(_ns, _db_cache)
+            _ns = self.cache.ns.get_namespace_by_id(_ns)
 
             if _w.kind != 1 and _w.kind != 3:
                 self.ui.ns_tab.btn_key_add.setEnabled(True)
@@ -743,10 +737,7 @@ class NarwhalletController():
             _w = self.wallets.get_wallet_by_name(_n)
 
         key = self.ui.ns_tab.list_ns_keys.currentItem()
-
-        _db_cache = SQLInterface(self.cache_path)
-        _key_value = _db_cache.execute_sql(DBScripts.SELECT_NS_KEY_VALUE,
-                                           (_ns, key.text()), 3)
+        _key_value = self.cache.ns.get_namespace_by_key_value(_ns, key.text())
 
         if len(_key_value) > 0:
             (self.ui.ns_tab.ns_tab_text_key_value
@@ -826,12 +817,11 @@ class NarwhalletController():
                       wallet, None, self.refresh_wallet_data_tabs, row)
 
     def _update_wallet(self, wallet: MWallet):
-        _db_cache = SQLInterface(self.cache_path)
+        _cache = MCache(self.cache_path)
         MShared.get_histories(wallet, self.KEX)
         MShared.get_balances(wallet, self.KEX)
         MShared.list_unspents(wallet, self.KEX)
-        MShared.get_transactions(wallet, self.KEX, _db_cache, self.tx_cache,
-                                 self.ns_cache)
+        MShared.get_transactions(wallet, self.KEX, _cache)
         _update_time = MShared.get_timestamp()
         wallet.set_last_updated(_update_time[0])
         self.wallets.save_wallet(wallet.name)
@@ -845,16 +835,15 @@ class NarwhalletController():
         _tx_d = self.__display_wallet_tx(wallet.change_addresses.addresses,
                                          _tx_d)
         _tx_d_list = list(_tx_d.values())
-        _tx_d_list.sort(reverse=True, key=MTransactions.sort_dict)
+        _tx_d_list.sort(reverse=True, key=MShared.sort_dict)
 
         return _tx_d_list
 
     def __display_wallet_tx(self, addresses: List[MAddress],
                             _tx_d: dict) -> dict:
-        _db_cache = SQLInterface(self.cache_path)
         for _a in addresses:
             for _t in _a.history:
-                _trx = self.tx_cache.get_tx_by_txid(_t['tx_hash'], _db_cache)
+                _trx = self.cache.tx.get_tx_by_txid(_t['tx_hash'])
 
                 if _trx is not None:
                     if _trx.txid not in _tx_d:
@@ -866,8 +855,7 @@ class NarwhalletController():
 
                     for _in in _trx.vin:
                         _vo = _in.vout
-                        _in_tx = self.tx_cache.get_tx_by_txid(_in.txid,
-                                                              _db_cache)
+                        _in_tx = self.cache.tx.get_tx_by_txid(_in.txid)
 
                         if _in_tx is not None:
                             for _out in _in_tx.vout:

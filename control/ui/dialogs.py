@@ -8,12 +8,11 @@ from control.narwhallet_settings import MNarwhalletSettings
 from control.shared import MShared
 
 from core.kcl.file_utils import ConfigLoader
-from core.kcl.db_utils import SQLInterface
+from core.kcl.models.cache import MCache
 from core.kcl.models.wallets import MWallets
 from core.kcl.models.wallet import MWallet
 from core.kcl.models.book_addresses import MBookAddresses
 from core.kcl.models.book_address import MBookAddress
-from core.kcl.models.transactions import MTransactions
 
 from core.kex import KEXclient
 
@@ -41,20 +40,18 @@ class MDialogs():
     def __init__(self, user_path: str,
                  narwhallet_settings: MNarwhalletSettings,
                  _view: NarwhalletUI, KEX: KEXclient,
-                 wallets: MWallets, tx_cache: MTransactions,
-                 address_book: MBookAddresses, ns_cache):
+                 wallets: MWallets, cache: MCache,
+                 address_book: MBookAddresses):
         self.user_path = user_path
         self._v = _view
         self.ui = self._v.ui
         self.KEX = KEX
         self.wallets = wallets
-        self.tx_cache = tx_cache
+        self.cache = cache
         self.settings = narwhallet_settings
         self.address_book = address_book
         # TODO Refine this
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
-        self._db_cache = SQLInterface(self.cache_path)
-        self.ns_cache = ns_cache
 
 
     def simple_send_dialog(self):
@@ -62,7 +59,7 @@ class MDialogs():
         _di.ui = Ui_simple_send_dlg()
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
-        _di.ui.tx_cache = self.tx_cache
+        _di.ui.cache = self.cache
         _di.ui.KEX = self.KEX
         _fee = MShared.get_fee_rate(self.KEX)
         if _fee == -1:
@@ -98,7 +95,7 @@ class MDialogs():
         _di.ui = Ui_keva_op_send_dlg()
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
-        _di.ui.tx_cache = self.tx_cache
+        _di.ui.cache = self.cache
         _di.ui.KEX = self.KEX
         _fee = MShared.get_fee_rate(self.KEX)
         if _fee == -1:
@@ -134,7 +131,7 @@ class MDialogs():
         _di.ui = Ui_keva_op_send_dlg()
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
-        _di.ui.tx_cache = self.tx_cache
+        _di.ui.cache = self.cache
         _di.ui.KEX = self.KEX
         _fee = MShared.get_fee_rate(self.KEX)
         if _fee == -1:
@@ -179,7 +176,7 @@ class MDialogs():
         _di.ui = Ui_keva_op_send_dlg()
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
-        _di.ui.tx_cache = self.tx_cache
+        _di.ui.cache = self.cache
         _di.ui.KEX = self.KEX
         _fee = MShared.get_fee_rate(self.KEX)
         if _fee == -1:
@@ -230,7 +227,7 @@ class MDialogs():
         _di.ui = Ui_keva_op_send_dlg()
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
-        _di.ui.tx_cache = self.tx_cache
+        _di.ui.cache = self.cache
         _di.ui.KEX = self.KEX
         _fee = MShared.get_fee_rate(self.KEX)
         if _fee == -1:
@@ -280,7 +277,7 @@ class MDialogs():
         _di.ui = Ui_keva_op_send_dlg()
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
-        _di.ui.tx_cache = self.tx_cache
+        _di.ui.cache = self.cache
         _di.ui.KEX = self.KEX
         _fee = MShared.get_fee_rate(self.KEX)
         if _fee == -1:
@@ -541,8 +538,8 @@ class MDialogs():
             # _w = self.wallets.get_wallet_by_name(_n)
 
         _tr = self.ui.w_tab.tbl_tx.item(row, 5).text()
-        _db_cache = SQLInterface(self.cache_path)
-        _t = self.tx_cache.get_tx_by_txid(_tr, _db_cache)
+
+        _t = self.cache.tx.get_tx_by_txid(_tr)
 
         _di.ui.txid_d.setPlainText(_t.txid)
         _di.ui.hash_d.setPlainText(_t.hash)

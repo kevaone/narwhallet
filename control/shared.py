@@ -8,14 +8,12 @@ from typing import List
 
 from core.kex import KEXclient
 from core.ksc import Scripts
-from core.kcl.db_utils import SQLInterface
+from core.kcl.models.cache import MCache
 from core.kcl.models.wallet import MWallet
 from core.kcl.models.wallet_kind import EWalletKind
 from core.kcl.models.addresses import MAddresses
 from core.kcl.models.address import MAddress
-from core.kcl.models.transactions import MTransactions
 from core.kcl.models.transaction import MTransaction
-from core.kcl.models.namespaces import MNamespaces
 from core.kcl.models.script_pubkey import MScriptPubKey
 
 from core.kcl.bip_utils.utils import ConvUtils
@@ -33,6 +31,10 @@ class MShared():
                .fromtimestamp(_now)
                .strftime('%Y-%m-%d %H:%M:%S'))
         return (_now, _dt)
+
+    @staticmethod
+    def sort_dict(item):
+        return item['time']
 
     # TODO Remove this, should come from file_uitls
     @staticmethod
@@ -376,9 +378,7 @@ class MShared():
         return _hist
 
     @staticmethod
-    def get_transactions(wallet: MWallet, KEX: KEXclient,
-                         _db_cache: SQLInterface, tx_cache: MTransactions,
-                         ns_cache: MNamespaces):
+    def get_transactions(wallet: MWallet, KEX: KEXclient, cache: MCache):
         _block_count = MShared.get_block_count(KEX)
         # print('_block_count', _block_count)
         wallet.set_balance(0.0)
@@ -386,37 +386,33 @@ class MShared():
         _tx_in_b = []
         _tx_h_batch = MShared.__get_tx_cmds(_tx_h_batch,
                                             wallet.addresses.addresses,
-                                            KEX, _db_cache, tx_cache)
+                                            KEX, cache)
         _tx_h_batch = MShared.__get_tx_cmds(_tx_h_batch,
                                             wallet.change_addresses.addresses,
-                                            KEX, _db_cache, tx_cache)
+                                            KEX, cache)
         if len(_tx_h_batch) > 0:
-            _ = MShared.__get_tx_by_batch(_tx_h_batch, KEX,
-                                          _db_cache, tx_cache)
+            _ = MShared.__get_tx_by_batch(_tx_h_batch, KEX, cache)
 
         _tx_in_b = MShared.__get_tx_vin_cmds(_tx_in_b,
                                              wallet.addresses.addresses,
-                                             KEX, _db_cache, tx_cache)
+                                             KEX, cache)
         _tx_in_b = MShared.__get_tx_vin_cmds(_tx_in_b,
                                              wallet.change_addresses.addresses,
-                                             KEX, _db_cache, tx_cache)
+                                             KEX, cache)
         if len(_tx_in_b) > 0:
-            _ = MShared.__get_tx_by_batch(_tx_in_b, KEX, _db_cache, tx_cache)
+            _ = MShared.__get_tx_by_batch(_tx_in_b, KEX, cache)
 
-        MShared._get_tx(wallet, wallet.addresses.addresses, KEX, _db_cache,
-                        tx_cache, ns_cache)
-        MShared._get_tx(wallet, wallet.change_addresses.addresses, KEX,
-                        _db_cache, tx_cache, ns_cache)
+        MShared._get_tx(wallet, wallet.addresses.addresses, KEX, cache)
+        MShared._get_tx(wallet, wallet.change_addresses.addresses, KEX, cache)
 
     @staticmethod
     def __get_tx_cmds(_tx_h_batch: list, addresses: List[MAddress],
-                      KEX: KEXclient, _db_cache: SQLInterface,
-                      tx_cache: MTransactions):
+                      KEX: KEXclient, cache: MCache):
         for _a in addresses:
             _a.set_received(0.0)
             _a.set_sent(0.0)
             for _t in _a.history:
-                _trx = tx_cache.get_tx_by_txid(_t['tx_hash'], _db_cache)
+                _trx = cache.tx.get_tx_by_txid(_t['tx_hash'])
                 if _trx is None:
                     _tx_h_batch.append(KEX.api.bc_tx.get
                                        .build_command([_t['tx_hash'], True],
@@ -437,14 +433,13 @@ class MShared():
 
     @staticmethod
     def __get_tx_vin_cmds(_tx_i_b: list, addresses: List[MAddress],
-                          KEX: KEXclient, _db_cache: SQLInterface,
-                          tx_cache: MTransactions):
+                          KEX: KEXclient, cache: MCache):
         for _a in addresses:
             for _t in _a.history:
-                _trx = tx_cache.get_tx_by_txid(_t['tx_hash'], _db_cache)
+                _trx = cache.tx.get_tx_by_txid(_t['tx_hash'])
                 if _trx is not None:
                     for _in in _trx.vin:
-                        _in_tx = tx_cache.get_tx_by_txid(_in.txid, _db_cache)
+                        _in_tx = cache.tx.get_tx_by_txid(_in.txid)
                         if _in_tx is None:
                             _tx_i_b.append(KEX.api.bc_tx.get
                                            .build_command([_in.txid, True],
@@ -465,15 +460,14 @@ class MShared():
 
     @staticmethod
     def _get_tx(wallet: MWallet, addresses: List[MAddress], KEX: KEXclient,
-                _db_cache: SQLInterface, tx_cache: MTransactions,
-                ns_cache: MNamespaces):
+                cache: MCache):
         for _a in addresses:
             for _t in _a.history:
-                _trx = tx_cache.get_tx_by_txid(_t['tx_hash'], _db_cache)
+                _trx = cache.tx.get_tx_by_txid(_t['tx_hash'])
                 if _trx is not None:
                     for _in in _trx.vin:
                         _vo = _in.vout
-                        _in_tx = tx_cache.get_tx_by_txid(_in.txid, _db_cache)
+                        _in_tx = cache.tx.get_tx_by_txid(_in.txid)
                         for _out in _in_tx.vout:
                             if (_a.address in _out.scriptPubKey.addresses
                                     and _out.n == _vo):
@@ -486,17 +480,15 @@ class MShared():
                             wallet.set_balance(wallet.balance + _out.value)
                         MShared._test_for_namespace(wallet, _trx, _a, _t,
                                                     _out.scriptPubKey, KEX,
-                                                    _db_cache, tx_cache,
-                                                    ns_cache)
+                                                    cache)
 
     @staticmethod
     def _test_for_namespace(wallet: MWallet, _trx: MTransaction, _a: MAddress,
                             _t: dict, _out: MScriptPubKey, KEX: KEXclient,
-                            _db_cache: SQLInterface, tx_cache: MTransactions,
-                            ns_cache: MNamespaces, test_root=True):
+                            cache: MCache, test_root=True):
         _o = _out.asm.split(' ')
         if _o[0].startswith('OP_KEVA_'):
-            _ns = ns_cache._get_namespace_by_id(_trx.txid, _o[1], _db_cache)
+            _ns = cache.ns._get_namespace_by_id(_trx.txid, _o[1])
             if len(_ns) == 0:
                 _merkle = KEX.call(KEX.api.bc_tx.get_merkle,
                                    [_trx.txid, _t['height']])
@@ -506,46 +498,41 @@ class MShared():
                         _merkle = _merkle['result']
                         # TODO Get dates and key types;
                         if _o[0] == 'OP_KEVA_NAMESPACE':
-                            _ = (ns_cache
+                            _ = (cache.ns
                                  ._fromRawValues(_merkle['block_height'],
                                                  _merkle['pos'],
                                                  _trx.txid, _o[1], _o[0],
                                                  '5f4b4556415f4e535f', _o[2],
-                                                 _out.addresses[0],
-                                                 _db_cache))
+                                                 _out.addresses[0]))
                         else:
                             if _o[0] == 'OP_KEVA_DELETE':
-                                _ = ns_cache.delete_key(_o[1], _o[2], _merkle['block_height'], _db_cache)
+                                _ = cache.ns.delete_key(_o[1], _o[2], _merkle['block_height'])
                             else:
-                                _key = ns_cache.get_namespace_by_key(_o[1], _o[2], _db_cache)
+                                _key = cache.ns.get_namespace_by_key(_o[1], _o[2])
                                 if len(_key) > 0 and _o[2][:4] != '0001':
-                                    _ = (ns_cache
+                                    _ = (cache.ns
                                         .update_key(_merkle['block_height'],
                                                     _merkle['pos'],
                                                     _trx.txid, _o[1],
                                                     _o[2], _o[3],
-                                                    _out.addresses[0],
-                                                    _db_cache))
+                                                    _out.addresses[0]))
                                 else:
-                                    _ = (ns_cache
+                                    _ = (cache.ns
                                          ._fromRawValues(_merkle['block_height'],
                                                          _merkle['pos'],
                                                          _trx.txid, _o[1], _o[0],
                                                          _o[2], _o[3],
-                                                         _out.addresses[0],
-                                                         _db_cache))
+                                                         _out.addresses[0]))
 
                                     if test_root is True:
                                         MShared._test_root(wallet, _out, KEX,
-                                                           _db_cache, tx_cache,
-                                                           ns_cache)
+                                                           cache)
 
     @staticmethod
     def _test_root(wallet: MWallet, _out: MScriptPubKey, KEX: KEXclient,
-                   _db_cache: SQLInterface, tx_cache: MTransactions,
-                   ns_cache: MNamespaces):
+                   cache: MCache):
         _o = _out.asm.split(' ')
-        _rootNS = ns_cache.get_root_namespace_by_id(_o[1], _db_cache, True)
+        _rootNS = cache.ns.get_root_namespace_by_id(_o[1], True)
         if len(_rootNS) == 0:
             _rootNS = (Scripts.KevaRootNamespaceScriptHash
                        .compileToScriptHash([_o[1], b''], True))
@@ -559,15 +546,14 @@ class MShared():
                 if wallet.kind == EWalletKind.WATCH:
                     MShared.scan_history(_o[1], _tracker, wallet,
                                          _out.addresses[0], _root_hist, KEX,
-                                         tx_cache, ns_cache, _db_cache, False)
+                                         cache, False)
                 else:
                     MShared.scan_history(_o[1], _tracker, wallet,
                                          _out.addresses[0], _root_hist, KEX,
-                                         tx_cache, ns_cache, _db_cache, False)
+                                         cache, False)
 
     @staticmethod
-    def __get_tx_by_batch(_th: list, KEX: KEXclient, _db_cache: SQLInterface,
-                          tx_cache: MTransactions):
+    def __get_tx_by_batch(_th: list, KEX: KEXclient, cache: MCache):
         _batches = MShared.batch_cmds(_th)
 
         for batch in _batches:
@@ -581,25 +567,23 @@ class MShared():
                 for g in _h:
                     _i_tx = None
                     if 'result' in g:
-                        _i_tx = tx_cache.get_tx_by_txid(g['result']['txid'],
-                                                        _db_cache)
+                        _i_tx = cache.tx.get_tx_by_txid(g['result']['txid'])
 
                     if _i_tx is None:
                         if 'result' in g:
-                            _i_tx = tx_cache.add_fromJson(g['result'],
-                                                          _db_cache)
+                            _i_tx = cache.tx.add_fromJson(g['result'])
                     else:
                         if _i_tx.blockhash is None:
                             if 'blockhash' in g['result']:
                                 _gcf = g['result']['confirmations']
-                                _ = tx_cache.update(g['result'], _db_cache)
+                                _ = cache.tx.update(g['result'])
                                 _i_tx.set_blockhash(g['result']['blockhash'])
                                 _i_tx.set_time(g['result']['time'])
                                 _i_tx.set_blocktime(g['result']['blocktime'])
                                 _i_tx.set_confirmations(_gcf)
                         elif _i_tx.confirmations < 6:
                             _gcf = g['result']['confirmations']
-                            _ = tx_cache.update(g['result'], _db_cache)
+                            _ = cache.tx.update(g['result'])
                             _i_tx.set_confirmations(_gcf)
 
         return True
@@ -615,9 +599,8 @@ class MShared():
         return _tx
 
     @staticmethod
-    def get_K(shortcode: int, wallet_name: str, _db_cache: SQLInterface,
-              KEX: KEXclient, tx_cache: MTransactions,
-              ns_cache: MNamespaces) -> dict:
+    def get_K(shortcode: int, wallet_name: str, cache: MCache,
+              KEX: KEXclient) -> dict:
         # TODO Clean this up
         _bs = str(shortcode)
         _b = int(_bs[1:int(_bs[0])+1])
@@ -633,11 +616,11 @@ class MShared():
         if _hist != '' and b'error' not in _hist:
             _hist = json.loads(_hist)['result']
 
-            _trx = tx_cache.get_tx_by_txid(_hist, _db_cache)
+            _trx = cache.tx.get_tx_by_txid(_hist)
             if _trx is None:
                 _tx = MShared.__get_tx(_hist, KEX, True)
                 if _tx is not None:
-                    _trx = tx_cache.add_fromJson(_tx, _db_cache)
+                    _trx = cache.tx.add_fromJson(_tx)
             if _trx is not None:
                 for _o in _trx.vout:
                     _ok = _o.scriptPubKey.asm.split(' ')
@@ -647,29 +630,26 @@ class MShared():
                         _a_hist = MShared._get_history(_a, KEX)
                         _tracker.append(_a)
                         MShared.scan_history(_ok[1], _tracker, wallet_name,
-                                             _a, _a_hist, KEX, tx_cache,
-                                             ns_cache, _db_cache, False)
+                                             _a, _a_hist, KEX, cache, False)
 
     @staticmethod
     def scan_history(_ns, _tracker: list, wallet_name, _a, _a_hist,
-                     KEX: KEXclient, tx_cache: MTransactions,
-                     ns_cache: MNamespaces, _db_cache: SQLInterface,
-                     deep: bool = True):
+                     KEX: KEXclient, cache: MCache, deep: bool = True):
         for _h in _a_hist:
             if not isinstance(_h, dict):  # TODO refine upstream to remove check
                 _btrx = None
             else:
-                _btrx = tx_cache.get_tx_by_txid(_h['tx_hash'], _db_cache)
+                _btrx = cache.tx.get_tx_by_txid(_h['tx_hash'])
             if _btrx is None:
                 _tx = MShared.__get_tx(_h['tx_hash'], KEX, True)
                 if _tx is not None:
-                    _btrx = tx_cache.add_fromJson(_tx, _db_cache)
+                    _btrx = cache.tx.add_fromJson(_tx)
             if _btrx is not None:
                 for _bo in _btrx.vout:
                     MShared._test_for_namespace(wallet_name, _btrx,
                                                 _bo.scriptPubKey.addresses[0],
                                                 _h, _bo.scriptPubKey, KEX,
-                                                _db_cache, tx_cache, ns_cache,
+                                                cache,
                                                 deep)
 
                     _ok = _bo.scriptPubKey.asm.split(' ')
@@ -680,8 +660,7 @@ class MShared():
                             _tracker.append(_bo.scriptPubKey.addresses[0])
                             MShared.scan_history(_ns, _tracker, wallet_name,
                                                  _bo.scriptPubKey.addresses[0],
-                                                 _b_hist, KEX, tx_cache,
-                                                 ns_cache, _db_cache, deep)
+                                                 _b_hist, KEX, cache, deep)
 
     @staticmethod
     def _get_namespace_keys(_ns, KEX: KEXclient,):

@@ -5,7 +5,7 @@ from core.kcl.db_utils.db_scripts import Scripts
 class SQLInterface():
     def __init__(self, db_file):
         self.db_file = db_file
-
+        self.scripts = Scripts
         self.connection = self.create_connection()
 
     def create_connection(self):
@@ -15,7 +15,7 @@ class SQLInterface():
         _connection = sqlite3.connect(self.db_file)
         _connection.execute('PRAGMA foreign_keys=1;')
         _connection.execute('PRAGMA journal_mode=memory;')
-        _connection.execute('PRAGMA synchronous=off;')
+        #_connection.execute('PRAGMA synchronous=off;')
 
         # except Exception as e:
         #    print(e)
@@ -30,36 +30,41 @@ class SQLInterface():
         self.cursor.close()
 
     def setup_tables(self):
-        _tmp = self.execute_sql(Scripts.SELECT_TX, ('', ), 2)
+        _tmp = self.execute_sql(self.scripts.SELECT_TX, ('', ), 2)
         if isinstance(_tmp, sqlite3.OperationalError):
-            self.execute_sql(Scripts.CREATE_TX_CACHE, (), 1)
+            self.execute_sql(self.scripts.CREATE_TX_CACHE, (), 1)
             # print('created tx cache table')
 
-        _tmp = self.execute_sql(Scripts.SELECT_TX_VIN, ('', ), 2)
+        _tmp = self.execute_sql(self.scripts.SELECT_TX_VIN, ('', ), 2)
         if isinstance(_tmp, sqlite3.OperationalError):
-            self.execute_sql(Scripts.CREATE_TX_VIN_CACHE, (), 1)
+            self.execute_sql(self.scripts.CREATE_TX_VIN_CACHE, (), 1)
             # print('created tx vin cache table')
 
-        _tmp = self.execute_sql(Scripts.SELECT_TX_VOUT, ('', ), 2)
+        _tmp = self.execute_sql(self.scripts.SELECT_TX_VOUT, ('', ), 2)
         if isinstance(_tmp, sqlite3.OperationalError):
-            self.execute_sql(Scripts.CREATE_TX_VOUT_CACHE, (), 1)
+            self.execute_sql(self.scripts.CREATE_TX_VOUT_CACHE, (), 1)
             # print('created tx vout cache table')
 
-        _tmp = self.execute_sql(Scripts.SELECT_NS, ('', ), 2)
+        _tmp = self.execute_sql(self.scripts.SELECT_NS, ('', ), 2)
         if isinstance(_tmp, sqlite3.OperationalError):
             self.execute_sql(Scripts.CREATE_NS_CACHE, (), 1)
             # print('created ns cache table')
 
-        _tmp = self.execute_sql(Scripts.SELECT_NFT, ('', ), 2)
+        _tmp = self.execute_sql(self.scripts.SELECT_NFT, ('', ), 2)
         if isinstance(_tmp, sqlite3.OperationalError):
             self.execute_sql(Scripts.CREATE_NFT_CACHE, (), 1)
             # print('created nft cache table')
+
+        _tmp = self.execute_sql(self.scripts.SELECT_ACTION_CACHE_ENTRY, ('', ''), 2)
+        if isinstance(_tmp, sqlite3.OperationalError):
+            self.execute_sql(self.scripts.CREATE_ACTION_CACHE, (), 1)
+            # print('created action cache table')
 
     def execute_sql(self, sql, payload, flag):
         self.cursor = self.create_cursor()
 
         if isinstance(sql, str):
-            sql = Scripts[sql]
+            sql = self.scripts[sql]
         # SELECT = 3
         # INSERT = 2
         # UPDATE / DELETE = 1
@@ -92,8 +97,8 @@ class SQLInterface():
             _return = Ex
         return _return
 
+    # TODO Refactor to be functional
     def executemany_sql(self, sql, payload, flag):
-        sql = Scripts[sql]
         try:
             # NOTE Filter execute many calls to insert, add others as needed
             if flag == 2:

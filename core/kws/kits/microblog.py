@@ -4,7 +4,7 @@ import bleach
 import re
 
 from control.shared import MShared
-# from core.kcl.models.namespace import MNamespace
+from core.kcl.models.cache import MCache
 
 
 class Feed():
@@ -116,7 +116,7 @@ class Feed():
 
         return _i
 
-    def get_feed(self, _namespace, tx_cache, cache_interface):
+    def get_feed(self, _namespace, cache: MCache):
         _feed = self.get_feed_meta('profile')
         _items = ''
         _shortcode = 0
@@ -152,7 +152,7 @@ class Feed():
                 _value = self.link_IPFS(_key)
                 _res = self.replace_content(key[5], _value)
 
-            _tx = tx_cache.get_tx_by_txid(key[2], cache_interface)
+            _tx = cache.tx.get_tx_by_txid(key[2])
             _res = _res.replace('$time', MShared.get_timestamp(_tx.time)[1])
 
             # TODO Add reply tracking to core namespace classes

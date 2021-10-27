@@ -8,14 +8,15 @@ from core.kws.kits.microblog import Feed
 
 
 class _Api():
-    def __init__(self, content_path, control: NarwhalletWebController):
+    def __init__(self, control: NarwhalletWebController, cache):
         self.cmds = [
             'keva_filter',
             'getrawtransaction'
         ]
         self.bh = 0
-        self.content_path = content_path
         self.control = control
+        self.content_path = self.control.theme_path
+        self.cache = cache
 
     def querystring_to_dict(self, _data):
         _dict = {}
@@ -81,13 +82,13 @@ class _Api():
 
         return market_path
 
-    def get_microblog(self, _namespace: list, cache):
+    def get_microblog(self, _namespace: list):
         # Default blog type view for rendering namespace's
         _pigw = self.control.settings.primary_ipfs_gateway
         _microblog = Feed(self.content_path,
                           self.control.settings.ipfs_gateways[_pigw][2])
 
-        _result = _microblog.get_feed(_namespace, self.control.tx_cache, cache)
+        _result = _microblog.get_feed(_namespace, self.cache)
         return _result
 
     def search_get_namespace(self, _data):

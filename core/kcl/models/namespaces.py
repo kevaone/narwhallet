@@ -2,10 +2,11 @@ from core.kcl.bip_utils.base58 import Base58Encoder
 from core.kcl.bip_utils.utils import ConvUtils
 from core.kcl.models.namespace import MNamespace
 from core.kcl.db_utils import SQLInterface
-from core.kcl.db_utils import Scripts
 
 
 class MNamespaces():
+    def __init__(self, db_interface: SQLInterface):
+        self.dbi = db_interface
     # @property
     # def count(self) -> int:
     #     return len(self.namespaces)
@@ -64,91 +65,103 @@ class MNamespaces():
 
     def _fromRawValues(self, block: int, n: int, tx: str,
                        namespaceid: str, op: str, key: str, value: str,
-                       address: str, cache_interface: SQLInterface):
+                       address: str):
 
         _ns = self.convert_to_namespaceid(namespaceid)
         key = self._decode(key)
         value = self._decode(value)
-        _row = cache_interface.execute_sql(Scripts.INSERT_NS,
-                                           (block, n, tx, _ns, op,
-                                            key,
-                                            value,
-                                            self.get_key_type(key, value),
-                                            address), 2)
-        return _row
+        _r = self.dbi.execute_sql(self.dbi.scripts.INSERT_NS,
+                                  (block, n, tx, _ns, op,
+                                  key,
+                                  value,
+                                  self.get_key_type(key, value),
+                                  address), 2)
+        return _r
 
-    def _get_namespace_by_id(self, txid: str, namespaceid: str,
-                             cache_interface: SQLInterface) -> MNamespace:
+    def get_view(self):
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_VIEW_1, (), 3)
+        return _r
+
+    def _get_namespace_by_id(self, txid: str, namespaceid: str) -> MNamespace:
         _ns = self.convert_to_namespaceid(namespaceid)
-        _ns = cache_interface.execute_sql(Scripts.SELECT_NS_BY_TXID,
-                                          (txid, _ns, ), 3)
-        return _ns
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_BY_TXID,
+                                  (txid, _ns, ), 3)
+        return _r
 
-    def get_namespace_by_id(self, namespaceid: str,
-                            cache_interface: SQLInterface) -> MNamespace:
-        _ns = cache_interface.execute_sql(Scripts.SELECT_NS,
-                                          (namespaceid, ), 3)
-        return _ns
+    def get_namespace_by_id(self, namespaceid: str) -> MNamespace:
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS,
+                                  (namespaceid, ), 3)
+        return _r
 
-    def get_namespace_by_key(self, namespaceid: str, key: str,
-                            cache_interface: SQLInterface) -> MNamespace:
+    def get_namespace_by_key(self, namespaceid: str, key: str) -> MNamespace:
         namespaceid = self.convert_to_namespaceid(namespaceid)
-        _ns = cache_interface.execute_sql(Scripts.SELECT_NS_BY_KEY,
-                                          (namespaceid, self._decode(key)), 3)
-        return _ns
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_BY_KEY,
+                                  (namespaceid, self._decode(key)), 3)
+        return _r
 
-    def get_ns_by_shortcode(self, shortcode: int,
-                            cache_interface: SQLInterface) -> MNamespace:
+    def get_namespace_by_key_value(self, _ns: str, key: str):
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_KEY_VALUE,
+                                  (_ns, key), 3)
+        return _r
+
+    def get_ns_by_shortcode(self, shortcode: int) -> MNamespace:
         _bs = str(shortcode)
         _block = int(_bs[1:int(_bs[0])+1])
 
         if int(_bs[0])+1 < len(_bs):
             _n = int(_bs[int(_bs[0])+1:])
-            _ns_id = cache_interface.execute_sql(Scripts.SELECT_NS_BY_POS,
-                                                 (_block, _n), 3)
+            _ns_id = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_BY_POS,
+                                          (_block, _n), 3)
         else:
             _ns_id = []
 
         if len(_ns_id) == 1:
-            _ns = cache_interface.execute_sql(Scripts.SELECT_NS,
-                                              (_ns_id[0][0], ), 3)
+            _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS,
+                                      (_ns_id[0][0], ), 3)
         else:
-            _ns = []
+            _r = []
 
-        return _ns
+        return _r
 
     def get_root_namespace_by_id(self, namespaceid: str,
-                                 cache_interface: SQLInterface,
                                  convert: bool = False) -> MNamespace:
         if convert is True:
             namespaceid = self.convert_to_namespaceid(namespaceid)
-        _ns = cache_interface.execute_sql(Scripts.SELECT_NS_ROOT_TEST,
-                                          (namespaceid, ), 3)
-        return _ns
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_ROOT_TEST,
+                                  (namespaceid, ), 3)
+        return _r
+
+    def key_count(self, nsid):
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_COUNT,
+                                  (nsid, ), 3)
+        return _r
+
+    def ns_block(self, nsid):
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_BLOCK,
+                                  (nsid, ), 3)
+        return _r
+
+    def last_address(self, nsid):
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_LAST_ADDRESS,
+                                  (nsid, ), 3)
+        return _r
 
     def update_key(self, block: int, n: int, tx: str,
-                       namespaceid: str, key: str, value: str,
-                       address: str, cache_interface: SQLInterface):
+                   namespaceid: str, key: str, value: str,
+                   address: str):
 
         namespaceid = self.convert_to_namespaceid(namespaceid)
         key = self._decode(key)
         value = self._decode(value)
-        _row = cache_interface.execute_sql(Scripts.UPDATE_NS_KEY,
-                                           (block, n, tx, value,
-                                            self.get_key_type(key, value),
-                                            address, namespaceid,
-                                            key, block), 1)
-        return _row
+        _r = self.dbi.execute_sql(self.dbi.scripts.UPDATE_NS_KEY,
+                                  (block, n, tx, value,
+                                  self.get_key_type(key, value),
+                                  address, namespaceid,
+                                  key, block), 1)
+        return _r
 
-    def delete_key(self, ns, key, block, cache_interface: SQLInterface):
+    def delete_key(self, ns, key, block):
         ns = self.convert_to_namespaceid(ns)
-        _ns = cache_interface.execute_sql(Scripts.DELETE_NS_KEY,
-                                          (ns, self._decode(key), block, ), 1)
-        return _ns
-
-    # def update_namespace(self, ns: MNamespace,
-    #                      cache_interface: SQLInterface):
-    #     #self.ns_cache.update(_ns, _db_cache)
-    #     _result = cache_interface.execute_sql(Scripts.UPDATE_NS,
-    #                                           (json.dumps(ns.toDict()),
-    #                                            ns.namespaceid), 1)
+        _r = self.dbi.execute_sql(self.dbi.scripts.DELETE_NS_KEY,
+                                  (ns, self._decode(key), block, ), 1)
+        return _r
