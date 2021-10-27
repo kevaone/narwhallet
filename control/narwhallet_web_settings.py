@@ -50,7 +50,7 @@ class MNarwhalletWebSettings():
         self._ip = ip
 
     def set_port(self, port: int):
-        self._port = port
+        self._port = int(port)
 
     def set_ssl(self, ssl: bool):
         self._ssl = ssl
@@ -60,12 +60,6 @@ class MNarwhalletWebSettings():
 
     def set_ssl_cert(self, ssl_cert: str):
         self._ssl_cert = ssl_cert
-
-    def load(self, strap_file: str):
-        with open(strap_file, mode='r') as _content_file:
-            _data = json.loads(_content_file.read())
-
-        self.fromDict(_data)
 
     def fromDict(self, _d: dict):
         self.set_sync(_d['sync'])

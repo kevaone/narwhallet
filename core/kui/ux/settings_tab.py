@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIntValidator
-from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QFrame, QHBoxLayout,
+from PyQt5.QtWidgets import (QComboBox, QWidget, QVBoxLayout, QFrame, QHBoxLayout,
                              QLabel, QSpacerItem, QSizePolicy, QPushButton,
                              QLineEdit, QCheckBox, QPlainTextEdit, QTabWidget)
 
@@ -41,6 +41,16 @@ class Ui_SettingsTab(QObject):
         self.s_t_fav_l = QCheckBox(self.settings_tab_wallet)
         self.s_t_fav_e = QLineEdit(self.settings_tab_wallet)
         self.stfe_v = QIntValidator(self.s_t_fav_e)
+        self.nw_ht = QHBoxLayout()
+        self.nw_hl = QHBoxLayout()
+        self.nw_lt = QLabel(self.settings_tab_wallet)
+        self.nw_theme = QComboBox(self.settings_tab_wallet)
+        self.nw_l1 = QLabel(self.settings_tab_wallet)
+        self.nw_l2 = QLabel(self.settings_tab_wallet)
+        self.nw_host = QLineEdit(self.settings_tab_wallet)
+        self.nw_l3 = QLabel(self.settings_tab_wallet)
+        self.nw_port = QLineEdit(self.settings_tab_wallet)
+        self.nw_port_v = QIntValidator(self.nw_port)
         self.datafeedBox = QHBoxLayout()
         self.label_3 = QLabel(self.settings_tab_wallet)
         self.lineEdit_2 = QLineEdit(self.settings_tab_wallet)
@@ -78,9 +88,17 @@ class Ui_SettingsTab(QObject):
         self.s_t_df_e.setMaximumWidth(50)
         self.s_t_df_e.setAlignment(_al_center)
         self.s_a_fav.setChecked(True)
+        self.s_a_fav.setVisible(False)
+        self.s_t_fav_e.setVisible(False)
+        self.s_t_fav_l.setVisible(False)
         self.s_t_fav_e.setValidator(self.stfe_v)
         self.s_t_fav_e.setMaximumWidth(50)
         self.s_t_fav_e.setAlignment(_al_center)
+        self.nw_theme.addItem('default')
+        self.nw_theme.setEnabled(False)
+        self.nw_host.setFixedWidth(250)
+        self.nw_port.setValidator(self.nw_port_v)
+        self.nw_port.setFixedWidth(70)
         self.line_0.setFrameShape(QFrame.Shape.HLine)
         self.line_0.setFrameShadow(QFrame.Shadow.Sunken)
         self.line_1.setFrameShape(QFrame.Shape.HLine)
@@ -110,6 +128,17 @@ class Ui_SettingsTab(QObject):
         self.s_timer_favorites_hl.addItem(QSpacerItem(5, 5,
                                           _sp_minExp, _sp_minExp))
         self.verticalLayout_12.addLayout(self.s_timer_favorites_hl)
+        self.verticalLayout_12.addWidget(self.nw_l1)
+        self.nw_ht.addWidget(self.nw_lt)
+        self.nw_ht.addWidget(self.nw_theme)
+        self.nw_ht.addItem(QSpacerItem(5, 5, _sp_minExp, _sp_minExp))
+        self.verticalLayout_12.addLayout(self.nw_ht)
+        self.nw_hl.addWidget(self.nw_l2)
+        self.nw_hl.addWidget(self.nw_host)
+        self.nw_hl.addWidget(self.nw_l3)
+        self.nw_hl.addWidget(self.nw_port)
+        self.nw_hl.addItem(QSpacerItem(5, 5, _sp_minExp, _sp_minExp))
+        self.verticalLayout_12.addLayout(self.nw_hl)
         self.verticalLayout_12.addWidget(self.line_0)
         self.verticalLayout_12.addLayout(self.datafeedBox)
         self.verticalLayout_12.addWidget(self.line_1)
@@ -138,7 +167,7 @@ class Ui_SettingsTab(QObject):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.path_meta_l.setText(_translate('tabSettings', 'Path:'))
-        self.syncBox.setText(_translate('tabSettings', 'Sync Options:'))
+        self.syncBox.setText(_translate('tabSettings', 'Sync Options -'))
         self.s_a_wallet.setText(_translate('tabSettings',
                                            'Sync wallets on startup,'))
         self.s_a_df.setText(_translate('tabSettings',
@@ -148,15 +177,19 @@ class Ui_SettingsTab(QObject):
         self.s_t_wallet_l.setText(_translate('tabSettings', 'on timer'))
         self.s_t_df_l.setText(_translate('tabSettings', 'on timer'))
         self.s_t_fav_l.setText(_translate('tabSettings', 'on timer'))
+        self.nw_lt.setText(_translate('tabSettings', 'Theme:'))
+        self.nw_l1.setText(_translate('tabSettings', 'Narwhallet Web Options -'))
+        self.nw_l2.setText(_translate('tabSettings', 'Host:'))
+        self.nw_l3.setText(_translate('tabSettings', 'Port:'))
         self.tabWidget_3.setTabText(self.tabWidget_3
                                     .indexOf(self.settings_tab_wallet),
                                     _translate('tabSettings', 'General'))
         self.settings_elxp_label.setText(_translate('tabSettings',
-                                         'ElectrumX Peers'))
+                                         'ElectrumX Peers -'))
         self.elxp_btn_add.setText(_translate('tabSettings', 'Add'))
         self.tabWidget_3.setTabText(self.tabWidget_3
                                     .indexOf(self.settings_tab_debug),
                                     _translate('tabSettings', 'Debug'))
-        self.label.setText(_translate('tabSettings', 'IPFS Gateways'))
+        self.label.setText(_translate('tabSettings', 'IPFS Gateways -'))
         self.settings_ipfs_button_add.setText(_translate('tabSettings', 'Add'))
         self.label_3.setText(_translate('tabSettings', 'NFT Market Data'))

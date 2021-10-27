@@ -7,6 +7,7 @@ from PyQt5.QtCore import QThread, Qt
 from PyQt5.QtGui import QClipboard
 
 from control.narwhallet_settings import MNarwhalletSettings
+from control.narwhallet_web_settings import MNarwhalletWebSettings
 from control.ui.dialogs import MDialogs
 from control.shared import MShared
 
@@ -38,6 +39,7 @@ class NarwhalletController():
         self.user_path: str = self.set_paths()
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
         self.settings: MNarwhalletSettings = MNarwhalletSettings()
+        self.web_settings: MNarwhalletWebSettings = MNarwhalletWebSettings()
         self.wallets: MWallets = MWallets()
         self.tx_cache: MTransactions = MTransactions()
         self.ns_cache: MNamespaces = MNamespaces()
@@ -178,6 +180,11 @@ class NarwhalletController():
         self.set_dat.load()
         self.settings.fromDict(self.set_dat.data)
 
+        self.wset_dat = ConfigLoader(os.path.join(self.user_path,
+                                                 'strap.json'))
+        self.wset_dat.load()
+        self.web_settings.fromDict(self.wset_dat.data)
+
         _db_cache = SQLInterface(self.cache_path)
         _db_cache.setup_tables()
 
@@ -200,6 +207,10 @@ class NarwhalletController():
         self.ui.settings_tab.s_t_wallet_e.setText(str(_sync['wallets'][2]))
         self.ui.settings_tab.s_t_df_e.setText(str(_sync['datafeed'][2]))
         self.ui.settings_tab.s_t_fav_e.setText(str(_sync['favorites'][2]))
+
+        self.ui.settings_tab.nw_theme.setCurrentText(self.web_settings.theme)
+        self.ui.settings_tab.nw_host.setText(self.web_settings.ip)
+        self.ui.settings_tab.nw_port.setText(str(self.web_settings.port))
 
         self.KEX.active_peer = self.settings.primary_peer
         for peer in self.settings.electrumx_peers:
@@ -368,6 +379,8 @@ class NarwhalletController():
          .textChanged.connect(self.save_settings)))
         self.ui.settings_tab.s_t_df_e.textChanged.connect(self.save_settings)
         self.ui.settings_tab.s_t_fav_e.textChanged.connect(self.save_settings)
+        self.ui.settings_tab.nw_host.textChanged.connect(self.save_web_settings)
+        self.ui.settings_tab.nw_port.textChanged.connect(self.save_web_settings)
 
         self.threader('wallet_lock_timer', time.sleep,
                       60, None, self.t_restart)
@@ -439,6 +452,14 @@ class NarwhalletController():
         _s['datafeed'][2] = int(self.ui.settings_tab.s_t_df_e.text())
         _s['favorites'][2] = int(self.ui.settings_tab.s_t_fav_e.text())
         self.set_dat.save(json.dumps(self.settings.toDict()))
+
+    def save_web_settings(self):
+        _h = self.ui.settings_tab.nw_host.text()
+        _p = self.ui.settings_tab.nw_port.text()
+        if _h != '' and _p != '':
+            self.web_settings.set_ip(_h)
+            self.web_settings.set_port(_p)
+            self.wset_dat.save(json.dumps(self.web_settings.toDict()))
 
     def refresh_wallet_data_tabs(self, n: str, m: str, i: int):
         _n = self.ui.w_tab.tbl_w.item(i, 3).text()

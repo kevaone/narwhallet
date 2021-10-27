@@ -28,9 +28,10 @@ class NarwhalletWebController():
         _user_home = os.path.expanduser('~')
         _narwhallet_path = os.path.join(_user_home, '.narwhallet')
         _themes_dir = os.path.join(_narwhallet_path, 'narwhallet_web/themes')
-        strap_file = os.path.join(_narwhallet_path, 'strap.json')
         self.db_file = os.path.join(_narwhallet_path, 'narwhallet_cache.db')
-        self.strap.load(strap_file)
+        self.strapf = ConfigLoader(os.path.join(self.user_path, 'strap.json'))
+        self.strapf.load()
+        self.strap.fromDict(self.strapf.data)
         self.theme_path = os.path.join(_themes_dir, self.strap.theme)
         self.who = 'http://localhost:' + str(self.strap.port)
 
