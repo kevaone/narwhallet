@@ -1,3 +1,4 @@
+import math
 from typing import List
 from core.kcl.models.transaction import MTransaction
 from core.kcl.models.transaction_input import MTransactionInput
@@ -30,6 +31,22 @@ class MTransactionBuilder(MTransaction):
 
     def set_fee(self, fee: int):
         self._fee = fee
+
+    def get_size(self, in_count, out_count):
+        _out_size = 0
+        for _out in self.vout:
+            _out_size += 1 + 8 + len(ConvUtils.HexStringToBytes(_out.scriptPubKey.hex))
+
+        if len(self.vout) + 1 == out_count:
+            _out_size += 32
+
+        _base = (64 * in_count) + _out_size + 10
+        _size = _base + (107 * in_count) + in_count
+        _total_size = _size + 2
+        _vsize = math.ceil((_base * 3 + _total_size) / 4)
+        # print('in_count', in_count, 'out_count', out_count)
+        # print('base', _base, 'size', _size, '_total_size', _total_size, 'vsize', _vsize)
+        return _total_size, _vsize
 
     def get_current_values(self):
         _i = 0
@@ -73,30 +90,45 @@ class MTransactionBuilder(MTransaction):
 
     def select_inputs(self):
         self._inputs_to_spend.sort(reverse=False, key=self.sort)
-
+        _enough_inputs = False
+        _change_flag = False
         for tx in self._inputs_to_spend:
             iv, ov, fv = self.get_current_values()
-            # HACK Fix this
-            if tx['value'] + iv > (ov + 2*(self.fee*248)):
-                self.add_input(tx['value'], str(tx['a_idx'])+':'+str(tx['ch']),
-                               tx['tx_hash'], tx['tx_pos'])
+            # print('iv', iv, 'ov', ov, 'fv', fv)
+            _size, _vsize = self.get_size(len(self.vin) + 1, len(self.vout))
+            _est_fee = self.fee * _vsize
+            # print('est_fee', _est_fee)
+            if (tx['value'] + fv) == _est_fee:
+                # print('Worlds align, no change')
+                self.add_input(tx['value'], str(tx['a_idx'])+':'+str(tx['ch']), tx['tx_hash'], tx['tx_pos'])
+                _enough_inputs = True
                 break
-            else:
-                self.add_input(tx['value'], str(tx['a_idx'])+':'+str(tx['ch']),
-                               tx['tx_hash'], tx['tx_pos'])
-        _cv = self.get_current_values()
+            elif (tx['value'] + fv) < _est_fee:
+                # print('Need more inputs')
+                self.add_input(tx['value'], str(tx['a_idx'])+':'+str(tx['ch']), tx['tx_hash'], tx['tx_pos'])
+            elif (tx['value'] + fv) > (_est_fee + 500000):
+                _size, _vsize = self.get_size(len(self.vin) + 1, len(self.vout) + 1)
+                _est_fee = self.fee * _vsize
+                # print('change test est_fee', _est_fee)
+                if (tx['value'] + fv) > (_est_fee + 500000):
+                    # print('Need chage')
+                    self.add_input(tx['value'], str(tx['a_idx'])+':'+str(tx['ch']), tx['tx_hash'], tx['tx_pos'])
+                    _enough_inputs = True
+                    _change_flag = True
+                    break
+                else:
+                    self.add_input(tx['value'], str(tx['a_idx'])+':'+str(tx['ch']), tx['tx_hash'], tx['tx_pos'])
+                    # print('Need more inputs, cant do change')
 
-        if _cv[2] < 0:
-            _return = False
-        elif _cv[2] < 2*(self.fee*248):
-            # HACK Fix this
+        if _enough_inputs is False:
             _return = False
         elif len(self.vin) > 25:
             # NOTE Capping number of inputs to 25, eval for good limit
             _return = False
         else:
             _return = True
-        return _return
+
+        return _return, _change_flag, _est_fee
 
     def hash_prevouts(self, nHashType: SIGHASH_TYPE) -> bytes:
         _hash_cache = b''
@@ -191,10 +223,7 @@ class MTransactionBuilder(MTransaction):
         for p in _pre:
             _spre = _spre + p
 
-        _fees = (len(_spre), len(_spre)*self.fee), \
-            (len(_spre+bytes(10)), len(_spre+bytes(10))*self.fee)
-
-        return _spre, _fees
+        return _spre
 
     def make_preimage(self, i: int, pk: str) -> str:
         _hash_type = SIGHASH_TYPE.ALL

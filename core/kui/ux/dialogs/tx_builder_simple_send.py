@@ -248,33 +248,32 @@ class Ui_simple_send_dlg(QObject):
         locale = QLocale()
         _result = locale.toDouble(self.value.text())
         _v = int(_result[0] * 100000000)
-        # _v = int(float(self.value.text()) * 100000000)
+
         if self.address.isVisible():
             _a = self.address.text()
         else:
             _a = self.address_book.currentData()
 
         _ = self._new_tx.add_output(_v, _a)
+        _n = self.w.currentData()
+        wallet = self.wallets.get_wallet_by_name(_n)
 
-        if self._new_tx.select_inputs() is True:
-            _n = self.w.currentData()
-            wallet = self.wallets.get_wallet_by_name(_n)
-            _change_address = wallet.get_unused_change_address()
-            # print(self._new_tx.toDict())
-            self.txb_preimage()
-            _, _f = self._new_tx.serialize_tx()
-            # print('f', _f[1][1])
+        _inp_sel, _need_change, _est_fee = self._new_tx.select_inputs()
+
+        if _inp_sel is True:
             _, _, _fv = self._new_tx.get_current_values()
-            # print('fv', _fv)
-            _cv = _fv-_f[1][1]
-            # print('_cv', _cv)
-            _ = self._new_tx.add_output(_cv, _change_address)
+            _cv = _fv -_est_fee
+            #print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
+            if _need_change is True:
+                _change_address = wallet.get_unused_change_address()
+                _ = self._new_tx.add_output(_cv, _change_address)
 
+            # print('final size', self._new_tx.get_size(len(self._new_tx.vin), len(self._new_tx.vout)))
             self.txb_preimage()
-            _stx, _sf = self._new_tx.serialize_tx()
+            _stx = self._new_tx.serialize_tx()
 
-            self.fee.setText(str(_f[1][1]/100000000))
-            self.txsize.setText(str(_sf[0][0]))
+            self.fee.setText(str(_est_fee/100000000))
+            self.txsize.setText(str(len(_stx)))
             self.raw_tx = ConvUtils.BytesToHexString(_stx)
             self.tx.setPlainText(self.raw_tx)
 

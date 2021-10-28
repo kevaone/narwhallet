@@ -297,14 +297,13 @@ class Ui_keva_op_send_dlg(QObject):
         _ = self._new_tx.add_output(_namespace_reservation, self._ns_address)
         self._new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
-        if self._new_tx.select_inputs() is True:
-            self.txb_preimage()
-            _, _f = self._new_tx.serialize_tx()
-            # print('f', _f[1][1])
+        _inp_sel, _need_change, _est_fee = self._new_tx.select_inputs()
+
+        if _inp_sel is True:
             _, _, _fv = self._new_tx.get_current_values()
-            # print('fv', _fv)
-            _cv = _fv-_f[1][1]
-            # print('_cv', _cv)
+            _cv = _fv - _est_fee
+            #print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
+
             if self._ns is None:
                 self._ns = self.tx_to_ns(self._new_tx.vin[0].txid,
                                          self._new_tx.vin[0].vout)
@@ -312,8 +311,9 @@ class Ui_keva_op_send_dlg(QObject):
                                                                self._ns_value,
                                                                self._ns_address
                                                                ], True)
-                _change_address = wallet.get_unused_change_address()
-                _ = self._new_tx.add_output(_cv, _change_address)
+                if _need_change is True:
+                    #_change_address = wallet.get_unused_change_address()
+                    _ = self._new_tx.add_output(_cv, self._ns_address)
             elif (self._ns is not None and self._ns_key is not None
                   and self._ns_value is not None):
                 _n_sh = Scripts.KevaKeyValueUpdate.compile([self._ns,
@@ -322,8 +322,9 @@ class Ui_keva_op_send_dlg(QObject):
                                                             self._ns_address
                                                             ], True)
                 if self._isTransfer is True:
-                    _change_address = wallet.get_unused_change_address()
-                    _ = self._new_tx.add_output(_cv, _change_address)
+                    if _need_change is True:
+                        _change_address = wallet.get_unused_change_address()
+                        _ = self._new_tx.add_output(_cv, _change_address)
                 else:
                     _ = self._new_tx.add_output(_cv, self._ns_address)
             elif (self._ns is not None and self._ns_key is not None
@@ -332,15 +333,17 @@ class Ui_keva_op_send_dlg(QObject):
                                                             self._ns_key,
                                                             self._ns_address
                                                             ], True)
-                _ = self._new_tx.add_output(_cv, self._ns_address)
+                if _need_change is True:
+                    _ = self._new_tx.add_output(_cv, self._ns_address)
 
             self._new_tx.vout[0].scriptPubKey.set_hex(_n_sh)
+            # print('final size', self._new_tx.get_size(len(self._new_tx.vin), len(self._new_tx.vout)))
 
             self.txb_preimage()
-            _stx, _sf = self._new_tx.serialize_tx()
+            _stx = self._new_tx.serialize_tx()
 
-            self.fee.setText(str(_f[1][1]/100000000))
-            self.txsize.setText(str(_sf[0][0]))
+            self.fee.setText(str(_est_fee/100000000))
+            self.txsize.setText(str(len(_stx)))
             self.raw_tx = ConvUtils.BytesToHexString(_stx)
             self.tx.setPlainText(self.raw_tx)
 
