@@ -187,7 +187,6 @@ class _wallet_utils():
 
     @staticmethod
     def generate_master_from_extended(extended: str, coin: str, bip: str):
-        # print('coin', coin)
         if bip == 'bip49':
             _return = Bip49.FromExtendedKey(extended, Bip44Coins[coin])
         elif bip == 'bip44':

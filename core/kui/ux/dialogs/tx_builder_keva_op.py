@@ -256,10 +256,7 @@ class Ui_keva_op_send_dlg(QObject):
         _temp_vout = 0
         _temp_ns = self.tx_to_ns(_t, _temp_vout)
         _namespace_reservation = 1000000
-        # print('self._ns_key', self._ns_key)
-        # print('self._ns_address', self._ns_address)
-        # print('self._ns_value', self._ns_value)
-        # print('self._ns', self._ns)
+
         if self._ns_address is None:
             self._ns_address = wallet.get_unused_address()
 

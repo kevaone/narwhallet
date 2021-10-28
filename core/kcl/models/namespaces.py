@@ -7,9 +7,6 @@ from core.kcl.db_utils import SQLInterface
 class MNamespaces():
     def __init__(self, db_interface: SQLInterface):
         self.dbi = db_interface
-    # @property
-    # def count(self) -> int:
-    #     return len(self.namespaces)
 
     @staticmethod
     def sort(item):

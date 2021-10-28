@@ -533,10 +533,6 @@ class MDialogs():
         if len(_ws) == 0:
             return
 
-        # if _ws[0].topRow() == _ws[0].bottomRow():
-        #    _n = self.ui.w_tab.tbl_w.item(_ws[0].topRow(), 3).text()
-            # _w = self.wallets.get_wallet_by_name(_n)
-
         _tr = self.ui.w_tab.tbl_tx.item(row, 5).text()
 
         _t = self.cache.tx.get_tx_by_txid(_tr)
@@ -606,7 +602,7 @@ class MDialogs():
         _di = QDialog(self._v)
         _di.ui = Ui_v_ab_item_dlg()
         _di.ui.setupUi(_di)
-        # _di.show()
+
         _addr = self.ui.ab_tab.tbl_addr.item(row, 3).text()
         _addr_name = self.ui.ab_tab.tbl_addr.item(row, 2).text()
         _addr_label = self.ui.ab_tab.tbl_addr.item(row, 6).text()

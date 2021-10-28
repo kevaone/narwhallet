@@ -488,12 +488,7 @@ class NarwhalletController():
             _key_count = self.cache.ns.key_count(p[0])
             _block = self.cache.ns.ns_block(p[0])
             _oa = self.cache.ns.last_address(p[0])
-            # _key_count = _db_cache.execute_sql(_db_cache.scripts.SELECT_NS_COUNT,
-            #                                    (p[0], ), 3)
-            # _block = _db_cache.execute_sql(_db_cache.scripts.SELECT_NS_BLOCK,
-            #                                (p[0], ), 3)
-            # _oa = _db_cache.execute_sql(_db_cache.scripts.SELECT_NS_LAST_ADDRESS,
-            #                             (p[0], ), 3)
+
             pd = {}
             pd['namespaceid'] = p[0]
             pd['address'] = _oa[0][0]
