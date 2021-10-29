@@ -122,6 +122,7 @@ class Feed():
         _shortcode = 0
         _ns_name = ''
         for key in _namespace:
+            _nft_flag = False
             _key = key[6]
 
             if not isinstance(_key, str):
@@ -136,12 +137,12 @@ class Feed():
 
             _shortcode = str(len(str(key[0])))+str(key[0])+str(key[1])
             # TODO add special flag to keys
-            # if key.isSpecial('nft'):
 
             if ('displayName' in _key
                     and 'price' in _key
                     and 'desc' in _key
                     and 'addr' in _key):
+                _nft_flag = True
                 _nft = json.loads(_key)
                 _res = 'Name: ' + _nft['displayName']
                 _res = _res + '<br />Asking Price: ' + _nft['price']
@@ -165,7 +166,11 @@ class Feed():
             _rewards = ''
             _res = _res.replace('$rewards', _rewards)
             _res = _res.replace('$replies', _replies)
-            if '_KEVA_NS_' not in key[5]:
+
+            if '_KEVA_NS_' in key[5]:
+                if _nft_flag is True:
+                    _items = _items + _res
+            else:
                 _items = _items + _res
 
         _bk = '<a href="$who/' + _shortcode + '">@'
