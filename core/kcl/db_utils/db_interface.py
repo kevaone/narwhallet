@@ -7,19 +7,14 @@ class SQLInterface():
         self.db_file = db_file
         self.scripts = Scripts
         self.connection = self.create_connection()
+        self.cursor = self.create_cursor()
 
     def create_connection(self):
-        # print('in create connection')
         _connection = None
-        # try:
         _connection = sqlite3.connect(self.db_file)
-        _connection.execute('PRAGMA foreign_keys=1;')
+        # _connection.execute('PRAGMA foreign_keys=1;')
         _connection.execute('PRAGMA journal_mode=memory;')
-        #_connection.execute('PRAGMA synchronous=off;')
-
-        # except Exception as e:
-        #    print(e)
-
+        # _connection.execute('PRAGMA synchronous=off;')
         return _connection
 
     def create_cursor(self):
@@ -61,10 +56,6 @@ class SQLInterface():
             # print('created action cache table')
 
     def execute_sql(self, sql, payload, flag):
-        self.cursor = self.create_cursor()
-
-        if isinstance(sql, str):
-            sql = self.scripts[sql]
         # SELECT = 3
         # INSERT = 2
         # UPDATE / DELETE = 1
@@ -73,31 +64,25 @@ class SQLInterface():
 
             if flag == 1:
                 self.connection.commit()
-                self.cursor.close()
                 _return = True
             elif flag == 2:
                 self.connection.commit()
                 _row_id = self.cursor.lastrowid
-                self.cursor.close()
                 _return = _row_id
             elif flag == 3:
                 _rows = self.cursor.fetchall()
-                self.cursor.close()
                 _return = _rows
             else:
                 # Flag 0 falls here
                 _return = True
         except sqlite3.OperationalError as Ex:
             # print('Ex', Ex, type(Ex))
-            self.cursor.close()
             _return = Ex
         except sqlite3.IntegrityError as Ex:
             # print('Ex', Ex, type(Ex))
-            self.cursor.close()
             _return = Ex
         return _return
 
-    # TODO Refactor to be functional
     def executemany_sql(self, sql, payload, flag):
         try:
             # NOTE Filter execute many calls to insert, add others as needed

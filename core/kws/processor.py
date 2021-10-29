@@ -151,7 +151,7 @@ class Processor():
             # _response.send()
             _return_status = 1
             print('web error:', er)
-
+        self.cache.interface.close_cursor()
         _connection.close()
 
         return _return_status

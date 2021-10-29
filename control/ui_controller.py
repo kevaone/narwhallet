@@ -290,6 +290,7 @@ class NarwhalletController():
                               None, self.t_restart)
 
     def t_cleanup(self):
+        self.cache.interface.close_cursor()
         for k, t in self._o.items():
             t.b = 1
 
@@ -810,6 +811,7 @@ class NarwhalletController():
         MShared.get_balances(wallet, self.KEX)
         MShared.list_unspents(wallet, self.KEX)
         MShared.get_transactions(wallet, self.KEX, _cache)
+        _cache.interface.close_cursor()
         _update_time = MShared.get_timestamp()
         wallet.set_last_updated(_update_time[0])
         self.wallets.save_wallet(wallet.name)
