@@ -255,12 +255,6 @@ class NarwhalletController():
         # 6 - Start the thread
         self._t[name].start()
 
-    def p(self, i: int):
-        pass
-
-    def pd(self, i: int):
-        self.ui.ns_tab.ns_tab_text_key_value.setPlainText(str(i))
-
     def lock_wallet(self, name):
         _reloaded = self.wallets.relock_wallet(name)
         if _reloaded is True:
@@ -306,9 +300,6 @@ class NarwhalletController():
                 t.wait()
 
     def _connectSignals(self):
-        self.ui.tabWidget.tabBarClicked.connect(self.p)
-        self.ui.tabWidget.tabBarDoubleClicked.connect(self.pd)
-
         self.ui.w_tab.tbl_w.itemSelectionChanged.connect(self.wallet_selected)
         self.ui.w_tab.tbl_w.cellClicked.connect(self.wallet_selected)
         self.ui.w_tab.tbl_addr.cellClicked.connect(self.w_address_selected)
@@ -693,21 +684,22 @@ class NarwhalletController():
 
         if len(_key_count) > 0:
             _ns = self.cache.ns.get_namespace_by_id(_ns)
-
-            if _w.kind != 1 and _w.kind != 3:
-                self.ui.ns_tab.btn_key_add.setEnabled(True)
-                self.ui.ns_tab.btn_val_edit.setEnabled(False)
-                self.ui.ns_tab.btn_val_del.setEnabled(False)
-            else:
-                self.ui.ns_tab.btn_key_add.setEnabled(False)
-                self.ui.ns_tab.btn_val_edit.setEnabled(False)
-                self.ui.ns_tab.btn_val_del.setEnabled(False)
-            (self.ui.ns_tab.sel_ns_sc
-             .setText(self.ui.ns_tab.tbl_ns.item(row, 3).text()))
-            (self.ui.ns_tab.sel_ns_name
-             .setText(self.ui.ns_tab.tbl_ns.item(row, 5).text()))
             self.ui.ns_tab.list_ns_keys.add_keys(_ns)
-            self.ui.ns_tab.ns_tab_text_key_value.setPlainText('')
+
+        if _w.kind != 1 and _w.kind != 3:
+            self.ui.ns_tab.btn_key_add.setEnabled(True)
+            self.ui.ns_tab.btn_val_edit.setEnabled(False)
+            self.ui.ns_tab.btn_val_del.setEnabled(False)
+        else:
+            self.ui.ns_tab.btn_key_add.setEnabled(False)
+            self.ui.ns_tab.btn_val_edit.setEnabled(False)
+            self.ui.ns_tab.btn_val_del.setEnabled(False)
+        (self.ui.ns_tab.sel_ns_sc
+         .setText(self.ui.ns_tab.tbl_ns.item(row, 3).text()))
+        (self.ui.ns_tab.sel_ns_name
+         .setText(self.ui.ns_tab.tbl_ns.item(row, 5).text()))
+            
+        self.ui.ns_tab.ns_tab_text_key_value.setPlainText('')
 
     def ns_sc_copy_click(self, data):
         self.copy_to_clipboard(self.ui.ns_tab.sel_ns_sc.text())
@@ -800,12 +792,12 @@ class NarwhalletController():
     def ns_key_value_edit(self):
         self.ui.ns_tab.btn_val_edit.setVisible(False)
         self.ui.ns_tab.btn_val_save.setVisible(True)
-        self.ui.ns_tab.ns_tab_text_key_value.setEnabled(True)
+        self.ui.ns_tab.ns_tab_text_key_value.setReadOnly(False)
 
     def ns_key_value_save(self):
         self.ui.ns_tab.btn_val_edit.setVisible(True)
         self.ui.ns_tab.btn_val_save.setVisible(False)
-        self.ui.ns_tab.ns_tab_text_key_value.setEnabled(False)
+        self.ui.ns_tab.ns_tab_text_key_value.setReadOnly(True)
         self.dialogs.edit_namespace_key_send_dialog()
 
     def update_wallet(self, wallet: MWallet, row: int):

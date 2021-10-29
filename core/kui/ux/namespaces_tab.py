@@ -73,7 +73,7 @@ class Ui_NamespacesTab(QObject):
         self.sel_ns_n_bvpic.setContentsMargins(0, 0, 0, 0)
         self.sel_ns_n_bvpic.setPixmap(_bpic)
         self.btn_key_add.setEnabled(False)
-        self.ns_tab_text_key_value.setEnabled(False)
+        self.ns_tab_text_key_value.setReadOnly(True)
         p.setColor(QPalette.ColorRole.Text, QtCore.Qt.GlobalColor.black)
         self.ns_tab_text_key_value.setPalette(p)
         self.btn_val_save.setVisible(False)
