@@ -9,10 +9,13 @@ class _namespace_keys_list(QListWidget):
         self.setObjectName(name)
 
     def clear_rows(self):
-        self.clear()
+        for i in range(0, self.count()):
+            self.item(i).setText('')
+            self.item(i).setBackground(QtCore.Qt.white)
+            self.item(i).setHidden(True)
 
     def add_keys(self, keys: list):
-        self.clear()
+        self.clear_rows()
 
         _pl = []
         _plc = 0
@@ -22,15 +25,22 @@ class _namespace_keys_list(QListWidget):
 
         _pl.reverse()
         for i in range(0, len(_pl)-1):
-            _p = keys.pop(_pl[i]-0)
+            _ = keys.pop(_pl[i]-0)
             _plc += 1
 
-        for i in keys:
-            self._add_key(i[5], i[7])
+        for i in range(0, len(keys)):
+            self._add_key(i, keys[i][5], keys[i][7])
 
-    def _add_key(self, key: str, special):
-        _key = QListWidgetItem(key)
-        _key.setForeground(QtCore.Qt.black)
+    def _add_key(self, idx: int, key: str, special):
+        if idx == self.count():
+            _key = QListWidgetItem(key)
+            _key.setForeground(QtCore.Qt.black)
+            self.addItem(_key)
+        elif idx <= self.count():
+            _key = self.item(idx)
+            _key.setText(key)
+            _key.setHidden(False)
+
         # TODO Store color selections in settings to allow adjustment
         if special == 'root_ns':
             _key.setBackground(QtCore.Qt.magenta)
@@ -48,5 +58,3 @@ class _namespace_keys_list(QListWidget):
             _key.setBackground(QtCore.Qt.lightGray)
         elif special == 'nft_confirm_sell':
             _key.setBackground(QtCore.Qt.blue)
-
-        self.addItem(_key)

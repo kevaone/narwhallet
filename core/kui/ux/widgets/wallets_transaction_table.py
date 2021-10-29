@@ -28,40 +28,54 @@ class _transaction_table(QTableWidget):
         self.setColumnHidden(5, True)
         self.horizontalHeader().setMinimumSectionSize(25)
 
+    def clear_row(self, row):
+        self.setRowHidden(row, True)
+        #self.cellWidget(row, 0).setHidden(True) #.setCellWidget(_r, 0, _vpic)
+        self.item(row, 1).setText('')
+        self.item(row, 3).setText('')
+        self.item(row, 4).setText('')
+        self.item(row, 5).setText('')
+
     def add_transactions(self, transactions: list):
-        _m = self.rowCount()
+        for i in range(0, self.rowCount()):
+            self.clear_row(i)
 
-        while _m > -1:
-            self.removeRow(_m)
-            _m = _m - 1
-
-        for i in transactions:
-            i['amount'] = round(i['amount'], 8)
-            if i['amount'] > 0:
-                i['<->'] = 'Receive'
+        for i in range(0, len(transactions)):
+            transactions[i]['amount'] = round(transactions[i]['amount'], 8)
+            if transactions[i]['amount'] > 0:
+                transactions[i]['<->'] = 'Receive'
             else:
-                i['<->'] = 'Send'
+                transactions[i]['<->'] = 'Send'
 
-            if i['blockhash'] is None:
-                i['<->'] = 'Pending - ' + i['<->']
-            elif i['confirmations'] < 6:
-                _confirming = 'Confirming -' + str(i['confirmations'])
-                i['<->'] = _confirming + ' - ' + i['<->']
+            if transactions[i]['blockhash'] is None:
+                transactions[i]['<->'] = 'Pending - ' + transactions[i]['<->']
+            elif transactions[i]['confirmations'] < 6:
+                _confirming = 'Confirming -' + str(transactions[i]['confirmations'])
+                transactions[i]['<->'] = _confirming + ' - ' + transactions[i]['<->']
 
-            self._add_transaction(i)
+            self._add_transaction(i, transactions[i])
 
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 
-    def _add_transaction(self, transaction_data: dict):
-        _al_center = QtCore.Qt.AlignCenter
+    @staticmethod
+    def _create_table_item(text):
         _if_iied = QtCore.Qt.ItemIsEditable
         _if_iis = QtCore.Qt.ItemIsSelectable
         _if_iide = QtCore.Qt.ItemIsDragEnabled
-        _transm_st = QtCore.Qt.SmoothTransformation
 
-        _r = self.rowCount()
-        self.insertRow(_r)
+        if not isinstance(text, str):
+            text = str(text)
+        _item = QTableWidgetItem(text)
+        _item.setFlags(_if_iied | _if_iis | _if_iide)
+        _item.setForeground(QtCore.Qt.black)
+
+        return _item
+
+    @staticmethod
+    def _create_table_item_graphic():
+        _al_center = QtCore.Qt.AlignCenter
+        _transm_st = QtCore.Qt.SmoothTransformation
         __path = os.path.dirname(__file__)
         _pic = QtGui.QPixmap(os.path.join(__path, '../assets/information.png'))
         _pic = _pic.scaledToWidth(20, _transm_st)
@@ -71,24 +85,24 @@ class _transaction_table(QTableWidget):
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
 
-        _date = QTableWidgetItem(MShared.get_timestamp(transaction_data['time'])[1])
-        _date.setFlags(_if_iied | _if_iis | _if_iide)
-        _date.setForeground(QtCore.Qt.black)
+        return _vpic
 
-        _amount = QTableWidgetItem(str(transaction_data['amount']))
-        _amount.setFlags(_if_iied | _if_iis | _if_iide)
-        _amount.setForeground(QtCore.Qt.black)
-
-        _direction = QTableWidgetItem(transaction_data['<->'])
-        _direction.setFlags(_if_iied | _if_iis | _if_iide)
-        _direction.setForeground(QtCore.Qt.black)
-
-        _txid = QTableWidgetItem(transaction_data['txid'])
-        _txid.setFlags(_if_iied | _if_iis | _if_iide)
-        _txid.setForeground(QtCore.Qt.black)
-
-        self.setCellWidget(_r, 0, _vpic)
-        self.setItem(_r, 1, QTableWidgetItem(_date))
-        self.setItem(_r, 3, QTableWidgetItem(_amount))
-        self.setItem(_r, 4, QTableWidgetItem(_direction))
-        self.setItem(_r, 5, QTableWidgetItem(_txid))
+    def _add_transaction(self, idx: int, transaction_data: dict):
+        if idx == self.rowCount():
+            self.insertRow(idx)
+            _vpic = self._create_table_item_graphic()
+            _date = self._create_table_item(MShared.get_timestamp(transaction_data['time'])[1])
+            _amount = self._create_table_item(str(transaction_data['amount']))
+            _direction = self._create_table_item(transaction_data['<->'])
+            _txid = self._create_table_item(transaction_data['txid'])
+            self.setCellWidget(idx, 0, _vpic)
+            self.setItem(idx, 1, _date)
+            self.setItem(idx, 3, _amount)
+            self.setItem(idx, 4, _direction)
+            self.setItem(idx, 5, _txid)
+        elif idx <= self.rowCount():
+            self.item(idx, 1).setText(MShared.get_timestamp(transaction_data['time'])[1])
+            self.item(idx, 3).setText(str(transaction_data['amount']))
+            self.item(idx, 4).setText(transaction_data['<->'])
+            self.item(idx, 5).setText(transaction_data['txid'])
+            self.setRowHidden(idx, False)
