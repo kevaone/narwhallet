@@ -290,7 +290,7 @@ class MShared():
 
         # NOTE Padding to detect used addresses out of wallets current index's
         if wallet.kind != 3:
-            for _pad in range(0, 100):
+            for _pad in range(0, 10):
                 if chain == 0:
                     _pad_value = len(wallet.change_addresses.addresses) + _pad
                     _a = wallet.get_change_address_by_index(_pad_value, False)
