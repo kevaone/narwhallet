@@ -738,9 +738,10 @@ class NarwhalletController():
             (self.ui.ns_tab.ns_tab_text_key_value
              .setPlainText(str(_key_value[0][0])))
 
-        if _w.kind != 1 and _w.kind != 3 and key.text() != '_KEVA_NS_':
+        if _w.kind != 1 and _w.kind != 3:
             self.ui.ns_tab.btn_val_edit.setEnabled(True)
-            self.ui.ns_tab.btn_val_del.setEnabled(True)
+            if key.text() != '_KEVA_NS_':
+                self.ui.ns_tab.btn_val_del.setEnabled(True)
         else:
             self.ui.ns_tab.btn_val_edit.setEnabled(False)
             self.ui.ns_tab.btn_val_del.setEnabled(False)

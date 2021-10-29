@@ -187,7 +187,7 @@ class MDialogs():
         _di.ui.user_path = self.user_path
         _di.ui._new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
-        _di.setWindowTitle('Narwhallet - Create Key')
+        _di.setWindowTitle('Narwhallet - Edit Key')
         _di.ui.value_l.setText('Value: ')
 
         _selection = self.ui.ns_tab.tbl_ns.selectedRanges()
@@ -207,8 +207,17 @@ class MDialogs():
 
         _di.ui._ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _di.ui._ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ui._ns_key = self.ui.ns_tab.list_ns_keys.currentItem().text()
-        _di.ui._ns_value = self.ui.ns_tab.ns_tab_text_key_value.toPlainText()
+        _key = self.ui.ns_tab.list_ns_keys.currentItem().text()
+        _value = self.ui.ns_tab.ns_tab_text_key_value.toPlainText()
+        if _key == '_KEVA_NS_':
+            _key = '\x01_KEVA_NS_'
+            _value = {'displayName': _value}
+            _value = json.dumps(_value)
+
+        _di.ui._ns_key = _key
+        _di.ui._ns_value = _value
+        _di.ui.key_v.setReadOnly(True)
+        _di.ui.value.setReadOnly(True)
 
         _di.ui.set_availible_usxo(True)
         _di.ui.txb_build_simple_send()

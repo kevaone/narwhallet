@@ -14,6 +14,17 @@ class _namespace_keys_list(QListWidget):
     def add_keys(self, keys: list):
         self.clear()
 
+        _pl = []
+        _plc = 0
+        for i in range(0, len(keys)):
+            if keys[i][5] == '_KEVA_NS_' or keys[i][5] == '\x01_KEVA_NS_':
+                _pl.append(i)
+
+        _pl.reverse()
+        for i in range(0, len(_pl)-1):
+            _p = keys.pop(_pl[i]-0)
+            _plc += 1
+
         for i in keys:
             self._add_key(i[5], i[7])
 
