@@ -351,10 +351,6 @@ Bip44KevacoinMainNet: BipCoinConf = BipCoinConf(
     is_testnet=False,
     def_path=NOT_HARDENED_DEF_PATH,
     key_net_ver=KeyNetVersions(b"0488b21e", b"0488ade4"),
-    #alt_key_net_ver=KeyNetVersions(b"049d7cb2", b"0488ade4"),
-
-    #const ypub_VERSION      = '049d7cb2';
-    #const ypub_VERSION_HEX  = 0x049d7cb2;
     wif_net_ver=b"\x8b",
     bip32_type=Bip32Types.SECP256K1,
     addr_conf={"net_ver": b"\x2d", "hrp": "kva"},
