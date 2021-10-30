@@ -22,6 +22,6 @@
     ],
     "data_feeds": {
         "market_data": "",
-        "nft_data": ""
+        "nft_data": ["/api/nft_raw", "keva.one", 443, "True", "True"]
     }
 }

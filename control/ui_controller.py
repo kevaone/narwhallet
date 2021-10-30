@@ -229,8 +229,18 @@ class NarwhalletController():
         (self.ui.settings_tab.ipfs_tbl
          .update_active(self.settings.primary_ipfs_gateway))
 
-        (self.ui.settings_tab.lineEdit_2
-         .setText(self.settings.data_feeds['nft_data']))
+        _datafeed = self.settings.data_feeds
+        if 'nft_data' in _datafeed:
+            self.ui.settings_tab.lineEdit_2.setText(_datafeed['nft_data'][1])
+            self.ui.settings_tab.lineEdit_2a.setText(str(_datafeed['nft_data'][2]))
+            self.ui.settings_tab.lineEdit_2b.setText(_datafeed['nft_data'][0])
+        else:
+            self.settings.data_feeds['nft_data'] = ["/api/nft_raw", "keva.one", 443, "True", "True"]
+            self.ui.settings_tab.lineEdit_2.setText(_datafeed['nft_data'][1])
+            self.ui.settings_tab.lineEdit_2a.setText(str(_datafeed['nft_data'][2]))
+            self.ui.settings_tab.lineEdit_2b.setText(_datafeed['nft_data'][0])
+            self.set_dat.save(json.dumps(self.settings.toDict()))
+
         self.ui.w_tab.tbl_addr2.hideColumn(6)
         # TODO Add settings tab entry to control setting.
         self.ui.w_tab.tabWidget_2.setTabVisible(2, self.settings.show_change)
@@ -364,6 +374,9 @@ class NarwhalletController():
          .textChanged.connect(self.save_settings)))
         self.ui.settings_tab.s_t_df_e.textChanged.connect(self.save_settings)
         self.ui.settings_tab.s_t_fav_e.textChanged.connect(self.save_settings)
+        self.ui.settings_tab.lineEdit_2.textChanged.connect(self.save_settings)
+        self.ui.settings_tab.lineEdit_2a.textChanged.connect(self.save_settings)
+        self.ui.settings_tab.lineEdit_2b.textChanged.connect(self.save_settings)
         self.ui.settings_tab.nw_host.textChanged.connect(self.save_web_settings)
         self.ui.settings_tab.nw_port.textChanged.connect(self.save_web_settings)
 
@@ -426,17 +439,26 @@ class NarwhalletController():
                           self.ex_command_results, None)
 
     def save_settings(self):
-        _s = self.settings.sync
-        _s['wallets'][0] = self.ui.settings_tab.s_a_wallet.isChecked()
-        _s['datafeed'][0] = self.ui.settings_tab.s_a_df.isChecked()
-        _s['favorites'][0] = self.ui.settings_tab.s_a_fav.isChecked()
-        _s['wallets'][1] = self.ui.settings_tab.s_t_wallet_l.isChecked()
-        _s['datafeed'][1] = self.ui.settings_tab.s_t_df_l.isChecked()
-        _s['favorites'][1] = self.ui.settings_tab.s_t_fav_l.isChecked()
-        _s['wallets'][2] = int(self.ui.settings_tab.s_t_wallet_e.text())
-        _s['datafeed'][2] = int(self.ui.settings_tab.s_t_df_e.text())
-        _s['favorites'][2] = int(self.ui.settings_tab.s_t_fav_e.text())
+        try:
+            _s = self.settings.sync
+            _s['wallets'][0] = self.ui.settings_tab.s_a_wallet.isChecked()
+            _s['datafeed'][0] = self.ui.settings_tab.s_a_df.isChecked()
+            _s['favorites'][0] = self.ui.settings_tab.s_a_fav.isChecked()
+            _s['wallets'][1] = self.ui.settings_tab.s_t_wallet_l.isChecked()
+            _s['datafeed'][1] = self.ui.settings_tab.s_t_df_l.isChecked()
+            _s['favorites'][1] = self.ui.settings_tab.s_t_fav_l.isChecked()
+            _s['wallets'][2] = int(self.ui.settings_tab.s_t_wallet_e.text())
+            _s['datafeed'][2] = int(self.ui.settings_tab.s_t_df_e.text())
+            _s['favorites'][2] = int(self.ui.settings_tab.s_t_fav_e.text())
+            _df = self.settings.data_feeds
+            _df['nft_data'] = [self.ui.settings_tab.lineEdit_2b.text(),
+                               self.ui.settings_tab.lineEdit_2.text(),
+                               int(self.ui.settings_tab.lineEdit_2a.text()),
+                               True, True]
+        except Exception:
+            return False
         self.set_dat.save(json.dumps(self.settings.toDict()))
+        return True
 
     def save_web_settings(self):
         _h = self.ui.settings_tab.nw_host.text()

@@ -37,5 +37,5 @@ class NarwhalletWebController():
             self.KEX.peers[self.settings.primary_peer].connect()
 
         self.DF_KEX.active_peer = 0
-        # TODO Refine settings config; hardcoded from default for now
-        _ = self.DF_KEX.add_peer('keva.one', 443, True, True)
+        _nft_data = self.settings.data_feeds['nft_data']
+        _ = self.DF_KEX.add_peer(_nft_data[1], _nft_data[2], _nft_data[3], _nft_data[4])

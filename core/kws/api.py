@@ -84,7 +84,9 @@ class _Api():
         else:
             _ = self.control.DF_KEX.peers[0].connect()
             # TODO Add HTTP commands to kex, remove hard code
-            _auctions = self.control.DF_KEX.call_batch(b'GET /api/nft_raw HTTP/1.1\r\nHost: keva.one\r\n\r\n', False)
+            _nft_data = self.control.settings.data_feeds['nft_data']
+            _cmd = 'GET ' + _nft_data[0] + ' HTTP/1.1\r\nHost: ' + _nft_data[1] + '\r\n\r\n'
+            _auctions = self.control.DF_KEX.call_batch(_cmd.encode(), False)
             _auctions = json.loads(_auctions.decode().split('\r\n\r\n')[1])
 
             _pigw = self.control.settings.primary_ipfs_gateway
