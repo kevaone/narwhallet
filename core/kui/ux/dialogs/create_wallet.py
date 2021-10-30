@@ -17,7 +17,6 @@ class Ui_create_wallet_dlg(QObject):
         _b_cancel = QDialogButtonBox.Cancel
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
-        _wm_appm = QtCore.Qt.ApplicationModal
 
         self.verticalLayout = QVBoxLayout(create_wallet_dialog)
         self.horizontalLayout_0 = QHBoxLayout()
@@ -53,7 +52,6 @@ class Ui_create_wallet_dlg(QObject):
         self.label_3 = QLabel(create_wallet_dialog)
 
         create_wallet_dialog.setObjectName('create_dlg')
-        create_wallet_dialog.setWindowModality(_wm_appm)
         create_wallet_dialog.resize(400, 475)
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)

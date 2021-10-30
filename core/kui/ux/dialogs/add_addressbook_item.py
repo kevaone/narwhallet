@@ -38,7 +38,6 @@ class Ui_add_ab_item_dlg(QObject):
         self.buttonBox = QDialogButtonBox(add_addressbook_item_dialog)
 
         add_addressbook_item_dialog.setObjectName('add_addrbook')
-        # add_addressbook_item_dialog.setWindowFlag(_wt_flh)
         add_addressbook_item_dialog.setMinimumSize(QtCore.QSize(425, 225))
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)

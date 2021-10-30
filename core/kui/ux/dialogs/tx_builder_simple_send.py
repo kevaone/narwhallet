@@ -18,7 +18,6 @@ from core.kcl.models.transaction_builder import MTransactionBuilder
 class Ui_simple_send_dlg(QObject):
     def setupUi(self, simple_send_dialog: QDialog):
         _al_center = QtCore.Qt.AlignCenter
-        _wm_appm = QtCore.Qt.ApplicationModal
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _bb_br_ar = QDialogButtonBox.ActionRole
@@ -65,8 +64,6 @@ class Ui_simple_send_dlg(QObject):
         self.buttonBox = QDialogButtonBox(simple_send_dialog)
 
         simple_send_dialog.setObjectName('send_dlg')
-        simple_send_dialog.setWindowModality(_wm_appm)
-        # tx_builder_add_usxo.setWindowFlag(_wt_flh)
         simple_send_dialog.setMinimumSize(QtCore.QSize(475, 350))
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)

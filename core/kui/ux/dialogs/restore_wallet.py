@@ -18,7 +18,6 @@ class Ui_restore_wallet_dlg(QObject):
         _b_cancel = QDialogButtonBox.Cancel
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
-        _wm_appm = QtCore.Qt.ApplicationModal
 
         self.verticalLayout = QVBoxLayout(restore_wallet_dialog)
         self.label_1 = QLabel(restore_wallet_dialog)
@@ -47,7 +46,6 @@ class Ui_restore_wallet_dlg(QObject):
         self.label_3 = QLabel(restore_wallet_dialog)
 
         restore_wallet_dialog.setObjectName('restore_dlg')
-        restore_wallet_dialog.setWindowModality(_wm_appm)
         restore_wallet_dialog.resize(400, 400)
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)

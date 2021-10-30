@@ -11,12 +11,10 @@ from core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 
 class Ui_v_ab_item_dlg(QObject):
     def setupUi(self, view_addressbook_item_dialog: QDialog):
-
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _b_ok = QDialogButtonBox.Ok
         _al_center = QtCore.Qt.AlignCenter
-        _wt_flh = QtCore.Qt.FramelessWindowHint
 
         self.verticalLayout = QVBoxLayout(view_addressbook_item_dialog)
         self.label_1 = QLabel(view_addressbook_item_dialog)
@@ -42,7 +40,6 @@ class Ui_v_ab_item_dlg(QObject):
         self.buttonBox = QDialogButtonBox(view_addressbook_item_dialog)
 
         view_addressbook_item_dialog.setObjectName('view_ab_item_dlg')
-        view_addressbook_item_dialog.setWindowFlag(_wt_flh)
         view_addressbook_item_dialog.setMinimumSize(QtCore.QSize(425, 225))
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)

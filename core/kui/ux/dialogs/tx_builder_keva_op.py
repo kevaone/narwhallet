@@ -17,7 +17,6 @@ from core.kcl.models.transaction_builder import MTransactionBuilder
 class Ui_keva_op_send_dlg(QObject):
     def setupUi(self, keva_op_send_dialog: QDialog):
         _al_center = QtCore.Qt.AlignCenter
-        _wm_appm = QtCore.Qt.ApplicationModal
         _bb_br_ar = QDialogButtonBox.ActionRole
         _bb_br_ac = QDialogButtonBox.AcceptRole
         _sp_exp = QSizePolicy.Expanding
@@ -73,8 +72,6 @@ class Ui_keva_op_send_dlg(QObject):
         self.buttonBox = QDialogButtonBox(keva_op_send_dialog)
 
         keva_op_send_dialog.setObjectName('keva_op_send_dlg')
-        keva_op_send_dialog.setWindowModality(_wm_appm)
-        # tx_builder_add_usxo.setWindowFlag(_wt_flh)
         keva_op_send_dialog.setMinimumSize(QtCore.QSize(475, 350))
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)

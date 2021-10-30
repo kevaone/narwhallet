@@ -14,8 +14,6 @@ class Ui_lockbox_dlg(QObject):
         _b_ok = QDialogButtonBox.Ok
         _b_cancel = QDialogButtonBox.Cancel
         _al_center = QtCore.Qt.AlignCenter
-        _wt_flh = QtCore.Qt.FramelessWindowHint
-        _wm_appm = QtCore.Qt.ApplicationModal
 
         self.mode = mode
         self.verticalLayout = QVBoxLayout(lockbox_dialog)
@@ -33,8 +31,6 @@ class Ui_lockbox_dlg(QObject):
         self.buttonBox = QDialogButtonBox(lockbox_dialog)
 
         lockbox_dialog.setObjectName('lb_dlg')
-        lockbox_dialog.setWindowModality(_wm_appm)
-        lockbox_dialog.setWindowFlag(_wt_flh)
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)

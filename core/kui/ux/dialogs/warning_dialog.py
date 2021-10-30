@@ -10,12 +10,10 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
 class Ui_warning_dlg(QObject):
     def setupUi(self, warning_dialog: QDialog):
         _al_center = QtCore.Qt.AlignCenter
-        _wm_appm = QtCore.Qt.ApplicationModal
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _b_ok = QDialogButtonBox.Ok
         _b_cancel = QDialogButtonBox.Cancel
-        _wt_flh = QtCore.Qt.FramelessWindowHint
 
         self.verticalLayout = QVBoxLayout(warning_dialog)
         self.horizontalLayout_1 = QHBoxLayout()
@@ -31,8 +29,6 @@ class Ui_warning_dlg(QObject):
         self.buttonBox = QDialogButtonBox(warning_dialog)
 
         warning_dialog.setObjectName('warning_dlg')
-        warning_dialog.setWindowModality(_wm_appm)
-        warning_dialog.setWindowFlag(_wt_flh)
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(self._pic)

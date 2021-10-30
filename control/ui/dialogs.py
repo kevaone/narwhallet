@@ -565,7 +565,7 @@ class MDialogs():
             pass
 
     def add_electrumx_peer_dialog(self):
-        _di = QDialog(self._v)
+        _di = QDialog()
         _di.ui = Ui_add_electrumx_peer_dlg()
         _di.ui.setupUi(_di)
         _result = _di.exec_()
@@ -608,7 +608,7 @@ class MDialogs():
         return _address
 
     def view_addressbook_item_dialog(self, row):
-        _di = QDialog(self._v)
+        _di = QDialog()
         _di.ui = Ui_v_ab_item_dlg()
         _di.ui.setupUi(_di)
 

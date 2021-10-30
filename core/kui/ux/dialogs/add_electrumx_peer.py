@@ -16,7 +16,6 @@ class Ui_add_electrumx_peer_dlg(QObject):
         _b_ok = QDialogButtonBox.Ok
         _b_cancel = QDialogButtonBox.Cancel
         _al_center = QtCore.Qt.AlignCenter
-        _wt_flh = QtCore.Qt.FramelessWindowHint
 
         self.verticalLayout = QVBoxLayout(create_electrumx_peer_dialog)
         self.label_1 = QLabel(create_electrumx_peer_dialog)
@@ -39,7 +38,6 @@ class Ui_add_electrumx_peer_dlg(QObject):
         create_electrumx_peer_dialog.setObjectName('create_electrumx_peer_dlg')
         create_electrumx_peer_dialog.resize(447, 175)
         create_electrumx_peer_dialog.setMaximumSize(QtCore.QSize(500, 175))
-        create_electrumx_peer_dialog.setWindowFlag(_wt_flh)
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
