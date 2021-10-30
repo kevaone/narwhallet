@@ -64,9 +64,13 @@ class Processor():
                                               path=self.content_path,
                                               content_inject=content_inject)
                 elif _request.path.startswith(b'/marketplace'):
-                    _result = self.sAPI.get_nft_auction(_request.path.decode())
-                    if not isinstance(_result, dict):
-                        _result = {'$search_results': ''}
+                    if b'numbers' in _request.path:
+                        _result = self.sAPI.get_nft_auctions(2)
+                    elif b'mine' in _request.path:
+                        _result = self.sAPI.get_nft_auctions(0)
+                    else:
+                        _result = self.sAPI.get_nft_auctions(1)
+                    _result = {'$search_results': _result}
                     _response.body_from_parts(content='marketplace.html',
                                               content_inject=_result,
                                               path=self.content_path)

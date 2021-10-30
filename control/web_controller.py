@@ -17,7 +17,7 @@ class NarwhalletWebController():
         self.set_dat.load()
         self.settings.fromDict(self.set_dat.data)
         self.KEX = KEXclient()
-
+        self.DF_KEX: KEXclient = KEXclient()
         _user_home = os.path.expanduser('~')
         _narwhallet_path = os.path.join(_user_home, '.narwhallet')
         _themes_dir = os.path.join(_narwhallet_path, 'narwhallet_web/themes')
@@ -35,3 +35,7 @@ class NarwhalletWebController():
         self.KEX.active_peer = self.settings.primary_peer
         if self.settings.electrumx_auto_connect:
             self.KEX.peers[self.settings.primary_peer].connect()
+
+        self.DF_KEX.active_peer = 0
+        # TODO Refine settings config; hardcoded from default for now
+        _ = self.DF_KEX.add_peer('keva.one', 443, True, True)

@@ -63,7 +63,6 @@ class Feed():
         _ipfs_images = re.findall(r'\{\{[^|image(|/png|/jpeg|/jpg|/gif)\}\}].*|image|image/png|image/jpeg|image/jpg|image/gif\}\}', _item)
 
         for _image in _ipfs_images:
-            # TODO Use IPFS Gateway defined in settings
             _gw = self.ipfs_gateway
             _image_link = (_image
                            .replace('{{', '<br /><img src="' + _gw)
@@ -76,6 +75,8 @@ class Feed():
 
         if _item.startswith(' <br />'):
             _item = _item[7:len(_item)]
+        elif _item.startswith('<br />'):
+            _item = _item[6:len(_item)]
 
         return _item
 
@@ -177,5 +178,53 @@ class Feed():
         _bk = _bk + _shortcode + ' - ' + _ns_name + '</a>'
         _items = _items.replace('$keva_one_id', _bk)
         _feed = _feed.replace('$feed', _items)
+
+        return _feed
+
+    def get_auction_feed(self, data, auction_type, cache: MCache):
+        _feed = self.get_feed_meta('nft')
+        _feed_rows = ''
+        _items = ''
+        _item_counter = 0
+        _row_counter = 0
+
+        data['auctions'].sort(reverse=True, key=MShared.sort_dict)
+
+        for auction in data['auctions']:
+            _i = ''
+            if auction['image'] is not None and auction_type == 1:
+                auction['image'] = self.link_IPFS(auction['image'])
+                _i = self.replace_content('', auction['desc'], 'nft_listing_image')
+                _i = _i.replace('$total-keys', '<i class="fas fa-image"></i>')
+                _i = _i.replace('$images', '<div><div>' + auction['image'] + '</div></div>')
+            elif auction['image'] is None and auction_type == 2:
+                _i = self.replace_content('', auction['desc'], 'nft_listing_numbers')
+                _i = _i.replace('$images', '')
+                _i = _i.replace('$total-keys', '')
+
+            if _i != '':
+                _i = _i.replace('$nft_name', auction['displayName'])
+                _i = _i.replace('$asking', str(auction['price']))
+                _i = _i.replace('$value', auction['desc'])
+                _i = _i.replace('$total-bids', str(auction['bids']))
+                _i = _i.replace('$high-bid', str(auction['highBid']))
+                _i = _i.replace('$keva_one_id', '@' + str(auction['shortcode']))
+                _i = _i.replace('$rewards', '')
+                _i = _i.replace('$replies', '')
+                _i = '<a href="$who/' + str(auction['shortcode']) + '">' + _i + '</a>'
+                _items = _items + _i
+
+                if _row_counter == 3:
+                    _feed_rows = _feed_rows + _feed.replace('$feed', _items)
+                    _row_counter = 0
+                    _items = ''
+                else:
+                    _row_counter += 1
+
+            _item_counter += 1
+            if _item_counter == data['count']:
+                _feed_rows = _feed_rows + _feed.replace('$feed', _items)
+
+        _feed = _feed_rows
 
         return _feed

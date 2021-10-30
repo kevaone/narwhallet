@@ -36,18 +36,18 @@ class KEXclient():
 
         return data
 
-    def call_batch(self, commands: list):
+    def call_batch(self, commands: list, json_test: bool = True):
         try:
             while self.peers[self.active_peer].busy is True:
                 # print('peer busy, sleeping 1sec...')
                 time.sleep(1)
             data = self.peers[self.active_peer].comm(commands)
         except Exception as Ex:
-            # print('Call error:', Ex, commands)
             data = '[]'
 
         try:
-            _ = json.loads(data.decode())
+            if json_test is True:
+                _ = json.loads(data.decode())
         except Exception:
             data = '[]'
 

@@ -78,9 +78,22 @@ class _Api():
         _rewards = []
         return _rewards
 
-    def get_nft_auction(self, market_path):
+    def get_nft_auctions(self, auction_type: int):
+        if auction_type == 0:
+            _result = ''
+        else:
+            _ = self.control.DF_KEX.peers[0].connect()
+            # TODO Add HTTP commands to kex, remove hard code
+            _auctions = self.control.DF_KEX.call_batch(b'GET /api/nft_raw HTTP/1.1\r\nHost: keva.one\r\n\r\n', False)
+            _auctions = json.loads(_auctions.decode().split('\r\n\r\n')[1])
 
-        return market_path
+            _pigw = self.control.settings.primary_ipfs_gateway
+            _microblog = Feed(self.content_path,
+                              self.control.settings.ipfs_gateways[_pigw][2])
+
+            _result = _microblog.get_auction_feed(_auctions, auction_type, self.cache)
+
+        return _result
 
     def get_microblog(self, _namespace: list):
         # Default blog type view for rendering namespace's

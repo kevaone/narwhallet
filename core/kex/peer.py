@@ -51,13 +51,18 @@ class _peer():
         self.busy = True
         try:
             self.socket.sendall(command)
-            _eos = False
             data = b''
-            while _eos is False:
+
+            while True:
                 _r = self.socket.recv(4096)
+
+                if not _r:
+                    break
+
                 data = data + _r
-                if len(_r) < 4096:
-                    _eos = True
+
+                if _r.endswith(b'\n'):
+                    break
 
             if data == b'':
                 self.connect()
