@@ -55,13 +55,11 @@ class _peer():
 
             while True:
                 _r = self.socket.recv(4096)
-
-                if not _r:
-                    break
-
                 data = data + _r
 
-                if _r.endswith(b'\n'):
+                if (_r.endswith(b'"}\n')
+                    or _r.endswith(b'}]\n')
+                    or _r.endswith(b']\n}\n')):
                     break
 
             if data == b'':
