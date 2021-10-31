@@ -124,6 +124,7 @@ class _wallets_addr_tbl(QTableWidget):
             address_data['received'] = round(address_data['received'], 9)
             address_data['sent'] = round(address_data['sent'], 9)
             address_data['balance'] = round(address_data['balance'], 9)
+            address_data['label'] = ''
             self.item(idx, 1).setText(address_data['address'])
             self.item(idx, 2).setText(self.test_param(address_data, 'received', '0.0', True))
             self.item(idx, 3).setText(self.test_param(address_data, 'sent', '0.0', True))

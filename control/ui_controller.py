@@ -918,8 +918,9 @@ class NarwhalletController():
     def _get_unused_address(self):
         _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
         _w = self.wallets.get_wallet_by_name(_n)
+        _idx = _w.account_index
         _a = _w.get_unused_address()
-        self.ui.w_tab.tbl_addr.add_address({'address': _a, 'received': 0.0,
+        self.ui.w_tab.tbl_addr.add_address(_idx, {'address': _a, 'received': 0.0,
                                            'sent': 0.0, 'balance': 0.0})
         self.ui.w_tab.tbl_addr.resizeColumnsToContents()
         self.wallets.save_wallet(_w.name)
@@ -927,8 +928,9 @@ class NarwhalletController():
     def _get_unused_changeaddress(self):
         _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
         _w = self.wallets.get_wallet_by_name(_n)
+        _idx = _w.change_index
         _a = _w.get_unused_change_address()
-        self.ui.w_tab.tbl_addr2.add_address({'address': _a, 'received': 0.0,
+        self.ui.w_tab.tbl_addr2.add_address(_idx, {'address': _a, 'received': 0.0,
                                             'sent': 0.0, 'balance': 0.0})
         self.ui.w_tab.tbl_addr2.resizeColumnsToContents()
         self.wallets.save_wallet(_w.name)
