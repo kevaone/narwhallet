@@ -148,8 +148,7 @@ class NarwhalletController():
     def add_namespace_favorite(self):
         _shortcode = self.dialogs.add_namespace_favorite_dialog()
         if _shortcode is not None:
-            MShared.get_K(int(_shortcode), 'favorites',
-                       self.cache, self.KEX)
+            MShared.get_K(int(_shortcode), self.cache, self.KEX)
 
             self.refresh_namespace_tab_data()
 

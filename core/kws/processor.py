@@ -115,8 +115,8 @@ class Processor():
 
                     if len(_namespace) == 0:
                         if isinstance(_short_code, int):
-                            MShared.get_K(_short_code, 'live',
-                                          self.cache, self.control.KEX)
+                            MShared.get_K(_short_code, self.cache,
+                                          self.control.KEX)
                             _namespace = (self.cache.ns
                                           .get_ns_by_shortcode(_short_code))
 
