@@ -707,6 +707,11 @@ class NarwhalletController():
         if len(_key_count) > 0:
             _ns = self.cache.ns.get_namespace_by_id(_ns)
             self.ui.ns_tab.list_ns_keys.add_keys(_ns)
+        self.ui.ns_tab.list_ns_keys.clearSelection()
+        self.ui.ns_tab.sel_ns_key.setText('No key selected')
+        self.ui.ns_tab.sel_ns_key_sp.setText('')
+        self.ui.ns_tab.sel_ns_key_tx.setText('')
+        self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(False)
 
         if _w.kind != 1 and _w.kind != 3:
             self.ui.ns_tab.btn_key_add.setEnabled(True)
@@ -751,6 +756,33 @@ class NarwhalletController():
         if len(_key_value) > 0:
             (self.ui.ns_tab.ns_tab_text_key_value
              .setPlainText(str(_key_value[0][0])))
+
+        self.ui.ns_tab.sel_ns_key.setText('Selected key is special:')
+
+        if key.text()[:4] == '0001' and len(key.text()) == 68:
+            _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
+            if str(_key_value[0][0]).startswith('70736274ff'):
+                self.ui.ns_tab.sel_ns_key_sp.setText('NFT Bid')
+            else:
+                self.ui.ns_tab.sel_ns_key_sp.setText('Reply')
+            self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
+            # self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(True)
+        elif key.text()[:4] == '0002' and len(key.text()) == 68:
+            _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
+            self.ui.ns_tab.sel_ns_key_sp.setText('Repost')
+            self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
+            # self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(True)
+        elif key.text()[:4] == '0003' and len(key.text()) == 68:
+            _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
+            self.ui.ns_tab.sel_ns_key_sp.setText('Reward')
+            self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
+            # self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(True)
+        elif '_KEVA_NS_' in key.text():
+            self.ui.ns_tab.sel_ns_key_sp.setText('NS Name')
+        else:
+            self.ui.ns_tab.sel_ns_key_sp.setText('No')
+            self.ui.ns_tab.sel_ns_key_tx.setText('')
+            # self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(False)
 
         if _w.kind != 1 and _w.kind != 3:
             self.ui.ns_tab.btn_val_edit.setEnabled(True)
