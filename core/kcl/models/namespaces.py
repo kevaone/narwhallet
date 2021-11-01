@@ -101,6 +101,18 @@ class MNamespaces():
                                   (_ns, key), 3)
         return _r
 
+    def get_namespace_auctions(self, _ns: str):
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_AUCTIONS,
+                                  (_ns, ), 3)
+        # TODO Assemble rest of auction data
+        return _r
+
+    def get_namespace_bids(self, _ns: str):
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_BIDS,
+                                  (_ns, ), 3)
+        # TODO Assemble rest of bid data
+        return _r
+
     def get_ns_by_shortcode(self, shortcode: int) -> MNamespace:
         _bs = str(shortcode)
         _block = int(_bs[1:int(_bs[0])+1])

@@ -491,6 +491,17 @@ class NarwhalletController():
         self.ui.w_tab.tbl_w.resizeColumnsToContents()
         self.refresh_namespace_tab_data()
 
+    def refresh_nft_tab_data(self, namespaces: List[dict]):
+        for ns in namespaces:
+            _auctions = self.cache.ns.get_namespace_auctions(ns['namespaceid'])
+            _bids = self.cache.ns.get_namespace_bids(ns['namespaceid'])
+
+            # if len(_auctions) > 0:
+            #     self.ui.nft_tab.tbl_auctions.add_auctions(ns['wallet'], _auctions)
+
+            # if len(_bids) > 0:
+            #     self.ui.nft_tab.tbl_bids.add_bids(ns['wallet'], _bids)
+
     def refresh_namespace_tab_data(self):
         # TODO Cleanup
         self.ui.ns_tab.tbl_ns.clear_rows()
@@ -530,6 +541,7 @@ class NarwhalletController():
             if 'wallet' in pd:
                 nd.append(pd)
         self.ui.ns_tab.tbl_ns.add_namespaces('_w.name', nd)
+        self.refresh_nft_tab_data(nd)
 
     def ex_command_results(self, n: str, m: str, i: int):
         _m = self.ui.settings_tab.settings_debug_text.toPlainText()

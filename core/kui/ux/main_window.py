@@ -6,6 +6,7 @@ from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout,
 from core.kui.ux.wallets_tab import Ui_WalletTab
 from core.kui.ux.address_book_tab import Ui_AddressBookTab
 from core.kui.ux.namespaces_tab import Ui_NamespacesTab
+from core.kui.ux.nft_tab import Ui_NFTTab
 from core.kui.ux.settings_tab import Ui_SettingsTab
 from core.kui.ux.utils_tab import Ui_UtilsTab
 
@@ -22,6 +23,7 @@ class Ui_MainWindow(QObject):
                                  QSizePolicy.Policy.Expanding)
         self.w_tab = Ui_WalletTab()
         self.ns_tab = Ui_NamespacesTab()
+        self.nft_tab = Ui_NFTTab()
         self.ab_tab = Ui_AddressBookTab()
         self.u_tab = Ui_UtilsTab()
         self.settings_tab = Ui_SettingsTab()
@@ -51,6 +53,8 @@ class Ui_MainWindow(QObject):
         self.tabWidget.addTab(self.w_tab.tabWallets, '')
         self.ns_tab.setupUi()
         self.tabWidget.addTab(self.ns_tab.tabNamespaces, '')
+        self.nft_tab.setupUi()
+        self.tabWidget.addTab(self.nft_tab.tabNFT, '')
         self.ab_tab.setupUi()
         self.tabWidget.addTab(self.ab_tab.tabAddBook, '')
         self.u_tab.setupUi()
@@ -61,6 +65,7 @@ class Ui_MainWindow(QObject):
 
         self.w_tab.retranslateUi()
         self.ns_tab.retranslateUi()
+        self.nft_tab.retranslateUi()
         self.ab_tab.retranslateUi()
         self.u_tab.retranslateUi()
         self.settings_tab.retranslateUi()
@@ -72,6 +77,7 @@ class Ui_MainWindow(QObject):
         self.w_tab.tbl_addr.setPalette(table_pallet)
         self.w_tab.tbl_addr2.setPalette(table_pallet)
         self.ns_tab.tbl_ns.setPalette(table_pallet)
+        self.nft_tab.tbl_auctions.setPalette(table_pallet)
         self.ab_tab.tbl_addr.setPalette(table_pallet)
         self.settings_tab.elxp_tbl.setPalette(table_pallet)
         self.settings_tab.ipfs_tbl.setPalette(table_pallet)
@@ -90,6 +96,9 @@ class Ui_MainWindow(QObject):
         self.tabWidget.setTabText(self.tabWidget
                                   .indexOf(self.ns_tab.tabNamespaces),
                                   _translate('MainWindow', 'Namespaces'))
+        self.tabWidget.setTabText(self.tabWidget
+                                  .indexOf(self.nft_tab.tabNFT),
+                                  _translate('MainWindow', 'NFT'))
         self.tabWidget.setTabText(self.tabWidget
                                   .indexOf(self.settings_tab.tabSettings),
                                   _translate('MainWindow', 'Settings'))

@@ -53,6 +53,10 @@ class Scripts(Enum):
         ORDER BY block DESC;'
     SELECT_NS_KEY_VALUE = 'SELECT value FROM ns_cache \
         WHERE ns = ? AND [key] = ? ORDER BY block DESC;'
+    SELECT_NS_AUCTIONS = 'SELECT block, n, ns, value FROM ns_cache \
+        WHERE ns = ? AND special = \'nft_auction\' ORDER BY block DESC;'
+    SELECT_NS_BIDS = 'SELECT block, n, ns, value FROM ns_cache \
+        WHERE ns = ? AND special = \'nft_bid\' ORDER BY block DESC;'
     SELECT_NS_ROOT_TEST = 'SELECT ns FROM ns_cache \
         WHERE ns = ? AND [key] = "_KEVA_NS_";'
     SELECT_NFT = 'SELECT tx, data FROM nft_cache WHERE tx = ?;'
