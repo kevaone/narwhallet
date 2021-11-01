@@ -84,7 +84,7 @@ class keva_psbt():
                                                    s_val.read(_script_size)))
                     if _tx_vin_script_sig.hex == '':
                         _tx_vin_script_sig.set_hex(None)
-                    _tx_vin.scriptSig = _tx_vin_script_sig
+                    _tx_vin.set_scriptSig(_tx_vin_script_sig)
                     _tx_vin.set_sequence(ConvUtils
                                          .BytesToHexString(s_val.read(4)))
                     self.tx.add_vin(_tx_vin)
@@ -124,9 +124,19 @@ class keva_psbt():
             self.deserialize_map(self.psbt, 'OUTPUT')
 
     def toDict(self) -> dict:
+        _records = []
+        for record in self.psbt_records:
+            _record = []
+            for entry in record:
+                if isinstance(entry, bytes) is True:
+                    _record.append(ConvUtils.BytesToHexString(entry))
+                else:
+                    _record.append(entry)
+            _records.append(_record)
+
         return {'psbt_inputs': self.psbt_inputs,
                 'psbt_outputs': self.psbt_outputs,
-                'psbt_records': self.psbt_records,
+                'psbt_records': _records,
                 'tx': self.tx.toDict()
                 }
 

@@ -212,7 +212,7 @@ class MDialogs():
         if _key == '_KEVA_NS_':
             _key = '\x01_KEVA_NS_'
             _value = {'displayName': _value}
-            _value = json.dumps(_value)
+            _value = json.dumps(_value, separators=(',', ':'))
 
         _di.ui._ns_key = _key
         _di.ui._ns_value = _value
