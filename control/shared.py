@@ -8,6 +8,7 @@ from typing import List
 
 from core.kex import KEXclient
 from core.ksc import Scripts
+from core.ksc.utils import Ut
 from core.kcl.models.cache import MCache
 from core.kcl.models.wallet import MWallet
 from core.kcl.models.wallet_kind import EWalletKind
@@ -16,7 +17,6 @@ from core.kcl.models.address import MAddress
 from core.kcl.models.transaction import MTransaction
 from core.kcl.models.script_pubkey import MScriptPubKey
 
-from core.kcl.bip_utils.utils import ConvUtils
 from core.kcl.bip_utils.base58 import Base58Decoder
 
 
@@ -673,7 +673,7 @@ class MShared():
     @staticmethod
     def _get_namespace_keys(_ns, KEX: KEXclient,):
         try:
-            _ns = ConvUtils.BytesToHexString(Base58Decoder.CheckDecode(_ns))
+            _ns = Ut.bytes_to_hex(Base58Decoder.CheckDecode(_ns))
         except Exception:
             pass
         k_script_hash = (Scripts.KevaNamespaceScriptHash
@@ -690,7 +690,7 @@ class MShared():
                     _k = base64.b64decode(_k).decode()
                 except Exception:
                     _k = base64.b64decode(k_hist['keyvalues'][_i]['key'])
-                    _k = ConvUtils.BytesToHexString(_k)
+                    _k = Ut.bytes_to_hex(_k)
 
                 if k_hist['keyvalues'][_i]['type'] == 'REG':
                     _v = _k
@@ -701,6 +701,6 @@ class MShared():
                         _v = base64.b64decode(_v).decode()
                     except Exception:
                         _v = base64.b64decode(k_hist['keyvalues'][_i]['value'])
-                        _v = ConvUtils.BytesToHexString(_v)
+                        _v = Ut.bytes_to_hex(_v)
                 _keys.append([_k, _v, k_hist['keyvalues'][_i]['time']])
         return _keys

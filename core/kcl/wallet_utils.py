@@ -8,7 +8,7 @@ from core.kcl.bip_utils import (Bip39MnemonicGenerator, Bip39WordsNum,
                                 Bip44, Bip49)
 from core.kcl.bip_utils.conf import Bip49KevacoinMainNet
 from core.kcl.bip_utils.addr.P2SH_addr import P2SHAddr
-from core.kcl.bip_utils.utils import ConvUtils
+from core.ksc.utils import Ut
 from core.kcl.file_utils.io import WalletLoader
 
 
@@ -29,7 +29,7 @@ class _wallet_utils():
 
         if not isinstance(message, bytes):
             try:
-                message = ConvUtils.HexStringToBytes(message)
+                message = Ut.hex_to_bytes(message)
             except Exception:
                 message = message.encode()
 
@@ -39,20 +39,20 @@ class _wallet_utils():
 
         if vsig is False:
             return 'Validation Error!'
-        sig = ConvUtils.BytesToHexString(sig)
+        sig = Ut.bytes_to_hex(sig)
         return sig
 
     @staticmethod
     def verify_message(sig: str, pk: str, message: str or bytes):
         try:
-            _pk = ConvUtils.HexStringToBytes(pk)
+            _pk = Ut.hex_to_bytes(pk)
             vk = ecdsa.VerifyingKey.from_string(_pk, curve=ecdsa.SECP256k1,
                                                 hashfunc=sha256)
-            _sig = ConvUtils.HexStringToBytes(sig)
+            _sig = Ut.hex_to_bytes(sig)
 
             if not isinstance(message, bytes):
                 try:
-                    message = ConvUtils.HexStringToBytes(message)
+                    message = Ut.hex_to_bytes(message)
                 except Exception:
                     message = message.encode()
 

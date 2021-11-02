@@ -2,8 +2,8 @@ from core.kcl.models._base import MBase
 from core.kcl.models.addresses import MAddresses
 from core.kcl.models.wallet_kind import EWalletKind
 from core.kcl.wallet_utils import _wallet_utils as WalletUtils
-from core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
 from core.kcl.bip_utils.base58 import Base58Decoder, Base58Encoder
+from core.ksc.utils import Ut
 
 
 class MWallet(MBase):
@@ -118,7 +118,7 @@ class MWallet(MBase):
             try:
                 _data = Base58Decoder.CheckDecode(extended_pub)
                 _data = _data[4:]
-                lll = ConvUtils.HexStringToBytes(version)
+                lll = Ut.hex_to_bytes(version)
                 _data = lll + _data
                 _pub = Base58Encoder.CheckEncode(_data)
 
@@ -142,8 +142,7 @@ class MWallet(MBase):
         self._kind = EWalletKind(kind)
 
     def set_k(self, k: str):
-        self._k = CryptoUtils.Sha256(ConvUtils
-                                     .ReverseBytes(CryptoUtils.Sha256(k)))
+        self._k = Ut.sha256(Ut.reverse_bytes(Ut.sha256(k)))
 
     def set_balance(self, balance: float) -> None:
         self._balance = balance

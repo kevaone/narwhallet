@@ -1,5 +1,5 @@
+from core.ksc.utils import Ut
 from core.kcl.bip_utils.base58 import Base58Encoder
-from core.kcl.bip_utils.utils import ConvUtils
 from core.kcl.models.namespace import MNamespace
 from core.kcl.db_utils import SQLInterface
 
@@ -19,7 +19,7 @@ class MNamespaces():
     @staticmethod
     def convert_to_namespaceid(nsid: str) -> str:
         try:
-            _id = Base58Encoder.CheckEncode(ConvUtils.HexStringToBytes(nsid))
+            _id = Base58Encoder.CheckEncode(Ut.hex_to_bytes(nsid))
             return _id
         except Exception:
             raise Exception('Invailid Namespaceid')
@@ -27,10 +27,10 @@ class MNamespaces():
     @staticmethod
     def _decode(value):
         try:
-            _d2 = ConvUtils.IntegerToBytes(int(value), None, 'little').decode()
+            _d2 = Ut.int_to_bytes(int(value), None, 'little').decode()
         except Exception:
             try:
-                _d2 = ConvUtils.HexStringToBytes(value).decode()
+                _d2 = Ut.hex_to_bytes(value).decode()
             except Exception:
                 _d2 = value
                 # print('error', _d2, value)

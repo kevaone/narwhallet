@@ -6,15 +6,15 @@ from core.kcl.models.transaction_output import MTransactionOutput
 from core.kcl.models.script_sig import MScriptSig
 from core.kcl.models.builder.sighash import SIGHASH_TYPE
 from core.ksc import Scripts
-from core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
+from core.ksc.utils import Ut
 
 
 class MTransactionBuilder(MTransaction):
     def __init__(self):
         super().__init__()
 
-        self._version: bytes = ConvUtils.IntegerToBytes(2, 4, 'little')
-        self._segwit: bytes = ConvUtils.HexStringToBytes('0001')
+        self._version: bytes = Ut.int_to_bytes(2, 4, 'little')
+        self._segwit: bytes = Ut.hex_to_bytes('0001')
 
         self._fee: int = 0
         self._target_value: int = 0
@@ -35,7 +35,7 @@ class MTransactionBuilder(MTransaction):
     def get_size(self, in_count, out_count):
         _out_size = 0
         for _out in self.vout:
-            _out_size += 1 + 8 + len(ConvUtils.HexStringToBytes(_out.scriptPubKey.hex))
+            _out_size += 1 + 8 + len(Ut.hex_to_bytes(_out.scriptPubKey.hex))
 
         if len(self.vout) + 1 == out_count:
             _out_size += 32
@@ -136,12 +136,11 @@ class MTransactionBuilder(MTransaction):
            or SIGHASH_TYPE.NONE_ANYONECANPAY
            or SIGHASH_TYPE.SINGLE_ANYONECANPAY):
             for inp in self.vin:
-                _tx_id = ConvUtils.ReverseBytes(ConvUtils
-                                                .HexStringToBytes(inp.txid))
+                _tx_id = Ut.reverse_bytes(Ut.hex_to_bytes(inp.txid))
                 _hash_cache = _hash_cache + _tx_id + \
-                    ConvUtils.IntegerToBytes(inp.vout, 4, 'little')
+                    Ut.int_to_bytes(inp.vout, 4, 'little')
 
-            _hash_cache = CryptoUtils.Sha256(CryptoUtils.Sha256(_hash_cache))
+            _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
 
         return _hash_cache
 
@@ -150,8 +149,8 @@ class MTransactionBuilder(MTransaction):
         if nHashType == SIGHASH_TYPE.ALL:
             for inp in self.vin:
                 _hash_cache = _hash_cache + \
-                    ConvUtils.HexStringToBytes(inp.sequence)
-            _hash_cache = CryptoUtils.Sha256(CryptoUtils.Sha256(_hash_cache))
+                    Ut.hex_to_bytes(inp.sequence)
+            _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
 
         return _hash_cache
 
@@ -159,16 +158,16 @@ class MTransactionBuilder(MTransaction):
         _hash_cache = b''
         if nHashType is not SIGHASH_TYPE.NONE or SIGHASH_TYPE.SINGLE:
             for output in self.vout:
-                _out_value = ConvUtils.IntegerToBytes(output.value,
-                                                      8, 'little')
-                _script = ConvUtils.HexStringToBytes(output.scriptPubKey.hex)
-                _hash_cache = _hash_cache + _out_value + \
-                    bytes([len(_script)]) + _script
+                _out_value = Ut.int_to_bytes(output.value, 8, 'little')
+                _script = Ut.hex_to_bytes(output.scriptPubKey.hex)
 
-            _hash_cache = CryptoUtils.Sha256(CryptoUtils.Sha256(_hash_cache))
+                _hash_cache = _hash_cache + _out_value + \
+                    Ut.to_cuint(len(_script)) + _script
+
+            _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
         elif nHashType == SIGHASH_TYPE.SINGLE:
             _hash_cache = self.vout[idx]
-            _hash_cache = CryptoUtils.Sha256(CryptoUtils.Sha256(_hash_cache))
+            _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
 
         return _hash_cache
 
@@ -179,44 +178,34 @@ class MTransactionBuilder(MTransaction):
 
         _pre.append(self._version)
         _pre.append(self._segwit)
-        _pre.append(bytes([len(self.vin)]))
+        _pre.append(Ut.to_cuint(len(self.vin)))
 
         for i in range(0, len(self.vin)):
-            _tmp_len = 0
-            _outpoint = ConvUtils.ReverseBytes(ConvUtils
-                                               .HexStringToBytes(
-                                                   self.vin[i].txid))
-            _outpoint = _outpoint + ConvUtils.IntegerToBytes(self.vin[i].vout,
-                                                             4, 'little')
+            _outpoint = Ut.reverse_bytes(Ut.hex_to_bytes(self.vin[i].txid))
+            _outpoint = _outpoint + Ut.int_to_bytes(self.vin[i].vout, 4, 'little')
             _pre.append(_outpoint)
-            _tmp_len += len(_outpoint)
-            _s = ConvUtils.HexStringToBytes(self.vin[i].scriptSig.hex)
-            _scriptSig = bytes([len(_s)]) + _s
-            _pre.append(bytes([len(_scriptSig)]))
-            _tmp_len += len(bytes([len(_scriptSig)]))
+            _s = Ut.hex_to_bytes(self.vin[i].scriptSig.hex)
+            _scriptSig = Ut.to_cuint(len(_s)) + _s
+            _pre.append(Ut.to_cuint(len(_scriptSig)))
             _pre.append(_scriptSig)
-            _tmp_len += len(_scriptSig)
-            _pre.append(ConvUtils.HexStringToBytes(self.vin[i].sequence))
-            _tmp_len += len(ConvUtils.HexStringToBytes(self.vin[i].sequence))
+            _pre.append(Ut.hex_to_bytes(self.vin[i].sequence))
 
-        _pre.append(bytes([len(self.vout)]))
+        _pre.append(Ut.to_cuint(len(self.vout)))
 
         for i in range(0, len(self.vout)):
-            _pre.append(ConvUtils.IntegerToBytes(self.vout[i].value,
-                                                 8, 'little'))
-            _pre.append(bytes([len(ConvUtils
-                                   .HexStringToBytes(
-                                       self.vout[i].scriptPubKey.hex))]))
-            _pre.append(ConvUtils
-                        .HexStringToBytes(self.vout[i].scriptPubKey.hex))
+            _pre.append(Ut.int_to_bytes(self.vout[i].value, 8, 'little'))
+
+            _pre.append(Ut.to_cuint(len(Ut.hex_to_bytes(self.vout[i].scriptPubKey.hex))))
+
+            _pre.append(Ut.hex_to_bytes(self.vout[i].scriptPubKey.hex))
 
         for i in range(0, len(self._input_signatures)):
-            _pre.append(bytes([len(self._input_signatures[i])]))
+            _pre.append(Ut.to_cuint(len(self._input_signatures[i])))
             for s in self._input_signatures[i]:
-                _x = ConvUtils.HexStringToBytes(s)
-                _pre.append(bytes([len(_x)]))
+                _x = Ut.hex_to_bytes(s)
+                _pre.append(Ut.to_cuint(len(_x)))
                 _pre.append(_x)
-        _pre.append(ConvUtils.IntegerToBytes(_lock_time, 4, 'little'))
+        _pre.append(Ut.int_to_bytes(_lock_time, 4, 'little'))
 
         _spre = b''
 
@@ -234,30 +223,25 @@ class MTransactionBuilder(MTransaction):
         _pre.append(self.hash_prevouts(_hash_type))
         _pre.append(self.hash_seqs(_hash_type))
 
-        _outpoint = ConvUtils.ReverseBytes(ConvUtils
-                                           .HexStringToBytes(self.vin[i].txid))
-        _outpoint = _outpoint + ConvUtils.IntegerToBytes(self.vin[i].vout,
-                                                         4, 'little')
+        _outpoint = Ut.reverse_bytes(Ut.hex_to_bytes(self.vin[i].txid))
+        _outpoint = _outpoint + Ut.int_to_bytes(self.vin[i].vout, 4, 'little')
         _pre.append(_outpoint)
 
         _s3 = Scripts.P2PKHRedeemScript.compile([pk])
-        _pre.append(bytes([len(_s3)]) + _s3)
+        _pre.append(Ut.to_cuint(len(_s3)) + _s3)
 
-        _pre.append(ConvUtils.IntegerToBytes(self.vin[i]._tb_value,
-                                             8, 'little'))
-        _pre.append(ConvUtils.HexStringToBytes(self.vin[i].sequence))
+        _pre.append(Ut.int_to_bytes(self.vin[i]._tb_value, 8, 'little'))
+        _pre.append(Ut.hex_to_bytes(self.vin[i].sequence))
 
         _pre.append(self.hash_outputs(_hash_type))
-        _pre.append(ConvUtils.IntegerToBytes(_lock_time, 4, 'little'))
-        _pre.append(ConvUtils.IntegerToBytes(_hash_type.value, 4, 'little'))
+        _pre.append(Ut.int_to_bytes(_lock_time, 4, 'little'))
+        _pre.append(Ut.int_to_bytes(_hash_type.value, 4, 'little'))
 
         _spre = b''
         for p in _pre:
             _spre = _spre + p
 
-        _sighash = ConvUtils.BytesToHexString(CryptoUtils
-                                              .Sha256(CryptoUtils
-                                                      .Sha256(_spre)))
+        _sighash = Ut.bytes_to_hex(Ut.sha256(Ut.sha256(_spre)))
 
         return _sighash
 

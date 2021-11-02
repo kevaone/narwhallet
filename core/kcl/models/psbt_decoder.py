@@ -1,7 +1,7 @@
 import struct
 from io import BytesIO
 
-from core.kcl.bip_utils.utils import ConvUtils
+from core.ksc.utils import Ut
 
 from core.kcl.models.psbt_types import record_types
 from core.kcl.models.transaction_builder import MTransactionBuilder
@@ -67,44 +67,35 @@ class keva_psbt():
             _, value_data = self.read_vec(psbt)
             if _is_tx:
                 s_val = BytesIO(value_data)
-                self.tx.set_version(ConvUtils.BytesToInteger(s_val.read(4),
-                                    'little'))
+                self.tx.set_version(Ut.bytes_to_int(s_val.read(4), 'little'))
 
                 self.psbt_inputs = self.read_csuint(s_val)
                 for _ in range(self.psbt_inputs):
                     _tx_vin = MTransactionInput()
                     _tx_vin_script_sig = MScriptSig()
-                    _tx_vin.set_txid(ConvUtils.BytesToHexString(
-                                     ConvUtils.ReverseBytes(s_val.read(32))))
-                    _tx_vin.set_vout(ConvUtils.BytesToInteger(s_val.read(4),
-                                     'little'))
+                    _tx_vin.set_txid(Ut.bytes_to_hex(Ut.reverse_bytes(s_val.read(32))))
+                    _tx_vin.set_vout(Ut.bytes_to_int(s_val.read(4), 'little'))
                     _script_size = self.read_csuint(s_val)
-                    _tx_vin_script_sig.set_hex(ConvUtils
-                                               .BytesToHexString(
-                                                   s_val.read(_script_size)))
+                    _tx_vin_script_sig.set_hex(Ut.bytes_to_hex(s_val.read(_script_size)))
                     if _tx_vin_script_sig.hex == '':
                         _tx_vin_script_sig.set_hex(None)
                     _tx_vin.set_scriptSig(_tx_vin_script_sig)
-                    _tx_vin.set_sequence(ConvUtils
-                                         .BytesToHexString(s_val.read(4)))
+                    _tx_vin.set_sequence(Ut.bytes_to_hex(s_val.read(4)))
                     self.tx.add_vin(_tx_vin)
 
                 self.psbt_outputs = self.read_csuint(s_val)
                 for _ in range(self.psbt_outputs):
                     _tx_vout = MTransactionOutput()
-                    _tx_vout.set_value(ConvUtils.BytesToInteger(s_val.read(8),
-                                       'little'))
+                    _tx_vout.set_value(Ut.bytes_to_int(s_val.read(8), 'little'))
                     script_size = self.read_csuint(s_val)
-                    _tx_vout.scriptPubKey.set_asm(ConvUtils
-                                                  .BytesToHexString(
-                                                      s_val.read(script_size)))
+                    _tx_vout.scriptPubKey.set_asm(Ut.bytes_to_hex(s_val.read(script_size)))
                     self.tx.add_vout(_tx_vout)
-                self.tx.set_locktime(ConvUtils.BytesToInteger(s_val.read(4)))
+                self.tx.set_locktime(Ut.bytes_to_int(s_val.read(4), 'little'))
 
             self.psbt_records.append([psbt_type, key_data, value_data])
 
     def prep_psbt_data(self, psbt):
-        psbt_bytes = ConvUtils.HexStringToBytes(psbt)
+        psbt_bytes = Ut.hex_to_bytes(psbt)
         self.psbt = BytesIO(psbt_bytes)
         _ = self.psbt.read(4)  # _magic
         _ = self.psbt.read(1)  # _sep
@@ -129,7 +120,7 @@ class keva_psbt():
             _record = []
             for entry in record:
                 if isinstance(entry, bytes) is True:
-                    _record.append(ConvUtils.BytesToHexString(entry))
+                    _record.append(Ut.bytes_to_hex(entry))
                 else:
                     _record.append(entry)
             _records.append(_record)

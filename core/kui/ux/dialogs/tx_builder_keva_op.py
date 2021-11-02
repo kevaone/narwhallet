@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
 
 from control.shared import MShared
 from core.ksc import Scripts
-from core.kcl.bip_utils.utils import ConvUtils, CryptoUtils
+from core.ksc.utils import Ut
 from core.kcl.models.cache import MCache
 from core.kcl.models.wallets import MWallets
 from core.kcl.models.transaction_builder import MTransactionBuilder
@@ -240,13 +240,11 @@ class Ui_keva_op_send_dlg(QObject):
             self._new_tx._input_signatures.append([_sig+'01', _pk])
 
     def tx_to_ns(self, tx, vout):
-        _tx = ConvUtils.ReverseBytes(ConvUtils
-                                     .HexStringToBytes(tx))
-        return ConvUtils.BytesToHexString(bytes([53]) + CryptoUtils
-                                          .Hash160(_tx + str(vout).encode()))
+        _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
+        return Ut.bytes_to_hex(bytes([53]) + Ut.hash160(_tx + str(vout).encode()))
 
     def txb_build_simple_send(self):
-        self._new_tx._version = ConvUtils.HexStringToBytes('00710000')
+        self._new_tx._version = Ut.hex_to_bytes('00710000')
         _n = self.w.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
         _t = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
@@ -338,7 +336,7 @@ class Ui_keva_op_send_dlg(QObject):
 
             self.fee.setText(str(_est_fee/100000000))
             self.txsize.setText(str(len(_stx)))
-            self.raw_tx = ConvUtils.BytesToHexString(_stx)
+            self.raw_tx = Ut.bytes_to_hex(_stx)
             self.tx.setPlainText(self.raw_tx)
 
             self.w.setEnabled(False)

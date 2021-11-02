@@ -1,5 +1,5 @@
 from typing import Dict, List
-from core.kcl.bip_utils.utils import ConvUtils
+from core.ksc.utils import Ut
 from core.kcl.models.namespace_key import MNSKey
 
 
@@ -64,10 +64,10 @@ class MNSKeys():
     def decode(data):
         # TODO Refine, use of try/except should not be needed.
         try:
-            _d2 = ConvUtils.HexStringToBytes(data).decode()
+            _d2 = Ut.hex_to_bytes(data).decode()
         except Exception:
             try:
-                _d2 = ConvUtils.IntegerToBytes(int(data), None, 'little')
+                _d2 = Ut.int_to_bytes(int(data), None, 'little')
                 _d2.decode()
             except Exception:
                 _d2 = data

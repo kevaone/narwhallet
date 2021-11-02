@@ -19,6 +19,7 @@ from core.kex import KEXclient
 from core.kui.main import NarwhalletUI
 from core.kui.ux.dialogs.tx_builder_simple_send import Ui_simple_send_dlg
 from core.kui.ux.dialogs.tx_builder_keva_op import Ui_keva_op_send_dlg
+from core.kui.ux.dialogs.tx_builder_keva_nft import Ui_keva_op_nft_dlg
 from core.kui.ux.dialogs.create_wallet import Ui_create_wallet_dlg
 from core.kui.ux.dialogs.add_wallet_watch_address import Ui_add_watch_addr_dlg
 from core.kui.ux.dialogs.add_wallet_watch import Ui_add_wallet_watch_dlg
@@ -229,7 +230,12 @@ class MDialogs():
 
         if _result != 0:
             _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
-            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
+            if isinstance(_bc_result[1], dict):
+                _result = json.dumps(_bc_result[1])
+            else:
+                _result = _bc_result[1]
+            _ = self.warning_dialog(_result, False, int(_bc_result[0]))
+            #_ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def delete_namespace_key_send_dialog(self):
         _di = QDialog()
@@ -337,6 +343,38 @@ class MDialogs():
         if _result != 0:
             _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
+
+    def auction_namespace_dialog(self):
+        _di = QDialog()
+        _di.ui = Ui_keva_op_nft_dlg()
+        _di.ui.setupUi(_di)
+        _di.ui.wallets = self.wallets
+        _di.ui.cache = self.cache
+        _di.ui.KEX = self.KEX
+        _fee = MShared.get_fee_rate(self.KEX)
+        if _fee == -1:
+            _ = self.warning_dialog('Could not get fee rate!',
+                                    False, 1)
+            return
+
+        _di.ui._new_tx.set_fee(_fee)
+        _di.ui.feerate.setText(str(_fee))
+        _di.setWindowTitle('Narwhallet - Create Auction')
+
+        for _wallet in self.wallets.wallets:
+            if _wallet.kind == 0:
+                _di.ui.combo_wallet.addItem(_wallet.name, _wallet.name)
+
+        _result = _di.exec_()
+
+        if _result != 0:
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            # print('_bc_result', type(_bc_result), _bc_result)
+            if isinstance(_bc_result[1], dict):
+                _result = json.dumps(_bc_result[1])
+            else:
+                _result = _bc_result[1]
+            _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     @staticmethod
     def add_wallet_watch_address_dialog():

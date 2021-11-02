@@ -1,9 +1,8 @@
-import binascii
 from enum import Enum
 
+from core.ksc.utils import Ut
 from core.ksc.op_codes import OpCodes as _o
 from core.ksc.function_params import Params as _p
-from core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
 
 
 class _factory(Enum):
@@ -26,16 +25,16 @@ class _factory(Enum):
         _scri = b''.join([v for i, v in enumerate(_script)])
 
         if toHex is True:
-            _scri = binascii.hexlify(_scri).decode()
+            _scri = Ut.bytes_to_hex(_scri)
 
         return _scri
 
     def compileToScriptHash(self, params: list, toHex: bool):
         _script = self.compile(params, False)
-        _script = CryptoUtils.Sha256(_script)
-        _script = ConvUtils.ReverseBytes(_script)
+        _script = Ut.sha256(_script)
+        _script = Ut.reverse_bytes(_script)
         if toHex is True:
-            _script = binascii.hexlify(_script).decode()
+            _script = Ut.bytes_to_hex(_script)
         return _script
 
     def describe_types(self) -> list:

@@ -23,8 +23,8 @@ from core.kcl.models.wallet import MWallet
 from core.kcl.models.wallets import MWallets
 from core.kcl.models.address import MAddress
 from core.kcl.models.book_addresses import MBookAddresses
-from core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
 from core.kcl.wallet_utils import _wallet_utils as WalletUtils
+from core.ksc.utils import Ut
 
 
 class NarwhalletController():
@@ -350,6 +350,8 @@ class NarwhalletController():
          .clicked.connect(self.add_namespace_favorite))
         (self.ui.ns_tab.btn_key_add
          .clicked.connect(self.dialogs.create_namespace_key_send_dialog))
+        (self.ui.nft_tab.btn_create_auction
+         .clicked.connect(self.dialogs.auction_namespace_dialog))
         (self.ui.w_tab.btn_watch_addr
          .clicked.connect(self.add_wallet_watch))
         (self.ui.w_tab.btn_create
@@ -400,26 +402,26 @@ class NarwhalletController():
         _results = self.ui.u_tab.mvs_result.toPlainText()
         if self.ui.u_tab.mishex.isChecked() is True:
             _input_value = _input.replace('\n', '')
-            _input_value = ConvUtils.HexStringToBytes(_input_value)
+            _input_value = Ut.hex_to_bytes(_input_value)
 
         if _selected == 'Sha256':
-            _result = ConvUtils.BytesToHexString(CryptoUtils.Sha256(_input))
+            _result = Ut.bytes_to_hex(Ut.sha256(_input))
         elif _selected == 'dSha256':
-            _result = CryptoUtils.Sha256(CryptoUtils.Sha256(_input))
-            _result = ConvUtils.BytesToHexString(_result)
+            _result = Ut.sha256(Ut.sha256(_input))
+            _result = Ut.bytes_to_hex(_result)
         elif _selected == 'Hash160':
-            _result = ConvUtils.BytesToHexString(CryptoUtils.Hash160(_input))
+            _result = Ut.bytes_to_hex(Ut.hash160(_input))
         elif _selected == 'int4byte':
             _input = int(_input)
-            _result = ConvUtils.IntegerToBytes(_input, 4, 'little')
-            _result = ConvUtils.BytesToHexString(_result)
+            _result = Ut.int_to_bytes(_input, 4, 'little')
+            _result = Ut.bytes_to_hex(_result)
         elif _selected == 'int8byte':
             _input = int(_input)
-            _result = ConvUtils.IntegerToBytes(_input, 8, 'little')
-            _result = ConvUtils.BytesToHexString(_result)
+            _result = Ut.int_to_bytes(_input, 8, 'little')
+            _result = Ut.bytes_to_hex(_result)
         elif _selected == 'Reverse':
-            _result = ConvUtils.ReverseBytes(_input)
-            _result = ConvUtils.BytesToHexString(_result)
+            _result = Ut.reverse_bytes(_input)
+            _result = Ut.bytes_to_hex(_result)
 
         self.ui.u_tab.mvs_result.setPlainText(_result + '\n' + _results)
 
