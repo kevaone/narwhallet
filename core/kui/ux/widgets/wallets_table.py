@@ -48,10 +48,10 @@ class _wallets_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(9)
+        self.setColumnCount(10)
         self.setHorizontalHeaderLabels(['', 'Locked', 'Coin', 'Name',
                                         'Type', 'Kind', 'Balance',
-                                        'Last Updated', ''])
+                                        'Bid Locked', 'Last Updated', ''])
         self.horizontalHeaderItem(0).setTextAlignment(4)
         self.setColumnHidden(2, True)
         self.horizontalHeaderItem(1).setTextAlignment(4)
@@ -62,6 +62,7 @@ class _wallets_table(QTableWidget):
         self.horizontalHeaderItem(6).setTextAlignment(4)
         self.horizontalHeaderItem(7).setTextAlignment(4)
         self.horizontalHeaderItem(8).setTextAlignment(4)
+        self.horizontalHeaderItem(9).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
 
     def add_wallet(self, wallet_data: dict):
@@ -110,6 +111,11 @@ class _wallets_table(QTableWidget):
         _balance.setFlags(_if_iie | _if_iis)
         _balance.setForeground(QtCore.Qt.black)
 
+        wallet_data['bid_balance'] = round(wallet_data['bid_balance'], 8)
+        _bid_balance = QTableWidgetItem(str(wallet_data['bid_balance']))
+        _bid_balance.setFlags(_if_iie | _if_iis)
+        _bid_balance.setForeground(QtCore.Qt.black)
+
         if wallet_data['locked'] is True:
             _lpic = QPixmap(os.path.join(__path, '../assets/locked.png'))
         else:
@@ -146,9 +152,10 @@ class _wallets_table(QTableWidget):
         self.setItem(_r, 4, _wtype)
         self.setCellWidget(_r, 5, _kvpic)
         self.setItem(_r, 6, _balance)
-        self.setItem(_r, 7, _updated)
-        self.setItem(_r, 8, _synch)
-        self.setCellWidget(_r, 8, self._vupic)
+        self.setItem(_r, 7, _bid_balance)
+        self.setItem(_r, 8, _updated)
+        self.setItem(_r, 9, _synch)
+        self.setCellWidget(_r, 9, self._vupic)
         self.resizeColumnsToContents()
 
     def update_wallet(self, _w: MWallet, row: int):
@@ -186,6 +193,6 @@ class _wallets_table(QTableWidget):
         self.item(row, 4).setText(_w.bip)
         self.setCellWidget(row, 5, _kvpic)
         self.item(row, 6).setText(str(_w.balance))
-
-        self.item(row, 7).setText(_upd)
+        self.item(row, 7).setText(str(_w.bid_balance))
+        self.item(row, 8).setText(_upd)
         self.resizeColumnsToContents()

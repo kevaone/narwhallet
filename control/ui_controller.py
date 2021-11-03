@@ -499,11 +499,11 @@ class NarwhalletController():
                 self.ui.w_tab.set_info_values(wallet)
             (self.ui.w_tab.tbl_w.item(i, 6)
              .setText(str(round(wallet.balance, 8))))
-            (self.ui.w_tab.tbl_w.item(i, 7)
+            (self.ui.w_tab.tbl_w.item(i, 8)
              .setText(MShared.get_timestamp(wallet.last_updated)[1]))
 
             wallet.set_updating(False)
-            self.ui.w_tab.tbl_w.cellWidget(i, 8).ani.stop()
+            self.ui.w_tab.tbl_w.cellWidget(i, 9).ani.stop()
 
         self.ui.w_tab.tbl_w.resizeColumnsToContents()
         self.refresh_namespace_tab_data()
@@ -597,7 +597,7 @@ class NarwhalletController():
 
         # TODO: Cleanup functions/callbacks; this hack temporary
         if i != -1:
-            self.ui.w_tab.tbl_w.item(i, 7).setText(MShared.get_timestamp()[1])
+            self.ui.w_tab.tbl_w.item(i, 8).setText(MShared.get_timestamp()[1])
             self.ui.w_tab.tbl_w.resizeColumnsToContents()
 
     def wallet_lock(self, wallet: MWallet):
@@ -680,18 +680,18 @@ class NarwhalletController():
         self.ui.w_tab.set_info_values(_w)
         _last_update = _w.last_updated
 
-        if column == 8 and _w.locked is False:
+        if column == 9 and _w.locked is False:
             if _last_update != '' and _last_update is not None:
                 _current_time = MShared.get_timestamp()[0]
                 if _current_time - float(_last_update) >= 60:
                     if _w.updating is not True:
                         _w.set_updating(True)
-                        self.ui.w_tab.tbl_w.cellWidget(row, 8).ani.start()
+                        self.ui.w_tab.tbl_w.cellWidget(row, 9).ani.start()
                         self.update_wallet(_w, row)
             else:
                 if _w.updating is not True:
                     _w.set_updating(True)
-                    self.ui.w_tab.tbl_w.cellWidget(row, 8).ani.start()
+                    self.ui.w_tab.tbl_w.cellWidget(row, 9).ani.start()
                     self.update_wallet(_w, row)
 
     def w_tx_selected(self, row: int, column: int):
