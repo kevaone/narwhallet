@@ -43,7 +43,10 @@ class MNamespaces():
         if key == '_KEVA_NS_':
             _type = 'root_ns'
         elif key == '\x01_KEVA_NS_':
-            _type = 'root_ns_update'
+            if 'displayName' in value and 'price' in value and 'addr' in value:
+                _type = 'nft_auction'
+            else:
+                _type = 'root_ns_update'
         elif key[:4] == '0001' and len(key) == 68:
             if value[:10] == '70736274ff':
                 _type = 'nft_bid'

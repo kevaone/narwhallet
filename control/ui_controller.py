@@ -498,11 +498,11 @@ class NarwhalletController():
             _auctions = self.cache.ns.get_namespace_auctions(ns['namespaceid'])
             _bids = self.cache.ns.get_namespace_bids(ns['namespaceid'])
 
-            # if len(_auctions) > 0:
-            #     self.ui.nft_tab.tbl_auctions.add_auctions(ns['wallet'], _auctions)
+            if len(_auctions) > 0:
+                self.ui.nft_tab.tbl_auctions.add_auctions(ns['wallet'], _auctions)
 
-            # if len(_bids) > 0:
-            #     self.ui.nft_tab.tbl_bids.add_bids(ns['wallet'], _bids)
+            if len(_bids) > 0:
+                self.ui.nft_tab.tbl_bids.add_bids(ns['wallet'], _bids)
 
     def refresh_namespace_tab_data(self):
         # TODO Cleanup
@@ -773,30 +773,17 @@ class NarwhalletController():
 
         self.ui.ns_tab.sel_ns_key.setText('Selected key is special:')
 
-        if key.text()[:4] == '0001' and len(key.text()) == 68:
-            _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
-            if str(_key_value[0][0]).startswith('70736274ff'):
-                self.ui.ns_tab.sel_ns_key_sp.setText('NFT Bid')
-            else:
-                self.ui.ns_tab.sel_ns_key_sp.setText('Reply')
-            self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
-            # self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(True)
-        elif key.text()[:4] == '0002' and len(key.text()) == 68:
-            _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
-            self.ui.ns_tab.sel_ns_key_sp.setText('Repost')
-            self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
-            # self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(True)
-        elif key.text()[:4] == '0003' and len(key.text()) == 68:
-            _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
-            self.ui.ns_tab.sel_ns_key_sp.setText('Reward')
-            self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
-            # self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(True)
-        elif '_KEVA_NS_' in key.text():
-            self.ui.ns_tab.sel_ns_key_sp.setText('NS Name')
-        else:
+        _key_type = self.cache.ns.get_key_type(key.text(), str(_key_value[0][0]))
+        self.ui.ns_tab.sel_ns_key_sp.setText(_key_type)
+
+        if _key_type is None:
             self.ui.ns_tab.sel_ns_key_sp.setText('No')
             self.ui.ns_tab.sel_ns_key_tx.setText('')
-            # self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(False)
+        elif (_key_type == 'nft_bid' or _key_type == 'reply' or
+              _key_type == 'repost' or _key_type == 'reward'):
+
+            _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
+            self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
 
         if _w.kind != 1 and _w.kind != 3:
             self.ui.ns_tab.btn_val_edit.setEnabled(True)

@@ -78,7 +78,10 @@ class _auctions_table(QTableWidget):
             _d['shortcode'] = auction[1]
             _d['asking'] = auction[2]
             _d['bids'] = auction[3]
-            _d['high_bid'] = auction[4]
+            if len(auction) == 5:
+                _d['high_bid'] = auction[4]
+            else:
+                _d['high_bid'] = '0.0'
             self._add_auction(_d)
 
         self.resizeColumnsToContents()

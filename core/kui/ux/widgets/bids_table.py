@@ -80,7 +80,10 @@ class _bids_table(QTableWidget):
             _d['shortcode'] = bid[1]
             _d['asking'] = bid[2]
             _d['high_bid'] = bid[3]
-            _d['your_bid'] = bid[4]
+            if len(bid) == 5:
+                _d['your_bid'] = bid[4]
+            else:
+                _d['your_bid'] = '0.0'
 
             self._add_bid(_d)
 
