@@ -421,4 +421,5 @@ class Ui_WalletTab(QObject):
             self.wlocked.setText('False')
 
         if wallet.last_updated is not None:
-            self.wlast_updated.setText(MShared.get_timestamp(wallet.last_updated)[1])
+            (self.wlast_updated.setText(
+                MShared.get_timestamp(wallet.last_updated)[1]))

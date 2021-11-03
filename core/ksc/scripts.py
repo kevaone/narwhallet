@@ -8,9 +8,9 @@ from core.ksc.function_params import Params as _p
 class _factory(Enum):
     def compile(self, parms: list, toHex: bool = False):
         _script = []
-        _parm_indexes = [i for i, v in enumerate(self.value) if isinstance(v, _p)]
+        _parm_idxs = [i for i, v in enumerate(self.value) if isinstance(v, _p)]
 
-        if len(_parm_indexes) != len(parms):
+        if len(_parm_idxs) != len(parms):
             raise Exception('supplied parm count mismatch')
 
         q = 0

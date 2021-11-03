@@ -73,10 +73,12 @@ class keva_psbt():
                 for _ in range(self.psbt_inputs):
                     _tx_vin = MTransactionInput()
                     _tx_vin_script_sig = MScriptSig()
-                    _tx_vin.set_txid(Ut.bytes_to_hex(Ut.reverse_bytes(s_val.read(32))))
+                    (_tx_vin.set_txid(Ut.bytes_to_hex(
+                                      Ut.reverse_bytes(s_val.read(32)))))
                     _tx_vin.set_vout(Ut.bytes_to_int(s_val.read(4), 'little'))
                     _script_size = self.read_csuint(s_val)
-                    _tx_vin_script_sig.set_hex(Ut.bytes_to_hex(s_val.read(_script_size)))
+                    (_tx_vin_script_sig.set_hex(
+                        Ut.bytes_to_hex(s_val.read(_script_size))))
                     if _tx_vin_script_sig.hex == '':
                         _tx_vin_script_sig.set_hex(None)
                     _tx_vin.set_scriptSig(_tx_vin_script_sig)
@@ -86,9 +88,11 @@ class keva_psbt():
                 self.psbt_outputs = self.read_csuint(s_val)
                 for _ in range(self.psbt_outputs):
                     _tx_vout = MTransactionOutput()
-                    _tx_vout.set_value(Ut.bytes_to_int(s_val.read(8), 'little'))
+                    (_tx_vout.set_value(
+                        Ut.bytes_to_int(s_val.read(8), 'little')))
                     script_size = self.read_csuint(s_val)
-                    _tx_vout.scriptPubKey.set_asm(Ut.bytes_to_hex(s_val.read(script_size)))
+                    (_tx_vout.scriptPubKey
+                     .set_asm(Ut.bytes_to_hex(s_val.read(script_size))))
                     self.tx.add_vout(_tx_vout)
                 self.tx.set_locktime(Ut.bytes_to_int(s_val.read(4), 'little'))
 
@@ -130,7 +134,3 @@ class keva_psbt():
                 'psbt_records': _records,
                 'tx': self.tx.toDict()
                 }
-
-# _test_psbt_dat = ''
-# KL = keva_psbt(_test_psbt_dat)
-# print(KL.toDict())

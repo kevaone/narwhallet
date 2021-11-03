@@ -62,7 +62,8 @@ class _namespaces_table(QTableWidget):
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
 
-        _date = QTableWidgetItem(MShared.get_timestamp(namespace_data['date'])[1], 0)
+        _date = (QTableWidgetItem(
+            MShared.get_timestamp(namespace_data['date'])[1], 0))
         _date.setFlags(_if_iie | _if_iis)
         _date.setForeground(QtCore.Qt.black)
 

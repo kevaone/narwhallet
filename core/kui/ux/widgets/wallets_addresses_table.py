@@ -46,7 +46,6 @@ class _wallets_addr_tbl(QTableWidget):
 
     def clear_row(self, row):
         self.setRowHidden(row, True)
-        #self.cellWidget(row, 0).setHidden(True) #.setCellWidget(_r, 0, _vpic)
         self.item(row, 1).setText('')
         self.item(row, 2).setText('')
         self.item(row, 3).setText('')
@@ -83,13 +82,13 @@ class _wallets_addr_tbl(QTableWidget):
         _transm_st = QtCore.Qt.SmoothTransformation
         __path = os.path.dirname(__file__)
         if pic == 0:
-            _pic = QtGui.QPixmap(os.path.join(__path, '../assets/information.png'))
+            _p = QtGui.QPixmap(os.path.join(__path, '../assets/information.png'))
         elif pic == 1:
-            _pic = QtGui.QPixmap(os.path.join(__path, '../assets/clipboard.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
+            _p = QtGui.QPixmap(os.path.join(__path, '../assets/clipboard.png'))
+        _p = _p.scaledToWidth(20, _transm_st)
 
         _vpic = QLabel()
-        _vpic.setPixmap(_pic)
+        _vpic.setPixmap(_p)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
         return _vpic
@@ -126,8 +125,11 @@ class _wallets_addr_tbl(QTableWidget):
             address_data['balance'] = round(address_data['balance'], 9)
             address_data['label'] = ''
             self.item(idx, 1).setText(address_data['address'])
-            self.item(idx, 2).setText(self.test_param(address_data, 'received', '0.0', True))
-            self.item(idx, 3).setText(self.test_param(address_data, 'sent', '0.0', True))
-            self.item(idx, 4).setText(self.test_param(address_data, 'balance', '0.0', True))
+            (self.item(idx, 2)
+             .setText(self.test_param(address_data, 'received', '0.0', True)))
+            (self.item(idx, 3)
+             .setText(self.test_param(address_data, 'sent', '0.0', True)))
+            (self.item(idx, 4)
+             .setText(self.test_param(address_data, 'balance', '0.0', True)))
             self.item(idx, 5).setText(address_data['label'])
             self.setRowHidden(idx, False)

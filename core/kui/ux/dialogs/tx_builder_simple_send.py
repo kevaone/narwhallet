@@ -260,13 +260,14 @@ class Ui_simple_send_dlg(QObject):
 
         if _inp_sel is True:
             _, _, _fv = self._new_tx.get_current_values()
-            _cv = _fv -_est_fee
-            #print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
+            _cv = _fv - _est_fee
+            # print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
             if _need_change is True:
                 _change_address = wallet.get_unused_change_address()
                 _ = self._new_tx.add_output(_cv, _change_address)
 
-            # print('final size', self._new_tx.get_size(len(self._new_tx.vin), len(self._new_tx.vout)))
+            # print('final size', self._new_tx.get_size(len(self._new_tx.vin),
+            #       len(self._new_tx.vout)))
             self.txb_preimage()
             _stx = self._new_tx.serialize_tx()
 

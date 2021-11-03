@@ -38,4 +38,5 @@ class NarwhalletWebController():
 
         self.DF_KEX.active_peer = 0
         _nft_data = self.settings.data_feeds['nft_data']
-        _ = self.DF_KEX.add_peer(_nft_data[1], _nft_data[2], _nft_data[3], _nft_data[4])
+        _ = self.DF_KEX.add_peer(_nft_data[1], _nft_data[2],
+                                 _nft_data[3], _nft_data[4])

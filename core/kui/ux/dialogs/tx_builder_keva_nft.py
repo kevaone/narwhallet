@@ -5,7 +5,7 @@ from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
-                             QComboBox, QPushButton, QPlainTextEdit, QFrame)
+                             QComboBox, QPushButton, QPlainTextEdit)
 
 from control.shared import MShared
 from core.ksc import Scripts
@@ -14,7 +14,6 @@ from core.kcl.models.cache import MCache
 from core.kcl.models.wallets import MWallets
 from core.kcl.models.transaction_builder import MTransactionBuilder
 
-from core.kcl.bip_utils.base58 import Base58Decoder
 
 class Ui_keva_op_nft_dlg(QObject):
     def setupUi(self, keva_op_nft_dialog: QDialog):
@@ -157,8 +156,10 @@ class Ui_keva_op_nft_dlg(QObject):
         self.combo_wallet_l.setText(_translate('keva_op_send_dlg', 'Wallet:'))
         self.combo_ns_l.setText(_translate('keva_op_send_dlg', 'Namespace:'))
         self.nft_name_l.setText(_translate('keva_op_send_dlg', 'Name: '))
-        self.nft_desc_l.setText(_translate('keva_op_send_dlg', 'Description: '))
-        self.nft_hashtags_l.setText(_translate('keva_op_send_dlg', 'Hashtags: '))
+        (self.nft_desc_l
+         .setText(_translate('keva_op_send_dlg', 'Description: ')))
+        (self.nft_hashtags_l
+         .setText(_translate('keva_op_send_dlg', 'Hashtags: ')))
         self.nft_price_l.setText(_translate('keva_op_send_dlg', 'Price: '))
 
         self.cancel_btn.setText(_translate('keva_op_send_dlg', 'Cancel'))
@@ -214,30 +215,32 @@ class Ui_keva_op_nft_dlg(QObject):
 
             if _tx is not None:
                 if ('OP_KEVA'
-                    in _tx.vout[tx['tx_pos']].scriptPubKey.asm):
+                        in _tx.vout[tx['tx_pos']].scriptPubKey.asm):
 
                     _ns = _tx.vout[tx['tx_pos']].scriptPubKey.asm.split(' ')[1]
                     _ns = self.cache.ns.convert_to_namespaceid(_ns)
                     _block = self.cache.ns.ns_block(_ns)[0]
-                    _block = str(str(len(str(_block[0]))) + str(_block[0]) + str(_block[1]))
-                    _name = self.cache.ns.get_namespace_by_key_value(_ns, '\x01_KEVA_NS_')
+                    _b_s = str(_block[0])
+                    _block = str(str(len(_b_s)) + _b_s + str(_block[1]))
+                    _name = (self.cache.ns.get_namespace_by_key_value(
+                        _ns, '\x01_KEVA_NS_'))
                     if len(_name) == 0:
-                        _name = self.cache.ns.get_namespace_by_key_value(_ns, '_KEVA_NS_')
+                        _name = (self.cache.ns
+                                 .get_namespace_by_key_value(_ns, '_KEVA_NS_'))
                         if len(_name) > 0:
                             _name = _name[0][0]
                     else:
                         _name = _name[0][0]
-                    
+
                     if 'displayName' in _name:
                         _name = json.loads(_name)['displayName']
 
                     self.combo_ns.addItem(_block+' - '+_name, _ns+':'+tx['a'])
 
-
     def set_availible_usxo(self, isChangeOp: bool):
         _n = self.combo_wallet.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
-            
+
         _tmp_usxo = wallet.get_usxos()
         _usxos = []
         _nsusxo = None
@@ -254,16 +257,18 @@ class Ui_keva_op_nft_dlg(QObject):
                 if _tx.confirmations is not None:
                     if _tx.confirmations >= 6:
                         if ('OP_KEVA' not in
-                            _tx.vout[tx['tx_pos']].scriptPubKey.asm):
+                                _tx.vout[tx['tx_pos']].scriptPubKey.asm):
                             _usxos.append(tx)
                         elif ('OP_KEVA'
-                              in _tx.vout[tx['tx_pos']].scriptPubKey.asm
-                              and isChangeOp is True):
+                                in _tx.vout[tx['tx_pos']].scriptPubKey.asm
+                                and isChangeOp is True):
 
-                            _test  =_tx.vout[tx['tx_pos']].scriptPubKey.asm.split(' ')[1]
+                            _test = (_tx.vout[tx['tx_pos']]
+                                     .scriptPubKey.asm.split(' ')[1])
                             _test = self.cache.ns.convert_to_namespaceid(_test)
 
-                            if _test == self.combo_ns.currentData().split(':')[0]:
+                            if (_test == self.combo_ns
+                                    .currentData().split(':')[0]):
                                 _nsusxo = tx
 
         if _nsusxo is not None and isChangeOp is True:
@@ -291,7 +296,8 @@ class Ui_keva_op_nft_dlg(QObject):
 
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
-        return Ut.bytes_to_hex(bytes([53]) + Ut.hash160(_tx + str(vout).encode()))
+        _tx_hash = Ut.hash160(_tx + str(vout).encode())
+        return Ut.bytes_to_hex(bytes([53]) + _tx_hash)
 
     def txb_build_simple_send(self):
         self._new_tx._version = Ut.hex_to_bytes('00710000')
@@ -331,7 +337,8 @@ class Ui_keva_op_nft_dlg(QObject):
         self._new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
         _inp_sel, _need_change, _est_fee = self._new_tx.select_inputs()
-        # print('_inp_sel, _need_change, _est_fee', _inp_sel, _need_change, _est_fee)
+        # print('_inp_sel, _need_change, _est_fee',
+        #       _inp_sel, _need_change, _est_fee)
 
         if _inp_sel is True:
             _, _, _fv = self._new_tx.get_current_values()

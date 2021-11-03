@@ -1,9 +1,10 @@
 from PyQt5 import QtCore
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIntValidator
-from PyQt5.QtWidgets import (QComboBox, QWidget, QVBoxLayout, QFrame, QHBoxLayout,
-                             QLabel, QSpacerItem, QSizePolicy, QPushButton,
-                             QLineEdit, QCheckBox, QPlainTextEdit, QTabWidget)
+from PyQt5.QtWidgets import (QComboBox, QWidget, QVBoxLayout, QFrame,
+                             QHBoxLayout, QLabel, QSpacerItem,
+                             QSizePolicy, QPushButton, QLineEdit,
+                             QCheckBox, QPlainTextEdit, QTabWidget)
 
 from core.kui.ux.widgets.widgets import _ns_value_textedit
 from core.kui.ux.widgets.electrumx_peers_table import _electrumx_peers_table
@@ -189,7 +190,8 @@ class Ui_SettingsTab(QObject):
         self.s_t_df_l.setText(_translate('tabSettings', 'on timer'))
         self.s_t_fav_l.setText(_translate('tabSettings', 'on timer'))
         self.nw_lt.setText(_translate('tabSettings', 'Theme:'))
-        self.nw_l1.setText(_translate('tabSettings', 'Narwhallet Web Options -'))
+        (self.nw_l1
+         .setText(_translate('tabSettings', 'Narwhallet Web Options -')))
         self.nw_l2.setText(_translate('tabSettings', 'Host:'))
         self.nw_l3.setText(_translate('tabSettings', 'Port:'))
         self.tabWidget_3.setTabText(self.tabWidget_3
@@ -203,6 +205,7 @@ class Ui_SettingsTab(QObject):
                                     _translate('tabSettings', 'Debug'))
         self.label.setText(_translate('tabSettings', 'IPFS Gateways -'))
         self.settings_ipfs_button_add.setText(_translate('tabSettings', 'Add'))
-        self.label_3.setText(_translate('tabSettings', 'NFT Market Data - Host:'))
+        (self.label_3
+         .setText(_translate('tabSettings', 'NFT Market Data - Host:')))
         self.label_3a.setText(_translate('tabSettings', 'Port:'))
         self.label_3b.setText(_translate('tabSettings', 'Endpoint:'))

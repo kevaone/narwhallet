@@ -102,7 +102,6 @@ class Ui_NFTTab(QObject):
         splitter_meta.setSizes([275, 300])
         self.tab_vl.addWidget(splitter_meta)
 
-
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.auctions_l.setText(_translate('tabNFT', 'My Auctions -'))

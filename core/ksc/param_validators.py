@@ -88,19 +88,19 @@ class ParamValidators():
             nskey[1] = nskey[1].encode()
 
         try:
-            _namespace_key = Base58Decoder.CheckDecode(nskey[0])
-            _namespace_key = _namespace_key + nskey[1]
-            _namespace_key = Ut.to_cuint(len(_namespace_key)) + _namespace_key
+            _ns_key = Base58Decoder.CheckDecode(nskey[0])
+            _ns_key = _ns_key + nskey[1]
+            _ns_key = Ut.to_cuint(len(_ns_key)) + _ns_key
         except Exception:
             try:
-                _namespace_key = Ut.hex_to_bytes(nskey[0])
-                _ = Base58Encoder.CheckEncode(_namespace_key)
-                _namespace_key = _namespace_key + nskey[1]
-                _namespace_key = Ut.to_cuint(len(_namespace_key)) + _namespace_key
+                _ns_key = Ut.hex_to_bytes(nskey[0])
+                _ = Base58Encoder.CheckEncode(_ns_key)
+                _ns_key = _ns_key + nskey[1]
+                _ns_key = Ut.to_cuint(len(_ns_key)) + _ns_key
             except Exception:
                 raise Exception('supplied namespace invailid')
 
-        return _namespace_key
+        return _ns_key
 
     def hashtagSciptHash(hashtag: str):
         try:

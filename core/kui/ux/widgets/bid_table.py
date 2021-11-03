@@ -47,13 +47,13 @@ class _bid_table(QTableWidget):
         _transm_st = QtCore.Qt.SmoothTransformation
         __path = os.path.dirname(__file__)
         if pic == 0:
-            _pic = QtGui.QPixmap(os.path.join(__path, '../assets/keva-logo.png'))
+            _p = QtGui.QPixmap(os.path.join(__path, '../assets/keva-logo.png'))
         elif pic == 1:
-            _pic = QtGui.QPixmap(os.path.join(__path, '../assets/clipboard.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
+            _p = QtGui.QPixmap(os.path.join(__path, '../assets/clipboard.png'))
+        _p = _p.scaledToWidth(20, _transm_st)
 
         _vpic = QLabel()
-        _vpic.setPixmap(_pic)
+        _vpic.setPixmap(_p)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
 
@@ -85,7 +85,8 @@ class _bid_table(QTableWidget):
 
         _valid = self._create_table_item_graphic(0)
         _accept = self._create_table_item_graphic(1)
-        _date = self._create_table_item(MShared.get_timestamp(bid_data['date'])[1])
+        _date = (self._create_table_item(
+            MShared.get_timestamp(bid_data['date'])[1]))
         _shortcode = self._create_table_item(str(bid_data['shortcode']))
         _bid = self._create_table_item(str(bid_data['bid']))
 

@@ -61,8 +61,8 @@ class _peer():
                     break
 
                 if (_r.endswith(b'"}\n')
-                    or _r.endswith(b'}]\n')
-                    or _r.endswith(b']\n}\n')):
+                        or _r.endswith(b'}]\n')
+                        or _r.endswith(b']\n}\n')):
                     break
 
             if data == b'':

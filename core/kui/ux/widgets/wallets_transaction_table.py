@@ -30,7 +30,7 @@ class _transaction_table(QTableWidget):
 
     def clear_row(self, row):
         self.setRowHidden(row, True)
-        #self.cellWidget(row, 0).setHidden(True) #.setCellWidget(_r, 0, _vpic)
+        # self.cellWidget(row, 0).setHidden(True) #.setCellWidget(_r, 0, _vpic)
         self.item(row, 1).setText('')
         self.item(row, 3).setText('')
         self.item(row, 4).setText('')
@@ -50,8 +50,10 @@ class _transaction_table(QTableWidget):
             if transactions[i]['blockhash'] is None:
                 transactions[i]['<->'] = 'Pending - ' + transactions[i]['<->']
             elif transactions[i]['confirmations'] < 6:
-                _confirming = 'Confirming -' + str(transactions[i]['confirmations'])
-                transactions[i]['<->'] = _confirming + ' - ' + transactions[i]['<->']
+                _confirming = ('Confirming -' +
+                               str(transactions[i]['confirmations']))
+                transactions[i]['<->'] = (_confirming +
+                                          ' - ' + transactions[i]['<->'])
 
             self._add_transaction(i, transactions[i])
 
@@ -91,7 +93,8 @@ class _transaction_table(QTableWidget):
         if idx == self.rowCount():
             self.insertRow(idx)
             _vpic = self._create_table_item_graphic()
-            _date = self._create_table_item(MShared.get_timestamp(transaction_data['time'])[1])
+            _date = (self._create_table_item(
+                MShared.get_timestamp(transaction_data['time'])[1]))
             _amount = self._create_table_item(str(transaction_data['amount']))
             _direction = self._create_table_item(transaction_data['<->'])
             _txid = self._create_table_item(transaction_data['txid'])
@@ -101,7 +104,8 @@ class _transaction_table(QTableWidget):
             self.setItem(idx, 4, _direction)
             self.setItem(idx, 5, _txid)
         elif idx <= self.rowCount():
-            self.item(idx, 1).setText(MShared.get_timestamp(transaction_data['time'])[1])
+            (self.item(idx, 1).setText(
+                MShared.get_timestamp(transaction_data['time'])[1]))
             self.item(idx, 3).setText(str(transaction_data['amount']))
             self.item(idx, 4).setText(transaction_data['<->'])
             self.item(idx, 5).setText(transaction_data['txid'])

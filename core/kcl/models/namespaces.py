@@ -72,10 +72,10 @@ class MNamespaces():
         value = self._decode(value)
         _r = self.dbi.execute_sql(self.dbi.scripts.INSERT_NS,
                                   (block, n, tx, _ns, op,
-                                  key,
-                                  value,
-                                  self.get_key_type(key, value),
-                                  address), 2)
+                                   key,
+                                   value,
+                                   self.get_key_type(key, value),
+                                   address), 2)
         return _r
 
     def get_view(self):
@@ -167,9 +167,9 @@ class MNamespaces():
         value = self._decode(value)
         _r = self.dbi.execute_sql(self.dbi.scripts.UPDATE_NS_KEY,
                                   (block, n, tx, value,
-                                  self.get_key_type(key, value),
-                                  address, namespaceid,
-                                  key, block), 1)
+                                   self.get_key_type(key, value),
+                                   address, namespaceid,
+                                   key, block), 1)
         return _r
 
     def delete_key(self, ns, key, block):

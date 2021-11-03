@@ -54,7 +54,6 @@ class MDialogs():
         # TODO Refine this
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
 
-
     def simple_send_dialog(self):
         _di = QDialog()
         _di.ui = Ui_simple_send_dlg()
@@ -235,7 +234,6 @@ class MDialogs():
             else:
                 _result = _bc_result[1]
             _ = self.warning_dialog(_result, False, int(_bc_result[0]))
-            #_ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def delete_namespace_key_send_dialog(self):
         _di = QDialog()

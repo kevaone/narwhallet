@@ -45,7 +45,8 @@ class Scripts(Enum):
         address FROM ns_cache WHERE ns = ? ORDER BY block desc;'
     SELECT_NS_BY_POS = 'SELECT ns FROM ns_cache WHERE block = ? AND n = ?;'
     SELECT_NS_BY_TXID = 'SELECT ns FROM ns_cache WHERE txid = ? AND ns = ?;'
-    SELECT_NS_BY_KEY = 'SELECT ns, [key] FROM ns_cache WHERE ns = ? AND [key] = ?;'
+    SELECT_NS_BY_KEY = 'SELECT ns, [key] FROM ns_cache WHERE ns = ? AND \
+        [key] = ?;'
     SELECT_NS_VIEW_1 = 'SELECT DISTINCT ns FROM ns_cache;'
     SELECT_NS_COUNT = 'SELECT COUNT(ns) FROM ns_cache WHERE ns = ?;'
     SELECT_NS_BLOCK = 'SELECT block, n FROM ns_cache WHERE ns = ? \
@@ -62,7 +63,8 @@ class Scripts(Enum):
         WHERE ns = ? AND [key] = "_KEVA_NS_";'
     SELECT_NFT = 'SELECT tx, data FROM nft_cache WHERE tx = ?;'
     SELECT_ACTION_CACHE_ALL = 'SELECT tx, [action], state FROM action_cache;'
-    SELECT_ACTION_CACHE_ENTRY = 'SELECT tx, [action], state FROM action_cache WHERE tx = ? AND [action] = ?;'
+    SELECT_ACTION_CACHE_ENTRY = 'SELECT tx, [action], state FROM action_cache \
+        WHERE tx = ? AND [action] = ?;'
     INSERT_TX = 'INSERT INTO tx_cache (txid, hash, version, size, vsize, \
         locktime, vin, vout, blockhash, confirmations, time, blocktime, \
             hex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'

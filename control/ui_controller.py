@@ -174,7 +174,7 @@ class NarwhalletController():
         self.settings.fromDict(self.set_dat.data)
 
         self.wset_dat = ConfigLoader(os.path.join(self.user_path,
-                                                 'strap.json'))
+                                                  'strap.json'))
         self.wset_dat.load()
         self.web_settings.fromDict(self.wset_dat.data)
 
@@ -231,12 +231,16 @@ class NarwhalletController():
         _datafeed = self.settings.data_feeds
         if 'nft_data' in _datafeed:
             self.ui.settings_tab.lineEdit_2.setText(_datafeed['nft_data'][1])
-            self.ui.settings_tab.lineEdit_2a.setText(str(_datafeed['nft_data'][2]))
+            (self.ui.settings_tab.lineEdit_2a
+             .setText(str(_datafeed['nft_data'][2])))
             self.ui.settings_tab.lineEdit_2b.setText(_datafeed['nft_data'][0])
         else:
-            self.settings.data_feeds['nft_data'] = ["/api/nft_raw", "keva.one", 443, "True", "True"]
+            self.settings.data_feeds['nft_data'] = ['/api/nft_raw',
+                                                    'keva.one', 443,
+                                                    'True', 'True']
             self.ui.settings_tab.lineEdit_2.setText(_datafeed['nft_data'][1])
-            self.ui.settings_tab.lineEdit_2a.setText(str(_datafeed['nft_data'][2]))
+            (self.ui.settings_tab.lineEdit_2a
+             .setText(str(_datafeed['nft_data'][2])))
             self.ui.settings_tab.lineEdit_2b.setText(_datafeed['nft_data'][0])
             self.set_dat.save(json.dumps(self.settings.toDict()))
 
@@ -331,9 +335,12 @@ class NarwhalletController():
         self.ui.ns_tab.btn_val_del.clicked.connect(self.ns_key_delete_click)
         self.ui.ns_tab.sel_ns_sc_bvpic.mousePressEvent = self.ns_sc_copy_click
         self.ui.ns_tab.sel_ns_n_bvpic.mousePressEvent = self.ns_name_copy_click
-        self.ui.nft_tab.tbl_auctions.itemSelectionChanged.connect(self.nft_auction_selected)
-        self.ui.nft_tab.tbl_auctions.cellClicked.connect(self.nft_auction_selected)
-        self.ui.nft_tab.tbl_bids.itemSelectionChanged.connect(self.nft_bid_selected)
+        (self.ui.nft_tab.tbl_auctions
+         .itemSelectionChanged.connect(self.nft_auction_selected))
+        (self.ui.nft_tab.tbl_auctions
+         .cellClicked.connect(self.nft_auction_selected))
+        (self.ui.nft_tab.tbl_bids
+         .itemSelectionChanged.connect(self.nft_bid_selected))
         self.ui.nft_tab.tbl_bids.cellClicked.connect(self.nft_bid_selected)
         (self.ui.u_tab.wallet_select
          .currentTextChanged.connect(self.sign_wallet_changed))
@@ -375,15 +382,19 @@ class NarwhalletController():
         self.ui.settings_tab.s_t_wallet_l.clicked.connect(self.save_settings)
         self.ui.settings_tab.s_t_df_l.clicked.connect(self.save_settings)
         self.ui.settings_tab.s_t_fav_l.clicked.connect(self.save_settings)
-        ((self.ui.settings_tab.s_t_wallet_e
-         .textChanged.connect(self.save_settings)))
+        (self.ui.settings_tab.s_t_wallet_e
+         .textChanged.connect(self.save_settings))
         self.ui.settings_tab.s_t_df_e.textChanged.connect(self.save_settings)
         self.ui.settings_tab.s_t_fav_e.textChanged.connect(self.save_settings)
         self.ui.settings_tab.lineEdit_2.textChanged.connect(self.save_settings)
-        self.ui.settings_tab.lineEdit_2a.textChanged.connect(self.save_settings)
-        self.ui.settings_tab.lineEdit_2b.textChanged.connect(self.save_settings)
-        self.ui.settings_tab.nw_host.textChanged.connect(self.save_web_settings)
-        self.ui.settings_tab.nw_port.textChanged.connect(self.save_web_settings)
+        (self.ui.settings_tab.lineEdit_2a
+         .textChanged.connect(self.save_settings))
+        (self.ui.settings_tab.lineEdit_2b
+         .textChanged.connect(self.save_settings))
+        (self.ui.settings_tab.nw_host
+         .textChanged.connect(self.save_web_settings))
+        (self.ui.settings_tab.nw_port
+         .textChanged.connect(self.save_web_settings))
 
         self.threader('wallet_lock_timer', time.sleep,
                       60, None, self.t_restart)
@@ -508,7 +519,9 @@ class NarwhalletController():
             _auc = []
             for _a in _auctions:
                 _tx_time = self.cache.tx.get_tx_time(_a[2])
-                _d = [_tx_time, ns['shortcode'], json.loads(_a[4])['price'] + ' KVA', '0', '0.0' + ' KVA', _a[3]]
+                _d = [_tx_time, ns['shortcode'],
+                      json.loads(_a[4])['price'] + ' KVA', '0',
+                      '0.0' + ' KVA', _a[3]]
                 _auc.append(_d)
 
             _bi = []
@@ -520,10 +533,14 @@ class NarwhalletController():
                 _tx_value = Ut.hex_to_bytes(_t[3]).decode()
                 _tx_value = json.loads(_tx_value)['price'] + ' KVA'
                 _tx_ns_sc = self.cache.ns.ns_block(_tx_ns)[0]
-                _tx_ns_sc = str(len(str(_tx_ns_sc[0]))) + str(_tx_ns_sc[0]) + str(_tx_ns_sc[1])
+                _s_b = str(_tx_ns_sc[0])
+                _tx_ns_sc = str(len(_s_b)) + _s_b + str(_tx_ns_sc[1])
                 _bid_psbt = keva_psbt(_b[5])
 
-                _d = [_tx_time, ns['shortcode'], _tx_ns_sc, _tx_value, 'high_bid' + ' KVA', str(_bid_psbt.tx.vout[1].value / 100000000) + ' KVA', _tx_ns]
+                _d = [_tx_time, ns['shortcode'], _tx_ns_sc, _tx_value,
+                      'high_bid' + ' KVA',
+                      str(_bid_psbt.tx.vout[1].value / 100000000) + ' KVA',
+                      _tx_ns]
                 _bi.append(_d)
 
             if len(_auctions) > 0:
@@ -767,7 +784,7 @@ class NarwhalletController():
          .setText(self.ui.ns_tab.tbl_ns.item(row, 3).text()))
         (self.ui.ns_tab.sel_ns_name
          .setText(self.ui.ns_tab.tbl_ns.item(row, 5).text()))
-            
+
         self.ui.ns_tab.ns_tab_text_key_value.setPlainText('')
 
     def ns_sc_copy_click(self, data):
@@ -793,15 +810,15 @@ class NarwhalletController():
             _w = self.wallets.get_wallet_by_name(_n)
 
         key = self.ui.ns_tab.list_ns_keys.currentItem()
-        _key_value = self.cache.ns.get_namespace_by_key_value(_ns, key.text())
+        _value = self.cache.ns.get_namespace_by_key_value(_ns, key.text())
 
-        if len(_key_value) > 0:
+        if len(_value) > 0:
             (self.ui.ns_tab.ns_tab_text_key_value
-             .setPlainText(str(_key_value[0][0])))
+             .setPlainText(str(_value[0][0])))
 
         self.ui.ns_tab.sel_ns_key.setText('Selected key is special:')
 
-        _key_type = self.cache.ns.get_key_type(key.text(), str(_key_value[0][0]))
+        _key_type = self.cache.ns.get_key_type(key.text(), str(_value[0][0]))
         self.ui.ns_tab.sel_ns_key_sp.setText(_key_type)
 
         if _key_type is None:
@@ -831,7 +848,8 @@ class NarwhalletController():
                 row = -1
         else:
             self.ui.nft_tab.tbl_auctions.selectRow(row)
-            _auction = self.cache.ns.get_namespace_auctions(self.ui.nft_tab.tbl_auctions.item(row, 8).text())
+            _auction_ns = self.ui.nft_tab.tbl_auctions.item(row, 8).text()
+            _auction = self.cache.ns.get_namespace_auctions(_auction_ns)
             if len(_auction) > 0:
                 self.update_selected_auction_data(_auction[0])
 
@@ -845,12 +863,12 @@ class NarwhalletController():
                 row = -1
         else:
             self.ui.nft_tab.tbl_bids.selectRow(row)
-            _auction = self.cache.ns.get_namespace_auctions(self.ui.nft_tab.tbl_bids.item(row, 10).text())
+            _auction_ns = self.ui.nft_tab.tbl_bids.item(row, 10).text()
+            _auction = self.cache.ns.get_namespace_auctions(_auction_ns)
             if len(_auction) > 0:
                 self.update_selected_auction_data(_auction[0])
             else:
                 self.update_selected_auction_data(None, True)
-                # _k = MShared.get_K(self.ui.nft_tab.tbl_bids.item(row, 4).text(), self.cache, self.KEX)
 
     def update_selected_auction_data(self, auction, clear: bool = False):
         if clear is True:
@@ -1000,8 +1018,8 @@ class NarwhalletController():
         _w = self.wallets.get_wallet_by_name(_n)
         _idx = _w.account_index
         _a = _w.get_unused_address()
-        self.ui.w_tab.tbl_addr.add_address(_idx, {'address': _a, 'received': 0.0,
-                                           'sent': 0.0, 'balance': 0.0})
+        _dat = {'address': _a, 'received': 0.0, 'sent': 0.0, 'balance': 0.0}
+        self.ui.w_tab.tbl_addr.add_address(_idx, _dat)
         self.ui.w_tab.tbl_addr.resizeColumnsToContents()
         self.wallets.save_wallet(_w.name)
 
@@ -1010,7 +1028,7 @@ class NarwhalletController():
         _w = self.wallets.get_wallet_by_name(_n)
         _idx = _w.change_index
         _a = _w.get_unused_change_address()
-        self.ui.w_tab.tbl_addr2.add_address(_idx, {'address': _a, 'received': 0.0,
-                                            'sent': 0.0, 'balance': 0.0})
+        _dat = {'address': _a, 'received': 0.0, 'sent': 0.0, 'balance': 0.0}
+        self.ui.w_tab.tbl_addr2.add_address(_idx, _dat)
         self.ui.w_tab.tbl_addr2.resizeColumnsToContents()
         self.wallets.save_wallet(_w.name)

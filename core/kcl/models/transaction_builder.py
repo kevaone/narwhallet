@@ -45,7 +45,8 @@ class MTransactionBuilder(MTransaction):
         _total_size = _size + 2
         _vsize = math.ceil((_base * 3 + _total_size) / 4)
         # print('in_count', in_count, 'out_count', out_count)
-        # print('base', _base, 'size', _size, '_total_size', _total_size, 'vsize', _vsize)
+        # print('base', _base, 'size', _size, '_total_size',
+        #       _total_size, 'vsize', _vsize)
         return _total_size, _vsize
 
     def get_current_values(self):
@@ -100,24 +101,33 @@ class MTransactionBuilder(MTransaction):
             # print('est_fee', _est_fee)
             if (tx['value'] + fv) == _est_fee:
                 # print('Worlds align, no change')
-                self.add_input(tx['value'], str(tx['a_idx'])+':'+str(tx['ch']), tx['tx_hash'], tx['tx_pos'])
+                self.add_input(tx['value'],
+                               str(tx['a_idx'])+':'+str(tx['ch']),
+                               tx['tx_hash'], tx['tx_pos'])
                 _enough_inputs = True
                 break
             elif (tx['value'] + fv) < _est_fee:
                 # print('Need more inputs')
-                self.add_input(tx['value'], str(tx['a_idx'])+':'+str(tx['ch']), tx['tx_hash'], tx['tx_pos'])
+                self.add_input(tx['value'],
+                               str(tx['a_idx'])+':'+str(tx['ch']),
+                               tx['tx_hash'], tx['tx_pos'])
             elif (tx['value'] + fv) > (_est_fee + 500000):
-                _size, _vsize = self.get_size(len(self.vin) + 1, len(self.vout) + 1)
+                _size, _vsize = (self.get_size(
+                    len(self.vin) + 1, len(self.vout) + 1))
                 _est_fee = self.fee * _vsize
                 # print('change test est_fee', _est_fee)
                 if (tx['value'] + fv) > (_est_fee + 500000):
                     # print('Need chage')
-                    self.add_input(tx['value'], str(tx['a_idx'])+':'+str(tx['ch']), tx['tx_hash'], tx['tx_pos'])
+                    self.add_input(tx['value'],
+                                   str(tx['a_idx'])+':'+str(tx['ch']),
+                                   tx['tx_hash'], tx['tx_pos'])
                     _enough_inputs = True
                     _change_flag = True
                     break
                 else:
-                    self.add_input(tx['value'], str(tx['a_idx'])+':'+str(tx['ch']), tx['tx_hash'], tx['tx_pos'])
+                    self.add_input(tx['value'],
+                                   str(tx['a_idx'])+':'+str(tx['ch']),
+                                   tx['tx_hash'], tx['tx_pos'])
                     # print('Need more inputs, cant do change')
 
         if _enough_inputs is False:
@@ -182,7 +192,8 @@ class MTransactionBuilder(MTransaction):
 
         for i in range(0, len(self.vin)):
             _outpoint = Ut.reverse_bytes(Ut.hex_to_bytes(self.vin[i].txid))
-            _outpoint = _outpoint + Ut.int_to_bytes(self.vin[i].vout, 4, 'little')
+            _outpoint = _outpoint + Ut.int_to_bytes(self.vin[i].vout,
+                                                    4, 'little')
             _pre.append(_outpoint)
             _s = Ut.hex_to_bytes(self.vin[i].scriptSig.hex)
             _scriptSig = Ut.to_cuint(len(_s)) + _s
@@ -195,7 +206,8 @@ class MTransactionBuilder(MTransaction):
         for i in range(0, len(self.vout)):
             _pre.append(Ut.int_to_bytes(self.vout[i].value, 8, 'little'))
 
-            _pre.append(Ut.to_cuint(len(Ut.hex_to_bytes(self.vout[i].scriptPubKey.hex))))
+            (_pre.append(Ut.to_cuint(
+                len(Ut.hex_to_bytes(self.vout[i].scriptPubKey.hex)))))
 
             _pre.append(Ut.hex_to_bytes(self.vout[i].scriptPubKey.hex))
 

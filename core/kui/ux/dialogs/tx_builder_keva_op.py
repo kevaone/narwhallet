@@ -241,7 +241,8 @@ class Ui_keva_op_send_dlg(QObject):
 
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
-        return Ut.bytes_to_hex(bytes([53]) + Ut.hash160(_tx + str(vout).encode()))
+        _tx_hash = Ut.hash160(_tx + str(vout).encode())
+        return Ut.bytes_to_hex(bytes([53]) + _tx_hash)
 
     def txb_build_simple_send(self):
         self._new_tx._version = Ut.hex_to_bytes('00710000')
@@ -294,7 +295,7 @@ class Ui_keva_op_send_dlg(QObject):
         if _inp_sel is True:
             _, _, _fv = self._new_tx.get_current_values()
             _cv = _fv - _est_fee
-            #print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
+            # print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
 
             if self._ns is None:
                 self._ns = self.tx_to_ns(self._new_tx.vin[0].txid,
@@ -304,7 +305,7 @@ class Ui_keva_op_send_dlg(QObject):
                                                                self._ns_address
                                                                ], True)
                 if _need_change is True:
-                    #_change_address = wallet.get_unused_change_address()
+                    # _change_address = wallet.get_unused_change_address()
                     _ = self._new_tx.add_output(_cv, self._ns_address)
             elif (self._ns is not None and self._ns_key is not None
                   and self._ns_value is not None):
@@ -329,7 +330,8 @@ class Ui_keva_op_send_dlg(QObject):
                     _ = self._new_tx.add_output(_cv, self._ns_address)
 
             self._new_tx.vout[0].scriptPubKey.set_hex(_n_sh)
-            # print('final size', self._new_tx.get_size(len(self._new_tx.vin), len(self._new_tx.vout)))
+            # print('final size', self._new_tx.get_size(len(self._new_tx.vin),
+            #       len(self._new_tx.vout)))
 
             self.txb_preimage()
             _stx = self._new_tx.serialize_tx()

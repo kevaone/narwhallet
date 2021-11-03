@@ -85,7 +85,8 @@ class _Api():
             _ = self.control.DF_KEX.peers[0].connect()
             # TODO Add HTTP commands to kex, remove hard code
             _nft_data = self.control.settings.data_feeds['nft_data']
-            _cmd = 'GET ' + _nft_data[0] + ' HTTP/1.1\r\nHost: ' + _nft_data[1] + '\r\n\r\n'
+            _cmd = ('GET ' + _nft_data[0] +
+                    ' HTTP/1.1\r\nHost: ' + _nft_data[1] + '\r\n\r\n')
             _auctions = self.control.DF_KEX.call_batch(_cmd.encode(), False)
             _auctions = json.loads(_auctions.decode().split('\r\n\r\n')[1])
 
@@ -93,7 +94,9 @@ class _Api():
             _microblog = Feed(self.content_path,
                               self.control.settings.ipfs_gateways[_pigw][2])
 
-            _result = _microblog.get_auction_feed(_auctions, auction_type, self.cache)
+            _result = _microblog.get_auction_feed(_auctions,
+                                                  auction_type,
+                                                  self.cache)
 
         return _result
 

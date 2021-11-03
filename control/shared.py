@@ -11,7 +11,6 @@ from core.ksc import Scripts
 from core.ksc.utils import Ut
 from core.kcl.models.cache import MCache
 from core.kcl.models.wallet import MWallet
-from core.kcl.models.wallet_kind import EWalletKind
 from core.kcl.models.addresses import MAddresses
 from core.kcl.models.address import MAddress
 from core.kcl.models.transaction import MTransaction
@@ -379,7 +378,7 @@ class MShared():
 
     @staticmethod
     def get_transactions(wallet: MWallet, KEX: KEXclient, cache: MCache):
-        _block_count = MShared.get_block_count(KEX)
+        # _block_count = MShared.get_block_count(KEX)
         # print('_block_count', _block_count)
         wallet.set_balance(0.0)
         _tx_h_batch = []
@@ -477,7 +476,8 @@ class MShared():
                                 if (_a.address in _out.scriptPubKey.addresses
                                         and _out.n == _vo):
                                     _a.set_sent(_a.sent + _out.value)
-                                    wallet.set_balance(wallet.balance - _out.value)
+                                    (wallet
+                                     .set_balance(wallet.balance - _out.value))
 
                     for _out in _trx.vout:
                         if _a.address in _out.scriptPubKey.addresses:
@@ -511,27 +511,34 @@ class MShared():
                                                  _out.addresses[0]))
                         else:
                             if _o[0] == 'OP_KEVA_DELETE':
-                                _ = cache.ns.delete_key(_o[1], _o[2], _merkle['block_height'])
+                                _ = cache.ns.delete_key(_o[1], _o[2],
+                                                        _merkle['block_height']
+                                                        )
                             else:
-                                _key = cache.ns.get_namespace_by_key(_o[1], _o[2])
+                                _key = cache.ns.get_namespace_by_key(_o[1],
+                                                                     _o[2])
                                 if len(_key) > 0 and _o[2][:4] != '0001':
                                     _ = (cache.ns
-                                        .update_key(_merkle['block_height'],
-                                                    _merkle['pos'],
-                                                    _trx.txid, _o[1],
-                                                    _o[2], _o[3],
-                                                    _out.addresses[0]))
+                                         .update_key(_merkle['block_height'],
+                                                     _merkle['pos'],
+                                                     _trx.txid, _o[1],
+                                                     _o[2], _o[3],
+                                                     _out.addresses[0]))
                                 else:
                                     if (_o[2][:4] == '0001'
-                                        or _o[2][:4] == '0002'
-                                        or _o[2][:4] == '0003'):
+                                            or _o[2][:4] == '0002'
+                                            or _o[2][:4] == '0003'):
 
-                                        _ref_tx = cache.tx.get_tx_by_txid(_o[2][4:])
-                                        if _ref_tx is None:
-                                            _ref_tx = MShared.__get_tx(_o[2][4:], KEX, True)
-                                            if _ref_tx is not None:
-                                                _ref_tx = cache.tx.add_fromJson(_ref_tx)
-                                        
+                                        _r_tx = (cache.tx
+                                                 .get_tx_by_txid(_o[2][4:]))
+                                        if _r_tx is None:
+                                            _r_tx = (MShared
+                                                     .__get_tx(_o[2][4:],
+                                                               KEX, True))
+                                            if _r_tx is not None:
+                                                _r_tx = (cache.tx
+                                                         .add_fromJson(_r_tx))
+
                                     _ = (cache.ns
                                          ._fromRawValues(_merkle['block_height'],
                                                          _merkle['pos'],
@@ -644,7 +651,7 @@ class MShared():
     def scan_history(_ns, _tracker: list, _a, _a_hist,
                      KEX: KEXclient, cache: MCache, deep: bool = True):
         for _h in _a_hist:
-            if not isinstance(_h, dict):  # TODO refine upstream to remove check
+            if not isinstance(_h, dict):  # TODO refine upstream to rm check
                 _btrx = None
             else:
                 _btrx = cache.tx.get_tx_by_txid(_h['tx_hash'])

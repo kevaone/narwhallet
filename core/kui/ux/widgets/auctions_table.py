@@ -53,13 +53,13 @@ class _auctions_table(QTableWidget):
         _transm_st = QtCore.Qt.SmoothTransformation
         __path = os.path.dirname(__file__)
         if pic == 0:
-            _pic = QtGui.QPixmap(os.path.join(__path, '../assets/keva-logo.png'))
+            _p = QtGui.QPixmap(os.path.join(__path, '../assets/keva-logo.png'))
         elif pic == 1:
-            _pic = QtGui.QPixmap(os.path.join(__path, '../assets/clipboard.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
+            _p = QtGui.QPixmap(os.path.join(__path, '../assets/clipboard.png'))
+        _p = _p.scaledToWidth(20, _transm_st)
 
         _vpic = QLabel()
-        _vpic.setPixmap(_pic)
+        _vpic.setPixmap(_p)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
 
@@ -92,7 +92,8 @@ class _auctions_table(QTableWidget):
         self.insertRow(_r)
 
         _coin = self._create_table_item_graphic(0)
-        _date = self._create_table_item(MShared.get_timestamp(auction_data['date'])[1])
+        _date = (self._create_table_item(
+            MShared.get_timestamp(auction_data['date'])[1]))
         _wallet = self._create_table_item(auction_data['wallet'])
         _shortcode = self._create_table_item(str(auction_data['shortcode']))
         _asking = self._create_table_item(str(auction_data['asking']))

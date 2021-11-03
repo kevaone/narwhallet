@@ -42,7 +42,7 @@ class KEXclient():
                 # print('peer busy, sleeping 1sec...')
                 time.sleep(1)
             data = self.peers[self.active_peer].comm(commands)
-        except Exception as Ex:
+        except Exception:
             data = '[]'
 
         try:

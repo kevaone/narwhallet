@@ -19,13 +19,13 @@ class Ut():
     @staticmethod
     def encode_pushdata(data: bytes) -> bytes:
         if len(data) < 0x4c:
-            return b'' + bytes([len(data)]) + data # OP_PUSHDATA
+            return b'' + bytes([len(data)]) + data  # OP_PD
         elif len(data) <= 0xff:
-            return b'\x4c' + bytes([len(data)]) + data # OP_PUSHDATA1
+            return b'\x4c' + bytes([len(data)]) + data  # OP_PD1
         elif len(data) <= 0xffff:
-            return b'\x4d' + struct.pack(b'<H', len(data)) + data # OP_PUSHDATA2
+            return b'\x4d' + struct.pack(b'<H', len(data)) + data  # OP_PD2
         elif len(data) <= 0xffffffff:
-            return b'\x4e' + struct.pack(b'<I', len(data)) + data # OP_PUSHDATA4
+            return b'\x4e' + struct.pack(b'<I', len(data)) + data  # OP_PD4
         else:
             raise ValueError('Data too long to encode in a PUSHDATA op')
 
