@@ -607,8 +607,7 @@ class MShared():
         return _tx
 
     @staticmethod
-    def get_K(shortcode: int, cache: MCache,
-              KEX: KEXclient) -> dict:
+    def get_K(shortcode: int, cache: MCache, KEX: KEXclient):
         # TODO Clean this up
         _bs = str(shortcode)
         _b = int(_bs[1:int(_bs[0])+1])
@@ -634,6 +633,7 @@ class MShared():
                     _ok = _o.scriptPubKey.asm.split(' ')
                     _a_hist = []
                     if _ok[0].startswith('OP_KEVA'):
+                        # MShared._test_root(_o.scriptPubKey, KEX, cache)
                         _a = _o.scriptPubKey.addresses[0]
                         _a_hist = MShared._get_history(_a, KEX)
                         _tracker.append(_a)

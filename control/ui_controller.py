@@ -848,17 +848,29 @@ class NarwhalletController():
             _auction = self.cache.ns.get_namespace_auctions(self.ui.nft_tab.tbl_bids.item(row, 10).text())
             if len(_auction) > 0:
                 self.update_selected_auction_data(_auction[0])
+            else:
+                self.update_selected_auction_data(None, True)
+                # _k = MShared.get_K(self.ui.nft_tab.tbl_bids.item(row, 4).text(), self.cache, self.KEX)
 
-    def update_selected_auction_data(self, auction):
-        _auction = json.loads(auction[4])
-        self.ui.nft_tab.display_name.setText(_auction['displayName'])
-        self.ui.nft_tab.desc.setText(_auction['desc'])
-        self.ui.nft_tab.asking.setText(_auction['price'] + ' KVA')
-        self.ui.nft_tab.high_bid.setText('0.0')
-        self.ui.nft_tab.num_bids.setText('0')
-        self.ui.nft_tab.address.setText(_auction['addr'])
-        if 'hashtags' in _auction:
-            self.ui.nft_tab.hashtags.setText(_auction['hashtags'])
+    def update_selected_auction_data(self, auction, clear: bool = False):
+        if clear is True:
+            self.ui.nft_tab.display_name.setText('')
+            self.ui.nft_tab.desc.setText('')
+            self.ui.nft_tab.asking.setText('')
+            self.ui.nft_tab.high_bid.setText('')
+            self.ui.nft_tab.num_bids.setText('')
+            self.ui.nft_tab.address.setText('')
+            self.ui.nft_tab.hashtags.setText('')
+        else:
+            _auction = json.loads(auction[4])
+            self.ui.nft_tab.display_name.setText(_auction['displayName'])
+            self.ui.nft_tab.desc.setText(_auction['desc'])
+            self.ui.nft_tab.asking.setText(_auction['price'] + ' KVA')
+            self.ui.nft_tab.high_bid.setText('0.0')
+            self.ui.nft_tab.num_bids.setText('0')
+            self.ui.nft_tab.address.setText(_auction['addr'])
+            if 'hashtags' in _auction:
+                self.ui.nft_tab.hashtags.setText(_auction['hashtags'])
 
     def sign_wallet_changed(self, data: str):
         self.ui.u_tab.sa_e.clear()
