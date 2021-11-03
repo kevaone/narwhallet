@@ -16,7 +16,7 @@ from core.kui.kexc_worker import Worker
 
 from core.kex import KEXclient
 from core.kcl.file_utils import ConfigLoader
-# from core.kcl.models.psbt_decoder import keva_psbt
+from core.kcl.models.psbt_decoder import keva_psbt
 
 from core.kcl.models.cache import MCache
 from core.kcl.models.wallet import MWallet
@@ -521,8 +521,9 @@ class NarwhalletController():
                 _tx_value = json.loads(_tx_value)['price'] + ' KVA'
                 _tx_ns_sc = self.cache.ns.ns_block(_tx_ns)[0]
                 _tx_ns_sc = str(len(str(_tx_ns_sc[0]))) + str(_tx_ns_sc[0]) + str(_tx_ns_sc[1])
+                _bid_psbt = keva_psbt(_b[5])
 
-                _d = [_tx_time, ns['shortcode'], _tx_ns_sc, _tx_value, 'high_bid' + ' KVA', 'your_bid' + ' KVA', _tx_ns]
+                _d = [_tx_time, ns['shortcode'], _tx_ns_sc, _tx_value, 'high_bid' + ' KVA', str(_bid_psbt.tx.vout[1].value / 100000000) + ' KVA', _tx_ns]
                 _bi.append(_d)
 
             if len(_auctions) > 0:
