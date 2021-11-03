@@ -16,9 +16,9 @@ class _auctions_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(8)
+        self.setColumnCount(9)
         self.setHorizontalHeaderLabels(['', 'Date', 'Wallet', 'Shortcode',
-                                        'Asking', 'Bids', 'High Bid', ''])
+                                        'Asking', 'Bids', 'High Bid', '', ''])
         self.horizontalHeaderItem(0).setTextAlignment(4)
         self.horizontalHeaderItem(1).setTextAlignment(4)
         self.horizontalHeaderItem(2).setTextAlignment(4)
@@ -27,9 +27,11 @@ class _auctions_table(QTableWidget):
         self.horizontalHeaderItem(5).setTextAlignment(4)
         self.horizontalHeaderItem(6).setTextAlignment(4)
         self.horizontalHeaderItem(7).setTextAlignment(4)
+        self.horizontalHeaderItem(8).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
         self.setColumnWidth(0, 20)
         self.setColumnWidth(7, 20)
+        self.setColumnHidden(8, True)
 
     @staticmethod
     def _create_table_item(text):
@@ -78,10 +80,8 @@ class _auctions_table(QTableWidget):
             _d['shortcode'] = auction[1]
             _d['asking'] = auction[2]
             _d['bids'] = auction[3]
-            if len(auction) == 5:
-                _d['high_bid'] = auction[4]
-            else:
-                _d['high_bid'] = '0.0'
+            _d['high_bid'] = auction[4]
+            _d['tx'] = auction[5]
             self._add_auction(_d)
 
         self.resizeColumnsToContents()
@@ -98,6 +98,7 @@ class _auctions_table(QTableWidget):
         _asking = self._create_table_item(str(auction_data['asking']))
         _bids = self._create_table_item(auction_data['bids'])
         _high_bid = self._create_table_item(auction_data['high_bid'])
+        _auc_tx = self._create_table_item(auction_data['tx'])
 
         self.setCellWidget(_r, 0, _coin)
         self.setItem(_r, 1, _date)
@@ -106,4 +107,5 @@ class _auctions_table(QTableWidget):
         self.setItem(_r, 4, _asking)
         self.setItem(_r, 5, _bids)
         self.setItem(_r, 6, _high_bid)
+        self.setItem(_r, 8, _auc_tx)
         # self.setCellWidget(_r, 7, _dellabel)

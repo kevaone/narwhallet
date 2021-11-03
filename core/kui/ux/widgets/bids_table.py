@@ -16,10 +16,10 @@ class _bids_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(9)
-        self.setHorizontalHeaderLabels(['', 'Date', 'Wallet', 'Shortcode',
-                                        'Asking', 'High Bid', 'Your Bid',
-                                        'Is High Bid', ''])
+        self.setColumnCount(11)
+        self.setHorizontalHeaderLabels(['', 'Date', 'Wallet', 'Bid From',
+                                        'Bid On', 'Asking', 'High Bid',
+                                        'Your Bid', 'Is High Bid', '', ''])
         self.horizontalHeaderItem(0).setTextAlignment(4)
         self.horizontalHeaderItem(1).setTextAlignment(4)
         self.horizontalHeaderItem(2).setTextAlignment(4)
@@ -29,9 +29,12 @@ class _bids_table(QTableWidget):
         self.horizontalHeaderItem(6).setTextAlignment(4)
         self.horizontalHeaderItem(7).setTextAlignment(4)
         self.horizontalHeaderItem(8).setTextAlignment(4)
+        self.horizontalHeaderItem(9).setTextAlignment(4)
+        self.horizontalHeaderItem(10).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
         self.setColumnWidth(0, 20)
         self.setColumnWidth(8, 20)
+        self.setColumnHidden(10, True)
 
     @staticmethod
     def _create_table_item(text):
@@ -77,13 +80,12 @@ class _bids_table(QTableWidget):
             _d = {}
             _d['date'] = bid[0]
             _d['wallet'] = wallet
-            _d['shortcode'] = bid[1]
-            _d['asking'] = bid[2]
-            _d['high_bid'] = bid[3]
-            if len(bid) == 5:
-                _d['your_bid'] = bid[4]
-            else:
-                _d['your_bid'] = '0.0'
+            _d['from_shortcode'] = bid[1]
+            _d['to_shortcode'] = bid[2]
+            _d['asking'] = bid[3]
+            _d['high_bid'] = bid[4]
+            _d['your_bid'] = bid[5]
+            _d['tx'] = bid[6]
 
             self._add_bid(_d)
 
@@ -97,18 +99,22 @@ class _bids_table(QTableWidget):
         _coin = self._create_table_item_graphic(0)
         _date = self._create_table_item(MShared.get_timestamp(bid_data['date'])[1])
         _wallet = self._create_table_item(bid_data['wallet'])
-        _shortcode = self._create_table_item(str(bid_data['shortcode']))
+        _from_shortcode = self._create_table_item(str(bid_data['from_shortcode']))
+        _to_shortcode = self._create_table_item(str(bid_data['to_shortcode']))
         _asking = self._create_table_item(str(bid_data['asking']))
         _high_bid = self._create_table_item(str(bid_data['high_bid']))
         _your_bid = self._create_table_item(str(bid_data['your_bid']))
         _is_high_bid = self._create_table_item(str(bid_data['your_bid'] >= bid_data['high_bid']))
+        _auc_tx = self._create_table_item(str(bid_data['tx']))
 
         self.setCellWidget(_r, 0, _coin)
         self.setItem(_r, 1, _date)
         self.setItem(_r, 2, _wallet)
-        self.setItem(_r, 3, _shortcode)
-        self.setItem(_r, 4, _asking)
-        self.setItem(_r, 5, _high_bid)
-        self.setItem(_r, 6, _your_bid)
-        self.setItem(_r, 7, _is_high_bid)
+        self.setItem(_r, 3, _from_shortcode)
+        self.setItem(_r, 4, _to_shortcode)
+        self.setItem(_r, 5, _asking)
+        self.setItem(_r, 6, _high_bid)
+        self.setItem(_r, 7, _your_bid)
+        self.setItem(_r, 8, _is_high_bid)
+        self.setItem(_r, 10, _auc_tx)
         # self.setCellWidget(_r, 7, _dellabel)

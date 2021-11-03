@@ -31,6 +31,21 @@ class MTransactions():
             _return = None
         return _return
 
+    def get_tx_vout(self, txid: str):
+        _vout = self.dbi.execute_sql(self.dbi.scripts.SELECT_TX_VOUT,
+                                     (txid, ), 3)
+        return _vout
+
+    def get_tx_time(self, txid: str) -> MTransaction:
+        _tx = self.dbi.execute_sql(self.dbi.scripts.SELECT_TX_TIME,
+                                   (txid, ), 3)
+
+        if len(_tx) == 1:
+            _return = _tx[0][0]
+        else:
+            _return = None
+        return _return
+
     def add_fromJson(self, _json: dict) -> MTransaction:
         _tx = MTransaction()
         _tx.fromJson(_json)

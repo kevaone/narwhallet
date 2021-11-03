@@ -331,6 +331,10 @@ class NarwhalletController():
         self.ui.ns_tab.btn_val_del.clicked.connect(self.ns_key_delete_click)
         self.ui.ns_tab.sel_ns_sc_bvpic.mousePressEvent = self.ns_sc_copy_click
         self.ui.ns_tab.sel_ns_n_bvpic.mousePressEvent = self.ns_name_copy_click
+        self.ui.nft_tab.tbl_auctions.itemSelectionChanged.connect(self.nft_auction_selected)
+        self.ui.nft_tab.tbl_auctions.cellClicked.connect(self.nft_auction_selected)
+        self.ui.nft_tab.tbl_bids.itemSelectionChanged.connect(self.nft_bid_selected)
+        self.ui.nft_tab.tbl_bids.cellClicked.connect(self.nft_bid_selected)
         (self.ui.u_tab.wallet_select
          .currentTextChanged.connect(self.sign_wallet_changed))
         (self.ui.u_tab.sa_e
@@ -494,15 +498,38 @@ class NarwhalletController():
         self.refresh_namespace_tab_data()
 
     def refresh_nft_tab_data(self, namespaces: List[dict]):
+        self.ui.nft_tab.tbl_auctions.clear_rows()
+        self.ui.nft_tab.tbl_bids.clear_rows()
+
         for ns in namespaces:
             _auctions = self.cache.ns.get_namespace_auctions(ns['namespaceid'])
             _bids = self.cache.ns.get_namespace_bids(ns['namespaceid'])
 
+            _auc = []
+            for _a in _auctions:
+                _tx_time = self.cache.tx.get_tx_time(_a[2])
+                _d = [_tx_time, ns['shortcode'], json.loads(_a[4])['price'] + ' KVA', '0', '0.0' + ' KVA', _a[3]]
+                _auc.append(_d)
+
+            _bi = []
+            for _b in _bids:
+                _tx_time = self.cache.tx.get_tx_time(_b[2])
+                _tx = self.cache.tx.get_tx_vout(_b[4][4:])
+                _t = _tx[0][2].split(' ')
+                _tx_ns = self.cache.ns.convert_to_namespaceid(_t[1])
+                _tx_value = Ut.hex_to_bytes(_t[3]).decode()
+                _tx_value = json.loads(_tx_value)['price'] + ' KVA'
+                _tx_ns_sc = self.cache.ns.ns_block(_tx_ns)[0]
+                _tx_ns_sc = str(len(str(_tx_ns_sc[0]))) + str(_tx_ns_sc[0]) + str(_tx_ns_sc[1])
+
+                _d = [_tx_time, ns['shortcode'], _tx_ns_sc, _tx_value, 'high_bid' + ' KVA', 'your_bid' + ' KVA', _tx_ns]
+                _bi.append(_d)
+
             if len(_auctions) > 0:
-                self.ui.nft_tab.tbl_auctions.add_auctions(ns['wallet'], _auctions)
+                self.ui.nft_tab.tbl_auctions.add_auctions(ns['wallet'], _auc)
 
             if len(_bids) > 0:
-                self.ui.nft_tab.tbl_bids.add_bids(ns['wallet'], _bids)
+                self.ui.nft_tab.tbl_bids.add_bids(ns['wallet'], _bi)
 
     def refresh_namespace_tab_data(self):
         # TODO Cleanup
@@ -792,6 +819,45 @@ class NarwhalletController():
         else:
             self.ui.ns_tab.btn_val_edit.setEnabled(False)
             self.ui.ns_tab.btn_val_del.setEnabled(False)
+
+    def nft_auction_selected(self, row: int = -1, column: int = -1):
+        self.ui.nft_tab.tbl_bids.clearSelection()
+        if row == -1:
+            row = self.ui.nft_tab.tbl_auctions.selectedRanges()
+            if len(row) > 0:
+                row = row[0].topRow()
+            else:
+                row = -1
+        else:
+            self.ui.nft_tab.tbl_auctions.selectRow(row)
+            _auction = self.cache.ns.get_namespace_auctions(self.ui.nft_tab.tbl_auctions.item(row, 8).text())
+            if len(_auction) > 0:
+                self.update_selected_auction_data(_auction[0])
+
+    def nft_bid_selected(self, row: int = -1, column: int = -1):
+        self.ui.nft_tab.tbl_auctions.clearSelection()
+        if row == -1:
+            row = self.ui.nft_tab.tbl_bids.selectedRanges()
+            if len(row) > 0:
+                row = row[0].topRow()
+            else:
+                row = -1
+        else:
+            self.ui.nft_tab.tbl_bids.selectRow(row)
+            _auction = self.cache.ns.get_namespace_auctions(self.ui.nft_tab.tbl_bids.item(row, 10).text())
+            if len(_auction) > 0:
+                self.update_selected_auction_data(_auction[0])
+
+    def update_selected_auction_data(self, auction):
+        _auction = json.loads(auction[4])
+        self.ui.nft_tab.display_name.setText(_auction['displayName'])
+        self.ui.nft_tab.desc.setText(_auction['desc'])
+        self.ui.nft_tab.asking.setText(_auction['price'] + ' KVA')
+        self.ui.nft_tab.high_bid.setText('0.0')
+        self.ui.nft_tab.num_bids.setText('0')
+        self.ui.nft_tab.address.setText(_auction['addr'])
+        if 'hashtags' in _auction:
+            self.ui.nft_tab.hashtags.setText(_auction['hashtags'])
 
     def sign_wallet_changed(self, data: str):
         self.ui.u_tab.sa_e.clear()

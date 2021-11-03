@@ -49,7 +49,6 @@ class Ui_NFTTab(QObject):
         self.num_bids_l = QLabel()
         self.address_l = QLabel()
         self.hashtags_l = QLabel()
-        self.desc_l = QLabel()
         self.display_name = QLabel()
         self.desc = QLabel()
         self.asking = QLabel()
@@ -57,7 +56,7 @@ class Ui_NFTTab(QObject):
         self.num_bids = QLabel()
         self.address = QLabel()
         self.hashtags = QLabel()
-        self.desc = QLabel()
+
         self.btn_create_auction = QPushButton()
         # self.btn_create_bid = QPushButton()
         splitter_tables = QSplitter(QtCore.Qt.Orientation.Vertical)

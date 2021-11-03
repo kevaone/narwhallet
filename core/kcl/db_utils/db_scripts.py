@@ -31,6 +31,7 @@ class Scripts(Enum):
     CREATE_ACTION_CACHE = 'CREATE TABLE action_cache \
         (tx STRING UNIQUE, [action] STRING, state INTEGER DEFAULT (0));'
     SELECT_TX = 'SELECT txid FROM tx_cache WHERE txid = ?;'
+    SELECT_TX_TIME = 'SELECT time FROM tx_cache WHERE txid = ?;'
     SELECT_TX_FULL = 'SELECT txid, hash, version, size, vsize, locktime, \
         vin, vout, blockhash, confirmations, time, blocktime, hex \
             FROM tx_cache WHERE txid = ?;'
@@ -53,9 +54,9 @@ class Scripts(Enum):
         ORDER BY block DESC;'
     SELECT_NS_KEY_VALUE = 'SELECT value FROM ns_cache \
         WHERE ns = ? AND [key] = ? ORDER BY block DESC;'
-    SELECT_NS_AUCTIONS = 'SELECT block, n, ns, value FROM ns_cache \
+    SELECT_NS_AUCTIONS = 'SELECT block, n, txid, ns, value FROM ns_cache \
         WHERE ns = ? AND special = \'nft_auction\' ORDER BY block DESC;'
-    SELECT_NS_BIDS = 'SELECT block, n, ns, value FROM ns_cache \
+    SELECT_NS_BIDS = 'SELECT block, n, txid, ns, [key], value FROM ns_cache \
         WHERE ns = ? AND special = \'nft_bid\' ORDER BY block DESC;'
     SELECT_NS_ROOT_TEST = 'SELECT ns FROM ns_cache \
         WHERE ns = ? AND [key] = "_KEVA_NS_";'
