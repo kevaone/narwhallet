@@ -41,7 +41,7 @@ class ParamValidators():
             _value = bytes([ord(value)])
         except Exception:
             _value = value.encode()
-        return Ut.to_cuint(len(_value)) + _value
+        return Ut.encode_pushdata(_value)
 
     def base58Checkhash(address: str) -> bytes:
         try:

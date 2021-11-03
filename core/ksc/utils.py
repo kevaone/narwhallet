@@ -1,4 +1,6 @@
+import struct
 from core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
+
 
 class Ut():
     @staticmethod
@@ -13,6 +15,19 @@ class Ut():
             return b'\xff' + value.to_bytes(8, 'little')
         else:
             raise ValueError('{0} too large for u64'.format(value))
+
+    @staticmethod
+    def encode_pushdata(data: bytes) -> bytes:
+        if len(data) < 0x4c:
+            return b'' + bytes([len(data)]) + data # OP_PUSHDATA
+        elif len(data) <= 0xff:
+            return b'\x4c' + bytes([len(data)]) + data # OP_PUSHDATA1
+        elif len(data) <= 0xffff:
+            return b'\x4d' + struct.pack(b'<H', len(data)) + data # OP_PUSHDATA2
+        elif len(data) <= 0xffffffff:
+            return b'\x4e' + struct.pack(b'<I', len(data)) + data # OP_PUSHDATA4
+        else:
+            raise ValueError('Data too long to encode in a PUSHDATA op')
 
     @staticmethod
     def hex_to_bytes(data: str) -> bytes:
