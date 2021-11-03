@@ -68,6 +68,10 @@ class _bids_table(QTableWidget):
 
         return _vpic
 
+    def set_row_color(self, row: int, color = QtCore.Qt.red):
+        for _column in range(0, self.columnCount()-1):
+            self.item(row, _column).setBackground(color)
+
     def clear_rows(self):
         _m = self.rowCount()
 
@@ -109,8 +113,11 @@ class _bids_table(QTableWidget):
         _is_high_bid = (self._create_table_item(
             str(bid_data['your_bid'] >= bid_data['high_bid'])))
         _auc_tx = self._create_table_item(str(bid_data['tx']))
+        _empty_item = self._create_table_item('')
+        _empty_item2 = self._create_table_item('')
 
         self.setCellWidget(_r, 0, _coin)
+        self.setItem(_r, 0, _empty_item)
         self.setItem(_r, 1, _date)
         self.setItem(_r, 2, _wallet)
         self.setItem(_r, 3, _from_shortcode)
@@ -119,5 +126,6 @@ class _bids_table(QTableWidget):
         self.setItem(_r, 6, _high_bid)
         self.setItem(_r, 7, _your_bid)
         self.setItem(_r, 8, _is_high_bid)
+        self.setItem(_r, 9, _empty_item2)
         self.setItem(_r, 10, _auc_tx)
         # self.setCellWidget(_r, 7, _dellabel)
