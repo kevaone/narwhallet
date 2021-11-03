@@ -638,6 +638,9 @@ class NarwhalletController():
             self.set_dat.save(json.dumps(self.settings.toDict()))
 
     def wallet_selected(self, row: int = -1, column: int = -1):
+        self.ui.w_tab.tbl_tx.clearSelection()
+        self.ui.w_tab.tbl_addr.clearSelection()
+        self.ui.w_tab.tbl_addr2.clearSelection()
         if row == -1:
             row = self.ui.w_tab.tbl_w.selectedRanges()
             if len(row) > 0:
@@ -747,6 +750,7 @@ class NarwhalletController():
                 self.dialogs.transfer_namespace_send_dialog()
 
     def ns_selected(self):
+        self.ui.ns_tab.list_ns_keys.clearSelection()
         row = self.ui.ns_tab.tbl_ns.selectedRanges()
         if len(row) > 0:
             row = row[0].topRow()
@@ -766,7 +770,7 @@ class NarwhalletController():
         if len(_key_count) > 0:
             _ns = self.cache.ns.get_namespace_by_id(_ns)
             self.ui.ns_tab.list_ns_keys.add_keys(_ns)
-        self.ui.ns_tab.list_ns_keys.clearSelection()
+
         self.ui.ns_tab.sel_ns_key.setText('No key selected')
         self.ui.ns_tab.sel_ns_key_sp.setText('')
         self.ui.ns_tab.sel_ns_key_tx.setText('')
@@ -780,6 +784,7 @@ class NarwhalletController():
             self.ui.ns_tab.btn_key_add.setEnabled(False)
             self.ui.ns_tab.btn_val_edit.setEnabled(False)
             self.ui.ns_tab.btn_val_del.setEnabled(False)
+
         (self.ui.ns_tab.sel_ns_sc
          .setText(self.ui.ns_tab.tbl_ns.item(row, 3).text()))
         (self.ui.ns_tab.sel_ns_name
@@ -811,15 +816,16 @@ class NarwhalletController():
 
         key = self.ui.ns_tab.list_ns_keys.currentItem()
         _value = self.cache.ns.get_namespace_by_key_value(_ns, key.text())
+        self.ui.ns_tab.sel_ns_key.setText('Selected key is special:')
 
         if len(_value) > 0:
             (self.ui.ns_tab.ns_tab_text_key_value
              .setPlainText(str(_value[0][0])))
 
-        self.ui.ns_tab.sel_ns_key.setText('Selected key is special:')
-
-        _key_type = self.cache.ns.get_key_type(key.text(), str(_value[0][0]))
-        self.ui.ns_tab.sel_ns_key_sp.setText(_key_type)
+            _key_type = self.cache.ns.get_key_type(key.text(), str(_value[0][0]))
+            self.ui.ns_tab.sel_ns_key_sp.setText(_key_type)
+        else:
+            _key_type = None
 
         if _key_type is None:
             self.ui.ns_tab.sel_ns_key_sp.setText('No')
