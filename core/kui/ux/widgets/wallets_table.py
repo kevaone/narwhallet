@@ -106,7 +106,7 @@ class _wallets_table(QTableWidget):
             _kpic = _kpic.scaledToWidth(20, _transm_st)
             _kvpic.setPixmap(_kpic)
 
-        wallet_data['balance'] = round(wallet_data['balance'], 8)
+        wallet_data['balance'] = round(wallet_data['balance'] - wallet_data['bid_balance'], 8)
         _balance = QTableWidgetItem(str(wallet_data['balance']))
         _balance.setFlags(_if_iie | _if_iis)
         _balance.setForeground(QtCore.Qt.black)

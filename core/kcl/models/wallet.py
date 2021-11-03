@@ -21,6 +21,7 @@ class MWallet(MBase):
         self._k: bytes = None
         self._balance: float = 0.0
         self._bid_balance: float = 0.0
+        self._bid_tx: list = []
         self._locked: bool = False
         self._updating: bool = False
         self._last_updated: float = None
@@ -73,6 +74,10 @@ class MWallet(MBase):
     @property
     def bid_balance(self) -> float:
         return self._bid_balance
+
+    @property
+    def bid_tx(self) -> list:
+        return self.bid_tx
 
     @property
     def locked(self) -> bool:
@@ -151,6 +156,12 @@ class MWallet(MBase):
 
     def set_balance(self, balance: float) -> None:
         self._balance = balance
+
+    def set_bid_tx(self, bid_tx: list) -> None:
+        self._bid_tx = bid_tx
+
+    def add_bid_tx(self, bid_tx: list) -> None:
+        self._bid_tx.append(bid_tx)
 
     def set_bid_balance(self, bid_balance: float) -> None:
         self._bid_balance = bid_balance

@@ -487,6 +487,7 @@ class NarwhalletController():
     def refresh_wallet_data_tabs(self, n: str, m: str, i: int):
         _n = self.ui.w_tab.tbl_w.item(i, 3).text()
         wallet = self.wallets.get_wallet_by_name(_n)
+        self.refresh_namespace_tab_data()
         if wallet is not None:
             if i == self.ws:
                 (self.ui.w_tab.tbl_addr
@@ -497,8 +498,14 @@ class NarwhalletController():
                 (self.ui.w_tab.tbl_tx
                  .add_transactions(self._display_wallet_tx(wallet)))
                 self.ui.w_tab.set_info_values(wallet)
+
             (self.ui.w_tab.tbl_w.item(i, 6)
-             .setText(str(round(wallet.balance, 8))))
+             .setText(str(round(wallet.balance - wallet.bid_balance, 8))))
+
+            if wallet._bid_balance > 0:
+                self.wallets.save_wallet(wallet.name)
+                (self.ui.w_tab.tbl_w.item(i, 7)
+                 .setText(str(round(wallet.bid_balance, 8))))
             (self.ui.w_tab.tbl_w.item(i, 8)
              .setText(MShared.get_timestamp(wallet.last_updated)[1]))
 
@@ -506,11 +513,11 @@ class NarwhalletController():
             self.ui.w_tab.tbl_w.cellWidget(i, 9).ani.stop()
 
         self.ui.w_tab.tbl_w.resizeColumnsToContents()
-        self.refresh_namespace_tab_data()
 
     def refresh_nft_tab_data(self, namespaces: List[dict]):
         self.ui.nft_tab.tbl_auctions.clear_rows()
         self.ui.nft_tab.tbl_bids.clear_rows()
+        _wallet_bid_tx = []
 
         for ns in namespaces:
             _auctions = self.cache.ns.get_namespace_auctions(ns['namespaceid'])
@@ -532,10 +539,15 @@ class NarwhalletController():
                 _tx_ns = self.cache.ns.convert_to_namespaceid(_t[1])
                 _tx_value = Ut.hex_to_bytes(_t[3]).decode()
                 _tx_value = json.loads(_tx_value)['price'] + ' KVA'
-                _tx_ns_sc = self.cache.ns.ns_block(_tx_ns)[0]
-                _s_b = str(_tx_ns_sc[0])
-                _tx_ns_sc = str(len(_s_b)) + _s_b + str(_tx_ns_sc[1])
+                try:
+                    _tx_ns_sc = self.cache.ns.ns_block(_tx_ns)[0]
+                    _s_b = str(_tx_ns_sc[0])
+                    _tx_ns_sc = str(len(_s_b)) + _s_b + str(_tx_ns_sc[1])
+                except Exception:
+                    _tx_ns_sc = 'Error'
                 _bid_psbt = keva_psbt(_b[5])
+                for _vi in _bid_psbt.tx.vin:
+                    _wallet_bid_tx.append([ns['wallet'], _vi.txid, _vi.vout])
 
                 _d = [_tx_time, ns['shortcode'], _tx_ns_sc, _tx_value,
                       'high_bid' + ' KVA',
@@ -548,6 +560,26 @@ class NarwhalletController():
 
             if len(_bids) > 0:
                 self.ui.nft_tab.tbl_bids.add_bids(ns['wallet'], _bi)
+
+        for _btx in _wallet_bid_tx:
+            _w = self.wallets.get_wallet_by_name(_btx[0])
+
+            for _ad in _w.addresses.addresses:
+                for _us in _ad.unspent_tx:
+                    _x =_us
+                    if _x['tx_hash'] == _btx[1] and _x['tx_pos'] == _btx[2]:
+                        (_w.set_bid_balance(
+                            _w.bid_balance + (_us['value'] / 100000000)))
+                        _w.add_bid_tx([_btx[1], _btx[2],
+                                       _us['value'] / 100000000])
+            for _ad in _w.change_addresses.addresses:
+                for _us in _ad.unspent_tx:
+                    _x = json.loads(_us)
+                    if _x['tx_hash'] == _btx[1] and _x['tx_pos'] == _btx[2]:
+                        (_w.set_bid_balance(
+                            _w.bid_balance + (_us['value'] / 100000000)))
+                        _w.add_bid_tx([_btx[1], _btx[2],
+                                       _us['value'] / 100000000])
 
     def refresh_namespace_tab_data(self):
         # TODO Cleanup
@@ -964,6 +996,8 @@ class NarwhalletController():
 
     def _update_wallet(self, wallet: MWallet):
         _cache = MCache(self.cache_path)
+        wallet.set_bid_balance(0.0)
+        wallet.set_bid_tx([])
         MShared.get_histories(wallet, self.KEX)
         MShared.get_balances(wallet, self.KEX)
         MShared.list_unspents(wallet, self.KEX)
