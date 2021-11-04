@@ -222,25 +222,25 @@ class Ui_simple_send_dlg(QObject):
                                _tx.vout[tx['tx_pos']].scriptPubKey.asm):
                                 _usxos.append(tx)
 
-            self._new_tx._inputs_to_spend = _usxos
+            self._new_tx.inputs_to_spend = _usxos
         self.check_next()
 
     def txb_preimage(self):
         _n = self.w.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
-        self._new_tx._input_signatures = []
+        self._new_tx.input_signatures = []
         # print('len(self._new_tx.vin)', len(self._new_tx.vin))
-        for _vin_idx in range(0, len(self._new_tx.vin)):
-            _npk = self._new_tx.vin[_vin_idx]._tb_address
-            _npkc = self._new_tx.vin[_vin_idx]._tb_address_chain
+        for c, _vin_idx in enumerate(self._new_tx.vin):
+            _npk = _vin_idx.tb_address
+            _npkc = _vin_idx.tb_address_chain
             _pk = wallet.get_publickey_raw(_npk, _npkc)
-            _sighash = self._new_tx.make_preimage(_vin_idx, _pk)
+            _sighash = self._new_tx.make_preimage(c, _pk)
             _sig = wallet.sign_message(_npk, _sighash, _npkc)
             _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-            self._new_tx.vin[_vin_idx]._scriptSig.set_hex(_script)
+            _vin_idx.scriptSig.set_hex(_script)
             # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
-            # if [_sig+'01', _pk] not in self._new_tx._input_signatures:
-            self._new_tx._input_signatures.append([_sig+'01', _pk])
+            # if [_sig+'01', _pk] not in self._new_tx.input_signatures:
+            self._new_tx.input_signatures.append([_sig+'01', _pk])
 
     def txb_build_simple_send(self):
         locale = QLocale()
@@ -301,7 +301,7 @@ class Ui_simple_send_dlg(QObject):
         self.raw_tx = ''
         self._new_tx.set_vin([])
         self._new_tx.set_vout([])
-        self._new_tx._input_signatures = []
+        self._new_tx.input_signatures = []
         self.tx.setPlainText(self.raw_tx)
 
         self.w.setEnabled(True)

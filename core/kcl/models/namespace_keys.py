@@ -27,10 +27,6 @@ class MNSKeys():
     def clear(self) -> None:
         self._keys = []
 
-    # def add_key(self, tx):
-    #     # TODO: Type test to select appropriate method
-    #     self._fromJson()
-
     def get_key_by_index(self, index: int) -> MNSKey:
         return self.keys[index]
 
@@ -74,7 +70,7 @@ class MNSKeys():
 
         return _d2
 
-    def _fromRaw(self, time, key, value):
+    def fromRaw(self, time, key, value):
         _key = MNSKey()
 
         _key.set_date(time)
@@ -86,7 +82,7 @@ class MNSKeys():
 
         return len(self._keys)
 
-    def _fromJson(self, key: dict) -> int:
+    def fromJson(self, key: dict) -> int:
         _key = MNSKey()
 
         _key.set_date(key['date'])

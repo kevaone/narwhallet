@@ -56,8 +56,8 @@ class _wallets_addr_tbl(QTableWidget):
         for i in range(0, self.rowCount()):
             self.clear_row(i)
 
-        for i in range(0, len(addresses_data)):
-            self.add_address(i, addresses_data[i])
+        for c, i in enumerate(addresses_data):
+            self.add_address(c, i)
 
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
@@ -82,7 +82,8 @@ class _wallets_addr_tbl(QTableWidget):
         _transm_st = QtCore.Qt.SmoothTransformation
         __path = os.path.dirname(__file__)
         if pic == 0:
-            _p = QtGui.QPixmap(os.path.join(__path, '../assets/information.png'))
+            _p = (QtGui.QPixmap(
+                  os.path.join(__path, '../assets/information.png')))
         elif pic == 1:
             _p = QtGui.QPixmap(os.path.join(__path, '../assets/clipboard.png'))
         _p = _p.scaledToWidth(20, _transm_st)

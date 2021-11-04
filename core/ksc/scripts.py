@@ -14,15 +14,15 @@ class _factory(Enum):
             raise Exception('supplied parm count mismatch')
 
         q = 0
-        for i in range(0, len(self.value)):
-            if isinstance(self.value[i], _p):
+        for _, i in enumerate(self.value):
+            if isinstance(i, _p):
                 # NOTE Assumes length added during parm validation
-                _script.append(self.value[i].resolve(parms[q]))
+                _script.append(i.resolve(parms[q]))
                 q += 1
             else:
-                _script.append(self.value[i].get())
+                _script.append(i.get())
 
-        _scri = b''.join([v for i, v in enumerate(_script)])
+        _scri = b''.join([v for _, v in enumerate(_script)])
 
         if toHex is True:
             _scri = Ut.bytes_to_hex(_scri)

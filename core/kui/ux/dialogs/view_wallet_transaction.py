@@ -176,23 +176,23 @@ class _show_hide_frame(QFrame):
 
         self._vl_0 = QVBoxLayout(self)
         self._vl_0.setContentsMargins(8, 0, 0, 0)
-        self._box = _show_hide(kind, index)
-        self._vl_0.addLayout(self._box)
+        self.box = _show_hide(kind, index)
+        self._vl_0.addLayout(self.box)
         if kind == 'vin':
             self._x = _tx_in(inp)
         else:
             self._x = _tx_out(inp)
 
         self._vl_0.addWidget(self._x)
-        self._box.pic.mousePressEvent = self._display
+        self.box.pic.mousePressEvent = self._display
 
     def _display(self, event):
         if self._x.isVisible() is True:
             self._x.setVisible(False)
-            self._box.pic.setPixmap(self._box._ppic)
+            self.box.pic.setPixmap(self.box.ppic)
         else:
             self._x.setVisible(True)
-            self._box.pic.setPixmap(self._box._mpic)
+            self.box.pic.setPixmap(self.box.mpic)
 
 
 class _show_hide(QHBoxLayout):
@@ -203,10 +203,10 @@ class _show_hide(QHBoxLayout):
         _sp_min = QSizePolicy.Minimum
         _transm_st = QtCore.Qt.SmoothTransformation
         __path = os.path.dirname(__file__)
-        self._ppic = QtGui.QPixmap(os.path.join(__path, '../assets/plus.png'))
-        self._mpic = QtGui.QPixmap(os.path.join(__path, '../assets/minus.png'))
-        self._ppic = self._ppic.scaledToWidth(15, _transm_st)
-        self._mpic = self._mpic.scaledToWidth(15, _transm_st)
+        self.ppic = QtGui.QPixmap(os.path.join(__path, '../assets/plus.png'))
+        self.mpic = QtGui.QPixmap(os.path.join(__path, '../assets/minus.png'))
+        self.ppic = self.ppic.scaledToWidth(15, _transm_st)
+        self.mpic = self.mpic.scaledToWidth(15, _transm_st)
 
         self.vin = QLabel()
         self.vin.setText(kind + ':')
@@ -214,7 +214,7 @@ class _show_hide(QHBoxLayout):
         self.vin_index.setText(str(index))
         self.pic = QLabel()
 
-        self.pic.setPixmap(self._mpic)
+        self.pic.setPixmap(self.mpic)
         self.addWidget(self.vin)
         self.addWidget(self.vin_index)
         self.addWidget(self.pic)

@@ -19,17 +19,17 @@ class _namespace_keys_list(QListWidget):
 
         _pl = []
         _plc = 0
-        for i in range(0, len(keys)):
-            if keys[i][5] == '_KEVA_NS_' or keys[i][5] == '\x01_KEVA_NS_':
-                _pl.append(i)
+        for c, i in enumerate(keys):
+            if i[5] == '_KEVA_NS_' or i[5] == '\x01_KEVA_NS_':
+                _pl.append(c)
 
         _pl.reverse()
         for i in range(0, len(_pl)-1):
             _ = keys.pop(_pl[i]-0)
             _plc += 1
 
-        for i in range(0, len(keys)):
-            self._add_key(i, keys[i][5], keys[i][7])
+        for c, i in enumerate(keys):
+            self._add_key(c, i[5], i[7])
 
     def _add_key(self, idx: int, key: str, special):
         if idx == self.count():

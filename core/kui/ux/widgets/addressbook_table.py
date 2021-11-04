@@ -46,12 +46,12 @@ class _address_book_table(QTableWidget):
             _m = _m - 1
 
         for i in book_addresses:
-            self._add_bookaddress(i)
+            self.add_bookaddress(i)
 
         self.resizeColumnsToContents()
         self.setColumnWidth(7, 20)
 
-    def _add_bookaddress(self, book_address: dict):
+    def add_bookaddress(self, book_address: dict):
         _al_center = QtCore.Qt.AlignCenter
         _if_iis = QtCore.Qt.ItemIsSelectable
         _if_iied = QtCore.Qt.ItemIsEditable

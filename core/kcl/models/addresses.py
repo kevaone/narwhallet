@@ -15,10 +15,6 @@ class MAddresses():
     def count(self) -> int:
         return len(self.addresses)
 
-    # def add_address(self, address):
-    #     # TODO: Type test to select appropriate method
-    #     self._fromJson()
-
     def get_address_by_index(self, index: int) -> MAddress:
         return self._addresses[index]
 
@@ -32,7 +28,7 @@ class MAddresses():
             _return = -1
         return _return
 
-    def _fromJson(self, address: dict):
+    def fromJson(self, address: dict):
         _address = MAddress()
 
         _address.set_address(address['address'])
@@ -50,7 +46,7 @@ class MAddresses():
         self._addresses.append(_address)
         self._names[_address.address] = len(self._addresses) - 1
 
-    def _fromPool(self, address: str, label: str = None):
+    def fromPool(self, address: str, label: str = None):
         _address = MAddress()
 
         _address.set_address(address)

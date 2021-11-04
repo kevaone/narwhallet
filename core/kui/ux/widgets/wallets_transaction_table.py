@@ -40,22 +40,20 @@ class _transaction_table(QTableWidget):
         for i in range(0, self.rowCount()):
             self.clear_row(i)
 
-        for i in range(0, len(transactions)):
-            transactions[i]['amount'] = round(transactions[i]['amount'], 8)
-            if transactions[i]['amount'] > 0:
-                transactions[i]['<->'] = 'Receive'
+        for c, i in enumerate(transactions):
+            i['amount'] = round(i['amount'], 8)
+            if i['amount'] > 0:
+                i['<->'] = 'Receive'
             else:
-                transactions[i]['<->'] = 'Send'
+                i['<->'] = 'Send'
 
-            if transactions[i]['blockhash'] is None:
-                transactions[i]['<->'] = 'Pending - ' + transactions[i]['<->']
-            elif transactions[i]['confirmations'] < 6:
-                _confirming = ('Confirming -' +
-                               str(transactions[i]['confirmations']))
-                transactions[i]['<->'] = (_confirming +
-                                          ' - ' + transactions[i]['<->'])
+            if i['blockhash'] is None:
+                i['<->'] = 'Pending - ' + i['<->']
+            elif i['confirmations'] < 6:
+                _confirming = ('Confirming -' + str(i['confirmations']))
+                i['<->'] = (_confirming + ' - ' + i['<->'])
 
-            self._add_transaction(i, transactions[i])
+            self._add_transaction(c, i)
 
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)

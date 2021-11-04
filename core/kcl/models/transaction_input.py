@@ -15,9 +15,9 @@ class MTransactionInput(MBase):
         self._txinwitness: List[str] = []
         self._sequence: int = None
 
-        self._tb_address: int = None
-        self._tb_address_chain: int = None
-        self._tb_value: int = None
+        self.tb_address: int = None
+        self.tb_address_chain: int = None
+        self.tb_value: int = None
 
     @property
     def coinbase(self) -> str:

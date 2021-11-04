@@ -16,10 +16,6 @@ class MBookAddresses():
     def count(self) -> int:
         return len(self.addresses)
 
-    # def add_address(self, address):
-    #     # TODO: Type test to select appropriate method
-    #     self._fromJson()
-
     def get_address_by_index(self, index: int) -> MBookAddress:
         return self._addresses[index]
 
@@ -31,7 +27,7 @@ class MBookAddresses():
             _return = False
         return _return
 
-    def _fromJson(self, address: dict):
+    def fromJson(self, address: dict):
         _address = MBookAddress()
 
         _address.set_coin(address['coin'])
@@ -63,4 +59,4 @@ class MBookAddresses():
         _data = AddressBookLoader.load(path)
 
         for _a in _data:
-            self._fromJson(_a)
+            self.fromJson(_a)

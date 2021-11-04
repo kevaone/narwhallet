@@ -43,8 +43,8 @@ class ResponseBuilder():
         self.add_header('Content-Type', content_type[c_type].value)
 
     def set_content_length(self):
-        for i in range(0, len(self.header_list)):
-            if 'Content-Length' in self.header_list[i]:
+        for i, v in enumerate(self.header_list):
+            if 'Content-Length' in v:
                 self.header_list.pop(i)
                 break
 

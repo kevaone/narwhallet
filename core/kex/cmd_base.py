@@ -1,5 +1,5 @@
 from enum import Enum
-from core.kex.ex import _error
+from core.kex.ex import error
 
 
 class _cmd(Enum):
@@ -31,10 +31,10 @@ class _cmd(Enum):
                         if i != _p_len - 1:
                             _parms = _parms + ', '
                 else:
-                    _error.invalid_input_type._raise()
+                    error.invalid_input_type.raise_error()
             _parms = _parms + ']'
         else:
-            _error.param_count_mismatch._raise()
+            error.param_count_mismatch.raise_error()
 
         return _parms
 

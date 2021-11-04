@@ -181,7 +181,7 @@ class Feed():
 
         return _feed
 
-    def get_auction_feed(self, data, auction_type, cache: MCache):
+    def get_auction_feed(self, data, auction_type):
         _feed = self.get_feed_meta('nft')
         _feed_rows = ''
         _items = ''

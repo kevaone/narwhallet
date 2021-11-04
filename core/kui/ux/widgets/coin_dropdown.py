@@ -26,8 +26,8 @@ class _coin_dropdown(QComboBox):
                 self.addItem(i[0], i[1])
 
     def set_coins(self, coins):
-        if coins == 'bip44' or coins == 44:
+        if coins in ('bip44', 44):
             self.coin_filter = 44
-        elif coins == 'bip49' or coins == 49:
+        elif coins in ('bip49', 49):
             self.coin_filter = 49
         self.load_coins()

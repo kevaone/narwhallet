@@ -52,7 +52,7 @@ class _transaction(_cmd):
     get_merkle = 'blockchain.transaction.get_merkle', [ElXparams.tx_hash,
                                                        ElXparams.height]
     id_from_pos = 'blockchain.transaction.id_from_pos', [ElXparams.height,
-                                                         ElXparams.txPos,
+                                                         ElXparams.tx_pos,
                                                          ElXparams.merkle]
 
 

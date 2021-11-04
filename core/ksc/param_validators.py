@@ -49,7 +49,7 @@ class ParamValidators():
             _address_hash = Ut.to_cuint(len(_address_hash)) + _address_hash
 
         except Exception:
-            raise Exception('supplied address failed base58 decode check')
+            return Exception('supplied address failed base58 decode check')
 
         return _address_hash
 
@@ -65,7 +65,7 @@ class ParamValidators():
                 _namespace = _namespace + keva_const.KEVA_NS_BUF.value
                 _namespace = Ut.to_cuint(len(_namespace)) + _namespace
             except Exception:
-                raise Exception('supplied namespace invailid')
+                return Exception('supplied namespace invailid')
 
         return _namespace
 
@@ -79,7 +79,7 @@ class ParamValidators():
                 _ = Base58Encoder.CheckEncode(_namespace)
                 _namespace = Ut.to_cuint(len(_namespace)) + _namespace
             except Exception:
-                raise Exception('supplied namespace invailid')
+                return Exception('supplied namespace invailid')
 
         return _namespace
 
@@ -98,7 +98,7 @@ class ParamValidators():
                 _ns_key = _ns_key + nskey[1]
                 _ns_key = Ut.to_cuint(len(_ns_key)) + _ns_key
             except Exception:
-                raise Exception('supplied namespace invailid')
+                return Exception('supplied namespace invailid')
 
         return _ns_key
 
@@ -110,6 +110,6 @@ class ParamValidators():
             _hashtag = _hashtag.encode()
             _hashtag = Ut.to_cuint(len(_hashtag)) + _hashtag
         except Exception:
-            raise Exception('hashtag script error')
+            return Exception('hashtag script error')
 
         return _hashtag

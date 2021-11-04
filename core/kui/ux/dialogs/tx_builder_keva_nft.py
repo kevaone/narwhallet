@@ -26,7 +26,7 @@ class Ui_keva_op_nft_dlg(QObject):
         self.wallets: MWallets = None
         self.cache: MCache = None
         self.KEX = None
-        self._new_tx = MTransactionBuilder()
+        self.new_tx = MTransactionBuilder()
         self.raw_tx = None
 
         self.verticalLayout = QVBoxLayout(keva_op_nft_dialog)
@@ -190,7 +190,7 @@ class Ui_keva_op_nft_dlg(QObject):
         self.check_next()
 
     def txb_ns_changed(self, data):
-        if data != '-' and data != '':
+        if data not in ('-', ''):
             self.nft_name.setText(self.combo_ns.currentText().split(' - ')[1])
             self.set_availible_usxo(True)
 
@@ -276,23 +276,23 @@ class Ui_keva_op_nft_dlg(QObject):
         elif _nsusxo is None and isChangeOp is True:
             _usxos = []
 
-        self._new_tx._inputs_to_spend = _usxos
+        self.new_tx.inputs_to_spend = _usxos
 
     def txb_preimage(self):
         _n = self.combo_wallet.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
-        self._new_tx._input_signatures = []
+        self.new_tx.input_signatures = []
 
-        for _vin_idx in range(0, len(self._new_tx.vin)):
-            _npk = self._new_tx.vin[_vin_idx]._tb_address
-            _npkc = self._new_tx.vin[_vin_idx]._tb_address_chain
+        for c, _vin_idx in enumerate(self.new_tx.vin):
+            _npk = _vin_idx.tb_address
+            _npkc = _vin_idx.tb_address_chain
             _pk = wallet.get_publickey_raw(_npk, _npkc)
-            _sighash = self._new_tx.make_preimage(_vin_idx, _pk)
+            _sighash = self.new_tx.make_preimage(c, _pk)
             _sig = wallet.sign_message(_npk, _sighash, _npkc)
             _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-            self._new_tx.vin[_vin_idx]._scriptSig.set_hex(_script)
+            _vin_idx.scriptSig.set_hex(_script)
             # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
-            self._new_tx._input_signatures.append([_sig+'01', _pk])
+            self.new_tx.input_signatures.append([_sig+'01', _pk])
 
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
@@ -300,7 +300,7 @@ class Ui_keva_op_nft_dlg(QObject):
         return Ut.bytes_to_hex(bytes([53]) + _tx_hash)
 
     def txb_build_simple_send(self):
-        self._new_tx._version = Ut.hex_to_bytes('00710000')
+        self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
         _n = self.combo_wallet.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
         _namespace_reservation = 1000000
@@ -333,23 +333,23 @@ class Ui_keva_op_nft_dlg(QObject):
                                                   _ns_value,
                                                   _ns_address], True)
 
-        _ = self._new_tx.add_output(_namespace_reservation, _ns_address)
-        self._new_tx.vout[0].scriptPubKey.set_hex(_sh)
+        _ = self.new_tx.add_output(_namespace_reservation, _ns_address)
+        self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
-        _inp_sel, _need_change, _est_fee = self._new_tx.select_inputs()
+        _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         # print('_inp_sel, _need_change, _est_fee',
         #       _inp_sel, _need_change, _est_fee)
 
         if _inp_sel is True:
-            _, _, _fv = self._new_tx.get_current_values()
+            _, _, _fv = self.new_tx.get_current_values()
             _cv = _fv - _est_fee
             # print('_cv', _cv)
 
             if _need_change is True:
-                _ = self._new_tx.add_output(_cv, _ns_address)
+                _ = self.new_tx.add_output(_cv, _ns_address)
 
             self.txb_preimage()
-            _stx = self._new_tx.serialize_tx()
+            _stx = self.new_tx.serialize_tx()
 
             self.fee.setText(str(_est_fee/100000000))
             self.txsize.setText(str(len(_stx)))
@@ -367,8 +367,8 @@ class Ui_keva_op_nft_dlg(QObject):
             self.back_btn.setVisible(True)
             self.send_btn.setEnabled(True)
         else:
-            self._new_tx.set_vin([])
-            self._new_tx.set_vout([])
+            self.new_tx.set_vin([])
+            self.new_tx.set_vout([])
 
     def back_click(self):
         self.next_btn.setVisible(True)
@@ -378,9 +378,9 @@ class Ui_keva_op_nft_dlg(QObject):
         self.fee.setText('')
         self.txsize.setText('')
         self.raw_tx = ''
-        self._new_tx.set_vin([])
-        self._new_tx.set_vout([])
-        self._new_tx._input_signatures = []
+        self.new_tx.set_vin([])
+        self.new_tx.set_vout([])
+        self.new_tx.input_signatures = []
         self.tx.setPlainText(self.raw_tx)
 
         self.combo_wallet.setEnabled(True)

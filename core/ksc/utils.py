@@ -6,28 +6,30 @@ class Ut():
     @staticmethod
     def to_cuint(value: int) -> bytes:
         if value < 0xfd:
-            return value.to_bytes(1, 'little')
+            _return = value.to_bytes(1, 'little')
         elif value <= 2 ** 16 - 1:
-            return b'\xfd' + value.to_bytes(2, 'little')
+            _return = b'\xfd' + value.to_bytes(2, 'little')
         elif value <= 2 ** 32 - 1:
-            return b'\xfe' + value.to_bytes(4, 'little')
+            _return = b'\xfe' + value.to_bytes(4, 'little')
         elif value <= 2**64 - 1:
-            return b'\xff' + value.to_bytes(8, 'little')
+            _return = b'\xff' + value.to_bytes(8, 'little')
         else:
-            raise ValueError('{0} too large for u64'.format(value))
+            raise ValueError(f'{value} too large for u64')
+        return _return
 
     @staticmethod
     def encode_pushdata(data: bytes) -> bytes:
         if len(data) < 0x4c:
-            return b'' + bytes([len(data)]) + data  # OP_PD
+            _return = b'' + bytes([len(data)]) + data  # OP_PD
         elif len(data) <= 0xff:
-            return b'\x4c' + bytes([len(data)]) + data  # OP_PD1
+            _return = b'\x4c' + bytes([len(data)]) + data  # OP_PD1
         elif len(data) <= 0xffff:
-            return b'\x4d' + struct.pack(b'<H', len(data)) + data  # OP_PD2
+            _return = b'\x4d' + struct.pack(b'<H', len(data)) + data  # OP_PD2
         elif len(data) <= 0xffffffff:
-            return b'\x4e' + struct.pack(b'<I', len(data)) + data  # OP_PD4
+            _return = b'\x4e' + struct.pack(b'<I', len(data)) + data  # OP_PD4
         else:
             raise ValueError('Data too long to encode in a PUSHDATA op')
+        return _return
 
     @staticmethod
     def hex_to_bytes(data: str) -> bytes:

@@ -31,7 +31,7 @@ class MWallets():
             _return = None
         return _return
 
-    def _fromMWallet(self, wallet: MWallet):
+    def fromMWallet(self, wallet: MWallet):
         self._wallets.append(wallet)
         self._names[wallet.name] = len(self._wallets) - 1
 
@@ -43,7 +43,7 @@ class MWallets():
             _dump = None
 
         if _dump is not None:
-            if _wallet.state_lock == 1 or _wallet.state_lock == 3:
+            if _wallet.state_lock in (1, 3):
                 WalletUtils.save_wallet(_wallet.name, self.root_path, _dump,
                                         _wallet._k)
             else:
@@ -65,10 +65,10 @@ class MWallets():
             _wallet.set_state_lock(_wm_dat['state_lock'])
 
         for addr in _wm_dat['addresses']:
-            _wallet.addresses._fromJson(addr)
+            _wallet.addresses.fromJson(addr)
 
         for addr in _wm_dat['change_addresses']:
-            _wallet.change_addresses._fromJson(addr)
+            _wallet.change_addresses.fromJson(addr)
 
         if 'change_index' in _wm_dat:
             if _wm_dat['change_index'] is not None:

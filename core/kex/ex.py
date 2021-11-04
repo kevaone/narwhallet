@@ -1,8 +1,8 @@
 from enum import Enum
 
 
-class _error(Enum):
-    def _raise(self):
+class error(Enum):
+    def raise_error(self):
         raise self.value
     connection_timeout = Exception('connection timeout')
     invalid_input_type = Exception('invalid input type')

@@ -100,7 +100,7 @@ class NarwhalletController():
         return _narwhallet_path
 
     def _add_wallet(self, wallet: MWallet):
-        self.wallets._fromMWallet(wallet)
+        self.wallets.fromMWallet(wallet)
         self.wallets.save_wallet(wallet.name)
         self.ui.w_tab.tbl_w.add_wallet(wallet.toDict())
         if wallet.kind != 1:
@@ -124,7 +124,7 @@ class NarwhalletController():
             _w.set_coin('KEVACOIN')
             _w.set_bip('bip49')
             _w.set_name(_name)
-            self.wallets._fromMWallet(_w)
+            self.wallets.fromMWallet(_w)
             self.wallets.save_wallet(_w.name)
             self.ui.w_tab.tbl_w.add_wallet(_w.toDict())
 
@@ -133,16 +133,16 @@ class NarwhalletController():
         if _a is not None:
             _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
             _w = self.wallets.get_wallet_by_name(_n)
-            _w.addresses._fromPool(_a, _l)
+            _w.addresses.fromPool(_a, _l)
             self.wallets.save_wallet(_w.name)
 
     def add_addressbook_item(self):
         _address = self.dialogs.add_addressbook_item_dialog()
         if _address is not None:
             if _address.address not in self.address_book.addresses:
-                self.address_book._addresses[_address.address] = _address
+                self.address_book.addresses[_address.address] = _address
                 self.address_book.save_address_book()
-                self.ui.ab_tab.tbl_addr._add_bookaddress(_address.toDict())
+                self.ui.ab_tab.tbl_addr.add_bookaddress(_address.toDict())
                 self.ui.ab_tab.tbl_addr.resizeColumnsToContents()
 
     def add_namespace_favorite(self):
@@ -580,7 +580,7 @@ class NarwhalletController():
 
             if 'wallet' not in pd:
                 for wallet in self.wallets.wallets:
-                    if wallet.kind == 1 or wallet.kind == 3:
+                    if wallet.kind in (1, 3):
                         for address in wallet.addresses.addresses:
                             if _oa[0][0] == address.address:
                                 pd['wallet'] = wallet.name
@@ -666,7 +666,7 @@ class NarwhalletController():
                     _w.set_locked(False)
                     self.ui.w_tab.tbl_w.update_wallet(_w, row)
                     self.refresh_namespace_tab_data()
-                    if _w.kind != 1 and _w.kind != 3:
+                    if _w.kind not in (1, 3):
                         self.ui.u_tab.wallet_select.addItem(_w.name)
 
         self.ui.w_tab.tbl_addr.add_addresses(_w.addresses.toDictList())
@@ -755,7 +755,7 @@ class NarwhalletController():
 
         _n = self.ui.ns_tab.tbl_ns.item(row, 2).text()
         _ns = self.ui.ns_tab.tbl_ns.item(row, 5).text()
-        if _n == 'live' or _n == 'favorites':
+        if _n in ('live', 'favorites'):
             _w = MWallet()
             _w.set_kind(3)
         else:
@@ -772,7 +772,7 @@ class NarwhalletController():
         self.ui.ns_tab.sel_ns_key_tx.setText('')
         self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(False)
 
-        if _w.kind != 1 and _w.kind != 3:
+        if _w.kind not in (1, 3):
             self.ui.ns_tab.btn_key_add.setEnabled(True)
             self.ui.ns_tab.btn_val_edit.setEnabled(False)
             self.ui.ns_tab.btn_val_del.setEnabled(False)
@@ -803,7 +803,7 @@ class NarwhalletController():
         row = self.ui.ns_tab.tbl_ns.currentRow()
         _n = self.ui.ns_tab.tbl_ns.item(row, 2).text()
         _ns = self.ui.ns_tab.tbl_ns.item(row, 5).text()
-        if _n == 'live' or _n == 'favorites':
+        if _n in ('live', 'favorites'):
             _w = MWallet()
             _w.set_kind(3)
         else:
@@ -824,13 +824,11 @@ class NarwhalletController():
         if _key_type is None:
             self.ui.ns_tab.sel_ns_key_sp.setText('No')
             self.ui.ns_tab.sel_ns_key_tx.setText('')
-        elif (_key_type == 'nft_bid' or _key_type == 'reply' or
-              _key_type == 'repost' or _key_type == 'reward'):
-
+        elif _key_type in ('nft_bid', 'reply', 'repost', 'reward'):
             _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
             self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
 
-        if _w.kind != 1 and _w.kind != 3:
+        if _w.kind not in (1, 3):
             self.ui.ns_tab.btn_val_edit.setEnabled(True)
             if key.text() != '_KEVA_NS_':
                 self.ui.ns_tab.btn_val_del.setEnabled(True)
@@ -924,7 +922,7 @@ class NarwhalletController():
         else:
             _data = self.ui.u_tab.thl_bcl.text()
             _signature = _w.sign_message(_index,
-                                         MShared._load_message_file(_data),
+                                         MShared.load_message_file(_data),
                                          int(_i_t[1]))
         self.ui.u_tab.ss_e.setPlainText(_signature)
         return True
@@ -935,7 +933,7 @@ class NarwhalletController():
                                             self.ui.u_tab.va_e.toPlainText(),
                                             self.ui.u_tab.vm_e.toPlainText())
         else:
-            _data = MShared._load_message_file(self.ui.u_tab.vthl_bcl.text())
+            _data = MShared.load_message_file(self.ui.u_tab.vthl_bcl.text())
             _v = WalletUtils.verify_message(self.ui.u_tab.vs_e.toPlainText(),
                                             self.ui.u_tab.va_e.toPlainText(),
                                             _data)

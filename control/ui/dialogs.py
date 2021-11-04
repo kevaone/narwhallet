@@ -68,7 +68,7 @@ class MDialogs():
             return
 
         _di.ui.user_path = self.user_path
-        _di.ui._new_tx.set_fee(_fee)
+        _di.ui.new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
         for _w in self.wallets.wallets:
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
@@ -104,7 +104,7 @@ class MDialogs():
             return
 
         _di.ui.user_path = self.user_path
-        _di.ui._new_tx.set_fee(_fee)
+        _di.ui.new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
         _di.ui.value.setMinimumHeight(28)
         _di.ui.value.setMaximumHeight(28)
@@ -140,7 +140,7 @@ class MDialogs():
             return
 
         _di.ui.user_path = self.user_path
-        _di.ui._new_tx.set_fee(_fee)
+        _di.ui.new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Create Key')
         _di.ui.value_l.setText('Value: ')
@@ -151,8 +151,8 @@ class MDialogs():
 
         if _selection[0].topRow() != _selection[0].bottomRow():
             return
-        else:
-            _row = _selection[0].topRow()
+
+        _row = _selection[0].topRow()
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
@@ -185,7 +185,7 @@ class MDialogs():
             return
 
         _di.ui.user_path = self.user_path
-        _di.ui._new_tx.set_fee(_fee)
+        _di.ui.new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Edit Key')
         _di.ui.value_l.setText('Value: ')
@@ -196,8 +196,8 @@ class MDialogs():
 
         if _selection[0].topRow() != _selection[0].bottomRow():
             return
-        else:
-            _row = _selection[0].topRow()
+
+        _row = _selection[0].topRow()
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
@@ -249,7 +249,7 @@ class MDialogs():
             return
 
         _di.ui.user_path = self.user_path
-        _di.ui._new_tx.set_fee(_fee)
+        _di.ui.new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Delete Key')
         _di.ui.value_l.setText('Value: ')
@@ -260,8 +260,8 @@ class MDialogs():
 
         if _selection[0].topRow() != _selection[0].bottomRow():
             return
-        else:
-            _row = _selection[0].topRow()
+
+        _row = _selection[0].topRow()
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
@@ -299,7 +299,7 @@ class MDialogs():
             return
 
         _di.ui.user_path = self.user_path
-        _di.ui._new_tx.set_fee(_fee)
+        _di.ui.new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Transfer Namespace')
         _di.ui.value_l.setText('Value: ')
@@ -310,8 +310,8 @@ class MDialogs():
 
         if _selection[0].topRow() != _selection[0].bottomRow():
             return
-        else:
-            _row = _selection[0].topRow()
+
+        _row = _selection[0].topRow()
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
@@ -355,7 +355,7 @@ class MDialogs():
                                     False, 1)
             return
 
-        _di.ui._new_tx.set_fee(_fee)
+        _di.ui.new_tx.set_fee(_fee)
         _di.ui.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Create Auction')
 
@@ -589,11 +589,11 @@ class MDialogs():
         _t_dict = _t.toDict()
         _di.ui.json_d.setPlainText(json.dumps(_t_dict, indent=4))
 
-        for vin in range(0, len(_t.vin)):
-            _di.ui.add_vin(vin, _t.vin[vin])
+        for c, vin in enumerate(_t.vin):
+            _di.ui.add_vin(c, vin)
 
-        for vout in range(0, len(_t.vout)):
-            _di.ui.add_vout(vout, _t.vout[vout])
+        for c, vout in enumerate(_t.vout):
+            _di.ui.add_vout(c, vout)
 
         _result = _di.exec_()
 

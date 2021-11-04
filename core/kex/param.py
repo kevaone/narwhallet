@@ -1,5 +1,5 @@
 from enum import Enum
-from core.kex.ex import _error
+from core.kex.ex import error
 
 
 class _param(Enum):
@@ -19,7 +19,7 @@ class _param(Enum):
 
     def test_input_type(self, param):
         if self.value[0] != type(param):
-            _error.invalid_input_type._raise()
+            error.invalid_input_type.raise_error()
 
     def describe(self) -> dict:
         _d = {
@@ -45,7 +45,7 @@ class ElXparams(_param):
     rawtx = str
     tx_hash = str
     verbose = bool
-    txPos = int
+    tx_pos = int
     merkle = bool
     # index = int
     min_tx_num = int

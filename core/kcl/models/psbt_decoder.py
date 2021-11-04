@@ -81,6 +81,7 @@ class keva_psbt():
                         Ut.bytes_to_hex(s_val.read(_script_size))))
                     if _tx_vin_script_sig.hex == '':
                         _tx_vin_script_sig.set_hex(None)
+
                     _tx_vin.set_scriptSig(_tx_vin_script_sig)
                     _tx_vin.set_sequence(Ut.bytes_to_hex(s_val.read(4)))
                     self.tx.add_vin(_tx_vin)

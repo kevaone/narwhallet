@@ -33,8 +33,8 @@ class RequestProcessor():
         _tsq = self.path.split(b'?')
         if len(_tsq) > 1:
             return _tsq[1].split(b'&')
-        else:
-            return []
+
+        return []
 
     def process(self):
         self._decoder()
@@ -56,11 +56,16 @@ class RequestProcessor():
 
             while True:
                 _count += 1
+                _end = False
                 if _split_tmp[_count] == b'\r':
                     _bytes_to_read -= len(_split_tmp[_count]) + 1
-                    break
+                    _end = True
                 elif _count == 25:
+                    _end = True
+
+                if _end is True:
                     break
+
                 _head = _split_tmp[_count].split(b': ')
 
                 self.headers.append((_head[0], _head[1]))
@@ -71,11 +76,15 @@ class RequestProcessor():
 
             while True:
                 _count += 1
+                _end = False
                 if _bytes_to_read == 0:
-                    break
+                    _end = True
                 elif _split_tmp[_count] == b'':
-                    break
+                    _end = True
                 elif _count == 250:
+                    _end = True
+
+                if _end is True:
                     break
 
                 self.body += _split_tmp[_count]

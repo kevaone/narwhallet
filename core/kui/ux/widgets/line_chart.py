@@ -97,8 +97,8 @@ class performance_chart(QGraphicsScene):
 
     def draw(self):
         self.drawrect(10, 20)
-        for line in range(0, len(self.lines)):
-            _dat = self.lines[line]
+        for line in enumerate(self.lines):
+            _dat = line
             for i in range(0, len(_dat['data'])):
                 if i > 0:
                     # _sz_p = self.sceneRect().size().width()

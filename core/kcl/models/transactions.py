@@ -55,8 +55,7 @@ class MTransactions():
                               len(_tx.vin), len(_tx.vout),
                               _tx.blockhash, _tx.confirmations,
                               _tx.time, _tx.blocktime, _tx.hex), 2)
-        for i in range(0, len(_tx.vin)):
-            _vin = _tx.vin[i]
+        for i, _vin in enumerate(_tx.vin):
             if _vin.coinbase is None:
                 self.dbi.execute_sql(self.dbi.scripts.INSERT_TX_VIN,
                                      (_tx.txid, i, _vin.txid,
@@ -71,8 +70,7 @@ class MTransactions():
                                       '', 'coinbase', _vin.coinbase,
                                       '', _vin.sequence), 2)
 
-        for i in range(0, len(_tx.vout)):
-            _vout = _tx.vout[i]
+        for i, _vout in enumerate(_tx.vout):
             if len(_vout.scriptPubKey.addresses) > 0:
                 _addresses = json.dumps(_vout.scriptPubKey.addresses)
                 self.dbi.execute_sql(self.dbi.scripts.INSERT_TX_VOUT,

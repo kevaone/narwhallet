@@ -22,7 +22,7 @@ class MNamespaces():
             _id = Base58Encoder.CheckEncode(Ut.hex_to_bytes(nsid))
             return _id
         except Exception:
-            raise Exception('Invailid Namespaceid')
+            return Exception('Invailid Namespaceid')
 
     @staticmethod
     def _decode(value):
@@ -63,9 +63,9 @@ class MNamespaces():
 
         return _type
 
-    def _fromRawValues(self, block: int, n: int, tx: str,
-                       namespaceid: str, op: str, key: str, value: str,
-                       address: str):
+    def fromRawValues(self, block: int, n: int, tx: str,
+                      namespaceid: str, op: str, key: str, value: str,
+                      address: str):
 
         _ns = self.convert_to_namespaceid(namespaceid)
         key = self._decode(key)
@@ -82,7 +82,7 @@ class MNamespaces():
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_VIEW_1, (), 3)
         return _r
 
-    def _get_namespace_by_id(self, txid: str, namespaceid: str) -> MNamespace:
+    def get_namespace_by_txid(self, txid: str, namespaceid: str) -> MNamespace:
         _ns = self.convert_to_namespaceid(namespaceid)
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_BY_TXID,
                                   (txid, _ns, ), 3)

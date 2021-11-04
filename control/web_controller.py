@@ -7,7 +7,6 @@ from core.kcl.file_utils import ConfigLoader
 
 class NarwhalletWebController():
     def __init__(self):
-        # HACK
         _user_home = os.path.expanduser('~')
         self.user_path = os.path.join(_user_home, '.narwhallet')
         self.settings = MNarwhalletSettings()

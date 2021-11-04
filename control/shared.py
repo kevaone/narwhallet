@@ -37,7 +37,7 @@ class MShared():
 
     # TODO Remove this, should come from file_uitls
     @staticmethod
-    def _load_message_file(file_path: str):
+    def load_message_file(file_path: str):
         _data = b''
         with open(file_path, mode='rb') as _file:
             _data = _file.read()
@@ -493,7 +493,7 @@ class MShared():
                             cache: MCache, test_root=True):
         _o = _out.asm.split(' ')
         if _o[0].startswith('OP_KEVA_'):
-            _ns = cache.ns._get_namespace_by_id(_trx.txid, _o[1])
+            _ns = cache.ns.get_namespace_by_txid(_trx.txid, _o[1])
             if len(_ns) == 0:
                 _merkle = KEX.call(KEX.api.bc_tx.get_merkle,
                                    [_trx.txid, _t['height']])
@@ -504,11 +504,11 @@ class MShared():
                         # TODO Get dates and key types;
                         if _o[0] == 'OP_KEVA_NAMESPACE':
                             _ = (cache.ns
-                                 ._fromRawValues(_merkle['block_height'],
-                                                 _merkle['pos'],
-                                                 _trx.txid, _o[1], _o[0],
-                                                 '5f4b4556415f4e535f', _o[2],
-                                                 _out.addresses[0]))
+                                 .fromRawValues(_merkle['block_height'],
+                                                _merkle['pos'],
+                                                _trx.txid, _o[1], _o[0],
+                                                '5f4b4556415f4e535f', _o[2],
+                                                _out.addresses[0]))
                         else:
                             if _o[0] == 'OP_KEVA_DELETE':
                                 _ = cache.ns.delete_key(_o[1], _o[2],
@@ -540,11 +540,11 @@ class MShared():
                                                          .add_fromJson(_r_tx))
 
                                     _ = (cache.ns
-                                         ._fromRawValues(_merkle['block_height'],
-                                                         _merkle['pos'],
-                                                         _trx.txid, _o[1], _o[0],
-                                                         _o[2], _o[3],
-                                                         _out.addresses[0]))
+                                         .fromRawValues(_merkle['block_height'],
+                                                        _merkle['pos'],
+                                                        _trx.txid, _o[1], _o[0],
+                                                        _o[2], _o[3],
+                                                        _out.addresses[0]))
 
                                     if test_root is True:
                                         MShared._test_root(_out, KEX, cache)

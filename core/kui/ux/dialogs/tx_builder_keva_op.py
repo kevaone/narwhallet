@@ -26,7 +26,7 @@ class Ui_keva_op_send_dlg(QObject):
         self.cache: MCache = None
         self.KEX = None
         self.user_path = None
-        self._new_tx = MTransactionBuilder()
+        self.new_tx = MTransactionBuilder()
         self.raw_tx = None
         self._ns = None
         self._isTransfer: bool = False
@@ -220,24 +220,24 @@ class Ui_keva_op_send_dlg(QObject):
             if _nsusxo is not None and isChangeOp is True:
                 _usxos.insert(0, _nsusxo)
 
-            self._new_tx._inputs_to_spend = _usxos
+            self.new_tx.inputs_to_spend = _usxos
 
     def txb_preimage(self):
         _n = self.w.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
-        self._new_tx._input_signatures = []
-        # print('len(self._new_tx.vin)', len(self._new_tx.vin))
-        for _vin_idx in range(0, len(self._new_tx.vin)):
-            _npk = self._new_tx.vin[_vin_idx]._tb_address
-            _npkc = self._new_tx.vin[_vin_idx]._tb_address_chain
+        self.new_tx.input_signatures = []
+        # print('len(self.new_tx.vin)', len(self.new_tx.vin))
+        for c, _vin_idx in enumerate(self.new_tx.vin):
+            _npk = _vin_idx.tb_address
+            _npkc = _vin_idx.tb_address_chain
             _pk = wallet.get_publickey_raw(_npk, _npkc)
-            _sighash = self._new_tx.make_preimage(_vin_idx, _pk)
+            _sighash = self.new_tx.make_preimage(c, _pk)
             _sig = wallet.sign_message(_npk, _sighash, _npkc)
             _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-            self._new_tx.vin[_vin_idx]._scriptSig.set_hex(_script)
+            _vin_idx.scriptSig.set_hex(_script)
             # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
-            # if [_sig+'01', _pk] not in self._new_tx._input_signatures:
-            self._new_tx._input_signatures.append([_sig+'01', _pk])
+            # if [_sig+'01', _pk] not in self.new_tx.input_signatures:
+            self.new_tx.input_signatures.append([_sig+'01', _pk])
 
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
@@ -245,7 +245,7 @@ class Ui_keva_op_send_dlg(QObject):
         return Ut.bytes_to_hex(bytes([53]) + _tx_hash)
 
     def txb_build_simple_send(self):
-        self._new_tx._version = Ut.hex_to_bytes('00710000')
+        self.new_tx.version = Ut.hex_to_bytes('00710000')
         _n = self.w.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
         _t = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
@@ -287,26 +287,26 @@ class Ui_keva_op_send_dlg(QObject):
             _sh = Scripts.KevaKeyValueDelete.compile([self._ns, self._ns_key,
                                                       self._ns_address], True)
 
-        _ = self._new_tx.add_output(_namespace_reservation, self._ns_address)
-        self._new_tx.vout[0].scriptPubKey.set_hex(_sh)
+        _ = self.new_tx.add_output(_namespace_reservation, self._ns_address)
+        self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
-        _inp_sel, _need_change, _est_fee = self._new_tx.select_inputs()
+        _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
 
         if _inp_sel is True:
-            _, _, _fv = self._new_tx.get_current_values()
+            _, _, _fv = self.new_tx.get_current_values()
             _cv = _fv - _est_fee
             # print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
 
             if self._ns is None:
-                self._ns = self.tx_to_ns(self._new_tx.vin[0].txid,
-                                         self._new_tx.vin[0].vout)
+                self._ns = self.tx_to_ns(self.new_tx.vin[0].txid,
+                                         self.new_tx.vin[0].vout)
                 _n_sh = Scripts.KevaNamespaceCreation.compile([self._ns,
                                                                self._ns_value,
                                                                self._ns_address
                                                                ], True)
                 if _need_change is True:
                     # _change_address = wallet.get_unused_change_address()
-                    _ = self._new_tx.add_output(_cv, self._ns_address)
+                    _ = self.new_tx.add_output(_cv, self._ns_address)
             elif (self._ns is not None and self._ns_key is not None
                   and self._ns_value is not None):
                 _n_sh = Scripts.KevaKeyValueUpdate.compile([self._ns,
@@ -317,9 +317,9 @@ class Ui_keva_op_send_dlg(QObject):
                 if self._isTransfer is True:
                     if _need_change is True:
                         _change_address = wallet.get_unused_change_address()
-                        _ = self._new_tx.add_output(_cv, _change_address)
+                        _ = self.new_tx.add_output(_cv, _change_address)
                 else:
-                    _ = self._new_tx.add_output(_cv, self._ns_address)
+                    _ = self.new_tx.add_output(_cv, self._ns_address)
             elif (self._ns is not None and self._ns_key is not None
                   and self._ns_value is None):
                 _n_sh = Scripts.KevaKeyValueDelete.compile([self._ns,
@@ -327,14 +327,14 @@ class Ui_keva_op_send_dlg(QObject):
                                                             self._ns_address
                                                             ], True)
                 if _need_change is True:
-                    _ = self._new_tx.add_output(_cv, self._ns_address)
+                    _ = self.new_tx.add_output(_cv, self._ns_address)
 
-            self._new_tx.vout[0].scriptPubKey.set_hex(_n_sh)
-            # print('final size', self._new_tx.get_size(len(self._new_tx.vin),
-            #       len(self._new_tx.vout)))
+            self.new_tx.vout[0].scriptPubKey.set_hex(_n_sh)
+            # print('final size', self.new_tx.get_size(len(self.new_tx.vin),
+            #       len(self.new_tx.vout)))
 
             self.txb_preimage()
-            _stx = self._new_tx.serialize_tx()
+            _stx = self.new_tx.serialize_tx()
 
             self.fee.setText(str(_est_fee/100000000))
             self.txsize.setText(str(len(_stx)))
@@ -350,8 +350,8 @@ class Ui_keva_op_send_dlg(QObject):
             self.back_btn.setVisible(True)
             self.send_btn.setEnabled(True)
         else:
-            self._new_tx.set_vin([])
-            self._new_tx.set_vout([])
+            self.new_tx.set_vin([])
+            self.new_tx.set_vout([])
 
     def back_click(self):
         self.next_btn.setVisible(True)
@@ -362,9 +362,9 @@ class Ui_keva_op_send_dlg(QObject):
         self.fee.setText('')
         self.txsize.setText('')
         self.raw_tx = ''
-        self._new_tx.set_vin([])
-        self._new_tx.set_vout([])
-        self._new_tx._input_signatures = []
+        self.new_tx.set_vin([])
+        self.new_tx.set_vout([])
+        self.new_tx.input_signatures = []
         self.tx.setPlainText(self.raw_tx)
 
         self.w.setEnabled(True)

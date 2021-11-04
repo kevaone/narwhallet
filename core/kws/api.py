@@ -95,8 +95,7 @@ class _Api():
                               self.control.settings.ipfs_gateways[_pigw][2])
 
             _result = _microblog.get_auction_feed(_auctions,
-                                                  auction_type,
-                                                  self.cache)
+                                                  auction_type)
 
         return _result
 

@@ -18,8 +18,8 @@ class MTransactionBuilder(MTransaction):
 
         self._fee: int = 0
         self._target_value: int = 0
-        self._inputs_to_spend: List[MTransactionInput] = []
-        self._input_signatures = []
+        self.inputs_to_spend: List[MTransactionInput] = []
+        self.input_signatures = []
 
     @staticmethod
     def sort(item):
@@ -55,7 +55,7 @@ class MTransactionBuilder(MTransaction):
         _f = 0
 
         for vi in self.vin:
-            _i += vi._tb_value
+            _i += vi.tb_value
 
         for vo in self.vout:
             _o += vo.value
@@ -79,9 +79,9 @@ class MTransactionBuilder(MTransaction):
         _vin = MTransactionInput()
         _ss = MScriptSig()
         _ads = address.split(':')
-        _vin._tb_address = int(_ads[0])
-        _vin._tb_address_chain = int(_ads[1])
-        _vin._tb_value = value
+        _vin.tb_address = int(_ads[0])
+        _vin.tb_address_chain = int(_ads[1])
+        _vin.tb_value = value
         _vin.set_sequence('ffffffff')
         _vin.set_txid(txid)
         _vin.set_vout(vout_index)
@@ -90,11 +90,11 @@ class MTransactionBuilder(MTransaction):
         self.add_vin(_vin)
 
     def select_inputs(self):
-        self._inputs_to_spend.sort(reverse=False, key=self.sort)
+        self.inputs_to_spend.sort(reverse=False, key=self.sort)
         _enough_inputs = False
         _change_flag = False
-        for tx in self._inputs_to_spend:
-            iv, ov, fv = self.get_current_values()
+        for tx in self.inputs_to_spend:
+            _, _, fv = self.get_current_values()
             # print('iv', iv, 'ov', ov, 'fv', fv)
             _size, _vsize = self.get_size(len(self.vin) + 1, len(self.vout))
             _est_fee = self.fee * _vsize
@@ -105,7 +105,6 @@ class MTransactionBuilder(MTransaction):
                                str(tx['a_idx'])+':'+str(tx['ch']),
                                tx['tx_hash'], tx['tx_pos'])
                 _enough_inputs = True
-                break
             elif (tx['value'] + fv) < _est_fee:
                 # print('Need more inputs')
                 self.add_input(tx['value'],
@@ -123,12 +122,13 @@ class MTransactionBuilder(MTransaction):
                                    tx['tx_hash'], tx['tx_pos'])
                     _enough_inputs = True
                     _change_flag = True
-                    break
                 else:
                     self.add_input(tx['value'],
                                    str(tx['a_idx'])+':'+str(tx['ch']),
                                    tx['tx_hash'], tx['tx_pos'])
                     # print('Need more inputs, cant do change')
+            if _enough_inputs is True:
+                break
 
         if _enough_inputs is False:
             _return = False
@@ -190,30 +190,26 @@ class MTransactionBuilder(MTransaction):
         _pre.append(self._segwit)
         _pre.append(Ut.to_cuint(len(self.vin)))
 
-        for i in range(0, len(self.vin)):
-            _outpoint = Ut.reverse_bytes(Ut.hex_to_bytes(self.vin[i].txid))
-            _outpoint = _outpoint + Ut.int_to_bytes(self.vin[i].vout,
-                                                    4, 'little')
+        for i in self.vin:
+            _outpoint = Ut.reverse_bytes(Ut.hex_to_bytes(i.txid))
+            _outpoint = _outpoint + Ut.int_to_bytes(i.vout, 4, 'little')
             _pre.append(_outpoint)
-            _s = Ut.hex_to_bytes(self.vin[i].scriptSig.hex)
+            _s = Ut.hex_to_bytes(i.scriptSig.hex)
             _scriptSig = Ut.to_cuint(len(_s)) + _s
             _pre.append(Ut.to_cuint(len(_scriptSig)))
             _pre.append(_scriptSig)
-            _pre.append(Ut.hex_to_bytes(self.vin[i].sequence))
+            _pre.append(Ut.hex_to_bytes(i.sequence))
 
         _pre.append(Ut.to_cuint(len(self.vout)))
 
-        for i in range(0, len(self.vout)):
-            _pre.append(Ut.int_to_bytes(self.vout[i].value, 8, 'little'))
+        for i in self.vout:
+            _pre.append(Ut.int_to_bytes(i.value, 8, 'little'))
+            _pre.append(Ut.to_cuint(len(Ut.hex_to_bytes(i.scriptPubKey.hex))))
+            _pre.append(Ut.hex_to_bytes(i.scriptPubKey.hex))
 
-            (_pre.append(Ut.to_cuint(
-                len(Ut.hex_to_bytes(self.vout[i].scriptPubKey.hex)))))
-
-            _pre.append(Ut.hex_to_bytes(self.vout[i].scriptPubKey.hex))
-
-        for i in range(0, len(self._input_signatures)):
-            _pre.append(Ut.to_cuint(len(self._input_signatures[i])))
-            for s in self._input_signatures[i]:
+        for i in self.input_signatures:
+            _pre.append(Ut.to_cuint(len(i)))
+            for s in i:
                 _x = Ut.hex_to_bytes(s)
                 _pre.append(Ut.to_cuint(len(_x)))
                 _pre.append(_x)
@@ -242,7 +238,7 @@ class MTransactionBuilder(MTransaction):
         _s3 = Scripts.P2PKHRedeemScript.compile([pk])
         _pre.append(Ut.to_cuint(len(_s3)) + _s3)
 
-        _pre.append(Ut.int_to_bytes(self.vin[i]._tb_value, 8, 'little'))
+        _pre.append(Ut.int_to_bytes(self.vin[i].tb_value, 8, 'little'))
         _pre.append(Ut.hex_to_bytes(self.vin[i].sequence))
 
         _pre.append(self.hash_outputs(_hash_type))
