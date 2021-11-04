@@ -29,6 +29,8 @@ class _namespaces_table(QTableWidget):
         self.horizontalHeaderItem(7).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
         self.setColumnHidden(1, True)
+        # TODO Add settings control to show/hide address column
+        self.setColumnHidden(6, True)
 
     def clear_rows(self):
         _m = self.rowCount()
