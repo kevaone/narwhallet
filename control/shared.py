@@ -478,7 +478,7 @@ class MShared():
                     _vo = _in.vout
                     _in_tx = cache.tx.get_tx_by_txid(_in.txid)
                     if _in_tx is None:
-                        _in_tx = MShared.__get_tx(_in.txid, kex, True)
+                        _in_tx = MShared.get_tx(_in.txid, kex, True)
                         _in_tx = cache.tx.add_from_json(_in_tx)
 
                     if _in_tx is None:
@@ -543,7 +543,7 @@ class MShared():
 
                         _r_tx = cache.tx.get_tx_by_txid(_o[2][4:])
                         if _r_tx is None:
-                            _r_tx = MShared.__get_tx(_o[2][4:], kex, True)
+                            _r_tx = MShared.get_tx(_o[2][4:], kex, True)
                         if _r_tx is not None and isinstance(_r_tx, dict):
                             _r_tx = cache.tx.add_from_json(_r_tx)
 
@@ -615,7 +615,7 @@ class MShared():
         return True
 
     @staticmethod
-    def __get_tx(tx_hash: str, kex: KEXclient, verbose=False):
+    def get_tx(tx_hash: str, kex: KEXclient, verbose=False):
         _tx = None
         ret = b''
         ret = kex.call(kex.api.bc_tx.get, [tx_hash, verbose])
@@ -643,7 +643,7 @@ class MShared():
 
             _trx = cache.tx.get_tx_by_txid(_hist)
             if _trx is None:
-                _tx = MShared.__get_tx(_hist, kex, True)
+                _tx = MShared.get_tx(_hist, kex, True)
                 if _tx is not None:
                     _trx = cache.tx.add_from_json(_tx)
             if _trx is not None:
@@ -667,7 +667,7 @@ class MShared():
             else:
                 _btrx = cache.tx.get_tx_by_txid(_h['tx_hash'])
             if _btrx is None:
-                _tx = MShared.__get_tx(_h['tx_hash'], kex, True)
+                _tx = MShared.get_tx(_h['tx_hash'], kex, True)
                 if _tx is not None:
                     _btrx = cache.tx.add_from_json(_tx)
             if _btrx is not None:

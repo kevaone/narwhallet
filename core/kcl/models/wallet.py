@@ -68,6 +68,10 @@ class MWallet(MBase):
         return self._kind
 
     @property
+    def k(self) -> bytes:
+        return self._k
+
+    @property
     def balance(self) -> float:
         return self._balance
 

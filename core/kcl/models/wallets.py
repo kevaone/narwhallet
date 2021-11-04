@@ -45,7 +45,7 @@ class MWallets():
         if _dump is not None:
             if _wallet.state_lock in (1, 3):
                 WalletUtils.save_wallet(_wallet.name, self.root_path, _dump,
-                                        _wallet._k)
+                                        _wallet.k)
             else:
                 WalletUtils.save_wallet(_wallet.name, self.root_path, _dump)
 
@@ -99,7 +99,7 @@ class MWallets():
 
     def relock_wallet(self, name: str) -> bool:
         if (self._wallets[self._names[name]].locked is False
-           and self._wallets[self._names[name]]._k is not None
+           and self._wallets[self._names[name]].k is not None
            and self._wallets[self._names[name]].updating is False):
 
             self.load_wallet(name)
@@ -111,9 +111,9 @@ class MWallets():
     def load_wallet(self, name: str, wallet: MWallet = None):
         if wallet is not None:
             _wallet = wallet
-            if _wallet._k is not None:
+            if _wallet.k is not None:
                 _dat = WalletUtils.load_wallet(name, self.root_path,
-                                               _wallet._k)
+                                               _wallet.k)
                 if _dat != b'InvalidTag':
                     _wm_dat = json.loads(_dat)
                     _wallet = self._load_wallet(_wm_dat, _wallet)

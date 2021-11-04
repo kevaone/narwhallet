@@ -211,16 +211,22 @@ class Ui_simple_send_dlg(QObject):
                 _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
 
                 if _tx is None:
-                    _tx = MShared.__get_tx(tx['tx_hash'], self.kex, True)
-                    if _tx is not None:
-                        _tx = self.cache.tx.add_from_json(_tx)
+                    _tx = MShared.get_tx(tx['tx_hash'], self.kex, True)
 
-                if _tx is not None:
-                    if _tx.confirmations is not None:
-                        if _tx.confirmations >= 6:
-                            if ('OP_KEVA' not in
-                               _tx.vout[tx['tx_pos']].scriptPubKey.asm):
-                                _usxos.append(tx)
+                if _tx is not None and isinstance(_tx, dict):
+                    _tx = self.cache.tx.add_from_json(_tx)
+
+                if _tx is None:
+                    continue
+
+                if _tx.confirmations is None:
+                    continue
+
+                if _tx.confirmations < 6:
+                    continue
+
+                if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
+                    _usxos.append(tx)
 
             self.new_tx.inputs_to_spend = _usxos
         self.check_next()

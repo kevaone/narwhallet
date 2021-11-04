@@ -71,20 +71,20 @@ class keva_psbt():
 
                 self.psbt_inputs = self.read_csuint(s_val)
                 for _ in range(self.psbt_inputs):
-                    _tx_vin = MTransactionInput()
-                    _tx_vin_script_sig = MScriptSig()
-                    (_tx_vin.set_txid(Ut.bytes_to_hex(
+                    _vin = MTransactionInput()
+                    _script_sig = MScriptSig()
+                    (_vin.set_txid(Ut.bytes_to_hex(
                                       Ut.reverse_bytes(s_val.read(32)))))
-                    _tx_vin.set_vout(Ut.bytes_to_int(s_val.read(4), 'little'))
+                    _vin.set_vout(Ut.bytes_to_int(s_val.read(4), 'little'))
                     _script_size = self.read_csuint(s_val)
-                    (_tx_vin_script_sig.set_hex(
+                    (_script_sig.set_hex(
                         Ut.bytes_to_hex(s_val.read(_script_size))))
-                    if _tx_vin_script_sig.hex == '':
-                        _tx_vin_script_sig.set_hex(None)
+                    if _script_sig.hex == '':
+                        _script_sig.set_hex(None)
 
-                    _tx_vin.set_scriptSig(_tx_vin_script_sig)
-                    _tx_vin.set_sequence(Ut.bytes_to_hex(s_val.read(4)))
-                    self.tx.add_vin(_tx_vin)
+                    _vin.set_scriptSig(_script_sig)
+                    _vin.set_sequence(Ut.bytes_to_hex(s_val.read(4)))
+                    self.tx.add_vin(_vin)
 
                 self.psbt_outputs = self.read_csuint(s_val)
                 for _ in range(self.psbt_outputs):

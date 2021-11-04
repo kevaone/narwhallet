@@ -159,8 +159,8 @@ class MDialogs():
         _di.ui.w.addItem(_w, _w)
         _di.ui.w.setCurrentIndex(1)
         _di.ui.w.setEnabled(False)
-        _di.ui._ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.ui._ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ui.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.ui.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
 
         _di.ui.set_availible_usxo(True)
         _result = _di.exec_()
@@ -205,8 +205,8 @@ class MDialogs():
         _di.ui.w.setCurrentIndex(1)
         _di.ui.w.setEnabled(False)
 
-        _di.ui._ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.ui._ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ui.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.ui.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
         _key = self.ui.ns_tab.list_ns_keys.currentItem().text()
         _value = self.ui.ns_tab.ns_tab_text_key_value.toPlainText()
         if _key == '_KEVA_NS_':
@@ -214,8 +214,8 @@ class MDialogs():
             _value = {'displayName': _value}
             _value = json.dumps(_value, separators=(',', ':'))
 
-        _di.ui._ns_key = _key
-        _di.ui._ns_value = _value
+        _di.ui.ns_key = _key
+        _di.ui.ns_value = _value
         _di.ui.key_v.setReadOnly(True)
         _di.ui.value.setReadOnly(True)
 
@@ -269,10 +269,10 @@ class MDialogs():
         _di.ui.w.setCurrentIndex(1)
         _di.ui.w.setEnabled(False)
 
-        _di.ui._ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.ui._ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ui._ns_key = self.ui.ns_tab.list_ns_keys.currentItem().text()
-        _di.ui._ns_value = ''
+        _di.ui.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.ui.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ui.ns_key = self.ui.ns_tab.list_ns_keys.currentItem().text()
+        _di.ui.ns_value = ''
 
         _di.ui.set_availible_usxo(True)
         _di.ui.txb_build_simple_send()
@@ -319,8 +319,8 @@ class MDialogs():
         _di.ui.w.setCurrentIndex(1)
         _di.ui.w.setEnabled(False)
 
-        _di.ui._ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.ui._ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ui.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.ui.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
         _di.ui.set_availible_usxo(True)
 
         for _addr in self.address_book.addresses:
@@ -333,7 +333,7 @@ class MDialogs():
         _di.ui.value.setPlainText(str(time.time()))
         _di.ui.key_v.setText('wxfr')
         _di.ui.next_btn.setEnabled(False)
-        _di.ui._isTransfer = True
+        _di.ui.is_transfer = True
         _result = _di.exec_()
 
         _wallet.set_updating(False)
@@ -468,10 +468,10 @@ class MDialogs():
             _di.ui.buttonBox.button(_b_cancel).setText('No')
 
         if msgType == 1:
-            _di.ui.label_1.setPixmap(_di.ui._error_pic)
+            _di.ui.label_1.setPixmap(_di.ui.error_pic)
             _di.ui.buttonBox.button(_b_cancel).setVisible(False)
         elif msgType == 2:
-            _di.ui.label_1.setPixmap(_di.ui._success_pic)
+            _di.ui.label_1.setPixmap(_di.ui.success_pic)
             _di.ui.buttonBox.button(_b_cancel).setVisible(False)
 
         _result = _di.exec()

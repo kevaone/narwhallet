@@ -28,11 +28,11 @@ class Ui_keva_op_send_dlg(QObject):
         self.user_path = None
         self.new_tx = MTransactionBuilder()
         self.raw_tx = None
-        self._ns = None
-        self._isTransfer: bool = False
-        self._ns_address = None
-        self._ns_key = None
-        self._ns_value = None
+        self.ns = None
+        self.is_transfer: bool = False
+        self.ns_address = None
+        self.ns_key = None
+        self.ns_value = None
         self.verticalLayout = QVBoxLayout(keva_op_send_dialog)
         self.horizontalLayout_1 = QHBoxLayout()
         self.label_1 = QLabel(keva_op_send_dialog)
@@ -187,7 +187,7 @@ class Ui_keva_op_send_dlg(QObject):
 
         self.check_next()
 
-    def set_availible_usxo(self, isChangeOp: bool):
+    def set_availible_usxo(self, is_change: bool):
         if self.user_path is not None:
             _n = self.w.currentData()
             wallet = self.wallets.get_wallet_by_name(_n)
@@ -201,23 +201,27 @@ class Ui_keva_op_send_dlg(QObject):
                 _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
 
                 if _tx is None:
-                    _tx = MShared.__get_tx(tx['tx_hash'], self.kex, True)
-                    if _tx is not None:
-                        _tx = self.cache.tx.add_from_json(_tx)
+                    _tx = MShared.get_tx(tx['tx_hash'], self.kex, True)
 
-                if _tx is not None:
-                    if _tx.confirmations is not None:
-                        if _tx.confirmations >= 6:
-                            if ('OP_KEVA' not in
-                               _tx.vout[tx['tx_pos']].scriptPubKey.asm):
-                                _usxos.append(tx)
-                            elif ('OP_KEVA'
-                                  in _tx.vout[tx['tx_pos']].scriptPubKey.asm
-                                  and isChangeOp is True
-                                  and tx['a'] == self._ns_address):
-                                _nsusxo = tx
+                if _tx is not None and isinstance(_tx, dict):
+                    _tx = self.cache.tx.add_from_json(_tx)
 
-            if _nsusxo is not None and isChangeOp is True:
+                if _tx is None:
+                    continue
+
+                if _tx.confirmations is None:
+                    continue
+
+                if _tx.confirmations < 6:
+                    continue
+
+                if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
+                    _usxos.append(tx)
+                elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
+                        and is_change is True and tx['a'] == self.ns_address):
+                    _nsusxo = tx
+
+            if _nsusxo is not None and is_change is True:
                 _usxos.insert(0, _nsusxo)
 
             self.new_tx.inputs_to_spend = _usxos
@@ -253,41 +257,41 @@ class Ui_keva_op_send_dlg(QObject):
         _temp_ns = self.tx_to_ns(_t, _temp_vout)
         _namespace_reservation = 1000000
 
-        if self._ns_address is None:
-            self._ns_address = wallet.get_unused_address()
+        if self.ns_address is None:
+            self.ns_address = wallet.get_unused_address()
 
         if self.address_book.isVisible():
             if self.address_book.currentData() != '-':
-                self._ns_address = self.address_book.currentData()
+                self.ns_address = self.address_book.currentData()
 
-        if self._ns_value is None:
-            self._ns_value = self.value.toPlainText()
-        elif self._ns_value == '':
-            self._ns_value = None
+        if self.ns_value is None:
+            self.ns_value = self.value.toPlainText()
+        elif self.ns_value == '':
+            self.ns_value = None
         else:
-            self.value.setPlainText(self._ns_value)
+            self.value.setPlainText(self.ns_value)
 
-        if self._ns_key is None:
-            self._ns_key = self.key_v.text()
+        if self.ns_key is None:
+            self.ns_key = self.key_v.text()
         else:
-            self.key_v.setText(self._ns_key)
+            self.key_v.setText(self.ns_key)
 
-        if self._ns is None:
+        if self.ns is None:
             _sh = Scripts.KevaNamespaceCreation.compile([_temp_ns,
-                                                         self._ns_value,
-                                                         self._ns_address
+                                                         self.ns_value,
+                                                         self.ns_address
                                                          ], True)
-        elif (self._ns is not None and self._ns_key is not None
-              and self._ns_value is not None):
-            _sh = Scripts.KevaKeyValueUpdate.compile([self._ns, self._ns_key,
-                                                      self._ns_value,
-                                                      self._ns_address], True)
-        elif (self._ns is not None and self._ns_key is not None
-              and self._ns_value is None):
-            _sh = Scripts.KevaKeyValueDelete.compile([self._ns, self._ns_key,
-                                                      self._ns_address], True)
+        elif (self.ns is not None and self.ns_key is not None
+              and self.ns_value is not None):
+            _sh = Scripts.KevaKeyValueUpdate.compile([self.ns, self.ns_key,
+                                                      self.ns_value,
+                                                      self.ns_address], True)
+        elif (self.ns is not None and self.ns_key is not None
+              and self.ns_value is None):
+            _sh = Scripts.KevaKeyValueDelete.compile([self.ns, self.ns_key,
+                                                      self.ns_address], True)
 
-        _ = self.new_tx.add_output(_namespace_reservation, self._ns_address)
+        _ = self.new_tx.add_output(_namespace_reservation, self.ns_address)
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
@@ -297,37 +301,37 @@ class Ui_keva_op_send_dlg(QObject):
             _cv = _fv - _est_fee
             # print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
 
-            if self._ns is None:
-                self._ns = self.tx_to_ns(self.new_tx.vin[0].txid,
+            if self.ns is None:
+                self.ns = self.tx_to_ns(self.new_tx.vin[0].txid,
                                          self.new_tx.vin[0].vout)
-                _n_sh = Scripts.KevaNamespaceCreation.compile([self._ns,
-                                                               self._ns_value,
-                                                               self._ns_address
+                _n_sh = Scripts.KevaNamespaceCreation.compile([self.ns,
+                                                               self.ns_value,
+                                                               self.ns_address
                                                                ], True)
                 if _need_change is True:
                     # _change_address = wallet.get_unused_change_address()
-                    _ = self.new_tx.add_output(_cv, self._ns_address)
-            elif (self._ns is not None and self._ns_key is not None
-                  and self._ns_value is not None):
-                _n_sh = Scripts.KevaKeyValueUpdate.compile([self._ns,
-                                                            self._ns_key,
-                                                            self._ns_value,
-                                                            self._ns_address
+                    _ = self.new_tx.add_output(_cv, self.ns_address)
+            elif (self.ns is not None and self.ns_key is not None
+                  and self.ns_value is not None):
+                _n_sh = Scripts.KevaKeyValueUpdate.compile([self.ns,
+                                                            self.ns_key,
+                                                            self.ns_value,
+                                                            self.ns_address
                                                             ], True)
-                if self._isTransfer is True:
+                if self.is_transfer is True:
                     if _need_change is True:
                         _change_address = wallet.get_unused_change_address()
                         _ = self.new_tx.add_output(_cv, _change_address)
                 else:
-                    _ = self.new_tx.add_output(_cv, self._ns_address)
-            elif (self._ns is not None and self._ns_key is not None
-                  and self._ns_value is None):
-                _n_sh = Scripts.KevaKeyValueDelete.compile([self._ns,
-                                                            self._ns_key,
-                                                            self._ns_address
+                    _ = self.new_tx.add_output(_cv, self.ns_address)
+            elif (self.ns is not None and self.ns_key is not None
+                  and self.ns_value is None):
+                _n_sh = Scripts.KevaKeyValueDelete.compile([self.ns,
+                                                            self.ns_key,
+                                                            self.ns_address
                                                             ], True)
                 if _need_change is True:
-                    _ = self.new_tx.add_output(_cv, self._ns_address)
+                    _ = self.new_tx.add_output(_cv, self.ns_address)
 
             self.new_tx.vout[0].scriptPubKey.set_hex(_n_sh)
             # print('final size', self.new_tx.get_size(len(self.new_tx.vin),

@@ -502,7 +502,7 @@ class NarwhalletController():
             (self.ui.w_tab.tbl_w.item(i, 6)
              .setText(str(round(wallet.balance - wallet.bid_balance, 8))))
 
-            if wallet._bid_balance > 0:
+            if wallet.bid_balance > 0:
                 self.wallets.save_wallet(wallet.name)
                 (self.ui.w_tab.tbl_w.item(i, 7)
                  .setText(str(round(wallet.bid_balance, 8))))
@@ -601,24 +601,29 @@ class NarwhalletController():
 
             pd['date'] = time.time()
             for wallet in self.wallets.wallets:
-                if wallet.kind == 0:
-                    for address in wallet.addresses.addresses:
-                        if _oa[0][0] == address.address:
-                            pd['wallet'] = wallet.name
-                    # TODO Notify user if namespace detected in change address
-                    for address in wallet.change_addresses.addresses:
-                        if _oa[0][0] == address.address:
-                            pd['wallet'] = wallet.name
+                if wallet.kind != 0:
+                    continue
+
+                for address in wallet.addresses.addresses:
+                    if _oa[0][0] == address.address:
+                        pd['wallet'] = wallet.name
+                # TODO Notify user if namespace detected in change address
+                for address in wallet.change_addresses.addresses:
+                    if _oa[0][0] == address.address:
+                        pd['wallet'] = wallet.name
 
             if 'wallet' not in pd:
                 for wallet in self.wallets.wallets:
-                    if wallet.kind in (1, 3):
-                        for address in wallet.addresses.addresses:
-                            if _oa[0][0] == address.address:
-                                pd['wallet'] = wallet.name
+                    if wallet.kind not in (1, 3):
+                        continue
+
+                    for address in wallet.addresses.addresses:
+                        if _oa[0][0] == address.address:
+                            pd['wallet'] = wallet.name
 
             if 'wallet' in pd:
                 nd.append(pd)
+
         self.ui.ns_tab.tbl_ns.add_namespaces('_w.name', nd)
         self.refresh_nft_tab_data(nd)
 
@@ -1024,31 +1029,35 @@ class NarwhalletController():
             for _t in _a.history:
                 _trx = self.cache.tx.get_tx_by_txid(_t['tx_hash'])
 
-                if _trx is not None:
-                    if _trx.txid not in _tx_d:
-                        _tx_d[_trx.txid] = {}
-                        _tx_d[_trx.txid]['txid'] = _trx.txid
-                        _tx_d[_trx.txid]['time'] = _trx.time
-                        _tx_d[_trx.txid]['blockhash'] = _trx.blockhash
-                        _tx_d[_trx.txid]['amount'] = 0.0
+                if _trx is None:
+                    continue
 
-                    for _in in _trx.vin:
-                        _vo = _in.vout
-                        _in_tx = self.cache.tx.get_tx_by_txid(_in.txid)
+                if _trx.txid not in _tx_d:
+                    _tx_d[_trx.txid] = {}
+                    _tx_d[_trx.txid]['txid'] = _trx.txid
+                    _tx_d[_trx.txid]['time'] = _trx.time
+                    _tx_d[_trx.txid]['blockhash'] = _trx.blockhash
+                    _tx_d[_trx.txid]['amount'] = 0.0
 
-                        if _in_tx is not None:
-                            for _out in _in_tx.vout:
-                                if (_a.address in _out.scriptPubKey.addresses
-                                        and _out.n == _vo):
-                                    _am = _tx_d[_trx.txid]['amount']
-                                    _am = _am - _out.value
-                                    _tx_d[_trx.txid]['amount'] = _am
+                for _in in _trx.vin:
+                    _vo = _in.vout
+                    _in_tx = self.cache.tx.get_tx_by_txid(_in.txid)
 
-                    for _out in _trx.vout:
-                        if _a.address in _out.scriptPubKey.addresses:
+                    if _in_tx is None:
+                        continue
+
+                    for _out in _in_tx.vout:
+                        if (_a.address in _out.scriptPubKey.addresses
+                                and _out.n == _vo):
                             _am = _tx_d[_trx.txid]['amount']
-                            _tx_d[_trx.txid]['amount'] = _am + _out.value
-                    _tx_d[_trx.txid]['confirmations'] = _trx.confirmations
+                            _am = _am - _out.value
+                            _tx_d[_trx.txid]['amount'] = _am
+
+                for _out in _trx.vout:
+                    if _a.address in _out.scriptPubKey.addresses:
+                        _am = _tx_d[_trx.txid]['amount']
+                        _tx_d[_trx.txid]['amount'] = _am + _out.value
+                _tx_d[_trx.txid]['confirmations'] = _trx.confirmations
         return _tx_d
 
     def _get_unused_address(self):
