@@ -20,6 +20,8 @@ class MWallet(MBase):
         self._kind: EWalletKind = EWalletKind.NORMAL
         self._k: bytes = None
         self._balance: float = 0.0
+        self._bid_balance: float = 0.0
+        self._bid_tx: list = []
         self._locked: bool = False
         self._updating: bool = False
         self._last_updated: float = None
@@ -68,6 +70,14 @@ class MWallet(MBase):
     @property
     def balance(self) -> float:
         return self._balance
+
+    @property
+    def bid_balance(self) -> float:
+        return self._bid_balance
+
+    @property
+    def bid_tx(self) -> list:
+        return self.bid_tx
 
     @property
     def locked(self) -> bool:
@@ -146,6 +156,15 @@ class MWallet(MBase):
 
     def set_balance(self, balance: float) -> None:
         self._balance = balance
+
+    def set_bid_tx(self, bid_tx: list) -> None:
+        self._bid_tx = bid_tx
+
+    def add_bid_tx(self, bid_tx: list) -> None:
+        self._bid_tx.append(bid_tx)
+
+    def set_bid_balance(self, bid_balance: float) -> None:
+        self._bid_balance = bid_balance
 
     def set_locked(self, locked: bool) -> None:
         self._locked = locked
@@ -337,7 +356,8 @@ class MWallet(MBase):
                 'seed': self.seed, 'extended_prv': self.extended_prv,
                 'extended_pub': self.extended_pub, 'coin': self.coin,
                 'bip': self.bip, 'kind': self.kind, 'balance': self.balance,
-                'locked': self.locked, 'state_lock': self.state_lock,
+                'bid_balance': self.bid_balance, 'locked': self.locked,
+                'state_lock': self.state_lock,
                 'last_updated': self.last_updated,
                 'account_index': self.account_index,
                 'change_index': self.change_index,

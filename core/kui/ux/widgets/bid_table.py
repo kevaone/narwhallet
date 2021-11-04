@@ -59,6 +59,10 @@ class _bid_table(QTableWidget):
 
         return _vpic
 
+    def set_row_color(self, row: int, color = QtCore.Qt.red):
+        for _column in range(0, self.columnCount()-1):
+            self.item(row, _column).setBackground(color)
+
     def clear_rows(self):
         _m = self.rowCount()
 
@@ -89,9 +93,13 @@ class _bid_table(QTableWidget):
             MShared.get_timestamp(bid_data['date'])[1]))
         _shortcode = self._create_table_item(str(bid_data['shortcode']))
         _bid = self._create_table_item(str(bid_data['bid']))
+        _empty_item = self._create_table_item('')
+        _empty_item2 = self._create_table_item('')
 
         self.setCellWidget(_r, 0, _valid)
+        self.setItem(_r, 0, _empty_item)
         self.setItem(_r, 1, _date)
         self.setItem(_r, 2, _shortcode)
         self.setItem(_r, 3, _bid)
+        self.setItem(_r, 4, _empty_item2)
         self.setCellWidget(_r, 4, _accept)
