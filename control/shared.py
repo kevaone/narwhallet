@@ -225,30 +225,33 @@ class MShared():
 
             if not isinstance(_h, list):
                 print('type _list_unspents', _h)
-            else:
-                for i in _h:
-                    if str(i['id']) in _tid:
-                        if _tid[str(i['id'])]['chain'] == 0:
-                            _a = _tid[str(i['id'])]['address']
-                            _aidx = (wallet.change_addresses
-                                     .get_address_index_by_name(_a))
-                            if len(i['result']) > 0:
-                                (wallet.change_addresses.addresses[_aidx]
-                                 .set_unspent_tx(i['result']))
-                            else:
-                                (wallet.change_addresses.addresses[_aidx]
-                                 .set_unspent_tx([]))
+                continue
 
-                        elif _tid[str(i['id'])]['chain'] == 1:
-                            _a = _tid[str(i['id'])]['address']
-                            _aidx = (wallet.addresses
-                                     .get_address_index_by_name(_a))
-                            if len(i['result']) > 0:
-                                (wallet.addresses.addresses[_aidx]
-                                 .set_unspent_tx(i['result']))
-                            else:
-                                (wallet.addresses.addresses[_aidx]
-                                 .set_unspent_tx([]))
+            for i in _h:
+                if str(i['id']) not in _tid:
+                    continue
+
+                if _tid[str(i['id'])]['chain'] == 0:
+                    _a = _tid[str(i['id'])]['address']
+                    _aidx = (wallet.change_addresses
+                             .get_address_index_by_name(_a))
+                    if len(i['result']) > 0:
+                        (wallet.change_addresses.addresses[_aidx]
+                         .set_unspent_tx(i['result']))
+                    else:
+                        (wallet.change_addresses.addresses[_aidx]
+                         .set_unspent_tx([]))
+
+                elif _tid[str(i['id'])]['chain'] == 1:
+                    _a = _tid[str(i['id'])]['address']
+                    _aidx = (wallet.addresses
+                             .get_address_index_by_name(_a))
+                    if len(i['result']) > 0:
+                        (wallet.addresses.addresses[_aidx]
+                         .set_unspent_tx(i['result']))
+                    else:
+                        (wallet.addresses.addresses[_aidx]
+                         .set_unspent_tx([]))
 
     @staticmethod
     def _list_unspent(address: str, kex: KEXclient) -> dict:
@@ -318,50 +321,53 @@ class MShared():
                 _h = MShared.__get_batch(batch, kex)
 
             if not isinstance(_h, list):
-                print('type _get_histories', _h)
-            else:
-                for i in _h:
-                    if str(i['id']) in _tid:
-                        if _tid[str(i['id'])]['chain'] == 0:
-                            _a = _tid[str(i['id'])]['address']
+                continue
+
+            for i in _h:
+                if str(i['id']) not in _tid:
+                    continue
+
+                if _tid[str(i['id'])]['chain'] == 0:
+                    _a = _tid[str(i['id'])]['address']
+                    _ax = (wallet.change_addresses
+                           .get_address_index_by_name(_a))
+                    if _ax == -1:
+                        if len(i['result']) <= 0:
+                            continue
+
+                        _p = _tid[str(i['id'])]['pad']
+                        while wallet.change_addresses.count < _p:
+                            wallet.get_unused_change_address()
+
+                        if _p == wallet.change_addresses.count:
+                            wallet.get_change_address_by_index(_p, True)
                             _ax = (wallet.change_addresses
                                    .get_address_index_by_name(_a))
-                            if _ax == -1:
-                                if len(i['result']) > 0:
-                                    _p = _tid[str(i['id'])]['pad']
-                                    while wallet.change_addresses.count < _p:
-                                        wallet.get_unused_change_address()
+                            (wallet.change_addresses.addresses[_ax]
+                             .set_history(i['result']))
+                    else:
+                        (wallet.change_addresses.addresses[_ax]
+                         .set_history(i['result']))
+                elif _tid[str(i['id'])]['chain'] == 1:
+                    _a = _tid[str(i['id'])]['address']
+                    _ax = wallet.addresses.get_address_index_by_name(_a)
+                    if _ax == -1:
+                        _pd = _tid[str(i['id'])]['pad']
+                        if len(i['result']) <= 0:
+                            continue
 
-                                    if _p == wallet.change_addresses.count:
-                                        (wallet
-                                         .get_change_address_by_index(_p,
-                                                                      True))
-                                        _ax = (wallet.change_addresses
-                                               .get_address_index_by_name(_a))
-                                        (wallet.change_addresses.addresses[_ax]
-                                         .set_history(i['result']))
-                            else:
-                                (wallet.change_addresses.addresses[_ax]
-                                 .set_history(i['result']))
-                        elif _tid[str(i['id'])]['chain'] == 1:
-                            _a = _tid[str(i['id'])]['address']
+                        while wallet.addresses.count < _pd:
+                            wallet.get_unused_address()
+
+                        if _pd == wallet.addresses.count:
+                            wallet.get_address_by_index(_pd, True)
                             _ax = (wallet.addresses
                                    .get_address_index_by_name(_a))
-                            if _ax == -1:
-                                _pd = _tid[str(i['id'])]['pad']
-                                if len(i['result']) > 0:
-                                    while wallet.addresses.count < _pd:
-                                        wallet.get_unused_address()
-
-                                    if _pd == wallet.addresses.count:
-                                        wallet.get_address_by_index(_pd, True)
-                                        _ax = (wallet.addresses
-                                               .get_address_index_by_name(_a))
-                                        (wallet.addresses.addresses[_ax]
-                                         .set_history(i['result']))
-                            else:
-                                (wallet.addresses.addresses[_ax]
-                                 .set_history(i['result']))
+                            (wallet.addresses.addresses[_ax]
+                                .set_history(i['result']))
+                    else:
+                        (wallet.addresses.addresses[_ax]
+                            .set_history(i['result']))
 
     @staticmethod
     def _get_history(address: str, kex: KEXclient) -> dict:
@@ -436,25 +442,27 @@ class MShared():
         for _a in addresses:
             for _t in _a.history:
                 _trx = cache.tx.get_tx_by_txid(_t['tx_hash'])
-                if _trx is not None:
-                    for _in in _trx.vin:
-                        _in_tx = cache.tx.get_tx_by_txid(_in.txid)
-                        if _in_tx is None:
+                if _trx is None:
+                    continue
+
+                for _in in _trx.vin:
+                    _in_tx = cache.tx.get_tx_by_txid(_in.txid)
+                    if _in_tx is None:
+                        _tx_i_b.append(kex.api.bc_tx.get
+                                       .build_command([_in.txid, True],
+                                                      kex.id))
+                        kex.id = kex.id + 1
+                    else:
+                        if _in_tx.blockhash is None:
                             _tx_i_b.append(kex.api.bc_tx.get
                                            .build_command([_in.txid, True],
                                                           kex.id))
                             kex.id = kex.id + 1
-                        else:
-                            if _in_tx.blockhash is None:
-                                _tx_i_b.append(kex.api.bc_tx.get
-                                               .build_command([_in.txid, True],
-                                                              kex.id))
-                                kex.id = kex.id + 1
-                            elif _in_tx.confirmations < 6:
-                                _tx_i_b.append(kex.api.bc_tx.get
-                                               .build_command([_in.txid, True],
-                                                              kex.id))
-                                kex.id = kex.id + 1
+                        elif _in_tx.confirmations < 6:
+                            _tx_i_b.append(kex.api.bc_tx.get
+                                           .build_command([_in.txid, True],
+                                                          kex.id))
+                            kex.id = kex.id + 1
         return _tx_i_b
 
     @staticmethod
@@ -463,91 +471,91 @@ class MShared():
         for _a in addresses:
             for _t in _a.history:
                 _trx = cache.tx.get_tx_by_txid(_t['tx_hash'])
-                if _trx is not None:
-                    for _in in _trx.vin:
-                        _vo = _in.vout
-                        _in_tx = cache.tx.get_tx_by_txid(_in.txid)
-                        if _in_tx is None:
-                            _in_tx = MShared.__get_tx(_in.txid, kex, True)
-                            _in_tx = cache.tx.add_from_json(_in_tx)
+                if _trx is None:
+                    continue
 
-                        if _in_tx is not None:
-                            for _out in _in_tx.vout:
-                                if (_a.address in _out.scriptPubKey.addresses
-                                        and _out.n == _vo):
-                                    _a.set_sent(_a.sent + _out.value)
-                                    (wallet
-                                     .set_balance(wallet.balance - _out.value))
+                for _in in _trx.vin:
+                    _vo = _in.vout
+                    _in_tx = cache.tx.get_tx_by_txid(_in.txid)
+                    if _in_tx is None:
+                        _in_tx = MShared.__get_tx(_in.txid, kex, True)
+                        _in_tx = cache.tx.add_from_json(_in_tx)
 
-                    for _out in _trx.vout:
-                        if _a.address in _out.scriptPubKey.addresses:
-                            _a.set_received(_a.received + _out.value)
-                            wallet.set_balance(wallet.balance + _out.value)
-                        MShared._test_for_namespace(_trx, _a, _t,
-                                                    _out.scriptPubKey, kex,
-                                                    cache)
+                    if _in_tx is None:
+                        continue
+
+                    for _out in _in_tx.vout:
+                        if (_a.address in _out.scriptPubKey.addresses
+                                and _out.n == _vo):
+                            _a.set_sent(_a.sent + _out.value)
+                            wallet.set_balance(wallet.balance - _out.value)
+
+                for _out in _trx.vout:
+                    if _a.address in _out.scriptPubKey.addresses:
+                        _a.set_received(_a.received + _out.value)
+                        wallet.set_balance(wallet.balance + _out.value)
+                    MShared._test_for_namespace(_trx, _a, _t,
+                                                _out.scriptPubKey, kex, cache)
 
     @staticmethod
     def _test_for_namespace(_trx: MTransaction, _a: MAddress,
                             _t: dict, _out: MScriptPubKey, kex: KEXclient,
                             cache: MCache, test_root=True):
         _o = _out.asm.split(' ')
-        if _o[0].startswith('OP_KEVA_'):
-            _ns = cache.ns.get_namespace_by_txid(_trx.txid, _o[1])
-            if len(_ns) == 0:
-                _merkle = kex.call(kex.api.bc_tx.get_merkle,
-                                   [_trx.txid, _t['height']])
-                if _merkle != '':
-                    _merkle = json.loads(_merkle)
-                    if 'result' in _merkle:
-                        _merkle = _merkle['result']
-                        # TODO Get dates and key types;
-                        if _o[0] == 'OP_KEVA_NAMESPACE':
-                            _ = (cache.ns
-                                 .from_raw(_merkle['block_height'],
-                                           _merkle['pos'],
-                                           _trx.txid, _o[1], _o[0],
-                                           '5f4b4556415f4e535f', _o[2],
-                                           _out.addresses[0]))
-                        else:
-                            if _o[0] == 'OP_KEVA_DELETE':
-                                _ = cache.ns.delete_key(_o[1], _o[2],
-                                                        _merkle['block_height']
-                                                        )
-                            else:
-                                _key = cache.ns.get_namespace_by_key(_o[1],
-                                                                     _o[2])
-                                if len(_key) > 0 and _o[2][:4] != '0001':
-                                    _ = (cache.ns
-                                         .update_key(_merkle['block_height'],
-                                                     _merkle['pos'],
-                                                     _trx.txid, _o[1],
-                                                     _o[2], _o[3],
-                                                     _out.addresses[0]))
-                                else:
-                                    if (_o[2][:4] == '0001'
-                                            or _o[2][:4] == '0002'
-                                            or _o[2][:4] == '0003'):
+        if _o[0].startswith('OP_KEVA_') is False:
+            return
 
-                                        _r_tx = (cache.tx
-                                                 .get_tx_by_txid(_o[2][4:]))
-                                        if _r_tx is None:
-                                            _r_tx = (MShared
-                                                     .__get_tx(_o[2][4:],
-                                                               kex, True))
-                                            if _r_tx is not None:
-                                                _r_tx = (cache.tx
-                                                         .add_from_json(_r_tx))
+        _ns = cache.ns.get_namespace_by_txid(_trx.txid, _o[1])
+        if len(_ns) != 0:
+            return
 
-                                    _ = (cache.ns
-                                         .from_raw(_merkle['block_height'],
-                                                   _merkle['pos'],
-                                                   _trx.txid, _o[1], _o[0],
-                                                   _o[2], _o[3],
-                                                   _out.addresses[0]))
+        _merkle = kex.call(kex.api.bc_tx.get_merkle,
+                           [_trx.txid, _t['height']])
+        if _merkle == '':
+            return
 
-                                    if test_root is True:
-                                        MShared._test_root(_out, kex, cache)
+        _merkle = json.loads(_merkle)
+        if 'result' not in _merkle:
+            return
+
+        _merkle = _merkle['result']
+        # TODO Get dates and key types;
+        if _o[0] == 'OP_KEVA_NAMESPACE':
+            _ = (cache.ns
+                 .from_raw(_merkle['block_height'],
+                           _merkle['pos'],
+                           _trx.txid, _o[1], _o[0],
+                           '5f4b4556415f4e535f', _o[2],
+                           _out.addresses[0]))
+        else:
+            if _o[0] == 'OP_KEVA_DELETE':
+                _ = cache.ns.delete_key(_o[1], _o[2], _merkle['block_height'])
+            else:
+                _key = cache.ns.get_namespace_by_key(_o[1], _o[2])
+                if len(_key) > 0 and _o[2][:4] != '0001':
+                    _ = (cache.ns
+                         .update_key(_merkle['block_height'], _merkle['pos'],
+                                     _trx.txid, _o[1], _o[2], _o[3],
+                                     _out.addresses[0]))
+                else:
+                    if (_o[2][:4] == '0001' or _o[2][:4] == '0002'
+                            or _o[2][:4] == '0003'):
+
+                        _r_tx = cache.tx.get_tx_by_txid(_o[2][4:])
+                        if _r_tx is None:
+                            _r_tx = MShared.__get_tx(_o[2][4:], kex, True)
+                        if _r_tx is not None and isinstance(_r_tx, dict):
+                            _r_tx = cache.tx.add_from_json(_r_tx)
+
+                    _ = (cache.ns
+                         .from_raw(_merkle['block_height'],
+                                   _merkle['pos'],
+                                   _trx.txid, _o[1], _o[0],
+                                   _o[2], _o[3],
+                                   _out.addresses[0]))
+
+                    if test_root is True:
+                        MShared._test_root(_out, kex, cache)
 
     @staticmethod
     def _test_root(_out: MScriptPubKey, kex: KEXclient, cache: MCache):
@@ -578,28 +586,31 @@ class MShared():
 
             if not isinstance(_h, list):
                 print('type __get_tx_by_batch', _h)
-            else:
-                for g in _h:
-                    _i_tx = None
-                    if 'result' in g:
-                        _i_tx = cache.tx.get_tx_by_txid(g['result']['txid'])
+                continue
 
-                    if _i_tx is None:
-                        if 'result' in g:
-                            _i_tx = cache.tx.add_from_json(g['result'])
-                    else:
-                        if _i_tx.blockhash is None:
-                            if 'blockhash' in g['result']:
-                                _gcf = g['result']['confirmations']
-                                _ = cache.tx.update(g['result'])
-                                _i_tx.set_blockhash(g['result']['blockhash'])
-                                _i_tx.set_time(g['result']['time'])
-                                _i_tx.set_blocktime(g['result']['blocktime'])
-                                _i_tx.set_confirmations(_gcf)
-                        elif _i_tx.confirmations < 6:
-                            _gcf = g['result']['confirmations']
-                            _ = cache.tx.update(g['result'])
-                            _i_tx.set_confirmations(_gcf)
+            for g in _h:
+                _i_tx = None
+                if 'result' in g:
+                    _i_tx = cache.tx.get_tx_by_txid(g['result']['txid'])
+
+                if _i_tx is None:
+                    if 'result' in g:
+                        _i_tx = cache.tx.add_from_json(g['result'])
+                else:
+                    if _i_tx.blockhash is None:
+                        if 'blockhash' not in g['result']:
+                            continue
+
+                        _gcf = g['result']['confirmations']
+                        _ = cache.tx.update(g['result'])
+                        _i_tx.set_blockhash(g['result']['blockhash'])
+                        _i_tx.set_time(g['result']['time'])
+                        _i_tx.set_blocktime(g['result']['blocktime'])
+                        _i_tx.set_confirmations(_gcf)
+                    elif _i_tx.confirmations < 6:
+                        _gcf = g['result']['confirmations']
+                        _ = cache.tx.update(g['result'])
+                        _i_tx.set_confirmations(_gcf)
 
         return True
 
@@ -678,37 +689,40 @@ class MShared():
                                                  _b_hist, kex, cache, deep)
 
     @staticmethod
-    def _get_namespace_keys(_ns, kex: KEXclient,):
+    def _get_namespace_keys(_ns, kex: KEXclient):
+        _keys = []
         try:
             _ns = Ut.bytes_to_hex(Base58Decoder.CheckDecode(_ns))
         except Exception:
-            return
+            return _keys
 
         k_script_hash = (Scripts.KevaNamespaceScriptHash
                          .compileToScriptHash([_ns, b''], True))
         k_hist = kex.call(kex.api.keva.get_keyvalues, [k_script_hash, -1])
-        _keys = []
-        if k_hist != '':
-            k_hist = json.loads(k_hist)
-            k_hist = k_hist['result']
 
-            for _i in range(0, len(k_hist['keyvalues'])):
+        if k_hist == '':
+            return _keys
+
+        k_hist = json.loads(k_hist)
+        k_hist = k_hist['result']
+
+        for _i in range(0, len(k_hist['keyvalues'])):
+            try:
+                _k = k_hist['keyvalues'][_i]['key']
+                _k = base64.b64decode(_k).decode()
+            except Exception:
+                _k = base64.b64decode(k_hist['keyvalues'][_i]['key'])
+                _k = Ut.bytes_to_hex(_k)
+
+            if k_hist['keyvalues'][_i]['type'] == 'REG':
+                _v = _k
+                _k = '_KEVA_NS_'
+            else:
                 try:
-                    _k = k_hist['keyvalues'][_i]['key']
-                    _k = base64.b64decode(_k).decode()
+                    _v = k_hist['keyvalues'][_i]['value']
+                    _v = base64.b64decode(_v).decode()
                 except Exception:
-                    _k = base64.b64decode(k_hist['keyvalues'][_i]['key'])
-                    _k = Ut.bytes_to_hex(_k)
-
-                if k_hist['keyvalues'][_i]['type'] == 'REG':
-                    _v = _k
-                    _k = '_KEVA_NS_'
-                else:
-                    try:
-                        _v = k_hist['keyvalues'][_i]['value']
-                        _v = base64.b64decode(_v).decode()
-                    except Exception:
-                        _v = base64.b64decode(k_hist['keyvalues'][_i]['value'])
-                        _v = Ut.bytes_to_hex(_v)
-                _keys.append([_k, _v, k_hist['keyvalues'][_i]['time']])
+                    _v = base64.b64decode(k_hist['keyvalues'][_i]['value'])
+                    _v = Ut.bytes_to_hex(_v)
+            _keys.append([_k, _v, k_hist['keyvalues'][_i]['time']])
         return _keys
