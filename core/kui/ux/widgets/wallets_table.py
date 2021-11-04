@@ -1,7 +1,7 @@
 import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap, QTransform
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from control.shared import MShared
 from core.kcl.models.wallet import MWallet
 
@@ -37,7 +37,7 @@ class animation_label(QLabel):
 
 
 class _wallets_table(QTableWidget):
-    def __init__(self, name: str, QWidget):
+    def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
         self.setObjectName(name)
@@ -106,7 +106,8 @@ class _wallets_table(QTableWidget):
             _kpic = _kpic.scaledToWidth(20, _transm_st)
             _kvpic.setPixmap(_kpic)
 
-        wallet_data['balance'] = round(wallet_data['balance'] - wallet_data['bid_balance'], 8)
+        _bal = wallet_data['balance'] - wallet_data['bid_balance']
+        wallet_data['balance'] = round(_bal, 8)
         _balance = QTableWidgetItem(str(wallet_data['balance']))
         _balance.setFlags(_if_iie | _if_iis)
         _balance.setForeground(QtCore.Qt.black)

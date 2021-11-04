@@ -1,9 +1,9 @@
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QListWidget, QListWidgetItem
+from PyQt5.QtWidgets import QWidget, QListWidget, QListWidgetItem
 
 
 class _namespace_keys_list(QListWidget):
-    def __init__(self, name: str, QWidget):
+    def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
         self.setObjectName(name)

@@ -61,7 +61,7 @@ class MTransactionInput(MBase):
     def set_sequence(self, sequence: int) -> None:
         self._sequence = sequence
 
-    def fromSQL(self, vin):
+    def from_sql(self, vin):
         _s = MScriptSig()
         self._idx = vin[0]
         self.set_txid(vin[1])
@@ -75,7 +75,7 @@ class MTransactionInput(MBase):
             self.set_txinwitness(json.loads(vin[7]))
         self.set_sequence(vin[8])
 
-    def fromJson(self, json: dict):
+    def from_json(self, json: dict):
         # TODO Refine this, hack to support cache changing
         if 'coinbase' in json:
             if json['coinbase'] is not None:
@@ -86,31 +86,32 @@ class MTransactionInput(MBase):
                 self.set_txid(json['txid'])
                 self.set_vout(json['vout'])
                 _s = MScriptSig()
-                _s.fromJson(json['scriptSig'])
+                _s.from_json(json['scriptSig'])
                 self.set_scriptSig(_s)
                 self.set_txinwitness(json['txinwitness'])
         else:
             self.set_txid(json['txid'])
             self.set_vout(json['vout'])
             _s = MScriptSig()
-            _s.fromJson(json['scriptSig'])
+            _s.from_json(json['scriptSig'])
             self.set_scriptSig(_s)
             self.set_txinwitness(json['txinwitness'])
         self.set_sequence(json['sequence'])
 
-    def toList(self) -> list:
+    def to_list(self) -> list:
         return [self.txid, self.vout, self.scriptSig,
                 self.txinwitness, self.sequence]
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         if self.coinbase is not None:
             _return = {'coinbase': self.coinbase, 'txid': self.txid,
-                       'vout': self.vout, 'scriptSig': self.scriptSig.toDict(),
+                       'vout': self.vout,
+                       'scriptSig': self.scriptSig.to_dict(),
                        'txinwitness': self.txinwitness,
                        'sequence': self.sequence}
         else:
             _return = {'txid': self.txid, 'vout': self.vout,
-                       'scriptSig': self.scriptSig.toDict(),
+                       'scriptSig': self.scriptSig.to_dict(),
                        'txinwitness': self.txinwitness,
                        'sequence': self.sequence}
         return _return

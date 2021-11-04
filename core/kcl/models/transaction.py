@@ -119,15 +119,15 @@ class MTransaction(MBase):
         self._hex = thex
 
     @staticmethod
-    def toDictList(v: (List[MTransactionInput]
+    def to_dict_list(v: (List[MTransactionInput]
                        or List[MTransactionOutput])) -> List[dict]:
         _l = []
         for i in v:
-            _l.append(i.toDict())
+            _l.append(i.to_dict())
 
         return _l
 
-    def fromSQL(self, tx, vin, vout):
+    def from_sql(self, tx, vin, vout):
         if len(tx) > 0:
             _tx = tx[0]
             self.set_txid(_tx[0])
@@ -144,15 +144,15 @@ class MTransaction(MBase):
 
             for i in vin:
                 _in = MTransactionInput()
-                _in.fromSQL(i)
+                _in.from_sql(i)
                 self.add_vin(_in)
 
             for i in vout:
                 _out = MTransactionOutput()
-                _out.fromSQL(i)
+                _out.from_sql(i)
                 self.add_vout(_out)
 
-    def fromJson(self, json: dict):
+    def from_json(self, json: dict):
         self.set_txid(json['txid'])
         if 'hash' in json:
             self.set_hash(json['hash'])
@@ -167,12 +167,12 @@ class MTransaction(MBase):
 
         for i in json['vin']:
             _in = MTransactionInput()
-            _in.fromJson(i)
+            _in.from_json(i)
             self.add_vin(_in)
 
         for i in json['vout']:
             _out = MTransactionOutput()
-            _out.fromJson(i)
+            _out.from_json(i)
             self.add_vout(_out)
 
         if 'hex' in json:
@@ -192,10 +192,10 @@ class MTransaction(MBase):
         if 'blocktime' in json:
             self.set_blocktime(json['blocktime'])
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         return {'hash': self.hash, 'blockhash': self.blockhash,
-                'vin': self.toDictList(self.vin),
-                'vout': self.toDictList(self.vout), 'txid': self.txid,
+                'vin': self.to_dict_list(self.vin),
+                'vout': self.to_dict_list(self.vout), 'txid': self.txid,
                 'hex': self.hex, 'version': self.version, 'size': self.size,
                 'vsize': self.vsize, 'locktime': self.locktime,
                 'confirmations': self.confirmations, 'time': self.time,

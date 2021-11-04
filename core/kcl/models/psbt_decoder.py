@@ -119,7 +119,7 @@ class keva_psbt():
         for _ in range(self.psbt_outputs):
             self.deserialize_map(self.psbt, 'OUTPUT')
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         _records = []
         for record in self.psbt_records:
             _record = []
@@ -133,5 +133,5 @@ class keva_psbt():
         return {'psbt_inputs': self.psbt_inputs,
                 'psbt_outputs': self.psbt_outputs,
                 'psbt_records': _records,
-                'tx': self.tx.toDict()
+                'tx': self.tx.to_dict()
                 }

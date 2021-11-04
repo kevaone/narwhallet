@@ -24,7 +24,7 @@ class Ui_keva_op_send_dlg(QObject):
 
         self.wallets: MWallets = None
         self.cache: MCache = None
-        self.KEX = None
+        self.kex = None
         self.user_path = None
         self.new_tx = MTransactionBuilder()
         self.raw_tx = None
@@ -191,7 +191,7 @@ class Ui_keva_op_send_dlg(QObject):
         if self.user_path is not None:
             _n = self.w.currentData()
             wallet = self.wallets.get_wallet_by_name(_n)
-            MShared.list_unspents(wallet, self.KEX)
+            MShared.list_unspents(wallet, self.kex)
             _tmp_usxo = wallet.get_usxos()
             _usxos = []
             _nsusxo = None
@@ -201,9 +201,9 @@ class Ui_keva_op_send_dlg(QObject):
                 _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
 
                 if _tx is None:
-                    _tx = MShared.__get_tx(tx['tx_hash'], self.KEX, True)
+                    _tx = MShared.__get_tx(tx['tx_hash'], self.kex, True)
                     if _tx is not None:
-                        _tx = self.cache.tx.add_fromJson(_tx)
+                        _tx = self.cache.tx.add_from_json(_tx)
 
                 if _tx is not None:
                     if _tx.confirmations is not None:
@@ -245,7 +245,7 @@ class Ui_keva_op_send_dlg(QObject):
         return Ut.bytes_to_hex(bytes([53]) + _tx_hash)
 
     def txb_build_simple_send(self):
-        self.new_tx.version = Ut.hex_to_bytes('00710000')
+        self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
         _n = self.w.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
         _t = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'

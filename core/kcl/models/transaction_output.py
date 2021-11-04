@@ -30,7 +30,7 @@ class MTransactionOutput(MBase):
     def set_scriptPubKey(self, scriptPubKey) -> None:
         self._scriptPubKey = scriptPubKey
 
-    def fromSQL(self, vout):
+    def from_sql(self, vout):
         _sc = MScriptPubKey()
         self.set_value(vout[0])
         self.set_n(vout[1])
@@ -42,18 +42,18 @@ class MTransactionOutput(MBase):
             _sc.set_addresses(json.loads(vout[6]))
         self.set_scriptPubKey(_sc)
 
-    def fromJson(self, json: dict):
+    def from_json(self, json: dict):
         if 'n' in json:
             self.set_n(json['n'])
         if 'value' in json:
             self.set_value(json['value'])
         _sc = MScriptPubKey()
-        _sc.fromJson(json['scriptPubKey'])
+        _sc.from_json(json['scriptPubKey'])
         self.set_scriptPubKey(_sc)
 
-    def toList(self) -> list:
-        return [self.n, self.value, self.scriptPubKey.toList()]
+    def to_list(self) -> list:
+        return [self.n, self.value, self.scriptPubKey.to_list()]
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         return {'n': self.n, 'value': self.value,
-                'scriptPubKey': self.scriptPubKey.toDict()}
+                'scriptPubKey': self.scriptPubKey.to_dict()}

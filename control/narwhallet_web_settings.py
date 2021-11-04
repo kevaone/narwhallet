@@ -60,7 +60,7 @@ class MNarwhalletWebSettings():
     def set_ssl_cert(self, ssl_cert: str):
         self._ssl_cert = ssl_cert
 
-    def fromDict(self, _d: dict):
+    def from_dict(self, _d: dict):
         self.set_sync(_d['sync'])
         self.set_theme(_d['theme'])
         self.set_ip(_d['ip'])
@@ -69,7 +69,7 @@ class MNarwhalletWebSettings():
         self.set_ssl_key(_d['ssl_key'])
         self.set_ssl_cert(_d['ssl_cert'])
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         _d = {}
         _d['sync'] = self.sync
         _d['theme'] = self.theme

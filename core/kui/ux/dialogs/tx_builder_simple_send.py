@@ -26,9 +26,9 @@ class Ui_simple_send_dlg(QObject):
 
         self.wallets: MWallets = None
         self.cache: MCache = None
-        self.KEX = None
+        self.kex = None
         self.user_path = None
-        self._new_tx = MTransactionBuilder()
+        self.new_tx = MTransactionBuilder()
         self.raw_tx = None
         self.verticalLayout = QVBoxLayout(simple_send_dialog)
         self.horizontalLayout_1 = QHBoxLayout()
@@ -202,7 +202,7 @@ class Ui_simple_send_dlg(QObject):
         if data != '-':
             _n = self.w.currentData()
             wallet = self.wallets.get_wallet_by_name(_n)
-            MShared.list_unspents(wallet, self.KEX)
+            MShared.list_unspents(wallet, self.kex)
             _tmp_usxo = wallet.get_usxos()
             _usxos = []
 
@@ -211,9 +211,9 @@ class Ui_simple_send_dlg(QObject):
                 _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
 
                 if _tx is None:
-                    _tx = MShared.__get_tx(tx['tx_hash'], self.KEX, True)
+                    _tx = MShared.__get_tx(tx['tx_hash'], self.kex, True)
                     if _tx is not None:
-                        _tx = self.cache.tx.add_fromJson(_tx)
+                        _tx = self.cache.tx.add_from_json(_tx)
 
                 if _tx is not None:
                     if _tx.confirmations is not None:
@@ -222,25 +222,25 @@ class Ui_simple_send_dlg(QObject):
                                _tx.vout[tx['tx_pos']].scriptPubKey.asm):
                                 _usxos.append(tx)
 
-            self._new_tx.inputs_to_spend = _usxos
+            self.new_tx.inputs_to_spend = _usxos
         self.check_next()
 
     def txb_preimage(self):
         _n = self.w.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
-        self._new_tx.input_signatures = []
-        # print('len(self._new_tx.vin)', len(self._new_tx.vin))
-        for c, _vin_idx in enumerate(self._new_tx.vin):
+        self.new_tx.input_signatures = []
+        # print('len(self.new_tx.vin)', len(self.new_tx.vin))
+        for c, _vin_idx in enumerate(self.new_tx.vin):
             _npk = _vin_idx.tb_address
             _npkc = _vin_idx.tb_address_chain
             _pk = wallet.get_publickey_raw(_npk, _npkc)
-            _sighash = self._new_tx.make_preimage(c, _pk)
+            _sighash = self.new_tx.make_preimage(c, _pk)
             _sig = wallet.sign_message(_npk, _sighash, _npkc)
             _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
             _vin_idx.scriptSig.set_hex(_script)
             # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
-            # if [_sig+'01', _pk] not in self._new_tx.input_signatures:
-            self._new_tx.input_signatures.append([_sig+'01', _pk])
+            # if [_sig+'01', _pk] not in self.new_tx.input_signatures:
+            self.new_tx.input_signatures.append([_sig+'01', _pk])
 
     def txb_build_simple_send(self):
         locale = QLocale()
@@ -252,24 +252,24 @@ class Ui_simple_send_dlg(QObject):
         else:
             _a = self.address_book.currentData()
 
-        _ = self._new_tx.add_output(_v, _a)
+        _ = self.new_tx.add_output(_v, _a)
         _n = self.w.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
 
-        _inp_sel, _need_change, _est_fee = self._new_tx.select_inputs()
+        _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
 
         if _inp_sel is True:
-            _, _, _fv = self._new_tx.get_current_values()
+            _, _, _fv = self.new_tx.get_current_values()
             _cv = _fv - _est_fee
             # print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
             if _need_change is True:
                 _change_address = wallet.get_unused_change_address()
-                _ = self._new_tx.add_output(_cv, _change_address)
+                _ = self.new_tx.add_output(_cv, _change_address)
 
-            # print('final size', self._new_tx.get_size(len(self._new_tx.vin),
-            #       len(self._new_tx.vout)))
+            # print('final size', self.new_tx.get_size(len(self.new_tx.vin),
+            #       len(self.new_tx.vout)))
             self.txb_preimage()
-            _stx = self._new_tx.serialize_tx()
+            _stx = self.new_tx.serialize_tx()
 
             self.fee.setText(str(_est_fee/100000000))
             self.txsize.setText(str(len(_stx)))
@@ -287,8 +287,8 @@ class Ui_simple_send_dlg(QObject):
             self.back_btn.setVisible(True)
             self.send_btn.setEnabled(True)
         else:
-            self._new_tx.set_vin([])
-            self._new_tx.set_vout([])
+            self.new_tx.set_vin([])
+            self.new_tx.set_vout([])
 
     def back_click(self):
         self.next_btn.setVisible(True)
@@ -299,9 +299,9 @@ class Ui_simple_send_dlg(QObject):
         self.fee.setText('')
         self.txsize.setText('')
         self.raw_tx = ''
-        self._new_tx.set_vin([])
-        self._new_tx.set_vout([])
-        self._new_tx.input_signatures = []
+        self.new_tx.set_vin([])
+        self.new_tx.set_vout([])
+        self.new_tx.input_signatures = []
         self.tx.setPlainText(self.raw_tx)
 
         self.w.setEnabled(True)

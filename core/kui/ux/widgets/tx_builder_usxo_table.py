@@ -1,9 +1,9 @@
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem
+from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem
 
 
 class _tx_builder_usxo_table(QTableWidget):
-    def __init__(self, QWidget):
+    def __init__(self, _parent: QWidget):
         super().__init__()
 
         self.setSelectionBehavior(self.SelectRows)

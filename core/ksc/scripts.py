@@ -6,7 +6,7 @@ from core.ksc.function_params import Params as _p
 
 
 class _factory(Enum):
-    def compile(self, parms: list, toHex: bool = False):
+    def compile(self, parms: list, to_hex: bool = False):
         _script = []
         _parm_idxs = [i for i, v in enumerate(self.value) if isinstance(v, _p)]
 
@@ -24,16 +24,16 @@ class _factory(Enum):
 
         _scri = b''.join([v for _, v in enumerate(_script)])
 
-        if toHex is True:
+        if to_hex is True:
             _scri = Ut.bytes_to_hex(_scri)
 
         return _scri
 
-    def compileToScriptHash(self, params: list, toHex: bool):
+    def compileToScriptHash(self, params: list, to_hex: bool):
         _script = self.compile(params, False)
         _script = Ut.sha256(_script)
         _script = Ut.reverse_bytes(_script)
-        if toHex is True:
+        if to_hex is True:
             _script = Ut.bytes_to_hex(_script)
         return _script
 

@@ -17,7 +17,7 @@ class Ui_WalletTab(QObject):
     def setupUi(self):
         _sp_exp = QSizePolicy.Policy.Expanding
         _sp_min = QSizePolicy.Policy.Minimum
-        _sp_minExp = QSizePolicy.Policy.MinimumExpanding
+        _sp_minexp = QSizePolicy.Policy.MinimumExpanding
         _transm_st = QtCore.Qt.TransformationMode.SmoothTransformation
 
         self.tabWallets = QWidget()
@@ -192,14 +192,14 @@ class Ui_WalletTab(QObject):
         self.frame_vl.addLayout(self.hl0)
         self.hl1.addWidget(self.lwmnemonic)
         self.hl1.addWidget(self.llwmnemonic)
-        self.hl1.addItem(QSpacerItem(0, 0, _sp_minExp, _sp_min))
+        self.hl1.addItem(QSpacerItem(0, 0, _sp_minexp, _sp_min))
         self.frame_vl.addLayout(self.hl1)
         self.hl1a.addWidget(self.cpmnemonic)
         self.hl1a.addWidget(self.wmnemonic)
         self.frame_vl.addLayout(self.hl1a)
         self.hl2.addWidget(self.lwseed)
         self.hl2.addWidget(self.llwseed)
-        self.hl2.addItem(QSpacerItem(0, 0, _sp_minExp, _sp_min))
+        self.hl2.addItem(QSpacerItem(0, 0, _sp_minexp, _sp_min))
         self.frame_vl.addLayout(self.hl2)
         self.hl2a.addWidget(self.cpseed)
         self.hl2a.addWidget(self.wseed)
@@ -207,7 +207,7 @@ class Ui_WalletTab(QObject):
 
         self.hl14.addWidget(self.lxprv)
         self.hl14.addWidget(self.llxprv)
-        self.hl14.addItem(QSpacerItem(0, 0, _sp_minExp, _sp_min))
+        self.hl14.addItem(QSpacerItem(0, 0, _sp_minexp, _sp_min))
         self.frame_vl.addLayout(self.hl14)
         self.hl14a.addWidget(self.cpxprv)
         self.hl14a.addWidget(self.wxprv)
@@ -307,7 +307,7 @@ class Ui_WalletTab(QObject):
         self.lwlocked.setText(_translate('tabWallets', 'Locked:'))
         self.lwlast_updated.setText(_translate('tabWallets', 'Last Updated:'))
 
-    def _display_mnemonic(self, event):
+    def _display_mnemonic(self, _event):
         if self.wmnemonic.isVisible() is True:
             self.wmnemonic.setVisible(False)
             self.cpmnemonic.setVisible(False)
@@ -317,7 +317,7 @@ class Ui_WalletTab(QObject):
             self.cpmnemonic.setVisible(True)
             self.llwmnemonic.setPixmap(self._mpic)
 
-    def _display_seed(self, event):
+    def _display_seed(self, _event):
         if self.wseed.isVisible() is True:
             self.wseed.setVisible(False)
             self.cpseed.setVisible(False)
@@ -327,7 +327,7 @@ class Ui_WalletTab(QObject):
             self.cpseed.setVisible(True)
             self.llwseed.setPixmap(self._mpic)
 
-    def _display_xprv(self, event):
+    def _display_xprv(self, _event):
         if self.wxprv.isVisible() is True:
             self.wxprv.setVisible(False)
             self.cpxprv.setVisible(False)
@@ -337,7 +337,7 @@ class Ui_WalletTab(QObject):
             self.cpxprv.setVisible(True)
             self.llxprv.setPixmap(self._mpic)
 
-    def _display_xpub(self, event):
+    def _display_xpub(self, _event):
         if self.wxpub.isVisible() is True:
             self.wxpub.setVisible(False)
             self.cpxpub.setVisible(False)

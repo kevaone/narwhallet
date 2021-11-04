@@ -14,7 +14,7 @@ class NarwhalletWebController():
         _settings_file = os.path.join(self.user_path, 'settings.json')
         self.set_dat = ConfigLoader(_settings_file)
         self.set_dat.load()
-        self.settings.fromDict(self.set_dat.data)
+        self.settings.from_dict(self.set_dat.data)
         self.KEX = KEXclient()
         self.DF_KEX: KEXclient = KEXclient()
         _user_home = os.path.expanduser('~')
@@ -23,7 +23,7 @@ class NarwhalletWebController():
         self.db_file = os.path.join(_narwhallet_path, 'narwhallet_cache.db')
         self.strapf = ConfigLoader(os.path.join(self.user_path, 'strap.json'))
         self.strapf.load()
-        self.strap.fromDict(self.strapf.data)
+        self.strap.from_dict(self.strapf.data)
         self.theme_path = os.path.join(_themes_dir, self.strap.theme)
         self.who = 'http://localhost:' + str(self.strap.port)
 

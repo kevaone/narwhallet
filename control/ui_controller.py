@@ -53,7 +53,7 @@ class NarwhalletController():
 
         self.load_settings()
         self.load_wallets()
-        self._connectSignals()
+        self._connect_signals()
 
     def copy_to_clipboard(self, data):
         self._clipboard.setText(data)
@@ -100,9 +100,9 @@ class NarwhalletController():
         return _narwhallet_path
 
     def _add_wallet(self, wallet: MWallet):
-        self.wallets.fromMWallet(wallet)
+        self.wallets.from_mwallet(wallet)
         self.wallets.save_wallet(wallet.name)
-        self.ui.w_tab.tbl_w.add_wallet(wallet.toDict())
+        self.ui.w_tab.tbl_w.add_wallet(wallet.to_dict())
         if wallet.kind != 1:
             self.ui.u_tab.wallet_select.addItem(wallet.name)
 
@@ -124,16 +124,16 @@ class NarwhalletController():
             _w.set_coin('KEVACOIN')
             _w.set_bip('bip49')
             _w.set_name(_name)
-            self.wallets.fromMWallet(_w)
+            self.wallets.from_mwallet(_w)
             self.wallets.save_wallet(_w.name)
-            self.ui.w_tab.tbl_w.add_wallet(_w.toDict())
+            self.ui.w_tab.tbl_w.add_wallet(_w.to_dict())
 
     def add_wallet_watch(self):
         _a, _l = self.dialogs.add_wallet_watch_address_dialog()
         if _a is not None:
             _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
             _w = self.wallets.get_wallet_by_name(_n)
-            _w.addresses.fromPool(_a, _l)
+            _w.addresses.from_pool(_a, _l)
             self.wallets.save_wallet(_w.name)
 
     def add_addressbook_item(self):
@@ -142,7 +142,7 @@ class NarwhalletController():
             if _address.address not in self.address_book.addresses:
                 self.address_book.addresses[_address.address] = _address
                 self.address_book.save_address_book()
-                self.ui.ab_tab.tbl_addr.add_bookaddress(_address.toDict())
+                self.ui.ab_tab.tbl_addr.add_bookaddress(_address.to_dict())
                 self.ui.ab_tab.tbl_addr.resizeColumnsToContents()
 
     def add_namespace_favorite(self):
@@ -160,7 +160,7 @@ class NarwhalletController():
                 self.wallets.load_wallet(file)
                 _w = self.wallets.get_wallet_by_name(file)
                 if _w is not None:
-                    self.ui.w_tab.tbl_w.add_wallet(_w.toDict())
+                    self.ui.w_tab.tbl_w.add_wallet(_w.to_dict())
                     if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                         self.ui.u_tab.wallet_select.addItem(_w.name)
 
@@ -171,19 +171,19 @@ class NarwhalletController():
         self.set_dat = ConfigLoader(os.path.join(self.user_path,
                                                  'settings.json'))
         self.set_dat.load()
-        self.settings.fromDict(self.set_dat.data)
+        self.settings.from_dict(self.set_dat.data)
 
         self.wset_dat = ConfigLoader(os.path.join(self.user_path,
                                                   'strap.json'))
         self.wset_dat.load()
-        self.web_settings.fromDict(self.wset_dat.data)
+        self.web_settings.from_dict(self.wset_dat.data)
 
         self.cache.interface.setup_tables()
 
         try:
             self.address_book.load_address_book(self.user_path)
             (self.ui.ab_tab.tbl_addr
-             .add_bookaddresses(self.address_book.toDictList()))
+             .add_bookaddresses(self.address_book.to_dict_list()))
         except Exception:
             print('Error Loading address book')
 
@@ -242,7 +242,7 @@ class NarwhalletController():
             (self.ui.settings_tab.lineEdit_2a
              .setText(str(_datafeed['nft_data'][2])))
             self.ui.settings_tab.lineEdit_2b.setText(_datafeed['nft_data'][0])
-            self.set_dat.save(json.dumps(self.settings.toDict()))
+            self.set_dat.save(json.dumps(self.settings.to_dict()))
 
         self.ui.w_tab.tbl_addr2.hideColumn(6)
         # TODO Add settings tab entry to control setting.
@@ -313,7 +313,7 @@ class NarwhalletController():
                 t.quit()
                 t.wait()
 
-    def _connectSignals(self):
+    def _connect_signals(self):
         self.ui.w_tab.tbl_w.itemSelectionChanged.connect(self.wallet_selected)
         self.ui.w_tab.tbl_w.cellClicked.connect(self.wallet_selected)
         self.ui.w_tab.tbl_addr.cellClicked.connect(self.w_address_selected)
@@ -411,7 +411,7 @@ class NarwhalletController():
         #                   self.settings.sync['favorites'][2],
         #                   None, self.t_restart)
 
-    def util_submit(self, i):
+    def util_submit(self, _i):
         _selected = self.ui.u_tab.m_select.currentText()
         _input = self.ui.u_tab.msa_e.toPlainText()
         _results = self.ui.u_tab.mvs_result.toPlainText()
@@ -440,10 +440,10 @@ class NarwhalletController():
 
         self.ui.u_tab.mvs_result.setPlainText(_result + '\n' + _results)
 
-    def wa_ad_click(self, row: int, column: int):
+    def wa_ad_click(self, row: int, _column: int):
         self.ui.w_tab.tbl_addr.selectRow(row)
 
-    def ex_c(self, n: str, m: str, i: int):
+    def ex_c(self, _n: str, m: str, i: int):
         self.ui.settings_tab.elxp_tbl.update_peer_status(i, m)
 
         if m == 'connected':
@@ -473,7 +473,7 @@ class NarwhalletController():
                                True, True]
         except Exception:
             return False
-        self.set_dat.save(json.dumps(self.settings.toDict()))
+        self.set_dat.save(json.dumps(self.settings.to_dict()))
         return True
 
     def save_web_settings(self):
@@ -482,19 +482,19 @@ class NarwhalletController():
         if _h != '' and _p != '':
             self.web_settings.set_ip(_h)
             self.web_settings.set_port(_p)
-            self.wset_dat.save(json.dumps(self.web_settings.toDict()))
+            self.wset_dat.save(json.dumps(self.web_settings.to_dict()))
 
-    def refresh_wallet_data_tabs(self, n: str, m: str, i: int):
+    def refresh_wallet_data_tabs(self, _c: str, _m: str, i: int):
         _n = self.ui.w_tab.tbl_w.item(i, 3).text()
         wallet = self.wallets.get_wallet_by_name(_n)
         self.refresh_namespace_tab_data()
         if wallet is not None:
             if i == self.ws:
                 (self.ui.w_tab.tbl_addr
-                 .add_addresses(wallet.addresses.toDictList()))
+                 .add_addresses(wallet.addresses.to_dict_list()))
                 if self.ui.w_tab.tabWidget_2.isTabVisible(2):
                     (self.ui.w_tab.tbl_addr2
-                     .add_addresses(wallet.change_addresses.toDictList()))
+                     .add_addresses(wallet.change_addresses.to_dict_list()))
                 (self.ui.w_tab.tbl_tx
                  .add_transactions(self._display_wallet_tx(wallet)))
                 self.ui.w_tab.set_info_values(wallet)
@@ -566,7 +566,7 @@ class NarwhalletController():
 
             for _ad in _w.addresses.addresses:
                 for _us in _ad.unspent_tx:
-                    _x =_us
+                    _x = _us
                     if _x['tx_hash'] == _btx[1] and _x['tx_pos'] == _btx[2]:
                         (_w.set_bid_balance(
                             _w.bid_balance + (_us['value'] / 100000000)))
@@ -652,7 +652,7 @@ class NarwhalletController():
             (self.ui.settings_tab.elxp_tbl
              .update_peer_status(self.settings.primary_peer, 'disconnected'))
             self.settings.set_primary_peer(row)
-            self.set_dat.save(json.dumps(self.settings.toDict()))
+            self.set_dat.save(json.dumps(self.settings.to_dict()))
             (self.ui.settings_tab.elxp_tbl
              .update_peer_status(self.settings.primary_peer, 'connecting...'))
             self.KEX.active_peer = self.settings.primary_peer
@@ -667,7 +667,7 @@ class NarwhalletController():
         if column == 7:
             self.ui.settings_tab.ipfs_tbl.update_active(row)
             self.settings.set_primary_ipfs_gateway(row)
-            self.set_dat.save(json.dumps(self.settings.toDict()))
+            self.set_dat.save(json.dumps(self.settings.to_dict()))
 
     def wallet_selected(self, row: int = -1, column: int = -1):
         self.ui.w_tab.tbl_tx.clearSelection()
@@ -704,10 +704,10 @@ class NarwhalletController():
                     if _w.kind not in (1, 3):
                         self.ui.u_tab.wallet_select.addItem(_w.name)
 
-        self.ui.w_tab.tbl_addr.add_addresses(_w.addresses.toDictList())
+        self.ui.w_tab.tbl_addr.add_addresses(_w.addresses.to_dict_list())
         if self.ui.w_tab.tabWidget_2.isTabVisible(2):
             (self.ui.w_tab.tbl_addr2
-             .add_addresses(_w.change_addresses.toDictList()))
+             .add_addresses(_w.change_addresses.to_dict_list()))
         self.ui.w_tab.tbl_tx.add_transactions(self._display_wallet_tx(_w))
         self.ui.w_tab.set_info_values(_w)
         _last_update = _w.last_updated
@@ -744,16 +744,16 @@ class NarwhalletController():
         if column == 0:
             self.dialogs.view_wallet_change_address_dialog(row, column)
 
-    def w_mnemnomic_copy_click(self, data):
+    def w_mnemnomic_copy_click(self, _data):
         self.copy_to_clipboard(self.ui.w_tab.wmnemonic.toPlainText())
 
-    def wallet_seed_copy_click(self, data):
+    def wallet_seed_copy_click(self, _data):
         self.copy_to_clipboard(self.ui.w_tab.wseed.toPlainText())
 
-    def wallet_xprv_copy_click(self, data):
+    def wallet_xprv_copy_click(self, _data):
         self.copy_to_clipboard(self.ui.w_tab.wxprv.toPlainText())
 
-    def wallet_xpub_copy_click(self, data):
+    def wallet_xpub_copy_click(self, _data):
         self.copy_to_clipboard(self.ui.w_tab.wxpub.toPlainText())
 
     def ab_address_selected(self, row: int, column: int):
@@ -770,11 +770,11 @@ class NarwhalletController():
                 if _rm is True:
                     self.address_book.save_address_book()
                     (self.ui.ab_tab.tbl_addr
-                     .add_bookaddresses(self.address_book.toDictList()))
+                     .add_bookaddresses(self.address_book.to_dict_list()))
         elif column == 8:
             self.copy_to_clipboard(self.ui.ab_tab.tbl_addr.item(row, 3).text())
 
-    def ns_cell_clicked(self, row: int, column: int):
+    def ns_cell_clicked(self, _row: int, column: int):
         if column == 7:
             _msg = 'Are you sure you want to transfer this Namespace?'
             _warn = self.dialogs.warning_dialog(_msg, True, 0)
@@ -824,13 +824,13 @@ class NarwhalletController():
 
         self.ui.ns_tab.ns_tab_text_key_value.setPlainText('')
 
-    def ns_sc_copy_click(self, data):
+    def ns_sc_copy_click(self, _data):
         self.copy_to_clipboard(self.ui.ns_tab.sel_ns_sc.text())
 
-    def ns_name_copy_click(self, data):
+    def ns_name_copy_click(self, _data):
         self.copy_to_clipboard(self.ui.ns_tab.sel_ns_name.text())
 
-    def ns_key_delete_click(self, data):
+    def ns_key_delete_click(self, _data):
         _msg = 'Are you sure you want to delete this key?'
         _warn = self.dialogs.warning_dialog(_msg, True, 0)
         if _warn == 1:
@@ -854,15 +854,15 @@ class NarwhalletController():
             (self.ui.ns_tab.ns_tab_text_key_value
              .setPlainText(str(_value[0][0])))
 
-            _key_type = self.cache.ns.get_key_type(key.text(), str(_value[0][0]))
-            self.ui.ns_tab.sel_ns_key_sp.setText(_key_type)
+            _type = self.cache.ns.get_key_type(key.text(), str(_value[0][0]))
+            self.ui.ns_tab.sel_ns_key_sp.setText(_type)
         else:
-            _key_type = None
+            _type = None
 
-        if _key_type is None:
+        if _type is None:
             self.ui.ns_tab.sel_ns_key_sp.setText('No')
             self.ui.ns_tab.sel_ns_key_tx.setText('')
-        elif _key_type in ('nft_bid', 'reply', 'repost', 'reward'):
+        elif _type in ('nft_bid', 'reply', 'repost', 'reward'):
             _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
             self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
 
@@ -874,7 +874,7 @@ class NarwhalletController():
             self.ui.ns_tab.btn_val_edit.setEnabled(False)
             self.ui.ns_tab.btn_val_del.setEnabled(False)
 
-    def nft_auction_selected(self, row: int = -1, column: int = -1):
+    def nft_auction_selected(self, row: int = -1, _column: int = -1):
         self.ui.nft_tab.tbl_bids.clearSelection()
         if row == -1:
             row = self.ui.nft_tab.tbl_auctions.selectedRanges()
@@ -889,7 +889,7 @@ class NarwhalletController():
             if len(_auction) > 0:
                 self.update_selected_auction_data(_auction[0])
 
-    def nft_bid_selected(self, row: int = -1, column: int = -1):
+    def nft_bid_selected(self, row: int = -1, _column: int = -1):
         self.ui.nft_tab.tbl_auctions.clearSelection()
         if row == -1:
             row = self.ui.nft_tab.tbl_bids.selectedRanges()
@@ -939,10 +939,10 @@ class NarwhalletController():
                 self.ui.u_tab.sa_e.addItem(add.address, str(index)+':0')
         self.ui.u_tab.ss_e.setPlainText('')
 
-    def sign_address_changed(self, data: str):
+    def sign_address_changed(self, _data: str):
         self.ui.u_tab.ss_e.setPlainText('')
 
-    def sign_message(self, data: str):
+    def sign_message(self, _data: str):
         self.ui.u_tab.ss_e.setPlainText('')
         _n = self.ui.u_tab.wallet_select.currentText()
         _w = self.wallets.get_wallet_by_name(_n)
@@ -965,7 +965,7 @@ class NarwhalletController():
         self.ui.u_tab.ss_e.setPlainText(_signature)
         return True
 
-    def verify_message(self, data: str):
+    def verify_message(self, _data: str):
         if self.ui.u_tab.vthl_ac.isChecked() is True:
             _v = WalletUtils.verify_message(self.ui.u_tab.vs_e.toPlainText(),
                                             self.ui.u_tab.va_e.toPlainText(),

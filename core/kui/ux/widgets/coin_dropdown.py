@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QComboBox
+from PyQt5.QtWidgets import QWidget, QComboBox
 
 
 _coins = [
@@ -11,7 +11,7 @@ _coins = [
 
 
 class _coin_dropdown(QComboBox):
-    def __init__(self, QWidget):
+    def __init__(self, _parent: QWidget):
         super().__init__()
 
         self.coins = _coins

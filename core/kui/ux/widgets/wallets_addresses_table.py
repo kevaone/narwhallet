@@ -1,10 +1,10 @@
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 
 
 class _wallets_addr_tbl(QTableWidget):
-    def __init__(self, name: str, QWidget):
+    def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
         self.setObjectName(name)
@@ -27,18 +27,18 @@ class _wallets_addr_tbl(QTableWidget):
         self.horizontalHeader().setMinimumSectionSize(25)
 
     def test_param(self, address_data: dict, val: str, default: str,
-                   retStr: bool = False):
+                   ret_str: bool = False):
         if val in address_data:
             if address_data[val] is None:
                 _ret = ''
             else:
                 _ret = str(address_data[val])
-            if retStr is False:
+            if ret_str is False:
                 _return = self._create_table_item(_ret)
             else:
                 _return = _ret
         else:
-            if retStr is False:
+            if ret_str is False:
                 _return = self._create_table_item(str(default))
             else:
                 _return = str(default)

@@ -240,7 +240,7 @@ class MWallet(MBase):
             _a = WalletUtils.get_next_account_address(self.seed, self.coin,
                                                       self.bip,
                                                       self.account_index)
-        self.addresses._fromPool(_a)
+        self.addresses.from_pool(_a)
         self.incriment_account_index()
         return _a
 
@@ -259,7 +259,7 @@ class MWallet(MBase):
             _a = WalletUtils.get_next_change_address(self.seed, self.coin,
                                                      self.bip,
                                                      self.change_index)
-        self.change_addresses._fromPool(_a)
+        self.change_addresses.from_pool(_a)
         self.incriment_change_index()
         return _a
 
@@ -280,7 +280,7 @@ class MWallet(MBase):
                                                       self.bip, index)
 
         if incriment:
-            self.addresses._fromPool(_a)
+            self.addresses.from_pool(_a)
             if incriment_idx:
                 self.incriment_account_index()
         return _a
@@ -302,7 +302,7 @@ class MWallet(MBase):
                                                      self.bip, index)
 
         if incriment:
-            self.change_addresses._fromPool(_a)
+            self.change_addresses.from_pool(_a)
             if incriment_idx:
                 self.incriment_change_index()
         return _a
@@ -346,12 +346,12 @@ class MWallet(MBase):
 
         return sig
 
-    def toList(self) -> list:
+    def to_list(self) -> list:
         return [self.name, self.mnemonic, self.seed, self.coin, self.bip,
                 self.kind, self.balance, self.locked, self.last_updated,
-                self.addresses.toList(), self.change_addresses.toList()]
+                self.addresses.to_list(), self.change_addresses.to_list()]
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         return {'name': self.name, 'mnemonic': self.mnemonic,
                 'seed': self.seed, 'extended_prv': self.extended_prv,
                 'extended_pub': self.extended_pub, 'coin': self.coin,
@@ -361,5 +361,5 @@ class MWallet(MBase):
                 'last_updated': self.last_updated,
                 'account_index': self.account_index,
                 'change_index': self.change_index,
-                'addresses': self.addresses.toDictList(),
-                'change_addresses': self.change_addresses.toDictList()}
+                'addresses': self.addresses.to_dict_list(),
+                'change_addresses': self.change_addresses.to_dict_list()}

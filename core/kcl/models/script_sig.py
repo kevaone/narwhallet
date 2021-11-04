@@ -20,12 +20,12 @@ class MScriptSig(MBase):
     def set_hex(self, sighex: str) -> None:
         self._hex = sighex
 
-    def fromJson(self, json: dict):
+    def from_json(self, json: dict):
         self.set_asm(json['asm'])
         self.set_hex(json['hex'])
 
-    def toList(self) -> list:
+    def to_list(self) -> list:
         return [self.asm, self.hex]
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         return {'asm': self.asm, 'hex': self.hex}

@@ -31,14 +31,14 @@ class MWallets():
             _return = None
         return _return
 
-    def fromMWallet(self, wallet: MWallet):
+    def from_mwallet(self, wallet: MWallet):
         self._wallets.append(wallet)
         self._names[wallet.name] = len(self._wallets) - 1
 
     def save_wallet(self, name: str):
         _wallet = self.get_wallet_by_name(name)
         try:
-            _dump = json.dumps(_wallet.toDict(), indent=4).encode()
+            _dump = json.dumps(_wallet.to_dict(), indent=4).encode()
         except Exception:
             _dump = None
 
@@ -67,10 +67,10 @@ class MWallets():
             _wallet.set_state_lock(_wm_dat['state_lock'])
 
         for addr in _wm_dat['addresses']:
-            _wallet.addresses.fromJson(addr)
+            _wallet.addresses.from_json(addr)
 
         for addr in _wm_dat['change_addresses']:
-            _wallet.change_addresses.fromJson(addr)
+            _wallet.change_addresses.from_json(addr)
 
         if 'change_index' in _wm_dat:
             if _wm_dat['change_index'] is not None:

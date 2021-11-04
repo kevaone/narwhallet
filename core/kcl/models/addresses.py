@@ -28,7 +28,7 @@ class MAddresses():
             _return = -1
         return _return
 
-    def fromJson(self, address: dict):
+    def from_json(self, address: dict):
         _address = MAddress()
 
         _address.set_address(address['address'])
@@ -46,7 +46,7 @@ class MAddresses():
         self._addresses.append(_address)
         self._names[_address.address] = len(self._addresses) - 1
 
-    def fromPool(self, address: str, label: str = None):
+    def from_pool(self, address: str, label: str = None):
         _address = MAddress()
 
         _address.set_address(address)
@@ -56,14 +56,14 @@ class MAddresses():
         self._addresses.append(_address)
         self._names[_address.address] = len(self._addresses) - 1
 
-    def toList(self) -> list:
+    def to_list(self) -> list:
         _l = []
         for i in self.addresses:
-            _l.append(i.toList())
+            _l.append(i.to_list())
         return _l
 
-    def toDictList(self) -> List[dict]:
+    def to_dict_list(self) -> List[dict]:
         _l = []
         for i in self.addresses:
-            _l.append(i.toDict())
+            _l.append(i.to_dict())
         return _l

@@ -88,11 +88,11 @@ class MAddress(MBase):
     def add_output_tx(self, tx) -> None:
         self._output_tx.append(tx)
 
-    def toList(self) -> list:
+    def to_list(self) -> list:
         return [self.address, self.sent, self.received,
                 self.balance, self.label]
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         return {'address': self.address, 'sent': self.sent,
                 'received': self.received, 'balance': self.balance,
                 'unconfirmed_balance': self.unconfirmed_balance,

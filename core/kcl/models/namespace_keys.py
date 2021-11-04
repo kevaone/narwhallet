@@ -70,7 +70,7 @@ class MNSKeys():
 
         return _d2
 
-    def fromRaw(self, time, key, value):
+    def from_raw(self, time, key, value):
         _key = MNSKey()
 
         _key.set_date(time)
@@ -82,7 +82,7 @@ class MNSKeys():
 
         return len(self._keys)
 
-    def fromJson(self, key: dict) -> int:
+    def from_json(self, key: dict) -> int:
         _key = MNSKey()
 
         _key.set_date(key['date'])
@@ -94,18 +94,18 @@ class MNSKeys():
 
         return len(self._keys)
 
-    def toList(self, sort_by_date: bool = True) -> list:
+    def to_list(self, sort_by_date: bool = True) -> list:
         _l = []
         for i in self.keys:
-            _l.append(i.toList())
+            _l.append(i.to_list())
         if sort_by_date is True:
             _l.sort(reverse=False, key=self.sort)
         return _l
 
-    def toDictList(self, sort_by_date: bool = True) -> List[dict]:
+    def to_dict_list(self, sort_by_date: bool = True) -> List[dict]:
         _l = []
         for i in self.keys:
-            _l.append(i.toDict())
+            _l.append(i.to_dict())
         if sort_by_date is True:
             _l.sort(reverse=True, key=self.sort_dict)
         return _l

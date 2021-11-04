@@ -11,24 +11,29 @@ class keva_const(Enum):
 
 
 class ParamValidators():
+    @staticmethod
     def empty_buffer(buffer: bytes) -> bytes:
         if buffer != b'':
             raise Exception('buffer not empty')
 
         return Ut.to_cuint(len(buffer)) + buffer
 
+    @staticmethod
     def public_key_hash(address: str) -> bytes:
         _pkh = Ut.hash160(Ut.hex_to_bytes(address))
         return Ut.to_cuint(len(_pkh)) + _pkh
 
+    @staticmethod
     def public_key(pk: str) -> bytes:
         _pk = Ut.hex_to_bytes(pk)
         return Ut.to_cuint(len(_pk)) + _pk
 
+    @staticmethod
     def namespace_id(nsid: str) -> bytes:
         _id = Ut.hex_to_bytes(nsid)
         return Ut.to_cuint(len(_id)) + _id
 
+    @staticmethod
     def display_name(name: str) -> bytes:
         try:
             _name = bytes([ord(name)])
@@ -36,6 +41,7 @@ class ParamValidators():
             _name = name.encode()
         return Ut.to_cuint(len(_name)) + _name
 
+    @staticmethod
     def key_value(value: str) -> bytes:
         try:
             _value = bytes([ord(value)])
@@ -43,6 +49,7 @@ class ParamValidators():
             _value = value.encode()
         return Ut.encode_pushdata(_value)
 
+    @staticmethod
     def base58Checkhash(address: str) -> bytes:
         try:
             _address_hash = Base58Decoder.CheckDecode(address)[1:]
@@ -53,6 +60,7 @@ class ParamValidators():
 
         return _address_hash
 
+    @staticmethod
     def rootNamespaceSciptHash(namespace: str):
         try:
             _namespace = Base58Decoder.CheckDecode(namespace)
@@ -69,6 +77,7 @@ class ParamValidators():
 
         return _namespace
 
+    @staticmethod
     def namespaceSciptHash(namespace: str):
         try:
             _namespace = Base58Decoder.CheckDecode(namespace)
@@ -83,6 +92,7 @@ class ParamValidators():
 
         return _namespace
 
+    @staticmethod
     def namespaceKeySciptHash(nskey: list):
         if isinstance(nskey[1], str):
             nskey[1] = nskey[1].encode()
@@ -102,6 +112,7 @@ class ParamValidators():
 
         return _ns_key
 
+    @staticmethod
     def hashtagSciptHash(hashtag: str):
         try:
             _hashtag = hashtag.lower()

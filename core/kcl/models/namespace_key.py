@@ -28,8 +28,8 @@ class MNSKey(MBase):
     def set_value(self, value: str) -> None:
         self._value = value
 
-    def toList(self) -> list:
+    def to_list(self) -> list:
         return [self.date, self.key, self.value]
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         return {'date': self.date, 'key': self.key, 'value': self.value}

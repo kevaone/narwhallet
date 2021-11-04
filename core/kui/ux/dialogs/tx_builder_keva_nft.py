@@ -25,7 +25,7 @@ class Ui_keva_op_nft_dlg(QObject):
 
         self.wallets: MWallets = None
         self.cache: MCache = None
-        self.KEX = None
+        self.kex = None
         self.new_tx = MTransactionBuilder()
         self.raw_tx = None
 
@@ -202,16 +202,16 @@ class Ui_keva_op_nft_dlg(QObject):
         self.nft_name.setText('')
         _n = self.combo_wallet.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
-        MShared.list_unspents(wallet, self.KEX)
+        MShared.list_unspents(wallet, self.kex)
         _tmp_usxo = wallet.get_usxos()
         for tx in _tmp_usxo:
             # TODO Check for usxo's used by bids
             _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
 
             if _tx is None:
-                _tx = MShared.__get_tx(tx['tx_hash'], self.KEX, True)
+                _tx = MShared.__get_tx(tx['tx_hash'], self.kex, True)
                 if _tx is not None:
-                    _tx = self.cache.tx.add_fromJson(_tx)
+                    _tx = self.cache.tx.add_from_json(_tx)
 
             if _tx is not None:
                 if ('OP_KEVA'
@@ -249,9 +249,9 @@ class Ui_keva_op_nft_dlg(QObject):
             _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
 
             if _tx is None:
-                _tx = MShared.__get_tx(tx['tx_hash'], self.KEX, True)
+                _tx = MShared.__get_tx(tx['tx_hash'], self.kex, True)
                 if _tx is not None:
-                    _tx = self.cache.tx.add_fromJson(_tx)
+                    _tx = self.cache.tx.add_from_json(_tx)
 
             if _tx is not None:
                 if _tx.confirmations is not None:

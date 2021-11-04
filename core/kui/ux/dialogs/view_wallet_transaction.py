@@ -14,7 +14,7 @@ class Ui_v_tx_dlg(QObject):
     def setupUi(self, view_tx_dlg: QDialog):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        _sp_minExp = QSizePolicy.MinimumExpanding
+        _sp_minexp = QSizePolicy.MinimumExpanding
         _b_ok = QDialogButtonBox.Ok
         _transm_st = QtCore.Qt.SmoothTransformation
         self.verticalLayout = QVBoxLayout(view_tx_dlg)
@@ -111,7 +111,7 @@ class Ui_v_tx_dlg(QObject):
         self.inputs_show_data_h.addLayout(self.inputs_show_data)
         self.inputs_verticalLayout.addLayout(self.inputs_show_data_h)
         self.inputs_verticalLayout.addItem(QSpacerItem(20, 20,
-                                           _sp_min, _sp_minExp))
+                                           _sp_min, _sp_minexp))
         self.outputs_show.addWidget(self.outputs_show_label)
         self.outputs_show.addWidget(self.outputs_show_img)
         self.outputs_show.addItem(QSpacerItem(40, 20, _sp_exp, _sp_min))
@@ -123,7 +123,7 @@ class Ui_v_tx_dlg(QObject):
         self.outputs_f_verticalLayout.addItem(QSpacerItem(20, 20,
                                               _sp_min, _sp_exp))
         self.details_tab_vl.addItem(QSpacerItem(20, 20,
-                                    _sp_min, _sp_minExp))
+                                    _sp_min, _sp_minexp))
         self.hex_hl.addWidget(self.hex_label)
         self.hex_tab_vl.addLayout(self.hex_hl)
         self.hex_tab_vl.addWidget(self.hex_d)
@@ -153,7 +153,7 @@ class Ui_v_tx_dlg(QObject):
     def add_vout(self, index: int, vout: MTransactionOutput):
         self.outputs_show_data.addWidget(_show_hide_frame('vout', index, vout))
 
-    def _display_vin(self, event):
+    def _display_vin(self, _event):
         if self.inputs_f_wrap.isVisible() is True:
             self.inputs_f_wrap.setVisible(False)
             self.inputs_show_img.setPixmap(self._ppic)
@@ -161,7 +161,7 @@ class Ui_v_tx_dlg(QObject):
             self.inputs_f_wrap.setVisible(True)
             self.inputs_show_img.setPixmap(self._mpic)
 
-    def _display_vout(self, event):
+    def _display_vout(self, _event):
         if self.outputs_f_wrap.isVisible() is True:
             self.outputs_f_wrap.setVisible(False)
             self.outputs_show_img.setPixmap(self._ppic)
@@ -186,7 +186,7 @@ class _show_hide_frame(QFrame):
         self._vl_0.addWidget(self._x)
         self.box.pic.mousePressEvent = self._display
 
-    def _display(self, event):
+    def _display(self, _event):
         if self._x.isVisible() is True:
             self._x.setVisible(False)
             self.box.pic.setPixmap(self.box.ppic)

@@ -76,11 +76,11 @@ class MBookAddress(MBase):
     def add_output_tx(self, tx) -> None:
         self._output_tx.append(tx)
 
-    def toList(self) -> list:
+    def to_list(self) -> list:
         return [self.coin, self.name, self.address,
                 self.sent, self.received, self.label]
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         return {'coin': self.coin, 'name': self.name,
                 'address': self.address, 'sent': self.sent,
                 'received': self.received, 'label': self.label}

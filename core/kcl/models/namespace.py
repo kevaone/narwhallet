@@ -50,12 +50,12 @@ class MNamespace(MBase):
     def set_wallet(self, wallet: str) -> None:
         self._wallet = wallet
 
-    def toList(self) -> list:
+    def to_list(self) -> list:
         return [self.date, self.namespaceid, self.shortcode,
-                self.wallet, self.keys.toList(), self.address]
+                self.wallet, self.keys.to_list(), self.address]
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         return {'date': self.date, 'namespaceid': self.namespaceid,
                 'shortcode': self.shortcode, 'wallet': self.wallet,
-                'keys': self.keys.toDictList(), 'address': self.address,
+                'keys': self.keys.to_dict_list(), 'address': self.address,
                 'key_count': self.keys.count}

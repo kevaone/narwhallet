@@ -27,7 +27,7 @@ class MBookAddresses():
             _return = False
         return _return
 
-    def fromJson(self, address: dict):
+    def from_json(self, address: dict):
         _address = MBookAddress()
 
         _address.set_coin(address['coin'])
@@ -39,24 +39,24 @@ class MBookAddresses():
 
         self._addresses[_address.address] = _address
 
-    def toList(self) -> list:
+    def to_list(self) -> list:
         _l = []
         for i in self.addresses:
-            _l.append(self.addresses[i].toList())
+            _l.append(self.addresses[i].to_list())
         return _l
 
-    def toDictList(self) -> List[dict]:
+    def to_dict_list(self) -> List[dict]:
         _l = []
         for i in self.addresses:
-            _l.append(self.addresses[i].toDict())
+            _l.append(self.addresses[i].to_dict())
         return _l
 
     def save_address_book(self):
-        return AddressBookLoader.save(self.root_path, self.toDictList())
+        return AddressBookLoader.save(self.root_path, self.to_dict_list())
 
     def load_address_book(self, path: str):
         self.root_path = path
         _data = AddressBookLoader.load(path)
 
         for _a in _data:
-            self.fromJson(_a)
+            self.from_json(_a)

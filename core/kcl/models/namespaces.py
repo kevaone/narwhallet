@@ -63,9 +63,9 @@ class MNamespaces():
 
         return _type
 
-    def fromRawValues(self, block: int, n: int, tx: str,
-                      namespaceid: str, op: str, key: str, value: str,
-                      address: str):
+    def from_raw(self, block: int, n: int, tx: str,
+                 namespaceid: str, op: str, key: str, value: str,
+                 address: str):
 
         _ns = self.convert_to_namespaceid(namespaceid)
         key = self._decode(key)

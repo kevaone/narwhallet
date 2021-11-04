@@ -70,8 +70,8 @@ class MTransactionBuilder(MTransaction):
             _vout.set_value(value)
             _vout.scriptPubKey.set_hex(_sh)
             self.add_vout(_vout)
-        except Exception as Ex:
-            print('ex', Ex)
+        except Exception as ex:
+            print('ex', ex)
             _sh = None
         return _sh
 
@@ -140,9 +140,9 @@ class MTransactionBuilder(MTransaction):
 
         return _return, _change_flag, _est_fee
 
-    def hash_prevouts(self, nHashType: SIGHASH_TYPE) -> bytes:
+    def hash_prevouts(self, hash_type: SIGHASH_TYPE) -> bytes:
         _hash_cache = b''
-        if (nHashType is not SIGHASH_TYPE.ALL_ANYONECANPAY
+        if (hash_type is not SIGHASH_TYPE.ALL_ANYONECANPAY
            or SIGHASH_TYPE.NONE_ANYONECANPAY
            or SIGHASH_TYPE.SINGLE_ANYONECANPAY):
             for inp in self.vin:
@@ -154,9 +154,9 @@ class MTransactionBuilder(MTransaction):
 
         return _hash_cache
 
-    def hash_seqs(self, nHashType: SIGHASH_TYPE) -> bytes:
+    def hash_seqs(self, hash_type: SIGHASH_TYPE) -> bytes:
         _hash_cache = b''
-        if nHashType == SIGHASH_TYPE.ALL:
+        if hash_type == SIGHASH_TYPE.ALL:
             for inp in self.vin:
                 _hash_cache = _hash_cache + \
                     Ut.hex_to_bytes(inp.sequence)
@@ -164,9 +164,9 @@ class MTransactionBuilder(MTransaction):
 
         return _hash_cache
 
-    def hash_outputs(self, nHashType: SIGHASH_TYPE, idx: int = None) -> bytes:
+    def hash_outputs(self, hash_type: SIGHASH_TYPE, idx: int = None) -> bytes:
         _hash_cache = b''
-        if nHashType is not SIGHASH_TYPE.NONE or SIGHASH_TYPE.SINGLE:
+        if hash_type is not SIGHASH_TYPE.NONE or SIGHASH_TYPE.SINGLE:
             for output in self.vout:
                 _out_value = Ut.int_to_bytes(output.value, 8, 'little')
                 _script = Ut.hex_to_bytes(output.scriptPubKey.hex)
@@ -175,7 +175,7 @@ class MTransactionBuilder(MTransaction):
                     Ut.to_cuint(len(_script)) + _script
 
             _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
-        elif nHashType == SIGHASH_TYPE.SINGLE:
+        elif hash_type == SIGHASH_TYPE.SINGLE:
             _hash_cache = self.vout[idx]
             _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
 
@@ -195,9 +195,9 @@ class MTransactionBuilder(MTransaction):
             _outpoint = _outpoint + Ut.int_to_bytes(i.vout, 4, 'little')
             _pre.append(_outpoint)
             _s = Ut.hex_to_bytes(i.scriptSig.hex)
-            _scriptSig = Ut.to_cuint(len(_s)) + _s
-            _pre.append(Ut.to_cuint(len(_scriptSig)))
-            _pre.append(_scriptSig)
+            _script_sig = Ut.to_cuint(len(_s)) + _s
+            _pre.append(Ut.to_cuint(len(_script_sig)))
+            _pre.append(_script_sig)
             _pre.append(Ut.hex_to_bytes(i.sequence))
 
         _pre.append(Ut.to_cuint(len(self.vout)))
@@ -253,8 +253,8 @@ class MTransactionBuilder(MTransaction):
 
         return _sighash
 
-    def toDict(self) -> dict:
-        return {'fee': self._fee, 'vin': self.toDictList(self.vin),
-                'vout': self.toDictList(self.vout), 'txid': self.txid,
+    def to_dict(self) -> dict:
+        return {'fee': self._fee, 'vin': self.to_dict_list(self.vin),
+                'vout': self.to_dict_list(self.vout), 'txid': self.txid,
                 'version': self.version, 'size': self.size,
                 'locktime': self.locktime}

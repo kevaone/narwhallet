@@ -48,7 +48,7 @@ class MScriptPubKey(MBase):
     def add_address(self, address: str) -> None:
         self._addresses.append(address)
 
-    def fromJson(self, json: dict):
+    def from_json(self, json: dict):
         if 'asm' in json:
             self.set_asm(json['asm'])
         if 'hex' in json:
@@ -60,9 +60,9 @@ class MScriptPubKey(MBase):
         if 'addresses' in json:
             self.set_addresses(json['addresses'])
 
-    def toList(self) -> list:
+    def to_list(self) -> list:
         return [self.asm, self.hex, self.reqSigs, self.type, self.addresses]
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         return {'asm': self.asm, 'hex': self.hex, 'reqSigs': self.reqSigs,
                 'type': self.type, 'addresses': self.addresses}

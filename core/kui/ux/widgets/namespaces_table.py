@@ -1,11 +1,11 @@
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from control.shared import MShared
 
 
 class _namespaces_table(QTableWidget):
-    def __init__(self, name: str, QWidget):
+    def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
         self.setObjectName(name)

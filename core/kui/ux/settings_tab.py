@@ -16,7 +16,7 @@ class Ui_SettingsTab(QObject):
         _al_center = QtCore.Qt.AlignmentFlag.AlignCenter
         _sp_exp = QSizePolicy.Policy.Expanding
         _sp_min = QSizePolicy.Policy.Minimum
-        _sp_minExp = QSizePolicy.Policy.MinimumExpanding
+        _sp_minexp = QSizePolicy.Policy.MinimumExpanding
 
         self.tabSettings = QWidget()
         self.verticalLayout_13 = QVBoxLayout(self.tabSettings)
@@ -122,30 +122,30 @@ class Ui_SettingsTab(QObject):
         self.s_timer_wallet_hl.addWidget(self.s_t_wallet_l)
         self.s_timer_wallet_hl.addWidget(self.s_t_wallet_e)
         self.s_timer_wallet_hl.addItem(QSpacerItem(5, 5,
-                                       _sp_minExp, _sp_minExp))
+                                       _sp_minexp, _sp_minexp))
         self.verticalLayout_12.addLayout(self.s_timer_wallet_hl)
         self.s_timer_df_hl.addWidget(self.s_a_df)
         self.s_timer_df_hl.addWidget(self.s_t_df_l)
         self.s_timer_df_hl.addWidget(self.s_t_df_e)
         self.s_timer_df_hl.addItem(QSpacerItem(5, 5,
-                                   _sp_minExp, _sp_minExp))
+                                   _sp_minexp, _sp_minexp))
         self.verticalLayout_12.addLayout(self.s_timer_df_hl)
         self.s_timer_favorites_hl.addWidget(self.s_a_fav)
         self.s_timer_favorites_hl.addWidget(self.s_t_fav_l)
         self.s_timer_favorites_hl.addWidget(self.s_t_fav_e)
         self.s_timer_favorites_hl.addItem(QSpacerItem(5, 5,
-                                          _sp_minExp, _sp_minExp))
+                                          _sp_minexp, _sp_minexp))
         self.verticalLayout_12.addLayout(self.s_timer_favorites_hl)
         self.verticalLayout_12.addWidget(self.nw_l1)
         self.nw_ht.addWidget(self.nw_lt)
         self.nw_ht.addWidget(self.nw_theme)
-        self.nw_ht.addItem(QSpacerItem(5, 5, _sp_minExp, _sp_minExp))
+        self.nw_ht.addItem(QSpacerItem(5, 5, _sp_minexp, _sp_minexp))
         self.verticalLayout_12.addLayout(self.nw_ht)
         self.nw_hl.addWidget(self.nw_l2)
         self.nw_hl.addWidget(self.nw_host)
         self.nw_hl.addWidget(self.nw_l3)
         self.nw_hl.addWidget(self.nw_port)
-        self.nw_hl.addItem(QSpacerItem(5, 5, _sp_minExp, _sp_minExp))
+        self.nw_hl.addItem(QSpacerItem(5, 5, _sp_minexp, _sp_minexp))
         self.verticalLayout_12.addLayout(self.nw_hl)
         self.verticalLayout_12.addWidget(self.line_0)
         self.verticalLayout_12.addLayout(self.datafeedBox)

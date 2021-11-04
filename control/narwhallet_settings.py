@@ -80,7 +80,7 @@ class MNarwhalletSettings():
     def set_show_change(self, show_change: bool) -> None:
         self._show_change = show_change
 
-    def fromDict(self, _d: dict) -> None:
+    def from_dict(self, _d: dict) -> None:
         self.set_sync(_d['sync'])
         self.set_electrumx_auto_connect(_d['electrumx_auto_connect'])
         # TEMP Check to prevent error, remove after participients have update
@@ -97,7 +97,7 @@ class MNarwhalletSettings():
         if 'show_change' in _d:
             self.set_show_change(_d['show_change'])
 
-    def toDict(self) -> dict:
+    def to_dict(self) -> dict:
         _d = {}
         _d['sync'] = self.sync
         _d['electrumx_auto_connect'] = self.electrumx_auto_connect

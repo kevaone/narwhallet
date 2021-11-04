@@ -40,13 +40,13 @@ from core.kui.ux.dialogs.add_namespace_favorite import Ui_add_ns_fav_dlg
 class MDialogs():
     def __init__(self, user_path: str,
                  narwhallet_settings: MNarwhalletSettings,
-                 _view: NarwhalletUI, KEX: KEXclient,
+                 _view: NarwhalletUI, kex: KEXclient,
                  wallets: MWallets, cache: MCache,
                  address_book: MBookAddresses):
         self.user_path = user_path
         self._v = _view
         self.ui = self._v.ui
-        self.KEX = KEX
+        self.kex = kex
         self.wallets = wallets
         self.cache = cache
         self.settings = narwhallet_settings
@@ -60,8 +60,8 @@ class MDialogs():
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
         _di.ui.cache = self.cache
-        _di.ui.KEX = self.KEX
-        _fee = MShared.get_fee_rate(self.KEX)
+        _di.ui.kex = self.kex
+        _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
@@ -87,7 +87,7 @@ class MDialogs():
                 _w.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def create_namespace_send_dialog(self):
@@ -96,8 +96,8 @@ class MDialogs():
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
         _di.ui.cache = self.cache
-        _di.ui.KEX = self.KEX
-        _fee = MShared.get_fee_rate(self.KEX)
+        _di.ui.kex = self.kex
+        _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
@@ -123,7 +123,7 @@ class MDialogs():
                 _w.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def create_namespace_key_send_dialog(self):
@@ -132,8 +132,8 @@ class MDialogs():
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
         _di.ui.cache = self.cache
-        _di.ui.KEX = self.KEX
-        _fee = MShared.get_fee_rate(self.KEX)
+        _di.ui.kex = self.kex
+        _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
@@ -168,7 +168,7 @@ class MDialogs():
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def edit_namespace_key_send_dialog(self):
@@ -177,8 +177,8 @@ class MDialogs():
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
         _di.ui.cache = self.cache
-        _di.ui.KEX = self.KEX
-        _fee = MShared.get_fee_rate(self.KEX)
+        _di.ui.kex = self.kex
+        _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
@@ -228,7 +228,7 @@ class MDialogs():
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
             if isinstance(_bc_result[1], dict):
                 _result = json.dumps(_bc_result[1])
             else:
@@ -241,8 +241,8 @@ class MDialogs():
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
         _di.ui.cache = self.cache
-        _di.ui.KEX = self.KEX
-        _fee = MShared.get_fee_rate(self.KEX)
+        _di.ui.kex = self.kex
+        _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
@@ -282,7 +282,7 @@ class MDialogs():
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def transfer_namespace_send_dialog(self):
@@ -291,8 +291,8 @@ class MDialogs():
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
         _di.ui.cache = self.cache
-        _di.ui.KEX = self.KEX
-        _fee = MShared.get_fee_rate(self.KEX)
+        _di.ui.kex = self.kex
+        _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
@@ -339,7 +339,7 @@ class MDialogs():
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def auction_namespace_dialog(self):
@@ -348,8 +348,8 @@ class MDialogs():
         _di.ui.setupUi(_di)
         _di.ui.wallets = self.wallets
         _di.ui.cache = self.cache
-        _di.ui.KEX = self.KEX
-        _fee = MShared.get_fee_rate(self.KEX)
+        _di.ui.kex = self.kex
+        _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
@@ -366,7 +366,7 @@ class MDialogs():
         _result = _di.exec_()
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.KEX)
+            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
             # print('_bc_result', type(_bc_result), _bc_result)
             if isinstance(_bc_result[1], dict):
                 _result = json.dumps(_bc_result[1])
@@ -491,7 +491,7 @@ class MDialogs():
 
         return _func_call
 
-    def view_wallet_address_dialog(self, row, column):
+    def view_wallet_address_dialog(self, row, _column):
         _di = QDialog()
         _di.ui = Ui_v_addr_dlg()
 
@@ -531,7 +531,7 @@ class MDialogs():
                 _addr.set_label(_di.ui.label_d.text())
                 self.wallets.save_wallet(_w.name)
 
-    def view_wallet_change_address_dialog(self, row, column):
+    def view_wallet_change_address_dialog(self, row, _column):
         _di = QDialog()
         _di.ui = Ui_v_change_addr_dlg()
 
@@ -568,7 +568,7 @@ class MDialogs():
                 _addr.set_label(_di.ui.label_d.text())
                 self.wallets.save_wallet(_w.name)
 
-    def view_wallet_transaction_dialog(self, row, column):
+    def view_wallet_transaction_dialog(self, row, _column):
         _di = QDialog()
         _di.ui = Ui_v_tx_dlg()
         _di.ui.setupUi(_di)
@@ -586,7 +586,7 @@ class MDialogs():
         _di.ui.hash_d.setPlainText(_t.hash)
         _di.ui.blockhash_d.setPlainText(_t.blockhash)
         _di.ui.hex_d.setPlainText(_t.hex)
-        _t_dict = _t.toDict()
+        _t_dict = _t.to_dict()
         _di.ui.json_d.setPlainText(json.dumps(_t_dict, indent=4))
 
         for c, vin in enumerate(_t.vin):
@@ -622,12 +622,12 @@ class MDialogs():
                   'ping': '0ms', 'status': 'disconnected'}
 
             self.settings.add_electrumx_peer(peer)
-            _ = self.KEX.add_peer(peer[1], int(peer[2]),
+            _ = self.kex.add_peer(peer[1], int(peer[2]),
                                   bool(peer[3]), peer[4])
             self.ui.settings_tab.elxp_tbl.add_peer(_p)
 
             _dat = ConfigLoader(os.path.join(self.user_path, 'settings.json'))
-            _dat.save(json.dumps(self.settings.toDict(), indent=4).encode())
+            _dat.save(json.dumps(self.settings.to_dict(), indent=4).encode())
 
     @staticmethod
     def add_addressbook_item_dialog() -> MBookAddress:
@@ -674,4 +674,4 @@ class MDialogs():
             if _update_table is True:
                 self.address_book.save_address_book()
                 (self.ui.ab_tab.tbl_addr
-                 .add_bookaddresses(self.address_book.toDictList()))
+                 .add_bookaddresses(self.address_book.to_dict_list()))

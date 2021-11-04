@@ -25,7 +25,7 @@ class MTransactions():
 
         if len(_tx) == 1:
             _txx = MTransaction()
-            _txx.fromSQL(_tx, _vin, _vout)
+            _txx.from_sql(_tx, _vin, _vout)
             _return = _txx
         else:
             _return = None
@@ -46,9 +46,9 @@ class MTransactions():
             _return = None
         return _return
 
-    def add_fromJson(self, _json: dict) -> MTransaction:
+    def add_from_json(self, _json: dict) -> MTransaction:
         _tx = MTransaction()
-        _tx.fromJson(_json)
+        _tx.from_json(_json)
         self.dbi.execute_sql(self.dbi.scripts.INSERT_TX,
                              (_tx.txid, _tx.hash, _tx.version,
                               _tx.size, _tx.vsize, _tx.locktime,
@@ -91,7 +91,7 @@ class MTransactions():
 
     def update(self, tx: dict):
         _tx = MTransaction()
-        _tx.fromJson(tx)
+        _tx.from_json(tx)
         _result = self.dbi.execute_sql(self.dbi.scripts.UPDATE_TX,
                                        (_tx.txid, _tx.hash,
                                         _tx.version, _tx.size,

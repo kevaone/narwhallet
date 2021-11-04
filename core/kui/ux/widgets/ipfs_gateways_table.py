@@ -1,10 +1,10 @@
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 
 
 class _ipfs_gateways_table(QTableWidget):
-    def __init__(self, name: str, QWidget):
+    def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
         self.setObjectName(name)
