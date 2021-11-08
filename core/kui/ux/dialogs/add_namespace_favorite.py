@@ -52,7 +52,7 @@ class Ui_add_ns_fav_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('add_ns_fav_dlg',
-                                                 'Narwhallet - Add Favorite'))
+                                       'Narwhallet - Add Favorite'))
         self.name_label.setText(_translate('add_ns_fav_dlg', 'Shortcode:'))
 
     @staticmethod

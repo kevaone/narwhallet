@@ -78,7 +78,7 @@ class Ui_v_change_addr_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('v_change_dlg',
-                                                'Narwhallet - Change Address'))
+                                       'Narwhallet - Change Address'))
         self.label_label.setText(_translate('v_change_dlg', 'Label:'))
         self.label_d.setText(_translate('v_change_dlg', '<set to input tx>'))
         self.address_label.setText(_translate('v_change_dlg', 'Address:'))

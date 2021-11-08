@@ -53,7 +53,9 @@ class _address_book_table(QTableWidget):
 
     @staticmethod
     def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsDragEnabled
+        return (QtCore.Qt.ItemIsSelectable |
+                QtCore.Qt.ItemIsEditable |
+                QtCore.Qt.ItemIsDragEnabled)
 
     def add_bookaddress(self, book_address: dict):
         _al_center = QtCore.Qt.AlignCenter

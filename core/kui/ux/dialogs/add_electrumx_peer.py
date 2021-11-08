@@ -69,7 +69,7 @@ class Ui_add_electrumx_peer_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('create_electrumx_peer_dlg',
-                                          'Narwhallet - Add ElectrumX Peer'))
+                            'Narwhallet - Add ElectrumX Peer'))
         # self.label.setText(_translate('create_electrumx_peer_dlg', 'Coin:'))
         self.label_2.setText(_translate('create_electrumx_peer_dlg', 'Host:'))
         self.label_3.setText(_translate('create_electrumx_peer_dlg', 'Port:'))

@@ -76,7 +76,7 @@ class Ui_add_ab_item_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         (self.setWindowTitle(_translate('add_addrbook',
-            'Narwhallet - Add to Address Book')))
+         'Narwhallet - Add to Address Book')))
         self.label.setText(_translate('add_addrbook', 'Coin:'))
         self.label_2.setText(_translate('add_addrbook', 'Name:'))
         self.label_3.setText(_translate('add_addrbook', 'Label:'))

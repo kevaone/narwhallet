@@ -59,7 +59,7 @@ class Ui_add_watch_addr_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('a_watch_add_dlg',
-                                           'Narwhallet - Address'))
+                                       'Narwhallet - Address'))
         self.label_label.setText(_translate('a_watch_add_dlg', 'Label:'))
         self.address_label.setText(_translate('a_watch_add_dlg', 'Address:'))
 

@@ -140,7 +140,7 @@ class Ui_v_tx_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('v_tx_dlg',
-                                              'Narwhallet - Transaction'))
+                                       'Narwhallet - Transaction'))
         self.txid_label.setText(_translate('v_tx_dlg', 'TX:'))
         self.hash_label.setText(_translate('v_tx_dlg', 'Hash:'))
         self.blockhash_label.setText(_translate('v_tx_dlg', 'Block Hash:'))

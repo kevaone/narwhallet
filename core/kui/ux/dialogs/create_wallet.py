@@ -123,7 +123,7 @@ class Ui_create_wallet_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('create_dlg',
-                                             'Narwhallet - Create Wallet'))
+                                       'Narwhallet - Create Wallet'))
         self.label_4.setText(_translate('create_dlg', 'Name:'))
         self.label_6.setText(_translate('create_dlg', 'PreGen Addresses:'))
         self.label.setText(_translate('create_dlg', 'Coin:'))

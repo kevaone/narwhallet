@@ -74,7 +74,7 @@ class MDialogs():
                 # NOTE We don't want wallets to relock while interacting
                 _w.set_updating(True)
                 _di.w.addItem(_w.name+' - '+str(round(_w.balance, 8)),
-                                 _w.name)
+                              _w.name)
         for _addr in self.address_book.addresses:
             _aa = self.address_book.addresses[_addr].address
             _abi = self.address_book.addresses[_addr].name + ' - ' + _aa
@@ -112,7 +112,7 @@ class MDialogs():
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                 _w.set_updating(True)
                 _di.w.addItem(_w.name + ' - ' + str(round(_w.balance, 8)),
-                                 _w.name)
+                              _w.name)
 
         _result = _di.exec_()
 

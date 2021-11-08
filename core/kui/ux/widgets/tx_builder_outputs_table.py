@@ -28,7 +28,9 @@ class _tx_builder_outputs_table(QTableWidget):
 
     @staticmethod
     def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsDragEnabled
+        return (QtCore.Qt.ItemIsSelectable |
+                QtCore.Qt.ItemIsEditable |
+                QtCore.Qt.ItemIsDragEnabled)
 
     def add_output(self, value: float, address: str, script: str):
         _r = self.rowCount()

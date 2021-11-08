@@ -35,7 +35,9 @@ class _tx_builder_usxo_table(QTableWidget):
 
     @staticmethod
     def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsDragEnabled
+        return (QtCore.Qt.ItemIsSelectable |
+                QtCore.Qt.ItemIsEditable |
+                QtCore.Qt.ItemIsDragEnabled)
 
     def add_usxo(self, wallet: str, usxo: list):
         for i in usxo:

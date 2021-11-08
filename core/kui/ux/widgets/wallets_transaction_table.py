@@ -38,7 +38,9 @@ class _transaction_table(QTableWidget):
 
     @staticmethod
     def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsDragEnabled
+        return (QtCore.Qt.ItemIsSelectable |
+                QtCore.Qt.ItemIsEditable |
+                QtCore.Qt.ItemIsDragEnabled)
 
     def add_transactions(self, transactions: list):
         for i in range(0, self.rowCount()):

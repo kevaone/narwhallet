@@ -151,7 +151,7 @@ class Ui_keva_op_send_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('keva_op_send_dlg',
-                                           'Narwhallet - Create Namespace'))
+                                       'Narwhallet - Create Namespace'))
         self.w_l.setText(_translate('keva_op_send_dlg', 'Wallet:'))
         self.sk_l.setText(_translate('keva_op_send_dlg', 'Special Key:'))
         self.key_v_l.setText(_translate('keva_op_send_dlg', 'Key Name: '))
@@ -302,7 +302,7 @@ class Ui_keva_op_send_dlg(QDialog):
 
             if self.ns is None:
                 self.ns = self.tx_to_ns(self.new_tx.vin[0].txid,
-                                         self.new_tx.vin[0].vout)
+                                        self.new_tx.vin[0].vout)
                 _n_sh = Scripts.KevaNamespaceCreation.compile([self.ns,
                                                                self.ns_value,
                                                                self.ns_address

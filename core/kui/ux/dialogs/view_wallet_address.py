@@ -106,7 +106,7 @@ class Ui_v_addr_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('waddress_dlg',
-                                                 'Narwhallet - Address'))
+                                       'Narwhallet - Address'))
         self.label_label.setText(_translate('waddress_dlg', 'Label:'))
         self.address_label.setText(_translate('waddress_dlg', 'Address:'))
         self.details_show_label.setText(_translate('waddress_dlg', 'Details'))

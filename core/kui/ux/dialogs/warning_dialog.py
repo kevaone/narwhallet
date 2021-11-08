@@ -19,9 +19,9 @@ class Ui_warning_dlg(QDialog):
         __path = os.path.dirname(__file__)
         self._pic = QPixmap(os.path.join(__path, '../assets/warning.png'))
         self.error_pic = QPixmap(os.path.join(__path,
-                                               '../assets/exclamation.png'))
+                                              '../assets/exclamation.png'))
         self.success_pic = QPixmap(os.path.join(__path,
-                                                 '../assets/narwhal.png'))
+                                                '../assets/narwhal.png'))
         self.label_2 = QLabel(self)
         self.buttonBox = QDialogButtonBox(self)
 

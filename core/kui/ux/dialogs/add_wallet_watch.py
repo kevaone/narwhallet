@@ -52,7 +52,7 @@ class Ui_add_wallet_watch_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('add_wallet_watch_dlg',
-                                           'Narwhallet - Watch Only Wallet'))
+                                       'Narwhallet - Watch Only Wallet'))
         self.name_label.setText(_translate('add_wallet_watch_dlg', 'Name:'))
 
     @staticmethod

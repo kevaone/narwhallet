@@ -101,7 +101,7 @@ class Ui_restore_wallet_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('restore_dlg',
-                                              'Narwhallet - Restore Wallet'))
+                                       'Narwhallet - Restore Wallet'))
         self.label_4.setText(_translate('restore_dlg', 'Name:'))
         self.label.setText(_translate('restore_dlg', 'Coin:'))
         self.label_5.setText(_translate('restore_dlg', 'Type:'))

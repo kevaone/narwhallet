@@ -84,7 +84,7 @@ class Ui_v_ab_item_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('view_ab_item_dlg',
-                                              'Narwhallet - Address Book'))
+                                       'Narwhallet - Address Book'))
         self.label.setText(_translate('view_ab_item_dlg', 'Coin:'))
         self.label_2.setText(_translate('view_ab_item_dlg', 'Name:'))
         self.label_3.setText(_translate('view_ab_item_dlg', 'Label:'))

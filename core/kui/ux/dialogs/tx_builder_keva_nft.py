@@ -151,7 +151,7 @@ class Ui_keva_op_nft_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('keva_op_send_dlg',
-                                           'Narwhallet - Create Namespace'))
+                                       'Narwhallet - Create Namespace'))
         self.combo_wallet_l.setText(_translate('keva_op_send_dlg', 'Wallet:'))
         self.combo_ns_l.setText(_translate('keva_op_send_dlg', 'Namespace:'))
         self.nft_name_l.setText(_translate('keva_op_send_dlg', 'Name: '))
