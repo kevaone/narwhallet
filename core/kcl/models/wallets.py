@@ -88,14 +88,17 @@ class MWallets():
         else:
             _wallet.set_account_index(0)
 
-        while _wallet.addresses.count < _wallet.account_index:
-            _wallet.get_address_by_index(_wallet.addresses.count, True, False)
-
-        while _wallet.change_addresses.count < _wallet.change_index:
-            _change_count = _wallet.change_addresses.count
-            _wallet.get_change_address_by_index(_change_count, True, False)
+        self._fill_address_indexes(_wallet)
 
         return _wallet
+
+    def _fill_address_indexes(self, wallet: MWallet):
+        while wallet.addresses.count < wallet.account_index:
+            wallet.get_address_by_index(wallet.addresses.count, True, False)
+
+        while wallet.change_addresses.count < wallet.change_index:
+            _change_count = wallet.change_addresses.count
+            wallet.get_change_address_by_index(_change_count, True, False)
 
     def relock_wallet(self, name: str) -> bool:
         if (self._wallets[self._names[name]].locked is False

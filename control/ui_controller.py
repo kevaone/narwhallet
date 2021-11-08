@@ -561,7 +561,10 @@ class NarwhalletController():
             if len(_bids) > 0:
                 self.ui.nft_tab.tbl_bids.add_bids(ns['wallet'], _bi)
 
-        for _btx in _wallet_bid_tx:
+        self._scan_wallets_for_bids(_wallet_bid_tx)
+
+    def _scan_wallets_for_bids(self, _wallet_bid):
+        for _btx in _wallet_bid:
             _w = self.wallets.get_wallet_by_name(_btx[0])
 
             for _ad in _w.addresses.addresses:
@@ -580,6 +583,17 @@ class NarwhalletController():
                             _w.bid_balance + (_us['value'] / 100000000)))
                         _w.add_bid_tx([_btx[1], _btx[2],
                                        _us['value'] / 100000000])
+
+    def _set_ns_wallet_name(self, address, wallet: MWallet):
+        _name = ''
+        for _a in wallet.addresses.addresses:
+            if address == _a.address:
+                _name = wallet.name
+                # TODO Notify user if namespace detected in change address
+        for _a in wallet.change_addresses.addresses:
+            if address == _a.address:
+                _name = wallet.name
+        return _name
 
     def refresh_namespace_tab_data(self):
         # TODO Cleanup
@@ -600,19 +614,16 @@ class NarwhalletController():
             pd['shortcode'] = str(len(str(_bl)))+str(_bl)+str(_block[0][1])
 
             pd['date'] = time.time()
+            _wallet_name = ''
             for wallet in self.wallets.wallets:
                 if wallet.kind != 0:
                     continue
 
-                for address in wallet.addresses.addresses:
-                    if _oa[0][0] == address.address:
-                        pd['wallet'] = wallet.name
-                # TODO Notify user if namespace detected in change address
-                for address in wallet.change_addresses.addresses:
-                    if _oa[0][0] == address.address:
-                        pd['wallet'] = wallet.name
+                _wallet_name = self._set_ns_wallet_name(_oa[0][0], wallet)
 
-            if 'wallet' not in pd:
+            if _wallet_name != '':
+                pd['wallet'] = _wallet_name
+            else:
                 for wallet in self.wallets.wallets:
                     if wallet.kind not in (1, 3):
                         continue
@@ -674,6 +685,22 @@ class NarwhalletController():
             self.settings.set_primary_ipfs_gateway(row)
             self.set_dat.save(json.dumps(self.settings.to_dict()))
 
+    def _wallet_check_lock(self, row: int, column: int, wallet: MWallet):
+        if wallet.locked is False and column == 1:
+            self.wallet_lock(wallet)
+        elif wallet.locked is True and column == 1:
+            _ulk = self.dialogs.lockbox_dialog(0)
+            if _ulk != '':
+                wallet.set_k(_ulk)
+                self.wallets.load_wallet(wallet.name, wallet)
+
+                if wallet.coin is not None:
+                    wallet.set_locked(False)
+                    self.ui.w_tab.tbl_w.update_wallet(wallet, row)
+                    self.refresh_namespace_tab_data()
+                    if wallet.kind not in (1, 3):
+                        self.ui.u_tab.wallet_select.addItem(wallet.name)
+
     def wallet_selected(self, row: int = -1, column: int = -1):
         self.ui.w_tab.tbl_tx.clearSelection()
         self.ui.w_tab.tbl_addr.clearSelection()
@@ -692,22 +719,7 @@ class NarwhalletController():
 
         _n = self.ui.w_tab.tbl_w.item(row, 3).text()
         _w = self.wallets.get_wallet_by_name(_n)
-
-        if column == 1:
-            self.wallet_lock(_w)
-
-        if _w.locked is True and column == 1:
-            _ulk = self.dialogs.lockbox_dialog(0)
-            if _ulk != '':
-                _w.set_k(_ulk)
-                self.wallets.load_wallet(_w.name, _w)
-
-                if _w.coin is not None:
-                    _w.set_locked(False)
-                    self.ui.w_tab.tbl_w.update_wallet(_w, row)
-                    self.refresh_namespace_tab_data()
-                    if _w.kind not in (1, 3):
-                        self.ui.u_tab.wallet_select.addItem(_w.name)
+        self._wallet_check_lock(row, column, _w)
 
         self.ui.w_tab.tbl_addr.add_addresses(_w.addresses.to_dict_list())
         if self.ui.w_tab.tabWidget_2.isTabVisible(2):

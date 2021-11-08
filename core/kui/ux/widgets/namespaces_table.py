@@ -1,5 +1,4 @@
 import os
-from typing import Union
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from control.shared import MShared

@@ -236,6 +236,18 @@ class Ui_keva_op_nft_dlg(QDialog):
 
                     self.combo_ns.addItem(_block+' - '+_name, _ns+':'+tx['a'])
 
+    @staticmethod
+    def _test_tx(tx: MTransactionBuilder) -> bool:
+        _return = True
+        if tx is None:
+            _return = False
+        elif tx.confirmations is None:
+            _return = False
+        elif tx.confirmations < 6:
+            _return = False
+
+        return _return
+
     def set_availible_usxo(self, isChangeOp: bool):
         _n = self.combo_wallet.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
@@ -252,13 +264,7 @@ class Ui_keva_op_nft_dlg(QDialog):
             if _tx is not None and isinstance(_tx, dict):
                 _tx = self.cache.tx.add_from_json(_tx)
 
-            if _tx is None:
-                continue
-
-            if _tx.confirmations is None:
-                continue
-
-            if _tx.confirmations < 6:
+            if self._test_tx(_tx) is False:
                 continue
 
             if ('OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm):
