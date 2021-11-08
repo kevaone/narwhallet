@@ -1,11 +1,11 @@
 import os
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
 from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QComboBox,
                              QPlainTextEdit, QHBoxLayout, QLineEdit,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
-                             QFrame)
+                             QFrame, QDialog, QPushButton)
 from core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 from core.kcl.models.wallet import MWallet
 
@@ -20,7 +20,7 @@ class Ui_restore_wallet_dlg(QObject):
         self.verticalLayout = QVBoxLayout(restore_wallet_dialog)
         self.label_1 = QLabel(restore_wallet_dialog)
         __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
+        _pic = QPixmap(os.path.join(__path, '../assets/narwhal.png'))
         self.horizontalLayout_3 = QHBoxLayout()
         self.label_4 = QLabel(restore_wallet_dialog)
         self.lineEdit_2 = QLineEdit(restore_wallet_dialog)
@@ -31,11 +31,11 @@ class Ui_restore_wallet_dlg(QObject):
         self.comboBox = _coin_dropdown(restore_wallet_dialog)
         self.horizontalLayout_2 = QHBoxLayout()
         self.plainTextEdit = QPlainTextEdit(restore_wallet_dialog)
-        self._ppic = QtGui.QPixmap(os.path.join(__path, '../assets/plus.png'))
-        self._mpic = QtGui.QPixmap(os.path.join(__path, '../assets/minus.png'))
+        self._ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
+        self._mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
         self.adv_hl = QHBoxLayout()
         self.adv_label = QLabel(restore_wallet_dialog)
-        self.adv_label_p = QLabel(restore_wallet_dialog)
+        self.adv_label_p = QPushButton(restore_wallet_dialog)
         self.adv_f = QFrame(restore_wallet_dialog)
         self.adv_f_vl = QVBoxLayout(self.adv_f)
         self.label_2 = QLabel(restore_wallet_dialog)
@@ -59,7 +59,8 @@ class Ui_restore_wallet_dlg(QObject):
         self.comboBox.setVisible(False)
         self._ppic = self._ppic.scaledToWidth(15, _transm_st)
         self._mpic = self._mpic.scaledToWidth(15, _transm_st)
-        self.adv_label_p.setPixmap(self._ppic)
+        self.adv_label_p.setIcon(QIcon(self._ppic))
+        self.adv_label_p.setFlat(True)
         self.adv_label_p.setVisible(False)
         self.adv_label.setVisible(False)
         self.adv_f.setVisible(False)
@@ -96,7 +97,7 @@ class Ui_restore_wallet_dlg(QObject):
         self.lineEdit_2.textChanged.connect(self._set_name)
         self.plainTextEdit.textChanged.connect(self._set_mnemonic)
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
-        self.adv_label_p.mousePressEvent = self._display_advanced
+        self.adv_label_p.clicked.connect(self._display_advanced)
 
     def retranslateUi(self, restore_dlg: QDialog):
         _translate = QtCore.QCoreApplication.translate
@@ -120,10 +121,10 @@ class Ui_restore_wallet_dlg(QObject):
     def _display_advanced(self, event):
         if self.adv_f.isVisible() is True:
             self.adv_f.setVisible(False)
-            self.adv_label_p.setPixmap(self._ppic)
+            self.adv_label_p.setIcon(QIcon(self._ppic))
         else:
             self.adv_f.setVisible(True)
-            self.adv_label_p.setPixmap(self._mpic)
+            self.adv_label_p.setIcon(QIcon(self._mpic))
 
     def ret_wallet(self):
         self._w.set_coin(self.comboBox.currentText().upper())

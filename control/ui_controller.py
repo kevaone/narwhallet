@@ -321,10 +321,10 @@ class NarwhalletController():
         self.ui.w_tab.tbl_tx.cellClicked.connect(self.w_tx_selected)
         self.ui.w_tab.btn_addr.clicked.connect(self._get_unused_address)
         self.ui.w_tab.btn_addr2.clicked.connect(self._get_unused_changeaddress)
-        self.ui.w_tab.cpmnemonic.mousePressEvent = self.w_mnemnomic_copy_click
-        self.ui.w_tab.cpseed.mousePressEvent = self.wallet_seed_copy_click
-        self.ui.w_tab.cpxprv.mousePressEvent = self.wallet_xprv_copy_click
-        self.ui.w_tab.cpxpub.mousePressEvent = self.wallet_xpub_copy_click
+        self.ui.w_tab.cpmnemonic.clicked.connect(self.w_mnemnomic_copy_click)
+        self.ui.w_tab.cpseed.clicked.connect(self.wallet_seed_copy_click)
+        self.ui.w_tab.cpxprv.clicked.connect(self.wallet_xprv_copy_click)
+        self.ui.w_tab.cpxpub.clicked.connect(self.wallet_xpub_copy_click)
         self.ui.ab_tab.tbl_addr.cellClicked.connect(self.ab_address_selected)
         self.ui.ns_tab.tbl_ns.itemSelectionChanged.connect(self.ns_selected)
         self.ui.ns_tab.tbl_ns.cellClicked.connect(self.ns_cell_clicked)
@@ -333,8 +333,8 @@ class NarwhalletController():
         self.ui.ns_tab.btn_val_edit.clicked.connect(self.ns_key_value_edit)
         self.ui.ns_tab.btn_val_save.clicked.connect(self.ns_key_value_save)
         self.ui.ns_tab.btn_val_del.clicked.connect(self.ns_key_delete_click)
-        self.ui.ns_tab.sel_ns_sc_bvpic.mousePressEvent = self.ns_sc_copy_click
-        self.ui.ns_tab.sel_ns_n_bvpic.mousePressEvent = self.ns_name_copy_click
+        self.ui.ns_tab.sel_ns_sc_bvpic.clicked.connect(self.ns_sc_copy_click)
+        self.ui.ns_tab.sel_ns_n_bvpic.clicked.connect(self.ns_name_copy_click)
         (self.ui.nft_tab.tbl_auctions
          .itemSelectionChanged.connect(self.nft_auction_selected))
         (self.ui.nft_tab.tbl_auctions

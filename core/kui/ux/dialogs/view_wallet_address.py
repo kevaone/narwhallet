@@ -1,10 +1,11 @@
 import os
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
 from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QDialog, QFrame
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
-                             QDialogButtonBox, QPlainTextEdit)
+                             QDialogButtonBox, QPlainTextEdit,
+                             QDialog, QFrame, QPushButton)
 
 from core.kui.ux.widgets.qr_widget import QRImage
 
@@ -16,8 +17,8 @@ class Ui_v_addr_dlg(QObject):
         _b_ok = QDialogButtonBox.Ok
         _transm_st = QtCore.Qt.SmoothTransformation
         __path = os.path.dirname(__file__)
-        self._ppic = QtGui.QPixmap(os.path.join(__path, '../assets/plus.png'))
-        self._mpic = QtGui.QPixmap(os.path.join(__path, '../assets/minus.png'))
+        self._ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
+        self._mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
         self.verticalLayout = QVBoxLayout(view_wallet_address_dialog)
         self.label_hl = QHBoxLayout()
         self.label_label = QLabel(view_wallet_address_dialog)
@@ -27,7 +28,7 @@ class Ui_v_addr_dlg(QObject):
         self.address_d = QPlainTextEdit(view_wallet_address_dialog)
         self.details_show = QHBoxLayout()
         self.details_show_label = QLabel(view_wallet_address_dialog)
-        self.details_show_img = QLabel(view_wallet_address_dialog)
+        self.details_show_img = QPushButton(view_wallet_address_dialog)
         self.details = QFrame(view_wallet_address_dialog)
         self.details_verticalLayout = QVBoxLayout(self.details)
         self.details_horizontalLayout5 = QHBoxLayout()
@@ -56,7 +57,8 @@ class Ui_v_addr_dlg(QObject):
         self.address_d.setMaximumHeight(26)
         self.address_d.setReadOnly(True)
         self.address_d.setFrameStyle(QFrame.NoFrame)
-        self.details_show_img.setPixmap(self._ppic)
+        self.details_show_img.setIcon(QIcon(self._ppic))
+        self.details_show_img.setFlat(True)
         self.details.setVisible(False)
         self.details.setFrameShape(QFrame.StyledPanel)
         self.details.setFrameShadow(QFrame.Raised)
@@ -100,7 +102,7 @@ class Ui_v_addr_dlg(QObject):
         self.retranslateUi(view_wallet_address_dialog)
         self.buttonBox.accepted.connect(view_wallet_address_dialog.accept)
 
-        self.details_show_img.mousePressEvent = self._display_details
+        self.details_show_img.clicked.connect(self._display_details)
 
     def retranslateUi(self, view_waddr_dlg: QDialog):
         _translate = QtCore.QCoreApplication.translate
@@ -128,7 +130,7 @@ class Ui_v_addr_dlg(QObject):
     def _display_details(self, event):
         if self.details.isVisible() is True:
             self.details.setVisible(False)
-            self.details_show_img.setPixmap(self._ppic)
+            self.details_show_img.setIcon(QIcon(self._ppic))
         else:
             self.details.setVisible(True)
-            self.details_show_img.setPixmap(self._mpic)
+            self.details_show_img.setIcon(QIcon(self._mpic))

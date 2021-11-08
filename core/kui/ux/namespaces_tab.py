@@ -1,7 +1,7 @@
 import os
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
 from PyQt5.QtCore import QObject
-from PyQt5.QtGui import QPalette
+from PyQt5.QtGui import QIcon, QPalette, QPixmap
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QFrame, QHBoxLayout,
                              QLabel, QSpacerItem, QSizePolicy, QPushButton,
                              QSplitter)
@@ -34,10 +34,10 @@ class Ui_NamespacesTab(QObject):
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_11 = QHBoxLayout()
         __path = os.path.dirname(__file__)
-        _bpic = QtGui.QPixmap(os.path.join(__path, 'assets/clipboard.png'))
+        _bpic = QPixmap(os.path.join(__path, 'assets/clipboard.png'))
         _bpic = _bpic.scaledToWidth(20, _transm_st)
-        self.sel_ns_sc_bvpic = QLabel()
-        self.sel_ns_n_bvpic = QLabel()
+        self.sel_ns_sc_bvpic = QPushButton()
+        self.sel_ns_n_bvpic = QPushButton()
         self.sel_ns = QLabel(self.tabNamespaces)
         self.sel_s = QLabel(self.tabNamespaces)
         self.sel_ns_sc = QLabel(self.tabNamespaces)
@@ -71,12 +71,12 @@ class Ui_NamespacesTab(QObject):
         self.frame_10.setFrameShadow(QFrame.Shadow.Raised)
         self.frame_12.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_12.setFrameShadow(QFrame.Shadow.Raised)
-        self.sel_ns_sc_bvpic.setAlignment(_al_center)
         self.sel_ns_sc_bvpic.setContentsMargins(0, 0, 0, 0)
-        self.sel_ns_sc_bvpic.setPixmap(_bpic)
-        self.sel_ns_n_bvpic.setAlignment(_al_center)
+        self.sel_ns_sc_bvpic.setIcon(QIcon(_bpic))
+        self.sel_ns_sc_bvpic.setFlat(True)
         self.sel_ns_n_bvpic.setContentsMargins(0, 0, 0, 0)
-        self.sel_ns_n_bvpic.setPixmap(_bpic)
+        self.sel_ns_n_bvpic.setIcon(QIcon(_bpic))
+        self.sel_ns_n_bvpic.setFlat(True)
         self.sel_ns_key_tx.setVisible(False)
         self.sel_ns_key_tx_sc.setAlignment(_al_center)
         self.sel_ns_key_tx_sc.setContentsMargins(0, 0, 0, 0)

@@ -1,6 +1,6 @@
 import os
 from PyQt5 import QtCore
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QFrame, QHBoxLayout,
                              QLabel, QSpacerItem, QSizePolicy, QPushButton,
@@ -62,26 +62,26 @@ class Ui_WalletTab(QObject):
         self.hl1 = QHBoxLayout()
         self.hl1a = QHBoxLayout()
         self.lwmnemonic = QLabel(self.frame_info)
-        self.llwmnemonic = QLabel(self.frame_info)
-        self.cpmnemonic = QLabel(self.frame_info)
+        self.llwmnemonic = QPushButton(self.frame_info)
+        self.cpmnemonic = QPushButton(self.frame_info)
         self.wmnemonic = QPlainTextEdit(self.frame_info)
         self.hl2 = QHBoxLayout()
         self.hl2a = QHBoxLayout()
         self.lwseed = QLabel(self.frame_info)
-        self.llwseed = QLabel(self.frame_info)
-        self.cpseed = QLabel(self.frame_info)
+        self.llwseed = QPushButton(self.frame_info)
+        self.cpseed = QPushButton(self.frame_info)
         self.wseed = QPlainTextEdit(self.frame_info)
         self.hl14 = QHBoxLayout()
         self.hl14a = QHBoxLayout()
         self.lxprv = QLabel(self.frame_info)
-        self.llxprv = QLabel(self.frame_info)
-        self.cpxprv = QLabel(self.frame_info)
+        self.llxprv = QPushButton(self.frame_info)
+        self.cpxprv = QPushButton(self.frame_info)
         self.wxprv = QPlainTextEdit(self.frame_info)
         self.hl15 = QHBoxLayout()
         self.hl15a = QHBoxLayout()
         self.lxpub = QLabel(self.frame_info)
-        self.llxpub = QLabel(self.frame_info)
-        self.cpxpub = QLabel(self.frame_info)
+        self.llxpub = QPushButton(self.frame_info)
+        self.cpxpub = QPushButton(self.frame_info)
         self.wxpub = QPlainTextEdit(self.frame_info)
         self.hl3 = QHBoxLayout()
         self.lwcoin = QLabel(self.frame_info)
@@ -141,27 +141,35 @@ class Ui_WalletTab(QObject):
         self.wmnemonic.setMaximumHeight(65)
         self.wmnemonic.setVisible(False)
         self.cpmnemonic.setVisible(False)
-        self.cpmnemonic.setPixmap(self._bpic)
+        self.cpmnemonic.setIcon(QIcon(self._bpic))
+        self.cpmnemonic.setFlat(True)
         self.wmnemonic.setReadOnly(True)
-        self.llwmnemonic.setPixmap(self._ppic)
+        self.llwmnemonic.setIcon(QIcon(self._ppic))
+        self.llwmnemonic.setFlat(True)
         self.wseed.setMaximumHeight(65)
         self.wseed.setVisible(False)
         self.cpseed.setVisible(False)
-        self.cpseed.setPixmap(self._bpic)
+        self.cpseed.setIcon(QIcon(self._bpic))
+        self.cpseed.setFlat(True)
         self.wseed.setReadOnly(True)
-        self.llwseed.setPixmap(self._ppic)
+        self.llwseed.setIcon(QIcon(self._ppic))
+        self.llwseed.setFlat(True)
         self.wxprv.setMaximumHeight(65)
         self.wxprv.setVisible(False)
         self.cpxprv.setVisible(False)
-        self.cpxprv.setPixmap(self._bpic)
+        self.cpxprv.setIcon(QIcon(self._bpic))
+        self.cpxprv.setFlat(True)
         self.wxprv.setReadOnly(True)
-        self.llxprv.setPixmap(self._ppic)
+        self.llxprv.setIcon(QIcon(self._ppic))
+        self.llxprv.setFlat(True)
         self.wxpub.setMaximumHeight(65)
         self.wxpub.setVisible(False)
         self.cpxpub.setVisible(False)
-        self.cpxpub.setPixmap(self._bpic)
+        self.cpxpub.setIcon(QIcon(self._bpic))
+        self.cpxpub.setFlat(True)
         self.wxpub.setReadOnly(True)
-        self.llxpub.setPixmap(self._ppic)
+        self.llxpub.setIcon(QIcon(self._ppic))
+        self.llxpub.setFlat(True)
         self.info_scroll.setWidget(self.frame_info)
         self.info_scroll.setWidgetResizable(True)
         splitter_main.setStretchFactor(1, 1)
@@ -260,10 +268,10 @@ class Ui_WalletTab(QObject):
         self.verticalLayout_3.addWidget(splitter_main)
 
         self.tabWidget_2.setCurrentIndex(0)
-        self.llwmnemonic.mousePressEvent = self._display_mnemonic
-        self.llwseed.mousePressEvent = self._display_seed
-        self.llxprv.mousePressEvent = self._display_xprv
-        self.llxpub.mousePressEvent = self._display_xpub
+        self.llwmnemonic.clicked.connect(self._display_mnemonic)
+        self.llwseed.clicked.connect(self._display_seed)
+        self.llxprv.clicked.connect(self._display_xprv)
+        self.llxpub.clicked.connect(self._display_xpub)
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
@@ -311,41 +319,41 @@ class Ui_WalletTab(QObject):
         if self.wmnemonic.isVisible() is True:
             self.wmnemonic.setVisible(False)
             self.cpmnemonic.setVisible(False)
-            self.llwmnemonic.setPixmap(self._ppic)
+            self.llwmnemonic.setIcon(QIcon(self._ppic))
         else:
             self.wmnemonic.setVisible(True)
             self.cpmnemonic.setVisible(True)
-            self.llwmnemonic.setPixmap(self._mpic)
+            self.llwmnemonic.setIcon(QIcon(self._mpic))
 
     def _display_seed(self, _event):
         if self.wseed.isVisible() is True:
             self.wseed.setVisible(False)
             self.cpseed.setVisible(False)
-            self.llwseed.setPixmap(self._ppic)
+            self.llwseed.setIcon(QIcon(self._ppic))
         else:
             self.wseed.setVisible(True)
             self.cpseed.setVisible(True)
-            self.llwseed.setPixmap(self._mpic)
+            self.llwseed.setIcon(QIcon(self._mpic))
 
     def _display_xprv(self, _event):
         if self.wxprv.isVisible() is True:
             self.wxprv.setVisible(False)
             self.cpxprv.setVisible(False)
-            self.llxprv.setPixmap(self._ppic)
+            self.llxprv.setIcon(QIcon(self._ppic))
         else:
             self.wxprv.setVisible(True)
             self.cpxprv.setVisible(True)
-            self.llxprv.setPixmap(self._mpic)
+            self.llxprv.setIcon(QIcon(self._mpic))
 
     def _display_xpub(self, _event):
         if self.wxpub.isVisible() is True:
             self.wxpub.setVisible(False)
             self.cpxpub.setVisible(False)
-            self.llxpub.setPixmap(self._ppic)
+            self.llxpub.setIcon(QIcon(self._ppic))
         else:
             self.wxpub.setVisible(True)
             self.cpxpub.setVisible(True)
-            self.llxpub.setPixmap(self._mpic)
+            self.llxpub.setIcon(QIcon(self._mpic))
 
     def set_info_values(self, wallet: MWallet):
         self.wname.setText(wallet.name)
@@ -360,7 +368,7 @@ class Ui_WalletTab(QObject):
             self.llwmnemonic.setVisible(True)
             self.wmnemonic.setVisible(False)
             self.cpmnemonic.setVisible(False)
-            self.llwmnemonic.setPixmap(self._ppic)
+            self.llwmnemonic.setIcon(QIcon(self._ppic))
             self.wmnemonic.setPlainText(wallet.mnemonic)
 
         if wallet.seed is None:
@@ -374,7 +382,7 @@ class Ui_WalletTab(QObject):
             self.lwseed.setVisible(True)
             self.wseed.setVisible(False)
             self.cpseed.setVisible(False)
-            self.llwseed.setPixmap(self._ppic)
+            self.llwseed.setIcon(QIcon(self._ppic))
             self.wseed.setPlainText(wallet.seed)
 
         wallet.generate_extended_prv()
@@ -389,7 +397,7 @@ class Ui_WalletTab(QObject):
             self.lxprv.setVisible(True)
             self.wxprv.setVisible(False)
             self.cpxprv.setVisible(False)
-            self.llxprv.setPixmap(self._ppic)
+            self.llxprv.setIcon(QIcon(self._ppic))
             self.wxprv.setPlainText(wallet.extended_prv)
 
         wallet.generate_extended_pub()

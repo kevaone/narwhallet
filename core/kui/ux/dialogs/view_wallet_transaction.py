@@ -1,10 +1,11 @@
 import os
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
 from PyQt5.QtCore import QObject
-from PyQt5.QtWidgets import QDialog
+from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QTabWidget, QWidget, QVBoxLayout, QScrollArea,
                              QLabel, QHBoxLayout, QSpacerItem, QSizePolicy,
-                             QDialogButtonBox, QFrame, QPlainTextEdit)
+                             QDialogButtonBox, QFrame, QPlainTextEdit,
+                             QPushButton, QDialog)
 
 from core.kcl.models.transaction_input import MTransactionInput
 from core.kcl.models.transaction_output import MTransactionOutput
@@ -19,8 +20,8 @@ class Ui_v_tx_dlg(QObject):
         _transm_st = QtCore.Qt.SmoothTransformation
         self.verticalLayout = QVBoxLayout(view_tx_dlg)
         __path = os.path.dirname(__file__)
-        self._ppic = QtGui.QPixmap(os.path.join(__path, '../assets/plus.png'))
-        self._mpic = QtGui.QPixmap(os.path.join(__path, '../assets/minus.png'))
+        self._ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
+        self._mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
         self.tabs = QTabWidget(view_tx_dlg)
         self.details_tab = QWidget(self.tabs)
         self.details_tab_vl = QVBoxLayout(self.details_tab)
@@ -39,7 +40,7 @@ class Ui_v_tx_dlg(QObject):
         self.blockhash_d = QPlainTextEdit(view_tx_dlg)
         self.inputs_show = QHBoxLayout()
         self.inputs_show_label = QLabel(view_tx_dlg)
-        self.inputs_show_img = QLabel(view_tx_dlg)
+        self.inputs_show_img = QPushButton(view_tx_dlg)
         self.inputs_f_wrap = QFrame(view_tx_dlg)
         self.inputs_f_wrap_vl = QVBoxLayout(self.inputs_f_wrap)
         self.inputs = QScrollArea(view_tx_dlg)
@@ -49,7 +50,7 @@ class Ui_v_tx_dlg(QObject):
         self.inputs_show_data = QVBoxLayout()
         self.outputs_show = QHBoxLayout()
         self.outputs_show_label = QLabel(view_tx_dlg)
-        self.outputs_show_img = QLabel(view_tx_dlg)
+        self.outputs_show_img = QPushButton(view_tx_dlg)
         self.outputs_f_wrap = QFrame(view_tx_dlg)
         self.outputs_f_wrap_vl = QVBoxLayout(self.outputs_f_wrap)
         self.outputs_fr = QFrame(view_tx_dlg)
@@ -76,10 +77,12 @@ class Ui_v_tx_dlg(QObject):
         self.blockhash_d.setMaximumHeight(26)
         self.blockhash_d.setReadOnly(True)
         self.blockhash_d.setFrameStyle(QFrame.NoFrame)
-        self.inputs_show_img.setPixmap(self._mpic)
+        self.inputs_show_img.setIcon(QIcon(self._mpic))
+        self.inputs_show_img.setFlat(True)
         self.inputs.setWidgetResizable(True)
         self.inputs_f.setFrameShape(QFrame.NoFrame)
-        self.outputs_show_img.setPixmap(self._mpic)
+        self.outputs_show_img.setIcon(QIcon(self._mpic))
+        self.outputs_show_img.setFlat(True)
         self.outputs_f.setWidgetResizable(True)
         self.outputs_f.setWidget(self.outputs_fr)
         self.outputs_fr.setFrameShape(QFrame.NoFrame)
@@ -132,8 +135,8 @@ class Ui_v_tx_dlg(QObject):
 
         self.retranslateUi(view_tx_dlg)
         self.buttonBox.accepted.connect(view_tx_dlg.accept)
-        self.inputs_show_img.mousePressEvent = self._display_vin
-        self.outputs_show_img.mousePressEvent = self._display_vout
+        self.inputs_show_img.clicked.connect(self._display_vin)
+        self.outputs_show_img.clicked.connect(self._display_vout)
 
     def retranslateUi(self, view_tx_dlg: QDialog):
         _translate = QtCore.QCoreApplication.translate
@@ -156,18 +159,18 @@ class Ui_v_tx_dlg(QObject):
     def _display_vin(self, _event):
         if self.inputs_f_wrap.isVisible() is True:
             self.inputs_f_wrap.setVisible(False)
-            self.inputs_show_img.setPixmap(self._ppic)
+            self.inputs_show_img.setIcon(QIcon(self._ppic))
         else:
             self.inputs_f_wrap.setVisible(True)
-            self.inputs_show_img.setPixmap(self._mpic)
+            self.inputs_show_img.setIcon(QIcon(self._mpic))
 
     def _display_vout(self, _event):
         if self.outputs_f_wrap.isVisible() is True:
             self.outputs_f_wrap.setVisible(False)
-            self.outputs_show_img.setPixmap(self._ppic)
+            self.outputs_show_img.setIcon(QIcon(self._ppic))
         else:
             self.outputs_f_wrap.setVisible(True)
-            self.outputs_show_img.setPixmap(self._mpic)
+            self.outputs_show_img.setIcon(QIcon(self._mpic))
 
 
 class _show_hide_frame(QFrame):
@@ -178,21 +181,24 @@ class _show_hide_frame(QFrame):
         self._vl_0.setContentsMargins(8, 0, 0, 0)
         self.box = _show_hide(kind, index)
         self._vl_0.addLayout(self.box)
-        if kind == 'vin':
-            self._x = _tx_in(inp)
-        else:
-            self._x = _tx_out(inp)
-
+        self._x = self.set_frame_kind(kind, inp)
         self._vl_0.addWidget(self._x)
-        self.box.pic.mousePressEvent = self._display
+        self.box.pic.clicked.connect(self._display)
+
+    @staticmethod
+    def set_frame_kind(kind: str, inp):
+        if kind == 'vin':
+            return _tx_in(inp)
+        else:
+            return _tx_out(inp)
 
     def _display(self, _event):
         if self._x.isVisible() is True:
             self._x.setVisible(False)
-            self.box.pic.setPixmap(self.box.ppic)
+            self.box.pic.setIcon(QIcon(self.box.ppic))
         else:
             self._x.setVisible(True)
-            self.box.pic.setPixmap(self.box.mpic)
+            self.box.pic.setIcon(QIcon(self.box.mpic))
 
 
 class _show_hide(QHBoxLayout):
@@ -203,8 +209,8 @@ class _show_hide(QHBoxLayout):
         _sp_min = QSizePolicy.Minimum
         _transm_st = QtCore.Qt.SmoothTransformation
         __path = os.path.dirname(__file__)
-        self.ppic = QtGui.QPixmap(os.path.join(__path, '../assets/plus.png'))
-        self.mpic = QtGui.QPixmap(os.path.join(__path, '../assets/minus.png'))
+        self.ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
+        self.mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
         self.ppic = self.ppic.scaledToWidth(15, _transm_st)
         self.mpic = self.mpic.scaledToWidth(15, _transm_st)
 
@@ -212,9 +218,10 @@ class _show_hide(QHBoxLayout):
         self.vin.setText(kind + ':')
         self.vin_index = QLabel()
         self.vin_index.setText(str(index))
-        self.pic = QLabel()
+        self.pic = QPushButton()
 
-        self.pic.setPixmap(self.mpic)
+        self.pic.setIcon(QIcon(self.mpic))
+        self.pic.setFlat(True)
         self.addWidget(self.vin)
         self.addWidget(self.vin_index)
         self.addWidget(self.pic)
