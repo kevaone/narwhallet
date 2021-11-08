@@ -1,6 +1,5 @@
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QFrame,
                              QHBoxLayout, QSpacerItem, QSizePolicy,
                              QDialogButtonBox, QPlainTextEdit, QDialog)
@@ -9,38 +8,38 @@ from core.kui.ux.widgets.qr_widget import QRImage
 from core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 
 
-class Ui_v_ab_item_dlg(QObject):
-    def setupUi(self, view_addressbook_item_dialog: QDialog):
+class Ui_v_ab_item_dlg(QDialog):
+    def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _b_ok = QDialogButtonBox.Ok
         _al_center = QtCore.Qt.AlignCenter
 
-        self.verticalLayout = QVBoxLayout(view_addressbook_item_dialog)
-        self.label_1 = QLabel(view_addressbook_item_dialog)
+        self.verticalLayout = QVBoxLayout(self)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
         self.horizontalLayout = QHBoxLayout()
-        self.label = QLabel(view_addressbook_item_dialog)
-        self.comboBox = _coin_dropdown(view_addressbook_item_dialog)
+        self.label = QLabel(self)
+        self.comboBox = _coin_dropdown(self)
         self.horizontalLayout_2 = QHBoxLayout()
-        self.label_2 = QLabel(view_addressbook_item_dialog)
-        self.lineEdit = QLineEdit(view_addressbook_item_dialog)
+        self.label_2 = QLabel(self)
+        self.lineEdit = QLineEdit(self)
         self.horizontalLayout_4 = QHBoxLayout()
-        self.label_4 = QLabel(view_addressbook_item_dialog)
-        self.lineEdit_3 = QPlainTextEdit(view_addressbook_item_dialog)
+        self.label_4 = QLabel(self)
+        self.lineEdit_3 = QPlainTextEdit(self)
         self.horizontalLayout_3 = QHBoxLayout()
-        self.label_3 = QLabel(view_addressbook_item_dialog)
-        self.lineEdit_2 = QLineEdit(view_addressbook_item_dialog)
+        self.label_3 = QLabel(self)
+        self.lineEdit_2 = QLineEdit(self)
         self.qr_hl1 = QHBoxLayout()
-        self.qr_d = QLabel(view_addressbook_item_dialog)
+        self.qr_d = QLabel(self)
         self.qr_hl2 = QHBoxLayout()
-        self.qr_label = QPlainTextEdit(view_addressbook_item_dialog)
+        self.qr_label = QPlainTextEdit(self)
         self.horizontalLayout5 = QHBoxLayout()
-        self.buttonBox = QDialogButtonBox(view_addressbook_item_dialog)
+        self.buttonBox = QDialogButtonBox(self)
 
-        view_addressbook_item_dialog.setObjectName('view_ab_item_dlg')
-        view_addressbook_item_dialog.setMinimumSize(QtCore.QSize(425, 225))
+        self.setObjectName('view_ab_item_dlg')
+        self.setMinimumSize(QtCore.QSize(425, 225))
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
@@ -78,13 +77,13 @@ class Ui_v_ab_item_dlg(QObject):
         self.verticalLayout.addLayout(self.horizontalLayout5)
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(view_addressbook_item_dialog)
+        self.retranslateUi()
 
-        self.buttonBox.accepted.connect(view_addressbook_item_dialog.accept)
+        self.buttonBox.accepted.connect(self.accept)
 
-    def retranslateUi(self, view_ab_dlg: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        view_ab_dlg.setWindowTitle(_translate('view_ab_item_dlg',
+        self.setWindowTitle(_translate('view_ab_item_dlg',
                                               'Narwhallet - Address Book'))
         self.label.setText(_translate('view_ab_item_dlg', 'Coin:'))
         self.label_2.setText(_translate('view_ab_item_dlg', 'Name:'))

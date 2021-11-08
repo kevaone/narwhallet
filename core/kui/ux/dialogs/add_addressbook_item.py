@@ -1,6 +1,5 @@
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
                              QDialogButtonBox)
@@ -11,32 +10,32 @@ from core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 from core.kcl.models.book_address import MBookAddress
 
 
-class Ui_add_ab_item_dlg(QObject):
-    def setupUi(self, add_addressbook_item_dialog: QDialog):
+class Ui_add_ab_item_dlg(QDialog):
+    def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _al_center = QtCore.Qt.AlignCenter
 
-        self.verticalLayout = QVBoxLayout(add_addressbook_item_dialog)
-        self.label_1 = QLabel(add_addressbook_item_dialog)
+        self.verticalLayout = QVBoxLayout(self)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
         self.horizontalLayout = QHBoxLayout()
-        self.label = QLabel(add_addressbook_item_dialog)
-        self.comboBox = _coin_dropdown(add_addressbook_item_dialog)
+        self.label = QLabel(self)
+        self.comboBox = _coin_dropdown(self)
         self.horizontalLayout_2 = QHBoxLayout()
-        self.label_2 = QLabel(add_addressbook_item_dialog)
-        self.lineEdit = QLineEdit(add_addressbook_item_dialog)
+        self.label_2 = QLabel(self)
+        self.lineEdit = QLineEdit(self)
         self.horizontalLayout_4 = QHBoxLayout()
-        self.label_4 = QLabel(add_addressbook_item_dialog)
-        self.lineEdit_3 = QLineEdit(add_addressbook_item_dialog)
+        self.label_4 = QLabel(self)
+        self.lineEdit_3 = QLineEdit(self)
         self.horizontalLayout_3 = QHBoxLayout()
-        self.label_3 = QLabel(add_addressbook_item_dialog)
-        self.lineEdit_2 = QLineEdit(add_addressbook_item_dialog)
-        self.buttonBox = QDialogButtonBox(add_addressbook_item_dialog)
+        self.label_3 = QLabel(self)
+        self.lineEdit_2 = QLineEdit(self)
+        self.buttonBox = QDialogButtonBox(self)
 
-        add_addressbook_item_dialog.setObjectName('add_addrbook')
-        add_addressbook_item_dialog.setMinimumSize(QtCore.QSize(425, 225))
+        self.setObjectName('add_addrbook')
+        self.setMinimumSize(QtCore.QSize(425, 225))
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
@@ -63,7 +62,7 @@ class Ui_add_ab_item_dlg(QObject):
         self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(add_addressbook_item_dialog)
+        self.retranslateUi()
 
         self._init_wallet()
         self.comboBox.currentTextChanged.connect(self._set_coin)
@@ -71,14 +70,13 @@ class Ui_add_ab_item_dlg(QObject):
         self.lineEdit_2.textChanged.connect(self._set_label)
         self.lineEdit_3.textChanged.connect(self._set_address)
 
-        self.buttonBox.accepted.connect(add_addressbook_item_dialog.accept)
-        self.buttonBox.rejected.connect(add_addressbook_item_dialog.reject)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
 
-    def retranslateUi(self, add_addressbook_item_dialog: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        (add_addressbook_item_dialog
-         .setWindowTitle(_translate('add_addrbook',
-                                    'Narwhallet - Add to Address Book')))
+        (self.setWindowTitle(_translate('add_addrbook',
+            'Narwhallet - Add to Address Book')))
         self.label.setText(_translate('add_addrbook', 'Coin:'))
         self.label_2.setText(_translate('add_addrbook', 'Name:'))
         self.label_3.setText(_translate('add_addrbook', 'Label:'))

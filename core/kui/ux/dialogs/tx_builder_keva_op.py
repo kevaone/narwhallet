@@ -1,6 +1,5 @@
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
@@ -14,8 +13,8 @@ from core.kcl.models.wallets import MWallets
 from core.kcl.models.transaction_builder import MTransactionBuilder
 
 
-class Ui_keva_op_send_dlg(QObject):
-    def setupUi(self, keva_op_send_dialog: QDialog):
+class Ui_keva_op_send_dlg(QDialog):
+    def setupUi(self):
         _al_center = QtCore.Qt.AlignCenter
         _bb_br_ar = QDialogButtonBox.ActionRole
         _bb_br_ac = QDialogButtonBox.AcceptRole
@@ -33,46 +32,46 @@ class Ui_keva_op_send_dlg(QObject):
         self.ns_address = None
         self.ns_key = None
         self.ns_value = None
-        self.verticalLayout = QVBoxLayout(keva_op_send_dialog)
+        self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        self.label_1 = QLabel(keva_op_send_dialog)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
         self.wl = QHBoxLayout()
-        self.w_l = QLabel(keva_op_send_dialog)
-        self.w = QComboBox(keva_op_send_dialog)
+        self.w_l = QLabel(self)
+        self.w = QComboBox(self)
         self.skl = QHBoxLayout()
-        self.sk_l = QLabel(keva_op_send_dialog)
-        self.sk = QComboBox(keva_op_send_dialog)
+        self.sk_l = QLabel(self)
+        self.sk = QComboBox(self)
         self.hl = QHBoxLayout()
-        self.key_v_l = QLabel(keva_op_send_dialog)
-        self.key_v = QLineEdit(keva_op_send_dialog)
+        self.key_v_l = QLabel(self)
+        self.key_v = QLineEdit(self)
         self.vhl = QHBoxLayout()
-        self.value_l = QLabel(keva_op_send_dialog)
-        self.value = QPlainTextEdit(keva_op_send_dialog)
-        self.address_book = QComboBox(keva_op_send_dialog)
+        self.value_l = QLabel(self)
+        self.value = QPlainTextEdit(self)
+        self.address_book = QComboBox(self)
         # self.ahl = QHBoxLayout()
         # self.address_l = QLabel(keva_op_send_dialog)
         # self.address = QLineEdit(keva_op_send_dialog)
         self.fee_hl = QHBoxLayout()
-        self.fee_l = QLabel(keva_op_send_dialog)
-        self.fee = QLabel(keva_op_send_dialog)
+        self.fee_l = QLabel(self)
+        self.fee = QLabel(self)
         self.feerate_hl = QHBoxLayout()
-        self.feerate_l = QLabel(keva_op_send_dialog)
-        self.feerate = QLabel(keva_op_send_dialog)
+        self.feerate_l = QLabel(self)
+        self.feerate = QLabel(self)
         self.tx_hl = QHBoxLayout()
-        self.tx_l = QLabel(keva_op_send_dialog)
-        self.txsize_l = QLabel(keva_op_send_dialog)
-        self.txsize = QLabel(keva_op_send_dialog)
-        self.tx = QPlainTextEdit(keva_op_send_dialog)
-        self.next_btn = QPushButton(keva_op_send_dialog)
-        self.back_btn = QPushButton(keva_op_send_dialog)
-        self.cancel_btn = QPushButton(keva_op_send_dialog)
-        self.send_btn = QPushButton(keva_op_send_dialog)
-        self.buttonBox = QDialogButtonBox(keva_op_send_dialog)
+        self.tx_l = QLabel(self)
+        self.txsize_l = QLabel(self)
+        self.txsize = QLabel(self)
+        self.tx = QPlainTextEdit(self)
+        self.next_btn = QPushButton(self)
+        self.back_btn = QPushButton(self)
+        self.cancel_btn = QPushButton(self)
+        self.send_btn = QPushButton(self)
+        self.buttonBox = QDialogButtonBox(self)
 
-        keva_op_send_dialog.setObjectName('keva_op_send_dlg')
-        keva_op_send_dialog.setMinimumSize(QtCore.QSize(475, 350))
+        self.setObjectName('keva_op_send_dlg')
+        self.setMinimumSize(QtCore.QSize(475, 350))
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         # _pic = _pic.scaledToWidth(20, _transm_st)
@@ -139,19 +138,19 @@ class Ui_keva_op_send_dlg(QObject):
         self.verticalLayout.addWidget(self.tx)
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(keva_op_send_dialog)
-        self.buttonBox.accepted.connect(keva_op_send_dialog.accept)
-        self.buttonBox.rejected.connect(keva_op_send_dialog.reject)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
         self.w.currentTextChanged.connect(self.txb_w_changed)
-        self.cancel_btn.clicked.connect(keva_op_send_dialog.reject)
+        self.cancel_btn.clicked.connect(self.reject)
         self.next_btn.clicked.connect(self.txb_build_simple_send)
         self.back_btn.clicked.connect(self.back_click)
         self.value.textChanged.connect(self.check_next)
         self.address_book.currentTextChanged.connect(self.check_next)
 
-    def retranslateUi(self, k_op_dlg: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        k_op_dlg.setWindowTitle(_translate('keva_op_send_dlg',
+        self.setWindowTitle(_translate('keva_op_send_dlg',
                                            'Narwhallet - Create Namespace'))
         self.w_l.setText(_translate('keva_op_send_dlg', 'Wallet:'))
         self.sk_l.setText(_translate('keva_op_send_dlg', 'Special Key:'))

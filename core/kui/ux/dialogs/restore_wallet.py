@@ -1,6 +1,5 @@
 import os
 from PyQt5 import QtCore
-from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QComboBox,
                              QPlainTextEdit, QHBoxLayout, QLineEdit,
@@ -10,41 +9,41 @@ from core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 from core.kcl.models.wallet import MWallet
 
 
-class Ui_restore_wallet_dlg(QObject):
-    def setupUi(self, restore_wallet_dialog: QDialog):
+class Ui_restore_wallet_dlg(QDialog):
+    def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
-        self.verticalLayout = QVBoxLayout(restore_wallet_dialog)
-        self.label_1 = QLabel(restore_wallet_dialog)
+        self.verticalLayout = QVBoxLayout(self)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         _pic = QPixmap(os.path.join(__path, '../assets/narwhal.png'))
         self.horizontalLayout_3 = QHBoxLayout()
-        self.label_4 = QLabel(restore_wallet_dialog)
-        self.lineEdit_2 = QLineEdit(restore_wallet_dialog)
+        self.label_4 = QLabel(self)
+        self.lineEdit_2 = QLineEdit(self)
         self.horizontalLayout = QHBoxLayout()
-        self.label_5 = QLabel(restore_wallet_dialog)
-        self.comboBox1 = QComboBox(restore_wallet_dialog)
-        self.label = QLabel(restore_wallet_dialog)
-        self.comboBox = _coin_dropdown(restore_wallet_dialog)
+        self.label_5 = QLabel(self)
+        self.comboBox1 = QComboBox(self)
+        self.label = QLabel(self)
+        self.comboBox = _coin_dropdown(self)
         self.horizontalLayout_2 = QHBoxLayout()
-        self.plainTextEdit = QPlainTextEdit(restore_wallet_dialog)
+        self.plainTextEdit = QPlainTextEdit(self)
         self._ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
         self._mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
         self.adv_hl = QHBoxLayout()
-        self.adv_label = QLabel(restore_wallet_dialog)
-        self.adv_label_p = QPushButton(restore_wallet_dialog)
-        self.adv_f = QFrame(restore_wallet_dialog)
+        self.adv_label = QLabel(self)
+        self.adv_label_p = QPushButton(self)
+        self.adv_f = QFrame(self)
         self.adv_f_vl = QVBoxLayout(self.adv_f)
-        self.label_2 = QLabel(restore_wallet_dialog)
-        self.lineEdit = QLineEdit(restore_wallet_dialog)
-        self.buttonBox = QDialogButtonBox(restore_wallet_dialog)
-        self.label_3 = QLabel(restore_wallet_dialog)
+        self.label_2 = QLabel(self)
+        self.lineEdit = QLineEdit(self)
+        self.buttonBox = QDialogButtonBox(self)
+        self.label_3 = QLabel(self)
 
-        restore_wallet_dialog.setObjectName('restore_dlg')
-        restore_wallet_dialog.resize(400, 400)
+        self.setObjectName('restore_dlg')
+        self.resize(400, 400)
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
@@ -91,17 +90,17 @@ class Ui_restore_wallet_dlg(QObject):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self._init_wallet()
-        self.retranslateUi(restore_wallet_dialog)
-        self.buttonBox.accepted.connect(restore_wallet_dialog.accept)
-        self.buttonBox.rejected.connect(restore_wallet_dialog.reject)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
         self.lineEdit_2.textChanged.connect(self._set_name)
         self.plainTextEdit.textChanged.connect(self._set_mnemonic)
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
         self.adv_label_p.clicked.connect(self._display_advanced)
 
-    def retranslateUi(self, restore_dlg: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        restore_dlg.setWindowTitle(_translate('restore_dlg',
+        self.setWindowTitle(_translate('restore_dlg',
                                               'Narwhallet - Restore Wallet'))
         self.label_4.setText(_translate('restore_dlg', 'Name:'))
         self.label.setText(_translate('restore_dlg', 'Coin:'))

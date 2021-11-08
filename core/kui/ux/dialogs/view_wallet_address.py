@@ -1,6 +1,5 @@
 import os
 from PyQt5 import QtCore
-from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
@@ -10,8 +9,8 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
 from core.kui.ux.widgets.qr_widget import QRImage
 
 
-class Ui_v_addr_dlg(QObject):
-    def setupUi(self, view_wallet_address_dialog: QDialog):
+class Ui_v_addr_dlg(QDialog):
+    def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _b_ok = QDialogButtonBox.Ok
@@ -19,17 +18,17 @@ class Ui_v_addr_dlg(QObject):
         __path = os.path.dirname(__file__)
         self._ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
         self._mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
-        self.verticalLayout = QVBoxLayout(view_wallet_address_dialog)
+        self.verticalLayout = QVBoxLayout(self)
         self.label_hl = QHBoxLayout()
-        self.label_label = QLabel(view_wallet_address_dialog)
-        self.label_d = QLineEdit(view_wallet_address_dialog)
+        self.label_label = QLabel(self)
+        self.label_d = QLineEdit(self)
         self.address_hl = QHBoxLayout()
-        self.address_label = QLabel(view_wallet_address_dialog)
-        self.address_d = QPlainTextEdit(view_wallet_address_dialog)
+        self.address_label = QLabel(self)
+        self.address_d = QPlainTextEdit(self)
         self.details_show = QHBoxLayout()
-        self.details_show_label = QLabel(view_wallet_address_dialog)
-        self.details_show_img = QPushButton(view_wallet_address_dialog)
-        self.details = QFrame(view_wallet_address_dialog)
+        self.details_show_label = QLabel(self)
+        self.details_show_img = QPushButton(self)
+        self.details = QFrame(self)
         self.details_verticalLayout = QVBoxLayout(self.details)
         self.details_horizontalLayout5 = QHBoxLayout()
         self.details_balance = QLabel(self.details)
@@ -44,14 +43,14 @@ class Ui_v_addr_dlg(QObject):
         self.details_locked = QLabel(self.details)
         self.details_locked_d = QLabel(self.details)
         self.qr_hl1 = QHBoxLayout()
-        self.qr_d = QLabel(view_wallet_address_dialog)
+        self.qr_d = QLabel(self)
         self.qr_hl2 = QHBoxLayout()
-        self.qr_label = QPlainTextEdit(view_wallet_address_dialog)
+        self.qr_label = QPlainTextEdit(self)
         self.horizontalLayout = QHBoxLayout()
-        self.buttonBox = QDialogButtonBox(view_wallet_address_dialog)
+        self.buttonBox = QDialogButtonBox(self)
 
-        view_wallet_address_dialog.setObjectName('waddress_dlg')
-        view_wallet_address_dialog.resize(430, 425)
+        self.setObjectName('waddress_dlg')
+        self.resize(430, 425)
         self._ppic = self._ppic.scaledToWidth(15, _transm_st)
         self._mpic = self._mpic.scaledToWidth(15, _transm_st)
         self.address_d.setMaximumHeight(26)
@@ -99,14 +98,14 @@ class Ui_v_addr_dlg(QObject):
         self.verticalLayout.addItem(QSpacerItem(10, 10, _sp_min, _sp_exp))
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(view_wallet_address_dialog)
-        self.buttonBox.accepted.connect(view_wallet_address_dialog.accept)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
 
         self.details_show_img.clicked.connect(self._display_details)
 
-    def retranslateUi(self, view_waddr_dlg: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        view_waddr_dlg.setWindowTitle(_translate('waddress_dlg',
+        self.setWindowTitle(_translate('waddress_dlg',
                                                  'Narwhallet - Address'))
         self.label_label.setText(_translate('waddress_dlg', 'Label:'))
         self.address_label.setText(_translate('waddress_dlg', 'Address:'))

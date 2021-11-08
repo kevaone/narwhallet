@@ -1,6 +1,5 @@
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QCheckBox, QPushButton,
                              QHBoxLayout, QLineEdit, QSpacerItem,
                              QSizePolicy, QDialogButtonBox)
@@ -9,33 +8,33 @@ from PyQt5.QtWidgets import QDialog
 from core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 
 
-class Ui_add_electrumx_peer_dlg(QObject):
-    def setupUi(self, create_electrumx_peer_dialog: QDialog):
+class Ui_add_electrumx_peer_dlg(QDialog):
+    def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _al_center = QtCore.Qt.AlignCenter
 
-        self.verticalLayout = QVBoxLayout(create_electrumx_peer_dialog)
-        self.label_1 = QLabel(create_electrumx_peer_dialog)
+        self.verticalLayout = QVBoxLayout(self)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
         self.horizontalLayout = QHBoxLayout()
-        self.comboBox = _coin_dropdown(create_electrumx_peer_dialog)
+        self.comboBox = _coin_dropdown(self)
         self.horizontalLayout_2 = QHBoxLayout()
-        self.label_2 = QLabel(create_electrumx_peer_dialog)
-        self.lineEdit = QLineEdit(create_electrumx_peer_dialog)
-        self.label_3 = QLabel(create_electrumx_peer_dialog)
-        self.lineEdit_2 = QLineEdit(create_electrumx_peer_dialog)
+        self.label_2 = QLabel(self)
+        self.lineEdit = QLineEdit(self)
+        self.label_3 = QLabel(self)
+        self.lineEdit_2 = QLineEdit(self)
         self.port_v = QtGui.QIntValidator(self.lineEdit_2)
-        self.checkBox = QCheckBox(create_electrumx_peer_dialog)
+        self.checkBox = QCheckBox(self)
         self.horizontalLayout_3 = QHBoxLayout()
-        self.label_4 = QLabel(create_electrumx_peer_dialog)
-        self.pushButton = QPushButton(create_electrumx_peer_dialog)
-        self.buttonBox = QDialogButtonBox(create_electrumx_peer_dialog)
+        self.label_4 = QLabel(self)
+        self.pushButton = QPushButton(self)
+        self.buttonBox = QDialogButtonBox(self)
 
-        create_electrumx_peer_dialog.setObjectName('create_electrumx_peer_dlg')
-        create_electrumx_peer_dialog.resize(447, 175)
-        create_electrumx_peer_dialog.setMaximumSize(QtCore.QSize(500, 175))
+        self.setObjectName('create_electrumx_peer_dlg')
+        self.resize(447, 175)
+        self.setMaximumSize(QtCore.QSize(500, 175))
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
@@ -63,13 +62,13 @@ class Ui_add_electrumx_peer_dlg(QObject):
         self.verticalLayout.addLayout(self.horizontalLayout_3)
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(create_electrumx_peer_dialog)
-        self.buttonBox.accepted.connect(create_electrumx_peer_dialog.accept)
-        self.buttonBox.rejected.connect(create_electrumx_peer_dialog.reject)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
 
-    def retranslateUi(self, elx_dlg: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        elx_dlg.setWindowTitle(_translate('create_electrumx_peer_dlg',
+        self.setWindowTitle(_translate('create_electrumx_peer_dlg',
                                           'Narwhallet - Add ElectrumX Peer'))
         # self.label.setText(_translate('create_electrumx_peer_dlg', 'Coin:'))
         self.label_2.setText(_translate('create_electrumx_peer_dlg', 'Host:'))

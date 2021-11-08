@@ -1,6 +1,5 @@
 import os
 from PyQt5 import QtCore
-from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QComboBox, QPlainTextEdit,
                              QPushButton, QHBoxLayout, QLineEdit, QSpacerItem,
@@ -9,48 +8,48 @@ from core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 from core.kcl.models.wallet import MWallet
 
 
-class Ui_create_wallet_dlg(QObject):
-    def setupUi(self, create_wallet_dialog: QDialog):
+class Ui_create_wallet_dlg(QDialog):
+    def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
-        self.verticalLayout = QVBoxLayout(create_wallet_dialog)
+        self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_0 = QHBoxLayout()
-        self.label_1 = QLabel(create_wallet_dialog)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         _pic = QPixmap(os.path.join(__path, '../assets/narwhal.png'))
-        self.label_4 = QLabel(create_wallet_dialog)
-        self.lineEdit_2 = QLineEdit(create_wallet_dialog)
+        self.label_4 = QLabel(self)
+        self.lineEdit_2 = QLineEdit(self)
         self.horizontalLayout = QHBoxLayout()
-        self.label_5 = QLabel(create_wallet_dialog)
-        self.comboBox1 = QComboBox(create_wallet_dialog)
-        self.label = QLabel(create_wallet_dialog)
-        self.comboBox = _coin_dropdown(create_wallet_dialog)
-        self.label_6 = QLabel(create_wallet_dialog)
-        self.lineEdit_1 = QLineEdit(create_wallet_dialog)
+        self.label_5 = QLabel(self)
+        self.comboBox1 = QComboBox(self)
+        self.label = QLabel(self)
+        self.comboBox = _coin_dropdown(self)
+        self.label_6 = QLabel(self)
+        self.lineEdit_1 = QLineEdit(self)
         self.horizontalLayout_2 = QHBoxLayout()
-        self.pushButton = QPushButton(create_wallet_dialog)
-        self.plainTextEdit = QPlainTextEdit(create_wallet_dialog)
+        self.pushButton = QPushButton(self)
+        self.plainTextEdit = QPlainTextEdit(self)
         self.horizontalLayout_3 = QHBoxLayout()
         self._ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
         self._mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
         self.adv_hl = QHBoxLayout()
-        self.adv_label = QLabel(create_wallet_dialog)
-        self.adv_label_p = QPushButton(create_wallet_dialog)
-        self.adv_f = QFrame(create_wallet_dialog)
+        self.adv_label = QLabel(self)
+        self.adv_label_p = QPushButton(self)
+        self.adv_f = QFrame(self)
         self.adv_f_vl = QVBoxLayout(self.adv_f)
-        self.label_2 = QLabel(create_wallet_dialog)
-        self.lineEdit = QLineEdit(create_wallet_dialog)
+        self.label_2 = QLabel(self)
+        self.lineEdit = QLineEdit(self)
         self.horizontalLayout_4 = QHBoxLayout()
-        self.label_7 = QLabel(create_wallet_dialog)
-        self.lineEdit1 = QLineEdit(create_wallet_dialog)
-        self.buttonBox = QDialogButtonBox(create_wallet_dialog)
-        self.label_3 = QLabel(create_wallet_dialog)
+        self.label_7 = QLabel(self)
+        self.lineEdit1 = QLineEdit(self)
+        self.buttonBox = QDialogButtonBox(self)
+        self.label_3 = QLabel(self)
 
-        create_wallet_dialog.setObjectName('create_dlg')
-        create_wallet_dialog.resize(400, 475)
+        self.setObjectName('create_dlg')
+        self.resize(400, 475)
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
@@ -108,9 +107,9 @@ class Ui_create_wallet_dlg(QObject):
         self.verticalLayout.addWidget(self.buttonBox)
 
         self._init_wallet()
-        self.retranslateUi(create_wallet_dialog)
-        self.buttonBox.accepted.connect(create_wallet_dialog.accept)
-        self.buttonBox.rejected.connect(create_wallet_dialog.reject)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
         self.pushButton.clicked.connect(self._generate_mnemonic)
         self.lineEdit_2.textChanged.connect(self._set_name)
         self.plainTextEdit.textChanged.connect(self._mnemonic_changed)
@@ -121,9 +120,9 @@ class Ui_create_wallet_dlg(QObject):
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
         self.adv_label_p.clicked.connect(self._display_advanced)
 
-    def retranslateUi(self, create_dlg: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        create_dlg.setWindowTitle(_translate('create_dlg',
+        self.setWindowTitle(_translate('create_dlg',
                                              'Narwhallet - Create Wallet'))
         self.label_4.setText(_translate('create_dlg', 'Name:'))
         self.label_6.setText(_translate('create_dlg', 'PreGen Addresses:'))

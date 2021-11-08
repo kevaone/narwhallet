@@ -1,34 +1,33 @@
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
                              QDialogButtonBox)
 
 
-class Ui_lockbox_dlg(QObject):
-    def setupUi(self, lockbox_dialog: QDialog, mode: int):
+class Ui_lockbox_dlg(QDialog):
+    def setupUi(self, mode: int):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _al_center = QtCore.Qt.AlignCenter
 
         self.mode = mode
-        self.verticalLayout = QVBoxLayout(lockbox_dialog)
+        self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_3 = QHBoxLayout()
-        self.label_1 = QLabel(lockbox_dialog)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
-        self.label_2 = QLabel(lockbox_dialog)
-        self.lineEdit = QLineEdit(lockbox_dialog)
+        self.label_2 = QLabel(self)
+        self.lineEdit = QLineEdit(self)
         if self.mode == 1:
-            self.label_3 = QLabel(lockbox_dialog)
-            self.lineEdit1 = QLineEdit(lockbox_dialog)
-        self.buttonBox = QDialogButtonBox(lockbox_dialog)
+            self.label_3 = QLabel(self)
+            self.lineEdit1 = QLineEdit(self)
+        self.buttonBox = QDialogButtonBox(self)
 
-        lockbox_dialog.setObjectName('lb_dlg')
+        self.setObjectName('lb_dlg')
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
@@ -51,17 +50,17 @@ class Ui_lockbox_dlg(QObject):
         self.verticalLayout.addItem(QSpacerItem(5, 20, _sp_exp, _sp_min))
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(lockbox_dialog)
-        self.buttonBox.accepted.connect(lockbox_dialog.accept)
-        self.buttonBox.rejected.connect(lockbox_dialog.reject)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
 
         if self.mode == 1:
             self.lineEdit.textChanged.connect(self._test_password_match)
             self.lineEdit1.textChanged.connect(self._test_password_match)
 
-    def retranslateUi(self, lockbox_dialog: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        lockbox_dialog.setWindowTitle(_translate('lb_dlg', 'Narwhallet'))
+        self.setWindowTitle(_translate('lb_dlg', 'Narwhallet'))
         self.label_2.setText(_translate('lb_dlg', 'Password:'))
         if self.mode == 1:
             self.label_3.setText(_translate('lb_dlg', 'Confirm:'))

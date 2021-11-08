@@ -1,6 +1,5 @@
 import os
 from PyQt5 import QtCore
-from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QTabWidget, QWidget, QVBoxLayout, QScrollArea,
                              QLabel, QHBoxLayout, QSpacerItem, QSizePolicy,
@@ -11,18 +10,18 @@ from core.kcl.models.transaction_input import MTransactionInput
 from core.kcl.models.transaction_output import MTransactionOutput
 
 
-class Ui_v_tx_dlg(QObject):
-    def setupUi(self, view_tx_dlg: QDialog):
+class Ui_v_tx_dlg(QDialog):
+    def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _sp_minexp = QSizePolicy.MinimumExpanding
         _b_ok = QDialogButtonBox.Ok
         _transm_st = QtCore.Qt.SmoothTransformation
-        self.verticalLayout = QVBoxLayout(view_tx_dlg)
+        self.verticalLayout = QVBoxLayout(self)
         __path = os.path.dirname(__file__)
         self._ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
         self._mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
-        self.tabs = QTabWidget(view_tx_dlg)
+        self.tabs = QTabWidget(self)
         self.details_tab = QWidget(self.tabs)
         self.details_tab_vl = QVBoxLayout(self.details_tab)
         self.hex_tab = QWidget(self.tabs)
@@ -30,42 +29,42 @@ class Ui_v_tx_dlg(QObject):
         self.json_tab = QWidget(self.tabs)
         self.json_tab_vl = QVBoxLayout(self.json_tab)
         self.txid_hl = QHBoxLayout()
-        self.txid_label = QLabel(view_tx_dlg)
-        self.txid_d = QPlainTextEdit(view_tx_dlg)
+        self.txid_label = QLabel(self)
+        self.txid_d = QPlainTextEdit(self)
         self.hash_hl = QHBoxLayout()
-        self.hash_label = QLabel(view_tx_dlg)
-        self.hash_d = QPlainTextEdit(view_tx_dlg)
+        self.hash_label = QLabel(self)
+        self.hash_d = QPlainTextEdit(self)
         self.blockhash_hl = QHBoxLayout()
-        self.blockhash_label = QLabel(view_tx_dlg)
-        self.blockhash_d = QPlainTextEdit(view_tx_dlg)
+        self.blockhash_label = QLabel(self)
+        self.blockhash_d = QPlainTextEdit(self)
         self.inputs_show = QHBoxLayout()
-        self.inputs_show_label = QLabel(view_tx_dlg)
-        self.inputs_show_img = QPushButton(view_tx_dlg)
-        self.inputs_f_wrap = QFrame(view_tx_dlg)
+        self.inputs_show_label = QLabel(self)
+        self.inputs_show_img = QPushButton(self)
+        self.inputs_f_wrap = QFrame(self)
         self.inputs_f_wrap_vl = QVBoxLayout(self.inputs_f_wrap)
-        self.inputs = QScrollArea(view_tx_dlg)
-        self.inputs_f = QFrame(view_tx_dlg)
+        self.inputs = QScrollArea(self)
+        self.inputs_f = QFrame(self)
         self.inputs_verticalLayout = QVBoxLayout(self.inputs_f)
         self.inputs_show_data_h = QHBoxLayout()
         self.inputs_show_data = QVBoxLayout()
         self.outputs_show = QHBoxLayout()
-        self.outputs_show_label = QLabel(view_tx_dlg)
-        self.outputs_show_img = QPushButton(view_tx_dlg)
-        self.outputs_f_wrap = QFrame(view_tx_dlg)
+        self.outputs_show_label = QLabel(self)
+        self.outputs_show_img = QPushButton(self)
+        self.outputs_f_wrap = QFrame(self)
         self.outputs_f_wrap_vl = QVBoxLayout(self.outputs_f_wrap)
-        self.outputs_fr = QFrame(view_tx_dlg)
+        self.outputs_fr = QFrame(self)
         self.outputs_f_verticalLayout = QVBoxLayout(self.outputs_fr)
-        self.outputs_f = QScrollArea(view_tx_dlg)
+        self.outputs_f = QScrollArea(self)
         self.outputs_show_data_h = QHBoxLayout()
         self.outputs_show_data = QVBoxLayout()
         self.hex_hl = QHBoxLayout()
-        self.hex_label = QLabel(view_tx_dlg)
-        self.hex_d = QPlainTextEdit(view_tx_dlg)
-        self.json_d = QPlainTextEdit(view_tx_dlg)
-        self.buttonBox = QDialogButtonBox(view_tx_dlg)
+        self.hex_label = QLabel(self)
+        self.hex_d = QPlainTextEdit(self)
+        self.json_d = QPlainTextEdit(self)
+        self.buttonBox = QDialogButtonBox(self)
 
-        view_tx_dlg.setObjectName('v_tx_dlg')
-        view_tx_dlg.setMinimumSize(QtCore.QSize(690, 550))
+        self.setObjectName('v_tx_dlg')
+        self.setMinimumSize(QtCore.QSize(690, 550))
         self._ppic = self._ppic.scaledToWidth(15, _transm_st)
         self._mpic = self._mpic.scaledToWidth(15, _transm_st)
         self.txid_d.setMaximumHeight(26)
@@ -133,14 +132,14 @@ class Ui_v_tx_dlg(QObject):
         self.json_tab_vl.addWidget(self.json_d)
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(view_tx_dlg)
-        self.buttonBox.accepted.connect(view_tx_dlg.accept)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
         self.inputs_show_img.clicked.connect(self._display_vin)
         self.outputs_show_img.clicked.connect(self._display_vout)
 
-    def retranslateUi(self, view_tx_dlg: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        view_tx_dlg.setWindowTitle(_translate('v_tx_dlg',
+        self.setWindowTitle(_translate('v_tx_dlg',
                                               'Narwhallet - Transaction'))
         self.txid_label.setText(_translate('v_tx_dlg', 'TX:'))
         self.hash_label.setText(_translate('v_tx_dlg', 'Hash:'))

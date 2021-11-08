@@ -1,32 +1,31 @@
 import os
 from PyQt5 import QtCore
-from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox)
 
 
-class Ui_warning_dlg(QObject):
-    def setupUi(self, warning_dialog: QDialog):
+class Ui_warning_dlg(QDialog):
+    def setupUi(self):
         _al_center = QtCore.Qt.AlignCenter
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
 
-        self.verticalLayout = QVBoxLayout(warning_dialog)
+        self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
         self.horizontalLayout_2 = QHBoxLayout()
-        self.label_1 = QLabel(warning_dialog)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         self._pic = QPixmap(os.path.join(__path, '../assets/warning.png'))
         self.error_pic = QPixmap(os.path.join(__path,
                                                '../assets/exclamation.png'))
         self.success_pic = QPixmap(os.path.join(__path,
                                                  '../assets/narwhal.png'))
-        self.label_2 = QLabel(warning_dialog)
-        self.buttonBox = QDialogButtonBox(warning_dialog)
+        self.label_2 = QLabel(self)
+        self.buttonBox = QDialogButtonBox(self)
 
-        warning_dialog.setObjectName('warning_dlg')
+        self.setObjectName('warning_dlg')
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(self._pic)
@@ -43,14 +42,13 @@ class Ui_warning_dlg(QObject):
         self.verticalLayout.addItem(QSpacerItem(5, 20, _sp_exp, _sp_min))
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(warning_dialog)
-        self.buttonBox.accepted.connect(warning_dialog.accept)
-        self.buttonBox.rejected.connect(warning_dialog.reject)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
 
-    def retranslateUi(self, warning_dialog: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        warning_dialog.setWindowTitle(_translate('warning_dlg',
-                                                 'Narwhallet - Warning'))
+        self.setWindowTitle(_translate('warning_dlg', 'Narwhallet - Warning'))
 
     @staticmethod
     def set_buttons():

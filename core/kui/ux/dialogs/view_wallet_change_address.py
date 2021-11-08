@@ -1,27 +1,26 @@
 from PyQt5 import QtCore
-from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import QDialog, QFrame
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
                              QDialogButtonBox, QPlainTextEdit)
 
 
-class Ui_v_change_addr_dlg(QObject):
-    def setupUi(self, view_addr_dlg: QDialog):
+class Ui_v_change_addr_dlg(QDialog):
+    def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _b_ok = QDialogButtonBox.Ok
 
-        self.verticalLayout = QVBoxLayout(view_addr_dlg)
+        self.verticalLayout = QVBoxLayout(self)
         self.label_hl = QHBoxLayout()
-        self.label_label = QLabel(view_addr_dlg)
-        self.label_d = QLineEdit(view_addr_dlg)
+        self.label_label = QLabel(self)
+        self.label_d = QLineEdit(self)
         self.address_hl = QHBoxLayout()
-        self.address_label = QLabel(view_addr_dlg)
-        self.address_d = QPlainTextEdit(view_addr_dlg)
+        self.address_label = QLabel(self)
+        self.address_d = QPlainTextEdit(self)
         self.details_show = QHBoxLayout()
-        self.details_show_label = QLabel(view_addr_dlg)
-        self.details = QFrame(view_addr_dlg)
+        self.details_show_label = QLabel(self)
+        self.details = QFrame(self)
         self.details_verticalLayout = QVBoxLayout(self.details)
         self.details_horizontalLayout5 = QHBoxLayout()
         self.details_balance = QLabel(self.details)
@@ -36,10 +35,10 @@ class Ui_v_change_addr_dlg(QObject):
         self.details_locked = QLabel(self.details)
         self.details_locked_d = QLabel(self.details)
         self.horizontalLayout = QHBoxLayout()
-        self.buttonBox = QDialogButtonBox(view_addr_dlg)
+        self.buttonBox = QDialogButtonBox(self)
 
-        view_addr_dlg.setObjectName('v_change_dlg')
-        view_addr_dlg.resize(430, 225)
+        self.setObjectName('v_change_dlg')
+        self.resize(430, 225)
         self.address_d.setMaximumHeight(26)
         self.address_d.setReadOnly(True)
         self.address_d.setFrameStyle(QFrame.NoFrame)
@@ -73,12 +72,12 @@ class Ui_v_change_addr_dlg(QObject):
         self.verticalLayout.addLayout(self.horizontalLayout)
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(view_addr_dlg)
-        self.buttonBox.accepted.connect(view_addr_dlg.accept)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
 
-    def retranslateUi(self, view_addr_dlg: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        view_addr_dlg.setWindowTitle(_translate('v_change_dlg',
+        self.setWindowTitle(_translate('v_change_dlg',
                                                 'Narwhallet - Change Address'))
         self.label_label.setText(_translate('v_change_dlg', 'Label:'))
         self.label_d.setText(_translate('v_change_dlg', '<set to input tx>'))

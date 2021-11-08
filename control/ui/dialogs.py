@@ -2,7 +2,7 @@ import json
 import os
 import time
 
-from PyQt5.QtWidgets import QDialog, QDialogButtonBox
+from PyQt5.QtWidgets import QDialogButtonBox
 
 from control.narwhallet_settings import MNarwhalletSettings
 from control.shared import MShared
@@ -55,31 +55,30 @@ class MDialogs():
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
 
     def simple_send_dialog(self):
-        _di = QDialog()
-        _di.ui = Ui_simple_send_dlg()
-        _di.ui.setupUi(_di)
-        _di.ui.wallets = self.wallets
-        _di.ui.cache = self.cache
-        _di.ui.kex = self.kex
+        _di = Ui_simple_send_dlg()
+        _di.setupUi()
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
         _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _di.ui.user_path = self.user_path
-        _di.ui.new_tx.set_fee(_fee)
-        _di.ui.feerate.setText(str(_fee))
+        _di.user_path = self.user_path
+        _di.new_tx.set_fee(_fee)
+        _di.feerate.setText(str(_fee))
         for _w in self.wallets.wallets:
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                 # NOTE We don't want wallets to relock while interacting
                 _w.set_updating(True)
-                _di.ui.w.addItem(_w.name+' - '+str(round(_w.balance, 8)),
+                _di.w.addItem(_w.name+' - '+str(round(_w.balance, 8)),
                                  _w.name)
         for _addr in self.address_book.addresses:
             _aa = self.address_book.addresses[_addr].address
             _abi = self.address_book.addresses[_addr].name + ' - ' + _aa
-            _di.ui.address_book.addItem(_abi, _aa)
+            _di.address_book.addItem(_abi, _aa)
         _result = _di.exec_()
 
         for _w in self.wallets.wallets:
@@ -87,33 +86,32 @@ class MDialogs():
                 _w.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
+            _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def create_namespace_send_dialog(self):
-        _di = QDialog()
-        _di.ui = Ui_keva_op_send_dlg()
-        _di.ui.setupUi(_di)
-        _di.ui.wallets = self.wallets
-        _di.ui.cache = self.cache
-        _di.ui.kex = self.kex
+        _di = Ui_keva_op_send_dlg()
+        _di.setupUi()
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
         _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _di.ui.user_path = self.user_path
-        _di.ui.new_tx.set_fee(_fee)
-        _di.ui.feerate.setText(str(_fee))
-        _di.ui.value.setMinimumHeight(28)
-        _di.ui.value.setMaximumHeight(28)
-        _di.ui.key_v.setVisible(False)
-        _di.ui.key_v_l.setVisible(False)
+        _di.user_path = self.user_path
+        _di.new_tx.set_fee(_fee)
+        _di.feerate.setText(str(_fee))
+        _di.value.setMinimumHeight(28)
+        _di.value.setMaximumHeight(28)
+        _di.key_v.setVisible(False)
+        _di.key_v_l.setVisible(False)
         for _w in self.wallets.wallets:
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                 _w.set_updating(True)
-                _di.ui.w.addItem(_w.name + ' - ' + str(round(_w.balance, 8)),
+                _di.w.addItem(_w.name + ' - ' + str(round(_w.balance, 8)),
                                  _w.name)
 
         _result = _di.exec_()
@@ -123,27 +121,26 @@ class MDialogs():
                 _w.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
+            _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def create_namespace_key_send_dialog(self):
-        _di = QDialog()
-        _di.ui = Ui_keva_op_send_dlg()
-        _di.ui.setupUi(_di)
-        _di.ui.wallets = self.wallets
-        _di.ui.cache = self.cache
-        _di.ui.kex = self.kex
+        _di = Ui_keva_op_send_dlg()
+        _di.setupUi()
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
         _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _di.ui.user_path = self.user_path
-        _di.ui.new_tx.set_fee(_fee)
-        _di.ui.feerate.setText(str(_fee))
+        _di.user_path = self.user_path
+        _di.new_tx.set_fee(_fee)
+        _di.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Create Key')
-        _di.ui.value_l.setText('Value: ')
+        _di.value_l.setText('Value: ')
 
         _selection = self.ui.ns_tab.tbl_ns.selectedRanges()
         if len(_selection) == 0:
@@ -156,39 +153,38 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.ui.w.addItem(_w, _w)
-        _di.ui.w.setCurrentIndex(1)
-        _di.ui.w.setEnabled(False)
-        _di.ui.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.ui.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.w.addItem(_w, _w)
+        _di.w.setCurrentIndex(1)
+        _di.w.setEnabled(False)
+        _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
 
-        _di.ui.set_availible_usxo(True)
+        _di.set_availible_usxo(True)
         _result = _di.exec_()
 
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
+            _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def edit_namespace_key_send_dialog(self):
-        _di = QDialog()
-        _di.ui = Ui_keva_op_send_dlg()
-        _di.ui.setupUi(_di)
-        _di.ui.wallets = self.wallets
-        _di.ui.cache = self.cache
-        _di.ui.kex = self.kex
+        _di = Ui_keva_op_send_dlg()
+        _di.setupUi()
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
         _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _di.ui.user_path = self.user_path
-        _di.ui.new_tx.set_fee(_fee)
-        _di.ui.feerate.setText(str(_fee))
+        _di.user_path = self.user_path
+        _di.new_tx.set_fee(_fee)
+        _di.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Edit Key')
-        _di.ui.value_l.setText('Value: ')
+        _di.value_l.setText('Value: ')
 
         _selection = self.ui.ns_tab.tbl_ns.selectedRanges()
         if len(_selection) == 0:
@@ -201,12 +197,12 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.ui.w.addItem(_w, _w)
-        _di.ui.w.setCurrentIndex(1)
-        _di.ui.w.setEnabled(False)
+        _di.w.addItem(_w, _w)
+        _di.w.setCurrentIndex(1)
+        _di.w.setEnabled(False)
 
-        _di.ui.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.ui.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
         _key = self.ui.ns_tab.list_ns_keys.currentItem().text()
         _value = self.ui.ns_tab.ns_tab_text_key_value.toPlainText()
         if _key == '_KEVA_NS_':
@@ -214,21 +210,21 @@ class MDialogs():
             _value = {'displayName': _value}
             _value = json.dumps(_value, separators=(',', ':'))
 
-        _di.ui.ns_key = _key
-        _di.ui.ns_value = _value
-        _di.ui.key_v.setReadOnly(True)
-        _di.ui.value.setReadOnly(True)
+        _di.ns_key = _key
+        _di.ns_value = _value
+        _di.key_v.setReadOnly(True)
+        _di.value.setReadOnly(True)
 
-        _di.ui.set_availible_usxo(True)
-        _di.ui.txb_build_simple_send()
-        _di.ui.next_btn.setVisible(False)
-        _di.ui.back_btn.setVisible(False)
+        _di.set_availible_usxo(True)
+        _di.txb_build_simple_send()
+        _di.next_btn.setVisible(False)
+        _di.back_btn.setVisible(False)
         _result = _di.exec_()
 
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
+            _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
             if isinstance(_bc_result[1], dict):
                 _result = json.dumps(_bc_result[1])
             else:
@@ -236,23 +232,22 @@ class MDialogs():
             _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def delete_namespace_key_send_dialog(self):
-        _di = QDialog()
-        _di.ui = Ui_keva_op_send_dlg()
-        _di.ui.setupUi(_di)
-        _di.ui.wallets = self.wallets
-        _di.ui.cache = self.cache
-        _di.ui.kex = self.kex
+        _di = Ui_keva_op_send_dlg()
+        _di.setupUi()
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
         _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _di.ui.user_path = self.user_path
-        _di.ui.new_tx.set_fee(_fee)
-        _di.ui.feerate.setText(str(_fee))
+        _di.user_path = self.user_path
+        _di.new_tx.set_fee(_fee)
+        _di.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Delete Key')
-        _di.ui.value_l.setText('Value: ')
+        _di.value_l.setText('Value: ')
 
         _selection = self.ui.ns_tab.tbl_ns.selectedRanges()
         if len(_selection) == 0:
@@ -265,44 +260,43 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.ui.w.addItem(_w, _w)
-        _di.ui.w.setCurrentIndex(1)
-        _di.ui.w.setEnabled(False)
+        _di.w.addItem(_w, _w)
+        _di.w.setCurrentIndex(1)
+        _di.w.setEnabled(False)
 
-        _di.ui.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.ui.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ui.ns_key = self.ui.ns_tab.list_ns_keys.currentItem().text()
-        _di.ui.ns_value = ''
+        _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ns_key = self.ui.ns_tab.list_ns_keys.currentItem().text()
+        _di.ns_value = ''
 
-        _di.ui.set_availible_usxo(True)
-        _di.ui.txb_build_simple_send()
-        _di.ui.next_btn.setVisible(False)
-        _di.ui.back_btn.setVisible(False)
+        _di.set_availible_usxo(True)
+        _di.txb_build_simple_send()
+        _di.next_btn.setVisible(False)
+        _di.back_btn.setVisible(False)
         _result = _di.exec_()
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
+            _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def transfer_namespace_send_dialog(self):
-        _di = QDialog()
-        _di.ui = Ui_keva_op_send_dlg()
-        _di.ui.setupUi(_di)
-        _di.ui.wallets = self.wallets
-        _di.ui.cache = self.cache
-        _di.ui.kex = self.kex
+        _di = Ui_keva_op_send_dlg()
+        _di.setupUi()
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
         _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _di.ui.user_path = self.user_path
-        _di.ui.new_tx.set_fee(_fee)
-        _di.ui.feerate.setText(str(_fee))
+        _di.user_path = self.user_path
+        _di.new_tx.set_fee(_fee)
+        _di.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Transfer Namespace')
-        _di.ui.value_l.setText('Value: ')
+        _di.value_l.setText('Value: ')
 
         _selection = self.ui.ns_tab.tbl_ns.selectedRanges()
         if len(_selection) == 0:
@@ -315,58 +309,57 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.ui.w.addItem(_w, _w)
-        _di.ui.w.setCurrentIndex(1)
-        _di.ui.w.setEnabled(False)
+        _di.w.addItem(_w, _w)
+        _di.w.setCurrentIndex(1)
+        _di.w.setEnabled(False)
 
-        _di.ui.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.ui.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ui.set_availible_usxo(True)
+        _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.set_availible_usxo(True)
 
         for _addr in self.address_book.addresses:
             _aa = self.address_book.addresses[_addr].address
             _abi = self.address_book.addresses[_addr].name + ' - '
             _abi = _abi + _aa
-            _di.ui.address_book.addItem(_abi, _aa)
-        _di.ui.address_book.setVisible(True)
+            _di.address_book.addItem(_abi, _aa)
+        _di.address_book.setVisible(True)
 
-        _di.ui.value.setPlainText(str(time.time()))
-        _di.ui.key_v.setText('wxfr')
-        _di.ui.next_btn.setEnabled(False)
-        _di.ui.is_transfer = True
+        _di.value.setPlainText(str(time.time()))
+        _di.key_v.setText('wxfr')
+        _di.next_btn.setEnabled(False)
+        _di.is_transfer = True
         _result = _di.exec_()
 
         _wallet.set_updating(False)
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
+            _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
             _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
 
     def auction_namespace_dialog(self):
-        _di = QDialog()
-        _di.ui = Ui_keva_op_nft_dlg()
-        _di.ui.setupUi(_di)
-        _di.ui.wallets = self.wallets
-        _di.ui.cache = self.cache
-        _di.ui.kex = self.kex
+        _di = Ui_keva_op_nft_dlg()
+        _di.setupUi()
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
         _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
                                     False, 1)
             return
 
-        _di.ui.new_tx.set_fee(_fee)
-        _di.ui.feerate.setText(str(_fee))
+        _di.new_tx.set_fee(_fee)
+        _di.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Create Auction')
 
         for _wallet in self.wallets.wallets:
             if _wallet.kind == 0:
-                _di.ui.combo_wallet.addItem(_wallet.name, _wallet.name)
+                _di.combo_wallet.addItem(_wallet.name, _wallet.name)
 
         _result = _di.exec_()
 
         if _result != 0:
-            _bc_result = MShared.broadcast(_di.ui.raw_tx, self.kex)
+            _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
             # print('_bc_result', type(_bc_result), _bc_result)
             if isinstance(_bc_result[1], dict):
                 _result = json.dumps(_bc_result[1])
@@ -376,14 +369,13 @@ class MDialogs():
 
     @staticmethod
     def add_wallet_watch_address_dialog():
-        _di = QDialog()
-        _di.ui = Ui_add_watch_addr_dlg()
-        _di.ui.setupUi(_di)
+        _di = Ui_add_watch_addr_dlg()
+        _di.setupUi()
         _result = _di.exec_()
 
         if _result != 0:
-            _a = _di.ui.address_d.text()
-            _l = _di.ui.label_d.text()
+            _a = _di.address_d.text()
+            _l = _di.label_d.text()
             if _a == '':
                 _a = None
 
@@ -397,13 +389,12 @@ class MDialogs():
 
     @staticmethod
     def add_wallet_watch_dialog() -> str:
-        _di = QDialog()
-        _di.ui = Ui_add_wallet_watch_dlg()
-        _di.ui.setupUi(_di)
+        _di = Ui_add_wallet_watch_dlg()
+        _di.setupUi()
         _result = _di.exec_()
 
         if _result != 0:
-            _name = _di.ui.name_d.text()
+            _name = _di.name_d.text()
             if _name == '':
                 _name = None
         else:
@@ -413,13 +404,12 @@ class MDialogs():
 
     @staticmethod
     def add_namespace_favorite_dialog():
-        _di = QDialog()
-        _di.ui = Ui_add_ns_fav_dlg()
-        _di.ui.setupUi(_di)
+        _di = Ui_add_ns_fav_dlg()
+        _di.setupUi()
         _result = _di.exec_()
 
         if _result != 0:
-            _shortcode = _di.ui.name_d.text()
+            _shortcode = _di.name_d.text()
             if _shortcode == '':
                 _shortcode = None
         else:
@@ -429,13 +419,12 @@ class MDialogs():
 
     @staticmethod
     def create_wallet_dialog() -> MWallet:
-        _di = QDialog()
-        _di.ui = Ui_create_wallet_dlg()
-        _di.ui.setupUi(_di)
+        _di = Ui_create_wallet_dlg()
+        _di.setupUi()
         _result = _di.exec_()
 
         if _result != 0:
-            _wallet = _di.ui.ret_wallet()
+            _wallet = _di.ret_wallet()
         else:
             _wallet = None
 
@@ -443,13 +432,12 @@ class MDialogs():
 
     @staticmethod
     def restore_wallet_dialog() -> MWallet:
-        _di = QDialog()
-        _di.ui = Ui_restore_wallet_dlg()
-        _di.ui.setupUi(_di)
+        _di = Ui_restore_wallet_dlg()
+        _di.setupUi()
         _result = _di.exec_()
 
         if _result != 0:
-            _wallet = _di.ui.ret_wallet()
+            _wallet = _di.ret_wallet()
         else:
             _wallet = None
 
@@ -459,20 +447,19 @@ class MDialogs():
     def warning_dialog(message, isYesNo, msgType):
         _b_ok = QDialogButtonBox.Ok
         _b_cancel = QDialogButtonBox.Cancel
-        _di = QDialog()
-        _di.ui = Ui_warning_dlg()
-        _di.ui.setupUi(_di)
-        _di.ui.set_message(message)
+        _di = Ui_warning_dlg()
+        _di.setupUi()
+        _di.set_message(message)
         if isYesNo is True:
-            _di.ui.buttonBox.button(_b_ok).setText('Yes')
-            _di.ui.buttonBox.button(_b_cancel).setText('No')
+            _di.buttonBox.button(_b_ok).setText('Yes')
+            _di.buttonBox.button(_b_cancel).setText('No')
 
         if msgType == 1:
-            _di.ui.label_1.setPixmap(_di.ui.error_pic)
-            _di.ui.buttonBox.button(_b_cancel).setVisible(False)
+            _di.label_1.setPixmap(_di.error_pic)
+            _di.buttonBox.button(_b_cancel).setVisible(False)
         elif msgType == 2:
-            _di.ui.label_1.setPixmap(_di.ui.success_pic)
-            _di.ui.buttonBox.button(_b_cancel).setVisible(False)
+            _di.label_1.setPixmap(_di.success_pic)
+            _di.buttonBox.button(_b_cancel).setVisible(False)
 
         _result = _di.exec()
 
@@ -480,20 +467,18 @@ class MDialogs():
 
     @staticmethod
     def lockbox_dialog(mode):
-        _di = QDialog()
-        _di.ui = Ui_lockbox_dlg()
-        _di.ui.setupUi(_di, mode)
+        _di = Ui_lockbox_dlg()
+        _di.setupUi(mode)
 
         _result = _di.exec_()
         _func_call = ''
         if _result != 0:
-            _func_call = _di.ui.ret()
+            _func_call = _di.ret()
 
         return _func_call
 
     def view_wallet_address_dialog(self, row, _column):
-        _di = QDialog()
-        _di.ui = Ui_v_addr_dlg()
+        _di = Ui_v_addr_dlg()
 
         _ws = self.ui.w_tab.tbl_w.selectedRanges()
         # HACK FIX for no wallet selected:
@@ -508,32 +493,31 @@ class MDialogs():
                  .get_address_by_name(self.ui.w_tab.tbl_addr.item(row, 1)
                                       .text()))
         _tmp_label = self.ui.w_tab.tbl_addr.item(row, 5).text()
-        _di.ui.setupUi(_di)
+        _di.setupUi()
 
-        _di.ui.label_d.setText(self.ui.w_tab.tbl_addr.item(row, 5).text())
-        (_di.ui.address_d
+        _di.label_d.setText(self.ui.w_tab.tbl_addr.item(row, 5).text())
+        (_di.address_d
          .setPlainText(self.ui.w_tab.tbl_addr.item(row, 1).text()))
-        (_di.ui.details_received_d
+        (_di.details_received_d
          .setText(self.ui.w_tab.tbl_addr.item(row, 2).text()))
-        (_di.ui.details_sent_d
+        (_di.details_sent_d
          .setText(self.ui.w_tab.tbl_addr.item(row, 3).text()))
-        (_di.ui.details_balance_d
+        (_di.details_balance_d
          .setText(self.ui.w_tab.tbl_addr.item(row, 4).text()))
-        _di.ui.details_locked_d.setText('<todo>')
+        _di.details_locked_d.setText('<todo>')
 
-        _di.ui.set_qr(self.ui.w_tab.tbl_addr.item(row, 1).text())
-        _di.ui.set_qr_uri(self.ui.w_tab.tbl_addr.item(row, 1).text())
+        _di.set_qr(self.ui.w_tab.tbl_addr.item(row, 1).text())
+        _di.set_qr_uri(self.ui.w_tab.tbl_addr.item(row, 1).text())
 
         _result = _di.exec_()
 
         if _result != 0:
-            if _di.ui.label_d.text() != _tmp_label:
-                _addr.set_label(_di.ui.label_d.text())
+            if _di.label_d.text() != _tmp_label:
+                _addr.set_label(_di.label_d.text())
                 self.wallets.save_wallet(_w.name)
 
     def view_wallet_change_address_dialog(self, row, _column):
-        _di = QDialog()
-        _di.ui = Ui_v_change_addr_dlg()
+        _di = Ui_v_change_addr_dlg()
 
         _ws = self.ui.w_tab.tbl_w.selectedRanges()
         # HACK FIX for no wallet selected:
@@ -548,30 +532,29 @@ class MDialogs():
                  .get_address_by_name(self.ui.w_tab.tbl_addr2.item(row, 1)
                                       .text()))
         _tmp_label = self.ui.w_tab.tbl_addr2.item(row, 5).text()
-        _di.ui.setupUi(_di)
+        _di.setupUi()
 
-        _di.ui.label_d.setText(self.ui.w_tab.tbl_addr2.item(row, 5).text())
-        (_di.ui.address_d
+        _di.label_d.setText(self.ui.w_tab.tbl_addr2.item(row, 5).text())
+        (_di.address_d
          .setPlainText(self.ui.w_tab.tbl_addr2.item(row, 1).text()))
-        (_di.ui.details_received_d
+        (_di.details_received_d
          .setText(self.ui.w_tab.tbl_addr2.item(row, 2).text()))
-        (_di.ui.details_sent_d
+        (_di.details_sent_d
          .setText(self.ui.w_tab.tbl_addr2.item(row, 3).text()))
-        (_di.ui.details_balance_d
+        (_di.details_balance_d
          .setText(self.ui.w_tab.tbl_addr2.item(row, 4).text()))
-        _di.ui.details_locked_d.setText('<todo>')
+        _di.details_locked_d.setText('<todo>')
 
         _result = _di.exec_()
 
         if _result != 0:
-            if _di.ui.label_d.text() != _tmp_label:
-                _addr.set_label(_di.ui.label_d.text())
+            if _di.label_d.text() != _tmp_label:
+                _addr.set_label(_di.label_d.text())
                 self.wallets.save_wallet(_w.name)
 
     def view_wallet_transaction_dialog(self, row, _column):
-        _di = QDialog()
-        _di.ui = Ui_v_tx_dlg()
-        _di.ui.setupUi(_di)
+        _di = Ui_v_tx_dlg()
+        _di.setupUi()
 
         _ws = self.ui.w_tab.tbl_w.selectedRanges()
         # HACK FIX for no wallet selected:
@@ -582,18 +565,18 @@ class MDialogs():
 
         _t = self.cache.tx.get_tx_by_txid(_tr)
 
-        _di.ui.txid_d.setPlainText(_t.txid)
-        _di.ui.hash_d.setPlainText(_t.hash)
-        _di.ui.blockhash_d.setPlainText(_t.blockhash)
-        _di.ui.hex_d.setPlainText(_t.hex)
+        _di.txid_d.setPlainText(_t.txid)
+        _di.hash_d.setPlainText(_t.hash)
+        _di.blockhash_d.setPlainText(_t.blockhash)
+        _di.hex_d.setPlainText(_t.hex)
         _t_dict = _t.to_dict()
-        _di.ui.json_d.setPlainText(json.dumps(_t_dict, indent=4))
+        _di.json_d.setPlainText(json.dumps(_t_dict, indent=4))
 
         for c, vin in enumerate(_t.vin):
-            _di.ui.add_vin(c, vin)
+            _di.add_vin(c, vin)
 
         for c, vout in enumerate(_t.vout):
-            _di.ui.add_vout(c, vout)
+            _di.add_vout(c, vout)
 
         _result = _di.exec_()
 
@@ -601,19 +584,18 @@ class MDialogs():
             pass
 
     def add_electrumx_peer_dialog(self):
-        _di = QDialog()
-        _di.ui = Ui_add_electrumx_peer_dlg()
-        _di.ui.setupUi(_di)
+        _di = Ui_add_electrumx_peer_dlg()
+        _di.setupUi()
         _result = _di.exec_()
 
         # TODO: type validate before dialog accept
         # TODO: check for exsistance before addition
         if _result != 0:
             peer = ['', '', 0, False, False]
-            peer[0] = _di.ui.comboBox.currentText()
-            peer[1] = _di.ui.lineEdit.text()
-            peer[2] = _di.ui.lineEdit_2.text()
-            peer[3] = False if _di.ui.checkBox.checkState() == 0 else True
+            peer[0] = _di.comboBox.currentText()
+            peer[1] = _di.lineEdit.text()
+            peer[2] = _di.lineEdit_2.text()
+            peer[3] = False if _di.checkBox.checkState() == 0 else True
 
             _p = {'coin': peer[0],
                   'host': peer[1],
@@ -631,44 +613,42 @@ class MDialogs():
 
     @staticmethod
     def add_addressbook_item_dialog() -> MBookAddress:
-        _di = QDialog()
-        _di.ui = Ui_add_ab_item_dlg()
-        _di.ui.setupUi(_di)
+        _di = Ui_add_ab_item_dlg()
+        _di.setupUi()
         _result = _di.exec_()
 
         if _result != 0:
-            _address = _di.ui.ret_address()
+            _address = _di.ret_address()
         else:
             _address = None
 
         return _address
 
     def view_addressbook_item_dialog(self, row):
-        _di = QDialog()
-        _di.ui = Ui_v_ab_item_dlg()
-        _di.ui.setupUi(_di)
+        _di = Ui_v_ab_item_dlg()
+        _di.setupUi()
 
         _addr = self.ui.ab_tab.tbl_addr.item(row, 3).text()
         _addr_name = self.ui.ab_tab.tbl_addr.item(row, 2).text()
         _addr_label = self.ui.ab_tab.tbl_addr.item(row, 6).text()
-        _di.ui.lineEdit.setText(_addr_name)
-        _di.ui.lineEdit_3.setPlainText(_addr)
-        _di.ui.lineEdit_2.setText(_addr_label)
+        _di.lineEdit.setText(_addr_name)
+        _di.lineEdit_3.setPlainText(_addr)
+        _di.lineEdit_2.setText(_addr_label)
 
-        _di.ui.set_qr(_addr)
-        _di.ui.set_qr_uri(_addr)
+        _di.set_qr(_addr)
+        _di.set_qr_uri(_addr)
         _result = _di.exec_()
 
         if _result != 0:
             _update_table = False
-            if _addr_label != _di.ui.lineEdit_2.text():
+            if _addr_label != _di.lineEdit_2.text():
                 (self.address_book.addresses[_addr]
-                 .set_label(_di.ui.lineEdit_2.text()))
+                 .set_label(_di.lineEdit_2.text()))
                 _update_table = True
 
-            if _addr_name != _di.ui.lineEdit.text():
+            if _addr_name != _di.lineEdit.text():
                 (self.address_book.addresses[_addr]
-                 .set_name(_di.ui.lineEdit.text()))
+                 .set_name(_di.lineEdit.text()))
                 _update_table = True
 
             if _update_table is True:

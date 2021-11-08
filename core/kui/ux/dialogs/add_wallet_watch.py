@@ -1,31 +1,30 @@
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
                              QDialogButtonBox)
 
 
-class Ui_add_wallet_watch_dlg(QObject):
-    def setupUi(self, add_wallet_watch_dialog: QDialog):
+class Ui_add_wallet_watch_dlg(QDialog):
+    def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _al_center = QtCore.Qt.AlignCenter
 
-        self.verticalLayout = QVBoxLayout(add_wallet_watch_dialog)
+        self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        self.label_1 = QLabel(add_wallet_watch_dialog)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
         self.name_hl = QHBoxLayout()
-        self.name_label = QLabel(add_wallet_watch_dialog)
-        self.name_d = QLineEdit(add_wallet_watch_dialog)
+        self.name_label = QLabel(self)
+        self.name_d = QLineEdit(self)
         self.horizontalLayout = QHBoxLayout()
-        self.buttonBox = QDialogButtonBox(add_wallet_watch_dialog)
+        self.buttonBox = QDialogButtonBox(self)
 
-        add_wallet_watch_dialog.setObjectName('add_wallet_watch_dlg')
-        add_wallet_watch_dialog.resize(430, 225)
+        self.setObjectName('add_wallet_watch_dlg')
+        self.resize(430, 225)
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
@@ -45,14 +44,14 @@ class Ui_add_wallet_watch_dlg(QObject):
         self.verticalLayout.addItem(QSpacerItem(10, 10, _sp_min, _sp_exp))
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(add_wallet_watch_dialog)
+        self.retranslateUi()
         self.name_d.textChanged.connect(self._test_name)
-        self.buttonBox.accepted.connect(add_wallet_watch_dialog.accept)
-        self.buttonBox.rejected.connect(add_wallet_watch_dialog.reject)
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
 
-    def retranslateUi(self, addr_dlg: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        addr_dlg.setWindowTitle(_translate('add_wallet_watch_dlg',
+        self.setWindowTitle(_translate('add_wallet_watch_dlg',
                                            'Narwhallet - Watch Only Wallet'))
         self.name_label.setText(_translate('add_wallet_watch_dlg', 'Name:'))
 

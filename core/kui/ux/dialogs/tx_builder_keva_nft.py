@@ -1,7 +1,6 @@
 import json
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
@@ -15,8 +14,8 @@ from core.kcl.models.wallets import MWallets
 from core.kcl.models.transaction_builder import MTransactionBuilder
 
 
-class Ui_keva_op_nft_dlg(QObject):
-    def setupUi(self, keva_op_nft_dialog: QDialog):
+class Ui_keva_op_nft_dlg(QDialog):
+    def setupUi(self):
         _al_center = QtCore.Qt.AlignCenter
         _bb_br_ar = QDialogButtonBox.ActionRole
         _bb_br_ac = QDialogButtonBox.AcceptRole
@@ -29,9 +28,9 @@ class Ui_keva_op_nft_dlg(QObject):
         self.new_tx = MTransactionBuilder()
         self.raw_tx = None
 
-        self.verticalLayout = QVBoxLayout(keva_op_nft_dialog)
+        self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        self.label_1 = QLabel(keva_op_nft_dialog)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
 
@@ -42,40 +41,40 @@ class Ui_keva_op_nft_dlg(QObject):
         self.hl_4 = QHBoxLayout()
         self.hl_5 = QHBoxLayout()
 
-        self.combo_wallet_l = QLabel(keva_op_nft_dialog)
-        self.combo_wallet = QComboBox(keva_op_nft_dialog)
+        self.combo_wallet_l = QLabel(self)
+        self.combo_wallet = QComboBox(self)
 
-        self.combo_ns_l = QLabel(keva_op_nft_dialog)
-        self.combo_ns = QComboBox(keva_op_nft_dialog)
+        self.combo_ns_l = QLabel(self)
+        self.combo_ns = QComboBox(self)
 
-        self.nft_name_l = QLabel(keva_op_nft_dialog)
-        self.nft_name = QLineEdit(keva_op_nft_dialog)
-        self.nft_desc_l = QLabel(keva_op_nft_dialog)
-        self.nft_desc = QLineEdit(keva_op_nft_dialog)
-        self.nft_hashtags_l = QLabel(keva_op_nft_dialog)
-        self.nft_hashtags = QLineEdit(keva_op_nft_dialog)
-        self.nft_price_l = QLabel(keva_op_nft_dialog)
-        self.nft_price = QLineEdit(keva_op_nft_dialog)
+        self.nft_name_l = QLabel(self)
+        self.nft_name = QLineEdit(self)
+        self.nft_desc_l = QLabel(self)
+        self.nft_desc = QLineEdit(self)
+        self.nft_hashtags_l = QLabel(self)
+        self.nft_hashtags = QLineEdit(self)
+        self.nft_price_l = QLabel(self)
+        self.nft_price = QLineEdit(self)
 
         self.fee_hl = QHBoxLayout()
-        self.fee_l = QLabel(keva_op_nft_dialog)
-        self.fee = QLabel(keva_op_nft_dialog)
+        self.fee_l = QLabel(self)
+        self.fee = QLabel(self)
         self.feerate_hl = QHBoxLayout()
-        self.feerate_l = QLabel(keva_op_nft_dialog)
-        self.feerate = QLabel(keva_op_nft_dialog)
+        self.feerate_l = QLabel(self)
+        self.feerate = QLabel(self)
         self.tx_hl = QHBoxLayout()
-        self.tx_l = QLabel(keva_op_nft_dialog)
-        self.txsize_l = QLabel(keva_op_nft_dialog)
-        self.txsize = QLabel(keva_op_nft_dialog)
-        self.tx = QPlainTextEdit(keva_op_nft_dialog)
-        self.next_btn = QPushButton(keva_op_nft_dialog)
-        self.back_btn = QPushButton(keva_op_nft_dialog)
-        self.cancel_btn = QPushButton(keva_op_nft_dialog)
-        self.send_btn = QPushButton(keva_op_nft_dialog)
-        self.buttonBox = QDialogButtonBox(keva_op_nft_dialog)
+        self.tx_l = QLabel(self)
+        self.txsize_l = QLabel(self)
+        self.txsize = QLabel(self)
+        self.tx = QPlainTextEdit(self)
+        self.next_btn = QPushButton(self)
+        self.back_btn = QPushButton(self)
+        self.cancel_btn = QPushButton(self)
+        self.send_btn = QPushButton(self)
+        self.buttonBox = QDialogButtonBox(self)
 
-        keva_op_nft_dialog.setObjectName('keva_op_nft_dlg')
-        keva_op_nft_dialog.setMinimumSize(QtCore.QSize(475, 350))
+        self.setObjectName('keva_op_nft_dlg')
+        self.setMinimumSize(QtCore.QSize(475, 350))
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
@@ -135,12 +134,12 @@ class Ui_keva_op_nft_dlg(QObject):
         self.verticalLayout.addWidget(self.tx)
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(keva_op_nft_dialog)
-        self.buttonBox.accepted.connect(keva_op_nft_dialog.accept)
-        self.buttonBox.rejected.connect(keva_op_nft_dialog.reject)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
         self.combo_wallet.currentTextChanged.connect(self.txb_w_changed)
         self.combo_ns.currentTextChanged.connect(self.txb_ns_changed)
-        self.cancel_btn.clicked.connect(keva_op_nft_dialog.reject)
+        self.cancel_btn.clicked.connect(self.reject)
         self.next_btn.clicked.connect(self.txb_build_simple_send)
         self.back_btn.clicked.connect(self.back_click)
 
@@ -149,9 +148,9 @@ class Ui_keva_op_nft_dlg(QObject):
         self.nft_hashtags.textChanged.connect(self.check_next)
         self.nft_price.textChanged.connect(self.check_next)
 
-    def retranslateUi(self, k_op_dlg: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        k_op_dlg.setWindowTitle(_translate('keva_op_send_dlg',
+        self.setWindowTitle(_translate('keva_op_send_dlg',
                                            'Narwhallet - Create Namespace'))
         self.combo_wallet_l.setText(_translate('keva_op_send_dlg', 'Wallet:'))
         self.combo_ns_l.setText(_translate('keva_op_send_dlg', 'Namespace:'))

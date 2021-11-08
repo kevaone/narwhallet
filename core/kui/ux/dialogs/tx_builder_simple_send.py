@@ -1,6 +1,6 @@
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QObject, QLocale
+from PyQt5.QtCore import QLocale
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
@@ -16,8 +16,8 @@ from core.kcl.models.wallets import MWallets
 from core.kcl.models.transaction_builder import MTransactionBuilder
 
 
-class Ui_simple_send_dlg(QObject):
-    def setupUi(self, simple_send_dialog: QDialog):
+class Ui_simple_send_dlg(QDialog):
+    def setupUi(self):
         _al_center = QtCore.Qt.AlignCenter
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
@@ -30,42 +30,42 @@ class Ui_simple_send_dlg(QObject):
         self.user_path = None
         self.new_tx = MTransactionBuilder()
         self.raw_tx = None
-        self.verticalLayout = QVBoxLayout(simple_send_dialog)
+        self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        self.label_1 = QLabel(simple_send_dialog)
+        self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
         _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
         self.wl = QHBoxLayout()
-        self.w_l = QLabel(simple_send_dialog)
-        self.w = QComboBox(simple_send_dialog)
+        self.w_l = QLabel(self)
+        self.w = QComboBox(self)
         self.hl = QHBoxLayout()
-        self.value_l = QLabel(simple_send_dialog)
-        self.value = QLineEdit(simple_send_dialog)
+        self.value_l = QLabel(self)
+        self.value = QLineEdit(self)
         self.ahl = QHBoxLayout()
-        self.address_l = QLabel(simple_send_dialog)
+        self.address_l = QLabel(self)
         self.ahl_1 = QHBoxLayout()
-        self.address = QLineEdit(simple_send_dialog)
-        self.address_book = QComboBox(simple_send_dialog)
-        self.address_select = QPushButton(simple_send_dialog)
+        self.address = QLineEdit(self)
+        self.address_book = QComboBox(self)
+        self.address_select = QPushButton(self)
         self.fee_hl = QHBoxLayout()
-        self.fee_l = QLabel(simple_send_dialog)
-        self.fee = QLabel(simple_send_dialog)
+        self.fee_l = QLabel(self)
+        self.fee = QLabel(self)
         self.feerate_hl = QHBoxLayout()
-        self.feerate_l = QLabel(simple_send_dialog)
-        self.feerate = QLabel(simple_send_dialog)
+        self.feerate_l = QLabel(self)
+        self.feerate = QLabel(self)
         self.tx_hl = QHBoxLayout()
-        self.tx_l = QLabel(simple_send_dialog)
-        self.txsize_l = QLabel(simple_send_dialog)
-        self.txsize = QLabel(simple_send_dialog)
-        self.tx = QPlainTextEdit(simple_send_dialog)
-        self.next_btn = QPushButton(simple_send_dialog)
-        self.back_btn = QPushButton(simple_send_dialog)
-        self.cancel_btn = QPushButton(simple_send_dialog)
-        self.send_btn = QPushButton(simple_send_dialog)
-        self.buttonBox = QDialogButtonBox(simple_send_dialog)
+        self.tx_l = QLabel(self)
+        self.txsize_l = QLabel(self)
+        self.txsize = QLabel(self)
+        self.tx = QPlainTextEdit(self)
+        self.next_btn = QPushButton(self)
+        self.back_btn = QPushButton(self)
+        self.cancel_btn = QPushButton(self)
+        self.send_btn = QPushButton(self)
+        self.buttonBox = QDialogButtonBox(self)
 
-        simple_send_dialog.setObjectName('send_dlg')
-        simple_send_dialog.setMinimumSize(QtCore.QSize(475, 350))
+        self.setObjectName('send_dlg')
+        self.setMinimumSize(QtCore.QSize(475, 350))
         self.label_1.setAlignment(_al_center)
         self.label_1.setContentsMargins(0, 0, 0, 0)
         # _pic = _pic.scaledToWidth(20, _transm_st)
@@ -124,11 +124,11 @@ class Ui_simple_send_dlg(QObject):
         self.verticalLayout.addWidget(self.tx)
         self.verticalLayout.addWidget(self.buttonBox)
 
-        self.retranslateUi(simple_send_dialog)
-        self.buttonBox.accepted.connect(simple_send_dialog.accept)
-        self.buttonBox.rejected.connect(simple_send_dialog.reject)
+        self.retranslateUi()
+        self.buttonBox.accepted.connect(self.accept)
+        self.buttonBox.rejected.connect(self.reject)
         self.w.currentTextChanged.connect(self.txb_w_changed)
-        self.cancel_btn.clicked.connect(simple_send_dialog.reject)
+        self.cancel_btn.clicked.connect(self.reject)
         self.next_btn.clicked.connect(self.txb_build_simple_send)
         self.back_btn.clicked.connect(self.back_click)
         self.value.textChanged.connect(self.check_next)
@@ -136,10 +136,9 @@ class Ui_simple_send_dlg(QObject):
         self.address_book.currentTextChanged.connect(self.check_next)
         self.address_select.clicked.connect(self.select_swap)
 
-    def retranslateUi(self, simple_send_dialog: QDialog):
+    def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        simple_send_dialog.setWindowTitle(_translate('send_dlg',
-                                                     'Narwhallet - Send'))
+        self.setWindowTitle(_translate('send_dlg', 'Narwhallet - Send'))
         self.w_l.setText(_translate('send_dlg', 'Wallet:'))
         self.value_l.setText(_translate('send_dlg', 'Value: '))
         self.address_l.setText(_translate('send_dlg', 'Send to Address:'))
