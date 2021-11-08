@@ -65,10 +65,12 @@ class _wallets_table(QTableWidget):
         self.horizontalHeaderItem(9).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
 
+    @staticmethod
+    def flags():
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+
     def add_wallet(self, wallet_data: dict):
         _al_center = QtCore.Qt.AlignCenter
-        _if_iis = QtCore.Qt.ItemIsSelectable
-        _if_iie = QtCore.Qt.ItemIsEnabled
         _transm_st = QtCore.Qt.SmoothTransformation
 
         _r = self.rowCount()
@@ -82,15 +84,15 @@ class _wallets_table(QTableWidget):
         _vpic.setContentsMargins(0, 0, 0, 0)
 
         _coin = QTableWidgetItem(wallet_data['coin'])
-        _coin.setFlags(_if_iie | _if_iis)
+        _coin.setFlags(self.flags())
         _coin.setForeground(QtCore.Qt.black)
 
         _name = QTableWidgetItem(wallet_data['name'])
-        _name.setFlags(_if_iie | _if_iis)
+        _name.setFlags(self.flags())
         _name.setForeground(QtCore.Qt.black)
 
         _wtype = QTableWidgetItem(wallet_data['bip'])
-        _wtype.setFlags(_if_iie | _if_iis)
+        _wtype.setFlags(self.flags())
         _wtype.setForeground(QtCore.Qt.black)
 
         _kvpic = QLabel()
@@ -109,12 +111,12 @@ class _wallets_table(QTableWidget):
         _bal = wallet_data['balance'] - wallet_data['bid_balance']
         wallet_data['balance'] = round(_bal, 8)
         _balance = QTableWidgetItem(str(wallet_data['balance']))
-        _balance.setFlags(_if_iie | _if_iis)
+        _balance.setFlags(self.flags())
         _balance.setForeground(QtCore.Qt.black)
 
         wallet_data['bid_balance'] = round(wallet_data['bid_balance'], 8)
         _bid_balance = QTableWidgetItem(str(wallet_data['bid_balance']))
-        _bid_balance.setFlags(_if_iie | _if_iis)
+        _bid_balance.setFlags(self.flags())
         _bid_balance.setForeground(QtCore.Qt.black)
 
         if wallet_data['locked'] is True:
@@ -137,11 +139,11 @@ class _wallets_table(QTableWidget):
                 _upd = MShared.get_timestamp(_time_stamp)[1]
 
         _updated = QTableWidgetItem(_upd)
-        _updated.setFlags(_if_iie | _if_iis)
+        _updated.setFlags(self.flags())
         _updated.setForeground(QtCore.Qt.black)
 
         _synch = QTableWidgetItem('')
-        _synch.setFlags(_if_iie | _if_iis)
+        _synch.setFlags(self.flags())
         _synch.setForeground(QtCore.Qt.black)
 
         self._vupic = animation_label()

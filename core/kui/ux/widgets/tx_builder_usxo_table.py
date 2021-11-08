@@ -33,6 +33,10 @@ class _tx_builder_usxo_table(QTableWidget):
             self.removeRow(_m)
             _m = _m - 1
 
+    @staticmethod
+    def flags():
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsDragEnabled
+
     def add_usxo(self, wallet: str, usxo: list):
         for i in usxo:
             i['wallet'] = wallet
@@ -41,41 +45,37 @@ class _tx_builder_usxo_table(QTableWidget):
         self.resizeColumnsToContents()
 
     def _add_usxo(self, usxo_data: dict):
-        _if_iied = QtCore.Qt.ItemIsEditable
-        _if_iis = QtCore.Qt.ItemIsSelectable
-        _if_iide = QtCore.Qt.ItemIsDragEnabled
-
         _r = self.rowCount()
         self.insertRow(_r)
 
         _wallet = QTableWidgetItem(usxo_data['wallet'])
-        _wallet.setFlags(_if_iied | _if_iis | _if_iide)
+        _wallet.setFlags(self.flags())
         _wallet.setForeground(QtCore.Qt.black)
 
         _address = QTableWidgetItem(str(usxo_data['a']))
-        _address.setFlags(_if_iied | _if_iis | _if_iide)
+        _address.setFlags(self.flags())
         _address.setForeground(QtCore.Qt.black)
 
         _address_index = QTableWidgetItem(str(usxo_data['a_idx'])
                                           + ':' + str(usxo_data['ch']))
-        _address_index.setFlags(_if_iied | _if_iis | _if_iide)
+        _address_index.setFlags(self.flags())
         _address_index.setForeground(QtCore.Qt.black)
 
         _ts_pos = QTableWidgetItem(str(usxo_data['tx_pos']))
-        _ts_pos.setFlags(_if_iied | _if_iis | _if_iide)
+        _ts_pos.setFlags(self.flags())
         _ts_pos.setForeground(QtCore.Qt.black)
 
         _value_dat = int(usxo_data['value']) / 100000000
         _value = QTableWidgetItem(str(_value_dat))
-        _value.setFlags(_if_iied | _if_iis | _if_iide)
+        _value.setFlags(self.flags())
         _value.setForeground(QtCore.Qt.black)
 
         _height = QTableWidgetItem(str(usxo_data['height']))
-        _height.setFlags(_if_iied | _if_iis | _if_iide)
+        _height.setFlags(self.flags())
         _height.setForeground(QtCore.Qt.black)
 
         _tx_hash = QTableWidgetItem(usxo_data['tx_hash'])
-        _tx_hash.setFlags(_if_iied | _if_iis | _if_iide)
+        _tx_hash.setFlags(self.flags())
         _tx_hash.setForeground(QtCore.Qt.black)
 
         # _check = QCheckBox()

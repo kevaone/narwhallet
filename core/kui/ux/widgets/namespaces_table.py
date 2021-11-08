@@ -1,4 +1,5 @@
 import os
+from typing import Union
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from control.shared import MShared
@@ -47,10 +48,12 @@ class _namespaces_table(QTableWidget):
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 
+    @staticmethod
+    def flags():
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+
     def _add_namespace(self, namespace_data: dict):
         _al_center = QtCore.Qt.AlignCenter
-        _if_iis = QtCore.Qt.ItemIsSelectable
-        _if_iie = QtCore.Qt.ItemIsEnabled
         _transm_st = QtCore.Qt.SmoothTransformation
 
         _r = self.rowCount()
@@ -66,27 +69,27 @@ class _namespaces_table(QTableWidget):
 
         _date = (QTableWidgetItem(
             MShared.get_timestamp(namespace_data['date'])[1], 0))
-        _date.setFlags(_if_iie | _if_iis)
+        _date.setFlags(self.flags())
         _date.setForeground(QtCore.Qt.black)
 
         _wallet = QTableWidgetItem(namespace_data['wallet'])
-        _wallet.setFlags(_if_iie | _if_iis)
+        _wallet.setFlags(self.flags())
         _wallet.setForeground(QtCore.Qt.black)
 
         _namespaceid = QTableWidgetItem(namespace_data['namespaceid'])
-        _namespaceid.setFlags(_if_iie | _if_iis)
+        _namespaceid.setFlags(self.flags())
         _namespaceid.setForeground(QtCore.Qt.black)
 
         _shortcode = QTableWidgetItem(str(namespace_data['shortcode']))
-        _shortcode.setFlags(_if_iie | _if_iis)
+        _shortcode.setFlags(self.flags())
         _shortcode.setForeground(QtCore.Qt.black)
 
         _keys = QTableWidgetItem(str(namespace_data['key_count']))
-        _keys.setFlags(_if_iie | _if_iis)
+        _keys.setFlags(self.flags())
         _keys.setForeground(QtCore.Qt.black)
 
         _address = QTableWidgetItem(namespace_data['address'])
-        _address.setFlags(_if_iie | _if_iis)
+        _address.setFlags(self.flags())
         _address.setForeground(QtCore.Qt.black)
 
         _dpic = QtGui.QPixmap(os.path.join(__path, '../assets/transfer.png'))

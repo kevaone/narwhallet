@@ -37,15 +37,15 @@ class _bids_table(QTableWidget):
         self.setColumnHidden(10, True)
 
     @staticmethod
-    def _create_table_item(text):
-        _if_iied = QtCore.Qt.ItemIsEditable
-        _if_iis = QtCore.Qt.ItemIsSelectable
-        _if_iide = QtCore.Qt.ItemIsDragEnabled
+    def flags():
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsDragEnabled
 
+    @staticmethod
+    def _create_table_item(text):
         if not isinstance(text, str):
             text = str(text)
         _item = QTableWidgetItem(text)
-        _item.setFlags(_if_iied | _if_iis | _if_iide)
+        _item.setFlags(_bids_table.flags())
         _item.setForeground(QtCore.Qt.black)
 
         return _item

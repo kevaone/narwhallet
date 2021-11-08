@@ -51,11 +51,12 @@ class _address_book_table(QTableWidget):
         self.resizeColumnsToContents()
         self.setColumnWidth(7, 20)
 
+    @staticmethod
+    def flags():
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsDragEnabled
+
     def add_bookaddress(self, book_address: dict):
         _al_center = QtCore.Qt.AlignCenter
-        _if_iis = QtCore.Qt.ItemIsSelectable
-        _if_iied = QtCore.Qt.ItemIsEditable
-        _if_iide = QtCore.Qt.ItemIsDragEnabled
         _transm_st = QtCore.Qt.SmoothTransformation
 
         _r = self.rowCount()
@@ -77,27 +78,27 @@ class _address_book_table(QTableWidget):
         _bvpic.setContentsMargins(0, 0, 0, 0)
 
         _coin = QTableWidgetItem(book_address['coin'])
-        _coin.setFlags(_if_iied | _if_iis | _if_iide)
+        _coin.setFlags(self.flags())
         _coin.setForeground(QtCore.Qt.black)
 
         _name = QTableWidgetItem(book_address['name'])
-        _name.setFlags(_if_iied | _if_iis | _if_iide)
+        _name.setFlags(self.flags())
         _name.setForeground(QtCore.Qt.black)
 
         _address = QTableWidgetItem(book_address['address'])
-        _address.setFlags(_if_iied | _if_iis | _if_iide)
+        _address.setFlags(self.flags())
         _address.setForeground(QtCore.Qt.black)
 
         _sent = self.test_param(book_address, 'sent', '0.0')
-        _sent.setFlags(_if_iied | _if_iis | _if_iide)
+        _sent.setFlags(self.flags())
         _sent.setForeground(QtCore.Qt.black)
 
         _received = self.test_param(book_address, 'received', '0.0')
-        _received.setFlags(_if_iied | _if_iis | _if_iide)
+        _received.setFlags(self.flags())
         _received.setForeground(QtCore.Qt.black)
 
         _label = QTableWidgetItem(book_address['label'])
-        _label.setFlags(_if_iied | _if_iis | _if_iide)
+        _label.setFlags(self.flags())
         _label.setForeground(QtCore.Qt.black)
 
         _pic = QtGui.QPixmap(os.path.join(__path, '../assets/trashcan.png'))

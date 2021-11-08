@@ -56,22 +56,22 @@ class _wallets_addr_tbl(QTableWidget):
         for i in range(0, self.rowCount()):
             self.clear_row(i)
 
-        for c, i in enumerate(addresses_data):
-            self.add_address(c, i)
+        for c, dat in enumerate(addresses_data):
+            self.add_address(c, dat)
 
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 
     @staticmethod
-    def _create_table_item(text):
-        _if_iied = QtCore.Qt.ItemIsEditable
-        _if_iis = QtCore.Qt.ItemIsSelectable
-        _if_iide = QtCore.Qt.ItemIsDragEnabled
+    def flags():
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsDragEnabled
 
+    @staticmethod
+    def _create_table_item(text):
         if not isinstance(text, str):
             text = str(text)
         _item = QTableWidgetItem(text)
-        _item.setFlags(_if_iied | _if_iis | _if_iide)
+        _item.setFlags(_wallets_addr_tbl.flags())
         _item.setForeground(QtCore.Qt.black)
 
         return _item

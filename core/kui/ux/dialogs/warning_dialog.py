@@ -12,8 +12,6 @@ class Ui_warning_dlg(QObject):
         _al_center = QtCore.Qt.AlignCenter
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        _b_ok = QDialogButtonBox.Ok
-        _b_cancel = QDialogButtonBox.Cancel
 
         self.verticalLayout = QVBoxLayout(warning_dialog)
         self.horizontalLayout_1 = QHBoxLayout()
@@ -33,7 +31,7 @@ class Ui_warning_dlg(QObject):
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(self._pic)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(_b_cancel | _b_ok)
+        self.buttonBox.setStandardButtons(self.set_buttons())
 
         self.horizontalLayout_1.addWidget(self.label_1)
         self.verticalLayout.addLayout(self.horizontalLayout_1)
@@ -53,6 +51,10 @@ class Ui_warning_dlg(QObject):
         _translate = QtCore.QCoreApplication.translate
         warning_dialog.setWindowTitle(_translate('warning_dlg',
                                                  'Narwhallet - Warning'))
+
+    @staticmethod
+    def set_buttons():
+        return QDialogButtonBox.Ok | QDialogButtonBox.Cancel
 
     def set_message(self, message):
         _translate = QtCore.QCoreApplication.translate

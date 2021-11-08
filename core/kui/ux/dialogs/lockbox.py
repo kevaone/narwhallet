@@ -11,8 +11,6 @@ class Ui_lockbox_dlg(QObject):
     def setupUi(self, lockbox_dialog: QDialog, mode: int):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        _b_ok = QDialogButtonBox.Ok
-        _b_cancel = QDialogButtonBox.Cancel
         _al_center = QtCore.Qt.AlignCenter
 
         self.mode = mode
@@ -38,7 +36,7 @@ class Ui_lockbox_dlg(QObject):
         if self.mode == 1:
             self.lineEdit1.setEchoMode(QLineEdit.Password)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(_b_cancel | _b_ok)
+        self.buttonBox.setStandardButtons(self.set_buttons())
 
         self.horizontalLayout_1.addWidget(self.label_1)
         self.verticalLayout.addLayout(self.horizontalLayout_1)
@@ -67,6 +65,10 @@ class Ui_lockbox_dlg(QObject):
         self.label_2.setText(_translate('lb_dlg', 'Password:'))
         if self.mode == 1:
             self.label_3.setText(_translate('lb_dlg', 'Confirm:'))
+
+    @staticmethod
+    def set_buttons():
+        return QDialogButtonBox.Ok | QDialogButtonBox.Cancel
 
     def ret(self):
         return self.lineEdit.text()

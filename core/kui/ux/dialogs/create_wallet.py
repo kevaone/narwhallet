@@ -13,8 +13,6 @@ class Ui_create_wallet_dlg(QObject):
     def setupUi(self, create_wallet_dialog: QDialog):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        _b_ok = QDialogButtonBox.Ok
-        _b_cancel = QDialogButtonBox.Cancel
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
@@ -77,7 +75,7 @@ class Ui_create_wallet_dlg(QObject):
         self.lineEdit.setEchoMode(QLineEdit.Password)
         self.lineEdit1.setEchoMode(QLineEdit.Password)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(_b_cancel | _b_ok)
+        self.buttonBox.setStandardButtons(self.set_buttons())
 
         self.verticalLayout.addWidget(self.label_1)
         self.verticalLayout.addItem(QSpacerItem(5, 20, _sp_exp, _sp_min))
@@ -119,7 +117,7 @@ class Ui_create_wallet_dlg(QObject):
         self.lineEdit1.textChanged.connect(self._test_password_match)
         self.comboBox.currentTextChanged.connect(self._set_coin)
         self.comboBox1.currentTextChanged.connect(self.set_wallet_type)
-        self.buttonBox.button(_b_ok).setEnabled(False)
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
         self.adv_label_p.mousePressEvent = self._display_advanced
 
     def retranslateUi(self, create_dlg: QDialog):
@@ -136,6 +134,10 @@ class Ui_create_wallet_dlg(QObject):
         self.adv_label.setText(_translate('create_dlg', 'Advanced'))
         self.label_3.setText(_translate('create_dlg',
                                         '* = Optional Mnemonic Seed Password'))
+
+    @staticmethod
+    def set_buttons():
+        return QDialogButtonBox.Ok | QDialogButtonBox.Cancel
 
     def _init_wallet(self):
         self._w = MWallet()

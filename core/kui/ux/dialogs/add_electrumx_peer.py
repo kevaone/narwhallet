@@ -13,8 +13,6 @@ class Ui_add_electrumx_peer_dlg(QObject):
     def setupUi(self, create_electrumx_peer_dialog: QDialog):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        _b_ok = QDialogButtonBox.Ok
-        _b_cancel = QDialogButtonBox.Cancel
         _al_center = QtCore.Qt.AlignCenter
 
         self.verticalLayout = QVBoxLayout(create_electrumx_peer_dialog)
@@ -47,7 +45,7 @@ class Ui_add_electrumx_peer_dlg(QObject):
         self.label_4.setMinimumSize(QtCore.QSize(325, 0))
         self.label_4.setText('')
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(_b_cancel | _b_ok)
+        self.buttonBox.setStandardButtons(self.set_buttons())
 
         self.verticalLayout.addWidget(self.label_1)
         self.verticalLayout.addItem(QSpacerItem(5, 20, _sp_exp, _sp_min))
@@ -79,3 +77,7 @@ class Ui_add_electrumx_peer_dlg(QObject):
         self.checkBox.setText(_translate('create_electrumx_peer_dlg', 'TLS'))
         self.pushButton.setText(_translate('create_electrumx_peer_dlg',
                                            'Test'))
+
+    @staticmethod
+    def set_buttons():
+        return QDialogButtonBox.Ok | QDialogButtonBox.Cancel

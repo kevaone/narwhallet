@@ -13,8 +13,6 @@ class Ui_add_watch_addr_dlg(QObject):
     def setupUi(self, add_wallet_watch_address_dialog: QDialog):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        _b_ok = QDialogButtonBox.Ok
-        _b_cancel = QDialogButtonBox.Cancel
         _al_center = QtCore.Qt.AlignCenter
 
         self.verticalLayout = QVBoxLayout(add_wallet_watch_address_dialog)
@@ -37,8 +35,8 @@ class Ui_add_watch_addr_dlg(QObject):
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(_b_cancel | _b_ok)
-        self.buttonBox.button(_b_ok).setEnabled(False)
+        self.buttonBox.setStandardButtons(self.set_buttons())
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
 
         self.horizontalLayout_1.addWidget(self.label_1)
         self.verticalLayout.addLayout(self.horizontalLayout_1)
@@ -65,6 +63,10 @@ class Ui_add_watch_addr_dlg(QObject):
                                            'Narwhallet - Address'))
         self.label_label.setText(_translate('a_watch_add_dlg', 'Label:'))
         self.address_label.setText(_translate('a_watch_add_dlg', 'Address:'))
+
+    @staticmethod
+    def set_buttons():
+        return QDialogButtonBox.Ok | QDialogButtonBox.Cancel
 
     def _set_address(self):
         try:

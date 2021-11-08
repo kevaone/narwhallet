@@ -30,37 +30,38 @@ class _tx_builder_inputs_table(QTableWidget):
             self.removeRow(_m)
             _m = _m - 1
 
+    @staticmethod
+    def flags():
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsDragEnabled
+
     def add_input(self, value: float, address: str, tx_hash: str, n: int,
                   script: str):
-        _if_iis = QtCore.Qt.ItemIsSelectable
-        _if_iide = QtCore.Qt.ItemIsDragEnabled
-        _if_iied = QtCore.Qt.ItemIsEditable
 
         _r = self.rowCount()
         self.insertRow(_r)
 
         _value = QTableWidgetItem(str(value))
-        _value.setFlags(_if_iied | _if_iis | _if_iide)
+        _value.setFlags(self.flags())
         _value.setForeground(QtCore.Qt.black)
 
         _address = QTableWidgetItem(address)
-        _address.setFlags(_if_iied | _if_iis | _if_iide)
+        _address.setFlags(self.flags())
         _address.setForeground(QtCore.Qt.black)
 
         _n = QTableWidgetItem(str(n))
-        _n.setFlags(_if_iied | _if_iis | _if_iide)
+        _n.setFlags(self.flags())
         _n.setForeground(QtCore.Qt.black)
 
         _tx_hash = QTableWidgetItem(tx_hash)
-        _tx_hash.setFlags(_if_iied | _if_iis | _if_iide)
+        _tx_hash.setFlags(self.flags())
         _tx_hash.setForeground(QtCore.Qt.black)
 
         _script = QTableWidgetItem(script)
-        _script.setFlags(_if_iied | _if_iis | _if_iide)
+        _script.setFlags(self.flags())
         _script.setForeground(QtCore.Qt.black)
 
         _sequence = QTableWidgetItem('ffffffff')
-        _sequence.setFlags(_if_iied | _if_iis | _if_iide)
+        _sequence.setFlags(self.flags())
         _sequence.setForeground(QtCore.Qt.black)
 
         self.setItem(_r, 0, QTableWidgetItem(_value))

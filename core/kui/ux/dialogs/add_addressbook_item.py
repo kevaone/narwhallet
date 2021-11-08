@@ -15,8 +15,6 @@ class Ui_add_ab_item_dlg(QObject):
     def setupUi(self, add_addressbook_item_dialog: QDialog):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        _b_ok = QDialogButtonBox.Ok
-        _b_cancel = QDialogButtonBox.Cancel
         _al_center = QtCore.Qt.AlignCenter
 
         self.verticalLayout = QVBoxLayout(add_addressbook_item_dialog)
@@ -46,8 +44,8 @@ class Ui_add_ab_item_dlg(QObject):
         self.comboBox.setCurrentText('Kevacoin')
         self.comboBox.setVisible(False)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.setStandardButtons(_b_cancel | _b_ok)
-        self.buttonBox.button(_b_ok).setEnabled(False)
+        self.buttonBox.setStandardButtons(self.set_buttons())
+        self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
 
         self.verticalLayout.addWidget(self.label_1)
         self.verticalLayout.addItem(QSpacerItem(5, 20, _sp_exp, _sp_min))
@@ -85,6 +83,10 @@ class Ui_add_ab_item_dlg(QObject):
         self.label_2.setText(_translate('add_addrbook', 'Name:'))
         self.label_3.setText(_translate('add_addrbook', 'Label:'))
         self.label_4.setText(_translate('add_addrbook', 'Address:'))
+
+    @staticmethod
+    def set_buttons():
+        return QDialogButtonBox.Ok | QDialogButtonBox.Cancel
 
     def _init_wallet(self):
         self._a = MBookAddress()

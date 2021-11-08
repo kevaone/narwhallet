@@ -36,38 +36,38 @@ class _transaction_table(QTableWidget):
         self.item(row, 4).setText('')
         self.item(row, 5).setText('')
 
+    @staticmethod
+    def flags():
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsDragEnabled
+
     def add_transactions(self, transactions: list):
         for i in range(0, self.rowCount()):
             self.clear_row(i)
 
-        for c, i in enumerate(transactions):
-            i['amount'] = round(i['amount'], 8)
-            if i['amount'] > 0:
-                i['<->'] = 'Receive'
+        for c, dat in enumerate(transactions):
+            dat['amount'] = round(dat['amount'], 8)
+            if dat['amount'] > 0:
+                dat['<->'] = 'Receive'
             else:
-                i['<->'] = 'Send'
+                dat['<->'] = 'Send'
 
-            if i['blockhash'] is None:
-                i['<->'] = 'Pending - ' + i['<->']
-            elif i['confirmations'] < 6:
-                _confirming = ('Confirming -' + str(i['confirmations']))
-                i['<->'] = (_confirming + ' - ' + i['<->'])
+            if dat['blockhash'] is None:
+                dat['<->'] = 'Pending - ' + dat['<->']
+            elif dat['confirmations'] < 6:
+                _confirming = ('Confirming -' + str(dat['confirmations']))
+                dat['<->'] = (_confirming + ' - ' + dat['<->'])
 
-            self._add_transaction(c, i)
+            self._add_transaction(c, dat)
 
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 
     @staticmethod
     def _create_table_item(text):
-        _if_iied = QtCore.Qt.ItemIsEditable
-        _if_iis = QtCore.Qt.ItemIsSelectable
-        _if_iide = QtCore.Qt.ItemIsDragEnabled
-
         if not isinstance(text, str):
             text = str(text)
         _item = QTableWidgetItem(text)
-        _item.setFlags(_if_iied | _if_iis | _if_iide)
+        _item.setFlags(_transaction_table.flags())
         _item.setForeground(QtCore.Qt.black)
 
         return _item
