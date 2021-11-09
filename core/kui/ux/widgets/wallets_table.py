@@ -66,22 +66,39 @@ class _wallets_table(QTableWidget):
         self.horizontalHeader().setMinimumSectionSize(25)
 
     @staticmethod
+    def _create_table_item_graphic(pic: int):
+        _al_center = QtCore.Qt.AlignCenter
+        _transm_st = QtCore.Qt.SmoothTransformation
+        __path = os.path.dirname(__file__)
+        if pic == 0:
+            _p = QPixmap(os.path.join(__path, '../assets/keva-logo.png'))
+        elif pic == 1:
+            _p = QPixmap(os.path.join(__path, '../assets/star.png'))
+        elif pic == 2:
+            _p = QPixmap(os.path.join(__path, '../assets/medal2.png'))
+        elif pic == 3:
+            _p = QPixmap(os.path.join(__path, '../assets/locked.png'))
+        elif pic == 4:
+            _p = QPixmap(os.path.join(__path, '../assets/unlocked.png'))
+
+        _p = _p.scaledToWidth(20, _transm_st)
+
+        _vpic = QLabel()
+        _vpic.setPixmap(_p)
+        _vpic.setAlignment(_al_center)
+        _vpic.setContentsMargins(0, 0, 0, 0)
+
+        return _vpic
+
+    @staticmethod
     def flags():
         return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
     def add_wallet(self, wallet_data: dict):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
-
         _r = self.rowCount()
         self.insertRow(_r)
-        __path = os.path.dirname(__file__)
-        _pic = QPixmap(os.path.join(__path, '../assets/keva-logo.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
-        _vpic = QLabel()
-        _vpic.setPixmap(_pic)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
+
+        _vpic = self._create_table_item_graphic(0)
 
         _coin = QTableWidgetItem(wallet_data['coin'])
         _coin.setFlags(self.flags())
@@ -96,17 +113,14 @@ class _wallets_table(QTableWidget):
         _wtype.setForeground(QtCore.Qt.black)
 
         _kvpic = QLabel()
-        _kvpic.setAlignment(_al_center)
-        _kvpic.setContentsMargins(0, 0, 0, 0)
+
         if wallet_data['kind'] != 0:
             if wallet_data['kind'] == 1:
-                _kpic = QPixmap(os.path.join(__path, '../assets/star.png'))
+                _kvpic = self._create_table_item_graphic(1)
             elif wallet_data['kind'] == 2:
-                _kpic = QPixmap(os.path.join(__path, '../assets/medal2.png'))
+                _kvpic = self._create_table_item_graphic(2)
             elif wallet_data['kind'] == 3:
-                _kpic = QPixmap(os.path.join(__path, '../assets/star.png'))
-            _kpic = _kpic.scaledToWidth(20, _transm_st)
-            _kvpic.setPixmap(_kpic)
+                _kvpic = self._create_table_item_graphic(1)
 
         _bal = wallet_data['balance'] - wallet_data['bid_balance']
         wallet_data['balance'] = round(_bal, 8)
@@ -120,23 +134,18 @@ class _wallets_table(QTableWidget):
         _bid_balance.setForeground(QtCore.Qt.black)
 
         if wallet_data['locked'] is True:
-            _lpic = QPixmap(os.path.join(__path, '../assets/locked.png'))
+            _lvpic = self._create_table_item_graphic(3)
         else:
-            _lpic = QPixmap(os.path.join(__path, '../assets/unlocked.png'))
-        _lpic = _lpic.scaledToWidth(20, _transm_st)
-        _lvpic = QLabel()
-        _lvpic.setAlignment(_al_center)
-        _lvpic.setContentsMargins(0, 0, 0, 0)
+            _lvpic = self._create_table_item_graphic(4)
 
-        if wallet_data['state_lock'] != 0:
-            _lvpic.setPixmap(_lpic)
+        # if wallet_data['state_lock'] != 0:
+        #    _lvpic.setPixmap(_lpic)
 
         _upd = '-'
 
         if 'last_updated' in wallet_data:
             if wallet_data['last_updated'] is not None:
-                _time_stamp = wallet_data['last_updated']
-                _upd = MShared.get_timestamp(_time_stamp)[1]
+                _upd = MShared.get_timestamp(wallet_data['last_updated'])[1]
 
         _updated = QTableWidgetItem(_upd)
         _updated.setFlags(self.flags())
@@ -162,29 +171,18 @@ class _wallets_table(QTableWidget):
         self.resizeColumnsToContents()
 
     def update_wallet(self, _w: MWallet, row: int):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
-        __path = os.path.dirname(__file__)
         if _w.locked is True:
-            _lpic = QPixmap(os.path.join(__path, '../assets/locked.png'))
+            _lvpic = self._create_table_item_graphic(3)
         else:
-            _lpic = QPixmap(os.path.join(__path, '../assets/unlocked.png'))
-        _lpic = _lpic.scaledToWidth(20, _transm_st)
-        _lvpic = QLabel()
-        _lvpic.setPixmap(_lpic)
-        _lvpic.setAlignment(_al_center)
-        _lvpic.setContentsMargins(0, 0, 0, 0)
+            _lvpic = self._create_table_item_graphic(4)
 
         _kvpic = QLabel()
-        _kvpic.setAlignment(_al_center)
-        _kvpic.setContentsMargins(0, 0, 0, 0)
+
         if _w.kind != 0 and _w.kind is not None:
             if _w.kind == 1:
-                _kpic = QPixmap(os.path.join(__path, '../assets/star.png'))
+                _kvpic = self._create_table_item_graphic(1)
             elif _w.kind == 2:
-                _kpic = QPixmap(os.path.join(__path, '../assets/medal2.png'))
-            _kpic = _kpic.scaledToWidth(20, _transm_st)
-            _kvpic.setPixmap(_kpic)
+                _kvpic = self._create_table_item_graphic(2)
 
         if _w.last_updated is not None:
             _upd = MShared.get_timestamp(_w.last_updated)[1]

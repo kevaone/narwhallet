@@ -40,21 +40,24 @@ class _namespace_keys_list(QListWidget):
             _key = self.item(idx)
             _key.setText(key)
             _key.setHidden(False)
+        self._set_key_special(_key, special)
 
+    @staticmethod
+    def _set_key_special(key: QListWidgetItem, special: str):
         # TODO Store color selections in settings to allow adjustment
         if special == 'root_ns':
-            _key.setBackground(QtCore.Qt.magenta)
+            key.setBackground(QtCore.Qt.magenta)
         elif special == 'root_ns_update':
-            _key.setBackground(QtCore.Qt.cyan)
+            key.setBackground(QtCore.Qt.cyan)
         elif special == 'reply':
-            _key.setBackground(QtCore.Qt.yellow)
+            key.setBackground(QtCore.Qt.yellow)
         elif special == 'repost':
-            _key.setBackground(QtCore.Qt.gray)
+            key.setBackground(QtCore.Qt.gray)
         elif special == 'reward':
-            _key.setBackground(QtCore.Qt.green)
+            key.setBackground(QtCore.Qt.green)
         elif special == 'nft_bid':
-            _key.setBackground(QtCore.Qt.darkYellow)
+            key.setBackground(QtCore.Qt.darkYellow)
         elif special == 'nft_auction':
-            _key.setBackground(QtCore.Qt.lightGray)
+            key.setBackground(QtCore.Qt.lightGray)
         elif special == 'nft_confirm_sell':
-            _key.setBackground(QtCore.Qt.blue)
+            key.setBackground(QtCore.Qt.blue)

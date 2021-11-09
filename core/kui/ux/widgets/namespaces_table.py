@@ -1,5 +1,6 @@
 import os
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from control.shared import MShared
 
@@ -48,23 +49,31 @@ class _namespaces_table(QTableWidget):
         self.setColumnWidth(0, 20)
 
     @staticmethod
+    def _create_table_item_graphic(pic: int):
+        _al_center = QtCore.Qt.AlignCenter
+        _transm_st = QtCore.Qt.SmoothTransformation
+        __path = os.path.dirname(__file__)
+        if pic == 0:
+            _p = QPixmap(os.path.join(__path, '../assets/information.png'))
+        elif pic == 1:
+            _p = QPixmap(os.path.join(__path, '../assets/transfer.png'))
+        _p = _p.scaledToWidth(20, _transm_st)
+
+        _vpic = QLabel()
+        _vpic.setPixmap(_p)
+        _vpic.setAlignment(_al_center)
+        _vpic.setContentsMargins(0, 0, 0, 0)
+
+        return _vpic
+
+    @staticmethod
     def flags():
         return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
     def _add_namespace(self, namespace_data: dict):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
-
         _r = self.rowCount()
         self.insertRow(_r)
-        __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/information.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
-
-        _vpic = QLabel()
-        _vpic.setPixmap(_pic)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
+        _vpic = self._create_table_item_graphic(0)
 
         _date = (QTableWidgetItem(
             MShared.get_timestamp(namespace_data['date'])[1], 0))
@@ -91,12 +100,7 @@ class _namespaces_table(QTableWidget):
         _address.setFlags(self.flags())
         _address.setForeground(QtCore.Qt.black)
 
-        _dpic = QtGui.QPixmap(os.path.join(__path, '../assets/transfer.png'))
-        _dpic = _dpic.scaledToWidth(20, _transm_st)
-        _dellabel = QLabel()
-        _dellabel.setPixmap(_dpic)
-        _dellabel.setAlignment(_al_center)
-        _dellabel.setContentsMargins(0, 0, 0, 0)
+        _dellabel = self._create_table_item_graphic(1)
 
         self.setCellWidget(_r, 0, _vpic)
         self.setItem(_r, 1, _date)

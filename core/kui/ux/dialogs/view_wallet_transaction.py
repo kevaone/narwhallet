@@ -188,8 +188,8 @@ class _show_hide_frame(QFrame):
     def set_frame_kind(kind: str, inp):
         if kind == 'vin':
             return _tx_in(inp)
-        else:
-            return _tx_out(inp)
+
+        return _tx_out(inp)
 
     def _display(self, _event):
         if self._x.isVisible() is True:

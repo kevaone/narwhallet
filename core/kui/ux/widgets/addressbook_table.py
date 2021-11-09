@@ -1,5 +1,6 @@
 import os
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
+from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 
 
@@ -52,32 +53,38 @@ class _address_book_table(QTableWidget):
         self.setColumnWidth(7, 20)
 
     @staticmethod
+    def _create_table_item_graphic(pic: int):
+        _al_center = QtCore.Qt.AlignCenter
+        _transm_st = QtCore.Qt.SmoothTransformation
+        __path = os.path.dirname(__file__)
+        if pic == 0:
+            _p = QPixmap(os.path.join(__path, '../assets/information'))
+        elif pic == 1:
+            _p = QPixmap(os.path.join(__path, '../assets/clipboard.png'))
+        elif pic == 2:
+            _p = QPixmap(os.path.join(__path, '../assets/trashcan.png'))
+
+        _p = _p.scaledToWidth(20, _transm_st)
+
+        _vpic = QLabel()
+        _vpic.setPixmap(_p)
+        _vpic.setAlignment(_al_center)
+        _vpic.setContentsMargins(0, 0, 0, 0)
+
+        return _vpic
+
+    @staticmethod
     def flags():
         return (QtCore.Qt.ItemIsSelectable |
                 QtCore.Qt.ItemIsEditable |
                 QtCore.Qt.ItemIsDragEnabled)
 
     def add_bookaddress(self, book_address: dict):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
-
         _r = self.rowCount()
         self.insertRow(_r)
-        __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/information.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
 
-        _vpic = QLabel()
-        _vpic.setPixmap(_pic)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-
-        _bpic = QtGui.QPixmap(os.path.join(__path, '../assets/clipboard.png'))
-        _bpic = _bpic.scaledToWidth(20, _transm_st)
-        _bvpic = QLabel()
-        _bvpic.setPixmap(_bpic)
-        _bvpic.setAlignment(_al_center)
-        _bvpic.setContentsMargins(0, 0, 0, 0)
+        _vpic = self._create_table_item_graphic(0)
+        _bvpic = self._create_table_item_graphic(1)
 
         _coin = QTableWidgetItem(book_address['coin'])
         _coin.setFlags(self.flags())
@@ -103,12 +110,7 @@ class _address_book_table(QTableWidget):
         _label.setFlags(self.flags())
         _label.setForeground(QtCore.Qt.black)
 
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/trashcan.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
-        _dellabel = QLabel()
-        _dellabel.setPixmap(_pic)
-        _dellabel.setAlignment(_al_center)
-        _dellabel.setContentsMargins(0, 0, 0, 0)
+        _dellabel = self._create_table_item_graphic(2)
 
         self.setCellWidget(_r, 0, _vpic)
         self.setItem(_r, 1, _coin)
