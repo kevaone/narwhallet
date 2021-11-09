@@ -23,6 +23,7 @@ from core.kcl.models.wallet import MWallet
 from core.kcl.models.wallets import MWallets
 from core.kcl.models.address import MAddress
 from core.kcl.models.book_addresses import MBookAddresses
+from core.kcl.models.transaction import MTransaction
 from core.kcl.wallet_utils import _wallet_utils as WalletUtils
 from core.ksc.utils import Ut
 
@@ -1051,26 +1052,34 @@ class NarwhalletController():
                     _tx_d[_trx.txid]['blockhash'] = _trx.blockhash
                     _tx_d[_trx.txid]['amount'] = 0.0
 
-                for _in in _trx.vin:
-                    _vo = _in.vout
-                    _in_tx = self.cache.tx.get_tx_by_txid(_in.txid)
-
-                    if _in_tx is None:
-                        continue
-
-                    for _out in _in_tx.vout:
-                        if (_a.address in _out.scriptPubKey.addresses
-                                and _out.n == _vo):
-                            _am = _tx_d[_trx.txid]['amount']
-                            _am = _am - _out.value
-                            _tx_d[_trx.txid]['amount'] = _am
-
-                for _out in _trx.vout:
-                    if _a.address in _out.scriptPubKey.addresses:
-                        _am = _tx_d[_trx.txid]['amount']
-                        _tx_d[_trx.txid]['amount'] = _am + _out.value
+                self.__disp_tx_vin(_trx, _tx_d, _a)
+                self.__disp_tx_vout(_trx, _tx_d, _a)
                 _tx_d[_trx.txid]['confirmations'] = _trx.confirmations
+
         return _tx_d
+
+    def __disp_tx_vin(self, trx: MTransaction, tx_d: dict,
+                      address: MAddress):
+        for _in in trx.vin:
+            _vo = _in.vout
+            _in_tx = self.cache.tx.get_tx_by_txid(_in.txid)
+
+            if _in_tx is None:
+                continue
+
+            for _out in _in_tx.vout:
+                if (address.address in _out.scriptPubKey.addresses
+                        and _out.n == _vo):
+                    _am = tx_d[trx.txid]['amount']
+                    _am = _am - _out.value
+                    tx_d[trx.txid]['amount'] = _am
+
+    def __disp_tx_vout(self, trx: MTransaction, tx_d: dict,
+                       address: MAddress):
+        for _out in trx.vout:
+            if address.address in _out.scriptPubKey.addresses:
+                _am = tx_d[trx.txid]['amount']
+                tx_d[trx.txid]['amount'] = _am + _out.value
 
     def _get_unused_address(self):
         _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()

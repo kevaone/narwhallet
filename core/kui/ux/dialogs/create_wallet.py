@@ -142,7 +142,7 @@ class Ui_create_wallet_dlg(QDialog):
     def _init_wallet(self):
         self._w = MWallet()
 
-    def _display_advanced(self, event):
+    def _display_advanced(self, _event):
         if self.adv_f.isVisible() is True:
             self.adv_f.setVisible(False)
             self.adv_label_p.setIcon(QIcon(self._ppic))

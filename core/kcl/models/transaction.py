@@ -120,7 +120,7 @@ class MTransaction(MBase):
 
     @staticmethod
     def to_dict_list(v: (List[MTransactionInput]
-                       or List[MTransactionOutput])) -> List[dict]:
+                     or List[MTransactionOutput])) -> List[dict]:
         _l = []
         for i in v:
             _l.append(i.to_dict())
