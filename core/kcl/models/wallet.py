@@ -232,14 +232,15 @@ class MWallet(MBase):
     def get_unused_address(self) -> str:
         if self.bip == 'bip32':
             _a = (WalletUtils
-                  ._gen_bip32_address_from_extended(self.extended_prv,
-                                                    self.account_index))
+                  .gen_bip32_address_from_extended(self.extended_prv,
+                                                   self.account_index))
         elif (self.bip == 'bip49'
               and (self.extended_prv is not None
                    or self._i_extended_pub is not None)):
-            _a = WalletUtils._get_next_account_address(self._i_extended_pub,
-                                                       self.coin, self.bip,
-                                                       self.account_index)
+            _a = (WalletUtils
+                  .get_next_account_address_from_pub(self._i_extended_pub,
+                                                     self.coin, self.bip,
+                                                     self.account_index))
         else:
             _a = WalletUtils.get_next_account_address(self.seed, self.coin,
                                                       self.bip,
@@ -250,15 +251,16 @@ class MWallet(MBase):
 
     def get_unused_change_address(self) -> str:
         if self.bip == 'bip32':
-            _a = WalletUtils._gen_bip32_change_from_extended(self.extended_prv,
-                                                             self._change_index
-                                                             )
+            _a = WalletUtils.gen_bip32_change_from_extended(self.extended_prv,
+                                                            self._change_index
+                                                            )
         elif (self.bip == 'bip49'
               and (self.extended_prv is not None
                    or self._i_extended_pub is not None)):
-            _a = WalletUtils._get_next_change_address(self._i_extended_pub,
-                                                      self.coin, self.bip,
-                                                      self._change_index)
+            _a = (WalletUtils
+                  .get_next_change_address_from_pub(self._i_extended_pub,
+                                                    self.coin, self.bip,
+                                                    self._change_index))
         else:
             _a = WalletUtils.get_next_change_address(self.seed, self.coin,
                                                      self.bip,
@@ -272,13 +274,14 @@ class MWallet(MBase):
                              incriment_idx: bool = True) -> None:
         if self.bip == 'bip32':
             _a = (WalletUtils
-                  ._gen_bip32_address_from_extended(self.extended_prv, index))
+                  .gen_bip32_address_from_extended(self.extended_prv, index))
         elif (self.bip == 'bip49'
               and (self.extended_prv is not None
                    or self._i_extended_pub is not None)):
-            _a = WalletUtils._get_next_account_address(self._i_extended_pub,
-                                                       self.coin, self.bip,
-                                                       index)
+            _a = (WalletUtils
+                  .get_next_account_address_from_pub(self._i_extended_pub,
+                                                     self.coin, self.bip,
+                                                     index))
         else:
             _a = WalletUtils.get_next_account_address(self.seed, self.coin,
                                                       self.bip, index)
@@ -293,14 +296,15 @@ class MWallet(MBase):
                                     incriment: bool = False,
                                     incriment_idx: bool = True) -> str:
         if self.bip == 'bip32':
-            _a = WalletUtils._gen_bip32_change_from_extended(self.extended_prv,
-                                                             index)
+            _a = WalletUtils.gen_bip32_change_from_extended(self.extended_prv,
+                                                            index)
         elif (self.bip == 'bip49'
               and (self.extended_prv is not None
                    or self._i_extended_pub is not None)):
-            _a = WalletUtils._get_next_change_address(self._i_extended_pub,
-                                                      self.coin, self.bip,
-                                                      index)
+            _a = (WalletUtils
+                  .get_next_change_address_from_pub(self._i_extended_pub,
+                                                    self.coin, self.bip,
+                                                    index))
         else:
             _a = WalletUtils.get_next_change_address(self.seed, self.coin,
                                                      self.bip, index)
@@ -333,13 +337,14 @@ class MWallet(MBase):
     def sign_message(self, address_index: int,
                      message: str, chain: int) -> str:
         if self.bip == 'bip32':
-            _a_p = WalletUtils._get_bip32_address_private(self.extended_prv,
-                                                          address_index, chain)
+            _a_p = WalletUtils.get_bip32_address_private(self.extended_prv,
+                                                         address_index, chain)
         elif self.bip == 'bip49' and self.extended_prv is not None:
-            _a_p = WalletUtils._get_account_address_private(self.extended_prv,
-                                                            self.coin,
-                                                            self.bip,
-                                                            address_index)
+            _a_p = (WalletUtils
+                    .get_account_address_private_from_prv(self.extended_prv,
+                                                          self.coin,
+                                                          self.bip,
+                                                          address_index))
         else:
             _a_p = WalletUtils.get_account_address_private(self.seed,
                                                            self.coin, self.bip,

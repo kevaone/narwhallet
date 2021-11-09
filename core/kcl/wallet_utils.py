@@ -131,24 +131,24 @@ class _wallet_utils():
         return bip49_addr.PrivateKey().Raw().ToBytes()
 
     @staticmethod
-    def _get_next_change_address(extended: str, coin: str, bip: str,
-                                 index: int) -> str:
+    def get_next_change_address_from_pub(extended: str, coin: str, bip: str,
+                                         index: int) -> str:
         _master = _wallet_utils.generate_master_from_extended(extended,
                                                               coin, bip)
         _master = _master.Change(Bip44Changes.CHAIN_INT).AddressIndex(index)
         return _master.PublicKey().ToAddress()
 
     @staticmethod
-    def _get_next_account_address(extended: str, coin: str, bip: str,
-                                  index: int) -> str:
+    def get_next_account_address_from_pub(extended: str, coin: str, bip: str,
+                                          index: int) -> str:
         _master = _wallet_utils.generate_master_from_extended(extended,
                                                               coin, bip)
         _master = _master.Change(Bip44Changes.CHAIN_EXT).AddressIndex(index)
         return _master.PublicKey().ToAddress()
 
     @staticmethod
-    def _get_account_address_private(extended: str, coin: str, bip: str,
-                                     index: int) -> str:
+    def get_account_address_private_from_prv(extended: str, coin: str,
+                                             bip: str, index: int) -> str:
         _master = _wallet_utils.generate_master_from_extended(extended,
                                                               coin, bip)
         _master = _master.Change(Bip44Changes.CHAIN_EXT).AddressIndex(index)
@@ -194,7 +194,7 @@ class _wallet_utils():
         return _return
 
     @staticmethod
-    def _gen_bip32_address_from_extended(extended_key: str, idx: int):
+    def gen_bip32_address_from_extended(extended_key: str, idx: int):
         _ctx = Bip32Secp256k1.FromExtendedKey(extended_key)
         _derive_path = '0\'/0\'/' + str(idx) + '\''
         _ctx = _ctx.DerivePath(_derive_path)
@@ -204,7 +204,7 @@ class _wallet_utils():
         return cc
 
     @staticmethod
-    def _get_bip32_address_private(extended_key: str, idx: int, chain: int):
+    def get_bip32_address_private(extended_key: str, idx: int, chain: int):
         bip32_ctx = Bip32Secp256k1.FromExtendedKey(extended_key)
         if chain == 0:
             _derive_path = '0\'/1\'/' + str(idx) + '\''
@@ -216,7 +216,7 @@ class _wallet_utils():
         return cc
 
     @staticmethod
-    def _gen_bip32_change_from_extended(extended_key: str, idx: int):
+    def gen_bip32_change_from_extended(extended_key: str, idx: int):
         _ctx = Bip32Secp256k1.FromExtendedKey(extended_key)
         _derive_path = '0\'/1\'/' + str(idx) + '\''
         _ctx = _ctx.DerivePath(_derive_path)
