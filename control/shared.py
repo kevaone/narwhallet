@@ -313,6 +313,38 @@ class MShared():
         return _th, _tid
 
     @staticmethod
+    def _process_histories(wallet: MWallet, _tid: dict, i: dict):
+        _chain = _tid[str(i['id'])]['chain']
+        if _chain == 0:
+            _addresses = wallet.change_addresses
+        else:
+            _addresses = wallet.addresses
+
+        _a = _tid[str(i['id'])]['address']
+        _ax = _addresses.get_address_index_by_name(_a)
+        if _ax == -1:
+            if len(i['result']) <= 0:
+                return
+
+            _p = _tid[str(i['id'])]['pad']
+            while _addresses.count < _p:
+                if _chain == 0:
+                    wallet.get_unused_change_address()
+                else:
+                    wallet.get_unused_address()
+
+            if _p == _addresses.count:
+                if _chain == 0:
+                    wallet.get_change_address_by_index(_p, True)
+                else:
+                    wallet.get_address_by_index(_p, True)
+
+                _ax = _addresses.get_address_index_by_name(_a)
+                _addresses.addresses[_ax].set_history(i['result'])
+        else:
+            _addresses.addresses[_ax].set_history(i['result'])
+
+    @staticmethod
     def _get_histories(wallet: MWallet, batches: list, _tid: dict,
                        kex: KEXclient):
         for batch in batches:
@@ -327,47 +359,7 @@ class MShared():
                 if str(i['id']) not in _tid:
                     continue
 
-                if _tid[str(i['id'])]['chain'] == 0:
-                    _a = _tid[str(i['id'])]['address']
-                    _ax = (wallet.change_addresses
-                           .get_address_index_by_name(_a))
-                    if _ax == -1:
-                        if len(i['result']) <= 0:
-                            continue
-
-                        _p = _tid[str(i['id'])]['pad']
-                        while wallet.change_addresses.count < _p:
-                            wallet.get_unused_change_address()
-
-                        if _p == wallet.change_addresses.count:
-                            wallet.get_change_address_by_index(_p, True)
-                            _ax = (wallet.change_addresses
-                                   .get_address_index_by_name(_a))
-                            (wallet.change_addresses.addresses[_ax]
-                             .set_history(i['result']))
-                    else:
-                        (wallet.change_addresses.addresses[_ax]
-                         .set_history(i['result']))
-                elif _tid[str(i['id'])]['chain'] == 1:
-                    _a = _tid[str(i['id'])]['address']
-                    _ax = wallet.addresses.get_address_index_by_name(_a)
-                    if _ax == -1:
-                        _pd = _tid[str(i['id'])]['pad']
-                        if len(i['result']) <= 0:
-                            continue
-
-                        while wallet.addresses.count < _pd:
-                            wallet.get_unused_address()
-
-                        if _pd == wallet.addresses.count:
-                            wallet.get_address_by_index(_pd, True)
-                            _ax = (wallet.addresses
-                                   .get_address_index_by_name(_a))
-                            (wallet.addresses.addresses[_ax]
-                                .set_history(i['result']))
-                    else:
-                        (wallet.addresses.addresses[_ax]
-                            .set_history(i['result']))
+                MShared._process_histories(wallet, _tid, i)
 
     @staticmethod
     def _get_history(address: str, kex: KEXclient) -> dict:
