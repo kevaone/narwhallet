@@ -14,6 +14,8 @@ from core.kcl.models.wallet import MWallet
 from core.kcl.models.addresses import MAddresses
 from core.kcl.models.address import MAddress
 from core.kcl.models.transaction import MTransaction
+from core.kcl.models.transaction_input import MTransactionInput
+from core.kcl.models.transaction_output import MTransactionOutput
 from core.kcl.models.script_pubkey import MScriptPubKey
 
 from core.kcl.bip_utils.base58 import Base58Decoder
@@ -466,28 +468,53 @@ class MShared():
                 if _trx is None:
                     continue
 
-                for _in in _trx.vin:
-                    _vo = _in.vout
-                    _in_tx = cache.tx.get_tx_by_txid(_in.txid)
-                    if _in_tx is None:
-                        _in_tx = MShared.get_tx(_in.txid, kex, True)
-                        _in_tx = cache.tx.add_from_json(_in_tx)
-
-                    if _in_tx is None:
-                        continue
-
-                    for _out in _in_tx.vout:
-                        if (_a.address in _out.scriptPubKey.addresses
-                                and _out.n == _vo):
-                            _a.set_sent(_a.sent + _out.value)
-                            wallet.set_balance(wallet.balance - _out.value)
+                MShared._process_tx_vin(wallet, _trx.vin, _a, kex, cache)
+                MShared._process_tx_vout(wallet, _trx.vout, _a)
 
                 for _out in _trx.vout:
-                    if _a.address in _out.scriptPubKey.addresses:
-                        _a.set_received(_a.received + _out.value)
-                        wallet.set_balance(wallet.balance + _out.value)
                     MShared._test_for_namespace(_trx, _a, _t,
                                                 _out.scriptPubKey, kex, cache)
+
+    @staticmethod
+    def _process_tx_vin(wallet: MWallet, vin: List[MTransactionInput],
+                        address: MAddress, kex: KEXclient, cache: MCache):
+
+        for _in in vin:
+            _vo = _in.vout
+            _in_tx = cache.tx.get_tx_by_txid(_in.txid)
+            if _in_tx is None:
+                _in_tx = MShared.get_tx(_in.txid, kex, True)
+                _in_tx = cache.tx.add_from_json(_in_tx)
+
+            if _in_tx is None:
+                continue
+
+            for _out in _in_tx.vout:
+                if (address.address in _out.scriptPubKey.addresses
+                        and _out.n == _vo):
+                    address.set_sent(address.sent + _out.value)
+                    wallet.set_balance(wallet.balance - _out.value)
+
+    @staticmethod
+    def _process_tx_vout(wallet: MWallet, vout: List[MTransactionOutput],
+                         address: MAddress):
+
+        for _out in vout:
+            if address.address in _out.scriptPubKey.addresses:
+                address.set_received(address.received + _out.value)
+                wallet.set_balance(wallet.balance + _out.value)
+
+    @staticmethod
+    def get_merkle(txid: str, height: int, kex: KEXclient) -> str:
+        _merkle = kex.call(kex.api.bc_tx.get_merkle, [txid, height])
+
+        _merkle = json.loads(_merkle)
+        if 'result' not in _merkle:
+            _merkle = ''
+        else:
+            _merkle = _merkle['result']
+
+        return _merkle
 
     @staticmethod
     def _test_for_namespace(_trx: MTransaction, _a: MAddress,
@@ -501,16 +528,10 @@ class MShared():
         if len(_ns) != 0:
             return
 
-        _merkle = kex.call(kex.api.bc_tx.get_merkle,
-                           [_trx.txid, _t['height']])
+        _merkle = MShared.get_merkle(_trx.txid, _t['height'], kex)
         if _merkle == '':
             return
 
-        _merkle = json.loads(_merkle)
-        if 'result' not in _merkle:
-            return
-
-        _merkle = _merkle['result']
         # TODO Get dates and key types;
         if _o[0] == 'OP_KEVA_NAMESPACE':
             _ = (cache.ns
@@ -530,14 +551,7 @@ class MShared():
                                      _trx.txid, _o[1], _o[2], _o[3],
                                      _out.addresses[0]))
                 else:
-                    if (_o[2][:4] == '0001' or _o[2][:4] == '0002'
-                            or _o[2][:4] == '0003'):
-
-                        _r_tx = cache.tx.get_tx_by_txid(_o[2][4:])
-                        if _r_tx is None:
-                            _r_tx = MShared.get_tx(_o[2][4:], kex, True)
-                        if _r_tx is not None and isinstance(_r_tx, dict):
-                            _r_tx = cache.tx.add_from_json(_r_tx)
+                    MShared._get_referenced_tx(_o[2], kex, cache)
 
                     _ = (cache.ns
                          .from_raw(_merkle['block_height'],
@@ -548,6 +562,17 @@ class MShared():
 
                     if test_root is True:
                         MShared._test_root(_out, kex, cache)
+
+    @staticmethod
+    def _get_referenced_tx(key: str, kex: KEXclient, cache: MCache):
+        if (key[:4] == '0001' or key[:4] == '0002'
+                or key[:4] == '0003'):
+
+            _r_tx = cache.tx.get_tx_by_txid(key[4:])
+            if _r_tx is None:
+                _r_tx = MShared.get_tx(key[4:], kex, True)
+            if _r_tx is not None and isinstance(_r_tx, dict):
+                _r_tx = cache.tx.add_from_json(_r_tx)
 
     @staticmethod
     def _test_root(_out: MScriptPubKey, kex: KEXclient, cache: MCache):
@@ -580,31 +605,35 @@ class MShared():
                 print('type __get_tx_by_batch', _h)
                 continue
 
-            for g in _h:
-                _i_tx = None
-                if 'result' in g:
-                    _i_tx = cache.tx.get_tx_by_txid(g['result']['txid'])
-
-                if _i_tx is None:
-                    if 'result' in g:
-                        _i_tx = cache.tx.add_from_json(g['result'])
-                else:
-                    if _i_tx.blockhash is None:
-                        if 'blockhash' not in g['result']:
-                            continue
-
-                        _gcf = g['result']['confirmations']
-                        _ = cache.tx.update(g['result'])
-                        _i_tx.set_blockhash(g['result']['blockhash'])
-                        _i_tx.set_time(g['result']['time'])
-                        _i_tx.set_blocktime(g['result']['blocktime'])
-                        _i_tx.set_confirmations(_gcf)
-                    elif _i_tx.confirmations < 6:
-                        _gcf = g['result']['confirmations']
-                        _ = cache.tx.update(g['result'])
-                        _i_tx.set_confirmations(_gcf)
+            MShared._process_tx_batch(_h, cache)
 
         return True
+
+    @staticmethod
+    def _process_tx_batch(batch_results: list, cache: MCache):
+        for g in batch_results:
+            _i_tx = None
+            if 'result' in g:
+                _i_tx = cache.tx.get_tx_by_txid(g['result']['txid'])
+
+            if _i_tx is None:
+                if 'result' in g:
+                    _i_tx = cache.tx.add_from_json(g['result'])
+            else:
+                if _i_tx.blockhash is None:
+                    if 'blockhash' not in g['result']:
+                        continue
+
+                    _gcf = g['result']['confirmations']
+                    _ = cache.tx.update(g['result'])
+                    _i_tx.set_blockhash(g['result']['blockhash'])
+                    _i_tx.set_time(g['result']['time'])
+                    _i_tx.set_blocktime(g['result']['blocktime'])
+                    _i_tx.set_confirmations(_gcf)
+                elif _i_tx.confirmations < 6:
+                    _gcf = g['result']['confirmations']
+                    _ = cache.tx.update(g['result'])
+                    _i_tx.set_confirmations(_gcf)
 
     @staticmethod
     def get_tx(tx_hash: str, kex: KEXclient, verbose=False):
