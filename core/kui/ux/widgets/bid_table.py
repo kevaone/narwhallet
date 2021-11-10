@@ -72,7 +72,7 @@ class _bid_table(QTableWidget):
             self.removeRow(_m)
             _m = _m - 1
 
-    def add_bids(self, wallet: str, bids: list):
+    def add_bids(self, bids: list):
         for bid in bids:
             _d = {}
             _d['date'] = bid[0]

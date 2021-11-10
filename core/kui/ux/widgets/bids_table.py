@@ -16,10 +16,11 @@ class _bids_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(11)
+        self.setColumnCount(12)
         self.setHorizontalHeaderLabels(['', 'Date', 'Wallet', 'Bid From',
                                         'Bid On', 'Asking', 'High Bid',
-                                        'Your Bid', 'Is High Bid', '', ''])
+                                        'Your Bid', 'Is High Bid', '', '',
+                                        ''])
         self.horizontalHeaderItem(0).setTextAlignment(4)
         self.horizontalHeaderItem(1).setTextAlignment(4)
         self.horizontalHeaderItem(2).setTextAlignment(4)
@@ -91,7 +92,8 @@ class _bids_table(QTableWidget):
             _d['asking'] = bid[3]
             _d['high_bid'] = bid[4]
             _d['your_bid'] = bid[5]
-            _d['tx'] = bid[6]
+            _d['ns'] = bid[6]
+            _d['tx'] = bid[7]
 
             self._add_bid(_d)
 
@@ -114,6 +116,7 @@ class _bids_table(QTableWidget):
         _your_bid = self._create_table_item(str(bid_data['your_bid']))
         _is_high_bid = (self._create_table_item(
             str(bid_data['your_bid'] >= bid_data['high_bid'])))
+        _auc_ns = self._create_table_item(str(bid_data['ns']))
         _auc_tx = self._create_table_item(str(bid_data['tx']))
         _empty_item = self._create_table_item('')
         _empty_item2 = self._create_table_item('')
@@ -129,5 +132,6 @@ class _bids_table(QTableWidget):
         self.setItem(_r, 7, _your_bid)
         self.setItem(_r, 8, _is_high_bid)
         self.setItem(_r, 9, _empty_item2)
-        self.setItem(_r, 10, _auc_tx)
+        self.setItem(_r, 10, _auc_ns)
+        self.setItem(_r, 11, _auc_tx)
         # self.setCellWidget(_r, 7, _dellabel)

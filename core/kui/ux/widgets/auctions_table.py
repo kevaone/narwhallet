@@ -16,9 +16,9 @@ class _auctions_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(9)
+        self.setColumnCount(10)
         self.setHorizontalHeaderLabels(['', 'Date', 'Wallet', 'Shortcode',
-                                        'Asking', 'Bids', 'High Bid', '', ''])
+                                        'Asking', 'Bids', 'High Bid', '', '', ''])
         self.horizontalHeaderItem(0).setTextAlignment(4)
         self.horizontalHeaderItem(1).setTextAlignment(4)
         self.horizontalHeaderItem(2).setTextAlignment(4)
@@ -83,7 +83,8 @@ class _auctions_table(QTableWidget):
             _d['asking'] = auction[2]
             _d['bids'] = auction[3]
             _d['high_bid'] = auction[4]
-            _d['tx'] = auction[5]
+            _d['ns'] = auction[5]
+            _d['tx'] = auction[6]
             self._add_auction(_d)
 
         self.resizeColumnsToContents()
@@ -101,6 +102,7 @@ class _auctions_table(QTableWidget):
         _asking = self._create_table_item(str(auction_data['asking']))
         _bids = self._create_table_item(auction_data['bids'])
         _high_bid = self._create_table_item(auction_data['high_bid'])
+        _auc_ns = self._create_table_item(auction_data['ns'])
         _auc_tx = self._create_table_item(auction_data['tx'])
 
         self.setCellWidget(_r, 0, _coin)
@@ -110,5 +112,6 @@ class _auctions_table(QTableWidget):
         self.setItem(_r, 4, _asking)
         self.setItem(_r, 5, _bids)
         self.setItem(_r, 6, _high_bid)
-        self.setItem(_r, 8, _auc_tx)
+        self.setItem(_r, 8, _auc_ns)
+        self.setItem(_r, 9, _auc_tx)
         # self.setCellWidget(_r, 7, _dellabel)

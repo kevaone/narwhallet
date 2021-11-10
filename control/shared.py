@@ -747,3 +747,32 @@ class MShared():
                     _v = Ut.bytes_to_hex(_v)
             _keys.append([_k, _v, k_hist['keyvalues'][_i]['time']])
         return _keys
+
+    @staticmethod
+    def get_ns_key_reactions(txid: str, kex: KEXclient):
+        _responses = kex.call(kex.api.keva.get_keyvalue_reactions, [txid, -1])
+        if _responses == '':
+            return []
+
+        _responses = json.loads(_responses)
+        _responses = _responses['result']['result']
+
+        for _i in range(0, len(_responses['replies'])):
+            try:
+                _k = _responses['replies'][_i]['key']
+                _k = base64.b64decode(_k).decode()
+            except Exception:
+                _k = base64.b64decode(_responses['replies'][_i]['key'])
+                _k = Ut.bytes_to_hex(_k)
+
+            try:
+                _v = _responses['replies'][_i]['value']
+                _v = base64.b64decode(_v).decode()
+            except Exception:
+                _v = base64.b64decode(_responses['replies'][_i]['value'])
+                _v = Ut.bytes_to_hex(_v)
+
+            _responses['replies'][_i]['key'] = _k
+            _responses['replies'][_i]['value'] = _v
+
+        return _responses
