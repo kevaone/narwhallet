@@ -507,7 +507,7 @@ class MShared():
     @staticmethod
     def get_merkle(txid: str, height: int, kex: KEXclient) -> str:
         _merkle = kex.call(kex.api.bc_tx.get_merkle, [txid, height])
-
+        print('_merkle', _merkle)
         _merkle = json.loads(_merkle)
         if 'result' not in _merkle:
             _merkle = ''
@@ -541,11 +541,21 @@ class MShared():
                            '5f4b4556415f4e535f', _o[2],
                            _out.addresses[0]))
         else:
+            _key = cache.ns.get_namespace_by_key(_o[1], _o[2])
+
             if _o[0] == 'OP_KEVA_DELETE':
-                _ = cache.ns.delete_key(_o[1], _o[2], _merkle['block_height'])
+                if _key[0][3] == 'deleted':
+                    return
+
+                #_ = cache.ns.delete_key(_o[1], _o[2], _merkle['block_height'])
+                _ = (cache.ns
+                     .mark_key_deleted(_merkle['block_height'], _o[1], _o[2]))
             else:
-                _key = cache.ns.get_namespace_by_key(_o[1], _o[2])
                 if len(_key) > 0 and _o[2][:4] != '0001':
+                    if (_key[0][3] == 'deleted' and 
+                            _key[0][2] > _merkle['block_height']):
+                        return
+
                     _ = (cache.ns
                          .update_key(_merkle['block_height'], _merkle['pos'],
                                      _trx.txid, _o[1], _o[2], _o[3],

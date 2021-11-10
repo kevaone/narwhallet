@@ -172,6 +172,15 @@ class MNamespaces():
                                    key, block), 1)
         return _r
 
+    def mark_key_deleted(self, block: int, namespaceid: str, key: str):
+        namespaceid = self.convert_to_namespaceid(namespaceid)
+        key = self._decode(key)
+
+        _r = self.dbi.execute_sql(self.dbi.scripts.UPDATE_NS_KEY_MARK,
+                                  (block, 'deleted', namespaceid,
+                                   key, block), 1)
+        return _r
+
     def delete_key(self, ns, key, block):
         ns = self.convert_to_namespaceid(ns)
         _r = self.dbi.execute_sql(self.dbi.scripts.DELETE_NS_KEY,

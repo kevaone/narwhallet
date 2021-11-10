@@ -42,13 +42,15 @@ class Scripts(Enum):
             FROM tx_vout_cache WHERE tx = ?;'
     SELECT_NS_ALL = 'SELECT ns, data FROM ns_cache;'
     SELECT_NS = 'SELECT block, n, txid, ns, op, [key], value, special, \
-        address FROM ns_cache WHERE ns = ? ORDER BY block desc;'
+        address FROM ns_cache WHERE (special <> "deleted" OR special IS NULL) AND ns = ? \
+            ORDER BY block desc;'
     SELECT_NS_BY_POS = 'SELECT ns FROM ns_cache WHERE block = ? AND n = ?;'
     SELECT_NS_BY_TXID = 'SELECT ns FROM ns_cache WHERE txid = ? AND ns = ?;'
-    SELECT_NS_BY_KEY = 'SELECT ns, [key] FROM ns_cache WHERE ns = ? AND \
+    SELECT_NS_BY_KEY = 'SELECT ns, [key], block, special FROM ns_cache WHERE ns = ? AND \
         [key] = ?;'
     SELECT_NS_VIEW_1 = 'SELECT DISTINCT ns FROM ns_cache;'
-    SELECT_NS_COUNT = 'SELECT COUNT(ns) FROM ns_cache WHERE ns = ?;'
+    SELECT_NS_COUNT = 'SELECT COUNT(ns) FROM ns_cache \
+        WHERE (special <> "deleted" OR special IS NULL) AND ns = ?;'
     SELECT_NS_BLOCK = 'SELECT block, n FROM ns_cache WHERE ns = ? \
         ORDER BY block;'
     SELECT_NS_LAST_ADDRESS = 'SELECT address FROM ns_cache WHERE ns = ? \
@@ -87,6 +89,8 @@ class Scripts(Enum):
     UPDATE_NS_KEY = 'UPDATE ns_cache SET block = ?, n = ?, txid = ?, \
         value = ?, special = ?, address = ? WHERE ns = ? AND [key] = ? \
             AND block < ?;'
+    UPDATE_NS_KEY_MARK = 'UPDATE ns_cache SET block = ?, special = ? \
+        WHERE ns = ? AND [key] = ? AND block < ?;'
     UPDATE_NFT = 'UPDATE nft_cache SET tx = ?, data = ? WHERE tx = ?;'
     UPDATE_ACTION_CACHE = 'UPDATE action_cache SET state = ? \
         WHERE tx = ? AND [action] = ?;'

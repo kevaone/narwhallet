@@ -560,6 +560,7 @@ class NarwhalletController():
                 except Exception:
                     _tx_ns_sc = 'Error'
                 _bid_psbt = keva_psbt(_b[5])
+
                 for _vi in _bid_psbt.tx.vin:
                     _wallet_bid_tx.append([ns['wallet'], _vi.txid, _vi.vout])
 
@@ -589,6 +590,7 @@ class NarwhalletController():
                             _w.bid_balance + (_us['value'] / 100000000)))
                         _w.add_bid_tx([_btx[1], _btx[2],
                                        _us['value'] / 100000000])
+
             for _ad in _w.change_addresses.addresses:
                 for _us in _ad.unspent_tx:
                     _x = json.loads(_us)
@@ -972,6 +974,7 @@ class NarwhalletController():
         _bids = []
         for _r in reactions['replies']:
             if _r['value'][:10] == '70736274ff':
+                # TODO Add test to indicate if bid valid (spent usxo/deleted key)
                 _b = keva_psbt(_r['value'])
                 _bids.append([_r['time'], _r['sender']['shortCode'],
                               str(_b.tx.vout[1].value / 100000000) + ' KVA'])
