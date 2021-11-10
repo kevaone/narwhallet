@@ -27,6 +27,7 @@ class Ui_SettingsTab(QObject):
         self.path_meta_l = QLabel(self.tabSettings)
         self.path_meta_e = QPlainTextEdit(self.settings_tab_wallet)
         self.syncBox = QLabel(self.settings_tab_wallet)
+        self.show_change = QCheckBox(self.settings_tab_wallet)
         self.s_a_wallet = QCheckBox(self.settings_tab_wallet)
         self.s_timer_wallet_hl = QHBoxLayout()
         self.s_t_wallet_l = QCheckBox(self.settings_tab_wallet)
@@ -118,6 +119,7 @@ class Ui_SettingsTab(QObject):
         self.path_meta_hl.addWidget(self.path_meta_e)
         self.verticalLayout_12.addLayout(self.path_meta_hl)
         self.verticalLayout_12.addWidget(self.syncBox)
+        self.verticalLayout_12.addWidget(self.show_change)
         self.s_timer_wallet_hl.addWidget(self.s_a_wallet)
         self.s_timer_wallet_hl.addWidget(self.s_t_wallet_l)
         self.s_timer_wallet_hl.addWidget(self.s_t_wallet_e)
@@ -180,6 +182,7 @@ class Ui_SettingsTab(QObject):
         _translate = QtCore.QCoreApplication.translate
         self.path_meta_l.setText(_translate('tabSettings', 'Path:'))
         self.syncBox.setText(_translate('tabSettings', 'Sync Options -'))
+        self.show_change.setText(_translate('tabSettings', 'Show Change Addresses'))
         self.s_a_wallet.setText(_translate('tabSettings',
                                            'Sync wallets on startup,'))
         self.s_a_df.setText(_translate('tabSettings',

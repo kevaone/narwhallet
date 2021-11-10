@@ -246,7 +246,7 @@ class NarwhalletController():
             self.set_dat.save(json.dumps(self.settings.to_dict()))
 
         self.ui.w_tab.tbl_addr2.hideColumn(6)
-        # TODO Add settings tab entry to control setting.
+        self.ui.settings_tab.show_change.setChecked(self.settings.show_change)
         self.ui.w_tab.tabWidget_2.setTabVisible(2, self.settings.show_change)
 
     def threader(self, name: str, command, command_params_1,
@@ -377,6 +377,7 @@ class NarwhalletController():
         (self.ui.settings_tab.elxp_btn_add
          .clicked.connect(self.dialogs.add_electrumx_peer_dialog))
 
+        self.ui.settings_tab.show_change.clicked.connect(self.show_change)
         self.ui.settings_tab.s_a_wallet.clicked.connect(self.save_settings)
         self.ui.settings_tab.s_a_df.clicked.connect(self.save_settings)
         self.ui.settings_tab.s_a_fav.clicked.connect(self.save_settings)
@@ -476,6 +477,12 @@ class NarwhalletController():
             return False
         self.set_dat.save(json.dumps(self.settings.to_dict()))
         return True
+
+    def show_change(self):
+        self.settings.set_show_change(
+            self.ui.settings_tab.show_change.isChecked())
+        self.ui.w_tab.tabWidget_2.setTabVisible(2, self.settings.show_change)
+        self.set_dat.save(json.dumps(self.settings.to_dict()))
 
     def save_web_settings(self):
         _h = self.ui.settings_tab.nw_host.text()

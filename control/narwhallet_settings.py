@@ -99,6 +99,7 @@ class MNarwhalletSettings():
 
     def to_dict(self) -> dict:
         _d = {}
+        _d['show_change'] = self.show_change
         _d['sync'] = self.sync
         _d['electrumx_auto_connect'] = self.electrumx_auto_connect
         _d['primary_peer'] = self.primary_peer
