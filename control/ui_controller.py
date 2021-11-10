@@ -246,6 +246,8 @@ class NarwhalletController():
             self.set_dat.save(json.dumps(self.settings.to_dict()))
 
         self.ui.w_tab.tbl_addr2.hideColumn(6)
+        (self.ui.settings_tab.auto_lock_e
+         .setText(str(self.settings.auto_lock_timer)))
         self.ui.settings_tab.show_change.setChecked(self.settings.show_change)
         self.ui.w_tab.tabWidget_2.setTabVisible(2, self.settings.show_change)
 
@@ -377,6 +379,7 @@ class NarwhalletController():
         (self.ui.settings_tab.elxp_btn_add
          .clicked.connect(self.dialogs.add_electrumx_peer_dialog))
 
+        self.ui.settings_tab.auto_lock_e.textChanged.connect(self.save_settings)
         self.ui.settings_tab.show_change.clicked.connect(self.show_change)
         self.ui.settings_tab.s_a_wallet.clicked.connect(self.save_settings)
         self.ui.settings_tab.s_a_df.clicked.connect(self.save_settings)
@@ -398,8 +401,9 @@ class NarwhalletController():
         (self.ui.settings_tab.nw_port
          .textChanged.connect(self.save_web_settings))
 
-        self.threader('wallet_lock_timer', time.sleep,
-                      60, None, self.t_restart)
+        if self.settings.auto_lock_timer >= 30:
+            self.threader('wallet_lock_timer', time.sleep,
+                          self.settings.auto_lock_timer, None, self.t_restart)
 
         if self.settings.sync['wallets'][2] >= 60:
             self.threader('wallets_timer', time.sleep,
@@ -458,6 +462,8 @@ class NarwhalletController():
 
     def save_settings(self):
         try:
+            (self.settings.set_auto_lock_timer(
+                int(self.ui.settings_tab.auto_lock_e.text())))
             _s = self.settings.sync
             _s['wallets'][0] = self.ui.settings_tab.s_a_wallet.isChecked()
             _s['datafeed'][0] = self.ui.settings_tab.s_a_df.isChecked()
@@ -479,8 +485,8 @@ class NarwhalletController():
         return True
 
     def show_change(self):
-        self.settings.set_show_change(
-            self.ui.settings_tab.show_change.isChecked())
+        (self.settings
+         .set_show_change(self.ui.settings_tab.show_change.isChecked()))
         self.ui.w_tab.tabWidget_2.setTabVisible(2, self.settings.show_change)
         self.set_dat.save(json.dumps(self.settings.to_dict()))
 

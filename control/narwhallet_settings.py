@@ -11,6 +11,7 @@ class MNarwhalletSettings():
         self._ipfs_gateways: List[list] = None
         self._data_feeds: dict = None
         self._show_change: bool = False
+        self._auto_lock_timer: int = 60
 
     @property
     def sync(self) -> dict:
@@ -43,6 +44,10 @@ class MNarwhalletSettings():
     @property
     def show_change(self) -> bool:
         return self._show_change
+
+    @property
+    def auto_lock_timer(self) -> int:
+        return self._auto_lock_timer
 
     def set_sync(self, sync: dict) -> None:
         self._sync = sync
@@ -80,6 +85,9 @@ class MNarwhalletSettings():
     def set_show_change(self, show_change: bool) -> None:
         self._show_change = show_change
 
+    def set_auto_lock_timer(self, interval: int) -> None:
+        self._auto_lock_timer = interval
+
     def from_dict(self, _d: dict) -> None:
         self.set_sync(_d['sync'])
         self.set_electrumx_auto_connect(_d['electrumx_auto_connect'])
@@ -97,6 +105,9 @@ class MNarwhalletSettings():
         if 'show_change' in _d:
             self.set_show_change(_d['show_change'])
 
+        if 'auto_lock_timer' in _d:
+            self.set_auto_lock_timer(_d['auto_lock_timer'])
+
     def to_dict(self) -> dict:
         _d = {}
         _d['show_change'] = self.show_change
@@ -107,5 +118,6 @@ class MNarwhalletSettings():
         _d['primary_ipfs_gateway'] = self.primary_ipfs_gateway
         _d['ipfs_gateways'] = self.ipfs_gateways
         _d['data_feeds'] = self.data_feeds
+        _d['auto_lock_timer'] = self.auto_lock_timer
 
         return _d
