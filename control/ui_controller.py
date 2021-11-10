@@ -620,6 +620,9 @@ class NarwhalletController():
                 if wallet.kind != 0:
                     continue
 
+                if _wallet_name != '':
+                    break
+
                 _wallet_name = self._set_ns_wallet_name(_oa[0][0], wallet)
 
             if _wallet_name != '':
