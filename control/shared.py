@@ -13,6 +13,7 @@ from core.kcl.models.cache import MCache
 from core.kcl.models.wallet import MWallet
 from core.kcl.models.addresses import MAddresses
 from core.kcl.models.address import MAddress
+from core.kcl.models.psbt_decoder import keva_psbt
 from core.kcl.models.transaction import MTransaction
 from core.kcl.models.transaction_input import MTransactionInput
 from core.kcl.models.transaction_output import MTransactionOutput
@@ -789,3 +790,24 @@ class MShared():
             _responses['replies'][_i]['value'] = _v
 
         return _responses
+
+    @staticmethod
+    def check_if_bid_valid(bid: keva_psbt, kex: KEXclient) -> bool:
+        _return = False
+        for vin in bid.tx.vin:
+            _tx = MTransaction()
+            _x = MShared.get_tx(vin.txid, kex, True)
+            _tx.from_json(_x)
+            _a = _tx.vout[vin.vout].scriptPubKey.addresses[0]
+            _a_usxo = MShared._list_unspent(_a, kex)
+
+            for _i in _a_usxo:
+                if _i['tx_hash'] == vin.txid and _i['tx_pos'] == vin.vout:
+                    _return = True
+                else:
+                    _return = False
+                    break
+            if _return is False:
+                break
+
+        return _return

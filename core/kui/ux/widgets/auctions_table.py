@@ -32,6 +32,7 @@ class _auctions_table(QTableWidget):
         self.setColumnWidth(0, 20)
         self.setColumnWidth(7, 20)
         self.setColumnHidden(8, True)
+        self.setColumnHidden(9, True)
 
     @staticmethod
     def flags():

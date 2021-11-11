@@ -36,6 +36,7 @@ class _bids_table(QTableWidget):
         self.setColumnWidth(0, 20)
         self.setColumnWidth(8, 20)
         self.setColumnHidden(10, True)
+        self.setColumnHidden(11, True)
 
     @staticmethod
     def flags():

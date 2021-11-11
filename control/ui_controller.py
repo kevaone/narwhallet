@@ -976,8 +976,10 @@ class NarwhalletController():
             if _r['value'][:10] == '70736274ff':
                 # TODO Add test to indicate if bid valid (spent usxo/deleted key)
                 _b = keva_psbt(_r['value'])
+                _bid_ok = MShared.check_if_bid_valid(_b, self.KEX)
                 _bids.append([_r['time'], _r['sender']['shortCode'],
-                              str(_b.tx.vout[1].value / 100000000) + ' KVA'])
+                              str(_b.tx.vout[1].value / 100000000) + ' KVA',
+                              _bid_ok])
         self.ui.nft_tab.tbl_bids_2.add_bids(_bids)
 
     def sign_wallet_changed(self, data: str):
