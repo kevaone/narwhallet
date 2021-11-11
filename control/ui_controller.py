@@ -941,6 +941,7 @@ class NarwhalletController():
             _auction_ns = self.ui.nft_tab.tbl_bids.item(row, 10).text()
             _auction_tx = self.ui.nft_tab.tbl_bids.item(row, 11).text()
             _auction = self.cache.ns.get_namespace_auctions(_auction_ns)
+
             if len(_auction) > 0:
                 _reactions = MShared.get_ns_key_reactions(_auction_tx, self.KEX)
                 self.update_selected_auction_data(_auction[0], _reactions)
@@ -957,6 +958,7 @@ class NarwhalletController():
             self.ui.nft_tab.num_bids.setText('')
             self.ui.nft_tab.address.setText('')
             self.ui.nft_tab.hashtags.setText('')
+            self.ui.nft_tab.tbl_bids_2.clear_rows()
         else:
             _auction = json.loads(auction[4])
             self.ui.nft_tab.display_name.setText(_auction['displayName'])
