@@ -507,8 +507,11 @@ class MShared():
     @staticmethod
     def get_merkle(txid: str, height: int, kex: KEXclient) -> str:
         _merkle = kex.call(kex.api.bc_tx.get_merkle, [txid, height])
-        print('_merkle', _merkle)
-        _merkle = json.loads(_merkle)
+        try:
+            _merkle = json.loads(_merkle)
+        except Exception:
+            _merkle = ''
+
         if 'result' not in _merkle:
             _merkle = ''
         else:
