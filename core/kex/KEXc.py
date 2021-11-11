@@ -23,7 +23,7 @@ class KEXclient():
             _command = command.build_command(params, self.id)
             while self.peers[self.active_peer].busy is True:
                 # print('peer busy, retry in 5 seconds...')
-                time.sleep(5)
+                time.sleep(1)
             data = self.peers[self.active_peer].comm(_command)
             self.id += 1
         except Exception:

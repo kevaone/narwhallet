@@ -518,8 +518,8 @@ class NarwhalletController():
 
             if wallet.bid_balance > 0:
                 self.wallets.save_wallet(wallet.name)
-                (self.ui.w_tab.tbl_w.item(i, 7)
-                 .setText(str(round(wallet.bid_balance, 8))))
+            (self.ui.w_tab.tbl_w.item(i, 7)
+             .setText(str(round(wallet.bid_balance, 8))))
             (self.ui.w_tab.tbl_w.item(i, 8)
              .setText(MShared.get_timestamp(wallet.last_updated)[1]))
 
@@ -593,7 +593,7 @@ class NarwhalletController():
 
             for _ad in _w.change_addresses.addresses:
                 for _us in _ad.unspent_tx:
-                    _x = json.loads(_us)
+                    _x = _us
                     if _x['tx_hash'] == _btx[1] and _x['tx_pos'] == _btx[2]:
                         (_w.set_bid_balance(
                             _w.bid_balance + (_us['value'] / 100000000)))
@@ -978,7 +978,7 @@ class NarwhalletController():
             if _r['value'][:10] == '70736274ff':
                 # TODO Add test to indicate if bid valid (spent usxo/deleted key)
                 _b = keva_psbt(_r['value'])
-                _bid_ok = MShared.check_if_bid_valid(_b, self.KEX)
+                _bid_ok = MShared.check_if_bid_valid(_b, self.KEX, self.cache)
                 _bids.append([_r['time'], _r['sender']['shortCode'],
                               str(_b.tx.vout[1].value / 100000000) + ' KVA',
                               _bid_ok])

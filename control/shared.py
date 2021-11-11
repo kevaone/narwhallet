@@ -792,12 +792,14 @@ class MShared():
         return _responses
 
     @staticmethod
-    def check_if_bid_valid(bid: keva_psbt, kex: KEXclient) -> bool:
+    def check_if_bid_valid(bid: keva_psbt, kex: KEXclient, cache: MCache) -> bool:
         _return = False
         for vin in bid.tx.vin:
-            _tx = MTransaction()
-            _x = MShared.get_tx(vin.txid, kex, True)
-            _tx.from_json(_x)
+            _tx = cache.tx.get_tx_by_txid(vin.txid)
+            if _tx is None:
+                _tx = MShared.get_tx(vin.txid, kex, True)
+                _tx = cache.tx.add_from_json(_tx)
+
             _a = _tx.vout[vin.vout].scriptPubKey.addresses[0]
             _a_usxo = MShared._list_unspent(_a, kex)
 
