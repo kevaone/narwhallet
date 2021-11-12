@@ -19,6 +19,7 @@ class MTransactionBuilder(MTransaction):
         self._fee: int = 0
         self._target_value: int = 0
         self.inputs_to_spend: List[MTransactionInput] = []
+        self.input_ref_scripts = []
         self.input_signatures = []
 
     @staticmethod
@@ -181,23 +182,28 @@ class MTransactionBuilder(MTransaction):
 
         return _hash_cache
 
-    def serialize_tx(self) -> str:
+    def serialize_tx(self, for_psbt: bool = False) -> str:
         _lock_time = 0
 
         _pre = []
 
         _pre.append(self._version)
-        _pre.append(self._segwit)
+        if for_psbt is False:
+            _pre.append(self._segwit)
         _pre.append(Ut.to_cuint(len(self.vin)))
 
         for i in self.vin:
             _outpoint = Ut.reverse_bytes(Ut.hex_to_bytes(i.txid))
             _outpoint = _outpoint + Ut.int_to_bytes(i.vout, 4, 'little')
             _pre.append(_outpoint)
-            _s = Ut.hex_to_bytes(i.scriptSig.hex)
-            _script_sig = Ut.to_cuint(len(_s)) + _s
-            _pre.append(Ut.to_cuint(len(_script_sig)))
-            _pre.append(_script_sig)
+            if for_psbt is False:
+                _s = Ut.hex_to_bytes(i.scriptSig.hex)
+                _script_sig = Ut.to_cuint(len(_s)) + _s
+                _pre.append(Ut.to_cuint(len(_script_sig)))
+                _pre.append(_script_sig)
+            else:
+                _pre.append(Ut.to_cuint(0))
+
             _pre.append(Ut.hex_to_bytes(i.sequence))
 
         _pre.append(Ut.to_cuint(len(self.vout)))
@@ -208,6 +214,9 @@ class MTransactionBuilder(MTransaction):
             _pre.append(Ut.hex_to_bytes(i.scriptPubKey.hex))
 
         for i in self.input_signatures:
+            if for_psbt is True:
+                break
+
             _pre.append(Ut.to_cuint(len(i)))
             for s in i:
                 _x = Ut.hex_to_bytes(s)
@@ -252,6 +261,60 @@ class MTransactionBuilder(MTransaction):
         _sighash = Ut.bytes_to_hex(Ut.sha256(Ut.sha256(_spre)))
 
         return _sighash
+
+    def to_psbt(self) -> str:
+        self.set_version(Ut.hex_to_bytes('00710000'))
+        _pre = []
+        _magic = '70736274'
+        _seperator = 'ff'
+        _pre.append(Ut.hex_to_bytes(_magic))
+        _pre.append(Ut.hex_to_bytes(_seperator))
+        
+        # _PSBT_GLOBAL_UNSIGNED_TX '00'
+        _pre.append(Ut.to_cuint(1))
+        _pre.append(Ut.to_cuint(0))
+        _tx = self.serialize_tx(True)
+        _pre.append(Ut.to_cuint(len(_tx)))
+        _pre.append(_tx)
+
+        for c, i in enumerate(self.input_signatures):
+            _pre.append(Ut.to_cuint(0))
+            # _PSBT_IN_WITNESS_UTXO '01'
+            _pre.append(Ut.to_cuint(1))
+            _sp = self.input_ref_scripts[c]
+            print('_sp', Ut.bytes_to_hex(Ut.to_cuint(len(_sp))), _sp)
+            _pre.append(Ut.to_cuint(len(Ut.to_cuint(len(_sp)))))
+            _pre.append(Ut.to_cuint(len(_sp)))
+            _pre.append(_sp)
+            # _PSBT_IN_PARTIAL_SIG '02'
+            _x = Ut.to_cuint(2) + Ut.hex_to_bytes(i[1])
+            _pre.append(Ut.to_cuint(len(_x)))
+            _pre.append(_x)
+            _xa = Ut.hex_to_bytes(i[0][:-2]+'81')
+            _pre.append(Ut.to_cuint(len(_xa)))
+            _pre.append(_xa)
+            # _PSBT_IN_SIGHASH_TYPE '03'
+            _pre.append(Ut.to_cuint(1))
+            _pre.append(Ut.to_cuint(3))
+            _pre.append(Ut.to_cuint(len(Ut.int_to_bytes(SIGHASH_TYPE.ALL_ANYONECANPAY.value, 4, 'little'))))
+            _pre.append(Ut.int_to_bytes(SIGHASH_TYPE.ALL_ANYONECANPAY.value, 4, 'little'))
+            # _PSBT_IN_REDEEM_SCRIPT '04'
+            _pre.append(Ut.to_cuint(1))
+            _pre.append(Ut.to_cuint(4))
+            _s = Ut.hex_to_bytes(self.vin[c].scriptSig.hex)
+            _pre.append(Ut.to_cuint(len(_s)) + _s)
+        _pre.append(Ut.to_cuint(0))
+        for i in self.vout:
+            _pre.append(Ut.to_cuint(0))
+
+        _spre = b''
+
+        for p in _pre:
+            _spre = _spre + p
+
+        # print('psbt', Ut.bytes_to_hex(_spre))
+        return _spre
+
 
     def to_dict(self) -> dict:
         return {'fee': self._fee, 'vin': self.to_dict_list(self.vin),
