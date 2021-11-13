@@ -70,7 +70,8 @@ class MTransactionInput(MBase):
         _s.set_hex(vin[4])
         self.set_scriptSig(_s)
         self._type = vin[5]
-        self.set_coinbase(vin[6])
+        if vin[6] != '':
+            self.set_coinbase(vin[6])
         if vin[7] != '':
             self.set_txinwitness(json.loads(vin[7]))
         self.set_sequence(vin[8])

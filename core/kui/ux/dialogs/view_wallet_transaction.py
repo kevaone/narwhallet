@@ -250,9 +250,13 @@ class _tx_in(QScrollArea):
         self._hl_6 = QHBoxLayout()
 
         self._txid_l = QLabel()
-        self._txid_l.setText('txid:')
         self._txid = QPlainTextEdit()
-        self._txid.setPlainText(vin.txid)
+        if vin.coinbase is not None:
+            self._txid_l.setText('coinbase:')
+            self._txid.setPlainText(vin.coinbase)
+        else:
+            self._txid_l.setText('txid:')
+            self._txid.setPlainText(vin.txid)
         self._txid.setMaximumHeight(26)
         self._txid.setReadOnly(True)
         self._txid.setFrameStyle(QFrame.NoFrame)
@@ -315,13 +319,14 @@ class _tx_in(QScrollArea):
 
         self._vl_0.addLayout(self._hl_0)
         self._vl_0.addLayout(self._hl_0a)
-        self._vl_0.addLayout(self._hl_1)
-        self._vl_0.addLayout(self._hl_2)
-        self._vl_0.addLayout(self._hl_3)
-        self._vl_0.addLayout(self._hl_4)
-        self._vl_0.addLayout(self._hl_5)
-        self._vl_0.addLayout(self._hl_5a)
-        self._vl_0.addLayout(self._hl_5b)
+        if vin.coinbase is None:
+            self._vl_0.addLayout(self._hl_1)
+            self._vl_0.addLayout(self._hl_2)
+            self._vl_0.addLayout(self._hl_3)
+            self._vl_0.addLayout(self._hl_4)
+            self._vl_0.addLayout(self._hl_5)
+            self._vl_0.addLayout(self._hl_5a)
+            self._vl_0.addLayout(self._hl_5b)
         self._vl_0.addLayout(self._hl_6)
 
         self.setWidget(self._tx_input)

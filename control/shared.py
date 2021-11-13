@@ -441,7 +441,11 @@ class MShared():
                     continue
 
                 for _in in _trx.vin:
+                    if _in.coinbase is not None:
+                        continue
+
                     _in_tx = cache.tx.get_tx_by_txid(_in.txid)
+
                     if _in_tx is None:
                         _tx_i_b.append(kex.api.bc_tx.get
                                        .build_command([_in.txid, True],
@@ -485,6 +489,7 @@ class MShared():
             _in_tx = cache.tx.get_tx_by_txid(_in.txid)
             if _in_tx is None:
                 _in_tx = MShared.get_tx(_in.txid, kex, True)
+            if _in_tx is not None and isinstance(_in_tx, dict):
                 _in_tx = cache.tx.add_from_json(_in_tx)
 
             if _in_tx is None:
