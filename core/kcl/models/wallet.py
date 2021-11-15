@@ -218,7 +218,7 @@ class MWallet(MBase):
                                                              self.bip)
                 self.set_extended_pub(_xpub, '049d7cb2')
 
-    def get_publickey_raw(self, index: int,  chain: int) -> bytes:
+    def get_publickey_raw(self, index: int,  chain: int) -> str:
         if self.bip == 'bip32':
             _pk = WalletUtils.get_public_key_raw(self.extended_prv,
                                                  self.coin, self.bip,
@@ -271,7 +271,7 @@ class MWallet(MBase):
 
     def get_address_by_index(self, index: int,
                              incriment: bool = False,
-                             incriment_idx: bool = True) -> None:
+                             incriment_idx: bool = True) -> str:
         if self.bip == 'bip32':
             _a = (WalletUtils
                   .gen_bip32_address_from_extended(self.extended_prv, index))
