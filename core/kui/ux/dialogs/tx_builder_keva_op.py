@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
 from control.shared import MShared
 from core.ksc import Scripts
 from core.ksc.utils import Ut
+from core.kcl.models.builder.sighash import SIGHASH_TYPE
 from core.kcl.models.cache import MCache
 from core.kcl.models.wallets import MWallets
 from core.kcl.models.transaction_builder import MTransactionBuilder
@@ -240,7 +241,7 @@ class Ui_keva_op_send_dlg(QDialog):
             _npk = _vin_idx.tb_address
             _npkc = _vin_idx.tb_address_chain
             _pk = wallet.get_publickey_raw(_npk, _npkc)
-            _sighash = self.new_tx.make_preimage(c, _pk)
+            _sighash = self.new_tx.make_preimage(c, _pk, SIGHASH_TYPE.ALL)
             _sig = wallet.sign_message(_npk, _sighash, _npkc)
             _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
             _vin_idx.scriptSig.set_hex(_script)

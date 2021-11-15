@@ -50,7 +50,7 @@ class MTransactionBuilder(MTransaction):
         #       _total_size, 'vsize', _vsize)
         return _total_size, _vsize
 
-    def get_current_values(self):
+    def get_current_values(self, isBid: bool = False):
         _i = 0
         _o = 0
         _f = 0
@@ -60,6 +60,9 @@ class MTransactionBuilder(MTransaction):
 
         for vo in self.vout:
             _o += vo.value
+
+        if isBid is True:
+            _o = _o - 1000000
 
         _f = _i - _o
         return _i, _o, _f
@@ -90,12 +93,13 @@ class MTransactionBuilder(MTransaction):
 
         self.add_vin(_vin)
 
-    def select_inputs(self):
+    def select_inputs(self, isBid: bool = False):
+        _est_fee = 0
         self.inputs_to_spend.sort(reverse=False, key=self.sort)
         _enough_inputs = False
         _change_flag = False
         for tx in self.inputs_to_spend:
-            _, _, fv = self.get_current_values()
+            _, _, fv = self.get_current_values(isBid)
             # print('iv', iv, 'ov', ov, 'fv', fv)
             _size, _vsize = self.get_size(len(self.vin) + 1, len(self.vout))
             _est_fee = self.fee * _vsize
@@ -142,7 +146,7 @@ class MTransactionBuilder(MTransaction):
         return _return, _change_flag, _est_fee
 
     def hash_prevouts(self, hash_type: SIGHASH_TYPE) -> bytes:
-        _hash_cache = b''
+        _hash_cache = b'0000000000000000000000000000000000000000000000000000000000000000'
         if (hash_type is not SIGHASH_TYPE.ALL_ANYONECANPAY
            or SIGHASH_TYPE.NONE_ANYONECANPAY
            or SIGHASH_TYPE.SINGLE_ANYONECANPAY):
@@ -156,7 +160,7 @@ class MTransactionBuilder(MTransaction):
         return _hash_cache
 
     def hash_seqs(self, hash_type: SIGHASH_TYPE) -> bytes:
-        _hash_cache = b''
+        _hash_cache = b'0000000000000000000000000000000000000000000000000000000000000000'
         if hash_type == SIGHASH_TYPE.ALL:
             for inp in self.vin:
                 _hash_cache = _hash_cache + \
@@ -166,7 +170,7 @@ class MTransactionBuilder(MTransaction):
         return _hash_cache
 
     def hash_outputs(self, hash_type: SIGHASH_TYPE, idx: int = None) -> bytes:
-        _hash_cache = b''
+        _hash_cache = b'0000000000000000000000000000000000000000000000000000000000000000'
         if hash_type is not SIGHASH_TYPE.NONE or SIGHASH_TYPE.SINGLE:
             for output in self.vout:
                 _out_value = Ut.int_to_bytes(output.value, 8, 'little')
@@ -231,8 +235,8 @@ class MTransactionBuilder(MTransaction):
 
         return _spre
 
-    def make_preimage(self, i: int, pk: str) -> str:
-        _hash_type = SIGHASH_TYPE.ALL
+    def make_preimage(self, i: int, pk: str, hash_type: SIGHASH_TYPE) -> str:
+        _hash_type = hash_type  # SIGHASH_TYPE.ALL
         _lock_time = 0
 
         _pre = []
@@ -282,7 +286,7 @@ class MTransactionBuilder(MTransaction):
             # _PSBT_IN_WITNESS_UTXO '01'
             _pre.append(Ut.to_cuint(1))
             _sp = self.input_ref_scripts[c]
-            print('_sp', Ut.bytes_to_hex(Ut.to_cuint(len(_sp))), _sp)
+            #print('_sp', Ut.bytes_to_hex(Ut.to_cuint(len(_sp))), _sp)
             _pre.append(Ut.to_cuint(len(Ut.to_cuint(len(_sp)))))
             _pre.append(Ut.to_cuint(len(_sp)))
             _pre.append(_sp)

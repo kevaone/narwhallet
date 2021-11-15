@@ -818,3 +818,31 @@ class MShared():
                 break
 
         return _return
+
+    @staticmethod
+    def check_tx_is_auction(tx: str, kex: KEXclient, cache: MCache) -> bool:
+        if len(tx) != 64:
+            return (False, '', '')
+
+        _tx = cache.tx.get_tx_by_txid(tx)
+
+        if _tx is None:
+            _tx = MShared.get_tx(tx, kex, True)
+
+        if _tx is not None and isinstance(_tx, dict):
+            _tx = cache.tx.add_from_json(_tx)
+        elif _tx is None:
+            return (False, '', '')
+
+        _asm = _tx.vout[0].scriptPubKey.asm.split(' ')
+        if _asm[0] != 'OP_KEVA_PUT':
+            return (False, '', '')
+
+        _key = cache.ns._decode(_asm[2])
+        _value = cache.ns._decode(_asm[3])
+        if cache.ns.get_key_type(_key, _value) != 'nft_auction':
+            return (False, '', '')
+
+        _ns = cache.ns.convert_to_namespaceid(_asm[1])
+
+        return (True, _ns, json.loads(_value))

@@ -42,11 +42,14 @@ class ParamValidators():
         return Ut.to_cuint(len(_name)) + _name
 
     @staticmethod
-    def key_value(value: str) -> bytes:
-        try:
-            _value = bytes([ord(value)])
-        except Exception:
-            _value = value.encode()
+    def key_value(value: str or bytes) -> bytes:
+        if isinstance(value, bytes) is False:
+            try:
+                _value = bytes([ord(value)])
+            except Exception:
+                _value = value.encode()
+        else:
+            _value = value
         return Ut.encode_pushdata(_value)
 
     @staticmethod

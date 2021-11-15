@@ -366,6 +366,8 @@ class NarwhalletController():
          .clicked.connect(self.dialogs.create_namespace_key_send_dialog))
         (self.ui.nft_tab.btn_create_auction
          .clicked.connect(self.dialogs.auction_namespace_dialog))
+        (self.ui.nft_tab.btn_create_bid
+         .clicked.connect(self.dialogs.bid_namespace_dialog))
         (self.ui.w_tab.btn_watch_addr
          .clicked.connect(self.add_wallet_watch))
         (self.ui.w_tab.btn_create

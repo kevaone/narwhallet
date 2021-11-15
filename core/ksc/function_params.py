@@ -41,9 +41,9 @@ class Params(Enum):
     hashtag = ([bytes, str], 'KVA Hashtag', 'utf-8', 'toLower')
     Base58Check_address_hash = ([bytes, str], ParamValidators.base58Checkhash,
                                 'Base58 Check Addr Hash')
-    keyBuf = ([str], ParamValidators.key_value,
+    keyBuf = ([str, bytes], ParamValidators.key_value,
               'KVA Key Buffer')
-    valueBuf = ([str], ParamValidators.key_value,
+    valueBuf = ([str, bytes], ParamValidators.key_value,
                 'KVA Value Buffer')
     eBuf = ([bytes], ParamValidators.empty_buffer,
             'Empty Buffer')
