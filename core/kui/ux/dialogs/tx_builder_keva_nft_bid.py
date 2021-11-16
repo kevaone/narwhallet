@@ -276,7 +276,6 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
                 _ = self.bid_tx.add_output(_cv, _change_address)
 
             self.txb_preimage(self.bid_tx, SIGHASH_TYPE.ALL_ANYONECANPAY)
-            # _stx = self.bid_tx.serialize_tx()
 
     def txb_w_changed(self, data):
         if data != '-':
@@ -422,8 +421,6 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
     def txb_build_simple_send(self):
         self.build_bid()
         self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
-        # _n = self.combo_wallet.currentData()
-        # wallet = self.wallets.get_wallet_by_name(_n)
         self.set_availible_usxo(True)
         _namespace_reservation = 1000000
         _ns_dat = self.combo_ns.currentData().split(':')
@@ -494,4 +491,3 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         self.combo_ns.setEnabled(True)
         self.bid_nft_tx.setReadOnly(False)
         self.bid_amount.setReadOnly(False)
-        # self.address.setReadOnly(False)

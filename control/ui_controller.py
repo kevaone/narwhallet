@@ -381,7 +381,8 @@ class NarwhalletController():
         (self.ui.settings_tab.elxp_btn_add
          .clicked.connect(self.dialogs.add_electrumx_peer_dialog))
 
-        self.ui.settings_tab.auto_lock_e.textChanged.connect(self.save_settings)
+        (self.ui.settings_tab.auto_lock_e
+         .textChanged.connect(self.save_settings))
         self.ui.settings_tab.show_change.clicked.connect(self.show_change)
         self.ui.settings_tab.s_a_wallet.clicked.connect(self.save_settings)
         self.ui.settings_tab.s_a_df.clicked.connect(self.save_settings)
@@ -927,7 +928,8 @@ class NarwhalletController():
             _auction = self.cache.ns.get_namespace_auctions(_auction_ns)
 
             if len(_auction) > 0:
-                _reactions = MShared.get_ns_key_reactions(_auction_tx, self.KEX)
+                _reactions = (MShared
+                              .get_ns_key_reactions(_auction_tx, self.KEX))
                 self.update_selected_auction_data(_auction[0], _reactions)
 
     def nft_bid_selected(self, row: int = -1, _column: int = -1):
@@ -945,7 +947,8 @@ class NarwhalletController():
             _auction = self.cache.ns.get_namespace_auctions(_auction_ns)
 
             if len(_auction) > 0:
-                _reactions = MShared.get_ns_key_reactions(_auction_tx, self.KEX)
+                _reactions = (MShared
+                              .get_ns_key_reactions(_auction_tx, self.KEX))
                 self.update_selected_auction_data(_auction[0], _reactions)
             else:
                 self.update_selected_auction_data(None, None, True)

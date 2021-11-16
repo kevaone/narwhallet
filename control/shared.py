@@ -556,12 +556,11 @@ class MShared():
                 if _key[0][3] == 'deleted':
                     return
 
-                #_ = cache.ns.delete_key(_o[1], _o[2], _merkle['block_height'])
                 _ = (cache.ns
                      .mark_key_deleted(_merkle['block_height'], _o[1], _o[2]))
             else:
                 if len(_key) > 0 and _o[2][:4] != '0001':
-                    if (_key[0][3] == 'deleted' and 
+                    if (_key[0][3] == 'deleted' and
                             _key[0][2] > _merkle['block_height']):
                         return
 
@@ -797,7 +796,8 @@ class MShared():
         return _responses
 
     @staticmethod
-    def check_if_bid_valid(bid: keva_psbt, kex: KEXclient, cache: MCache) -> bool:
+    def check_if_bid_valid(bid: keva_psbt, kex: KEXclient,
+                           cache: MCache) -> bool:
         _return = False
         for vin in bid.tx.vin:
             _tx = cache.tx.get_tx_by_txid(vin.txid)
