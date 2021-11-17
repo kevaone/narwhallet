@@ -247,9 +247,6 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         locale = QLocale()
         _b_amount = locale.toDouble(self.bid_amount.text())
         _bid_amount = int(_b_amount[0] * 100000000)
-        # NOTE NS Reservation back to auctioneer
-        # TODO CHECK auctions NS USXO value and pad bid, currently assuming NS USXO conforms to 1000000
-        _bid_amount += 1000000
 
         _auc = {}
         _auc['displayName'] = self.nft_name.text()
@@ -367,6 +364,7 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
                     for _vin in self.bid_tx.vin:
                         if _vin.txid == _tx.txid:
                             _used = True
+                            print('used')
 
                     if _used is False:
                         _usxos.append(tx)

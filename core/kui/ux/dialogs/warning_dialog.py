@@ -3,7 +3,8 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
-                             QSpacerItem, QSizePolicy, QDialogButtonBox)
+                             QSpacerItem, QSizePolicy, QDialogButtonBox,
+                             QPlainTextEdit)
 
 
 class Ui_warning_dlg(QDialog):
@@ -22,7 +23,7 @@ class Ui_warning_dlg(QDialog):
                                               '../assets/exclamation.png'))
         self.success_pic = QPixmap(os.path.join(__path,
                                                 '../assets/narwhal.png'))
-        self.label_2 = QLabel(self)
+        self.label_2 = QPlainTextEdit(self)
         self.buttonBox = QDialogButtonBox(self)
 
         self.setObjectName('warning_dlg')
@@ -56,4 +57,4 @@ class Ui_warning_dlg(QDialog):
 
     def set_message(self, message):
         _translate = QtCore.QCoreApplication.translate
-        self.label_2.setText(_translate('warning_dlg', message))
+        self.label_2.setPlainText(_translate('warning_dlg', message))

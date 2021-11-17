@@ -63,6 +63,7 @@ class MTransactionBuilder(MTransaction):
 
         if isBid is True:
             _o = _o - 1000000
+            print('hit bid')
 
         _f = _i - _o
         return _i, _o, _f
@@ -146,7 +147,7 @@ class MTransactionBuilder(MTransaction):
         return _return, _change_flag, _est_fee
 
     def hash_prevouts(self, hash_type: SIGHASH_TYPE) -> bytes:
-        _hash_cache = b'0000000000000000000000000000000000000000000000000000000000000000'
+        _hash_cache = b''
         if (hash_type is not SIGHASH_TYPE.ALL_ANYONECANPAY
            or SIGHASH_TYPE.NONE_ANYONECANPAY
            or SIGHASH_TYPE.SINGLE_ANYONECANPAY):
@@ -156,21 +157,25 @@ class MTransactionBuilder(MTransaction):
                     Ut.int_to_bytes(inp.vout, 4, 'little')
 
             _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
+        else:
+            _hash_cache = b'0000000000000000000000000000000000000000000000000000000000000000'
 
         return _hash_cache
 
     def hash_seqs(self, hash_type: SIGHASH_TYPE) -> bytes:
-        _hash_cache = b'0000000000000000000000000000000000000000000000000000000000000000'
+        _hash_cache = b''
         if hash_type == SIGHASH_TYPE.ALL:
             for inp in self.vin:
                 _hash_cache = _hash_cache + \
                     Ut.hex_to_bytes(inp.sequence)
             _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
+        else:
+            _hash_cache = b'0000000000000000000000000000000000000000000000000000000000000000'
 
         return _hash_cache
 
     def hash_outputs(self, hash_type: SIGHASH_TYPE, idx: int = None) -> bytes:
-        _hash_cache = b'0000000000000000000000000000000000000000000000000000000000000000'
+        _hash_cache = b''
         if hash_type is not SIGHASH_TYPE.NONE or SIGHASH_TYPE.SINGLE:
             for output in self.vout:
                 _out_value = Ut.int_to_bytes(output.value, 8, 'little')
@@ -183,6 +188,8 @@ class MTransactionBuilder(MTransaction):
         elif hash_type == SIGHASH_TYPE.SINGLE:
             _hash_cache = self.vout[idx]
             _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
+        else:
+            _hash_cache = b'0000000000000000000000000000000000000000000000000000000000000000'
 
         return _hash_cache
 

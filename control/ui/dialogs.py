@@ -88,7 +88,11 @@ class MDialogs():
 
         if _result != 0:
             _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
+            if isinstance(_bc_result[1], dict):
+                _result = json.dumps(_bc_result[1])
+            else:
+                _result = _bc_result[1]
+            _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def create_namespace_send_dialog(self):
         _di = Ui_keva_op_send_dlg()
@@ -123,7 +127,11 @@ class MDialogs():
 
         if _result != 0:
             _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
+            if isinstance(_bc_result[1], dict):
+                _result = json.dumps(_bc_result[1])
+            else:
+                _result = _bc_result[1]
+            _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def create_namespace_key_send_dialog(self):
         _di = Ui_keva_op_send_dlg()
@@ -167,7 +175,11 @@ class MDialogs():
 
         if _result != 0:
             _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
+            if isinstance(_bc_result[1], dict):
+                _result = json.dumps(_bc_result[1])
+            else:
+                _result = _bc_result[1]
+            _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def edit_namespace_key_send_dialog(self):
         _di = Ui_keva_op_send_dlg()
@@ -279,7 +291,11 @@ class MDialogs():
 
         if _result != 0:
             _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
+            if isinstance(_bc_result[1], dict):
+                _result = json.dumps(_bc_result[1])
+            else:
+                _result = _bc_result[1]
+            _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def transfer_namespace_send_dialog(self):
         _di = Ui_keva_op_send_dlg()
@@ -335,7 +351,11 @@ class MDialogs():
 
         if _result != 0:
             _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-            _ = self.warning_dialog(_bc_result[1], False, _bc_result[0])
+            if isinstance(_bc_result[1], dict):
+                _result = json.dumps(_bc_result[1])
+            else:
+                _result = _bc_result[1]
+            _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def auction_namespace_dialog(self):
         _di = Ui_keva_op_nft_dlg()
