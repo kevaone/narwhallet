@@ -269,8 +269,7 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
             _cv = _fv - _est_fee
 
             if _need_change is True:
-                _change_address = wallet.get_unused_change_address()
-                _ = self.bid_tx.add_output(_cv, _change_address)
+                _ = self.bid_tx.add_output(_cv, _trans_address)
 
             self.txb_preimage(self.bid_tx, SIGHASH_TYPE.ALL_ANYONECANPAY)
 
