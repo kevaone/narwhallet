@@ -541,7 +541,6 @@ class MShared():
         if _merkle == '':
             return
 
-        # TODO Get dates and key types;
         if _o[0] == 'OP_KEVA_NAMESPACE':
             _ = (cache.ns
                  .from_raw(_merkle['block_height'],
@@ -550,15 +549,11 @@ class MShared():
                            '5f4b4556415f4e535f', _o[2],
                            _out.addresses[0]))
         else:
-            _key = cache.ns.get_namespace_by_key(_o[1], _o[2])
-
             if _o[0] == 'OP_KEVA_DELETE':
-                if _key[0][3] == 'deleted':
-                    return
-
                 _ = (cache.ns
                      .mark_key_deleted(_merkle['block_height'], _o[1], _o[2]))
             else:
+                _key = cache.ns.get_namespace_by_key(_o[1], _o[2])
                 if len(_key) > 0 and _o[2][:4] != '0001':
                     if (_key[0][3] == 'deleted' and
                             _key[0][2] > _merkle['block_height']):

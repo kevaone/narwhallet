@@ -89,7 +89,7 @@ class Scripts(Enum):
     UPDATE_NS_KEY = 'UPDATE ns_cache SET block = ?, n = ?, txid = ?, \
         value = ?, special = ?, address = ? WHERE ns = ? AND [key] = ? \
             AND block < ?;'
-    UPDATE_NS_KEY_MARK = 'UPDATE ns_cache SET block = ?, special = ? \
+    UPDATE_NS_KEY_MARK = 'UPDATE ns_cache SET special = ? \
         WHERE ns = ? AND [key] = ? AND block < ?;'
     UPDATE_NFT = 'UPDATE nft_cache SET tx = ?, data = ? WHERE tx = ?;'
     UPDATE_ACTION_CACHE = 'UPDATE action_cache SET state = ? \

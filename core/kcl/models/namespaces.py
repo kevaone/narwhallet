@@ -177,7 +177,7 @@ class MNamespaces():
         key = self._decode(key)
 
         _r = self.dbi.execute_sql(self.dbi.scripts.UPDATE_NS_KEY_MARK,
-                                  (block, 'deleted', namespaceid,
+                                  ('deleted', namespaceid,
                                    key, block), 1)
         return _r
 
