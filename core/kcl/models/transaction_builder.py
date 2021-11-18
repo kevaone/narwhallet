@@ -274,7 +274,7 @@ class MTransactionBuilder(MTransaction):
         return _sighash
 
     def to_psbt(self) -> str:
-        self.set_version(Ut.hex_to_bytes('00710000'))
+        # self.set_version(Ut.hex_to_bytes('00710000'))
         _pre = []
         _magic = '70736274'
         _seperator = 'ff'

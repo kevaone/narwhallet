@@ -240,6 +240,7 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
             self.check_next()
 
     def build_bid(self):
+        self.bid_tx.set_version(Ut.hex_to_bytes('00710000'))
         _n = self.combo_wallet.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
         _namespace_reservation = 1000000
