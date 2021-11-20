@@ -793,7 +793,7 @@ class MShared():
     @staticmethod
     def check_if_bid_valid(bid: keva_psbt, kex: KEXclient,
                            cache: MCache) -> bool:
-        _return = False
+        _valid_usxo = []
         for vin in bid.tx.vin:
             _tx = cache.tx.get_tx_by_txid(vin.txid)
             if _tx is None:
@@ -805,14 +805,14 @@ class MShared():
 
             for _i in _a_usxo:
                 if _i['tx_hash'] == vin.txid and _i['tx_pos'] == vin.vout:
-                    _return = True
+                    _valid_usxo.append(1)
                 else:
-                    _return = False
-                    break
-            if _return is False:
-                break
+                    _valid_usxo.append(0)
 
-        return _return
+        if sum(_valid_usxo) != len(bid.tx.vin):
+            return False
+
+        return True
 
     @staticmethod
     def check_tx_is_auction(tx: str, kex: KEXclient, cache: MCache) -> bool:
