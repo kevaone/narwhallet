@@ -59,12 +59,14 @@ class Ui_NFTTab(QObject):
 
         self.btn_create_auction = QPushButton()
         self.btn_create_bid = QPushButton()
+        self.btn_create_accept_bid = QPushButton()
         splitter_tables = QSplitter(QtCore.Qt.Orientation.Vertical)
         splitter_meta = QSplitter(QtCore.Qt.Orientation.Horizontal)
 
         self.frame_1_hl.addItem(QSpacerItem(20, 20, _sp_exp, _sp_min))
         self.frame_1_hl.addWidget(self.btn_create_auction)
         self.frame_1_hl.addWidget(self.btn_create_bid)
+        self.frame_1_hl.addWidget(self.btn_create_accept_bid)
         self.tab_vl.addLayout(self.frame_1_hl)
         self.frame_1a_vl.addWidget(self.auctions_l)
         self.frame_1a_vl.addWidget(self.tbl_auctions)
@@ -116,3 +118,4 @@ class Ui_NFTTab(QObject):
         self.address_l.setText(_translate('tabNFT', 'Address:'))
         self.btn_create_auction.setText(_translate('tabNFT', 'Create Auction'))
         self.btn_create_bid.setText(_translate('tabNFT', 'Create Bid'))
+        self.btn_create_accept_bid.setText(_translate('tabNFT', 'Accept Bid'))

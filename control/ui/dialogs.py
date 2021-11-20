@@ -21,6 +21,7 @@ from core.kui.ux.dialogs.tx_builder_simple_send import Ui_simple_send_dlg
 from core.kui.ux.dialogs.tx_builder_keva_op import Ui_keva_op_send_dlg
 from core.kui.ux.dialogs.tx_builder_keva_nft import Ui_keva_op_nft_dlg
 from core.kui.ux.dialogs.tx_builder_keva_nft_bid import Ui_keva_op_nft_bid_dlg
+from core.kui.ux.dialogs.tx_builder_keva_nft_accept_bid import Ui_keva_op_nft_accept_bid_dlg
 from core.kui.ux.dialogs.create_wallet import Ui_create_wallet_dlg
 from core.kui.ux.dialogs.add_wallet_watch_address import Ui_add_watch_addr_dlg
 from core.kui.ux.dialogs.add_wallet_watch import Ui_add_wallet_watch_dlg
@@ -390,6 +391,38 @@ class MDialogs():
 
     def bid_namespace_dialog(self):
         _di = Ui_keva_op_nft_bid_dlg()
+        _di.setupUi()
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
+        _fee = MShared.get_fee_rate(self.kex)
+        if _fee == -1:
+            _ = self.warning_dialog('Could not get fee rate!',
+                                    False, 1)
+            return
+
+        _di.new_tx.set_fee(_fee)
+        _di.bid_tx.set_fee(_fee)
+        _di.feerate.setText(str(_fee))
+        _di.setWindowTitle('Narwhallet - Create Bid')
+
+        for _wallet in self.wallets.wallets:
+            if _wallet.kind == 0:
+                _di.combo_wallet.addItem(_wallet.name, _wallet.name)
+
+        _result = _di.exec_()
+
+        if _result != 0:
+            _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
+            # print('_bc_result', type(_bc_result), _bc_result)
+            if isinstance(_bc_result[1], dict):
+                _result = json.dumps(_bc_result[1])
+            else:
+                _result = _bc_result[1]
+            _ = self.warning_dialog(_result, False, int(_bc_result[0]))
+
+    def accept_bid_namespace_dialog(self):
+        _di = Ui_keva_op_nft_accept_bid_dlg()
         _di.setupUi()
         _di.wallets = self.wallets
         _di.cache = self.cache
