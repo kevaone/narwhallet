@@ -343,8 +343,11 @@ class NarwhalletController():
         (self.ui.nft_tab.tbl_auctions
          .cellClicked.connect(self.nft_auction_selected))
         (self.ui.nft_tab.tbl_bids
+         .itemSelectionChanged.connect(self.nft_mybid_selected))
+        self.ui.nft_tab.tbl_bids.cellClicked.connect(self.nft_mybid_selected)
+        (self.ui.nft_tab.tbl_bids_2
          .itemSelectionChanged.connect(self.nft_bid_selected))
-        self.ui.nft_tab.tbl_bids.cellClicked.connect(self.nft_bid_selected)
+        self.ui.nft_tab.tbl_bids_2.cellClicked.connect(self.nft_bid_selected)
         (self.ui.u_tab.wallet_select
          .currentTextChanged.connect(self.sign_wallet_changed))
         (self.ui.u_tab.sa_e
@@ -934,7 +937,7 @@ class NarwhalletController():
                               .get_ns_key_reactions(_auction_tx, self.KEX))
                 self.update_selected_auction_data(_auction[0], _reactions)
 
-    def nft_bid_selected(self, row: int = -1, _column: int = -1):
+    def nft_mybid_selected(self, row: int = -1, _column: int = -1):
         self.ui.nft_tab.tbl_auctions.clearSelection()
         if row == -1:
             row = self.ui.nft_tab.tbl_bids.selectedRanges()
@@ -955,18 +958,68 @@ class NarwhalletController():
             else:
                 self.update_selected_auction_data(None, None, True)
 
+    def nft_bid_selected(self, row: int = -1, _column: int = -1):
+        if row == -1:
+            row = self.ui.nft_tab.tbl_bids_2.selectedRanges()
+            if len(row) > 0:
+                row = row[0].topRow()
+            else:
+                row = -1
+        else:
+            self.ui.nft_tab.tbl_bids_2.selectRow(row)
+
+        if _column == 1:
+            _owner_addr = self.ui.nft_tab.owner_address.text()
+            _w = self.search_wallet_addressses(_owner_addr)
+
+            if _w is not None:
+                self.dialogs.accept_bid_namespace_dialog(_w)
+
+    def search_wallet_addressses(self, address: str) -> MWallet:
+        _return = None
+        for _w in self.wallets.wallets:
+            for _a in _w.addresses.addresses:
+                if _a.address == address:
+                    _return = _w
+                    break
+
+            if _return is not None:
+                break
+
+            for _a in _w.change_addresses.addresses:
+                if _a.address == address:
+                    _return = _w
+                    break
+
+        return _return
+
     def update_selected_auction_data(self, auction, reactions,
                                      clear: bool = False):
         if clear is True:
             self.ui.nft_tab.display_name.setText('')
+            self.ui.nft_tab.ns.setText('')
+            self.ui.nft_tab.shortcode.setText('')
             self.ui.nft_tab.desc.setText('')
             self.ui.nft_tab.asking.setText('')
             self.ui.nft_tab.high_bid.setText('')
             self.ui.nft_tab.num_bids.setText('')
+            self.ui.nft_tab.owner_address.setText('')
             self.ui.nft_tab.address.setText('')
             self.ui.nft_tab.hashtags.setText('')
             self.ui.nft_tab.tbl_bids_2.clear_rows()
         else:
+            self.ui.nft_tab.ns.setText(auction[3])
+            _nsdat = self.cache.ns.get_namespace_by_id(auction[3])
+
+            if len(_nsdat) > 0:
+                if _nsdat[-1][7] == 'root_ns':
+                    _sc = (str(len(str(_nsdat[-1][0]))) +
+                           str(_nsdat[-1][0]) + str(_nsdat[-1][1]))
+                    self.ui.nft_tab.shortcode.setText(_sc)
+
+                if _nsdat[0][7] == 'nft_auction':
+                    self.ui.nft_tab.owner_address.setText(_nsdat[0][8])
+
             _auction = json.loads(auction[4])
             self.ui.nft_tab.display_name.setText(_auction['displayName'])
             self.ui.nft_tab.desc.setText(_auction['desc'])
@@ -983,12 +1036,11 @@ class NarwhalletController():
         _bids = []
         for _r in reactions['replies']:
             if _r['value'][:10] == '70736274ff':
-                # TODO Add test to indicate if bid valid (spent usxo/deleted key)
                 _b = keva_psbt(_r['value'])
                 _bid_ok = MShared.check_if_bid_valid(_b, self.KEX, self.cache)
                 _bids.append([_r['time'], _r['sender']['shortCode'],
                               str(_b.tx.vout[1].value / 100000000) + ' KVA',
-                              _bid_ok])
+                              _bid_ok, _r['tx_hash']])
         self.ui.nft_tab.tbl_bids_2.add_bids(_bids)
 
     def sign_wallet_changed(self, data: str):

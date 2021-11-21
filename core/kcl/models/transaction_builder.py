@@ -61,9 +61,8 @@ class MTransactionBuilder(MTransaction):
         for vo in self.vout:
             _o += vo.value
 
-        if isBid is True:
-            #_o = _o - 1000000
-            print('hit bid')
+        # if isBid is True:
+        #     print('hit bid')
 
         _f = _i - _o
         return _i, _o, _f
@@ -280,7 +279,7 @@ class MTransactionBuilder(MTransaction):
         _seperator = 'ff'
         _pre.append(Ut.hex_to_bytes(_magic))
         _pre.append(Ut.hex_to_bytes(_seperator))
-        
+
         # _PSBT_GLOBAL_UNSIGNED_TX '00'
         _pre.append(Ut.to_cuint(1))
         _pre.append(Ut.to_cuint(0))
@@ -293,7 +292,6 @@ class MTransactionBuilder(MTransaction):
             # _PSBT_IN_WITNESS_UTXO '01'
             _pre.append(Ut.to_cuint(1))
             _sp = self.input_ref_scripts[c]
-            #print('_sp', Ut.bytes_to_hex(Ut.to_cuint(len(_sp))), _sp)
             _pre.append(Ut.to_cuint(len(Ut.to_cuint(len(_sp)))))
             _pre.append(Ut.to_cuint(len(_sp)))
             _pre.append(_sp)
@@ -306,8 +304,11 @@ class MTransactionBuilder(MTransaction):
             # _PSBT_IN_SIGHASH_TYPE '03'
             _pre.append(Ut.to_cuint(1))
             _pre.append(Ut.to_cuint(3))
-            _pre.append(Ut.to_cuint(len(Ut.int_to_bytes(SIGHASH_TYPE.ALL_ANYONECANPAY.value, 4, 'little'))))
-            _pre.append(Ut.int_to_bytes(SIGHASH_TYPE.ALL_ANYONECANPAY.value, 4, 'little'))
+            _shl = (len(Ut.int_to_bytes(
+                    SIGHASH_TYPE.ALL_ANYONECANPAY.value, 4, 'little')))
+            _pre.append(Ut.to_cuint(_shl))
+            _pre.append(Ut.int_to_bytes(SIGHASH_TYPE.ALL_ANYONECANPAY.value,
+                                        4, 'little'))
             # _PSBT_IN_REDEEM_SCRIPT '04'
             _pre.append(Ut.to_cuint(1))
             _pre.append(Ut.to_cuint(4))
@@ -324,7 +325,6 @@ class MTransactionBuilder(MTransaction):
 
         # print('psbt', Ut.bytes_to_hex(_spre))
         return _spre
-
 
     def to_dict(self) -> dict:
         return {'fee': self._fee, 'vin': self.to_dict_list(self.vin),

@@ -21,7 +21,8 @@ from core.kui.ux.dialogs.tx_builder_simple_send import Ui_simple_send_dlg
 from core.kui.ux.dialogs.tx_builder_keva_op import Ui_keva_op_send_dlg
 from core.kui.ux.dialogs.tx_builder_keva_nft import Ui_keva_op_nft_dlg
 from core.kui.ux.dialogs.tx_builder_keva_nft_bid import Ui_keva_op_nft_bid_dlg
-from core.kui.ux.dialogs.tx_builder_keva_nft_accept_bid import Ui_keva_op_nft_accept_bid_dlg
+from core.kui.ux.dialogs.tx_builder_keva_nft_accept_bid import (
+    Ui_keva_op_nft_accept_bid_dlg)
 from core.kui.ux.dialogs.create_wallet import Ui_create_wallet_dlg
 from core.kui.ux.dialogs.add_wallet_watch_address import Ui_add_watch_addr_dlg
 from core.kui.ux.dialogs.add_wallet_watch import Ui_add_wallet_watch_dlg
@@ -421,10 +422,10 @@ class MDialogs():
                 _result = _bc_result[1]
             _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
-    def accept_bid_namespace_dialog(self):
+    def accept_bid_namespace_dialog(self, wallet: MWallet):
         _di = Ui_keva_op_nft_accept_bid_dlg()
         _di.setupUi()
-        _di.wallets = self.wallets
+        _di.wallet = wallet
         _di.cache = self.cache
         _di.kex = self.kex
         _fee = MShared.get_fee_rate(self.kex)
@@ -434,13 +435,30 @@ class MDialogs():
             return
 
         _di.new_tx.set_fee(_fee)
-        _di.bid_tx.set_fee(_fee)
         _di.feerate.setText(str(_fee))
-        _di.setWindowTitle('Narwhallet - Create Bid')
+        _di.setWindowTitle('Narwhallet - Accept Bid')
 
-        for _wallet in self.wallets.wallets:
-            if _wallet.kind == 0:
-                _di.combo_wallet.addItem(_wallet.name, _wallet.name)
+        _di.combo_wallet.addItem(wallet.name, wallet.name)
+        _di.combo_wallet.setCurrentIndex(1)
+        _di.combo_wallet.setEnabled(False)
+
+        _bid_selection = self.ui.nft_tab.tbl_bids_2.selectedRanges()
+        if len(_bid_selection) == 0:
+            return
+
+        if _bid_selection[0].topRow() != _bid_selection[0].bottomRow():
+            return
+
+        _row = _bid_selection[0].topRow()
+
+        _di.nft_name.setText(self.ui.nft_tab.display_name.text())
+        _di.nft_desc.setText(self.ui.nft_tab.desc.text())
+        _di.nft_hashtags.setText(self.ui.nft_tab.hashtags.text())
+        _di.nft_ns.setText(self.ui.nft_tab.ns.text())
+        _di.nft_address.setText(self.ui.nft_tab.address.text())
+        _di.nft_price.setText(self.ui.nft_tab.asking.text())
+        _di.nft_shortcode.setText(self.ui.nft_tab.shortcode.text())
+        _di.bid_nft_tx.setText(self.ui.nft_tab.tbl_bids_2.item(_row, 6).text())
 
         _result = _di.exec_()
 

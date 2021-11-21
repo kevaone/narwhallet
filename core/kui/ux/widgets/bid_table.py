@@ -16,8 +16,9 @@ class _bid_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(6)
-        self.setHorizontalHeaderLabels(['', '', 'Date', 'Shortcode', 'Bid', ''])
+        self.setColumnCount(7)
+        self.setHorizontalHeaderLabels(['', '', 'Date', 'Shortcode',
+                                        'Bid', '', ''])
         self.horizontalHeaderItem(0).setTextAlignment(4)
         self.horizontalHeaderItem(1).setTextAlignment(4)
         self.horizontalHeaderItem(2).setTextAlignment(4)
@@ -28,6 +29,8 @@ class _bid_table(QTableWidget):
         self.setColumnWidth(0, 20)
         self.setColumnWidth(1, 20)
         self.setColumnWidth(4, 20)
+        self.setColumnHidden(5, True)
+        self.setColumnHidden(6, True)
 
     @staticmethod
     def flags():
@@ -55,7 +58,8 @@ class _bid_table(QTableWidget):
         elif pic == 1:
             _p = QtGui.QPixmap(os.path.join(__path, '../assets/checkmark.png'))
         elif pic == 2:
-            _p = QtGui.QPixmap(os.path.join(__path, '../assets/exclamation.png'))
+            _p = (QtGui.QPixmap(
+                  os.path.join(__path, '../assets/exclamation.png')))
         elif pic == 3:
             _p = QtGui.QPixmap(os.path.join(__path, '../assets/medal2.png'))
         _p = _p.scaledToWidth(20, _transm_st)
@@ -85,6 +89,7 @@ class _bid_table(QTableWidget):
             _d['shortcode'] = bid[1]
             _d['bid'] = bid[2]
             _d['valid'] = bid[3]
+            _d['bid_tx'] = bid[4]
 
             self._add_bid(_d)
 
@@ -110,6 +115,7 @@ class _bid_table(QTableWidget):
         _empty_item = self._create_table_item('')
         _empty_item2 = self._create_table_item('')
         _empty_item3 = self._create_table_item('')
+        _bid_tx = self._create_table_item(bid_data['bid_tx'])
 
         self.setCellWidget(_r, 0, _coin)
         self.setItem(_r, 0, _empty_item)
@@ -121,3 +127,4 @@ class _bid_table(QTableWidget):
         self.setItem(_r, 5, _empty_item3)
         if bid_data['valid'] is True:
             self.setCellWidget(_r, 5, _accept)
+        self.setItem(_r, 6, _bid_tx)

@@ -93,7 +93,7 @@ class keva_psbt():
                         Ut.bytes_to_int(s_val.read(8), 'little')))
                     script_size = self.read_csuint(s_val)
                     (_tx_vout.scriptPubKey
-                     .set_asm(Ut.bytes_to_hex(s_val.read(script_size))))
+                     .set_hex(Ut.bytes_to_hex(s_val.read(script_size))))
                     self.tx.add_vout(_tx_vout)
                 self.tx.set_locktime(Ut.bytes_to_int(s_val.read(4), 'little'))
 

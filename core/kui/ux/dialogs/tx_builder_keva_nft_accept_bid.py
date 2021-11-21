@@ -1,7 +1,5 @@
-import json
 import os
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QLocale
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
@@ -12,8 +10,9 @@ from core.ksc import Scripts
 from core.ksc.utils import Ut
 from core.kcl.models.builder.sighash import SIGHASH_TYPE
 from core.kcl.models.cache import MCache
-from core.kcl.models.wallets import MWallets
+from core.kcl.models.wallet import MWallet
 from core.kcl.models.transaction_builder import MTransactionBuilder
+from core.kcl.models.psbt_decoder import keva_psbt
 
 
 class Ui_keva_op_nft_accept_bid_dlg(QDialog):
@@ -24,11 +23,10 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
 
-        self.wallets: MWallets = None
+        self.wallet: MWallet = None
         self.cache: MCache = None
         self.kex = None
         self.new_tx = MTransactionBuilder()
-        self.bid_tx = MTransactionBuilder()
         self.raw_tx = None
 
         self.verticalLayout = QVBoxLayout(self)
@@ -47,12 +45,10 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.hl_7 = QHBoxLayout()
         self.hl_8 = QHBoxLayout()
         self.hl_9 = QHBoxLayout()
+        self.hl_10 = QHBoxLayout()
 
         self.combo_wallet_l = QLabel(self)
         self.combo_wallet = QComboBox(self)
-
-        self.combo_ns_l = QLabel(self)
-        self.combo_ns = QComboBox(self)
 
         self.bid_nft_tx_l = QLabel(self)
         self.bid_nft_tx = QLineEdit(self)
@@ -69,9 +65,10 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.nft_price = QLabel(self)
         self.nft_ns_l = QLabel(self)
         self.nft_ns = QLabel(self)
-        self.nft_addr_l = QLabel(self)
-        self.nft_addr = QLabel(self)
-
+        self.nft_shortcode_l = QLabel(self)
+        self.nft_shortcode = QLabel(self)
+        self.nft_address_l = QLabel(self)
+        self.nft_address = QLabel(self)
         self.fee_hl = QHBoxLayout()
         self.fee_l = QLabel(self)
         self.fee = QLabel(self)
@@ -95,8 +92,6 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
         self.combo_wallet.addItem('-', '-')
-        self.combo_ns.addItem('-', '-')
-        self.combo_ns.setMinimumWidth(250)
         self.tx.setMaximumHeight(65)
         self.tx.setReadOnly(True)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -114,14 +109,11 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.hl_0.addWidget(self.combo_wallet)
         self.hl_0.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.hl_0)
-        self.hl_1.addWidget(self.combo_ns_l)
-        self.hl_1.addWidget(self.combo_ns)
         self.hl_1.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.hl_1)
 
         self.hl_2.addWidget(self.bid_nft_tx_l)
         self.hl_2.addWidget(self.bid_nft_tx)
-        self.hl_2.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.hl_2)
 
         self.hl_3.addWidget(self.bid_amount_l)
@@ -149,10 +141,13 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.hl_8.addWidget(self.nft_ns)
         self.hl_8.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.hl_8)
-        self.hl_9.addWidget(self.nft_addr_l)
-        self.hl_9.addWidget(self.nft_addr)
+        self.hl_9.addWidget(self.nft_shortcode_l)
+        self.hl_9.addWidget(self.nft_shortcode)
         self.hl_9.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.hl_9)
+        self.hl_10.addWidget(self.nft_address_l)
+        self.verticalLayout.addLayout(self.hl_10)
+        self.verticalLayout.addWidget(self.nft_address)
         self.fee_hl.addWidget(self.fee_l)
         self.fee_hl.addWidget(self.fee)
         self.fee_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
@@ -172,8 +167,6 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.retranslateUi()
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
-        self.combo_wallet.currentTextChanged.connect(self.txb_w_changed)
-        self.combo_ns.currentTextChanged.connect(self.txb_ns_changed)
         self.cancel_btn.clicked.connect(self.reject)
         self.next_btn.clicked.connect(self.txb_build_simple_send)
         self.back_btn.clicked.connect(self.back_click)
@@ -186,8 +179,6 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
                                        'Narwhallet - Create Namespace'))
         (self.combo_wallet_l
          .setText(_translate('keva_op_nft_accept_dlg', 'Wallet:')))
-        (self.combo_ns_l
-         .setText(_translate('keva_op_nft_accept_dlg', 'Namespace:')))
         (self.bid_nft_tx_l
          .setText(_translate('keva_op_nft_accept_dlg', 'Bid on TX: ')))
         (self.bid_amount_l
@@ -200,7 +191,10 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         (self.nft_price_l
          .setText(_translate('keva_op_nft_accept_dlg', 'Asking Price: ')))
         self.nft_ns_l.setText(_translate('keva_op_nft_accept_dlg', 'NS: '))
-        self.nft_addr_l.setText(_translate('keva_op_nft_accept_dlg', 'Addr: '))
+        (self.nft_shortcode_l
+         .setText(_translate('keva_op_nft_accept_dlg', 'Shortcode: ')))
+        (self.nft_address_l
+         .setText(_translate('keva_op_nft_accept_dlg', 'Payment Address: ')))
 
         self.cancel_btn.setText(_translate('keva_op_nft_accept_dlg', 'Cancel'))
         self.send_btn.setText(_translate('keva_op_nft_accept_dlg', 'Send'))
@@ -214,10 +208,8 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
 
     def check_next(self):
         if (self.combo_wallet.currentText() != '-' and
-                self.combo_ns.currentText() != '-' and
-                self.nft_name.text() != '' and
-                self.nft_desc.text() != '' and
-                # self.nft_hashtags.text() != '' and
+                self.bid_amount.text() != '' and
+                self.nft_ns.text() != '' and
                 self.nft_price.text() != ''):
             self.next_btn.setEnabled(True)
         else:
@@ -225,100 +217,34 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
 
     def check_tx_is_bid(self):
         _nft_tx = self.bid_nft_tx.text()
-
         _nft_tx = MShared.check_tx_is_bid(_nft_tx, self.kex, self.cache)
         if _nft_tx[0] is True:
-            self.bid_amount.setText()
+            _bid_psbt = keva_psbt(_nft_tx[2])
+            _sh = (Scripts.P2SHAddressScriptHash
+                   .compile([self.nft_address.text()], True))
+            if _bid_psbt.tx.vout[1].scriptPubKey.hex == _sh:
+                (self.bid_amount
+                 .setText(str(_bid_psbt.tx.vout[1].value/100000000)))
+                self.new_tx = _bid_psbt.tx
+                _idx = 0
+                for _, _r in enumerate(_bid_psbt.psbt_records):
+                    if _r[0] == 'PSBT_IN_WITNESS_UTXO':
+                        self.new_tx.vin[_idx].tb_value = (Ut
+                                                          .bytes_to_int(
+                                                              _r[2][:8],
+                                                              'little'))
+                    elif _r[0] == 'PSBT_IN_PARTIAL_SIG':
+                        (self.new_tx.input_signatures
+                         .append([Ut.bytes_to_hex(_r[2]),
+                                 Ut.bytes_to_hex(_r[1][1:])]))
+                    elif _r[0] == 'PSBT_IN_REDEEM_SCRIPT':
+                        (self.new_tx.vin[_idx].scriptSig
+                         .set_hex(Ut.bytes_to_hex(_r[2])))
+                        _idx += 1
 
             self.check_next()
-
-    def build_bid(self):
-        self.bid_tx.set_version(Ut.hex_to_bytes('00710000'))
-        _n = self.combo_wallet.currentData()
-        wallet = self.wallets.get_wallet_by_name(_n)
-        _namespace_reservation = 1000000
-
-        locale = QLocale()
-        _b_amount = locale.toDouble(self.bid_amount.text())
-        _bid_amount = int(_b_amount[0] * 100000000)
-
-        _auc = {}
-        _auc['displayName'] = self.nft_name.text()
-        _ns = self.nft_ns.text()
-        _ns_key = '\x01_KEVA_NS_'
-        _ns_value = json.dumps(_auc, separators=(',', ':'))
-        _trans_address = wallet.get_unused_address()
-        _sh = Scripts.KevaKeyValueUpdate.compile([_ns, _ns_key,
-                                                  _ns_value,
-                                                  _trans_address], True)
-        _ = self.bid_tx.add_output(_namespace_reservation, _trans_address)
-        self.bid_tx.vout[0].scriptPubKey.set_hex(_sh)
-        _ = self.bid_tx.add_output(_bid_amount, self.nft_addr.text())
-
-        self.set_availible_usxo(False, True)
-        _inp_sel, _need_change, _est_fee = self.bid_tx.select_inputs(True)
-
-        if _inp_sel is True:
-            _, _, _fv = self.bid_tx.get_current_values(True)
-            _cv = _fv - _est_fee
-
-            if _need_change is True:
-                _ = self.bid_tx.add_output(_cv, _trans_address)
-
-            self.txb_preimage(self.bid_tx, SIGHASH_TYPE.ALL_ANYONECANPAY)
-
-    def txb_w_changed(self, data):
-        if data != '-':
-            self.set_namespace_combo()
-
-        self.check_next()
-
-    def txb_ns_changed(self, data):
-        if data not in ('-', ''):
-            self.nft_name.setText(self.combo_ns.currentText().split(' - ')[1])
-
-        self.check_next()
-
-    def set_namespace_combo(self):
-        self.combo_ns.clear()
-        self.combo_ns.addItem('-', '-')
-        self.nft_name.setText('')
-        _n = self.combo_wallet.currentData()
-        wallet = self.wallets.get_wallet_by_name(_n)
-        MShared.list_unspents(wallet, self.kex)
-        _tmp_usxo = wallet.get_usxos()
-        for tx in _tmp_usxo:
-            # TODO Check for usxo's used by bids
-            _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
-
-            if _tx is None:
-                _tx = MShared.get_tx(tx['tx_hash'], self.kex, True)
-                if _tx is not None:
-                    _tx = self.cache.tx.add_from_json(_tx)
-
-            if _tx is not None:
-                if ('OP_KEVA'
-                        in _tx.vout[tx['tx_pos']].scriptPubKey.asm):
-
-                    _ns = _tx.vout[tx['tx_pos']].scriptPubKey.asm.split(' ')[1]
-                    _ns = self.cache.ns.convert_to_namespaceid(_ns)
-                    _block = self.cache.ns.ns_block(_ns)[0]
-                    _b_s = str(_block[0])
-                    _block = str(str(len(_b_s)) + _b_s + str(_block[1]))
-                    _name = (self.cache.ns.get_namespace_by_key_value(
-                        _ns, '\x01_KEVA_NS_'))
-                    if len(_name) == 0:
-                        _name = (self.cache.ns
-                                 .get_namespace_by_key_value(_ns, '_KEVA_NS_'))
-                        if len(_name) > 0:
-                            _name = _name[0][0]
-                    else:
-                        _name = _name[0][0]
-
-                    if 'displayName' in _name:
-                        _name = json.loads(_name)['displayName']
-
-                    self.combo_ns.addItem(_block+' - '+_name, _ns+':'+tx['a'])
+        else:
+            self.next_btn.setEnabled(False)
 
     @staticmethod
     def _test_tx(tx: MTransactionBuilder) -> bool:
@@ -332,11 +258,8 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
 
         return _return
 
-    def set_availible_usxo(self, isChangeOp: bool, isBidOp: bool = False):
-        _n = self.combo_wallet.currentData()
-        wallet = self.wallets.get_wallet_by_name(_n)
-
-        _tmp_usxo = wallet.get_usxos()
+    def set_availible_usxo(self):
+        _tmp_usxo = self.wallet.get_usxos()
         _usxos = []
         _nsusxo = None
 
@@ -351,58 +274,40 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
             if self._test_tx(_tx) is False:
                 continue
 
-            if ('OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm):
-                if isBidOp is False:
-                    _used = False
-                    for _vin in self.bid_tx.vin:
-                        if _vin.txid == _tx.txid:
-                            _used = True
-                            print('used')
-
-                    if _used is False:
-                        _usxos.append(tx)
-                else:
-                    _usxos.append(tx)
-            elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
-                    and isChangeOp is True):
-
+            if 'OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
                 _test = _tx.vout[tx['tx_pos']].scriptPubKey.asm.split(' ')[1]
                 _test = self.cache.ns.convert_to_namespaceid(_test)
 
-                if _test == self.combo_ns.currentData().split(':')[0]:
+                if _test == self.nft_ns.text():
                     _nsusxo = tx
 
-        if _nsusxo is not None and isChangeOp is True:
+        if _nsusxo is not None:
             _usxos.insert(0, _nsusxo)
-        elif _nsusxo is None and isChangeOp is True:
+        elif _nsusxo is None:
             _usxos = []
 
-        if isBidOp is False:
-            self.new_tx.inputs_to_spend = _usxos
-        else:
-            self.bid_tx.inputs_to_spend = _usxos
+        self.new_tx.inputs_to_spend = _usxos
 
     def txb_preimage(self, tx: MTransactionBuilder, hash_type: SIGHASH_TYPE):
-        _n = self.combo_wallet.currentData()
-        wallet = self.wallets.get_wallet_by_name(_n)
-        tx.input_signatures = []
+        wallet = self.wallet
 
-        for c, _vin_idx in enumerate(tx.vin):
-            _npk = _vin_idx.tb_address
-            _npkc = _vin_idx.tb_address_chain
-            _pk = wallet.get_publickey_raw(_npk, _npkc)
-            _sighash = tx.make_preimage(c, _pk, hash_type)
-            _sig = wallet.sign_message(_npk, _sighash, _npkc)
-            _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-            _vin_idx.scriptSig.set_hex(_script)
-            (tx.input_signatures.append(
-                [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
+        _vin_idx = tx.vin[-1]
+        _npk = _vin_idx.tb_address
+        _npkc = _vin_idx.tb_address_chain
+        _pk = wallet.get_publickey_raw(_npk, _npkc)
+        _sighash = tx.make_preimage(len(tx.vin)-1, _pk, hash_type)
+        _sig = wallet.sign_message(_npk, _sighash, _npkc)
+        _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
+        _vin_idx.scriptSig.set_hex(_script)
+        (tx.input_signatures.append(
+         [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
 
-            _addr = wallet.get_address_by_index(_npk, False)
-            _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
-            _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
-            _ref = _ref + Ut.to_cuint(len(_r)) + _r
-            tx.input_ref_scripts.append(_ref)
+        _addr = wallet.get_address_by_index(_npk, False)
+        _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
+
+        _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
+        _ref = _ref + Ut.to_cuint(len(_r)) + _r
+        tx.input_ref_scripts.append(_ref)
 
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
@@ -410,47 +315,28 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         return Ut.bytes_to_hex(bytes([53]) + _tx_hash)
 
     def txb_build_simple_send(self):
-        self.build_bid()
         self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
-        self.set_availible_usxo(True)
-        _namespace_reservation = 1000000
-        _ns_dat = self.combo_ns.currentData().split(':')
-        _ns = _ns_dat[0]
-        _ns_address = _ns_dat[1]
+        self.set_availible_usxo()
 
-        _ns_key = (Ut.hex_to_bytes('0001') +
-                   Ut.hex_to_bytes(self.bid_nft_tx.text()))
-        _ns_value = self.bid_tx.to_psbt()
-
-        _sh = Scripts.KevaKeyValueUpdate.compile([_ns, _ns_key,
-                                                  _ns_value,
-                                                  _ns_address], True)
-
-        _ = self.new_tx.add_output(_namespace_reservation, _ns_address)
-        self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
-
-        _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
+        if len(self.new_tx.inputs_to_spend) != 1:
+            _inp_sel = False
+        else:
+            tx = self.new_tx.inputs_to_spend[0]
+            self.new_tx.add_input(tx['value'],
+                                  str(tx['a_idx'])+':'+str(tx['ch']),
+                                  tx['tx_hash'], tx['tx_pos'])
+            _inp_sel = True
 
         if _inp_sel is True:
-            _, _, _fv = self.new_tx.get_current_values()
-            _cv = _fv - _est_fee
-
-            if _need_change is True:
-                _ = self.new_tx.add_output(_cv, _ns_address)
-
-            self.txb_preimage(self.new_tx, SIGHASH_TYPE.ALL)
+            self.txb_preimage(self.new_tx, SIGHASH_TYPE.ALL_ANYONECANPAY)
             _stx = self.new_tx.serialize_tx()
-
-            self.fee.setText(str(_est_fee/100000000))
+            _, _, _fv = self.new_tx.get_current_values(False)
+            self.fee.setText(str(_fv/100000000))
             self.txsize.setText(str(len(_stx)))
             self.raw_tx = Ut.bytes_to_hex(_stx)
             self.tx.setPlainText(self.raw_tx)
 
-            self.combo_wallet.setEnabled(False)
-            self.combo_ns.setEnabled(False)
             self.bid_nft_tx.setReadOnly(True)
-            self.bid_amount.setReadOnly(True)
-
             self.next_btn.setVisible(False)
             self.back_btn.setVisible(True)
             self.send_btn.setEnabled(True)
@@ -458,9 +344,6 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
             self.new_tx.set_vin([])
             self.new_tx.set_vout([])
             self.new_tx.input_signatures = []
-            self.bid_tx.set_vin([])
-            self.bid_tx.set_vout([])
-            self.bid_tx.input_signatures = []
 
     def back_click(self):
         self.next_btn.setVisible(True)
@@ -473,12 +356,5 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.new_tx.set_vin([])
         self.new_tx.set_vout([])
         self.new_tx.input_signatures = []
-        self.bid_tx.set_vin([])
-        self.bid_tx.set_vout([])
-        self.bid_tx.input_signatures = []
         self.tx.setPlainText(self.raw_tx)
-
-        self.combo_wallet.setEnabled(True)
-        self.combo_ns.setEnabled(True)
         self.bid_nft_tx.setReadOnly(False)
-        self.bid_amount.setReadOnly(False)
