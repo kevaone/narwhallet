@@ -28,7 +28,7 @@ cd narwhallet<br/>
 pip install -r ./requirements.txt<br/>
 
 ### Launch
-python3 ./narwhallet.py
+python3 ./narwhallet_gui.py
 
 **Upon launch Narwhallet will create the directory .narwhalllet within you're home directory. You're wallets, address book, settings and cache are saved here.**
 
@@ -44,8 +44,6 @@ Can download ElectrumX here: https://github.com/kevacoin-project/electrumx
 
 
 ## Wallets Supported
-
-***Currently no creation of auctions/bidding/accepting of bids as seen in official mobile wallet***
 
 ### Normal Wallets
 Create or restore mnemonic phrase for bip49 based wallet

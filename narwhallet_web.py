@@ -2,8 +2,8 @@ import threading
 import ssl
 import socket
 
-from control.web_controller import NarwhalletWebController
-from core.kws.processor import Processor
+from narwhallet.control.web_controller import NarwhalletWebController
+from narwhallet.core.kws.processor import Processor
 
 
 class Server():
