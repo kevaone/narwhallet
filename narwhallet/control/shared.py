@@ -28,7 +28,7 @@ class MShared():
     @staticmethod
     def get_resource_path(file):
         if hasattr(sys, "_MEIPASS"):
-            _path = sys._MEIPASS
+            _path = os.path.join(sys._MEIPASS, 'assets')
         else:
             _path = os.path.join(os.getcwd(), 'narwhallet/core/kui/ux/assets')
         _path = os.path.join(_path, file)
