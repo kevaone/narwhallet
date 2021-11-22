@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
@@ -52,11 +51,11 @@ class _namespaces_table(QTableWidget):
     def _create_table_item_graphic(pic: int):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
-        __path = os.path.dirname(__file__)
+
         if pic == 0:
-            _p = QPixmap(os.path.join(__path, '../assets/information.png'))
+            _p = QPixmap(MShared.get_resource_path('information.png'))
         elif pic == 1:
-            _p = QPixmap(os.path.join(__path, '../assets/transfer.png'))
+            _p = QPixmap(MShared.get_resource_path('transfer.png'))
         _p = _p.scaledToWidth(20, _transm_st)
 
         _vpic = QLabel()

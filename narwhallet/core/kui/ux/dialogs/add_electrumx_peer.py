@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QCheckBox, QPushButton,
                              QHBoxLayout, QLineEdit, QSpacerItem,
@@ -6,6 +5,7 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QCheckBox, QPushButton,
 from PyQt5.QtWidgets import QDialog
 
 from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
+from narwhallet.control.shared import MShared
 
 
 class Ui_add_electrumx_peer_dlg(QDialog):
@@ -16,8 +16,7 @@ class Ui_add_electrumx_peer_dlg(QDialog):
 
         self.verticalLayout = QVBoxLayout(self)
         self.label_1 = QLabel(self)
-        __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
+        _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.horizontalLayout = QHBoxLayout()
         self.comboBox = _coin_dropdown(self)
         self.horizontalLayout_2 = QHBoxLayout()

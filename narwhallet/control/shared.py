@@ -1,7 +1,9 @@
 import base64  # TODO Check and add if missing to ConvUtils
 import datetime
 import json
+import os
 import math
+import sys
 import time
 
 from typing import List
@@ -23,6 +25,16 @@ from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
 
 
 class MShared():
+    @staticmethod
+    def get_resource_path(file):
+        if hasattr(sys, "_MEIPASS"):
+            _path = sys._MEIPASS
+        else:
+            _path = os.path.join(os.getcwd(), 'narwhallet/core/kui/ux/assets')
+        _path = os.path.join(_path, file)
+
+        return _path
+
     @staticmethod
     def get_timestamp(timestamp: float = None):
         if timestamp is None:

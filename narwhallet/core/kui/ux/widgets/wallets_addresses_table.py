@@ -1,6 +1,6 @@
-import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
+from narwhallet.control.shared import MShared
 
 
 class _wallets_addr_tbl(QTableWidget):
@@ -82,12 +82,11 @@ class _wallets_addr_tbl(QTableWidget):
     def _create_table_item_graphic(pic: int):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
-        __path = os.path.dirname(__file__)
+
         if pic == 0:
-            _p = (QtGui.QPixmap(
-                  os.path.join(__path, '../assets/information.png')))
+            _p = (QtGui.QPixmap(MShared.get_resource_path('information.png')))
         elif pic == 1:
-            _p = QtGui.QPixmap(os.path.join(__path, '../assets/clipboard.png'))
+            _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
         _p = _p.scaledToWidth(20, _transm_st)
 
         _vpic = QLabel()

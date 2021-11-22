@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtCore import QObject
@@ -47,10 +46,9 @@ class Ui_WalletTab(QObject):
         self.btn_addr2 = QPushButton(self.frame_7)
         self.tbl_addr2 = _wallets_addr_tbl('tbl_addr',
                                            self.tabIntAddresses)
-        __path = os.path.dirname(__file__)
-        self._ppic = QPixmap(os.path.join(__path, 'assets/plus.png'))
-        self._mpic = QPixmap(os.path.join(__path, 'assets/minus.png'))
-        self._bpic = QPixmap(os.path.join(__path, 'assets/clipboard.png'))
+        self._ppic = QPixmap(MShared.get_resource_path('plus.png'))
+        self._mpic = QPixmap(MShared.get_resource_path('minus.png'))
+        self._bpic = QPixmap(MShared.get_resource_path('clipboard.png'))
         self._bpic = self._bpic.scaledToWidth(20, _transm_st)
         self.tabWalletSettings = QWidget()
         self.root_vl = QVBoxLayout(self.tabWalletSettings)

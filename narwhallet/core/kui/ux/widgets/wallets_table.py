@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap, QTransform
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
@@ -13,8 +12,7 @@ class animation_label(QLabel):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
-        __path = os.path.dirname(__file__)
-        self._upic = QPixmap(os.path.join(__path, '../assets/return.png'))
+        self._upic = QPixmap(MShared.get_resource_path('return.png'))
         self._upic = self._upic.scaledToWidth(20, _transm_st)
         self.setPixmap(self._upic)
         self.setAlignment(_al_center)
@@ -69,17 +67,17 @@ class _wallets_table(QTableWidget):
     def _create_table_item_graphic(pic: int):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
-        __path = os.path.dirname(__file__)
+
         if pic == 0:
-            _p = QPixmap(os.path.join(__path, '../assets/keva-logo.png'))
+            _p = QPixmap(MShared.get_resource_path('keva-logo.png'))
         elif pic == 1:
-            _p = QPixmap(os.path.join(__path, '../assets/star.png'))
+            _p = QPixmap(MShared.get_resource_path('star.png'))
         elif pic == 2:
-            _p = QPixmap(os.path.join(__path, '../assets/medal2.png'))
+            _p = QPixmap(MShared.get_resource_path('medal2.png'))
         elif pic == 3:
-            _p = QPixmap(os.path.join(__path, '../assets/locked.png'))
+            _p = QPixmap(MShared.get_resource_path('locked.png'))
         elif pic == 4:
-            _p = QPixmap(os.path.join(__path, '../assets/unlocked.png'))
+            _p = QPixmap(MShared.get_resource_path('unlocked.png'))
 
         _p = _p.scaledToWidth(20, _transm_st)
 

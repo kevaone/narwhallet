@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QComboBox, QPlainTextEdit,
@@ -6,6 +5,7 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QComboBox, QPlainTextEdit,
                              QSizePolicy, QDialogButtonBox, QFrame, QDialog)
 from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 from narwhallet.core.kcl.models.wallet import MWallet
+from narwhallet.control.shared import MShared
 
 
 class Ui_create_wallet_dlg(QDialog):
@@ -18,8 +18,7 @@ class Ui_create_wallet_dlg(QDialog):
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_0 = QHBoxLayout()
         self.label_1 = QLabel(self)
-        __path = os.path.dirname(__file__)
-        _pic = QPixmap(os.path.join(__path, '../assets/narwhal.png'))
+        _pic = QPixmap(MShared.get_resource_path('narwhal.png'))
         self.label_4 = QLabel(self)
         self.lineEdit_2 = QLineEdit(self)
         self.horizontalLayout = QHBoxLayout()
@@ -33,8 +32,8 @@ class Ui_create_wallet_dlg(QDialog):
         self.pushButton = QPushButton(self)
         self.plainTextEdit = QPlainTextEdit(self)
         self.horizontalLayout_3 = QHBoxLayout()
-        self._ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
-        self._mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
+        self._ppic = QPixmap(MShared.get_resource_path('plus.png'))
+        self._mpic = QPixmap(MShared.get_resource_path('minus.png'))
         self.adv_hl = QHBoxLayout()
         self.adv_label = QLabel(self)
         self.adv_label_p = QPushButton(self)

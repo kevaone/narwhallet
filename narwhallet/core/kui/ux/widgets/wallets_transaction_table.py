@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
@@ -78,8 +77,7 @@ class _transaction_table(QTableWidget):
     def _create_table_item_graphic():
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
-        __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/information.png'))
+        _pic = QtGui.QPixmap(MShared.get_resource_path('information.png'))
         _pic = _pic.scaledToWidth(20, _transm_st)
 
         _vpic = QLabel()

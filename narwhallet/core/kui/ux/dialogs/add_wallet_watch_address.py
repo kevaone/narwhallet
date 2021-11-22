@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
@@ -6,6 +5,7 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QDialogButtonBox)
 
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
+from narwhallet.control.shared import MShared
 
 
 class Ui_add_watch_addr_dlg(QDialog):
@@ -17,8 +17,7 @@ class Ui_add_watch_addr_dlg(QDialog):
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
         self.label_1 = QLabel(self)
-        __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
+        _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.label_hl = QHBoxLayout()
         self.label_label = QLabel(self)
         self.label_d = QLineEdit(self)

@@ -1,9 +1,9 @@
-import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
                              QDialogButtonBox)
+from narwhallet.control.shared import MShared
 
 
 class Ui_lockbox_dlg(QDialog):
@@ -18,8 +18,7 @@ class Ui_lockbox_dlg(QDialog):
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_3 = QHBoxLayout()
         self.label_1 = QLabel(self)
-        __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
+        _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.label_2 = QLabel(self)
         self.lineEdit = QLineEdit(self)
         if self.mode == 1:

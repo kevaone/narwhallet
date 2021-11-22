@@ -1,5 +1,4 @@
 import json
-import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
@@ -32,8 +31,7 @@ class Ui_keva_op_nft_dlg(QDialog):
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
         self.label_1 = QLabel(self)
-        __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
+        _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
 
         self.hl_0 = QHBoxLayout()
         self.hl_1 = QHBoxLayout()

@@ -1,6 +1,6 @@
-import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
+from narwhallet.control.shared import MShared
 
 
 class _electrumx_peers_table(QTableWidget):
@@ -39,15 +39,15 @@ class _electrumx_peers_table(QTableWidget):
 
         _r = self.rowCount()
         self.insertRow(self.rowCount())
-        __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/gear.png'))
+
+        _pic = QtGui.QPixmap(MShared.get_resource_path('gear.png'))
         _pic = _pic.scaledToWidth(20, _transm_st)
         _vpic = QLabel()
         _vpic.setPixmap(_pic)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
 
-        _dpic = QtGui.QPixmap(os.path.join(__path, '../assets/trashcan.png'))
+        _dpic = QtGui.QPixmap(MShared.get_resource_path('trashcan.png'))
         _dpic = _dpic.scaledToWidth(20, _transm_st)
         _dellabel = QLabel()
         _dellabel.setPixmap(_dpic)
@@ -80,8 +80,8 @@ class _electrumx_peers_table(QTableWidget):
 
         for row in range(0, self.rowCount()):
             self.removeCellWidget(row, 9)
-        __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/checkmark.png'))
+
+        _pic = QtGui.QPixmap(MShared.get_resource_path('checkmark.png'))
         _pic = _pic.scaledToWidth(20, _transm_st)
         _vpic = QLabel()
         _vpic.setPixmap(_pic)

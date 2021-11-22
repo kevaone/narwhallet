@@ -1,9 +1,9 @@
-import os
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QApplication as QApp
 from PyQt5.QtWidgets import QMainWindow
 
+from narwhallet.control.shared import MShared
 from narwhallet.core.kui.ux.main_window import Ui_MainWindow
 
 if hasattr(Qt, 'AA_EnableHighDpiScaling'):
@@ -23,6 +23,4 @@ class NarwhalletUI(QMainWindow):
 
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
-        __path = os.path.dirname(__file__)
-        (self
-         .setWindowIcon(QIcon(os.path.join(__path, 'ux/assets/narwhal.png'))))
+        self.setWindowIcon(QIcon(MShared.get_resource_path('narwhal.png')))

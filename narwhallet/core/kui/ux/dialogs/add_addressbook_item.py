@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import QDialog
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
 from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 from narwhallet.core.kcl.models.book_address import MBookAddress
+from narwhallet.control.shared import MShared
 
 
 class Ui_add_ab_item_dlg(QDialog):
@@ -19,7 +20,7 @@ class Ui_add_ab_item_dlg(QDialog):
         self.verticalLayout = QVBoxLayout(self)
         self.label_1 = QLabel(self)
         __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
+        _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.horizontalLayout = QHBoxLayout()
         self.label = QLabel(self)
         self.comboBox = _coin_dropdown(self)

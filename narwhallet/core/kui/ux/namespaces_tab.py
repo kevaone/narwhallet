@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore
 from PyQt5.QtCore import QObject
 from PyQt5.QtGui import QIcon, QPalette, QPixmap
@@ -8,6 +7,7 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QFrame, QHBoxLayout,
 from narwhallet.core.kui.ux.widgets.widgets import _ns_value_textedit
 from narwhallet.core.kui.ux.widgets.namespaces_table import _namespaces_table
 from narwhallet.core.kui.ux.widgets.namespace_keys_list import _namespace_keys_list
+from narwhallet.control.shared import MShared
 
 
 class Ui_NamespacesTab(QObject):
@@ -33,8 +33,7 @@ class Ui_NamespacesTab(QObject):
         self.verticalLayout_10 = QVBoxLayout(self.frame_11)
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_11 = QHBoxLayout()
-        __path = os.path.dirname(__file__)
-        _bpic = QPixmap(os.path.join(__path, 'assets/clipboard.png'))
+        _bpic = QPixmap(MShared.get_resource_path('clipboard.png'))
         _bpic = _bpic.scaledToWidth(20, _transm_st)
         self.sel_ns_sc_bvpic = QPushButton()
         self.sel_ns_n_bvpic = QPushButton()

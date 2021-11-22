@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QTabWidget, QWidget, QVBoxLayout, QScrollArea,
@@ -8,6 +7,7 @@ from PyQt5.QtWidgets import (QTabWidget, QWidget, QVBoxLayout, QScrollArea,
 
 from narwhallet.core.kcl.models.transaction_input import MTransactionInput
 from narwhallet.core.kcl.models.transaction_output import MTransactionOutput
+from narwhallet.control.shared import MShared
 
 
 class Ui_v_tx_dlg(QDialog):
@@ -18,9 +18,8 @@ class Ui_v_tx_dlg(QDialog):
         _b_ok = QDialogButtonBox.Ok
         _transm_st = QtCore.Qt.SmoothTransformation
         self.verticalLayout = QVBoxLayout(self)
-        __path = os.path.dirname(__file__)
-        self._ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
-        self._mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
+        self._ppic = QPixmap(MShared.get_resource_path('plus.png'))
+        self._mpic = QPixmap(MShared.get_resource_path('minus.png'))
         self.tabs = QTabWidget(self)
         self.details_tab = QWidget(self.tabs)
         self.details_tab_vl = QVBoxLayout(self.details_tab)
@@ -207,9 +206,8 @@ class _show_hide(QHBoxLayout):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
         _transm_st = QtCore.Qt.SmoothTransformation
-        __path = os.path.dirname(__file__)
-        self.ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
-        self.mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
+        self.ppic = QPixmap(MShared.get_resource_path('plus.png'))
+        self.mpic = QPixmap(MShared.get_resource_path('minus.png'))
         self.ppic = self.ppic.scaledToWidth(15, _transm_st)
         self.mpic = self.mpic.scaledToWidth(15, _transm_st)
 

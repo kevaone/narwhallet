@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
@@ -18,7 +17,8 @@ class _auctions_table(QTableWidget):
     def build_columns(self):
         self.setColumnCount(10)
         self.setHorizontalHeaderLabels(['', 'Date', 'Wallet', 'Shortcode',
-                                        'Asking', 'Bids', 'High Bid', '', '', ''])
+                                        'Asking', 'Bids', 'High Bid', '',
+                                        '', ''])
         self.horizontalHeaderItem(0).setTextAlignment(4)
         self.horizontalHeaderItem(1).setTextAlignment(4)
         self.horizontalHeaderItem(2).setTextAlignment(4)
@@ -54,11 +54,11 @@ class _auctions_table(QTableWidget):
     def _create_table_item_graphic(pic: int):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
-        __path = os.path.dirname(__file__)
+
         if pic == 0:
-            _p = QtGui.QPixmap(os.path.join(__path, '../assets/keva-logo.png'))
+            _p = QtGui.QPixmap(MShared.get_resource_path('keva-logo.png'))
         elif pic == 1:
-            _p = QtGui.QPixmap(os.path.join(__path, '../assets/clipboard.png'))
+            _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
         _p = _p.scaledToWidth(20, _transm_st)
 
         _vpic = QLabel()

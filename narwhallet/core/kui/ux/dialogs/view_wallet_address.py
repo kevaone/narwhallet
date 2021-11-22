@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
@@ -7,6 +6,7 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QDialog, QFrame, QPushButton)
 
 from narwhallet.core.kui.ux.widgets.qr_widget import QRImage
+from narwhallet.control.shared import MShared
 
 
 class Ui_v_addr_dlg(QDialog):
@@ -15,9 +15,8 @@ class Ui_v_addr_dlg(QDialog):
         _sp_min = QSizePolicy.Minimum
         _b_ok = QDialogButtonBox.Ok
         _transm_st = QtCore.Qt.SmoothTransformation
-        __path = os.path.dirname(__file__)
-        self._ppic = QPixmap(os.path.join(__path, '../assets/plus.png'))
-        self._mpic = QPixmap(os.path.join(__path, '../assets/minus.png'))
+        self._ppic = QPixmap(MShared.get_resource_path('plus.png'))
+        self._mpic = QPixmap(MShared.get_resource_path('minus.png'))
         self.verticalLayout = QVBoxLayout(self)
         self.label_hl = QHBoxLayout()
         self.label_label = QLabel(self)

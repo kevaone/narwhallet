@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QFrame,
                              QHBoxLayout, QSpacerItem, QSizePolicy,
@@ -6,6 +5,7 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QFrame,
 
 from narwhallet.core.kui.ux.widgets.qr_widget import QRImage
 from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
+from narwhallet.control.shared import MShared
 
 
 class Ui_v_ab_item_dlg(QDialog):
@@ -17,8 +17,7 @@ class Ui_v_ab_item_dlg(QDialog):
 
         self.verticalLayout = QVBoxLayout(self)
         self.label_1 = QLabel(self)
-        __path = os.path.dirname(__file__)
-        _pic = QtGui.QPixmap(os.path.join(__path, '../assets/narwhal.png'))
+        _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.horizontalLayout = QHBoxLayout()
         self.label = QLabel(self)
         self.comboBox = _coin_dropdown(self)

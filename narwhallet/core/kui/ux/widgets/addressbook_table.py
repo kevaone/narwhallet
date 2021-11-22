@@ -1,7 +1,7 @@
-import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
+from narwhallet.control.shared import MShared
 
 
 class _address_book_table(QTableWidget):
@@ -56,13 +56,13 @@ class _address_book_table(QTableWidget):
     def _create_table_item_graphic(pic: int):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
-        __path = os.path.dirname(__file__)
+
         if pic == 0:
-            _p = QPixmap(os.path.join(__path, '../assets/information'))
+            _p = QPixmap(MShared.get_resource_path('information'))
         elif pic == 1:
-            _p = QPixmap(os.path.join(__path, '../assets/clipboard.png'))
+            _p = QPixmap(MShared.get_resource_path('clipboard.png'))
         elif pic == 2:
-            _p = QPixmap(os.path.join(__path, '../assets/trashcan.png'))
+            _p = QPixmap(MShared.get_resource_path('trashcan.png'))
 
         _p = _p.scaledToWidth(20, _transm_st)
 

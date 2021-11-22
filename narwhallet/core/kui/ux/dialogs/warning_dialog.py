@@ -1,10 +1,10 @@
-import os
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
                              QPlainTextEdit)
+from narwhallet.control.shared import MShared
 
 
 class Ui_warning_dlg(QDialog):
@@ -17,12 +17,9 @@ class Ui_warning_dlg(QDialog):
         self.horizontalLayout_1 = QHBoxLayout()
         self.horizontalLayout_2 = QHBoxLayout()
         self.label_1 = QLabel(self)
-        __path = os.path.dirname(__file__)
-        self._pic = QPixmap(os.path.join(__path, '../assets/warning.png'))
-        self.error_pic = QPixmap(os.path.join(__path,
-                                              '../assets/exclamation.png'))
-        self.success_pic = QPixmap(os.path.join(__path,
-                                                '../assets/narwhal.png'))
+        self._pic = QPixmap(MShared.get_resource_path('warning.png'))
+        self.error_pic = QPixmap(MShared.get_resource_path('exclamation.png'))
+        self.success_pic = QPixmap(MShared.get_resource_path('narwhal.png'))
         self.label_2 = QPlainTextEdit(self)
         self.buttonBox = QDialogButtonBox(self)
 
