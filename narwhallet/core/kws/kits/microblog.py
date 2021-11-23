@@ -152,6 +152,7 @@ class Feed():
                 _res = self.replace_content(key[5], _value)
 
             _tx = cache.tx.get_tx_by_txid(key[2])
+            _res = _res.replace('$tx', _tx.txid)
             _res = _res.replace('$time', MShared.get_timestamp(_tx.time)[1])
 
             # TODO Add reply tracking to core namespace classes

@@ -101,6 +101,12 @@ class _Api():
         _rewards = []
         return _rewards
 
+    def add_wallet_action(self, action_type: str, data: bytes) -> str:
+        _data = json.loads(data.decode())
+        _action = {'type': action_type, 'data': _data}
+        _result = self.cache.actions.add(_data['tx'], _action)
+        return json.dumps(_result)
+
     def get_nft_auctions(self, auction_type: int):
         if auction_type == 0:
             _result = ''
