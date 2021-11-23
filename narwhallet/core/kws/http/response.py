@@ -5,9 +5,9 @@ from narwhallet.core.kws.http.enumerations.http_status_codes import status_codes
 
 
 class ResponseBuilder():
-    def __init__(self, connection):
+    def __init__(self, connection, content_path):
         self.connection: socket.socket = connection
-
+        self.content_path: str = content_path
         # self.content_type = _response[2] #_content_type
         self.body = b'no data'
 
@@ -66,8 +66,7 @@ class ResponseBuilder():
 
     def body_from_file(self, **args):
         _content = b'no data'
-        _content_path = args['file']
-        # _content_path = os.path.join(_path, _file)
+        _content_path = os.path.join(self.content_path, args['file'])
 
         try:
             with open(_content_path, mode='rb') as _content_file:
@@ -88,17 +87,20 @@ class ResponseBuilder():
 
     def body_from_parts(self, **args):
         _content = args['content']
-        _path = args['path']
 
         try:
-            with open(os.path.join(_path, 'meta.html'), mode='rb') as _file:
+            with open(os.path.join(
+                    self.content_path, 'meta.html'), mode='rb') as _file:
                 _page_meta = _file.read()
-            with open(os.path.join(_path, 'header.html'), mode='rb') as _file:
+            with open(os.path.join(
+                    self.content_path, 'header.html'), mode='rb') as _file:
                 _page_header = _file.read()
-            with open(os.path.join(_path, 'footer.html'), mode='rb') as _file:
+            with open(os.path.join(
+                    self.content_path, 'footer.html'), mode='rb') as _file:
                 _page_footer = _file.read()
 
-            with open(os.path.join(_path, _content), mode='rb') as _file:
+            with open(os.path.join(
+                    self.content_path, _content), mode='rb') as _file:
                 _page_content = _file.read()
 
                 if 'content_inject' in args:

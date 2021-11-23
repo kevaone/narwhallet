@@ -102,18 +102,15 @@ class Feed():
 
         _i = _feeditem.replace('$key', bleach.clean(key, strip=True))
 
-        if kind is True:
-            _i = _i.replace('$value', value)
+        if kind == 'html':
+            _i = _i.replace('$value', value.replace('"', '&quot;'))
         else:
-            if kind == 'html':
-                _i = _i.replace('$value', value.replace('"', '&quot;'))
-            else:
-                _i = _i.replace('$value', bleach.clean(value,
-                                tags=self.allowed_tags,
-                                attributes=self.allowed_attributes,
-                                styles=self.allowed_styles,
-                                protocols=self.allowed_protocols,
-                                strip=False, strip_comments=True))
+            _i = _i.replace('$value', bleach.clean(value,
+                            tags=self.allowed_tags,
+                            attributes=self.allowed_attributes,
+                            styles=self.allowed_styles,
+                            protocols=self.allowed_protocols,
+                            strip=False, strip_comments=True))
 
         return _i
 

@@ -5,6 +5,7 @@ from narwhallet.control import NarwhalletWebController
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.models.namespace import MNamespace
 from narwhallet.core.kws.kits.microblog import Feed
+from narwhallet.core.kcl.models.cache import MCache
 
 
 class _Api():
@@ -13,10 +14,10 @@ class _Api():
             'keva_filter',
             'getrawtransaction'
         ]
-        self.bh = 0
-        self.control = control
-        self.content_path = self.control.theme_path
-        self.cache = cache
+        self.bh: int = 0
+        self.control: NarwhalletWebController = control
+        self.content_path: str = self.control.theme_path
+        self.cache: MCache = cache
 
     def querystring_to_dict(self, _data):
         _dict = {}
@@ -38,6 +39,28 @@ class _Api():
 
     def is_restricted_block(self, block) -> bool:
         pass
+
+    def test_for_namespace(self, name):
+        if len(name) != 2:
+            return []
+
+        _short_code = name[1]
+        try:
+            _short_code = int(_short_code)
+        except Exception:
+            _short_code = _short_code.decode()
+
+        if isinstance(_short_code, int):
+            _namespace = self.cache.ns.get_ns_by_shortcode(_short_code)
+        else:
+            _namespace = self.cache.ns.get_namespace_by_id(_short_code)
+
+        if len(_namespace) == 0:
+            if isinstance(_short_code, int):
+                MShared.get_K(_short_code, self.cache, self.control.KEX)
+                _namespace = self.cache.ns.get_ns_by_shortcode(_short_code)
+
+        return _namespace
 
     def get_profile(self, _data):
         # _name = _data[0]

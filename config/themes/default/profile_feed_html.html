@@ -26,8 +26,18 @@
         </div>
     </div>
     <div class="row rs-foot">
-        <div class="col-6 m2">
-            <div>&nbsp</div>
+        
+        <div class="col-6 m2 vbtn">
+            <form method="post" target="action_frame">
+                <div>
+                    <div class="vd"><button type="submit" formaction="/_kv/td"><i
+                                class="fas fa-thumbs-down fa-flip-horizontal">
+                                (0)</i></button></div>
+                    <div class="vu"><button type="submit" formaction="/_kv/tu"><i class="fas fa-thumbs-up">
+                                (0)</i></button></div>
+                    <input id="marker" name="marker" value="$marker" />
+                </div>
+            </form>
         </div>
     </div>
     $rewards

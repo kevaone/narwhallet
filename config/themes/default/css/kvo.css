@@ -778,7 +778,7 @@ body { background-color: #22262a; }
 }
 .rs-foot>div:nth-child(2) {
     display: inline-block;
-    text-align: right;
+    text-align: left;
     padding-top: 5px;
     padding-right: 10px;
 }

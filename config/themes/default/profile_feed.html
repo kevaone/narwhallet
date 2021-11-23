@@ -26,8 +26,23 @@
         </div>
     </div>
     <div class="row rs-foot">
-        <div class="col-6 m2">
-            <div>&nbsp</div>
+        <div class="col-6 m2 vbtn">
+            <form method="post" target="action_frame">
+                <div>
+                    <div class="vd"><button type="submit" formaction="/_kv/reward">&nbsp;<i
+                        class="fas fa-heart">
+                        (0)</i>&nbsp;</button></div>
+                    <div class="vd"><button type="submit" formaction="/_kv/comment">&nbsp;<i
+                        class="fas fa-comment-dots">
+                        (0)</i>&nbsp;</button></div>
+                    <div class="vd"><button type="submit" formaction="/_kv/repost">&nbsp;<i
+                        class="fas fa-retweet">
+                        (0)</i>&nbsp;</button></div>
+                    <div class="vd"><button type="submit" formaction="/_kv/share">&nbsp;<i
+                        class="fas fa-external-link-alt"></i>&nbsp;</button></div>
+                    <input id="marker" name="marker" value="$marker" />
+                </div>
+            </form>
         </div>
     </div>
     $rewards
