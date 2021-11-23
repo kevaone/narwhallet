@@ -151,28 +151,23 @@ class Processor():
                                      '/' + self.request.body.decode())
         elif self.request.path == (b'/_kv/reward'):
             _result = self.sAPI.add_wallet_action('reward', self.request.body)
-            self.response.body = _result
-            self.response.set_content_length()
+            self.response.body_from_json(_result)
             _return_status = 1
         elif self.request.path == (b'/_kv/comment'):
             _result = self.sAPI.add_wallet_action('comment', self.request.body)
-            self.response.body = _result
-            self.response.set_content_length()
+            self.response.body_from_json(_result)
             _return_status = 1
         elif self.request.path == (b'/_kv/repost'):
             _result = self.sAPI.add_wallet_action('repost', self.request.body)
-            self.response.body = _result
-            self.response.set_content_length()
+            self.response.body_from_json(_result)
             _return_status = 1
         elif self.request.path == (b'/_kv/share'):
             _result = self.sAPI.add_wallet_action('share', self.request.body)
-            self.response.body = _result
-            self.response.set_content_length()
+            self.response.body_from_json(_result)
             _return_status = 1
         elif self.request.path == (b'/_kv/bid'):
             _result = self.sAPI.add_wallet_action('bid', self.request.body)
-            self.response.body = _result
-            self.response.set_content_length()
+            self.response.body_from_json(_result)
             _return_status = 1
 
             # _response = _Response.ResponseBuilder(_connection, self.client)

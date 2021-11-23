@@ -64,6 +64,12 @@ class ResponseBuilder():
         if close_connection:
             self.connection.close()
 
+    def body_from_json(self, json_data):
+        self.body = json_data
+        self.add_header('Content-Type', content_type['json'].value)
+        self.set_content_length()
+        self.set_status('OK')
+
     def body_from_file(self, **args):
         _content = b'no data'
         _content_path = os.path.join(self.content_path, args['file'])

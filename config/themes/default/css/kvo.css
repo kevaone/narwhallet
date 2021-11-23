@@ -76,10 +76,6 @@ body { background-color: #22262a; }
 .rs-bid-head>div>div>div>i:nth-child(1) { color: green; }
 .rs-foot>div { background-color: gainsboro; }
 
-.vbtn>form>div>div>button {
-    background-color: gainsboro;
-    color: slategray;
-}
 .dropdown-content { background-color: whitesmoke; box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2); }
 .dropdown-content a { color: black; }
 .dropdown-content a:hover {background-color: gainsboro;}
@@ -782,15 +778,17 @@ body { background-color: #22262a; }
     padding-top: 5px;
     padding-right: 10px;
 }
-.vbtn>form>div {
+.vbtn>div {
     display: inline-flex;
     flex-direction: row;
 }
-.vbtn>form>div>div>button {
+.vbtn>div>div {
     border: none;
     font-size: 16px;
     cursor: pointer;
     outline: none;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .vd>button:hover { color: red; }
 .vu>button:hover { color: green; }
