@@ -882,3 +882,8 @@ class MShared():
         _ns = cache.ns.convert_to_namespaceid(_asm[1])
 
         return (True, _ns, _value)
+
+    @staticmethod
+    def check_for_web_actions(cache: MCache) -> list:
+        _actions = cache.actions.all(0)
+        return _actions

@@ -71,9 +71,10 @@ class Scripts(Enum):
     SELECT_NS_ROOT_TEST = 'SELECT ns FROM ns_cache \
         WHERE ns = ? AND [key] = "_KEVA_NS_";'
     SELECT_NFT = 'SELECT tx, data FROM nft_cache WHERE tx = ?;'
-    SELECT_ACTION_CACHE_ALL = 'SELECT tx, [action], state FROM action_cache;'
-    SELECT_ACTION_CACHE_ENTRY = 'SELECT tx, [action], state FROM action_cache \
-        WHERE tx = ? AND [action] = ?;'
+    SELECT_ACTION_CACHE_ALL = 'SELECT time, tx, [action], data, state \
+        FROM action_cache WHERE state = ?;'
+    SELECT_ACTION_CACHE_ENTRY = 'SELECT time, tx, [action], data, state \
+        FROM action_cache WHERE tx = ? AND [action] = ?;'
     INSERT_TX = 'INSERT INTO tx_cache (txid, hash, version, size, vsize, \
         locktime, vin, vout, blockhash, confirmations, time, blocktime, \
             hex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'

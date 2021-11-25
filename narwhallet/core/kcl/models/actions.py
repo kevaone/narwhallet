@@ -5,9 +5,9 @@ class MActions():
     def __init__(self, db_interface: SQLInterface):
         self.dbi = db_interface
 
-    def all(self):
+    def all(self, state: int):
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_ACTION_CACHE_ALL,
-                                  (), 3)
+                                  (state, ), 3)
         return _r
 
     def get(self, tx: str, action: str):

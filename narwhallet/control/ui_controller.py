@@ -258,6 +258,11 @@ class NarwhalletController():
             self.ui.w_tab.tbl_w.clearSelection()
             self.refresh_namespace_tab_data()
 
+    def check_for_web_actions(self):
+        _actions = MShared.check_for_web_actions(self.cache)
+        for _action in _actions:
+            print('_action', _action)
+
     def threader(self, name: str, command, command_params_1,
                  command_params_2, work_done_func, optional: int = None):
         # 1 - create Worker and Thread inside the Form, no parent!
