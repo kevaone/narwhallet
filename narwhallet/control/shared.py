@@ -30,7 +30,8 @@ class MShared():
         if hasattr(sys, "_MEIPASS"):
             _path = os.path.join(sys._MEIPASS, 'assets')
         else:
-            _path = os.path.join(os.getcwd(), 'narwhallet/core/kui/ux/assets')
+            _path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                                 '../core/kui/ux/assets')
         _path = os.path.join(_path, file)
 
         return _path
