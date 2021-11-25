@@ -5,7 +5,6 @@ from narwhallet.core.kws.http import response as _Response
 from narwhallet.core.kws.api import _Api
 from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.control import NarwhalletWebController
-from narwhallet.control.shared import MShared
 
 
 class Processor():

@@ -2,10 +2,12 @@ import binascii
 import ecdsa
 from ecdsa import util as ecdsautil
 from hashlib import sha256
-from narwhallet.core.kcl.bip_utils import (Bip39MnemonicGenerator, Bip39WordsNum,
-                                Bip39MnemonicValidator, Bip39SeedGenerator,
-                                Bip32Secp256k1, Bip44Changes, Bip44Coins,
-                                Bip44, Bip49)
+from narwhallet.core.kcl.bip_utils import (Bip39MnemonicGenerator,
+                                           Bip39WordsNum,
+                                           Bip39MnemonicValidator,
+                                           Bip39SeedGenerator,
+                                           Bip32Secp256k1, Bip44Changes,
+                                           Bip44Coins, Bip44, Bip49)
 from narwhallet.core.kcl.bip_utils.conf import Bip49KevacoinMainNet
 from narwhallet.core.kcl.bip_utils.addr.P2SH_addr import P2SHAddr
 from narwhallet.core.ksc.utils import Ut
@@ -23,7 +25,7 @@ class _wallet_utils():
         return _data
 
     @staticmethod
-    def sign_message(pk: bytes, message: str or bytes) -> str:
+    def sign_message(pk: bytes, message) -> str:
         sk = ecdsa.SigningKey.from_string(pk, ecdsa.SECP256k1, sha256)
         vk = sk.get_verifying_key()
 
@@ -31,7 +33,8 @@ class _wallet_utils():
             try:
                 message = Ut.hex_to_bytes(message)
             except Exception:
-                message = message.encode()
+                if isinstance(message, str):
+                    message = message.encode()
 
         sig = sk.sign_digest_deterministic(message, None,
                                            ecdsautil.sigencode_der_canonize)
@@ -43,7 +46,7 @@ class _wallet_utils():
         return sig
 
     @staticmethod
-    def verify_message(sig: str, pk: str, message: str or bytes):
+    def verify_message(sig: str, pk: str, message):
         try:
             _pk = Ut.hex_to_bytes(pk)
             vk = ecdsa.VerifyingKey.from_string(_pk, curve=ecdsa.SECP256k1,
@@ -54,7 +57,8 @@ class _wallet_utils():
                 try:
                     message = Ut.hex_to_bytes(message)
                 except Exception:
-                    message = message.encode()
+                    if isinstance(message, str):
+                        message = message.encode()
 
             vsig = vk.verify_digest(_sig, message, ecdsautil.sigdecode_der)
             if vsig is True:

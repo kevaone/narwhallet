@@ -10,7 +10,7 @@ class MTransactionInput(MBase):
         self._type: str = None
         self._coinbase: str = None
         self._txid: str = None
-        self._vout: str = None
+        self._vout: int = None
         self._scriptSig: MScriptSig = MScriptSig()
         self._txinwitness: List[str] = []
         self._sequence: int = None
@@ -28,7 +28,7 @@ class MTransactionInput(MBase):
         return self._txid
 
     @property
-    def vout(self) -> str:
+    def vout(self) -> int:
         return self._vout
 
     @property
@@ -55,7 +55,7 @@ class MTransactionInput(MBase):
     def set_scriptSig(self, scriptSig: MScriptSig) -> None:
         self._scriptSig = scriptSig
 
-    def set_txinwitness(self, txinwitness: str) -> None:
+    def set_txinwitness(self, txinwitness: List[str]) -> None:
         self._txinwitness = txinwitness
 
     def set_sequence(self, sequence: int) -> None:

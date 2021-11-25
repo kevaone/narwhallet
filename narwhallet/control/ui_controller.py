@@ -2,7 +2,7 @@ import os
 import json
 import shutil
 import time
-from typing import Dict, List
+from typing import Dict, List, Optional
 from PyQt5.QtCore import QThread, Qt
 from PyQt5.QtGui import QClipboard
 
@@ -746,9 +746,9 @@ class NarwhalletController():
         self.ui.w_tab.tbl_addr.clearSelection()
         self.ui.w_tab.tbl_addr2.clearSelection()
         if row == -1:
-            row = self.ui.w_tab.tbl_w.selectedRanges()
-            if len(row) > 0:
-                row = row[0].topRow()
+            _row = self.ui.w_tab.tbl_w.selectedRanges()
+            if len(_row) > 0:
+                row = _row[0].topRow()
             else:
                 row = -1
         else:
@@ -941,9 +941,9 @@ class NarwhalletController():
     def nft_auction_selected(self, row: int = -1, _column: int = -1):
         self.ui.nft_tab.tbl_bids.clearSelection()
         if row == -1:
-            row = self.ui.nft_tab.tbl_auctions.selectedRanges()
-            if len(row) > 0:
-                row = row[0].topRow()
+            _row = self.ui.nft_tab.tbl_auctions.selectedRanges()
+            if len(_row) > 0:
+                row = _row[0].topRow()
             else:
                 row = -1
         else:
@@ -960,9 +960,9 @@ class NarwhalletController():
     def nft_mybid_selected(self, row: int = -1, _column: int = -1):
         self.ui.nft_tab.tbl_auctions.clearSelection()
         if row == -1:
-            row = self.ui.nft_tab.tbl_bids.selectedRanges()
-            if len(row) > 0:
-                row = row[0].topRow()
+            _row = self.ui.nft_tab.tbl_bids.selectedRanges()
+            if len(_row) > 0:
+                row = _row[0].topRow()
             else:
                 row = -1
         else:
@@ -980,9 +980,9 @@ class NarwhalletController():
 
     def nft_bid_selected(self, row: int = -1, _column: int = -1):
         if row == -1:
-            row = self.ui.nft_tab.tbl_bids_2.selectedRanges()
-            if len(row) > 0:
-                row = row[0].topRow()
+            _row = self.ui.nft_tab.tbl_bids_2.selectedRanges()
+            if len(_row) > 0:
+                row = _row[0].topRow()
             else:
                 row = -1
         else:
@@ -995,7 +995,7 @@ class NarwhalletController():
             if _w is not None:
                 self.dialogs.accept_bid_namespace_dialog(_w)
 
-    def search_wallet_addressses(self, address: str) -> MWallet:
+    def search_wallet_addressses(self, address: str) -> Optional[MWallet]:
         _return = None
         for _w in self.wallets.wallets:
             for _a in _w.addresses.addresses:
@@ -1145,7 +1145,7 @@ class NarwhalletController():
         return 'True'
 
     def _display_wallet_tx(self, wallet: MWallet) -> list:
-        _tx_d = {}
+        _tx_d: dict = {}
         _tx_d = self.__display_wallet_tx(wallet.addresses.addresses,
                                          _tx_d)
         _tx_d = self.__display_wallet_tx(wallet.change_addresses.addresses,

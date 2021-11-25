@@ -14,13 +14,14 @@ class _loader():
         return True
 
     @staticmethod
-    def _save(file_path: str, data: str or bytes, k=None):
+    def _save(file_path: str, data, k=None):
+        if isinstance(data, str):
+            data = data.encode()
+
         if k is not None:
             _nonce = os.urandom(12)  # GCM mode needs 12 fresh bytes every time
             data = _nonce + AESGCM(k).encrypt(_nonce, data, b'')
             data = b'narw'+data
-        if isinstance(data, str):
-            data = data.encode()
 
         with open(file_path, mode='wb') as _file:
             _file.write(data)
@@ -43,7 +44,7 @@ class ConfigLoader(_loader):
     def __init__(self, config_file: str):
         self.config_file = config_file
 
-    def save(self, data: str or bytes):
+    def save(self, data):
         return self._save(self.config_file, data)
 
     def load(self):
@@ -57,7 +58,7 @@ class WalletLoader(_loader):
         self.wallet_name = wallet_name
         self.path = os.path.join(self.wallet_path, self.wallet_name)
 
-    def save(self, data: str or bytes, k=None):
+    def save(self, data, k=None):
         return self._save(self.path, data, k)
 
     def load(self, k=None):

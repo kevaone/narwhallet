@@ -1,3 +1,4 @@
+from typing import Optional
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.bip_utils.base58 import Base58Encoder
 from narwhallet.core.kcl.models.namespace import MNamespace
@@ -38,7 +39,7 @@ class MNamespaces():
 
     # TODO Move types to own class; stubbing as strings here for now
     @staticmethod
-    def get_key_type(key, value) -> str:
+    def get_key_type(key, value) -> Optional[str]:
         _type = None
         if key == '_KEVA_NS_':
             _type = 'root_ns'

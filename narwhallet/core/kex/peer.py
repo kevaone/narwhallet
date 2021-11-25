@@ -47,7 +47,7 @@ class _peer():
         self.disconnect()
         self.socket = self.connect()
 
-    def comm(self, command) -> str:
+    def comm(self, command) -> bytes:
         self.busy = True
         try:
             self.socket.sendall(command)

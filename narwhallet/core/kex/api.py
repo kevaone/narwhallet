@@ -1,6 +1,6 @@
 from narwhallet.core.kex.cmd import (_server, _mempool, _blockchain, _address,
-                          _block, _headers, _masternode, _scripthash,
-                          _transaction, _keva)
+                                     _block, _headers, _masternode,
+                                     _scripthash, _transaction, _keva)
 
 
 class _api():

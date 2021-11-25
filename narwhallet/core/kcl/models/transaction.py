@@ -119,11 +119,11 @@ class MTransaction(MBase):
         self._hex = thex
 
     @staticmethod
-    def to_dict_list(v: (List[MTransactionInput]
-                     or List[MTransactionOutput])) -> List[dict]:
+    def to_dict_list(v: list) -> List[dict]:
         _l = []
         for i in v:
-            _l.append(i.to_dict())
+            if isinstance(i, (MTransactionInput, MTransactionOutput)):
+                _l.append(i.to_dict())
 
         return _l
 

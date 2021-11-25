@@ -176,7 +176,7 @@ class MWallet(MBase):
     def set_updating(self, updating: bool) -> None:
         self._updating = updating
 
-    def set_last_updated(self, last_updated: str) -> None:
+    def set_last_updated(self, last_updated: float) -> None:
         self._last_updated = last_updated
 
     def set_account_index(self, account_index: int) -> None:

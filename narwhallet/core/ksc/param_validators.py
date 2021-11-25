@@ -42,14 +42,16 @@ class ParamValidators():
         return Ut.to_cuint(len(_name)) + _name
 
     @staticmethod
-    def key_value(value: str or bytes) -> bytes:
+    def key_value(value) -> bytes:
         if isinstance(value, bytes) is False:
             try:
                 _value = bytes([ord(value)])
             except Exception:
-                _value = value.encode()
+                if isinstance(value, str):
+                    _value = value.encode()
         else:
-            _value = value
+            if isinstance(value, bytes):
+                _value = value
         return Ut.encode_pushdata(_value)
 
     @staticmethod
@@ -118,10 +120,8 @@ class ParamValidators():
     @staticmethod
     def hashtagSciptHash(hashtag: str):
         try:
-            _hashtag = hashtag.lower()
-            if _hashtag.startswith('#'):
-                _hashtag = _hashtag[1:]
-            _hashtag = _hashtag.encode()
+            if hashtag.lower().startswith('#'):
+                _hashtag = hashtag[1:].encode()
             _hashtag = Ut.to_cuint(len(_hashtag)) + _hashtag
         except Exception:
             return Exception('hashtag script error')

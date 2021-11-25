@@ -16,8 +16,8 @@ class MBookAddresses():
     def count(self) -> int:
         return len(self.addresses)
 
-    def get_address_by_index(self, index: int) -> MBookAddress:
-        return self._addresses[index]
+    def get_address_by_name(self, name: str) -> MBookAddress:
+        return self._addresses[name]
 
     def remove_address(self, address: str) -> bool:
         if address in self.addresses:

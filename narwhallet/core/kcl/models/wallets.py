@@ -36,13 +36,14 @@ class MWallets():
         self._names[wallet.name] = len(self._wallets) - 1
 
     def save_wallet(self, name: str):
+        _error = False
         _wallet = self.get_wallet_by_name(name)
         try:
             _dump = json.dumps(_wallet.to_dict(), indent=4).encode()
         except Exception:
-            _dump = None
+            _error = True
 
-        if _dump is not None:
+        if _error is not True:
             if _wallet.state_lock in (1, 3):
                 WalletUtils.save_wallet(_wallet.name, self.root_path, _dump,
                                         _wallet.k)

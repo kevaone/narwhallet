@@ -42,7 +42,7 @@ class MNSKeys():
             _return = None
         return _return
 
-    def delete_key_by_name(self, name: str, convert: bool = False) -> MNSKey:
+    def delete_key_by_name(self, name: str, convert: bool = False) -> bool:
         if convert is True:
             _name = self.decode(name)
         else:

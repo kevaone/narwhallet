@@ -30,7 +30,9 @@ class KEXclient():
             data = ''
 
         try:
-            _ = json.loads(data.decode())
+            if isinstance(data, bytes):
+                data = data.decode()
+            _ = json.loads(data)
         except Exception:
             data = ''
 
@@ -47,7 +49,9 @@ class KEXclient():
 
         try:
             if json_test is True:
-                _ = json.loads(data.decode())
+                if isinstance(data, bytes):
+                    data = data.decode()
+                _ = json.loads(data)
         except Exception:
             data = '[]'
 

@@ -81,7 +81,7 @@ class MShared():
         return _batches
 
     @staticmethod
-    def __get_batch(batch: str, kex: KEXclient):
+    def __get_batch(batch: list, kex: KEXclient):
         _results = kex.call_batch(batch)
         _results = json.loads(_results)
         _results = MShared.__test_batch_for_error(batch, _results, kex)
@@ -141,8 +141,8 @@ class MShared():
 
     @staticmethod
     def get_balances(wallet: MWallet, kex: KEXclient):
-        _th = []
-        _tid = {}
+        _th: list = []
+        _tid: dict = {}
 
         _th, _tid = MShared._get_balances_cmds(wallet.addresses,
                                                1, _th, _tid, kex)
@@ -208,8 +208,8 @@ class MShared():
 
     @staticmethod
     def list_unspents(wallet: MWallet, kex: KEXclient):
-        _th = []
-        _tid = {}
+        _th: list = []
+        _tid: dict = {}
         _th, _tid = MShared._list_unspents_cmds(wallet.addresses,
                                                 1, _th, _tid, kex)
         _th, _tid = MShared._list_unspents_cmds(wallet.change_addresses,
@@ -281,8 +281,8 @@ class MShared():
 
     @staticmethod
     def get_histories(wallet: MWallet, kex: KEXclient):
-        _th = []
-        _tid = {}
+        _th: list = []
+        _tid: dict = {}
         _th, _tid = MShared._get_histories_cmds(wallet, 1, _th, _tid, kex)
         _th, _tid = MShared._get_histories_cmds(wallet, 0, _th, _tid, kex)
         _batches = MShared.batch_cmds(_th)
@@ -311,17 +311,18 @@ class MShared():
             for _pad in range(0, 10):
                 if chain == 0:
                     _pad_value = len(wallet.change_addresses.addresses) + _pad
-                    _a = wallet.get_change_address_by_index(_pad_value, False)
+                    _addr = wallet.get_change_address_by_index(_pad_value,
+                                                               False)
                 elif chain == 1:
                     _pad_value = len(wallet.addresses.addresses) + _pad
-                    _a = wallet.get_address_by_index(_pad_value, False)
+                    _addr = wallet.get_address_by_index(_pad_value, False)
 
                 _script_hash = (Scripts.P2SHAddressScriptHash
-                                .compileToScriptHash([_a], True))
+                                .compileToScriptHash([_addr], True))
                 _th.append(kex.api.blockchain_scripthash.get_history
                            .build_command([_script_hash], kex.id))
                 _tid[str(kex.id)] = {}
-                _tid[str(kex.id)]['address'] = _a
+                _tid[str(kex.id)]['address'] = _addr
                 _tid[str(kex.id)]['chain'] = chain
                 _tid[str(kex.id)]['pad'] = _pad_value
                 kex.id = kex.id + 1
@@ -395,8 +396,8 @@ class MShared():
         # _block_count = MShared.get_block_count(kex)
         # print('_block_count', _block_count)
         wallet.set_balance(0.0)
-        _tx_h_batch = []
-        _tx_in_b = []
+        _tx_h_batch: list = []
+        _tx_in_b: list = []
         _tx_h_batch = MShared.__get_tx_cmds(_tx_h_batch,
                                             wallet.addresses.addresses,
                                             kex, cache)
@@ -612,7 +613,7 @@ class MShared():
 
             if _root_hist != '':
                 _root_hist = json.loads(_root_hist)['result']
-                _tracker = []
+                _tracker: list = []
 
                 MShared.scan_history(_o[1], _tracker,
                                      _out.addresses[0], _root_hist, kex,
@@ -696,7 +697,7 @@ class MShared():
             if _trx is not None:
                 for _o in _trx.vout:
                     _ok = _o.scriptPubKey.asm.split(' ')
-                    _a_hist = []
+                    # _a_hist: list = []
                     if _ok[0].startswith('OP_KEVA'):
                         # MShared._test_root(_o.scriptPubKey, kex, cache)
                         _a = _o.scriptPubKey.addresses[0]
@@ -737,7 +738,7 @@ class MShared():
 
     @staticmethod
     def _get_namespace_keys(_ns, kex: KEXclient):
-        _keys = []
+        _keys: list = []
         try:
             _ns = Ut.bytes_to_hex(Base58Decoder.CheckDecode(_ns))
         except Exception:
@@ -828,7 +829,7 @@ class MShared():
         return True
 
     @staticmethod
-    def check_tx_is_auction(tx: str, kex: KEXclient, cache: MCache) -> bool:
+    def check_tx_is_auction(tx: str, kex: KEXclient, cache: MCache) -> tuple:
         if len(tx) != 64:
             return (False, '', '')
 
@@ -856,7 +857,7 @@ class MShared():
         return (True, _ns, json.loads(_value))
 
     @staticmethod
-    def check_tx_is_bid(tx: str, kex: KEXclient, cache: MCache) -> bool:
+    def check_tx_is_bid(tx: str, kex: KEXclient, cache: MCache) -> tuple:
         if len(tx) != 64:
             return (False, '', '')
 

@@ -101,7 +101,7 @@ class _Api():
         _rewards = []
         return _rewards
 
-    def add_wallet_action(self, action_type: str, data: bytes) -> str:
+    def add_wallet_action(self, action_type: str, data: bytes) -> bytes:
         _data = json.loads(data.decode())
         _action = {'type': action_type, 'data': _data}
         _result = {'result': self.cache.actions.add(_data['tx'],
