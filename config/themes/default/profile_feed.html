@@ -14,7 +14,7 @@
     </div>
     <div class="row rs-title">
         <div class="col-6 m1">
-            <div>$key</div>
+            <div id="rs-title-$tx">$key</div>
         </div>
         <div class="col-6 m1">
             <div>$time</div>
@@ -27,17 +27,17 @@
     </div>
     <div class="row rs-foot">
         <div class="col-6 m2 vbtn">
-            <div>
-                <div class="vd" onClick="nww_main.action('reward', '$tx');">
+            <div id="rs-actions">
+                <div class="vd" onClick="nww_main.action_modal('reward', '$tx');">
                     <i class="fas fa-heart"></i>
                 </div>
-                <div class="vd" onClick="nww_main.action('comment', '$tx');">
+                <div class="vd" onClick="nww_main.action_modal('comment', '$tx');">
                     <i class="fas fa-comment-dots" Click="alert($tx);"></i>
                 </div>
-                <div class="vd" onClick="nww_main.action('repost', '$tx');">
+                <div class="vd" onClick="nww_main.action_modal('repost', '$tx');">
                     <i class="fas fa-retweet"></i>
                 </div>
-                <div class="vd" onClick="nww_main.action('share', '$tx');">
+                <div class="vd" onClick="nww_main.action_modal('share', '$tx');">
                     <i class="fas fa-external-link-alt"></i>
                 </div>
             </div>

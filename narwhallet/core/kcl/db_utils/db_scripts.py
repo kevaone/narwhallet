@@ -29,7 +29,8 @@ class Scripts(Enum):
     CREATE_NFT_CACHE = 'CREATE TABLE nft_cache \
         (tx STRING UNIQUE, data STRING);'
     CREATE_ACTION_CACHE = 'CREATE TABLE action_cache \
-        (tx STRING UNIQUE, [action] STRING, state INTEGER DEFAULT (0));'
+        (time DATETIME DEFAULT current_timestamp, tx STRING, \
+            [action] STRING, data STRING, state INTEGER DEFAULT (0));'
     SELECT_TX = 'SELECT txid FROM tx_cache WHERE txid = ?;'
     SELECT_TX_TIME = 'SELECT time FROM tx_cache WHERE txid = ?;'
     SELECT_TX_FULL = 'SELECT txid, hash, version, size, vsize, locktime, \
@@ -42,12 +43,12 @@ class Scripts(Enum):
             FROM tx_vout_cache WHERE tx = ?;'
     SELECT_NS_ALL = 'SELECT ns, data FROM ns_cache;'
     SELECT_NS = 'SELECT block, n, txid, ns, op, [key], value, special, \
-        address FROM ns_cache WHERE (special <> "deleted" OR special IS NULL) AND ns = ? \
-            ORDER BY block desc;'
+        address FROM ns_cache WHERE (special <> "deleted" OR special IS NULL) \
+            AND ns = ? ORDER BY block desc;'
     SELECT_NS_BY_POS = 'SELECT ns FROM ns_cache WHERE block = ? AND n = ?;'
     SELECT_NS_BY_TXID = 'SELECT ns FROM ns_cache WHERE txid = ? AND ns = ?;'
-    SELECT_NS_BY_KEY = 'SELECT ns, [key], block, special FROM ns_cache WHERE ns = ? AND \
-        [key] = ?;'
+    SELECT_NS_BY_KEY = 'SELECT ns, [key], block, special FROM ns_cache \
+        WHERE ns = ? AND [key] = ?;'
     SELECT_NS_VIEW_1 = 'SELECT DISTINCT ns FROM ns_cache;'
     SELECT_NS_COUNT = 'SELECT COUNT(ns) FROM ns_cache \
         WHERE (special <> "deleted" OR special IS NULL) AND ns = ?;'
@@ -80,8 +81,8 @@ class Scripts(Enum):
     INSERT_NS = 'INSERT INTO ns_cache (block, n, txid, ns, op, [key] , value, \
         special, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);'
     INSERT_NFT = 'INSERT INTO nft_cache (tx, data) VALUES (?, ?);'
-    INSERT_ACTION_CACHE = 'INSERT INTO action_cache (tx, [action]) \
-        VALUES (?, ?);'
+    INSERT_ACTION_CACHE = 'INSERT INTO action_cache (tx, [action], data) \
+        VALUES (?, ?, ?);'
     UPDATE_TX = 'UPDATE tx_cache SET txid = ?, hash = ?, version = ?, \
         size = ?, vsize = ?, locktime = ?, vin = ?, vout = ?, \
             blockhash = ?, confirmations = ?, time = ?, blocktime = ?, \

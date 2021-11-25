@@ -15,9 +15,9 @@ class MActions():
                                   (tx, action), 3)
         return _r
 
-    def add(self, tx: str, action: str):
+    def add(self, tx: str, action: str, data: str):
         _r = self.dbi.execute_sql(self.dbi.scripts.INSERT_ACTION_CACHE,
-                                  (tx, action), 2)
+                                  (tx, action, data), 2)
         return _r
 
     def update(self, tx: str, action: str, state: int):
