@@ -5,6 +5,12 @@ class Scripts(Enum):
     DROP_TX_CACHE_IDX = 'DROP INDEX tx_cache_idx;'
     DROP_NS_CACHE_IDX = 'DROP INDEX ns_cache_idx;'
     DROP_NFT_CACHE_IDX = 'DROP INDEX nft_cache_idx;'
+    DROP_TX_CACHE = 'DROP TABLE tx_cache'
+    DROP_TX_VIN_CACHE = 'DROP TABLE tx_vin_cache'
+    DROP_TX_VOUT_CACHE = 'DROP TABLE tx_vout_cache'
+    DROP_NS_CACHE = 'DROP TABLE ns_cache'
+    DROP_NFT_CACHE = 'DROP TABLE nft_cache'
+    DROP_ACTION_CACHE = 'DROP TABLE action_cache'
     CREATE_TX_CACHE_IDX = 'CREATE INDEX tx_cache_idx ON tx_cache (tx, data);'
     CREATE_NS_CACHE_IDX = 'CREATE INDEX ns_cache_idx ON ns_cache (ns, data);'
     CREATE_NFT_CACHE_IDX = 'CREATE INDEX nft_cache_idx ON \

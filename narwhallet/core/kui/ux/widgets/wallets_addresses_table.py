@@ -52,6 +52,10 @@ class _wallets_addr_tbl(QTableWidget):
         self.item(row, 4).setText('')
         self.item(row, 5).setText('')
 
+    def clear_rows(self):
+        for i in range(0, self.rowCount()):
+            self.clear_row(i)
+
     def add_addresses(self, addresses_data: list):
         for i in range(0, self.rowCount()):
             self.clear_row(i)

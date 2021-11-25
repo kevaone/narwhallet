@@ -56,6 +56,31 @@ class SQLInterface():
             self.execute_sql(self.scripts.CREATE_ACTION_CACHE, (), 1)
             # print('created action cache table')
 
+    def reset_tables(self):
+        _tmp = self.execute_sql(self.scripts.DROP_TX_CACHE, (), 1)
+        if _tmp is True:
+            self.execute_sql(self.scripts.CREATE_TX_CACHE, (), 1)
+
+        _tmp = self.execute_sql(self.scripts.DROP_TX_VIN_CACHE, (), 1)
+        if _tmp is True:
+            self.execute_sql(self.scripts.CREATE_TX_VIN_CACHE, (), 1)
+
+        _tmp = self.execute_sql(self.scripts.DROP_TX_VOUT_CACHE, (), 1)
+        if _tmp is True:
+            self.execute_sql(self.scripts.CREATE_TX_VOUT_CACHE, (), 1)
+
+        _tmp = self.execute_sql(self.scripts.DROP_NS_CACHE, (), 1)
+        if _tmp is True:
+            self.execute_sql(Scripts.CREATE_NS_CACHE, (), 1)
+
+        _tmp = self.execute_sql(self.scripts.DROP_NFT_CACHE, (), 1)
+        if _tmp is True:
+            self.execute_sql(Scripts.CREATE_NFT_CACHE, (), 1)
+
+        _tmp = self.execute_sql(self.scripts.DROP_ACTION_CACHE, (), 1)
+        if _tmp is True:
+            self.execute_sql(self.scripts.CREATE_ACTION_CACHE, (), 1)
+
     def execute_sql(self, sql, payload, flag):
         # SELECT = 3
         # INSERT = 2

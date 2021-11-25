@@ -26,6 +26,7 @@ class Ui_SettingsTab(QObject):
         self.path_meta_hl = QHBoxLayout()
         self.path_meta_l = QLabel(self.tabSettings)
         self.path_meta_e = QPlainTextEdit(self.settings_tab_wallet)
+        self.reset_cache = QPushButton(self.settings_tab_wallet)
         self.auto_lock_hl = QHBoxLayout()
         self.auto_lock_l = QLabel(self.tabSettings)
         self.auto_lock_e = QLineEdit(self.settings_tab_wallet)
@@ -124,6 +125,7 @@ class Ui_SettingsTab(QObject):
 
         self.path_meta_hl.addWidget(self.path_meta_l)
         self.path_meta_hl.addWidget(self.path_meta_e)
+        self.path_meta_hl.addWidget(self.reset_cache)
         self.verticalLayout_12.addLayout(self.path_meta_hl)
         self.auto_lock_hl.addWidget(self.auto_lock_l)
         self.auto_lock_hl.addWidget(self.auto_lock_e)
@@ -192,8 +194,11 @@ class Ui_SettingsTab(QObject):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.path_meta_l.setText(_translate('tabSettings', 'Path:'))
-        self.auto_lock_l.setText(_translate('tabSettings', 'Wallet Auto Lock Timer'))
-        self.show_change.setText(_translate('tabSettings', 'Show Change Addresses'))
+        self.reset_cache.setText(_translate('tabSettings', 'Reset Cache'))
+        (self.auto_lock_l
+         .setText(_translate('tabSettings', 'Wallet Auto Lock Timer')))
+        (self.show_change
+         .setText(_translate('tabSettings', 'Show Change Addresses')))
         self.syncBox.setText(_translate('tabSettings', 'Sync Options -'))
         self.s_a_wallet.setText(_translate('tabSettings',
                                            'Sync wallets on startup,'))

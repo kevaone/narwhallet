@@ -251,6 +251,13 @@ class NarwhalletController():
         self.ui.settings_tab.show_change.setChecked(self.settings.show_change)
         self.ui.w_tab.tabWidget_2.setTabVisible(2, self.settings.show_change)
 
+    def reset_cache(self):
+        _msg = 'Are you sure you want to reset transaction/namespace caches?'
+        if self.dialogs.warning_dialog(_msg, True, 0) == 1:
+            self.cache.interface.reset_tables()
+            self.ui.w_tab.tbl_w.clearSelection()
+            self.refresh_namespace_tab_data()
+
     def threader(self, name: str, command, command_params_1,
                  command_params_2, work_done_func, optional: int = None):
         # 1 - create Worker and Thread inside the Form, no parent!
@@ -355,6 +362,7 @@ class NarwhalletController():
         self.ui.u_tab.sbutton.clicked.connect(self.sign_message)
         self.ui.u_tab.vbutton.clicked.connect(self.verify_message)
         self.ui.u_tab.mv_submit.clicked.connect(self.util_submit)
+        self.ui.settings_tab.reset_cache.clicked.connect(self.reset_cache)
         (self.ui.settings_tab.elxp_tbl
          .cellClicked.connect(self.electrumx_peer_selected))
         (self.ui.settings_tab.ipfs_tbl
@@ -743,6 +751,13 @@ class NarwhalletController():
 
         if self.ws != row:
             self.ws = row
+
+        if row == -1:
+            self.ui.w_tab.tbl_addr.clear_rows()
+            self.ui.w_tab.tbl_addr2.clear_rows()
+            self.ui.w_tab.tbl_tx.clear_rows()
+            self.ui.w_tab.reset_info_values()
+            return
 
         _n = self.ui.w_tab.tbl_w.item(row, 3).text()
         _w = self.wallets.get_wallet_by_name(_n)
