@@ -66,15 +66,15 @@ class Ui_SettingsTab(QObject):
         self.lineEdit_2av = QIntValidator(self.lineEdit_2a)
         self.label_3b = QLabel(self.settings_tab_wallet)
         self.lineEdit_2b = QLineEdit(self.settings_tab_wallet)
-        self.settings_tab_debug = QWidget(self.settings_tab_wallet)
-        self.verticalLayout_9 = QVBoxLayout(self.settings_tab_debug)
+        self.settings_tab_about = QWidget(self.settings_tab_wallet)
+        self.verticalLayout_9 = QVBoxLayout(self.settings_tab_about)
         self.horizontalLayout_11 = QHBoxLayout()
         self.settings_elxp_label = QLabel(self.settings_tab_wallet)
         self.elxp_btn_add = QPushButton(self.settings_tab_wallet)
         self.elxp_tbl = _electrumx_peers_table('selxp_table',
                                                self.settings_tab_wallet)
-        self.settings_debug_text = _ns_value_textedit('selxp_table_2',
-                                                      self.settings_tab_debug)
+        self.settings_about_text = _ns_value_textedit('selxp_table_2',
+                                                      self.settings_tab_about)
         self.horizontalLayout_12 = QHBoxLayout()
         self.label = QLabel(self.settings_tab_wallet)
         self.line_0 = QFrame(self.settings_tab_wallet)
@@ -177,7 +177,7 @@ class Ui_SettingsTab(QObject):
         self.horizontalLayout_11.addWidget(self.elxp_btn_add)
         self.verticalLayout_12.addLayout(self.horizontalLayout_11)
         self.verticalLayout_12.addWidget(self.elxp_tbl)
-        self.verticalLayout_9.addWidget(self.settings_debug_text)
+        self.verticalLayout_9.addWidget(self.settings_about_text)
         self.horizontalLayout_13.addWidget(self.label)
         self.verticalLayout_12.addWidget(self.line_2)
         self.horizontalLayout_13.addItem(QSpacerItem(253, 20,
@@ -187,7 +187,7 @@ class Ui_SettingsTab(QObject):
         self.verticalLayout_12.addWidget(self.ipfs_tbl)
         self.verticalLayout_12.addItem(QSpacerItem(20, 20, _sp_min, _sp_exp))
         self.tabWidget_3.addTab(self.settings_tab_wallet, '')
-        self.tabWidget_3.addTab(self.settings_tab_debug, '')
+        self.tabWidget_3.addTab(self.settings_tab_about, '')
         self.tabWidget_3.setCurrentIndex(0)
         self.verticalLayout_13.addWidget(self.tabWidget_3)
 
@@ -221,8 +221,8 @@ class Ui_SettingsTab(QObject):
                                          'ElectrumX Peers -'))
         self.elxp_btn_add.setText(_translate('tabSettings', 'Add'))
         self.tabWidget_3.setTabText(self.tabWidget_3
-                                    .indexOf(self.settings_tab_debug),
-                                    _translate('tabSettings', 'Debug'))
+                                    .indexOf(self.settings_tab_about),
+                                    _translate('tabSettings', 'About'))
         self.label.setText(_translate('tabSettings', 'IPFS Gateways -'))
         self.settings_ipfs_button_add.setText(_translate('tabSettings', 'Add'))
         (self.label_3

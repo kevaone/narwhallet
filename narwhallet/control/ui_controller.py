@@ -470,16 +470,19 @@ class NarwhalletController():
     def wa_ad_click(self, row: int, _column: int):
         self.ui.w_tab.tbl_addr.selectRow(row)
 
+    def ex_c_done(self):
+        pass
+
     def ex_c(self, _n: str, m: str, i: int):
         self.ui.settings_tab.elxp_tbl.update_peer_status(i, m)
 
         if m == 'connected':
             self.threader('server version', self.KEX.call,
                           self.KEX.api.server.version, ['Narwhallet', 1.4],
-                          self.ex_command_results, None)
+                          self.ex_c_done, None)
             self.threader('block count', self.KEX.call,
                           self.KEX.api.blockchain_block.count, [],
-                          self.ex_command_results, None)
+                          self.ex_c_done, None)
 
     def save_settings(self):
         try:
@@ -677,16 +680,6 @@ class NarwhalletController():
 
         self.ui.ns_tab.tbl_ns.add_namespaces('_w.name', nd)
         self.refresh_nft_tab_data(nd)
-
-    def ex_command_results(self, n: str, m: str, i: int):
-        _m = self.ui.settings_tab.settings_debug_text.toPlainText()
-        _m = _m + '\n' + n + ':\n' + m
-        self.ui.settings_tab.settings_debug_text.setPlainText(_m)
-
-        # TODO: Cleanup functions/callbacks; this hack temporary
-        if i != -1:
-            self.ui.w_tab.tbl_w.item(i, 8).setText(MShared.get_timestamp()[1])
-            self.ui.w_tab.tbl_w.resizeColumnsToContents()
 
     def wallet_lock(self, wallet: MWallet):
         if wallet.state_lock == 0:
