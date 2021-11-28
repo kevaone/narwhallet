@@ -101,7 +101,7 @@ class Scripts(Enum):
         WHERE ns = ? AND [key] = ? AND block < ?;'
     UPDATE_NFT = 'UPDATE nft_cache SET tx = ?, data = ? WHERE tx = ?;'
     UPDATE_ACTION_CACHE = 'UPDATE action_cache SET state = ? \
-        WHERE tx = ? AND [action] = ?;'
+        WHERE time = ? AND tx = ? AND [action] = ?;'
     DELETE_TX = 'DELETE FROM tx_cache WHERE tx = ?;'
     DELETE_NS = 'DELETE FROM ns_cache WHERE ns = ?;'
     DELETE_NS_KEY = 'DELETE FROM ns_cache WHERE ns = ? AND [key] = ? \

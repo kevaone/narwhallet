@@ -17,6 +17,7 @@ from narwhallet.core.kcl.models.book_address import MBookAddress
 from narwhallet.core.kex import KEXclient
 
 from narwhallet.core.kui.main import NarwhalletUI
+from narwhallet.core.kui.ux.dialogs.tx_builder_action import Ui_action_dlg
 from narwhallet.core.kui.ux.dialogs.tx_builder_simple_send import Ui_simple_send_dlg
 from narwhallet.core.kui.ux.dialogs.tx_builder_keva_op import Ui_keva_op_send_dlg
 from narwhallet.core.kui.ux.dialogs.tx_builder_keva_nft import Ui_keva_op_nft_dlg
@@ -421,6 +422,46 @@ class MDialogs():
             else:
                 _result = _bc_result[1]
             _ = self.warning_dialog(_result, False, int(_bc_result[0]))
+
+    def action_dialog(self, action):
+        _di = Ui_action_dlg()
+        _di.setupUi()
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
+        _di.action = action[2]
+        _fee = MShared.get_fee_rate(self.kex)
+        if _fee == -1:
+            _ = self.warning_dialog('Could not get fee rate!', False, 1)
+            return
+
+        _di.new_tx.set_fee(_fee)
+        _di.action_tx.setText(action[1])
+        _data = json.loads(action[3])['data']
+        _di.action_value.setPlainText(_data['data'])
+        _di.action_tx_l.setText(action[2].capitalize() + ' on TX:')
+        _di.action_value_l.setText(action[2].capitalize() + ' value:')
+        if action[2] != 'comment':
+            _di.action_value.setMaximumHeight(28)
+        _di.feerate.setText(str(_fee))
+        _di.setWindowTitle('Narwhallet - Complete Action')
+
+        for _wallet in self.wallets.wallets:
+            if _wallet.kind == 0:
+                _di.combo_wallet.addItem(_wallet.name, _wallet.name)
+
+        _result = _di.exec_()
+
+        if _result != 0:
+            _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
+            # print('_bc_result', type(_bc_result), _bc_result)
+            if isinstance(_bc_result[1], dict):
+                _result = json.dumps(_bc_result[1])
+            else:
+                _result = _bc_result[1]
+            _ = self.warning_dialog(_result, False, int(_bc_result[0]))
+        else:
+            self.cache.actions.update(action[0], action[1], action[2], 1)
 
     def accept_bid_namespace_dialog(self, wallet: MWallet):
         _di = Ui_keva_op_nft_accept_bid_dlg()

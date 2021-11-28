@@ -261,7 +261,8 @@ class NarwhalletController():
     def check_for_web_actions(self):
         _actions = MShared.check_for_web_actions(self.cache)
         for _action in _actions:
-            print('_action', _action)
+            self.dialogs.action_dialog(_action)
+
 
     def threader(self, name: str, command, command_params_1,
                  command_params_2, work_done_func, optional: int = None):
@@ -304,6 +305,9 @@ class NarwhalletController():
                 self.lock_wallet(wallet.name)
 
             self.threader(i, time.sleep, 60, None, self.t_restart)
+        elif i == 'actions_timer':
+            self.check_for_web_actions()
+            self.threader(i, time.sleep, 2, None, self.t_restart)
         else:
             if self.settings.sync[i.replace('_timer', '')][1] is True:
                 if 'wallets' in i:
@@ -430,6 +434,8 @@ class NarwhalletController():
             self.threader('wallets_timer', time.sleep,
                           self.settings.sync['wallets'][2],
                           None, self.t_restart)
+        # TODO Add config setting for interval
+        self.threader('actions_timer', time.sleep, 2, None, self.t_restart)
         # self.threader('datafeed_timer', time.sleep,
         #               self.settings.sync['datafeed'][2],
         #               None, self.t_restart)

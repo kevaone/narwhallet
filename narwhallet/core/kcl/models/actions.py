@@ -20,9 +20,9 @@ class MActions():
                                   (tx, action, data), 2)
         return _r
 
-    def update(self, tx: str, action: str, state: int):
+    def update(self, time: str, tx: str, action: str, state: int):
         _r = self.dbi.execute_sql(self.dbi.scripts.UPDATE_ACTION_CACHE,
-                                  (state, tx, action), 1)
+                                  (state, time, tx, action), 1)
         return _r
 
     def delete(self, tx: str, action: str):
