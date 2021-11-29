@@ -391,7 +391,7 @@ class MDialogs():
                 _result = _bc_result[1]
             _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
-    def bid_namespace_dialog(self):
+    def bid_namespace_dialog(self, tx = False, action = None):
         _di = Ui_keva_op_nft_bid_dlg()
         _di.setupUi()
         _di.wallets = self.wallets
@@ -406,6 +406,10 @@ class MDialogs():
         _di.new_tx.set_fee(_fee)
         _di.bid_tx.set_fee(_fee)
         _di.feerate.setText(str(_fee))
+        if tx is not False:
+            _di.bid_nft_tx.setText(tx)
+            _data = json.loads(action[3])['data']
+            _di.bid_amount.setText(_data['data'])
         _di.setWindowTitle('Narwhallet - Create Bid')
 
         for _wallet in self.wallets.wallets:
@@ -422,6 +426,8 @@ class MDialogs():
             else:
                 _result = _bc_result[1]
             _ = self.warning_dialog(_result, False, int(_bc_result[0]))
+        if tx is not False:
+            self.cache.actions.update(action[0], action[1], action[2], 1)
 
     def action_dialog(self, action):
         _di = Ui_action_dlg()
@@ -460,8 +466,8 @@ class MDialogs():
             else:
                 _result = _bc_result[1]
             _ = self.warning_dialog(_result, False, int(_bc_result[0]))
-        else:
-            self.cache.actions.update(action[0], action[1], action[2], 1)
+
+        self.cache.actions.update(action[0], action[1], action[2], 1)
 
     def accept_bid_namespace_dialog(self, wallet: MWallet):
         _di = Ui_keva_op_nft_accept_bid_dlg()

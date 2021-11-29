@@ -261,8 +261,10 @@ class NarwhalletController():
     def check_for_web_actions(self):
         _actions = MShared.check_for_web_actions(self.cache)
         for _action in _actions:
-            self.dialogs.action_dialog(_action)
-
+            if _action[2] == 'bid':
+                self.dialogs.bid_namespace_dialog(_action[1], _action)
+            else:
+                self.dialogs.action_dialog(_action)
 
     def threader(self, name: str, command, command_params_1,
                  command_params_2, work_done_func, optional: int = None):

@@ -28,6 +28,7 @@ class Ui_action_dlg(QDialog):
         self.kex = None
         self.new_tx = MTransactionBuilder()
         self.action = None
+        self.action_target_address = None
         self.raw_tx = None
 
         self.verticalLayout = QVBoxLayout(self)
@@ -173,8 +174,10 @@ class Ui_action_dlg(QDialog):
     def check_tx_is_ns_key(self):
         _action_tx = self.action_tx.text()
 
-        _action_tx = MShared.check_tx_is_auction(_action_tx, self.kex, self.cache)
+        _action_tx = MShared.check_tx_is_ns_key(_action_tx, self.kex, self.cache)
+
         if _action_tx[0] is True:
+            self.action_target_address = _action_tx[4]
             self.check_next()
 
     def txb_w_changed(self, data):
@@ -312,13 +315,20 @@ class Ui_action_dlg(QDialog):
         _ns_dat = self.combo_ns.currentData().split(':')
         _ns = _ns_dat[0]
         _ns_address = _ns_dat[1]
-        # TODO FINISH THIS
-        _ns_key = (Ut.hex_to_bytes('0001') +
-                   Ut.hex_to_bytes(self.action_tx.text()))
-        if self.action != 'comment':
+
+        _ns_key = Ut.hex_to_bytes(self.action_tx.text())
+        if self.action == 'comment':
+            _ns_key = Ut.hex_to_bytes('0001') + _ns_key
             _ns_value = self.action_value.toPlainText()
         elif self.action == 'reward':
-            # TODO Localize
+            _ns_key = Ut.hex_to_bytes('0003') + _ns_key
+            _ns_value = ''
+            locale = QLocale()
+            _result = locale.toDouble(self.action_value.toPlainText())
+            _v = int(_result[0] * 100000000)
+            _reward_value = _v
+        elif self.action == 'repost':
+            _ns_key = Ut.hex_to_bytes('0002') + _ns_key
             _ns_value = self.action_value.toPlainText()
 
         _sh = Scripts.KevaKeyValueUpdate.compile([_ns, _ns_key,
@@ -327,6 +337,9 @@ class Ui_action_dlg(QDialog):
 
         _ = self.new_tx.add_output(_namespace_reservation, _ns_address)
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
+
+        if self.action == 'reward':
+            _ = self.new_tx.add_output(_reward_value, self.action_target_address)
 
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
 

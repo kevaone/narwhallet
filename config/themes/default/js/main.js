@@ -125,9 +125,13 @@ var nww_main = new (function () {
             inp1.placeholder = 'Comment';
         }
         else if (action_type === 'repost') {
-            inp1 = ce('span');
+            inp1 = ce('textarea');
+            inp1.rows = 8
+            inp1.cols = 35
             h.innerText = 'Repost';
             hi.classList.add('fa-retweet')
+            s2.innerText = 'Repost:';
+            inp1.placeholder = 'Repost';
         }
         else if (action_type === 'share') {
             inp1 = ce('textarea');

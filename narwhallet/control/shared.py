@@ -686,7 +686,7 @@ class MShared():
                          [_b, _p, False])
         _tracker = []
 
-        if _hist != '' and b'error' not in _hist:
+        if _hist != '' and 'error' not in _hist:
             _hist = json.loads(_hist)['result']
 
             _trx = cache.tx.get_tx_by_txid(_hist)
@@ -883,6 +883,26 @@ class MShared():
         _ns = cache.ns.convert_to_namespaceid(_asm[1])
 
         return (True, _ns, _value)
+
+    @staticmethod
+    def check_tx_is_ns_key(tx: str, kex: KEXclient, cache: MCache) -> tuple:
+        _tx = cache.tx.get_tx_by_txid(tx)
+
+        if _tx is None:
+            _tx = MShared.get_tx(tx, kex, True)
+            _tx = cache.tx.add_from_json(_tx)
+
+        _ns_test = _tx.vout[0].scriptPubKey.asm.split(' ')
+
+        if _ns_test[0] != 'OP_KEVA_PUT':
+            return (False, '', '', '', '')
+
+        _ns = cache.ns.convert_to_namespaceid(_ns_test[1])
+        _key = cache.ns._decode(_ns_test[2])
+        _value = cache.ns._decode(_ns_test[3])
+        _address = cache.ns.last_address(_ns)
+
+        return (True, _ns, _key, _value, _address[0][0])
 
     @staticmethod
     def check_for_web_actions(cache: MCache) -> list:
