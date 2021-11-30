@@ -1,7 +1,7 @@
 import sys
 import os
 from PyQt5.QtWidgets import QApplication
-from narwhallet.control import NarwhalletController
+from narwhallet.control.ui_controller import NarwhalletController
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.main import NarwhalletUI
 

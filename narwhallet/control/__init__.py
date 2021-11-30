@@ -1,2 +1,0 @@
-from narwhallet.control.ui_controller import NarwhalletController
-from narwhallet.control.web_controller import NarwhalletWebController

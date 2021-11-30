@@ -1,7 +1,7 @@
 import json
 import urllib
 
-from narwhallet.control import NarwhalletWebController
+from narwhallet.control.web_controller import NarwhalletWebController
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.models.namespace import MNamespace
 from narwhallet.core.kws.kits.microblog import Feed
