@@ -116,6 +116,8 @@ class MDialogs():
         _di.value.setMaximumHeight(28)
         _di.key_v.setVisible(False)
         _di.key_v_l.setVisible(False)
+        _di.wns.setVisible(False)
+        _di.wns_l.setVisible(False)
         for _w in self.wallets.wallets:
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                 _w.set_updating(True)
@@ -169,6 +171,7 @@ class MDialogs():
         _di.w.setCurrentIndex(1)
         _di.w.setEnabled(False)
         _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.wns.setText(_di.ns)
         _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
 
         _di.set_availible_usxo(True)
@@ -218,6 +221,7 @@ class MDialogs():
         _di.w.setEnabled(False)
 
         _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.wns.setText(_di.ns)
         _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
         _key = self.ui.ns_tab.list_ns_keys.currentItem().text()
         _value = self.ui.ns_tab.ns_tab_text_key_value.toPlainText()
@@ -281,6 +285,7 @@ class MDialogs():
         _di.w.setEnabled(False)
 
         _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.wns.setText(_di.ns)
         _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
         _di.ns_key = self.ui.ns_tab.list_ns_keys.currentItem().text()
         _di.ns_value = ''
@@ -334,6 +339,7 @@ class MDialogs():
         _di.w.setEnabled(False)
 
         _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _di.wns.setText(_di.ns)
         _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
         _di.set_availible_usxo(True)
 
