@@ -44,12 +44,11 @@ class Ui_v_addr_dlg(QDialog):
         self.qr_hl1 = QHBoxLayout()
         self.qr_d = QLabel(self)
         self.qr_hl2 = QHBoxLayout()
-        self.qr_label = QPlainTextEdit(self)
         self.horizontalLayout = QHBoxLayout()
         self.buttonBox = QDialogButtonBox(self)
 
         self.setObjectName('waddress_dlg')
-        self.resize(430, 425)
+        self.resize(425, 425)
         self._ppic = self._ppic.scaledToWidth(15, _transm_st)
         self._mpic = self._mpic.scaledToWidth(15, _transm_st)
         self.address_d.setMaximumHeight(26)
@@ -60,9 +59,6 @@ class Ui_v_addr_dlg(QDialog):
         self.details.setVisible(False)
         self.details.setFrameShape(QFrame.StyledPanel)
         self.details.setFrameShadow(QFrame.Raised)
-        self.qr_label.setMaximumHeight(26)
-        self.qr_label.setReadOnly(True)
-        self.qr_label.setFrameStyle(QFrame.NoFrame)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(_b_ok)
 
@@ -88,8 +84,9 @@ class Ui_v_addr_dlg(QDialog):
         self.details_verticalLayout.addLayout(self.details_horizontalLayout2)
         self.details_verticalLayout.addLayout(self.details_horizontalLayout3)
         self.verticalLayout.addWidget(self.details)
+        self.qr_hl1.addItem(QSpacerItem(10, 10, _sp_exp, _sp_min))
         self.qr_hl1.addWidget(self.qr_d)
-        self.qr_hl2.addWidget(self.qr_label)
+        self.qr_hl1.addItem(QSpacerItem(10, 10, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.qr_hl1)
         self.verticalLayout.addLayout(self.qr_hl2)
         self.horizontalLayout.addItem(QSpacerItem(10, 10, _sp_exp, _sp_min))
@@ -118,12 +115,7 @@ class Ui_v_addr_dlg(QDialog):
         self.details_locked_d.setText(_translate('waddress_dlg', '0.0'))
 
     def set_qr(self, data: str):
-        _data = 'kevacoin://' + data
-        self.qr_d.setPixmap(QRImage.make(_data, image_factory=QRImage))
-
-    def set_qr_uri(self, data: str):
-        _data = 'kevacoin://' + data
-        self.qr_label.setPlainText(_data)
+        self.qr_d.setPixmap(QRImage.make(data, image_factory=QRImage))
 
     def _display_details(self, event):
         if self.details.isVisible() is True:

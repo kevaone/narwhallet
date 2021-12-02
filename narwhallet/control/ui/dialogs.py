@@ -658,7 +658,6 @@ class MDialogs():
         _di.details_locked_d.setText('<todo>')
 
         _di.set_qr(self.ui.w_tab.tbl_addr.item(row, 1).text())
-        _di.set_qr_uri(self.ui.w_tab.tbl_addr.item(row, 1).text())
 
         _result = _di.exec_()
 
@@ -787,7 +786,6 @@ class MDialogs():
         _di.lineEdit_2.setText(_addr_label)
 
         _di.set_qr(_addr)
-        _di.set_qr_uri(_addr)
         _result = _di.exec_()
 
         if _result != 0:

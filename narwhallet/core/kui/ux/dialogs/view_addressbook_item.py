@@ -33,7 +33,6 @@ class Ui_v_ab_item_dlg(QDialog):
         self.qr_hl1 = QHBoxLayout()
         self.qr_d = QLabel(self)
         self.qr_hl2 = QHBoxLayout()
-        self.qr_label = QPlainTextEdit(self)
         self.horizontalLayout5 = QHBoxLayout()
         self.buttonBox = QDialogButtonBox(self)
 
@@ -48,9 +47,6 @@ class Ui_v_ab_item_dlg(QDialog):
         self.lineEdit_3.setReadOnly(True)
         self.lineEdit_3.setFrameStyle(QFrame.NoFrame)
         self.lineEdit_3.setMaximumHeight(26)
-        self.qr_label.setMaximumHeight(26)
-        self.qr_label.setReadOnly(True)
-        self.qr_label.setFrameStyle(QFrame.NoFrame)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(_b_ok)
 
@@ -68,8 +64,9 @@ class Ui_v_ab_item_dlg(QDialog):
         self.horizontalLayout_3.addWidget(self.label_3)
         self.horizontalLayout_3.addWidget(self.lineEdit_2)
         self.verticalLayout.addLayout(self.horizontalLayout_3)
+        self.qr_hl1.addItem(QSpacerItem(10, 10, _sp_exp, _sp_min))
         self.qr_hl1.addWidget(self.qr_d)
-        self.qr_hl2.addWidget(self.qr_label)
+        self.qr_hl1.addItem(QSpacerItem(10, 10, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.qr_hl1)
         self.verticalLayout.addLayout(self.qr_hl2)
         self.horizontalLayout5.addItem(QSpacerItem(40, 20, _sp_exp, _sp_min))
@@ -90,9 +87,4 @@ class Ui_v_ab_item_dlg(QDialog):
         self.label_4.setText(_translate('view_ab_item_dlg', 'Address:'))
 
     def set_qr(self, data: str):
-        _data = 'kevacoin://' + data
-        self.qr_d.setPixmap(QRImage.make(_data, image_factory=QRImage))
-
-    def set_qr_uri(self, data: str):
-        _data = 'kevacoin://' + data
-        self.qr_label.setPlainText(_data)
+        self.qr_d.setPixmap(QRImage.make(data, image_factory=QRImage))
