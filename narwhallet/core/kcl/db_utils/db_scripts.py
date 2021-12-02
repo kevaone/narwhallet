@@ -52,6 +52,8 @@ class Scripts(Enum):
     SELECT_TX_VOUT = 'SELECT value, n, scriptPubKey_asm, scriptPubKey_hex, \
         scriptPubKey_reqSigs, scriptPubKey_type, scriptPubKey_addresses \
             FROM tx_vout_cache WHERE tx = ?;'
+    SELECT_IDX = 'SELECT name FROM sqlite_master WHERE type = "index" \
+        AND name = ?;'
     SELECT_NS_ALL = 'SELECT ns, data FROM ns_cache;'
     SELECT_NS = 'SELECT block, n, txid, ns, op, [key], value, special, \
         address FROM ns_cache WHERE (special <> "deleted" OR special IS NULL) \

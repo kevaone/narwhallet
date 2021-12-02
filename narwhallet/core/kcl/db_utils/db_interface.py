@@ -25,39 +25,48 @@ class SQLInterface():
         self.cursor.close()
 
     def setup_tables(self):
-        _tmp = self.execute_sql(self.scripts.SELECT_TX, ('', ), 2)
+        _tmp = self.execute_sql(self.scripts.SELECT_TX, ('', ), 3)
         if isinstance(_tmp, sqlite3.OperationalError):
             self.execute_sql(self.scripts.CREATE_TX_CACHE, (), 1)
             # print('created tx cache table')
 
-        _tmp = self.execute_sql(self.scripts.SELECT_TX_VIN, ('', ), 2)
+        _tmp = self.execute_sql(self.scripts.SELECT_TX_VIN, ('', ), 3)
         if isinstance(_tmp, sqlite3.OperationalError):
             self.execute_sql(self.scripts.CREATE_TX_VIN_CACHE, (), 1)
             # print('created tx vin cache table')
 
-        _tmp = self.execute_sql(self.scripts.SELECT_TX_VOUT, ('', ), 2)
+        _tmp = self.execute_sql(self.scripts.SELECT_TX_VOUT, ('', ), 3)
         if isinstance(_tmp, sqlite3.OperationalError):
             self.execute_sql(self.scripts.CREATE_TX_VOUT_CACHE, (), 1)
             # print('created tx vout cache table')
 
-        _tmp = self.execute_sql(self.scripts.SELECT_NS, ('', ), 2)
+        _tmp = self.execute_sql(self.scripts.SELECT_NS, ('', ), 3)
         if isinstance(_tmp, sqlite3.OperationalError):
             self.execute_sql(Scripts.CREATE_NS_CACHE, (), 1)
             # print('created ns cache table')
 
-        _tmp = self.execute_sql(self.scripts.SELECT_NFT, ('', ), 2)
+        _tmp = self.execute_sql(self.scripts.SELECT_NFT, ('', ), 3)
         if isinstance(_tmp, sqlite3.OperationalError):
             self.execute_sql(Scripts.CREATE_NFT_CACHE, (), 1)
             # print('created nft cache table')
 
         _tmp = self.execute_sql(self.scripts.SELECT_ACTION_CACHE_ENTRY,
-                                ('', ''), 2)
+                                ('', ''), 3)
         if isinstance(_tmp, sqlite3.OperationalError):
             self.execute_sql(self.scripts.CREATE_ACTION_CACHE, (), 1)
             # print('created action cache table')
 
-        self.execute_sql(self.scripts.CREATE_TX_VIN_IDX, (), 1)
-        self.execute_sql(self.scripts.CREATE_TX_VOUT_IDX, (), 1)
+        _tmp = self.execute_sql(self.scripts.SELECT_IDX,
+                                ('tx_vin_cache_idx', ), 3)
+        if len(_tmp) == 0:
+            self.execute_sql(self.scripts.CREATE_TX_VIN_IDX, (), 1)
+            # print('created tx_vin_cache_idx index')
+
+        _tmp = self.execute_sql(self.scripts.SELECT_IDX,
+                                ('tx_vout_cache_idx', ), 3)
+        if len(_tmp) == 0:
+            self.execute_sql(self.scripts.CREATE_TX_VOUT_IDX, (), 1)
+            # print('created tx_vout_cache_idx index')
 
     def reset_tables(self):
         _tmp = self.execute_sql(self.scripts.DROP_TX_VIN_IDX, (), 1)
