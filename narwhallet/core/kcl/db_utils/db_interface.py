@@ -56,7 +56,18 @@ class SQLInterface():
             self.execute_sql(self.scripts.CREATE_ACTION_CACHE, (), 1)
             # print('created action cache table')
 
+        self.execute_sql(self.scripts.CREATE_TX_VIN_IDX, (), 1)
+        self.execute_sql(self.scripts.CREATE_TX_VOUT_IDX, (), 1)
+
     def reset_tables(self):
+        _tmp = self.execute_sql(self.scripts.DROP_TX_VIN_IDX, (), 1)
+        if _tmp is True:
+            self.execute_sql(self.scripts.CREATE_TX_VIN_IDX, (), 1)
+
+        _tmp = self.execute_sql(self.scripts.DROP_TX_VOUT_IDX, (), 1)
+        if _tmp is True:
+            self.execute_sql(self.scripts.CREATE_TX_VOUT_IDX, (), 1)
+
         _tmp = self.execute_sql(self.scripts.DROP_TX_CACHE, (), 1)
         if _tmp is True:
             self.execute_sql(self.scripts.CREATE_TX_CACHE, (), 1)
