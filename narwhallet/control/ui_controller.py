@@ -646,6 +646,7 @@ class NarwhalletController():
     def refresh_namespace_tab_data(self):
         # TODO Cleanup
         self.ui.ns_tab.tbl_ns.clear_rows()
+        self.ui.ns_tab.list_ns_keys.clear_rows()
         _asa = self.cache.ns.get_view()
 
         nd = []
@@ -852,6 +853,8 @@ class NarwhalletController():
         if len(row) > 0:
             row = row[0].topRow()
         else:
+            self.ui.ns_tab.sel_ns_sc.setText('')
+            self.ui.ns_tab.sel_ns_name.setText('')
             return
 
         _n = self.ui.ns_tab.tbl_ns.item(row, 2).text()
