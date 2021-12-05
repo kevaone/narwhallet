@@ -594,7 +594,11 @@ class MDialogs():
         _result = _di.exec_()
 
         if _result != 0:
-            _wallet = _di.ret_wallet()
+            try:
+                _wallet = _di.ret_wallet()
+            except Exception as Ex:
+                _ = MDialogs.warning_dialog(str(Ex), False, 1)
+                _wallet = None
         else:
             _wallet = None
 
