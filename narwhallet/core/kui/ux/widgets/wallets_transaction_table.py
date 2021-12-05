@@ -85,6 +85,7 @@ class _transaction_table(QTableWidget):
         _pic = _pic.scaledToWidth(20, _transm_st)
 
         _vpic = QLabel()
+        _vpic.setToolTip('View TX Details')
         _vpic.setPixmap(_pic)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)

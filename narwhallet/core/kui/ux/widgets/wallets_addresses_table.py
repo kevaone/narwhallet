@@ -87,13 +87,16 @@ class _wallets_addr_tbl(QTableWidget):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
+        _vpic = QLabel()
+
         if pic == 0:
             _p = (QtGui.QPixmap(MShared.get_resource_path('information.png')))
+            _vpic.setToolTip('View Address Details')
         elif pic == 1:
             _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
+            _vpic.setToolTip('Copy Address to Clipboard')
         _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic = QLabel()
         _vpic.setPixmap(_p)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)

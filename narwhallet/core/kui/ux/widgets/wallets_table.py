@@ -17,6 +17,7 @@ class animation_label(QLabel):
         self.setPixmap(self._upic)
         self.setAlignment(_al_center)
         self.setContentsMargins(0, 0, 0, 0)
+        self.setToolTip('Refresh Wallet')
 
         self.ani = QtCore.QVariantAnimation()
         self.ani.setDuration(1000)
@@ -68,20 +69,24 @@ class _wallets_table(QTableWidget):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
+        _vpic = QLabel()
+
         if pic == 0:
             _p = QPixmap(MShared.get_resource_path('keva-logo.png'))
         elif pic == 1:
             _p = QPixmap(MShared.get_resource_path('star.png'))
+            _vpic.setToolTip('Read-Only Wallet')
         elif pic == 2:
             _p = QPixmap(MShared.get_resource_path('medal2.png'))
         elif pic == 3:
             _p = QPixmap(MShared.get_resource_path('locked.png'))
+            _vpic.setToolTip('Wallet is Locked')
         elif pic == 4:
             _p = QPixmap(MShared.get_resource_path('unlocked.png'))
+            _vpic.setToolTip('Wallet is Unlocked')
 
         _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic = QLabel()
         _vpic.setPixmap(_p)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)

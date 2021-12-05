@@ -100,6 +100,7 @@ class _namespaces_table(QTableWidget):
         _address.setForeground(QtCore.Qt.black)
 
         _dellabel = self._create_table_item_graphic(1)
+        _dellabel.setToolTip('Transfer Namespace')
 
         self.setCellWidget(_r, 0, _vpic)
         self.setItem(_r, 1, _date)

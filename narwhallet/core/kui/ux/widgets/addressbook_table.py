@@ -57,16 +57,20 @@ class _address_book_table(QTableWidget):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
+        _vpic = QLabel()
+
         if pic == 0:
             _p = QPixmap(MShared.get_resource_path('information'))
+            _vpic.setToolTip('View Address Details')
         elif pic == 1:
             _p = QPixmap(MShared.get_resource_path('clipboard.png'))
+            _vpic.setToolTip('Copy Address to Clipboard')
         elif pic == 2:
             _p = QPixmap(MShared.get_resource_path('trashcan.png'))
+            _vpic.setToolTip('Delete Adderess From Address Book')
 
         _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic = QLabel()
         _vpic.setPixmap(_p)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)

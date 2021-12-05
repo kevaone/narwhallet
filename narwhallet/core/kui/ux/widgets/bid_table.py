@@ -52,17 +52,20 @@ class _bid_table(QTableWidget):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
+        _vpic = QLabel()
+
         if pic == 0:
             _p = QtGui.QPixmap(MShared.get_resource_path('keva-logo.png'))
         elif pic == 1:
             _p = QtGui.QPixmap(MShared.get_resource_path('checkmark.png'))
+            _vpic.setToolTip('Valid Bid')
         elif pic == 2:
             _p = (QtGui.QPixmap(MShared.get_resource_path('exclamation.png')))
+            _vpic.setToolTip('Invalid Bid')
         elif pic == 3:
             _p = QtGui.QPixmap(MShared.get_resource_path('medal2.png'))
         _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic = QLabel()
         _vpic.setPixmap(_p)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
