@@ -11,9 +11,10 @@ class Scripts(Enum):
     DROP_NS_CACHE = 'DROP TABLE ns_cache'
     DROP_NFT_CACHE = 'DROP TABLE nft_cache'
     DROP_ACTION_CACHE = 'DROP TABLE action_cache'
+    DROP_TX_IDX = 'DROP INDEX tx_cache_idx'
     DROP_TX_VIN_IDX = 'DROP INDEX tx_vin_cache_idx'
     DROP_TX_VOUT_IDX = 'DROP INDEX tx_vout_cache_idx'
-    CREATE_TX_CACHE_IDX = 'CREATE INDEX tx_cache_idx ON tx_cache (tx, data);'
+    CREATE_TX_IDX = 'CREATE INDEX tx_cache_idx ON tx_cache (txid);'
     CREATE_TX_VIN_IDX = 'CREATE INDEX tx_vin_cache_idx ON tx_vin_cache (tx);'
     CREATE_TX_VOUT_IDX = 'CREATE INDEX tx_vout_cache_idx ON \
         tx_vout_cache (tx);'

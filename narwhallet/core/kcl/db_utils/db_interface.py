@@ -57,6 +57,12 @@ class SQLInterface():
             # print('created action cache table')
 
         _tmp = self.execute_sql(self.scripts.SELECT_IDX,
+                                ('tx_cache_idx', ), 3)
+        if len(_tmp) == 0:
+            self.execute_sql(self.scripts.CREATE_TX_IDX, (), 1)
+            # print('created tx_vin_cache_idx index')
+
+        _tmp = self.execute_sql(self.scripts.SELECT_IDX,
                                 ('tx_vin_cache_idx', ), 3)
         if len(_tmp) == 0:
             self.execute_sql(self.scripts.CREATE_TX_VIN_IDX, (), 1)
@@ -69,14 +75,6 @@ class SQLInterface():
             # print('created tx_vout_cache_idx index')
 
     def reset_tables(self):
-        _tmp = self.execute_sql(self.scripts.DROP_TX_VIN_IDX, (), 1)
-        if _tmp is True:
-            self.execute_sql(self.scripts.CREATE_TX_VIN_IDX, (), 1)
-
-        _tmp = self.execute_sql(self.scripts.DROP_TX_VOUT_IDX, (), 1)
-        if _tmp is True:
-            self.execute_sql(self.scripts.CREATE_TX_VOUT_IDX, (), 1)
-
         _tmp = self.execute_sql(self.scripts.DROP_TX_CACHE, (), 1)
         if _tmp is True:
             self.execute_sql(self.scripts.CREATE_TX_CACHE, (), 1)
@@ -100,6 +98,18 @@ class SQLInterface():
         _tmp = self.execute_sql(self.scripts.DROP_ACTION_CACHE, (), 1)
         if _tmp is True:
             self.execute_sql(self.scripts.CREATE_ACTION_CACHE, (), 1)
+
+        _tmp = self.execute_sql(self.scripts.DROP_TX_IDX, (), 1)
+        # if _tmp is True:
+        self.execute_sql(self.scripts.CREATE_TX_IDX, (), 1)
+
+        _tmp = self.execute_sql(self.scripts.DROP_TX_VIN_IDX, (), 1)
+        # if _tmp is True:
+        self.execute_sql(self.scripts.CREATE_TX_VIN_IDX, (), 1)
+
+        _tmp = self.execute_sql(self.scripts.DROP_TX_VOUT_IDX, (), 1)
+        # if _tmp is True:
+        self.execute_sql(self.scripts.CREATE_TX_VOUT_IDX, (), 1)
 
     def execute_sql(self, sql, payload, flag):
         # SELECT = 3
