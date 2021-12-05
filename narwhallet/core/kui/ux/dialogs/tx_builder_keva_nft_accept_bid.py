@@ -90,6 +90,7 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.label_1.setContentsMargins(0, 0, 0, 0)
         self.label_1.setPixmap(_pic)
         self.combo_wallet.addItem('-', '-')
+        self.bid_nft_tx.setReadOnly(True)
         self.tx.setMaximumHeight(65)
         self.tx.setReadOnly(True)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)

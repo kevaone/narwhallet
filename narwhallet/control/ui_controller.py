@@ -730,7 +730,7 @@ class NarwhalletController():
     def _wallet_check_lock(self, row: int, column: int, wallet: MWallet):
         if wallet.locked is False and column == 1:
             self.wallet_lock(wallet)
-        elif wallet.locked is True and column == 1:
+        elif wallet.locked is True and column in (1, 9):
             _ulk = self.dialogs.lockbox_dialog(0)
             if _ulk != '':
                 wallet.set_k(_ulk)
