@@ -12,7 +12,7 @@ class _namespaces_table(QTableWidget):
         self.setSelectionBehavior(self.SelectRows)
         self.setSelectionMode(self.SingleSelection)
         self.setAlternatingRowColors(True)
-        self.setSortingEnabled(True)
+        self.setSortingEnabled(False)
         self.build_columns()
 
     def build_columns(self):
