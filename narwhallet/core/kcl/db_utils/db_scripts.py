@@ -2,6 +2,7 @@ from enum import Enum
 
 
 class Scripts(Enum):
+    VACUUM = 'VACUUM;'
     DROP_TX_CACHE_IDX = 'DROP INDEX tx_cache_idx;'
     DROP_NS_CACHE_IDX = 'DROP INDEX ns_cache_idx;'
     DROP_NFT_CACHE_IDX = 'DROP INDEX nft_cache_idx;'

@@ -111,6 +111,8 @@ class SQLInterface():
         # if _tmp is True:
         self.execute_sql(self.scripts.CREATE_TX_VOUT_IDX, (), 1)
 
+        self.execute_sql(self.scripts.VACUUM, (), 1)
+
     def execute_sql(self, sql, payload, flag):
         # SELECT = 3
         # INSERT = 2
