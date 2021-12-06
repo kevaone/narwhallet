@@ -57,6 +57,7 @@ class _wallets_table(QTableWidget):
         self.horizontalHeaderItem(2).setTextAlignment(4)
         self.horizontalHeaderItem(3).setTextAlignment(4)
         self.horizontalHeaderItem(4).setTextAlignment(4)
+        self.setColumnHidden(4, True)
         self.horizontalHeaderItem(5).setTextAlignment(4)
         self.horizontalHeaderItem(6).setTextAlignment(4)
         self.horizontalHeaderItem(7).setTextAlignment(4)
@@ -112,7 +113,7 @@ class _wallets_table(QTableWidget):
         _name.setFlags(self.flags())
         _name.setForeground(QtCore.Qt.black)
 
-        _wtype = QTableWidgetItem(wallet_data['bip'])
+        _wtype = QTableWidgetItem('')
         _wtype.setFlags(self.flags())
         _wtype.setForeground(QtCore.Qt.black)
 
