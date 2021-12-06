@@ -98,6 +98,7 @@ class _wallets_table(QTableWidget):
         return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
     def add_wallet(self, wallet_data: dict):
+        self.setSortingEnabled(False)
         _r = self.rowCount()
         self.insertRow(_r)
 
@@ -172,6 +173,7 @@ class _wallets_table(QTableWidget):
         self.setItem(_r, 9, _synch)
         self.setCellWidget(_r, 9, self._vupic)
         self.resizeColumnsToContents()
+        self.setSortingEnabled(True)
 
     def update_wallet(self, _w: MWallet, row: int):
         if _w.locked is True:

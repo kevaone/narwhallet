@@ -11,7 +11,7 @@ class _auctions_table(QTableWidget):
         self.setSelectionBehavior(self.SelectRows)
         self.setSelectionMode(self.SingleSelection)
         self.setAlternatingRowColors(True)
-        self.setSortingEnabled(False)
+        self.setSortingEnabled(True)
         self.build_columns()
 
     def build_columns(self):
@@ -76,6 +76,7 @@ class _auctions_table(QTableWidget):
             _m = _m - 1
 
     def add_auctions(self, wallet: str, auctions: list):
+        self.setSortingEnabled(False)
         for auction in auctions:
             _d = {}
             _d['date'] = auction[0]
@@ -87,7 +88,7 @@ class _auctions_table(QTableWidget):
             _d['ns'] = auction[5]
             _d['tx'] = auction[6]
             self._add_auction(_d)
-
+        self.setSortingEnabled(True)
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 

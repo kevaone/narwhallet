@@ -84,6 +84,7 @@ class _address_book_table(QTableWidget):
                 QtCore.Qt.ItemIsDragEnabled)
 
     def add_bookaddress(self, book_address: dict):
+        self.setSortingEnabled(False)
         _r = self.rowCount()
         self.insertRow(_r)
 
@@ -125,3 +126,4 @@ class _address_book_table(QTableWidget):
         self.setItem(_r, 6, _label)
         self.setCellWidget(_r, 7, _dellabel)
         self.setCellWidget(_r, 8, _bvpic)
+        self.setSortingEnabled(True)

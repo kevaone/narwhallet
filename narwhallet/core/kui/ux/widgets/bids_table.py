@@ -11,7 +11,7 @@ class _bids_table(QTableWidget):
         self.setSelectionBehavior(self.SelectRows)
         self.setSelectionMode(self.SingleSelection)
         self.setAlternatingRowColors(True)
-        self.setSortingEnabled(False)
+        self.setSortingEnabled(True)
         self.build_columns()
 
     def build_columns(self):
@@ -83,6 +83,7 @@ class _bids_table(QTableWidget):
             _m = _m - 1
 
     def add_bids(self, wallet: str, bids: list):
+        self.setSortingEnabled(False)
         for bid in bids:
             _d = {}
             _d['date'] = bid[0]
@@ -96,7 +97,7 @@ class _bids_table(QTableWidget):
             _d['tx'] = bid[7]
 
             self._add_bid(_d)
-
+        self.setSortingEnabled(True)
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 
