@@ -89,7 +89,7 @@ class _transaction_table(QTableWidget):
         _vpic.setPixmap(_pic)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
-
+        _vpic.setProperty('class', 'tblImg')
         return _vpic
 
     def _add_transaction(self, idx: int, transaction_data: dict):

@@ -47,6 +47,7 @@ class _electrumx_peers_table(QTableWidget):
         _vpic.setPixmap(_pic)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
+        _vpic.setProperty('class', 'tblImg')
 
         _dpic = QtGui.QPixmap(MShared.get_resource_path('trashcan.png'))
         _dpic = _dpic.scaledToWidth(20, _transm_st)
@@ -55,6 +56,7 @@ class _electrumx_peers_table(QTableWidget):
         _dellabel.setPixmap(_dpic)
         _dellabel.setAlignment(_al_center)
         _dellabel.setContentsMargins(0, 0, 0, 0)
+        _dellabel.setProperty('class', 'tblImg')
 
         if isinstance(tls, bool):
             if tls is True:
@@ -90,4 +92,5 @@ class _electrumx_peers_table(QTableWidget):
         _vpic.setPixmap(_pic)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
+        _vpic.setProperty('class', 'tblImg')
         self.setCellWidget(active_row, 9, _vpic)

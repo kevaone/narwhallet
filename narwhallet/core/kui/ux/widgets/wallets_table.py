@@ -104,6 +104,7 @@ class _wallets_table(QTableWidget):
         self.insertRow(_r)
 
         _vpic = self._create_table_item_graphic(0)
+        _vpic.setProperty('class', 'tblImg')
 
         _coin = QTableWidgetItem(wallet_data['coin'])
         _coin.setFlags(self.flags())
@@ -126,6 +127,7 @@ class _wallets_table(QTableWidget):
                 _kvpic = self._create_table_item_graphic(2)
             elif wallet_data['kind'] == 3:
                 _kvpic = self._create_table_item_graphic(1)
+        _kvpic.setProperty('class', 'tblImg')
 
         _bal = wallet_data['balance'] - wallet_data['bid_balance']
         wallet_data['balance'] = round(_bal, 8)
@@ -142,7 +144,7 @@ class _wallets_table(QTableWidget):
             _lvpic = self._create_table_item_graphic(3)
         else:
             _lvpic = self._create_table_item_graphic(4)
-
+        _lvpic.setProperty('class', 'tblImg')
         # if wallet_data['state_lock'] != 0:
         #    _lvpic.setPixmap(_lpic)
 
@@ -161,6 +163,7 @@ class _wallets_table(QTableWidget):
         _synch.setForeground(QtCore.Qt.black)
 
         self._vupic = animation_label()
+        self._vupic.setProperty('class', 'tblImg')
 
         self.setCellWidget(_r, 0, _vpic)
         self.setCellWidget(_r, 1, _lvpic)

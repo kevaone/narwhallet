@@ -42,6 +42,7 @@ class _ipfs_gateways_table(QTableWidget):
         _vpic.setPixmap(_pic)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
+        _vpic.setProperty('class', 'tblImg')
 
         _gpic = QtGui.QPixmap(MShared.get_resource_path('gear.png'))
         _gpic = _gpic.scaledToWidth(20, _transm_st)
@@ -50,6 +51,7 @@ class _ipfs_gateways_table(QTableWidget):
         _gvpic.setPixmap(_gpic)
         _gvpic.setAlignment(_al_center)
         _gvpic.setContentsMargins(0, 0, 0, 0)
+        _gvpic.setProperty('class', 'tblImg')
 
         _dpic = QtGui.QPixmap(MShared.get_resource_path('trashcan.png'))
         _dpic = _dpic.scaledToWidth(20, _transm_st)
@@ -58,6 +60,7 @@ class _ipfs_gateways_table(QTableWidget):
         _dellabel.setPixmap(_dpic)
         _dellabel.setAlignment(_al_center)
         _dellabel.setContentsMargins(0, 0, 0, 0)
+        _dellabel.setProperty('class', 'tblImg')
 
         self.setCellWidget(_r, 0, _gvpic)
         self.setCellWidget(_r, 1, _vpic)
@@ -79,6 +82,7 @@ class _ipfs_gateways_table(QTableWidget):
         _vpic.setPixmap(_pic)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
+        _vpic.setProperty('class', 'tblImg')
         self.setCellWidget(row, 1, _vpic)
 
     def update_active(self, active_row: int):
@@ -95,4 +99,5 @@ class _ipfs_gateways_table(QTableWidget):
         _vpic.setPixmap(_pic)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
+        _vpic.setProperty('class', 'tblImg')
         self.setCellWidget(active_row, 7, _vpic)

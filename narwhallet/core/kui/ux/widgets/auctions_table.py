@@ -65,7 +65,7 @@ class _auctions_table(QTableWidget):
         _vpic.setPixmap(_p)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
-
+        _vpic.setProperty('class', 'tblImg')
         return _vpic
 
     def clear_rows(self):
