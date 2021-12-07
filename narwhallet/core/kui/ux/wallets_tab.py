@@ -120,18 +120,18 @@ class Ui_WalletTab(QObject):
         self.tabWallets.setObjectName('tabWallets')
         self.frame_3.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_3.setFrameShadow(QFrame.Shadow.Raised)
-        self.btn_send.setMaximumSize(QtCore.QSize(80, 100))
-        self.btn_create.setMaximumSize(QtCore.QSize(80, 100))
-        self.btn_restore.setMaximumSize(QtCore.QSize(80, 100))
-        self.btn_watch.setMaximumSize(QtCore.QSize(80, 100))
+        # self.btn_send.setMaximumSize(QtCore.QSize(80, 100))
+        # self.btn_create.setMaximumSize(QtCore.QSize(80, 100))
+        # self.btn_restore.setMaximumSize(QtCore.QSize(80, 100))
+        # self.btn_watch.setMaximumSize(QtCore.QSize(80, 100))
         self.frame_4.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_4.setFrameShadow(QFrame.Shadow.Raised)
-        self.btn_watch_addr.setMaximumSize(QtCore.QSize(120, 100))
+        # self.btn_watch_addr.setMaximumSize(QtCore.QSize(120, 100))
         self.btn_watch_addr.setVisible(False)
-        self.btn_addr.setMaximumSize(QtCore.QSize(120, 100))
+        # self.btn_addr.setMaximumSize(QtCore.QSize(120, 100))
         self.frame_7.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_7.setFrameShadow(QFrame.Shadow.Raised)
-        self.btn_addr2.setMaximumSize(QtCore.QSize(120, 100))
+        # self.btn_addr2.setMaximumSize(QtCore.QSize(120, 100))
         self._ppic = self._ppic.scaledToWidth(15, _transm_st)
         self._mpic = self._mpic.scaledToWidth(15, _transm_st)
         self.frame_info.setFrameShape(QFrame.Shape.StyledPanel)
@@ -298,8 +298,7 @@ class Ui_WalletTab(QObject):
                                           'Increase Pool'))
         self.tabWidget_2.setTabText(self.tabWidget_2
                                     .indexOf(self.tabIntAddresses),
-                                    _translate('tabWallets',
-                                               'Change Addresses'))
+                                    _translate('tabWallets', 'Change'))
         self.tabWidget_2.setTabText(self.tabWidget_2
                                     .indexOf(self.tabAddresses),
                                     _translate('tabWallets', 'Addresses'))

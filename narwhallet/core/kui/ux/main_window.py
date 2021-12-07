@@ -29,8 +29,8 @@ class Ui_MainWindow(QObject):
         self.settings_tab = Ui_SettingsTab()
         self.menubar = QMenuBar(MainWindow)
         self.statusbar = QStatusBar(MainWindow)
-        table_pallet = QtGui.QPalette()
-        table_pallet_color = QtGui.QColor(QtCore.Qt.GlobalColor.darkBlue)
+        # table_pallet = QtGui.QPalette()
+        # table_pallet_color = QtGui.QColor(QtCore.Qt.GlobalColor.darkBlue)
 
         self.tabWidget.setEnabled(True)
         sizePolicy.setHorizontalStretch(0)
@@ -45,9 +45,9 @@ class Ui_MainWindow(QObject):
         self.menubar.setGeometry(QtCore.QRect(0, 0, 858, 22))
         MainWindow.setMenuBar(self.menubar)
         MainWindow.setStatusBar(self.statusbar)
-        table_pallet_color.setAlpha(25)
-        table_pallet.setColor(QtGui.QPalette.ColorRole.AlternateBase,
-                              table_pallet_color)
+        # table_pallet_color.setAlpha(25)
+        # table_pallet.setColor(QtGui.QPalette.ColorRole.AlternateBase,
+        #                       table_pallet_color)
 
         self.w_tab.setupUi()
         self.tabWidget.addTab(self.w_tab.tabWallets, '')
@@ -72,15 +72,15 @@ class Ui_MainWindow(QObject):
 
         self.tabWidget.setCurrentIndex(0)
 
-        self.w_tab.tbl_w.setPalette(table_pallet)
-        self.w_tab.tbl_tx.setPalette(table_pallet)
-        self.w_tab.tbl_addr.setPalette(table_pallet)
-        self.w_tab.tbl_addr2.setPalette(table_pallet)
-        self.ns_tab.tbl_ns.setPalette(table_pallet)
-        self.nft_tab.tbl_auctions.setPalette(table_pallet)
-        self.ab_tab.tbl_addr.setPalette(table_pallet)
-        self.settings_tab.elxp_tbl.setPalette(table_pallet)
-        self.settings_tab.ipfs_tbl.setPalette(table_pallet)
+        # self.w_tab.tbl_w.setPalette(table_pallet)
+        # self.w_tab.tbl_tx.setPalette(table_pallet)
+        # self.w_tab.tbl_addr.setPalette(table_pallet)
+        # self.w_tab.tbl_addr2.setPalette(table_pallet)
+        # self.ns_tab.tbl_ns.setPalette(table_pallet)
+        # self.nft_tab.tbl_auctions.setPalette(table_pallet)
+        # self.ab_tab.tbl_addr.setPalette(table_pallet)
+        # self.settings_tab.elxp_tbl.setPalette(table_pallet)
+        # self.settings_tab.ipfs_tbl.setPalette(table_pallet)
 
         self.retranslateUi()
 

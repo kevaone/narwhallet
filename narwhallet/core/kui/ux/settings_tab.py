@@ -24,11 +24,11 @@ class Ui_SettingsTab(QObject):
         self.settings_tab_wallet = QWidget(self.tabSettings)
         self.verticalLayout_12 = QVBoxLayout(self.settings_tab_wallet)
         self.path_meta_hl = QHBoxLayout()
-        self.path_meta_l = QLabel(self.tabSettings)
+        self.path_meta_l = QLabel(self.settings_tab_wallet)
         self.path_meta_e = QPlainTextEdit(self.settings_tab_wallet)
         self.reset_cache = QPushButton(self.settings_tab_wallet)
         self.auto_lock_hl = QHBoxLayout()
-        self.auto_lock_l = QLabel(self.tabSettings)
+        self.auto_lock_l = QLabel(self.settings_tab_wallet)
         self.auto_lock_e = QLineEdit(self.settings_tab_wallet)
         self.auto_lock_v = QIntValidator(self.auto_lock_e)
         self.show_change = QCheckBox(self.settings_tab_wallet)
@@ -84,8 +84,6 @@ class Ui_SettingsTab(QObject):
         self.settings_ipfs_button_add = QPushButton(self.settings_tab_wallet)
         self.ipfs_tbl = _ipfs_gateways_table('ipfs_tbl',
                                              self.settings_tab_wallet)
-        self.settings_tab_datafeeds = QWidget(self.settings_tab_wallet)
-        self.settings_tab_df_vl = QVBoxLayout(self.settings_tab_datafeeds)
 
         self.tabSettings.setObjectName('tabSettings')
         self.path_meta_e.setReadOnly(True)
