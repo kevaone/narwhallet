@@ -53,6 +53,16 @@ QLineEdit
     border-radius: 5;
 }
 
+QLineEdit:hover, QLineEdit:focus
+{
+    border: 2px solid palevioletred;
+}
+
+QPlainTextEdit:focus
+{
+    border: 2px solid palevioletred;
+}
+
 QPushButton
 {
     border-radius: 6;
@@ -103,7 +113,7 @@ QComboBox
 
 QComboBox:hover
 {
-    border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
+    border: 2px solid palevioletred;
 }
 
 QComboBox:on

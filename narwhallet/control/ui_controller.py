@@ -950,7 +950,8 @@ class NarwhalletController():
                 row = _row[0].topRow()
             else:
                 row = -1
-        else:
+
+        if row != -1:
             self.ui.nft_tab.tbl_auctions.selectRow(row)
             _auction_ns = self.ui.nft_tab.tbl_auctions.item(row, 8).text()
             _auction_tx = self.ui.nft_tab.tbl_auctions.item(row, 9).text()
@@ -969,7 +970,8 @@ class NarwhalletController():
                 row = _row[0].topRow()
             else:
                 row = -1
-        else:
+
+        if row != -1:
             self.ui.nft_tab.tbl_bids.selectRow(row)
             _auction_ns = self.ui.nft_tab.tbl_bids.item(row, 10).text()
             _auction_tx = self.ui.nft_tab.tbl_bids.item(row, 11).text()
