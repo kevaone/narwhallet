@@ -164,7 +164,7 @@ class NarwhalletController():
                     self.ui.w_tab.tbl_w.add_wallet(_w.to_dict())
                     if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                         self.ui.u_tab.wallet_select.addItem(_w.name)
-
+        self.ui.w_tab.tbl_w.resizeColumnsToContents()
         self.refresh_namespace_tab_data()
 
     def load_settings(self):

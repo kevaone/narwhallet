@@ -89,7 +89,7 @@ class Ui_v_tx_dlg(QDialog):
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(_b_ok)
 
-        self.tabs.addTab(self.details_tab, 'Inputs / Outputs')
+        self.tabs.addTab(self.details_tab, 'In / Out')
         self.tabs.addTab(self.hex_tab, 'Hex')
         self.tabs.addTab(self.json_tab, 'Json')
         self.verticalLayout.addWidget(self.tabs)

@@ -186,6 +186,8 @@ class _wallets_table(QTableWidget):
             _lvpic = self._create_table_item_graphic(4)
 
         _kvpic = QLabel()
+        _kvpic.setProperty('class', 'tblImg')
+        _lvpic.setProperty('class', 'tblImg')
 
         if _w.kind != 0 and _w.kind is not None:
             if _w.kind == 1:
