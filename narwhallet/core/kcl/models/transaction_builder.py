@@ -137,8 +137,8 @@ class MTransactionBuilder(MTransaction):
 
         if _enough_inputs is False:
             _return = False
-        elif len(self.vin) > 25:
-            # NOTE Capping number of inputs to 25, eval for good limit
+        elif len(self.vin) > 50:
+            # NOTE Capping number of inputs to 50, eval for good limit
             _return = False
         else:
             _return = True
