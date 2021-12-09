@@ -9,6 +9,7 @@ class _electrumx_peers_table(QTableWidget):
 
         self.setObjectName(name)
         self.setSelectionBehavior(self.SelectRows)
+        self.setSelectionMode(self.SingleSelection)
         self.setAlternatingRowColors(True)
         self.setSortingEnabled(False)
         self.build_columns()
@@ -32,6 +33,20 @@ class _electrumx_peers_table(QTableWidget):
         self.horizontalHeaderItem(8).setTextAlignment(4)
         self.horizontalHeaderItem(9).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
+
+    @staticmethod
+    def flags():
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+
+    @staticmethod
+    def _create_table_item(text):
+        if not isinstance(text, str):
+            text = str(text)
+        _item = QTableWidgetItem(text)
+        _item.setFlags(_electrumx_peers_table.flags())
+        _item.setForeground(QtCore.Qt.black)
+
+        return _item
 
     def add_peer(self, coin, host, port, tls):
         _al_center = QtCore.Qt.AlignCenter
@@ -65,18 +80,19 @@ class _electrumx_peers_table(QTableWidget):
                 tls = 'False'
 
         self.setCellWidget(_r, 0, _vpic)
-        self.setItem(_r, 1, QTableWidgetItem(coin))
-        self.setItem(_r, 2, QTableWidgetItem(host))
-        self.setItem(_r, 3, QTableWidgetItem(port))
-        self.setItem(_r, 4, QTableWidgetItem('HTTP'))
-        self.setItem(_r, 5, QTableWidgetItem(tls))
-        self.setItem(_r, 6, QTableWidgetItem('0ms'))
-        self.setItem(_r, 7, QTableWidgetItem('disconnected'))
+        self.setItem(_r, 1, self._create_table_item(coin))
+        self.setItem(_r, 2, self._create_table_item(host))
+        self.setItem(_r, 3, self._create_table_item(port))
+        self.setItem(_r, 4, self._create_table_item('HTTP'))
+        self.setItem(_r, 5, self._create_table_item(tls))
+        self.setItem(_r, 6, self._create_table_item('0ms'))
+        self.setItem(_r, 7, self._create_table_item('disconnected'))
         self.setCellWidget(_r, 8, _dellabel)
         self.resizeColumnsToContents()
 
     def update_peer_status(self, row: int, status: str):
-        self.setItem(row, 7, QTableWidgetItem(status))
+        self.setItem(row, 7, self._create_table_item(status))
+        self.resizeColumnsToContents()
 
     def update_active(self, active_row: int):
         _al_center = QtCore.Qt.AlignCenter
@@ -94,3 +110,4 @@ class _electrumx_peers_table(QTableWidget):
         _vpic.setContentsMargins(0, 0, 0, 0)
         _vpic.setProperty('class', 'tblImg')
         self.setCellWidget(active_row, 9, _vpic)
+        self.resizeColumnsToContents()

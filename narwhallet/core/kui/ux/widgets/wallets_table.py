@@ -17,6 +17,7 @@ class animation_label(QLabel):
         self.setPixmap(self._upic)
         self.setAlignment(_al_center)
         self.setContentsMargins(0, 0, 0, 0)
+        self.setProperty('class', 'tblImg')
         self.setToolTip('Refresh Wallet')
 
         self.ani = QtCore.QVariantAnimation()
@@ -91,7 +92,7 @@ class _wallets_table(QTableWidget):
         _vpic.setPixmap(_p)
         _vpic.setAlignment(_al_center)
         _vpic.setContentsMargins(0, 0, 0, 0)
-
+        _vpic.setProperty('class', 'tblImg')
         return _vpic
 
     @staticmethod
@@ -104,7 +105,6 @@ class _wallets_table(QTableWidget):
         self.insertRow(_r)
 
         _vpic = self._create_table_item_graphic(0)
-        _vpic.setProperty('class', 'tblImg')
 
         _coin = QTableWidgetItem(wallet_data['coin'])
         _coin.setFlags(self.flags())
@@ -118,8 +118,6 @@ class _wallets_table(QTableWidget):
         _wtype.setFlags(self.flags())
         _wtype.setForeground(QtCore.Qt.black)
 
-        _kvpic = QLabel()
-
         if wallet_data['kind'] != 0:
             if wallet_data['kind'] == 1:
                 _kvpic = self._create_table_item_graphic(1)
@@ -127,7 +125,10 @@ class _wallets_table(QTableWidget):
                 _kvpic = self._create_table_item_graphic(2)
             elif wallet_data['kind'] == 3:
                 _kvpic = self._create_table_item_graphic(1)
-        _kvpic.setProperty('class', 'tblImg')
+        else:
+            _kvpic = QLabel()
+            _kvpic.setContentsMargins(0, 0, 0, 0)
+            _kvpic.setProperty('class', 'tblImg')
 
         _bal = wallet_data['balance'] - wallet_data['bid_balance']
         wallet_data['balance'] = round(_bal, 8)
@@ -144,7 +145,7 @@ class _wallets_table(QTableWidget):
             _lvpic = self._create_table_item_graphic(3)
         else:
             _lvpic = self._create_table_item_graphic(4)
-        _lvpic.setProperty('class', 'tblImg')
+
         # if wallet_data['state_lock'] != 0:
         #    _lvpic.setPixmap(_lpic)
 
@@ -163,7 +164,6 @@ class _wallets_table(QTableWidget):
         _synch.setForeground(QtCore.Qt.black)
 
         self._vupic = animation_label()
-        self._vupic.setProperty('class', 'tblImg')
 
         self.setCellWidget(_r, 0, _vpic)
         self.setCellWidget(_r, 1, _lvpic)
@@ -185,15 +185,15 @@ class _wallets_table(QTableWidget):
         else:
             _lvpic = self._create_table_item_graphic(4)
 
-        _kvpic = QLabel()
-        _kvpic.setProperty('class', 'tblImg')
-        _lvpic.setProperty('class', 'tblImg')
-
         if _w.kind != 0 and _w.kind is not None:
             if _w.kind == 1:
                 _kvpic = self._create_table_item_graphic(1)
             elif _w.kind == 2:
                 _kvpic = self._create_table_item_graphic(2)
+        else:
+            _kvpic = QLabel()
+            _kvpic.setContentsMargins(0, 0, 0, 0)
+            _kvpic.setProperty('class', 'tblImg')
 
         if _w.last_updated is not None:
             _upd = MShared.get_timestamp(_w.last_updated)[1]

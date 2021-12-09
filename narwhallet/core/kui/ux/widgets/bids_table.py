@@ -39,9 +39,7 @@ class _bids_table(QTableWidget):
 
     @staticmethod
     def flags():
-        return (QtCore.Qt.ItemIsSelectable |
-                QtCore.Qt.ItemIsEditable |
-                QtCore.Qt.ItemIsDragEnabled)
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
     @staticmethod
     def _create_table_item(text):

@@ -10,6 +10,7 @@ class _address_book_table(QTableWidget):
 
         self.setObjectName(name)
         self.setSelectionBehavior(self.SelectRows)
+        self.setSelectionMode(self.SingleSelection)
         self.setAlternatingRowColors(True)
         self.setSortingEnabled(True)
         self.build_columns()
@@ -79,9 +80,7 @@ class _address_book_table(QTableWidget):
 
     @staticmethod
     def flags():
-        return (QtCore.Qt.ItemIsSelectable |
-                QtCore.Qt.ItemIsEditable |
-                QtCore.Qt.ItemIsDragEnabled)
+        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
     def add_bookaddress(self, book_address: dict):
         self.setSortingEnabled(False)
