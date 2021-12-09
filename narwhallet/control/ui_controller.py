@@ -313,7 +313,7 @@ class NarwhalletController():
         else:
             if self.settings.sync[i.replace('_timer', '')][1] is True:
                 if 'wallets' in i:
-                    print('wallets sync')
+                    self._update_wallets()
                 elif 'datafeed' in i:
                     print('datafeed sync')
                 elif 'favorites' in i:
@@ -478,19 +478,20 @@ class NarwhalletController():
     def wa_ad_click(self, row: int, _column: int):
         self.ui.w_tab.tbl_addr.selectRow(row)
 
-    def ex_c_done(self):
-        pass
+    def ex_c_done(self, flag):
+        if flag == 'svr_version' and self.settings.sync['wallets'][0] is True:
+            self._update_wallets()
 
     def ex_c(self, _n: str, m: str, i: int):
         self.ui.settings_tab.elxp_tbl.update_peer_status(i, m)
 
         if m == 'connected':
-            self.threader('server version', self.KEX.call,
+            self.threader('svr_version', self.KEX.call,
                           self.KEX.api.server.version, ['Narwhallet', 1.4],
                           self.ex_c_done, None)
-            self.threader('block count', self.KEX.call,
-                          self.KEX.api.blockchain_block.count, [],
-                          self.ex_c_done, None)
+            # self.threader('block_count', self.KEX.call,
+            #               self.KEX.api.blockchain_block.count, [],
+            #               self.ex_c_done, None)
 
     def save_settings(self):
         try:
@@ -726,6 +727,20 @@ class NarwhalletController():
             self.ui.settings_tab.ipfs_tbl.update_active(row)
             self.settings.set_primary_ipfs_gateway(row)
             self.set_dat.save(json.dumps(self.settings.to_dict()))
+
+    def _update_wallets(self):
+        for row in range(self.ui.w_tab.tbl_w.rowCount()):
+            _n = self.ui.w_tab.tbl_w.item(row, 3).text()
+            _w = self.wallets.get_wallet_by_name(_n)
+            if (_w.last_updated != '' and
+                    _w.last_updated is not None and
+                    _w.locked is False):
+                _current_time = MShared.get_timestamp()[0]
+                if _current_time - float(_w.last_updated) >= 60:
+                    if _w.updating is not True:
+                        _w.set_updating(True)
+                        self.ui.w_tab.tbl_w.cellWidget(row, 9).ani.start()
+                        self.update_wallet(_w, row)
 
     def _wallet_check_lock(self, row: int, column: int, wallet: MWallet):
         if wallet.locked is False and column == 1:
