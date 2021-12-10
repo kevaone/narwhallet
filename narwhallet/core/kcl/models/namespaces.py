@@ -105,6 +105,11 @@ class MNamespaces():
                                   (_ns, key), 3)
         return _r
 
+    def get_namespace_key_replies(self, _key_tx: str):
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_KEY_REPLIES,
+                                  ('____'+_key_tx, ), 3)
+        return _r
+
     def get_namespace_auctions(self, _ns: str):
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_AUCTIONS,
                                   (_ns, ), 3)
@@ -151,6 +156,11 @@ class MNamespaces():
 
     def ns_block(self, nsid):
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_BLOCK,
+                                  (nsid, ), 3)
+        return _r
+
+    def ns_root_value(self, nsid):
+        _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_ROOT_VALUE,
                                   (nsid, ), 3)
         return _r
 

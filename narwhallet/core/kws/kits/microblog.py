@@ -114,7 +114,7 @@ class Feed():
 
         return _i
 
-    def get_feed(self, _namespace, cache: MCache):
+    def get_feed(self, _namespace, _ns_replies, cache: MCache):
         _feed = self.get_feed_meta('profile')
         _items = ''
         _shortcode = 0
@@ -149,7 +149,7 @@ class Feed():
             # elif key.isSpecial('post'):
             else:
                 _value = self.link_IPFS(_key)
-                _res = self.replace_content(key[5], _value)
+                _res = self.replace_content(str(key[5]), _value)
 
             _tx = cache.tx.get_tx_by_txid(key[2])
             _res = _res.replace('$tx', _tx.txid)
@@ -157,16 +157,26 @@ class Feed():
 
             # TODO Add reply tracking to core namespace classes
             _replies = ''
-            # for _r in item[7]:
-            #     _r[6] = self.link_IPFS(str(_r[6]))
-            #     _ri = self.replace_content(_r, _r[5])
-            #     _ri = _ri.replace('$rewards', '').replace('$replies', '')
-            #     _replies = _replies + _ri
+            if key[2] in _ns_replies:
+                for _r in _ns_replies[key[2]]:
+                    if _r[6] == 'reward':
+                        _ri = str(_r[5])
+                    else:
+                        _ri = self.link_IPFS(str(_r[5]))
+                    _ri = self.replace_content(_r[4], _ri, _r[6])
+                    _ri = _ri.replace('$rewards', '').replace('$replies', '')
+                    _rbk = '<a href="$who/' + _r[0] + '">@'
+                    if _r[1] != '':
+                        _r[1] = ' - ' + _r[1]
+                    _rbk = _rbk + _r[0] + _r[1] + '</a>'
+                    _ri = _ri.replace('$keva_one_id', _rbk)
+                    _ri = _ri.replace('$txid', _r[2])
+                    _replies = _replies + _ri
             _rewards = ''
             _res = _res.replace('$rewards', _rewards)
             _res = _res.replace('$replies', _replies)
 
-            if '_KEVA_NS_' in key[5]:
+            if '_KEVA_NS_' in str(key[5]):
                 if _nft_flag is True:
                     _items = _items + _res
             else:

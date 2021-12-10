@@ -549,6 +549,10 @@ class MShared():
                 _r_tx = MShared.get_tx(_reply['tx_hash'], kex, True)
             if _r_tx is not None and isinstance(_r_tx, dict):
                 _r_tx = cache.tx.add_from_json(_r_tx)
+                for _ro in _r_tx.vout:
+                    MShared._test_for_namespace(_r_tx, '', _reply,
+                                                _ro.scriptPubKey, kex,
+                                                cache, True)
 
     @staticmethod
     def _test_for_namespace(_trx: MTransaction, _a: MAddress,
@@ -559,7 +563,6 @@ class MShared():
             return
 
         _ns = cache.ns.get_namespace_by_txid(_trx.txid, _o[1])
-        MShared.process_ns_key_reactions(_trx.txid, kex, cache)
         if len(_ns) != 0:
             return
 
@@ -591,6 +594,8 @@ class MShared():
                                      _out.addresses[0]))
                 else:
                     MShared._get_referenced_tx(_o[2], kex, cache)
+                    if _o[2][:4] == '0003':
+                        _o[3] = str(_trx.vout[1].value)
 
                     _ = (cache.ns
                          .from_raw(_merkle['block_height'],
@@ -808,8 +813,11 @@ class MShared():
                 _v = _responses['replies'][_i]['value']
                 _v = base64.b64decode(_v).decode()
             except Exception:
-                _v = base64.b64decode(_responses['replies'][_i]['value'])
-                _v = Ut.bytes_to_hex(_v)
+                if _responses['replies'][_i]['type'] == 'DEL':
+                    _v = 'DEL'
+                else:
+                    _v = base64.b64decode(_responses['replies'][_i]['value'])
+                    _v = Ut.bytes_to_hex(_v)
 
             _responses['replies'][_i]['key'] = _k
             _responses['replies'][_i]['value'] = _v

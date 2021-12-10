@@ -69,10 +69,16 @@ class Scripts(Enum):
         WHERE (special <> "deleted" OR special IS NULL) AND ns = ?;'
     SELECT_NS_BLOCK = 'SELECT block, n FROM ns_cache WHERE ns = ? \
         ORDER BY block;'
+    SELECT_NS_ROOT_VALUE = 'SELECT value FROM ns_cache WHERE ns = ? AND \
+        (special = \'root_ns\' OR special = \'root_ns_update\') \
+            ORDER BY block DESC;'
     SELECT_NS_LAST_ADDRESS = 'SELECT address FROM ns_cache WHERE ns = ? \
         ORDER BY block DESC;'
     SELECT_NS_KEY_VALUE = 'SELECT value FROM ns_cache \
         WHERE ns = ? AND [key] = ? ORDER BY block DESC;'
+    SELECT_NS_KEY_REPLIES = 'SELECT block, n, txid, ns, [key], value, \
+        special FROM ns_cache WHERE [key] LIKE ? AND (special = \'reply\' \
+            OR special = \'reward\') ORDER BY block DESC;'
     SELECT_NS_AUCTIONS = 'SELECT block, n, txid, ns, value FROM ns_cache \
         WHERE ns = ? AND special = \'nft_auction\' ORDER BY block DESC;'
     SELECT_NS_BIDS = 'SELECT block, n, txid, ns, [key], value FROM ns_cache \

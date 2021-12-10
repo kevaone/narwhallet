@@ -85,9 +85,27 @@ class _Api():
     def get_block_links(self, _item):
         return _item
 
-    def get_replies(self, _key):
-        _replies = []
-        return _replies
+    def get_replies(self, _key_tx):
+        _replies = self.cache.ns.get_namespace_key_replies(_key_tx)
+        _return = []
+        for _r in _replies:
+            _r = list(_r)
+            _rb = self.cache.ns.ns_block(_r[3])
+            _rn = self.cache.ns.ns_root_value(_r[3])
+            if len(_rb) > 0:
+                _rb = [str(_rb[0][0]), str(_rb[0][1])]
+                _rb = str(len(_rb[0])) + _rb[0] + _rb[1]
+
+            _r[0] = _rb
+            if len(_rn) > 0:
+                if 'displayName' in _rn[0][0]:
+                    _r[1] = json.loads(_rn[0][0])['displayName']
+                else:
+                    _r[1] = _rn[0][0]
+            else:
+                _r[1] = ''
+            _return.append(_r)
+        return _return
 
     def get_posts(self, _key):
         _posts = []
@@ -135,7 +153,14 @@ class _Api():
         _microblog = Feed(self.content_path,
                           self.control.settings.ipfs_gateways[_pigw][2])
 
-        _result = _microblog.get_feed(_namespace, self.cache)
+        for _key in _namespace:
+            MShared.process_ns_key_reactions(_key[2], self.control.KEX,
+                                             self.cache)
+        _ns_replies = {}
+        for _key in _namespace:
+            _ns_replies[_key[2]] = self.get_replies(_key[2])
+
+        _result = _microblog.get_feed(_namespace, _ns_replies, self.cache)
         return _result
 
     def search_get_namespace(self, _data):
