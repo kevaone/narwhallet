@@ -540,6 +540,17 @@ class MShared():
         return _merkle
 
     @staticmethod
+    def process_ns_key_reactions(txid: str, kex: KEXclient, cache: MCache):
+        _reactions = MShared.get_ns_key_reactions(txid, kex)
+
+        for _reply in _reactions['replies']:
+            _r_tx = cache.tx.get_tx_by_txid(_reply['tx_hash'])
+            if _r_tx is None:
+                _r_tx = MShared.get_tx(_reply['tx_hash'], kex, True)
+            if _r_tx is not None and isinstance(_r_tx, dict):
+                _r_tx = cache.tx.add_from_json(_r_tx)
+
+    @staticmethod
     def _test_for_namespace(_trx: MTransaction, _a: MAddress,
                             _t: dict, _out: MScriptPubKey, kex: KEXclient,
                             cache: MCache, test_root=True):
@@ -548,6 +559,7 @@ class MShared():
             return
 
         _ns = cache.ns.get_namespace_by_txid(_trx.txid, _o[1])
+        MShared.process_ns_key_reactions(_trx.txid, kex, cache)
         if len(_ns) != 0:
             return
 
