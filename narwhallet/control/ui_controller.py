@@ -958,18 +958,19 @@ class NarwhalletController():
             self.ui.ns_tab.btn_val_del.setEnabled(False)
 
     def nft_auction_selected(self, row: int = -1, _column: int = -1):
-        self.ui.nft_tab.tbl_bids.clearSelection()
+        _row = -1
         if row == -1:
-            _row = self.ui.nft_tab.tbl_auctions.selectedRanges()
-            if len(_row) > 0:
-                row = _row[0].topRow()
+            _r = self.ui.nft_tab.tbl_auctions.selectedRanges()
+            if len(_r) > 0:
+                _row = _r[0].topRow()
             else:
-                row = -1
+                _row = -1
 
-        if row != -1:
-            self.ui.nft_tab.tbl_auctions.selectRow(row)
-            _auction_ns = self.ui.nft_tab.tbl_auctions.item(row, 8).text()
-            _auction_tx = self.ui.nft_tab.tbl_auctions.item(row, 9).text()
+        if _row != -1:
+            self.ui.nft_tab.tbl_bids.clearSelection()
+            self.ui.nft_tab.tbl_auctions.selectRow(_row)
+            _auction_ns = self.ui.nft_tab.tbl_auctions.item(_row, 8).text()
+            _auction_tx = self.ui.nft_tab.tbl_auctions.item(_row, 9).text()
             _auction = self.cache.ns.get_namespace_auctions(_auction_ns)
 
             if len(_auction) > 0:
@@ -978,18 +979,19 @@ class NarwhalletController():
                 self.update_selected_auction_data(_auction[0], _reactions)
 
     def nft_mybid_selected(self, row: int = -1, _column: int = -1):
-        self.ui.nft_tab.tbl_auctions.clearSelection()
+        _row = -1
         if row == -1:
-            _row = self.ui.nft_tab.tbl_bids.selectedRanges()
-            if len(_row) > 0:
-                row = _row[0].topRow()
+            _r = self.ui.nft_tab.tbl_bids.selectedRanges()
+            if len(_r) > 0:
+                _row = _r[0].topRow()
             else:
-                row = -1
+                _row = -1
 
-        if row != -1:
-            self.ui.nft_tab.tbl_bids.selectRow(row)
-            _auction_ns = self.ui.nft_tab.tbl_bids.item(row, 10).text()
-            _auction_tx = self.ui.nft_tab.tbl_bids.item(row, 11).text()
+        if _row != -1:
+            self.ui.nft_tab.tbl_auctions.clearSelection()
+            self.ui.nft_tab.tbl_bids.selectRow(_row)
+            _auction_ns = self.ui.nft_tab.tbl_bids.item(_row, 10).text()
+            _auction_tx = self.ui.nft_tab.tbl_bids.item(_row, 11).text()
             _auction = self.cache.ns.get_namespace_auctions(_auction_ns)
 
             if len(_auction) > 0:
