@@ -94,10 +94,10 @@ class MNamespaces():
                                   (namespaceid, ), 3)
         return _r
 
-    def get_namespace_by_key(self, namespaceid: str, key: str) -> MNamespace:
+    def get_namespace_by_key(self, block, namespaceid: str, key: str) -> MNamespace:
         namespaceid = self.convert_to_namespaceid(namespaceid)
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_BY_KEY,
-                                  (namespaceid, self._decode(key)), 3)
+                                  (block, namespaceid, self._decode(key)), 3)
         return _r
 
     def get_namespace_by_key_value(self, _ns: str, key: str):

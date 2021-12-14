@@ -921,6 +921,13 @@ class NarwhalletController():
 
     def ns_key_selected(self):
         row = self.ui.ns_tab.tbl_ns.currentRow()
+        if row == -1:
+            self.ui.ns_tab.ns_tab_text_key_value.setPlainText('')
+            self.ui.ns_tab.sel_ns_key.setText('No key selected')
+            self.ui.ns_tab.sel_ns_key_sp.setText('')
+            self.ui.ns_tab.sel_ns_key_tx.setText('')
+            self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(False)
+            return
         _n = self.ui.ns_tab.tbl_ns.item(row, 2).text()
         _ns = self.ui.ns_tab.tbl_ns.item(row, 5).text()
         if _n in ('live', 'favorites'):

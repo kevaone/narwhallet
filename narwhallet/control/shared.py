@@ -481,6 +481,7 @@ class MShared():
     @staticmethod
     def _get_tx(wallet: MWallet, addresses: List[MAddress], kex: KEXclient,
                 cache: MCache):
+        _ns_test = []
         for _a in addresses:
             for _t in _a.history:
                 _trx = cache.tx.get_tx_by_txid(_t['tx_hash'])
@@ -491,8 +492,11 @@ class MShared():
                 MShared._process_tx_vout(wallet, _trx.vout, _a)
 
                 for _out in _trx.vout:
-                    MShared._test_for_namespace(_trx, _a, _t,
-                                                _out.scriptPubKey, kex, cache)
+                    if _out.scriptPubKey not in _ns_test:
+                        _ns_test.append(_out.scriptPubKey)
+
+        for _t in _ns_test:
+            MShared._test_for_namespace(_t, kex, cache)
 
     @staticmethod
     def _process_tx_vin(wallet: MWallet, vin: List[MTransactionInput],
@@ -543,69 +547,155 @@ class MShared():
     def process_ns_key_reactions(txid: str, kex: KEXclient, cache: MCache):
         _reactions = MShared.get_ns_key_reactions(txid, kex)
 
+        _tx_h_batch = []
+        for _reply in _reactions['replies']:
+            _r_trx = cache.tx.get_tx_by_txid(_reply['tx_hash'])
+            if _r_trx is None:
+                _tx_h_batch.append(kex.api.bc_tx.get
+                                   .build_command([_reply['tx_hash'], True],
+                                                  kex.id))
+                kex.id = kex.id + 1
+        if len(_tx_h_batch) > 0:
+            _ = MShared.__get_tx_by_batch(_tx_h_batch, kex, cache)
+
         for _reply in _reactions['replies']:
             _r_tx = cache.tx.get_tx_by_txid(_reply['tx_hash'])
             if _r_tx is None:
                 _r_tx = MShared.get_tx(_reply['tx_hash'], kex, True)
             if _r_tx is not None and isinstance(_r_tx, dict):
                 _r_tx = cache.tx.add_from_json(_r_tx)
-                for _ro in _r_tx.vout:
-                    MShared._test_for_namespace(_r_tx, '', _reply,
-                                                _ro.scriptPubKey, kex,
-                                                cache, True)
+            for _ro in _r_tx.vout:
+                MShared._test_for_namespace(_ro.scriptPubKey, kex,
+                                            cache)
 
     @staticmethod
-    def _test_for_namespace(_trx: MTransaction, _a: MAddress,
-                            _t: dict, _out: MScriptPubKey, kex: KEXclient,
-                            cache: MCache, test_root=True):
+    def _test_for_namespace(_out: MScriptPubKey, kex: KEXclient,
+                            cache: MCache):
         _o = _out.asm.split(' ')
         if _o[0].startswith('OP_KEVA_') is False:
             return
 
-        _ns = cache.ns.get_namespace_by_txid(_trx.txid, _o[1])
-        if len(_ns) != 0:
-            return
+        _root_ns = cache.ns.get_root_namespace_by_id(_o[1], True)
+        if len(_root_ns) == 0:
+            _root_ns = (Scripts.KevaRootNamespaceScriptHash
+                        .compileToScriptHash([_o[1], b''], True))
+            _root_hist = kex.call(kex.api.blockchain_scripthash.get_history,
+                                  [_root_ns])
+        else:
+            _root_hist = ''
 
-        _merkle = MShared.get_merkle(_trx.txid, _t['height'], kex)
-        if _merkle == '':
+        _nk = cache.ns.convert_to_namespaceid(_o[1])
+        _keys = MShared.get_namespace_keys(_nk, kex)
+
+        if _root_hist != '':
+            for rh in json.loads(_root_hist)['result']:
+                _keys.append(rh)
+
+        _tx_h_batch = []
+        _th_h_track = {}
+        for k in _keys:
+            if k['tx_hash'] in _th_h_track.values():
+                continue
+            _r_trx = cache.tx.get_tx_by_txid(k['tx_hash'])
+            if _r_trx is None:
+                _th_h_track[str(kex.id)] = k['tx_hash']
+                _tx_h_batch.append(kex.api.bc_tx.get
+                                   .build_command([k['tx_hash'], True],
+                                                  kex.id))
+                kex.id = kex.id + 1
+        if len(_tx_h_batch) > 0:
+            _ = MShared.__get_tx_by_batch(_tx_h_batch, kex, cache)
+
+        _m_batch = []
+        _m_track = {}
+        for k in _keys:
+            if k['tx_hash'] in _m_track.values():
+                continue
+
+            _r_tx = cache.tx.get_tx_by_txid(k['tx_hash'])
+            if _r_tx is None:
+                continue
+
+            for _ro in _r_tx.vout:
+                _tro = _ro.scriptPubKey.asm.split(' ')
+                if _tro[0].startswith('OP_KEVA_') is True:
+                    _key = cache.ns.get_namespace_by_txid(_r_tx.txid, _tro[1])
+                    if len(_key) == 0:
+                        _m_track[str(kex.id)] = k['tx_hash']
+                        _m_batch.append(kex.api.bc_tx.get_merkle
+                                        .build_command([_r_tx.txid,
+                                                        k['height']],
+                                                       kex.id))
+                        kex.id += 1
+        if len(_m_batch) > 0:
+            _merkles = MShared.__get_merkle_by_batch(_m_batch, _m_track, kex)
+        else:
+            _merkles = {}
+
+        _ref_batch = []
+        for k in _keys:
+            if k['tx_hash'] not in _merkles:
+                continue
+            _r_tx = cache.tx.get_tx_by_txid(k['tx_hash'])
+            if _r_tx is None:
+                continue
+
+            for _ro in _r_tx.vout:
+                _tro = _ro.scriptPubKey.asm.split(' ')
+                if _tro[0].startswith('OP_KEVA_') is True:
+                    _key = cache.ns.get_namespace_by_txid(_r_tx.txid, _tro[1])
+                    if len(_key) != 0:
+                        continue
+
+                    MShared._p_namespace(_ro.scriptPubKey, _r_tx,
+                                         _merkles[k['tx_hash']], _ref_batch,
+                                         kex, cache)
+        if len(_ref_batch) > 0:
+            _ = MShared.__get_tx_by_batch(_ref_batch, kex, cache)
+
+    @staticmethod
+    def _p_namespace(out, _trx, _merkle, _ref_batch, kex, cache):
+        _o = out.asm.split(' ')
+        if _o[0].startswith('OP_KEVA_') is False:
             return
 
         if _o[0] == 'OP_KEVA_NAMESPACE':
+            _ns_test = cache.ns.get_root_namespace_by_id(_o[1], True)
+            if len(_ns_test) != 0:
+                return
             _ = (cache.ns
                  .from_raw(_merkle['block_height'],
                            _merkle['pos'],
                            _trx.txid, _o[1], _o[0],
                            '5f4b4556415f4e535f', _o[2],
-                           _out.addresses[0]))
+                           out.addresses[0]))
         else:
             if _o[0] == 'OP_KEVA_DELETE':
                 _ = (cache.ns
                      .mark_key_deleted(_merkle['block_height'], _o[1], _o[2]))
             else:
-                _key = cache.ns.get_namespace_by_key(_o[1], _o[2])
-                if len(_key) > 0 and _o[2][:4] != '0001':
-                    if (_key[0][3] == 'deleted' and
-                            _key[0][2] > _merkle['block_height']):
-                        return
+                if (_o[2][:4] == '0001' or _o[2][:4] == '0002'
+                        or _o[2][:4] == '0003'):
 
-                    _ = (cache.ns
-                         .update_key(_merkle['block_height'], _merkle['pos'],
-                                     _trx.txid, _o[1], _o[2], _o[3],
-                                     _out.addresses[0]))
-                else:
-                    MShared._get_referenced_tx(_o[2], kex, cache)
-                    if _o[2][:4] == '0003':
+                    _r_trx = cache.tx.get_tx_by_txid(_o[2][4:])
+                    if _r_trx is None:
+                        _ref_batch.append(kex.api.bc_tx.get
+                                          .build_command([_o[2][4:], True],
+                                                         kex.id))
+
+                if _o[2][:4] == '0003':
+                    # TODO Fix this upstream...type check for now
+                    if isinstance(_trx.vout[1].value, int):
+                        _o[3] = str(float(_trx.vout[1].value))
+                    else:
                         _o[3] = str(_trx.vout[1].value)
 
-                    _ = (cache.ns
-                         .from_raw(_merkle['block_height'],
-                                   _merkle['pos'],
-                                   _trx.txid, _o[1], _o[0],
-                                   _o[2], _o[3],
-                                   _out.addresses[0]))
-
-                    if test_root is True:
-                        MShared._test_root(_out, kex, cache)
+                _ = (cache.ns
+                     .from_raw(_merkle['block_height'],
+                               _merkle['pos'],
+                               _trx.txid, _o[1], _o[0],
+                               _o[2], _o[3],
+                               out.addresses[0]))
 
     @staticmethod
     def _get_referenced_tx(key: str, kex: KEXclient, cache: MCache):
@@ -635,6 +725,25 @@ class MShared():
                 MShared.scan_history(_o[1], _tracker,
                                      _out.addresses[0], _root_hist, kex,
                                      cache, False)
+
+    @staticmethod
+    def __get_merkle_by_batch(_th: list, _track: dict, kex: KEXclient):
+        _batches = MShared.batch_cmds(_th)
+        _merkles = {}
+        for batch in _batches:
+            _h = []
+            if batch != b'[]\n':
+                _h = MShared.__get_batch(batch, kex)
+
+            if not isinstance(_h, list):
+                continue
+
+            for h in _h:
+                _merkles[_track[h['id']]] = {}
+                _merkles[_track[h['id']]]['block_height'] = h['result']['block_height']
+                _merkles[_track[h['id']]]['pos'] = h['result']['pos']
+
+        return _merkles
 
     @staticmethod
     def __get_tx_by_batch(_th: list, kex: KEXclient, cache: MCache):
@@ -716,7 +825,6 @@ class MShared():
                     _ok = _o.scriptPubKey.asm.split(' ')
                     # _a_hist: list = []
                     if _ok[0].startswith('OP_KEVA'):
-                        # MShared._test_root(_o.scriptPubKey, kex, cache)
                         _a = _o.scriptPubKey.addresses[0]
                         _a_hist = MShared._get_history(_a, kex)
                         _tracker.append(_a)
@@ -726,6 +834,7 @@ class MShared():
     @staticmethod
     def scan_history(_ns, _tracker: list, _a, _a_hist,
                      kex: KEXclient, cache: MCache, deep: bool = True):
+        _ns_test = []
         for _h in _a_hist:
             if not isinstance(_h, dict):  # TODO refine upstream to rm check
                 _btrx = None
@@ -737,21 +846,38 @@ class MShared():
                     _btrx = cache.tx.add_from_json(_tx)
             if _btrx is not None:
                 for _bo in _btrx.vout:
-                    MShared._test_for_namespace(_btrx,
-                                                _bo.scriptPubKey.addresses[0],
-                                                _h, _bo.scriptPubKey, kex,
-                                                cache,
-                                                deep)
-
                     _ok = _bo.scriptPubKey.asm.split(' ')
                     if _ok[1] == _ns:
                         if _bo.scriptPubKey.addresses[0] not in _tracker:
                             _boa = _bo.scriptPubKey.addresses[0]
                             _b_hist = MShared._get_history(_boa, kex)
-                            _tracker.append(_bo.scriptPubKey.addresses[0])
+                            _tracker.append(_boa)
                             MShared.scan_history(_ns, _tracker,
-                                                 _bo.scriptPubKey.addresses[0],
+                                                 _boa,
                                                  _b_hist, kex, cache, deep)
+                    if _bo.scriptPubKey not in _ns_test:
+                        _ns_test.append(_bo.scriptPubKey)
+
+        for _t in _ns_test:
+            MShared._test_for_namespace(_t, kex, cache)
+
+    @staticmethod
+    def get_namespace_keys(_ns, kex: KEXclient) -> list:
+        try:
+            _ns = Ut.bytes_to_hex(Base58Decoder.CheckDecode(_ns))
+        except Exception:
+            return []
+
+        k_script_hash = (Scripts.KevaNamespaceScriptHash
+                         .compileToScriptHash([_ns, b''], True))
+        k_hist = kex.call(kex.api.keva.get_keyvalues, [k_script_hash, -1])
+
+        if k_hist != '':
+            _keys = json.loads(k_hist)['result']['keyvalues']
+        else:
+            _keys = []
+
+        return _keys
 
     @staticmethod
     def _get_namespace_keys(_ns, kex: KEXclient):
@@ -787,8 +913,11 @@ class MShared():
                     _v = k_hist['keyvalues'][_i]['value']
                     _v = base64.b64decode(_v).decode()
                 except Exception:
-                    _v = base64.b64decode(k_hist['keyvalues'][_i]['value'])
-                    _v = Ut.bytes_to_hex(_v)
+                    if k_hist['keyvalues'][_i]['type'] == 'DEL':
+                        _v = 'DEL'
+                    else:
+                        _v = base64.b64decode(k_hist['keyvalues'][_i]['value'])
+                        _v = Ut.bytes_to_hex(_v)
             _keys.append([_k, _v, k_hist['keyvalues'][_i]['time']])
         return _keys
 

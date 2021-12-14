@@ -63,7 +63,7 @@ class Scripts(Enum):
     SELECT_NS_BY_POS = 'SELECT ns FROM ns_cache WHERE block = ? AND n = ?;'
     SELECT_NS_BY_TXID = 'SELECT ns FROM ns_cache WHERE txid = ? AND ns = ?;'
     SELECT_NS_BY_KEY = 'SELECT ns, [key], block, special FROM ns_cache \
-        WHERE ns = ? AND [key] = ?;'
+        WHERE block = ? AND ns = ? AND [key] = ?;'
     SELECT_NS_VIEW_1 = 'SELECT DISTINCT ns FROM ns_cache;'
     SELECT_NS_COUNT = 'SELECT COUNT(ns) FROM ns_cache \
         WHERE (special <> "deleted" OR special IS NULL) AND ns = ?;'
