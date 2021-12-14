@@ -168,7 +168,7 @@ class _wallet_utils():
         return Bip39MnemonicValidator(mnemonic).GetEntropy()
 
     @staticmethod
-    def generate_seed(mnemonic: str, password: str = None, toHex=False):
+    def generate_seed(mnemonic: str, password: str = '', toHex=False):
         if password is not None or password != '':
             _seed = Bip39SeedGenerator(mnemonic).Generate(password)
         else:

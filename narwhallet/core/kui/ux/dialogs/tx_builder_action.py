@@ -1,10 +1,9 @@
 import json
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QLocale
-from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
-                             QComboBox, QPushButton, QPlainTextEdit)
+                             QComboBox, QPushButton, QPlainTextEdit, QDialog)
 
 from narwhallet.control.shared import MShared
 from narwhallet.core.ksc import Scripts
@@ -174,7 +173,8 @@ class Ui_action_dlg(QDialog):
     def check_tx_is_ns_key(self):
         _action_tx = self.action_tx.text()
 
-        _action_tx = MShared.check_tx_is_ns_key(_action_tx, self.kex, self.cache)
+        _action_tx = MShared.check_tx_is_ns_key(_action_tx, self.kex,
+                                                self.cache)
 
         if _action_tx[0] is True:
             self.action_target_address = _action_tx[4]
@@ -188,13 +188,11 @@ class Ui_action_dlg(QDialog):
 
     def txb_ns_changed(self, data):
         if data not in ('-', ''):
-            #self.nft_name.setText(self.combo_ns.currentText().split(' - ')[1])
             self.check_next()
 
     def set_namespace_combo(self):
         self.combo_ns.clear()
         self.combo_ns.addItem('-', '-')
-        #self.nft_name.setText('')
         _n = self.combo_wallet.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
         MShared.list_unspents(wallet, self.kex)
@@ -339,7 +337,8 @@ class Ui_action_dlg(QDialog):
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
         if self.action == 'reward':
-            _ = self.new_tx.add_output(_reward_value, self.action_target_address)
+            _ = self.new_tx.add_output(_reward_value,
+                                       self.action_target_address)
 
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
 

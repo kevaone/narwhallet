@@ -1,8 +1,8 @@
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QDialog, QFrame
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
-                             QDialogButtonBox, QPlainTextEdit)
+                             QDialogButtonBox, QPlainTextEdit,
+                             QDialog, QFrame)
 
 
 class Ui_v_change_addr_dlg(QDialog):

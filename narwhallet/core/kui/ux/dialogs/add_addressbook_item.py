@@ -1,4 +1,3 @@
-import os
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
@@ -19,7 +18,6 @@ class Ui_add_ab_item_dlg(QDialog):
 
         self.verticalLayout = QVBoxLayout(self)
         self.label_1 = QLabel(self)
-        __path = os.path.dirname(__file__)
         _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.horizontalLayout = QHBoxLayout()
         self.label = QLabel(self)

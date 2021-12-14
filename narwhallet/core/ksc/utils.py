@@ -1,4 +1,5 @@
 import struct
+from typing import Union
 from narwhallet.core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
 
 
@@ -52,9 +53,9 @@ class Ut():
         return ConvUtils.BytesToInteger(value, endianness)
 
     @staticmethod
-    def hash160(data: str) -> bytes:
+    def hash160(data: Union[str, bytes]) -> bytes:
         return CryptoUtils.Hash160(data)
 
     @staticmethod
-    def sha256(data: str) -> bytes:
+    def sha256(data: Union[str, bytes]) -> bytes:
         return CryptoUtils.Sha256(data)

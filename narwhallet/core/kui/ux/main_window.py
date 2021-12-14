@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
 from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout,
                              QSizePolicy, QTabWidget, QMenuBar, QStatusBar)

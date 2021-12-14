@@ -18,7 +18,7 @@ class MNamespaces():
         return item['date']
 
     @staticmethod
-    def convert_to_namespaceid(nsid: str) -> str:
+    def convert_to_namespaceid(nsid: str):
         try:
             _id = Base58Encoder.CheckEncode(Ut.hex_to_bytes(nsid))
             return _id
@@ -65,10 +65,10 @@ class MNamespaces():
         return _type
 
     def from_raw(self, block: int, n: int, tx: str,
-                 namespaceid: str, op: str, key: str, value: str,
+                 nsid: str, op: str, key: str, value: str,
                  address: str):
 
-        _ns = self.convert_to_namespaceid(namespaceid)
+        _ns = self.convert_to_namespaceid(nsid)
         key = self._decode(key)
         value = self._decode(value)
         _r = self.dbi.execute_sql(self.dbi.scripts.INSERT_NS,
@@ -83,21 +83,21 @@ class MNamespaces():
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_VIEW_1, (), 3)
         return _r
 
-    def get_namespace_by_txid(self, txid: str, namespaceid: str) -> MNamespace:
-        _ns = self.convert_to_namespaceid(namespaceid)
+    def get_namespace_by_txid(self, txid: str, nsid: str) -> MNamespace:
+        _ns = self.convert_to_namespaceid(nsid)
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_BY_TXID,
                                   (txid, _ns, ), 3)
         return _r
 
-    def get_namespace_by_id(self, namespaceid: str) -> MNamespace:
+    def get_namespace_by_id(self, nsid: str) -> MNamespace:
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS,
-                                  (namespaceid, ), 3)
+                                  (nsid, ), 3)
         return _r
 
-    def get_namespace_by_key(self, block, namespaceid: str, key: str) -> MNamespace:
-        namespaceid = self.convert_to_namespaceid(namespaceid)
+    def get_namespace_by_key(self, block, nsid: str, key: str) -> MNamespace:
+        _ns = self.convert_to_namespaceid(nsid)
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_BY_KEY,
-                                  (block, namespaceid, self._decode(key)), 3)
+                                  (block, _ns, self._decode(key)), 3)
         return _r
 
     def get_namespace_by_key_value(self, _ns: str, key: str):
@@ -141,12 +141,12 @@ class MNamespaces():
 
         return _r
 
-    def get_root_namespace_by_id(self, namespaceid: str,
+    def get_root_namespace_by_id(self, nsid: str,
                                  convert: bool = False) -> MNamespace:
         if convert is True:
-            namespaceid = self.convert_to_namespaceid(namespaceid)
+            nsid = self.convert_to_namespaceid(nsid)
         _r = self.dbi.execute_sql(self.dbi.scripts.SELECT_NS_ROOT_TEST,
-                                  (namespaceid, ), 3)
+                                  (nsid, ), 3)
         return _r
 
     def key_count(self, nsid):
@@ -170,30 +170,30 @@ class MNamespaces():
         return _r
 
     def update_key(self, block: int, n: int, tx: str,
-                   namespaceid: str, key: str, value: str,
+                   nsid: str, key: str, value: str,
                    address: str):
 
-        namespaceid = self.convert_to_namespaceid(namespaceid)
+        _ns = self.convert_to_namespaceid(nsid)
         key = self._decode(key)
         value = self._decode(value)
         _r = self.dbi.execute_sql(self.dbi.scripts.UPDATE_NS_KEY,
                                   (block, n, tx, value,
                                    self.get_key_type(key, value),
-                                   address, namespaceid,
+                                   address, _ns,
                                    key, block), 1)
         return _r
 
-    def mark_key_deleted(self, block: int, namespaceid: str, key: str):
-        namespaceid = self.convert_to_namespaceid(namespaceid)
+    def mark_key_deleted(self, block: int, nsid: str, key: str):
+        _ns = self.convert_to_namespaceid(nsid)
         key = self._decode(key)
 
         _r = self.dbi.execute_sql(self.dbi.scripts.UPDATE_NS_KEY_MARK,
-                                  ('deleted', namespaceid,
+                                  ('deleted', _ns,
                                    key, block), 1)
         return _r
 
-    def delete_key(self, ns, key, block):
-        ns = self.convert_to_namespaceid(ns)
+    def delete_key(self, nsid, key, block):
+        _ns = self.convert_to_namespaceid(nsid)
         _r = self.dbi.execute_sql(self.dbi.scripts.DELETE_NS_KEY,
-                                  (ns, self._decode(key), block, ), 1)
+                                  (_ns, self._decode(key), block, ), 1)
         return _r

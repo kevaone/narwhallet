@@ -117,7 +117,7 @@ class Ui_v_addr_dlg(QDialog):
     def set_qr(self, data: str):
         self.qr_d.setPixmap(QRImage.make(data, image_factory=QRImage))
 
-    def _display_details(self, event):
+    def _display_details(self, _event):
         if self.details.isVisible() is True:
             self.details.setVisible(False)
             self.details_show_img.setIcon(QIcon(self._ppic))

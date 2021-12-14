@@ -25,7 +25,7 @@ class _factory(Enum):
         _scri = b''.join([v for _, v in enumerate(_script)])
 
         if to_hex is True:
-            _scri = Ut.bytes_to_hex(_scri)
+            return Ut.bytes_to_hex(_scri)
 
         return _scri
 

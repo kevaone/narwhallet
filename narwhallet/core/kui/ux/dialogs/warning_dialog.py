@@ -1,9 +1,8 @@
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
-                             QPlainTextEdit)
+                             QPlainTextEdit, QDialog)
 from narwhallet.control.shared import MShared
 
 

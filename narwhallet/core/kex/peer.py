@@ -4,12 +4,14 @@ import ssl
 
 
 class _peer():
+    socket: socket.socket
+
     def __init__(self, host: str, port: int, tls: bool, validate_cert: bool):
         self.host = host
         self.port = port
         self.tls = tls
         self.last = 0
-        self.socket = None
+        # self.socket: socket.socket
         self.validate_cert = validate_cert
         self.busy = False
 
