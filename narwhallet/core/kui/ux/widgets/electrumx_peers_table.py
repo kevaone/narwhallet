@@ -8,14 +8,7 @@ class _electrumx_peers_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        self.setObjectName(name)
-        self.setSelectionBehavior(self.SelectRows)
-        self.setSelectionMode(self.SingleSelection)
-        self.setAlternatingRowColors(True)
-        self.setSortingEnabled(False)
-        self.build_columns()
-
-    def build_columns(self):
+        UShared.set_table_properties(self, name)
         UShared.set_table_columns(10, ['', 'Coin', 'Host', 'Port',
                                        'Type', 'TLS', 'Ping', 'Status',
                                        '', 'Active'], self)

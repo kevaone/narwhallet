@@ -41,14 +41,7 @@ class _wallets_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        self.setObjectName(name)
-        self.setSelectionBehavior(self.SelectRows)
-        self.setSelectionMode(self.SingleSelection)
-        self.setAlternatingRowColors(True)
-        self.setSortingEnabled(True)
-        self.build_columns()
-
-    def build_columns(self):
+        UShared.set_table_properties(self, name)
         UShared.set_table_columns(10, ['', 'Locked', 'Coin', 'Name', 'Type',
                                        'Kind', 'Balance', 'Bid Locked',
                                        'Last Updated', ''], self)

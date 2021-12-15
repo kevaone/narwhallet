@@ -3,15 +3,10 @@ from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
 class _tx_builder_usxo_table(QTableWidget):
-    def __init__(self, _parent: QWidget):
+    def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        self.setSelectionBehavior(self.SelectRows)
-        self.setAlternatingRowColors(True)
-        self.setSortingEnabled(True)
-        self.build_columns()
-
-    def build_columns(self):
+        UShared.set_table_properties(self, name)
         UShared.set_table_columns(7, ['wallet', 'address', '', 'value',
                                       'pos', 'tx_hash', 'height'], self)
 

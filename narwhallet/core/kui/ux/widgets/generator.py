@@ -7,6 +7,14 @@ from narwhallet.control.shared import MShared
 
 class UShared():
     @staticmethod
+    def set_table_properties(table: QTableWidget, name: str):
+        table.setObjectName(name)
+        table.setSelectionBehavior(table.SelectRows)
+        table.setSelectionMode(table.SingleSelection)
+        table.setAlternatingRowColors(True)
+        table.setSortingEnabled(True)
+
+    @staticmethod
     def set_table_columns(columns, headers: List[str], table: QTableWidget):
         table.setColumnCount(columns)
         table.setHorizontalHeaderLabels(headers)

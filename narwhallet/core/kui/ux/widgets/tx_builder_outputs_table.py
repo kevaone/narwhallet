@@ -3,15 +3,10 @@ from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
 class _tx_builder_outputs_table(QTableWidget):
-    def __init__(self, _parent: QWidget):
+    def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        self.setSelectionBehavior(self.SelectRows)
-        self.setAlternatingRowColors(True)
-        self.setSortingEnabled(False)
-        self.build_columns()
-
-    def build_columns(self):
+        UShared.set_table_properties(self, name)
         UShared.set_table_columns(3, ['Value', 'Address', 'Script'], self)
 
     def add_output(self, value: float, address: str, script: str):

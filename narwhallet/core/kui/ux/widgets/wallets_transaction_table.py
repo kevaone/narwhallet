@@ -7,13 +7,7 @@ class _transaction_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        self.setObjectName(name)
-        self.setSelectionBehavior(self.SelectRows)
-        self.setAlternatingRowColors(True)
-        self.setSortingEnabled(False)
-        self.build_columns()
-
-    def build_columns(self):
+        UShared.set_table_properties(self, name)
         UShared.set_table_columns(6, ['', 'Date', 'Tx', 'Amount',
                                       'Type', 'txid'], self)
         self.setColumnHidden(2, True)
@@ -21,7 +15,7 @@ class _transaction_table(QTableWidget):
 
     def add_transactions(self, transactions: list):
         UShared.clear_table_rows(self)
-
+        self.setSortingEnabled(False)
         for c, dat in enumerate(transactions):
             dat['amount'] = round(dat['amount'], 8)
             if dat['amount'] > 0:
@@ -36,7 +30,7 @@ class _transaction_table(QTableWidget):
                 dat['<->'] = (_confirming + ' - ' + dat['<->'])
 
             self._add_transaction(c, dat)
-
+        self.setSortingEnabled(True)
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 

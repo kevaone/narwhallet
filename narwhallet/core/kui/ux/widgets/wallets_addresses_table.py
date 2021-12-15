@@ -7,13 +7,7 @@ class _wallets_addr_tbl(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        self.setObjectName(name)
-        self.setSelectionBehavior(self.SelectRows)
-        self.setAlternatingRowColors(True)
-        self.setSortingEnabled(False)
-        self.build_columns()
-
-    def build_columns(self):
+        UShared.set_table_properties(self, name)
         UShared.set_table_columns(7, ['', 'Address', 'Received',
                                       'Sent', 'Balance', 'Label', ''], self)
 
@@ -37,10 +31,10 @@ class _wallets_addr_tbl(QTableWidget):
 
     def add_addresses(self, addresses_data: list):
         UShared.clear_table_rows(self)
-
+        self.setSortingEnabled(False)
         for c, dat in enumerate(addresses_data):
             self.add_address(c, dat)
-
+        self.setSortingEnabled(True)
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 
