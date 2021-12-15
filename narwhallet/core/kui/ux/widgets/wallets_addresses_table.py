@@ -1,6 +1,5 @@
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
-from narwhallet.control.shared import MShared
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QWidget, QTableWidget
 
 from narwhallet.core.kui.ux.widgets.generator import UShared
 
@@ -66,43 +65,6 @@ class _wallets_addr_tbl(QTableWidget):
 
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
-
-    # @staticmethod
-    # def flags():
-    #     return (QtCore.Qt.ItemIsSelectable |
-    #             QtCore.Qt.ItemIsEditable |
-    #             QtCore.Qt.ItemIsDragEnabled)
-
-    # @staticmethod
-    # def _create_table_item(text):
-    #     if not isinstance(text, str):
-    #         text = str(text)
-    #     _item = QTableWidgetItem(text)
-    #     _item.setFlags(_wallets_addr_tbl.flags())
-    #     _item.setForeground(QtCore.Qt.black)
-
-    #     return _item
-
-    # @staticmethod
-    # def _create_table_item_graphic(pic: int):
-    #     _al_center = QtCore.Qt.AlignCenter
-    #     _transm_st = QtCore.Qt.SmoothTransformation
-
-    #     _vpic = QLabel()
-
-    #     if pic == 0:
-    #         _p = (QtGui.QPixmap(MShared.get_resource_path('information.png')))
-    #         _vpic.setToolTip('View Address Details')
-    #     elif pic == 1:
-    #         _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
-    #         _vpic.setToolTip('Copy Address to Clipboard')
-    #     _p = _p.scaledToWidth(20, _transm_st)
-
-    #     _vpic.setPixmap(_p)
-    #     _vpic.setAlignment(_al_center)
-    #     _vpic.setContentsMargins(0, 0, 0, 0)
-    #     _vpic.setProperty('class', 'tblImg')
-    #     return _vpic
 
     def add_address(self, idx: int, address_data: dict):
         if idx == self.rowCount():

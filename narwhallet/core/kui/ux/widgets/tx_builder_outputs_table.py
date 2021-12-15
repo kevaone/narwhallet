@@ -27,12 +27,6 @@ class _tx_builder_outputs_table(QTableWidget):
             self.removeRow(_m)
             _m = _m - 1
 
-    # @staticmethod
-    # def flags():
-    #     return (QtCore.Qt.ItemIsSelectable |
-    #             QtCore.Qt.ItemIsEditable |
-    #             QtCore.Qt.ItemIsDragEnabled)
-
     def add_output(self, value: float, address: str, script: str):
         _r = self.rowCount()
         self.insertRow(_r)

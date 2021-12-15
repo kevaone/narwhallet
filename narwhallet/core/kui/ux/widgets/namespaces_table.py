@@ -1,6 +1,5 @@
 from PyQt5 import QtCore
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem
 from narwhallet.control.shared import MShared
 
 from narwhallet.core.kui.ux.widgets.generator import UShared
@@ -48,28 +47,6 @@ class _namespaces_table(QTableWidget):
         self.setSortingEnabled(True)
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
-
-    # @staticmethod
-    # def _create_table_item_graphic(pic: int):
-    #     _al_center = QtCore.Qt.AlignCenter
-    #     _transm_st = QtCore.Qt.SmoothTransformation
-
-    #     if pic == 0:
-    #         _p = QPixmap(MShared.get_resource_path('information.png'))
-    #     elif pic == 1:
-    #         _p = QPixmap(MShared.get_resource_path('transfer.png'))
-    #     _p = _p.scaledToWidth(20, _transm_st)
-
-    #     _vpic = QLabel()
-    #     _vpic.setPixmap(_p)
-    #     _vpic.setAlignment(_al_center)
-    #     _vpic.setContentsMargins(0, 0, 0, 0)
-    #     _vpic.setProperty('class', 'tblImg')
-    #     return _vpic
-
-    # @staticmethod
-    # def flags():
-    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
     def _add_namespace(self, namespace_data: dict):
         _r = self.rowCount()

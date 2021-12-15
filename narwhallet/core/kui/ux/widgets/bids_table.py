@@ -1,5 +1,5 @@
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.control.shared import MShared
 
 from narwhallet.core.kui.ux.widgets.generator import UShared
@@ -37,38 +37,6 @@ class _bids_table(QTableWidget):
         self.setColumnWidth(8, 20)
         self.setColumnHidden(10, True)
         self.setColumnHidden(11, True)
-
-    # @staticmethod
-    # def flags():
-    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
-
-    # @staticmethod
-    # def _create_table_item(text):
-    #     if not isinstance(text, str):
-    #         text = str(text)
-    #     _item = QTableWidgetItem(text)
-    #     _item.setFlags(_bids_table.flags())
-    #     _item.setForeground(QtCore.Qt.black)
-
-    #     return _item
-
-    # @staticmethod
-    # def _create_table_item_graphic(pic: int):
-    #     _al_center = QtCore.Qt.AlignCenter
-    #     _transm_st = QtCore.Qt.SmoothTransformation
-
-    #     if pic == 0:
-    #         _p = QtGui.QPixmap(MShared.get_resource_path('keva-logo.png'))
-    #     elif pic == 1:
-    #         _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
-    #     _p = _p.scaledToWidth(20, _transm_st)
-
-    #     _vpic = QLabel()
-    #     _vpic.setPixmap(_p)
-    #     _vpic.setAlignment(_al_center)
-    #     _vpic.setContentsMargins(0, 0, 0, 0)
-    #     _vpic.setProperty('class', 'tblImg')
-    #     return _vpic
 
     def set_row_color(self, row: int, color=QtCore.Qt.red):
         for _column in range(0, self.columnCount()-1):

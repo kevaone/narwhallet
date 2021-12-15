@@ -34,12 +34,6 @@ class _tx_builder_usxo_table(QTableWidget):
             self.removeRow(_m)
             _m = _m - 1
 
-    # @staticmethod
-    # def flags():
-    #     return (QtCore.Qt.ItemIsSelectable |
-    #             QtCore.Qt.ItemIsEditable |
-    #             QtCore.Qt.ItemIsDragEnabled)
-
     def add_usxo(self, wallet: str, usxo: list):
         for i in usxo:
             i['wallet'] = wallet

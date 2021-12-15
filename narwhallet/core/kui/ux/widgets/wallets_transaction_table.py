@@ -1,5 +1,4 @@
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.control.shared import MShared
 
 from narwhallet.core.kui.ux.widgets.generator import UShared
@@ -61,37 +60,6 @@ class _transaction_table(QTableWidget):
 
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
-
-    # @staticmethod
-    # def flags():
-    #     return (QtCore.Qt.ItemIsSelectable |
-    #             QtCore.Qt.ItemIsEditable |
-    #             QtCore.Qt.ItemIsDragEnabled)
-
-    # @staticmethod
-    # def _create_table_item(text):
-    #     if not isinstance(text, str):
-    #         text = str(text)
-    #     _item = QTableWidgetItem(text)
-    #     _item.setFlags(_transaction_table.flags())
-    #     _item.setForeground(QtCore.Qt.black)
-
-    #     return _item
-
-    # @staticmethod
-    # def _create_table_item_graphic():
-    #     _al_center = QtCore.Qt.AlignCenter
-    #     _transm_st = QtCore.Qt.SmoothTransformation
-    #     _pic = QtGui.QPixmap(MShared.get_resource_path('information.png'))
-    #     _pic = _pic.scaledToWidth(20, _transm_st)
-
-    #     _vpic = QLabel()
-    #     _vpic.setToolTip('View TX Details')
-    #     _vpic.setPixmap(_pic)
-    #     _vpic.setAlignment(_al_center)
-    #     _vpic.setContentsMargins(0, 0, 0, 0)
-    #     _vpic.setProperty('class', 'tblImg')
-    #     return _vpic
 
     def _add_transaction(self, idx: int, transaction_data: dict):
         if idx == self.rowCount():

@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QWidget, QTableWidget, QLabel
 from narwhallet.control.shared import MShared
 
 from narwhallet.core.kui.ux.widgets.generator import UShared
@@ -34,20 +34,6 @@ class _electrumx_peers_table(QTableWidget):
         self.horizontalHeaderItem(8).setTextAlignment(4)
         self.horizontalHeaderItem(9).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
-
-    # @staticmethod
-    # def flags():
-    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
-
-    # @staticmethod
-    # def _create_table_item(text):
-    #     if not isinstance(text, str):
-    #         text = str(text)
-    #     _item = QTableWidgetItem(text)
-    #     _item.setFlags(_electrumx_peers_table.flags())
-    #     _item.setForeground(QtCore.Qt.black)
-
-    #     return _item
 
     def add_peer(self, coin, host, port, tls):
         _al_center = QtCore.Qt.AlignCenter

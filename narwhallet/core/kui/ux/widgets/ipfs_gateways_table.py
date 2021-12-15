@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import QWidget, QTableWidget, QLabel
 from narwhallet.control.shared import MShared
 
 from narwhallet.core.kui.ux.widgets.generator import UShared
@@ -30,20 +30,6 @@ class _ipfs_gateways_table(QTableWidget):
         self.horizontalHeaderItem(6).setTextAlignment(4)
         self.horizontalHeaderItem(7).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
-
-    # @staticmethod
-    # def flags():
-    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
-
-    # @staticmethod
-    # def _create_table_item(text):
-    #     if not isinstance(text, str):
-    #         text = str(text)
-    #     _item = QTableWidgetItem(text)
-    #     _item.setFlags(_ipfs_gateways_table.flags())
-    #     _item.setForeground(QtCore.Qt.black)
-
-    #     return _item
 
     def add_gateway_from_list(self, gateway_data: list):
         _al_center = QtCore.Qt.AlignCenter

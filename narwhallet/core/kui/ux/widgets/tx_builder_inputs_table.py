@@ -31,12 +31,6 @@ class _tx_builder_inputs_table(QTableWidget):
             self.removeRow(_m)
             _m = _m - 1
 
-    # @staticmethod
-    # def flags():
-    #     return (QtCore.Qt.ItemIsSelectable |
-    #             QtCore.Qt.ItemIsEditable |
-    #             QtCore.Qt.ItemIsDragEnabled)
-
     def add_input(self, value: float, address: str, tx_hash: str, n: int,
                   script: str):
 
