@@ -39,7 +39,7 @@ class MNSKeys():
         if _name in self._names:
             _return = self.keys[self._names[_name]]
         else:
-            _return = MNSKey()
+            _return = None  # MNSKey()
         return _return
 
     def delete_key_by_name(self, name: str, convert: bool = False) -> bool:

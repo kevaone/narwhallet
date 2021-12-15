@@ -28,7 +28,7 @@ class MTransactions():
             _txx.from_sql(_tx, _vin, _vout)
             _return = _txx
         else:
-            _return = MTransaction()
+            _return = None  # MTransaction()
         return _return
 
     def get_tx_vout(self, txid: str):
