@@ -16,20 +16,9 @@ class _namespaces_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        UShared.set_table_columns(8, ['', 'Date', 'Wallet', 'Shortcode',
-                                        'Keys', 'NamespaceId', 'Address', ''], self)
-        # self.setColumnCount(8)
-        # self.setHorizontalHeaderLabels(['', 'Date', 'Wallet', 'Shortcode',
-        #                                 'Keys', 'NamespaceId', 'Address', ''])
-        # self.horizontalHeaderItem(0).setTextAlignment(4)
-        # self.horizontalHeaderItem(1).setTextAlignment(4)
-        # self.horizontalHeaderItem(2).setTextAlignment(4)
-        # self.horizontalHeaderItem(3).setTextAlignment(4)
-        # self.horizontalHeaderItem(4).setTextAlignment(4)
-        # self.horizontalHeaderItem(5).setTextAlignment(4)
-        # self.horizontalHeaderItem(6).setTextAlignment(4)
-        # self.horizontalHeaderItem(7).setTextAlignment(4)
-        # self.horizontalHeader().setMinimumSectionSize(25)
+        UShared.set_table_columns(8, ['', 'Date', 'Wallet',
+                                      'Shortcode', 'Keys',
+                                      'NamespaceId', 'Address', ''], self)
         self.setColumnHidden(1, True)
         # TODO Add settings control to show/hide address column
         self.setColumnHidden(6, True)

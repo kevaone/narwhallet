@@ -15,19 +15,9 @@ class _transaction_table(QTableWidget):
 
     def build_columns(self):
         UShared.set_table_columns(6, ['', 'Date', 'Tx', 'Amount',
-                                        'Type', 'txid'], self)
-        # self.setColumnCount(6)
-        # self.setHorizontalHeaderLabels(['', 'Date', 'Tx', 'Amount',
-        #                                 'Type', 'txid'])
-        # self.horizontalHeaderItem(0).setTextAlignment(4)
-        # self.horizontalHeaderItem(1).setTextAlignment(4)
-        # self.horizontalHeaderItem(2).setTextAlignment(4)
-        # self.horizontalHeaderItem(3).setTextAlignment(4)
-        # self.horizontalHeaderItem(4).setTextAlignment(4)
-        # self.horizontalHeaderItem(5).setTextAlignment(4)
+                                      'Type', 'txid'], self)
         self.setColumnHidden(2, True)
         self.setColumnHidden(5, True)
-        # self.horizontalHeader().setMinimumSectionSize(25)
 
     def clear_row(self, row):
         self.setRowHidden(row, True)

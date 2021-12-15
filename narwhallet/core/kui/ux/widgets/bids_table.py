@@ -17,26 +17,9 @@ class _bids_table(QTableWidget):
 
     def build_columns(self):
         UShared.set_table_columns(12, ['', 'Date', 'Wallet', 'Bid From',
-                                        'Bid On', 'Asking', 'High Bid',
-                                        'Your Bid', 'Is High Bid', '', '',
-                                        ''], self)
-        # self.setColumnCount(12)
-        # self.setHorizontalHeaderLabels(['', 'Date', 'Wallet', 'Bid From',
-        #                                 'Bid On', 'Asking', 'High Bid',
-        #                                 'Your Bid', 'Is High Bid', '', '',
-        #                                 ''])
-        # self.horizontalHeaderItem(0).setTextAlignment(4)
-        # self.horizontalHeaderItem(1).setTextAlignment(4)
-        # self.horizontalHeaderItem(2).setTextAlignment(4)
-        # self.horizontalHeaderItem(3).setTextAlignment(4)
-        # self.horizontalHeaderItem(4).setTextAlignment(4)
-        # self.horizontalHeaderItem(5).setTextAlignment(4)
-        # self.horizontalHeaderItem(6).setTextAlignment(4)
-        # self.horizontalHeaderItem(7).setTextAlignment(4)
-        # self.horizontalHeaderItem(8).setTextAlignment(4)
-        # self.horizontalHeaderItem(9).setTextAlignment(4)
-        # self.horizontalHeaderItem(10).setTextAlignment(4)
-        # self.horizontalHeader().setMinimumSectionSize(25)
+                                       'Bid On', 'Asking', 'High Bid',
+                                       'Your Bid', 'Is High Bid', '', '',
+                                       ''], self)
         self.setColumnWidth(0, 20)
         self.setColumnWidth(8, 20)
         self.setColumnHidden(10, True)
