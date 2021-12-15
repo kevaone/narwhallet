@@ -2,6 +2,8 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
+
 
 class _auctions_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -34,37 +36,37 @@ class _auctions_table(QTableWidget):
         self.setColumnHidden(8, True)
         self.setColumnHidden(9, True)
 
-    @staticmethod
-    def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+    # @staticmethod
+    # def flags():
+    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
-    @staticmethod
-    def _create_table_item(text):
-        if not isinstance(text, str):
-            text = str(text)
-        _item = QTableWidgetItem(text)
-        _item.setFlags(_auctions_table.flags())
-        _item.setForeground(QtCore.Qt.black)
+    # @staticmethod
+    # def _create_table_item(text):
+    #     if not isinstance(text, str):
+    #         text = str(text)
+    #     _item = QTableWidgetItem(text)
+    #     _item.setFlags(_auctions_table.flags())
+    #     _item.setForeground(QtCore.Qt.black)
 
-        return _item
+    #     return _item
 
-    @staticmethod
-    def _create_table_item_graphic(pic: int):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
+    # @staticmethod
+    # def _create_table_item_graphic(pic: int):
+    #     _al_center = QtCore.Qt.AlignCenter
+    #     _transm_st = QtCore.Qt.SmoothTransformation
 
-        if pic == 0:
-            _p = QtGui.QPixmap(MShared.get_resource_path('keva-logo.png'))
-        elif pic == 1:
-            _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
-        _p = _p.scaledToWidth(20, _transm_st)
+    #     if pic == 0:
+    #         _p = QtGui.QPixmap(MShared.get_resource_path('keva-logo.png'))
+    #     elif pic == 1:
+    #         _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
+    #     _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic = QLabel()
-        _vpic.setPixmap(_p)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
-        return _vpic
+    #     _vpic = QLabel()
+    #     _vpic.setPixmap(_p)
+    #     _vpic.setAlignment(_al_center)
+    #     _vpic.setContentsMargins(0, 0, 0, 0)
+    #     _vpic.setProperty('class', 'tblImg')
+    #     return _vpic
 
     def clear_rows(self):
         _m = self.rowCount()
@@ -94,16 +96,16 @@ class _auctions_table(QTableWidget):
         _r = self.rowCount()
         self.insertRow(_r)
 
-        _coin = self._create_table_item_graphic(0)
-        _date = (self._create_table_item(
+        _coin = UShared._create_table_item_graphic(0)
+        _date = (UShared._create_table_item(
             MShared.get_timestamp(auction_data['date'])[1]))
-        _wallet = self._create_table_item(auction_data['wallet'])
-        _shortcode = self._create_table_item(str(auction_data['shortcode']))
-        _asking = self._create_table_item(str(auction_data['asking']))
-        _bids = self._create_table_item(auction_data['bids'])
-        _high_bid = self._create_table_item(auction_data['high_bid'])
-        _auc_ns = self._create_table_item(auction_data['ns'])
-        _auc_tx = self._create_table_item(auction_data['tx'])
+        _wallet = UShared._create_table_item(auction_data['wallet'])
+        _shortcode = UShared._create_table_item(str(auction_data['shortcode']))
+        _asking = UShared._create_table_item(str(auction_data['asking']))
+        _bids = UShared._create_table_item(auction_data['bids'])
+        _high_bid = UShared._create_table_item(auction_data['high_bid'])
+        _auc_ns = UShared._create_table_item(auction_data['ns'])
+        _auc_tx = UShared._create_table_item(auction_data['tx'])
 
         self.setCellWidget(_r, 0, _coin)
         self.setItem(_r, 1, _date)

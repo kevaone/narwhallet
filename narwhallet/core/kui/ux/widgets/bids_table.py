@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class _bids_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -37,37 +38,37 @@ class _bids_table(QTableWidget):
         self.setColumnHidden(10, True)
         self.setColumnHidden(11, True)
 
-    @staticmethod
-    def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+    # @staticmethod
+    # def flags():
+    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
-    @staticmethod
-    def _create_table_item(text):
-        if not isinstance(text, str):
-            text = str(text)
-        _item = QTableWidgetItem(text)
-        _item.setFlags(_bids_table.flags())
-        _item.setForeground(QtCore.Qt.black)
+    # @staticmethod
+    # def _create_table_item(text):
+    #     if not isinstance(text, str):
+    #         text = str(text)
+    #     _item = QTableWidgetItem(text)
+    #     _item.setFlags(_bids_table.flags())
+    #     _item.setForeground(QtCore.Qt.black)
 
-        return _item
+    #     return _item
 
-    @staticmethod
-    def _create_table_item_graphic(pic: int):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
+    # @staticmethod
+    # def _create_table_item_graphic(pic: int):
+    #     _al_center = QtCore.Qt.AlignCenter
+    #     _transm_st = QtCore.Qt.SmoothTransformation
 
-        if pic == 0:
-            _p = QtGui.QPixmap(MShared.get_resource_path('keva-logo.png'))
-        elif pic == 1:
-            _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
-        _p = _p.scaledToWidth(20, _transm_st)
+    #     if pic == 0:
+    #         _p = QtGui.QPixmap(MShared.get_resource_path('keva-logo.png'))
+    #     elif pic == 1:
+    #         _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
+    #     _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic = QLabel()
-        _vpic.setPixmap(_p)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
-        return _vpic
+    #     _vpic = QLabel()
+    #     _vpic.setPixmap(_p)
+    #     _vpic.setAlignment(_al_center)
+    #     _vpic.setContentsMargins(0, 0, 0, 0)
+    #     _vpic.setProperty('class', 'tblImg')
+    #     return _vpic
 
     def set_row_color(self, row: int, color=QtCore.Qt.red):
         for _column in range(0, self.columnCount()-1):
@@ -103,22 +104,22 @@ class _bids_table(QTableWidget):
         _r = self.rowCount()
         self.insertRow(_r)
 
-        _coin = self._create_table_item_graphic(0)
-        _date = (self._create_table_item(
+        _coin = UShared._create_table_item_graphic(0)
+        _date = (UShared._create_table_item(
             MShared.get_timestamp(bid_data['date'])[1]))
-        _wallet = self._create_table_item(bid_data['wallet'])
-        _from_shortcode = (self._create_table_item(
+        _wallet = UShared._create_table_item(bid_data['wallet'])
+        _from_shortcode = (UShared._create_table_item(
             str(bid_data['from_shortcode'])))
-        _to_shortcode = self._create_table_item(str(bid_data['to_shortcode']))
-        _asking = self._create_table_item(str(bid_data['asking']))
-        _high_bid = self._create_table_item(str(bid_data['high_bid']))
-        _your_bid = self._create_table_item(str(bid_data['your_bid']))
-        _is_high_bid = (self._create_table_item(
+        _to_shortcode = UShared._create_table_item(str(bid_data['to_shortcode']))
+        _asking = UShared._create_table_item(str(bid_data['asking']))
+        _high_bid = UShared._create_table_item(str(bid_data['high_bid']))
+        _your_bid = UShared._create_table_item(str(bid_data['your_bid']))
+        _is_high_bid = (UShared._create_table_item(
             str(bid_data['your_bid'] >= bid_data['high_bid'])))
-        _auc_ns = self._create_table_item(str(bid_data['ns']))
-        _auc_tx = self._create_table_item(str(bid_data['tx']))
-        _empty_item = self._create_table_item('')
-        _empty_item2 = self._create_table_item('')
+        _auc_ns = UShared._create_table_item(str(bid_data['ns']))
+        _auc_tx = UShared._create_table_item(str(bid_data['tx']))
+        _empty_item = UShared._create_table_item('')
+        _empty_item2 = UShared._create_table_item('')
 
         self.setCellWidget(_r, 0, _coin)
         self.setItem(_r, 0, _empty_item)

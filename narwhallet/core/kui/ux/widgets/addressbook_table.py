@@ -3,6 +3,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class _address_book_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -53,68 +54,68 @@ class _address_book_table(QTableWidget):
         self.resizeColumnsToContents()
         self.setColumnWidth(7, 20)
 
-    @staticmethod
-    def _create_table_item_graphic(pic: int):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
+    # @staticmethod
+    # def _create_table_item_graphic(pic: int):
+    #     _al_center = QtCore.Qt.AlignCenter
+    #     _transm_st = QtCore.Qt.SmoothTransformation
 
-        _vpic = QLabel()
+    #     _vpic = QLabel()
 
-        if pic == 0:
-            _p = QPixmap(MShared.get_resource_path('information'))
-            _vpic.setToolTip('View Address Details')
-        elif pic == 1:
-            _p = QPixmap(MShared.get_resource_path('clipboard.png'))
-            _vpic.setToolTip('Copy Address to Clipboard')
-        elif pic == 2:
-            _p = QPixmap(MShared.get_resource_path('trashcan.png'))
-            _vpic.setToolTip('Delete Adderess From Address Book')
+    #     if pic == 0:
+    #         _p = QPixmap(MShared.get_resource_path('information'))
+    #         _vpic.setToolTip('View Address Details')
+    #     elif pic == 1:
+    #         _p = QPixmap(MShared.get_resource_path('clipboard.png'))
+    #         _vpic.setToolTip('Copy Address to Clipboard')
+    #     elif pic == 2:
+    #         _p = QPixmap(MShared.get_resource_path('trashcan.png'))
+    #         _vpic.setToolTip('Delete Adderess From Address Book')
 
-        _p = _p.scaledToWidth(20, _transm_st)
+    #     _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic.setPixmap(_p)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
-        return _vpic
+    #     _vpic.setPixmap(_p)
+    #     _vpic.setAlignment(_al_center)
+    #     _vpic.setContentsMargins(0, 0, 0, 0)
+    #     _vpic.setProperty('class', 'tblImg')
+    #     return _vpic
 
-    @staticmethod
-    def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+    # @staticmethod
+    # def flags():
+    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
     def add_bookaddress(self, book_address: dict):
         self.setSortingEnabled(False)
         _r = self.rowCount()
         self.insertRow(_r)
 
-        _vpic = self._create_table_item_graphic(0)
-        _bvpic = self._create_table_item_graphic(1)
+        _vpic = UShared._create_table_item_graphic(1)
+        _bvpic = UShared._create_table_item_graphic(2)
 
         _coin = QTableWidgetItem(book_address['coin'])
-        _coin.setFlags(self.flags())
+        _coin.setFlags(UShared.flags())
         _coin.setForeground(QtCore.Qt.black)
 
         _name = QTableWidgetItem(book_address['name'])
-        _name.setFlags(self.flags())
+        _name.setFlags(UShared.flags())
         _name.setForeground(QtCore.Qt.black)
 
         _address = QTableWidgetItem(book_address['address'])
-        _address.setFlags(self.flags())
+        _address.setFlags(UShared.flags())
         _address.setForeground(QtCore.Qt.black)
 
         _sent = self.test_param(book_address, 'sent', '0.0')
-        _sent.setFlags(self.flags())
+        _sent.setFlags(UShared.flags())
         _sent.setForeground(QtCore.Qt.black)
 
         _received = self.test_param(book_address, 'received', '0.0')
-        _received.setFlags(self.flags())
+        _received.setFlags(UShared.flags())
         _received.setForeground(QtCore.Qt.black)
 
         _label = QTableWidgetItem(book_address['label'])
-        _label.setFlags(self.flags())
+        _label.setFlags(UShared.flags())
         _label.setForeground(QtCore.Qt.black)
 
-        _dellabel = self._create_table_item_graphic(2)
+        _dellabel = UShared._create_table_item_graphic(3)
 
         self.setCellWidget(_r, 0, _vpic)
         self.setItem(_r, 1, _coin)

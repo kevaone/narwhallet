@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class _ipfs_gateways_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -30,19 +31,19 @@ class _ipfs_gateways_table(QTableWidget):
         self.horizontalHeaderItem(7).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
 
-    @staticmethod
-    def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+    # @staticmethod
+    # def flags():
+    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
-    @staticmethod
-    def _create_table_item(text):
-        if not isinstance(text, str):
-            text = str(text)
-        _item = QTableWidgetItem(text)
-        _item.setFlags(_ipfs_gateways_table.flags())
-        _item.setForeground(QtCore.Qt.black)
+    # @staticmethod
+    # def _create_table_item(text):
+    #     if not isinstance(text, str):
+    #         text = str(text)
+    #     _item = QTableWidgetItem(text)
+    #     _item.setFlags(_ipfs_gateways_table.flags())
+    #     _item.setForeground(QtCore.Qt.black)
 
-        return _item
+    #     return _item
 
     def add_gateway_from_list(self, gateway_data: list):
         _al_center = QtCore.Qt.AlignCenter
@@ -79,10 +80,10 @@ class _ipfs_gateways_table(QTableWidget):
 
         self.setCellWidget(_r, 0, _gvpic)
         self.setCellWidget(_r, 1, _vpic)
-        self.setItem(_r, 2, self._create_table_item(gateway_data[0]))
-        self.setItem(_r, 3, self._create_table_item(gateway_data[1]))
-        self.setItem(_r, 4, self._create_table_item(gateway_data[2]))
-        self.setItem(_r, 5, self._create_table_item('~ms'))
+        self.setItem(_r, 2, UShared._create_table_item(gateway_data[0]))
+        self.setItem(_r, 3, UShared._create_table_item(gateway_data[1]))
+        self.setItem(_r, 4, UShared._create_table_item(gateway_data[2]))
+        self.setItem(_r, 5, UShared._create_table_item('~ms'))
         self.setCellWidget(_r, 6, _dellabel)
 
         self.resizeColumnsToContents()

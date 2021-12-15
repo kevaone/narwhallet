@@ -3,6 +3,7 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class _namespaces_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -48,59 +49,59 @@ class _namespaces_table(QTableWidget):
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 
-    @staticmethod
-    def _create_table_item_graphic(pic: int):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
+    # @staticmethod
+    # def _create_table_item_graphic(pic: int):
+    #     _al_center = QtCore.Qt.AlignCenter
+    #     _transm_st = QtCore.Qt.SmoothTransformation
 
-        if pic == 0:
-            _p = QPixmap(MShared.get_resource_path('information.png'))
-        elif pic == 1:
-            _p = QPixmap(MShared.get_resource_path('transfer.png'))
-        _p = _p.scaledToWidth(20, _transm_st)
+    #     if pic == 0:
+    #         _p = QPixmap(MShared.get_resource_path('information.png'))
+    #     elif pic == 1:
+    #         _p = QPixmap(MShared.get_resource_path('transfer.png'))
+    #     _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic = QLabel()
-        _vpic.setPixmap(_p)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
-        return _vpic
+    #     _vpic = QLabel()
+    #     _vpic.setPixmap(_p)
+    #     _vpic.setAlignment(_al_center)
+    #     _vpic.setContentsMargins(0, 0, 0, 0)
+    #     _vpic.setProperty('class', 'tblImg')
+    #     return _vpic
 
-    @staticmethod
-    def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+    # @staticmethod
+    # def flags():
+    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
     def _add_namespace(self, namespace_data: dict):
         _r = self.rowCount()
         self.insertRow(_r)
-        _vpic = self._create_table_item_graphic(0)
+        _vpic = UShared._create_table_item_graphic(1)
 
         _date = (QTableWidgetItem(
             MShared.get_timestamp(namespace_data['date'])[1], 0))
-        _date.setFlags(self.flags())
+        _date.setFlags(UShared.flags())
         _date.setForeground(QtCore.Qt.black)
 
         _wallet = QTableWidgetItem(namespace_data['wallet'])
-        _wallet.setFlags(self.flags())
+        _wallet.setFlags(UShared.flags())
         _wallet.setForeground(QtCore.Qt.black)
 
         _namespaceid = QTableWidgetItem(namespace_data['namespaceid'])
-        _namespaceid.setFlags(self.flags())
+        _namespaceid.setFlags(UShared.flags())
         _namespaceid.setForeground(QtCore.Qt.black)
 
         _shortcode = QTableWidgetItem(str(namespace_data['shortcode']))
-        _shortcode.setFlags(self.flags())
+        _shortcode.setFlags(UShared.flags())
         _shortcode.setForeground(QtCore.Qt.black)
 
         _keys = QTableWidgetItem(str(namespace_data['key_count']))
-        _keys.setFlags(self.flags())
+        _keys.setFlags(UShared.flags())
         _keys.setForeground(QtCore.Qt.black)
 
         _address = QTableWidgetItem(namespace_data['address'])
-        _address.setFlags(self.flags())
+        _address.setFlags(UShared.flags())
         _address.setForeground(QtCore.Qt.black)
 
-        _dellabel = self._create_table_item_graphic(1)
+        _dellabel = UShared._create_table_item_graphic(8)
         _dellabel.setToolTip('Transfer Namespace')
 
         self.setCellWidget(_r, 0, _vpic)

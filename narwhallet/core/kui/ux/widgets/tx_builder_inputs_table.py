@@ -1,6 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class _tx_builder_inputs_table(QTableWidget):
     def __init__(self, _parent: QWidget):
@@ -30,11 +31,11 @@ class _tx_builder_inputs_table(QTableWidget):
             self.removeRow(_m)
             _m = _m - 1
 
-    @staticmethod
-    def flags():
-        return (QtCore.Qt.ItemIsSelectable |
-                QtCore.Qt.ItemIsEditable |
-                QtCore.Qt.ItemIsDragEnabled)
+    # @staticmethod
+    # def flags():
+    #     return (QtCore.Qt.ItemIsSelectable |
+    #             QtCore.Qt.ItemIsEditable |
+    #             QtCore.Qt.ItemIsDragEnabled)
 
     def add_input(self, value: float, address: str, tx_hash: str, n: int,
                   script: str):
@@ -43,27 +44,27 @@ class _tx_builder_inputs_table(QTableWidget):
         self.insertRow(_r)
 
         _value = QTableWidgetItem(str(value))
-        _value.setFlags(self.flags())
+        _value.setFlags(UShared.flags())
         _value.setForeground(QtCore.Qt.black)
 
         _address = QTableWidgetItem(address)
-        _address.setFlags(self.flags())
+        _address.setFlags(UShared.flags())
         _address.setForeground(QtCore.Qt.black)
 
         _n = QTableWidgetItem(str(n))
-        _n.setFlags(self.flags())
+        _n.setFlags(UShared.flags())
         _n.setForeground(QtCore.Qt.black)
 
         _tx_hash = QTableWidgetItem(tx_hash)
-        _tx_hash.setFlags(self.flags())
+        _tx_hash.setFlags(UShared.flags())
         _tx_hash.setForeground(QtCore.Qt.black)
 
         _script = QTableWidgetItem(script)
-        _script.setFlags(self.flags())
+        _script.setFlags(UShared.flags())
         _script.setForeground(QtCore.Qt.black)
 
         _sequence = QTableWidgetItem('ffffffff')
-        _sequence.setFlags(self.flags())
+        _sequence.setFlags(UShared.flags())
         _sequence.setForeground(QtCore.Qt.black)
 
         self.setItem(_r, 0, QTableWidgetItem(_value))

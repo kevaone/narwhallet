@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.models.wallet import MWallet
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class animation_label(QLabel):
     def __init__(self):
@@ -66,65 +67,65 @@ class _wallets_table(QTableWidget):
         self.horizontalHeaderItem(9).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
 
-    @staticmethod
-    def _create_table_item_graphic(pic: int):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
+    # @staticmethod
+    # def _create_table_item_graphic(pic: int):
+    #     _al_center = QtCore.Qt.AlignCenter
+    #     _transm_st = QtCore.Qt.SmoothTransformation
 
-        _vpic = QLabel()
+    #     _vpic = QLabel()
 
-        if pic == 0:
-            _p = QPixmap(MShared.get_resource_path('keva-logo.png'))
-        elif pic == 1:
-            _p = QPixmap(MShared.get_resource_path('star.png'))
-            _vpic.setToolTip('Read-Only Wallet')
-        elif pic == 2:
-            _p = QPixmap(MShared.get_resource_path('medal2.png'))
-        elif pic == 3:
-            _p = QPixmap(MShared.get_resource_path('locked.png'))
-            _vpic.setToolTip('Wallet is Locked')
-        elif pic == 4:
-            _p = QPixmap(MShared.get_resource_path('unlocked.png'))
-            _vpic.setToolTip('Wallet is Unlocked')
+    #     if pic == 0:
+    #         _p = QPixmap(MShared.get_resource_path('keva-logo.png'))
+    #     elif pic == 1:
+    #         _p = QPixmap(MShared.get_resource_path('star.png'))
+    #         _vpic.setToolTip('Read-Only Wallet')
+    #     elif pic == 2:
+    #         _p = QPixmap(MShared.get_resource_path('medal2.png'))
+    #     elif pic == 3:
+    #         _p = QPixmap(MShared.get_resource_path('locked.png'))
+    #         _vpic.setToolTip('Wallet is Locked')
+    #     elif pic == 4:
+    #         _p = QPixmap(MShared.get_resource_path('unlocked.png'))
+    #         _vpic.setToolTip('Wallet is Unlocked')
 
-        _p = _p.scaledToWidth(20, _transm_st)
+    #     _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic.setPixmap(_p)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
-        return _vpic
+    #     _vpic.setPixmap(_p)
+    #     _vpic.setAlignment(_al_center)
+    #     _vpic.setContentsMargins(0, 0, 0, 0)
+    #     _vpic.setProperty('class', 'tblImg')
+    #     return _vpic
 
-    @staticmethod
-    def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+    # @staticmethod
+    # def flags():
+    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
     def add_wallet(self, wallet_data: dict):
         self.setSortingEnabled(False)
         _r = self.rowCount()
         self.insertRow(_r)
 
-        _vpic = self._create_table_item_graphic(0)
+        _vpic = UShared._create_table_item_graphic(0)
 
         _coin = QTableWidgetItem(wallet_data['coin'])
-        _coin.setFlags(self.flags())
+        _coin.setFlags(UShared.flags())
         _coin.setForeground(QtCore.Qt.black)
 
         _name = QTableWidgetItem(wallet_data['name'])
-        _name.setFlags(self.flags())
+        _name.setFlags(UShared.flags())
         _name.setForeground(QtCore.Qt.black)
 
         _wtype = QTableWidgetItem('')
-        _wtype.setFlags(self.flags())
+        _wtype.setFlags(UShared.flags())
         _wtype.setForeground(QtCore.Qt.black)
 
         if wallet_data['kind'] != 0:
             if wallet_data['kind'] == 1:
-                _kvpic = self._create_table_item_graphic(1)
+                _kvpic = UShared._create_table_item_graphic(4)
             elif wallet_data['kind'] == 2:
-                _kvpic = self._create_table_item_graphic(2)
+                _kvpic = UShared._create_table_item_graphic(2)
             elif wallet_data['kind'] == 3:
-                _kvpic = self._create_table_item_graphic(1)
+                _kvpic = UShared._create_table_item_graphic(4)
         else:
             _kvpic = QLabel()
             _kvpic.setContentsMargins(0, 0, 0, 0)
@@ -133,18 +134,18 @@ class _wallets_table(QTableWidget):
         _bal = wallet_data['balance'] - wallet_data['bid_balance']
         wallet_data['balance'] = round(_bal, 8)
         _balance = QTableWidgetItem(str(wallet_data['balance']))
-        _balance.setFlags(self.flags())
+        _balance.setFlags(UShared.flags())
         _balance.setForeground(QtCore.Qt.black)
 
         wallet_data['bid_balance'] = round(wallet_data['bid_balance'], 8)
         _bid_balance = QTableWidgetItem(str(wallet_data['bid_balance']))
-        _bid_balance.setFlags(self.flags())
+        _bid_balance.setFlags(UShared.flags())
         _bid_balance.setForeground(QtCore.Qt.black)
 
         if wallet_data['locked'] is True:
-            _lvpic = self._create_table_item_graphic(3)
+            _lvpic = UShared._create_table_item_graphic(6)
         else:
-            _lvpic = self._create_table_item_graphic(4)
+            _lvpic = UShared._create_table_item_graphic(7)
 
         # if wallet_data['state_lock'] != 0:
         #    _lvpic.setPixmap(_lpic)
@@ -156,11 +157,11 @@ class _wallets_table(QTableWidget):
                 _upd = MShared.get_timestamp(wallet_data['last_updated'])[1]
 
         _updated = QTableWidgetItem(_upd)
-        _updated.setFlags(self.flags())
+        _updated.setFlags(UShared.flags())
         _updated.setForeground(QtCore.Qt.black)
 
         _synch = QTableWidgetItem('')
-        _synch.setFlags(self.flags())
+        _synch.setFlags(UShared.flags())
         _synch.setForeground(QtCore.Qt.black)
 
         self._vupic = animation_label()
@@ -181,15 +182,17 @@ class _wallets_table(QTableWidget):
 
     def update_wallet(self, _w: MWallet, row: int):
         if _w.locked is True:
-            _lvpic = self._create_table_item_graphic(3)
+            _lvpic = UShared._create_table_item_graphic(6)
         else:
-            _lvpic = self._create_table_item_graphic(4)
+            _lvpic = UShared._create_table_item_graphic(7)
 
         if _w.kind != 0 and _w.kind is not None:
             if _w.kind == 1:
-                _kvpic = self._create_table_item_graphic(1)
+                _kvpic = UShared._create_table_item_graphic(4)
             elif _w.kind == 2:
-                _kvpic = self._create_table_item_graphic(2)
+                _kvpic = UShared._create_table_item_graphic(2)
+            elif _w.kind == 3:
+                _kvpic = UShared._create_table_item_graphic(4)
         else:
             _kvpic = QLabel()
             _kvpic.setContentsMargins(0, 0, 0, 0)

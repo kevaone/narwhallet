@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class _wallets_addr_tbl(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -34,12 +35,12 @@ class _wallets_addr_tbl(QTableWidget):
             else:
                 _ret = str(address_data[val])
             if ret_str is False:
-                _return = self._create_table_item(_ret)
+                _return = UShared._create_table_item(_ret)
             else:
                 _return = _ret
         else:
             if ret_str is False:
-                _return = self._create_table_item(str(default))
+                _return = UShared._create_table_item(str(default))
             else:
                 _return = str(default)
         return _return
@@ -66,49 +67,49 @@ class _wallets_addr_tbl(QTableWidget):
         self.resizeColumnsToContents()
         self.setColumnWidth(0, 20)
 
-    @staticmethod
-    def flags():
-        return (QtCore.Qt.ItemIsSelectable |
-                QtCore.Qt.ItemIsEditable |
-                QtCore.Qt.ItemIsDragEnabled)
+    # @staticmethod
+    # def flags():
+    #     return (QtCore.Qt.ItemIsSelectable |
+    #             QtCore.Qt.ItemIsEditable |
+    #             QtCore.Qt.ItemIsDragEnabled)
 
-    @staticmethod
-    def _create_table_item(text):
-        if not isinstance(text, str):
-            text = str(text)
-        _item = QTableWidgetItem(text)
-        _item.setFlags(_wallets_addr_tbl.flags())
-        _item.setForeground(QtCore.Qt.black)
+    # @staticmethod
+    # def _create_table_item(text):
+    #     if not isinstance(text, str):
+    #         text = str(text)
+    #     _item = QTableWidgetItem(text)
+    #     _item.setFlags(_wallets_addr_tbl.flags())
+    #     _item.setForeground(QtCore.Qt.black)
 
-        return _item
+    #     return _item
 
-    @staticmethod
-    def _create_table_item_graphic(pic: int):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
+    # @staticmethod
+    # def _create_table_item_graphic(pic: int):
+    #     _al_center = QtCore.Qt.AlignCenter
+    #     _transm_st = QtCore.Qt.SmoothTransformation
 
-        _vpic = QLabel()
+    #     _vpic = QLabel()
 
-        if pic == 0:
-            _p = (QtGui.QPixmap(MShared.get_resource_path('information.png')))
-            _vpic.setToolTip('View Address Details')
-        elif pic == 1:
-            _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
-            _vpic.setToolTip('Copy Address to Clipboard')
-        _p = _p.scaledToWidth(20, _transm_st)
+    #     if pic == 0:
+    #         _p = (QtGui.QPixmap(MShared.get_resource_path('information.png')))
+    #         _vpic.setToolTip('View Address Details')
+    #     elif pic == 1:
+    #         _p = QtGui.QPixmap(MShared.get_resource_path('clipboard.png'))
+    #         _vpic.setToolTip('Copy Address to Clipboard')
+    #     _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic.setPixmap(_p)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
-        return _vpic
+    #     _vpic.setPixmap(_p)
+    #     _vpic.setAlignment(_al_center)
+    #     _vpic.setContentsMargins(0, 0, 0, 0)
+    #     _vpic.setProperty('class', 'tblImg')
+    #     return _vpic
 
     def add_address(self, idx: int, address_data: dict):
         if idx == self.rowCount():
             self.insertRow(idx)
-            _pic = self._create_table_item_graphic(0)
-            _bpic = self._create_table_item_graphic(1)
-            _address = self._create_table_item(address_data['address'])
+            _pic = UShared._create_table_item_graphic(1)
+            _bpic = UShared._create_table_item_graphic(2)
+            _address = UShared._create_table_item(address_data['address'])
             address_data['received'] = round(address_data['received'], 9)
             _received = self.test_param(address_data, 'received', '0.0')
             _af_ar = QtCore.Qt.AlignRight

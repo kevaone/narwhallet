@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class _electrumx_peers_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -34,19 +35,19 @@ class _electrumx_peers_table(QTableWidget):
         self.horizontalHeaderItem(9).setTextAlignment(4)
         self.horizontalHeader().setMinimumSectionSize(25)
 
-    @staticmethod
-    def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+    # @staticmethod
+    # def flags():
+    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
-    @staticmethod
-    def _create_table_item(text):
-        if not isinstance(text, str):
-            text = str(text)
-        _item = QTableWidgetItem(text)
-        _item.setFlags(_electrumx_peers_table.flags())
-        _item.setForeground(QtCore.Qt.black)
+    # @staticmethod
+    # def _create_table_item(text):
+    #     if not isinstance(text, str):
+    #         text = str(text)
+    #     _item = QTableWidgetItem(text)
+    #     _item.setFlags(_electrumx_peers_table.flags())
+    #     _item.setForeground(QtCore.Qt.black)
 
-        return _item
+    #     return _item
 
     def add_peer(self, coin, host, port, tls):
         _al_center = QtCore.Qt.AlignCenter
@@ -80,18 +81,18 @@ class _electrumx_peers_table(QTableWidget):
                 tls = 'False'
 
         self.setCellWidget(_r, 0, _vpic)
-        self.setItem(_r, 1, self._create_table_item(coin))
-        self.setItem(_r, 2, self._create_table_item(host))
-        self.setItem(_r, 3, self._create_table_item(port))
-        self.setItem(_r, 4, self._create_table_item('HTTP'))
-        self.setItem(_r, 5, self._create_table_item(tls))
-        self.setItem(_r, 6, self._create_table_item('0ms'))
-        self.setItem(_r, 7, self._create_table_item('disconnected'))
+        self.setItem(_r, 1, UShared._create_table_item(coin))
+        self.setItem(_r, 2, UShared._create_table_item(host))
+        self.setItem(_r, 3, UShared._create_table_item(port))
+        self.setItem(_r, 4, UShared._create_table_item('HTTP'))
+        self.setItem(_r, 5, UShared._create_table_item(tls))
+        self.setItem(_r, 6, UShared._create_table_item('0ms'))
+        self.setItem(_r, 7, UShared._create_table_item('disconnected'))
         self.setCellWidget(_r, 8, _dellabel)
         self.resizeColumnsToContents()
 
     def update_peer_status(self, row: int, status: str):
-        self.setItem(row, 7, self._create_table_item(status))
+        self.setItem(row, 7, UShared._create_table_item(status))
         self.resizeColumnsToContents()
 
     def update_active(self, active_row: int):

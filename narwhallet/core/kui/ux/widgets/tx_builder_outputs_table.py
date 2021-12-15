@@ -1,6 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class _tx_builder_outputs_table(QTableWidget):
     def __init__(self, _parent: QWidget):
@@ -26,11 +27,11 @@ class _tx_builder_outputs_table(QTableWidget):
             self.removeRow(_m)
             _m = _m - 1
 
-    @staticmethod
-    def flags():
-        return (QtCore.Qt.ItemIsSelectable |
-                QtCore.Qt.ItemIsEditable |
-                QtCore.Qt.ItemIsDragEnabled)
+    # @staticmethod
+    # def flags():
+    #     return (QtCore.Qt.ItemIsSelectable |
+    #             QtCore.Qt.ItemIsEditable |
+    #             QtCore.Qt.ItemIsDragEnabled)
 
     def add_output(self, value: float, address: str, script: str):
         _r = self.rowCount()
@@ -41,11 +42,11 @@ class _tx_builder_outputs_table(QTableWidget):
         _value.setForeground(QtCore.Qt.black)
 
         _address = QTableWidgetItem(address)
-        _address.setFlags(self.flags())
+        _address.setFlags(UShared.flags())
         _address.setForeground(QtCore.Qt.black)
 
         _script = QTableWidgetItem(script)
-        _script.setFlags(self.flags())
+        _script.setFlags(UShared.flags())
         _script.setForeground(QtCore.Qt.black)
 
         self.setItem(_r, 0, QTableWidgetItem(_value))

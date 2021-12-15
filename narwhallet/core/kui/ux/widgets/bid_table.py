@@ -2,6 +2,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
 
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class _bid_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -31,44 +32,44 @@ class _bid_table(QTableWidget):
         self.setColumnHidden(5, True)
         self.setColumnHidden(6, True)
 
-    @staticmethod
-    def flags():
-        return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+    # @staticmethod
+    # def flags():
+    #     return QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
 
-    @staticmethod
-    def _create_table_item(text):
-        if not isinstance(text, str):
-            text = str(text)
-        _item = QTableWidgetItem(text)
-        _item.setFlags(_bid_table.flags())
-        _item.setForeground(QtCore.Qt.black)
+    # @staticmethod
+    # def _create_table_item(text):
+    #     if not isinstance(text, str):
+    #         text = str(text)
+    #     _item = QTableWidgetItem(text)
+    #     _item.setFlags(_bid_table.flags())
+    #     _item.setForeground(QtCore.Qt.black)
 
-        return _item
+    #     return _item
 
-    @staticmethod
-    def _create_table_item_graphic(pic: int):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
+    # @staticmethod
+    # def _create_table_item_graphic(pic: int):
+    #     _al_center = QtCore.Qt.AlignCenter
+    #     _transm_st = QtCore.Qt.SmoothTransformation
 
-        _vpic = QLabel()
+    #     _vpic = QLabel()
 
-        if pic == 0:
-            _p = QtGui.QPixmap(MShared.get_resource_path('keva-logo.png'))
-        elif pic == 1:
-            _p = QtGui.QPixmap(MShared.get_resource_path('checkmark.png'))
-            _vpic.setToolTip('Valid Bid')
-        elif pic == 2:
-            _p = (QtGui.QPixmap(MShared.get_resource_path('exclamation.png')))
-            _vpic.setToolTip('Invalid Bid')
-        elif pic == 3:
-            _p = QtGui.QPixmap(MShared.get_resource_path('medal2.png'))
-        _p = _p.scaledToWidth(20, _transm_st)
+    #     if pic == 0:
+    #         _p = QtGui.QPixmap(MShared.get_resource_path('keva-logo.png'))
+    #     elif pic == 1:
+    #         _p = QtGui.QPixmap(MShared.get_resource_path('checkmark.png'))
+    #         _vpic.setToolTip('Valid Bid')
+    #     elif pic == 2:
+    #         _p = (QtGui.QPixmap(MShared.get_resource_path('exclamation.png')))
+    #         _vpic.setToolTip('Invalid Bid')
+    #     elif pic == 3:
+    #         _p = QtGui.QPixmap(MShared.get_resource_path('medal2.png'))
+    #     _p = _p.scaledToWidth(20, _transm_st)
 
-        _vpic.setPixmap(_p)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
-        return _vpic
+    #     _vpic.setPixmap(_p)
+    #     _vpic.setAlignment(_al_center)
+    #     _vpic.setContentsMargins(0, 0, 0, 0)
+    #     _vpic.setProperty('class', 'tblImg')
+    #     return _vpic
 
     def set_row_color(self, row: int, color=QtCore.Qt.red):
         for _column in range(0, self.columnCount()-1):
@@ -101,21 +102,21 @@ class _bid_table(QTableWidget):
         _r = self.rowCount()
         self.insertRow(_r)
 
-        _coin = self._create_table_item_graphic(0)
+        _coin = UShared._create_table_item_graphic(0)
         if bid_data['valid'] is True:
-            _valid = self._create_table_item_graphic(1)
+            _valid = UShared._create_table_item_graphic(9)
         else:
-            _valid = self._create_table_item_graphic(2)
+            _valid = UShared._create_table_item_graphic(10)
 
-        _accept = self._create_table_item_graphic(3)
-        _date = (self._create_table_item(
+        _accept = UShared._create_table_item_graphic(5)
+        _date = (UShared._create_table_item(
             MShared.get_timestamp(bid_data['date'])[1]))
-        _shortcode = self._create_table_item(str(bid_data['shortcode']))
-        _bid = self._create_table_item(str(bid_data['bid']))
-        _empty_item = self._create_table_item('')
-        _empty_item2 = self._create_table_item('')
-        _empty_item3 = self._create_table_item('')
-        _bid_tx = self._create_table_item(bid_data['bid_tx'])
+        _shortcode = UShared._create_table_item(str(bid_data['shortcode']))
+        _bid = UShared._create_table_item(str(bid_data['bid']))
+        _empty_item = UShared._create_table_item('')
+        _empty_item2 = UShared._create_table_item('')
+        _empty_item3 = UShared._create_table_item('')
+        _bid_tx = UShared._create_table_item(bid_data['bid_tx'])
 
         self.setCellWidget(_r, 0, _coin)
         self.setItem(_r, 0, _empty_item)
