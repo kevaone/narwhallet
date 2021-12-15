@@ -1,7 +1,6 @@
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem
-
+from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.core.kui.ux.widgets.generator import UShared
+
 
 class _tx_builder_outputs_table(QTableWidget):
     def __init__(self, _parent: QWidget):
@@ -27,21 +26,10 @@ class _tx_builder_outputs_table(QTableWidget):
         self.insertRow(_r)
 
         _value = UShared.create_table_item(value)
-        # _value = QTableWidgetItem(str(value))
-        # # _value.setFlags(self.flags())
-        # _value.setForeground(QtCore.Qt.black)
-
         _address = UShared.create_table_item(address)
-        # _address = QTableWidgetItem(address)
-        # _address.setFlags(UShared.flags())
-        # _address.setForeground(QtCore.Qt.black)
-
         _script = UShared.create_table_item(script)
-        # _script = QTableWidgetItem(script)
-        # _script.setFlags(UShared.flags())
-        # _script.setForeground(QtCore.Qt.black)
 
-        self.setItem(_r, 0, QTableWidgetItem(_value))
-        self.setItem(_r, 1, QTableWidgetItem(_address))
-        self.setItem(_r, 2, QTableWidgetItem(_script))
+        self.setItem(_r, 0, _value)
+        self.setItem(_r, 1, _address)
+        self.setItem(_r, 2, _script)
         self.resizeColumnsToContents()

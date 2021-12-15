@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.control.shared import MShared
-
 from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
@@ -72,4 +71,3 @@ class _auctions_table(QTableWidget):
         self.setItem(_r, 6, _high_bid)
         self.setItem(_r, 8, _auc_ns)
         self.setItem(_r, 9, _auc_tx)
-        # self.setCellWidget(_r, 7, _dellabel)

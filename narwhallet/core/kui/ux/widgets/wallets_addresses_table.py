@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QTableWidget
-
 from narwhallet.core.kui.ux.widgets.generator import UShared
+
 
 class _wallets_addr_tbl(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):

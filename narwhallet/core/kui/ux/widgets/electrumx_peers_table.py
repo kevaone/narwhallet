@@ -1,8 +1,8 @@
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QWidget, QTableWidget, QLabel
 from narwhallet.control.shared import MShared
-
 from narwhallet.core.kui.ux.widgets.generator import UShared
+
 
 class _electrumx_peers_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):

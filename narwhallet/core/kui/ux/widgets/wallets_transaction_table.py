@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.control.shared import MShared
-
 from narwhallet.core.kui.ux.widgets.generator import UShared
+
 
 class _transaction_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -21,7 +21,6 @@ class _transaction_table(QTableWidget):
 
     def clear_row(self, row):
         self.setRowHidden(row, True)
-        # self.cellWidget(row, 0).setHidden(True) #.setCellWidget(_r, 0, _vpic)
         self.item(row, 1).setText('')
         self.item(row, 3).setText('')
         self.item(row, 4).setText('')
@@ -59,7 +58,7 @@ class _transaction_table(QTableWidget):
             _vpic = UShared.create_table_item_graphic(1)
             _date = (UShared.create_table_item(
                 MShared.get_timestamp(transaction_data['time'])[1]))
-            _amount = UShared.create_table_item(str(transaction_data['amount']))
+            _amount = UShared.create_table_item(transaction_data['amount'])
             _direction = UShared.create_table_item(transaction_data['<->'])
             _txid = UShared.create_table_item(transaction_data['txid'])
             self.setCellWidget(idx, 0, _vpic)

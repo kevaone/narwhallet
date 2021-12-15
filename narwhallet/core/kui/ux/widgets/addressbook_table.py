@@ -1,7 +1,6 @@
-from PyQt5 import QtCore
-from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem
-
+from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.core.kui.ux.widgets.generator import UShared
+
 
 class _address_book_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -20,13 +19,6 @@ class _address_book_table(QTableWidget):
         self.setColumnHidden(1, True)
         self.setColumnHidden(4, True)
         self.setColumnHidden(5, True)
-
-    # def test_param(self, book_address: dict, val: str, default: str):
-    #     if val in book_address:
-    #         _return = QTableWidgetItem(str(book_address[val]))
-    #     else:
-    #         _return = QTableWidgetItem(str(default))
-    #     return _return
 
     def add_bookaddresses(self, book_addresses: list):
         _m = self.rowCount()
@@ -50,40 +42,19 @@ class _address_book_table(QTableWidget):
         _bvpic = UShared.create_table_item_graphic(2)
 
         _coin = UShared.create_table_item(book_address['coin'])
-        # _coin = QTableWidgetItem(book_address['coin'])
-        # _coin.setFlags(UShared.flags())
-        # _coin.setForeground(QtCore.Qt.black)
-
         _name = UShared.create_table_item(book_address['name'])
-        # _name = QTableWidgetItem(book_address['name'])
-        # _name.setFlags(UShared.flags())
-        # _name.setForeground(QtCore.Qt.black)
-
         _address = UShared.create_table_item(book_address['address'])
-        # _address = QTableWidgetItem(book_address['address'])
-        # _address.setFlags(UShared.flags())
-        # _address.setForeground(QtCore.Qt.black)
         if 'sent' in book_address:
             _sent = UShared.create_table_item(book_address['sent'])
         else:
             _sent = UShared.create_table_item('0.0')
-        # _sent = self.test_param(book_address, 'sent', '0.0')
-        # _sent.setFlags(UShared.flags())
-        # _sent.setForeground(QtCore.Qt.black)
 
         if 'received' in book_address:
             _received = UShared.create_table_item(book_address['received'])
         else:
             _received = UShared.create_table_item('0.0')
-        # _received = self.test_param(book_address, 'received', '0.0')
-        # _received.setFlags(UShared.flags())
-        # _received.setForeground(QtCore.Qt.black)
 
         _label = UShared.create_table_item(book_address['label'])
-        # _label = QTableWidgetItem(book_address['label'])
-        # _label.setFlags(UShared.flags())
-        # _label.setForeground(QtCore.Qt.black)
-
         _dellabel = UShared.create_table_item_graphic(3)
 
         self.setCellWidget(_r, 0, _vpic)

@@ -1,8 +1,8 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.control.shared import MShared
-
 from narwhallet.core.kui.ux.widgets.generator import UShared
+
 
 class _bids_table(QTableWidget):
     def __init__(self, name: str, _parent: QWidget):
@@ -89,4 +89,3 @@ class _bids_table(QTableWidget):
         self.setItem(_r, 9, _empty_item2)
         self.setItem(_r, 10, _auc_ns)
         self.setItem(_r, 11, _auc_tx)
-        # self.setCellWidget(_r, 7, _dellabel)
