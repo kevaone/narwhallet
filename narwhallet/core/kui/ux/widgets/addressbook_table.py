@@ -22,11 +22,6 @@ class _address_book_table(QTableWidget):
 
     def add_bookaddresses(self, book_addresses: list):
         UShared.remove_table_rows(self)
-        # _m = self.rowCount()
-
-        # while _m > -1:
-        #     self.removeRow(_m)
-        #     _m = _m - 1
 
         for i in book_addresses:
             self.add_bookaddress(i)

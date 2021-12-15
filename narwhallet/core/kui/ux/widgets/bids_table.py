@@ -29,13 +29,6 @@ class _bids_table(QTableWidget):
         for _column in range(0, self.columnCount()-1):
             self.item(row, _column).setBackground(color)
 
-    # def clear_rows(self):
-    #     _m = self.rowCount()
-
-    #     while _m > -1:
-    #         self.removeRow(_m)
-    #         _m = _m - 1
-
     def add_bids(self, wallet: str, bids: list):
         self.setSortingEnabled(False)
         for bid in bids:

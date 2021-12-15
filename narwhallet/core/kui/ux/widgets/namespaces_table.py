@@ -22,13 +22,6 @@ class _namespaces_table(QTableWidget):
         # TODO Add settings control to show/hide address column
         self.setColumnHidden(6, True)
 
-    # def clear_rows(self):
-    #     _m = self.rowCount()
-
-    #     while _m > -1:
-    #         self.removeRow(_m)
-    #         _m = _m - 1
-
     def add_namespaces(self, wallet: str, namespaces: list):
         self.setSortingEnabled(False)
         for i in namespaces:

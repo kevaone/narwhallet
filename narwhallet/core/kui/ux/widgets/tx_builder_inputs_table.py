@@ -15,13 +15,6 @@ class _tx_builder_inputs_table(QTableWidget):
         UShared.set_table_columns(6, ['value', 'address', 'tx_hash',
                                       'n', 'script_sig', 'sequence'], self)
 
-    # def clear_rows(self):
-    #     _m = self.rowCount()
-
-    #     while _m > -1:
-    #         self.removeRow(_m)
-    #         _m = _m - 1
-
     def add_input(self, value: float, address: str, tx_hash: str, n: int,
                   script: str):
 

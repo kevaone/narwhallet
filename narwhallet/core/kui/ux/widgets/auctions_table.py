@@ -23,13 +23,6 @@ class _auctions_table(QTableWidget):
         self.setColumnHidden(8, True)
         self.setColumnHidden(9, True)
 
-    # def clear_rows(self):
-    #     _m = self.rowCount()
-
-    #     while _m > -1:
-    #         self.removeRow(_m)
-    #         _m = _m - 1
-
     def add_auctions(self, wallet: str, auctions: list):
         self.setSortingEnabled(False)
         for auction in auctions:

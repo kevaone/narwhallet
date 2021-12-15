@@ -35,20 +35,7 @@ class _wallets_addr_tbl(QTableWidget):
                 _return = str(default)
         return _return
 
-    # def clear_row(self, row):
-    #     self.setRowHidden(row, True)
-    #     self.item(row, 1).setText('')
-    #     self.item(row, 2).setText('')
-    #     self.item(row, 3).setText('')
-    #     self.item(row, 4).setText('')
-    #     self.item(row, 5).setText('')
-
-    # def clear_rows(self):
-    #     for i in range(0, self.rowCount()):
-    #         self.clear_row(i)
-
     def add_addresses(self, addresses_data: list):
-        #for i in range(0, self.rowCount()):
         UShared.clear_table_rows(self)
 
         for c, dat in enumerate(addresses_data):
