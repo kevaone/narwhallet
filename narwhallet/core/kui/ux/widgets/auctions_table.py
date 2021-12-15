@@ -52,16 +52,16 @@ class _auctions_table(QTableWidget):
         _r = self.rowCount()
         self.insertRow(_r)
 
-        _coin = UShared._create_table_item_graphic(0)
-        _date = (UShared._create_table_item(
+        _coin = UShared.create_table_item_graphic(0)
+        _date = (UShared.create_table_item(
             MShared.get_timestamp(auction_data['date'])[1]))
-        _wallet = UShared._create_table_item(auction_data['wallet'])
-        _shortcode = UShared._create_table_item(str(auction_data['shortcode']))
-        _asking = UShared._create_table_item(str(auction_data['asking']))
-        _bids = UShared._create_table_item(auction_data['bids'])
-        _high_bid = UShared._create_table_item(auction_data['high_bid'])
-        _auc_ns = UShared._create_table_item(auction_data['ns'])
-        _auc_tx = UShared._create_table_item(auction_data['tx'])
+        _wallet = UShared.create_table_item(auction_data['wallet'])
+        _shortcode = UShared.create_table_item(auction_data['shortcode'])
+        _asking = UShared.create_table_item(auction_data['asking'])
+        _bids = UShared.create_table_item(auction_data['bids'])
+        _high_bid = UShared.create_table_item(auction_data['high_bid'])
+        _auc_ns = UShared.create_table_item(auction_data['ns'])
+        _auc_tx = UShared.create_table_item(auction_data['tx'])
 
         self.setCellWidget(_r, 0, _coin)
         self.setItem(_r, 1, _date)

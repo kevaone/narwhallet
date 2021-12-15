@@ -56,12 +56,12 @@ class _transaction_table(QTableWidget):
     def _add_transaction(self, idx: int, transaction_data: dict):
         if idx == self.rowCount():
             self.insertRow(idx)
-            _vpic = UShared._create_table_item_graphic(1)
-            _date = (UShared._create_table_item(
+            _vpic = UShared.create_table_item_graphic(1)
+            _date = (UShared.create_table_item(
                 MShared.get_timestamp(transaction_data['time'])[1]))
-            _amount = UShared._create_table_item(str(transaction_data['amount']))
-            _direction = UShared._create_table_item(transaction_data['<->'])
-            _txid = UShared._create_table_item(transaction_data['txid'])
+            _amount = UShared.create_table_item(str(transaction_data['amount']))
+            _direction = UShared.create_table_item(transaction_data['<->'])
+            _txid = UShared.create_table_item(transaction_data['txid'])
             self.setCellWidget(idx, 0, _vpic)
             self.setItem(idx, 1, _date)
             self.setItem(idx, 3, _amount)

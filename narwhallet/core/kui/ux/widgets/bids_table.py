@@ -59,22 +59,22 @@ class _bids_table(QTableWidget):
         _r = self.rowCount()
         self.insertRow(_r)
 
-        _coin = UShared._create_table_item_graphic(0)
-        _date = (UShared._create_table_item(
+        _coin = UShared.create_table_item_graphic(0)
+        _date = (UShared.create_table_item(
             MShared.get_timestamp(bid_data['date'])[1]))
-        _wallet = UShared._create_table_item(bid_data['wallet'])
-        _from_shortcode = (UShared._create_table_item(
+        _wallet = UShared.create_table_item(bid_data['wallet'])
+        _from_shortcode = (UShared.create_table_item(
             str(bid_data['from_shortcode'])))
-        _to_shortcode = UShared._create_table_item(str(bid_data['to_shortcode']))
-        _asking = UShared._create_table_item(str(bid_data['asking']))
-        _high_bid = UShared._create_table_item(str(bid_data['high_bid']))
-        _your_bid = UShared._create_table_item(str(bid_data['your_bid']))
-        _is_high_bid = (UShared._create_table_item(
+        _to_shortcode = UShared.create_table_item(bid_data['to_shortcode'])
+        _asking = UShared.create_table_item(bid_data['asking'])
+        _high_bid = UShared.create_table_item(bid_data['high_bid'])
+        _your_bid = UShared.create_table_item(bid_data['your_bid'])
+        _is_high_bid = (UShared.create_table_item(
             str(bid_data['your_bid'] >= bid_data['high_bid'])))
-        _auc_ns = UShared._create_table_item(str(bid_data['ns']))
-        _auc_tx = UShared._create_table_item(str(bid_data['tx']))
-        _empty_item = UShared._create_table_item('')
-        _empty_item2 = UShared._create_table_item('')
+        _auc_ns = UShared.create_table_item(bid_data['ns'])
+        _auc_tx = UShared.create_table_item(bid_data['tx'])
+        _empty_item = UShared.create_table_item('')
+        _empty_item2 = UShared.create_table_item('')
 
         self.setCellWidget(_r, 0, _coin)
         self.setItem(_r, 0, _empty_item)

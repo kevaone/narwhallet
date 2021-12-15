@@ -15,7 +15,7 @@ class UShared():
         table.horizontalHeader().setMinimumSectionSize(5)
 
     @staticmethod
-    def _create_table_item_graphic(pic: int):
+    def create_table_item_graphic(pic: int):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
@@ -70,7 +70,7 @@ class UShared():
         #         QtCore.Qt.ItemIsDragEnabled)
 
     @staticmethod
-    def _create_table_item(text):
+    def create_table_item(text):
         if not isinstance(text, str):
             text = str(text)
         _item = QTableWidgetItem(text)

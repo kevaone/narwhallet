@@ -60,27 +60,30 @@ class _wallets_table(QTableWidget):
         _r = self.rowCount()
         self.insertRow(_r)
 
-        _vpic = UShared._create_table_item_graphic(0)
+        _vpic = UShared.create_table_item_graphic(0)
 
-        _coin = QTableWidgetItem(wallet_data['coin'])
-        _coin.setFlags(UShared.flags())
-        _coin.setForeground(QtCore.Qt.black)
+        _coin = UShared.create_table_item(wallet_data['coin'])
+        # _coin = QTableWidgetItem(wallet_data['coin'])
+        # _coin.setFlags(UShared.flags())
+        # _coin.setForeground(QtCore.Qt.black)
 
-        _name = QTableWidgetItem(wallet_data['name'])
-        _name.setFlags(UShared.flags())
-        _name.setForeground(QtCore.Qt.black)
+        _name = UShared.create_table_item(wallet_data['name'])
+        # _name = QTableWidgetItem(wallet_data['name'])
+        # _name.setFlags(UShared.flags())
+        # _name.setForeground(QtCore.Qt.black)
 
-        _wtype = QTableWidgetItem('')
-        _wtype.setFlags(UShared.flags())
-        _wtype.setForeground(QtCore.Qt.black)
+        _wtype = UShared.create_table_item('')
+        # _wtype = QTableWidgetItem('')
+        # _wtype.setFlags(UShared.flags())
+        # _wtype.setForeground(QtCore.Qt.black)
 
         if wallet_data['kind'] != 0:
             if wallet_data['kind'] == 1:
-                _kvpic = UShared._create_table_item_graphic(4)
+                _kvpic = UShared.create_table_item_graphic(4)
             elif wallet_data['kind'] == 2:
-                _kvpic = UShared._create_table_item_graphic(2)
+                _kvpic = UShared.create_table_item_graphic(2)
             elif wallet_data['kind'] == 3:
-                _kvpic = UShared._create_table_item_graphic(4)
+                _kvpic = UShared.create_table_item_graphic(4)
         else:
             _kvpic = QLabel()
             _kvpic.setContentsMargins(0, 0, 0, 0)
@@ -88,19 +91,21 @@ class _wallets_table(QTableWidget):
 
         _bal = wallet_data['balance'] - wallet_data['bid_balance']
         wallet_data['balance'] = round(_bal, 8)
-        _balance = QTableWidgetItem(str(wallet_data['balance']))
-        _balance.setFlags(UShared.flags())
-        _balance.setForeground(QtCore.Qt.black)
+        _balance = UShared.create_table_item(wallet_data['balance'])
+        # _balance = QTableWidgetItem(str(wallet_data['balance']))
+        # _balance.setFlags(UShared.flags())
+        # _balance.setForeground(QtCore.Qt.black)
 
         wallet_data['bid_balance'] = round(wallet_data['bid_balance'], 8)
-        _bid_balance = QTableWidgetItem(str(wallet_data['bid_balance']))
-        _bid_balance.setFlags(UShared.flags())
-        _bid_balance.setForeground(QtCore.Qt.black)
+        _bid_balance = UShared.create_table_item(wallet_data['bid_balance'])
+        # _bid_balance = QTableWidgetItem(str(wallet_data['bid_balance']))
+        # _bid_balance.setFlags(UShared.flags())
+        # _bid_balance.setForeground(QtCore.Qt.black)
 
         if wallet_data['locked'] is True:
-            _lvpic = UShared._create_table_item_graphic(6)
+            _lvpic = UShared.create_table_item_graphic(6)
         else:
-            _lvpic = UShared._create_table_item_graphic(7)
+            _lvpic = UShared.create_table_item_graphic(7)
 
         # if wallet_data['state_lock'] != 0:
         #    _lvpic.setPixmap(_lpic)
@@ -111,13 +116,15 @@ class _wallets_table(QTableWidget):
             if wallet_data['last_updated'] is not None:
                 _upd = MShared.get_timestamp(wallet_data['last_updated'])[1]
 
-        _updated = QTableWidgetItem(_upd)
-        _updated.setFlags(UShared.flags())
-        _updated.setForeground(QtCore.Qt.black)
+        _updated = UShared.create_table_item(_upd)
+        # _updated = QTableWidgetItem(_upd)
+        # _updated.setFlags(UShared.flags())
+        # _updated.setForeground(QtCore.Qt.black)
 
-        _synch = QTableWidgetItem('')
-        _synch.setFlags(UShared.flags())
-        _synch.setForeground(QtCore.Qt.black)
+        _synch = UShared.create_table_item('')
+        # _synch = QTableWidgetItem('')
+        # _synch.setFlags(UShared.flags())
+        # _synch.setForeground(QtCore.Qt.black)
 
         self._vupic = animation_label()
 
@@ -137,17 +144,17 @@ class _wallets_table(QTableWidget):
 
     def update_wallet(self, _w: MWallet, row: int):
         if _w.locked is True:
-            _lvpic = UShared._create_table_item_graphic(6)
+            _lvpic = UShared.create_table_item_graphic(6)
         else:
-            _lvpic = UShared._create_table_item_graphic(7)
+            _lvpic = UShared.create_table_item_graphic(7)
 
         if _w.kind != 0 and _w.kind is not None:
             if _w.kind == 1:
-                _kvpic = UShared._create_table_item_graphic(4)
+                _kvpic = UShared.create_table_item_graphic(4)
             elif _w.kind == 2:
-                _kvpic = UShared._create_table_item_graphic(2)
+                _kvpic = UShared.create_table_item_graphic(2)
             elif _w.kind == 3:
-                _kvpic = UShared._create_table_item_graphic(4)
+                _kvpic = UShared.create_table_item_graphic(4)
         else:
             _kvpic = QLabel()
             _kvpic.setContentsMargins(0, 0, 0, 0)

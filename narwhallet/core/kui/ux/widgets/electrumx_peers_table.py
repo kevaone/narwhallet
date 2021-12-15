@@ -56,18 +56,18 @@ class _electrumx_peers_table(QTableWidget):
                 tls = 'False'
 
         self.setCellWidget(_r, 0, _vpic)
-        self.setItem(_r, 1, UShared._create_table_item(coin))
-        self.setItem(_r, 2, UShared._create_table_item(host))
-        self.setItem(_r, 3, UShared._create_table_item(port))
-        self.setItem(_r, 4, UShared._create_table_item('HTTP'))
-        self.setItem(_r, 5, UShared._create_table_item(tls))
-        self.setItem(_r, 6, UShared._create_table_item('0ms'))
-        self.setItem(_r, 7, UShared._create_table_item('disconnected'))
+        self.setItem(_r, 1, UShared.create_table_item(coin))
+        self.setItem(_r, 2, UShared.create_table_item(host))
+        self.setItem(_r, 3, UShared.create_table_item(port))
+        self.setItem(_r, 4, UShared.create_table_item('HTTP'))
+        self.setItem(_r, 5, UShared.create_table_item(tls))
+        self.setItem(_r, 6, UShared.create_table_item('0ms'))
+        self.setItem(_r, 7, UShared.create_table_item('disconnected'))
         self.setCellWidget(_r, 8, _dellabel)
         self.resizeColumnsToContents()
 
     def update_peer_status(self, row: int, status: str):
-        self.setItem(row, 7, UShared._create_table_item(status))
+        self.setItem(row, 7, UShared.create_table_item(status))
         self.resizeColumnsToContents()
 
     def update_active(self, active_row: int):

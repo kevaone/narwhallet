@@ -55,21 +55,21 @@ class _bid_table(QTableWidget):
         _r = self.rowCount()
         self.insertRow(_r)
 
-        _coin = UShared._create_table_item_graphic(0)
+        _coin = UShared.create_table_item_graphic(0)
         if bid_data['valid'] is True:
-            _valid = UShared._create_table_item_graphic(9)
+            _valid = UShared.create_table_item_graphic(9)
         else:
-            _valid = UShared._create_table_item_graphic(10)
+            _valid = UShared.create_table_item_graphic(10)
 
-        _accept = UShared._create_table_item_graphic(5)
-        _date = (UShared._create_table_item(
+        _accept = UShared.create_table_item_graphic(5)
+        _date = (UShared.create_table_item(
             MShared.get_timestamp(bid_data['date'])[1]))
-        _shortcode = UShared._create_table_item(str(bid_data['shortcode']))
-        _bid = UShared._create_table_item(str(bid_data['bid']))
-        _empty_item = UShared._create_table_item('')
-        _empty_item2 = UShared._create_table_item('')
-        _empty_item3 = UShared._create_table_item('')
-        _bid_tx = UShared._create_table_item(bid_data['bid_tx'])
+        _shortcode = UShared.create_table_item(bid_data['shortcode'])
+        _bid = UShared.create_table_item(bid_data['bid'])
+        _empty_item = UShared.create_table_item('')
+        _empty_item2 = UShared.create_table_item('')
+        _empty_item3 = UShared.create_table_item('')
+        _bid_tx = UShared.create_table_item(bid_data['bid_tx'])
 
         self.setCellWidget(_r, 0, _coin)
         self.setItem(_r, 0, _empty_item)
