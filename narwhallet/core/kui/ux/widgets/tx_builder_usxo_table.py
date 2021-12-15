@@ -13,17 +13,19 @@ class _tx_builder_usxo_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(7)
-        self.setHorizontalHeaderLabels(['wallet', 'address', '', 'value',
-                                        'pos', 'tx_hash', 'height'])
-        self.horizontalHeaderItem(0).setTextAlignment(4)
-        self.horizontalHeaderItem(1).setTextAlignment(4)
-        self.horizontalHeaderItem(2).setTextAlignment(4)
-        self.horizontalHeaderItem(3).setTextAlignment(4)
-        self.horizontalHeaderItem(4).setTextAlignment(4)
-        self.horizontalHeaderItem(5).setTextAlignment(4)
-        self.horizontalHeaderItem(6).setTextAlignment(4)
-        self.horizontalHeader().setMinimumSectionSize(25)
+        UShared.set_table_columns(7, ['wallet', 'address', '', 'value',
+                                        'pos', 'tx_hash', 'height'], self)
+        # self.setColumnCount(7)
+        # self.setHorizontalHeaderLabels(['wallet', 'address', '', 'value',
+        #                                 'pos', 'tx_hash', 'height'])
+        # self.horizontalHeaderItem(0).setTextAlignment(4)
+        # self.horizontalHeaderItem(1).setTextAlignment(4)
+        # self.horizontalHeaderItem(2).setTextAlignment(4)
+        # self.horizontalHeaderItem(3).setTextAlignment(4)
+        # self.horizontalHeaderItem(4).setTextAlignment(4)
+        # self.horizontalHeaderItem(5).setTextAlignment(4)
+        # self.horizontalHeaderItem(6).setTextAlignment(4)
+        # self.horizontalHeader().setMinimumSectionSize(25)
 
         self.setColumnHidden(2, True)
 

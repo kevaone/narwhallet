@@ -1,3 +1,4 @@
+from typing import List
 from PyQt5 import QtCore
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import QWidget, QTableWidget, QTableWidgetItem, QLabel
@@ -5,6 +6,14 @@ from narwhallet.control.shared import MShared
 
 
 class UShared():
+    @staticmethod
+    def set_table_columns(columns, headers: List[str], table: QTableWidget):
+        table.setColumnCount(columns)
+        table.setHorizontalHeaderLabels(headers)
+        for c in range(0, columns):
+            table.horizontalHeaderItem(c).setTextAlignment(4)
+        table.horizontalHeader().setMinimumSectionSize(5)
+
     @staticmethod
     def _create_table_item_graphic(pic: int):
         _al_center = QtCore.Qt.AlignCenter

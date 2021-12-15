@@ -13,12 +13,13 @@ class _tx_builder_outputs_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(3)
-        self.setHorizontalHeaderLabels(['Value', 'Address', 'Script'])
-        self.horizontalHeaderItem(0).setTextAlignment(4)
-        self.horizontalHeaderItem(1).setTextAlignment(4)
-        self.horizontalHeaderItem(2).setTextAlignment(4)
-        self.horizontalHeader().setMinimumSectionSize(25)
+        UShared.set_table_columns(3, ['Value', 'Address', 'Script'], self)
+        # self.setColumnCount(3)
+        # self.setHorizontalHeaderLabels(['Value', 'Address', 'Script'])
+        # self.horizontalHeaderItem(0).setTextAlignment(4)
+        # self.horizontalHeaderItem(1).setTextAlignment(4)
+        # self.horizontalHeaderItem(2).setTextAlignment(4)
+        # self.horizontalHeader().setMinimumSectionSize(25)
 
     def clear_rows(self):
         _m = self.rowCount()

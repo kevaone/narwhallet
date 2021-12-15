@@ -15,22 +15,24 @@ class _address_book_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(9)
-        self.setHorizontalHeaderLabels(['', 'Coin', 'Name', 'Address', 'Sent',
-                                        'Received', 'Label', '', ''])
-        self.horizontalHeaderItem(0).setTextAlignment(4)
-        self.horizontalHeaderItem(1).setTextAlignment(4)
+        UShared.set_table_columns(9, ['', 'Coin', 'Name', 'Address', 'Sent',
+                                      'Received', 'Label', '', ''], self)
+        # self.setColumnCount(9)
+        # self.setHorizontalHeaderLabels(['', 'Coin', 'Name', 'Address', 'Sent',
+        #                                 'Received', 'Label', '', ''])
+        # self.horizontalHeaderItem(0).setTextAlignment(4)
+        # self.horizontalHeaderItem(1).setTextAlignment(4)
         self.setColumnHidden(1, True)
-        self.horizontalHeaderItem(2).setTextAlignment(4)
-        self.horizontalHeaderItem(3).setTextAlignment(4)
-        self.horizontalHeaderItem(4).setTextAlignment(4)
+        # self.horizontalHeaderItem(2).setTextAlignment(4)
+        # self.horizontalHeaderItem(3).setTextAlignment(4)
+        # self.horizontalHeaderItem(4).setTextAlignment(4)
         self.setColumnHidden(4, True)
-        self.horizontalHeaderItem(5).setTextAlignment(4)
+        # self.horizontalHeaderItem(5).setTextAlignment(4)
         self.setColumnHidden(5, True)
-        self.horizontalHeaderItem(6).setTextAlignment(4)
-        self.horizontalHeaderItem(7).setTextAlignment(4)
-        self.horizontalHeaderItem(8).setTextAlignment(4)
-        self.horizontalHeader().setMinimumSectionSize(5)
+        # self.horizontalHeaderItem(6).setTextAlignment(4)
+        # self.horizontalHeaderItem(7).setTextAlignment(4)
+        # self.horizontalHeaderItem(8).setTextAlignment(4)
+        # self.horizontalHeader().setMinimumSectionSize(5)
 
     def test_param(self, book_address: dict, val: str, default: str):
         if val in book_address:

@@ -16,20 +16,22 @@ class _ipfs_gateways_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(8)
-        self.setHorizontalHeaderLabels(['', 'Online', 'CORS', 'Origin',
-                                        'Host', 'Delay', '', 'Active'])
-        self.horizontalHeaderItem(0).setTextAlignment(4)
-        self.horizontalHeaderItem(1).setTextAlignment(4)
+        UShared.set_table_columns(8, ['', 'Online', 'CORS', 'Origin',
+                                        'Host', 'Delay', '', 'Active'], self)
+        # self.setColumnCount(8)
+        # self.setHorizontalHeaderLabels(['', 'Online', 'CORS', 'Origin',
+        #                                 'Host', 'Delay', '', 'Active'])
+        # self.horizontalHeaderItem(0).setTextAlignment(4)
+        # self.horizontalHeaderItem(1).setTextAlignment(4)
         self.setColumnHidden(1, True)
-        self.horizontalHeaderItem(2).setTextAlignment(4)
-        self.horizontalHeaderItem(3).setTextAlignment(4)
-        self.horizontalHeaderItem(4).setTextAlignment(4)
-        self.horizontalHeaderItem(5).setTextAlignment(4)
+        # self.horizontalHeaderItem(2).setTextAlignment(4)
+        # self.horizontalHeaderItem(3).setTextAlignment(4)
+        # self.horizontalHeaderItem(4).setTextAlignment(4)
+        # self.horizontalHeaderItem(5).setTextAlignment(4)
         self.setColumnHidden(5, True)
-        self.horizontalHeaderItem(6).setTextAlignment(4)
-        self.horizontalHeaderItem(7).setTextAlignment(4)
-        self.horizontalHeader().setMinimumSectionSize(25)
+        # self.horizontalHeaderItem(6).setTextAlignment(4)
+        # self.horizontalHeaderItem(7).setTextAlignment(4)
+        # self.horizontalHeader().setMinimumSectionSize(25)
 
     def add_gateway_from_list(self, gateway_data: list):
         _al_center = QtCore.Qt.AlignCenter

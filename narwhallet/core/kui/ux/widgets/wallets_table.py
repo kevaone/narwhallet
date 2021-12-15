@@ -49,23 +49,26 @@ class _wallets_table(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(10)
-        self.setHorizontalHeaderLabels(['', 'Locked', 'Coin', 'Name',
+        UShared.set_table_columns(10, ['', 'Locked', 'Coin', 'Name',
                                         'Type', 'Kind', 'Balance',
-                                        'Bid Locked', 'Last Updated', ''])
-        self.horizontalHeaderItem(0).setTextAlignment(4)
+                                        'Bid Locked', 'Last Updated', ''], self)
+        # self.setColumnCount(10)
+        # self.setHorizontalHeaderLabels(['', 'Locked', 'Coin', 'Name',
+        #                                 'Type', 'Kind', 'Balance',
+        #                                 'Bid Locked', 'Last Updated', ''])
+        # self.horizontalHeaderItem(0).setTextAlignment(4)
         self.setColumnHidden(2, True)
-        self.horizontalHeaderItem(1).setTextAlignment(4)
-        self.horizontalHeaderItem(2).setTextAlignment(4)
-        self.horizontalHeaderItem(3).setTextAlignment(4)
-        self.horizontalHeaderItem(4).setTextAlignment(4)
+        # self.horizontalHeaderItem(1).setTextAlignment(4)
+        # self.horizontalHeaderItem(2).setTextAlignment(4)
+        # self.horizontalHeaderItem(3).setTextAlignment(4)
+        # self.horizontalHeaderItem(4).setTextAlignment(4)
         self.setColumnHidden(4, True)
-        self.horizontalHeaderItem(5).setTextAlignment(4)
-        self.horizontalHeaderItem(6).setTextAlignment(4)
-        self.horizontalHeaderItem(7).setTextAlignment(4)
-        self.horizontalHeaderItem(8).setTextAlignment(4)
-        self.horizontalHeaderItem(9).setTextAlignment(4)
-        self.horizontalHeader().setMinimumSectionSize(25)
+        # self.horizontalHeaderItem(5).setTextAlignment(4)
+        # self.horizontalHeaderItem(6).setTextAlignment(4)
+        # self.horizontalHeaderItem(7).setTextAlignment(4)
+        # self.horizontalHeaderItem(8).setTextAlignment(4)
+        # self.horizontalHeaderItem(9).setTextAlignment(4)
+        # self.horizontalHeader().setMinimumSectionSize(25)
 
     def add_wallet(self, wallet_data: dict):
         self.setSortingEnabled(False)

@@ -14,17 +14,19 @@ class _wallets_addr_tbl(QTableWidget):
         self.build_columns()
 
     def build_columns(self):
-        self.setColumnCount(7)
-        self.setHorizontalHeaderLabels(['', 'Address', 'Received',
-                                        'Sent', 'Balance', 'Label', ''])
-        self.horizontalHeaderItem(0).setTextAlignment(4)
-        self.horizontalHeaderItem(1).setTextAlignment(4)
-        self.horizontalHeaderItem(2).setTextAlignment(4)
-        self.horizontalHeaderItem(3).setTextAlignment(4)
-        self.horizontalHeaderItem(4).setTextAlignment(4)
-        self.horizontalHeaderItem(5).setTextAlignment(4)
-        self.horizontalHeaderItem(6).setTextAlignment(4)
-        self.horizontalHeader().setMinimumSectionSize(25)
+        UShared.set_table_columns(7, ['', 'Address', 'Received',
+                                        'Sent', 'Balance', 'Label', ''], self)
+        # self.setColumnCount(7)
+        # self.setHorizontalHeaderLabels(['', 'Address', 'Received',
+        #                                 'Sent', 'Balance', 'Label', ''])
+        # self.horizontalHeaderItem(0).setTextAlignment(4)
+        # self.horizontalHeaderItem(1).setTextAlignment(4)
+        # self.horizontalHeaderItem(2).setTextAlignment(4)
+        # self.horizontalHeaderItem(3).setTextAlignment(4)
+        # self.horizontalHeaderItem(4).setTextAlignment(4)
+        # self.horizontalHeaderItem(5).setTextAlignment(4)
+        # self.horizontalHeaderItem(6).setTextAlignment(4)
+        # self.horizontalHeader().setMinimumSectionSize(25)
 
     def test_param(self, address_data: dict, val: str, default: str,
                    ret_str: bool = False):
