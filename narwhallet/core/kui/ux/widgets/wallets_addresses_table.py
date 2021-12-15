@@ -35,21 +35,21 @@ class _wallets_addr_tbl(QTableWidget):
                 _return = str(default)
         return _return
 
-    def clear_row(self, row):
-        self.setRowHidden(row, True)
-        self.item(row, 1).setText('')
-        self.item(row, 2).setText('')
-        self.item(row, 3).setText('')
-        self.item(row, 4).setText('')
-        self.item(row, 5).setText('')
+    # def clear_row(self, row):
+    #     self.setRowHidden(row, True)
+    #     self.item(row, 1).setText('')
+    #     self.item(row, 2).setText('')
+    #     self.item(row, 3).setText('')
+    #     self.item(row, 4).setText('')
+    #     self.item(row, 5).setText('')
 
-    def clear_rows(self):
-        for i in range(0, self.rowCount()):
-            self.clear_row(i)
+    # def clear_rows(self):
+    #     for i in range(0, self.rowCount()):
+    #         self.clear_row(i)
 
     def add_addresses(self, addresses_data: list):
-        for i in range(0, self.rowCount()):
-            self.clear_row(i)
+        #for i in range(0, self.rowCount()):
+        UShared.clear_table_rows(self)
 
         for c, dat in enumerate(addresses_data):
             self.add_address(c, dat)
@@ -77,12 +77,14 @@ class _wallets_addr_tbl(QTableWidget):
             _label = self.test_param(address_data, 'label', '')
 
             self.setCellWidget(idx, 0, _pic)
+            self.setItem(idx, 0, UShared.create_table_item(''))
             self.setItem(idx, 1, _address)
             self.setItem(idx, 2, _received)
             self.setItem(idx, 3, _sent)
             self.setItem(idx, 4, _balance)
             self.setItem(idx, 5, _label)
             self.setCellWidget(idx, 6, _bpic)
+            self.setItem(idx, 6, UShared.create_table_item(''))
         elif idx <= self.rowCount():
             address_data['received'] = round(address_data['received'], 9)
             address_data['sent'] = round(address_data['sent'], 9)

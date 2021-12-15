@@ -56,6 +56,7 @@ class _electrumx_peers_table(QTableWidget):
                 tls = 'False'
 
         self.setCellWidget(_r, 0, _vpic)
+        self.setItem(_r, 0, UShared.create_table_item(''))
         self.setItem(_r, 1, UShared.create_table_item(coin))
         self.setItem(_r, 2, UShared.create_table_item(host))
         self.setItem(_r, 3, UShared.create_table_item(port))
@@ -64,6 +65,7 @@ class _electrumx_peers_table(QTableWidget):
         self.setItem(_r, 6, UShared.create_table_item('0ms'))
         self.setItem(_r, 7, UShared.create_table_item('disconnected'))
         self.setCellWidget(_r, 8, _dellabel)
+        self.setItem(_r, 8, UShared.create_table_item(''))
         self.resizeColumnsToContents()
 
     def update_peer_status(self, row: int, status: str):

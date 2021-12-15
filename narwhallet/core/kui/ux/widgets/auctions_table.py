@@ -23,12 +23,12 @@ class _auctions_table(QTableWidget):
         self.setColumnHidden(8, True)
         self.setColumnHidden(9, True)
 
-    def clear_rows(self):
-        _m = self.rowCount()
+    # def clear_rows(self):
+    #     _m = self.rowCount()
 
-        while _m > -1:
-            self.removeRow(_m)
-            _m = _m - 1
+    #     while _m > -1:
+    #         self.removeRow(_m)
+    #         _m = _m - 1
 
     def add_auctions(self, wallet: str, auctions: list):
         self.setSortingEnabled(False)
@@ -63,6 +63,7 @@ class _auctions_table(QTableWidget):
         _auc_tx = UShared.create_table_item(auction_data['tx'])
 
         self.setCellWidget(_r, 0, _coin)
+        self.setItem(_r, 0, UShared.create_table_item(''))
         self.setItem(_r, 1, _date)
         self.setItem(_r, 2, _wallet)
         self.setItem(_r, 3, _shortcode)

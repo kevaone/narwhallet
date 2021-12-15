@@ -17,12 +17,12 @@ class _tx_builder_usxo_table(QTableWidget):
 
         self.setColumnHidden(2, True)
 
-    def clear_rows(self):
-        _m = self.rowCount()
+    # def clear_rows(self):
+    #     _m = self.rowCount()
 
-        while _m > -1:
-            self.removeRow(_m)
-            _m = _m - 1
+    #     while _m > -1:
+    #         self.removeRow(_m)
+    #         _m = _m - 1
 
     def add_usxo(self, wallet: str, usxo: list):
         for i in usxo:

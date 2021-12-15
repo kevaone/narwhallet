@@ -55,12 +55,15 @@ class _ipfs_gateways_table(QTableWidget):
         _dellabel.setProperty('class', 'tblImg')
 
         self.setCellWidget(_r, 0, _gvpic)
+        self.setItem(_r, 0, UShared.create_table_item(''))
         self.setCellWidget(_r, 1, _vpic)
+        self.setItem(_r, 1, UShared.create_table_item(''))
         self.setItem(_r, 2, UShared.create_table_item(gateway_data[0]))
         self.setItem(_r, 3, UShared.create_table_item(gateway_data[1]))
         self.setItem(_r, 4, UShared.create_table_item(gateway_data[2]))
         self.setItem(_r, 5, UShared.create_table_item('~ms'))
         self.setCellWidget(_r, 6, _dellabel)
+        self.setItem(_r, 6, UShared.create_table_item(''))
 
         self.resizeColumnsToContents()
 

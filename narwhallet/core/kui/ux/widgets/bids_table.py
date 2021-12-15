@@ -29,12 +29,12 @@ class _bids_table(QTableWidget):
         for _column in range(0, self.columnCount()-1):
             self.item(row, _column).setBackground(color)
 
-    def clear_rows(self):
-        _m = self.rowCount()
+    # def clear_rows(self):
+    #     _m = self.rowCount()
 
-        while _m > -1:
-            self.removeRow(_m)
-            _m = _m - 1
+    #     while _m > -1:
+    #         self.removeRow(_m)
+    #         _m = _m - 1
 
     def add_bids(self, wallet: str, bids: list):
         self.setSortingEnabled(False)
@@ -73,11 +73,9 @@ class _bids_table(QTableWidget):
             str(bid_data['your_bid'] >= bid_data['high_bid'])))
         _auc_ns = UShared.create_table_item(bid_data['ns'])
         _auc_tx = UShared.create_table_item(bid_data['tx'])
-        _empty_item = UShared.create_table_item('')
-        _empty_item2 = UShared.create_table_item('')
 
         self.setCellWidget(_r, 0, _coin)
-        self.setItem(_r, 0, _empty_item)
+        self.setItem(_r, 0, UShared.create_table_item(''))
         self.setItem(_r, 1, _date)
         self.setItem(_r, 2, _wallet)
         self.setItem(_r, 3, _from_shortcode)
@@ -86,6 +84,6 @@ class _bids_table(QTableWidget):
         self.setItem(_r, 6, _high_bid)
         self.setItem(_r, 7, _your_bid)
         self.setItem(_r, 8, _is_high_bid)
-        self.setItem(_r, 9, _empty_item2)
+        self.setItem(_r, 9, UShared.create_table_item(''))
         self.setItem(_r, 10, _auc_ns)
         self.setItem(_r, 11, _auc_tx)

@@ -19,20 +19,20 @@ class _transaction_table(QTableWidget):
         self.setColumnHidden(2, True)
         self.setColumnHidden(5, True)
 
-    def clear_row(self, row):
-        self.setRowHidden(row, True)
-        self.item(row, 1).setText('')
-        self.item(row, 3).setText('')
-        self.item(row, 4).setText('')
-        self.item(row, 5).setText('')
+    # def clear_row(self, row):
+    #     self.setRowHidden(row, True)
+    #     self.item(row, 1).setText('')
+    #     self.item(row, 3).setText('')
+    #     self.item(row, 4).setText('')
+    #     self.item(row, 5).setText('')
 
-    def clear_rows(self):
-        for i in range(0, self.rowCount()):
-            self.clear_row(i)
+    # def clear_rows(self):
+    #     for i in range(0, self.rowCount()):
+    #         self.clear_row(i)
 
     def add_transactions(self, transactions: list):
-        for i in range(0, self.rowCount()):
-            self.clear_row(i)
+        #for i in range(0, self.rowCount()):
+        UShared.clear_table_rows(self)
 
         for c, dat in enumerate(transactions):
             dat['amount'] = round(dat['amount'], 8)
@@ -62,7 +62,9 @@ class _transaction_table(QTableWidget):
             _direction = UShared.create_table_item(transaction_data['<->'])
             _txid = UShared.create_table_item(transaction_data['txid'])
             self.setCellWidget(idx, 0, _vpic)
+            self.setItem(idx, 0, UShared.create_table_item(''))
             self.setItem(idx, 1, _date)
+            self.setItem(idx, 2, UShared.create_table_item(''))
             self.setItem(idx, 3, _amount)
             self.setItem(idx, 4, _direction)
             self.setItem(idx, 5, _txid)

@@ -15,6 +15,25 @@ class UShared():
         table.horizontalHeader().setMinimumSectionSize(5)
 
     @staticmethod
+    def remove_table_rows(table: QTableWidget):
+        _m = table.rowCount()
+
+        while _m > -1:
+            table.removeRow(_m)
+            _m = _m - 1
+
+    @staticmethod
+    def clear_table_row(table: QTableWidget, row: int):
+        table.setRowHidden(row, True)
+        for c in range(0, table.columnCount()):
+            table.item(row, c).setText('')
+
+    @staticmethod
+    def clear_table_rows(table: QTableWidget):
+        for i in range(0, table.rowCount()):
+            UShared.clear_table_row(table, i)
+
+    @staticmethod
     def create_table_item_graphic(pic: int):
         _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation

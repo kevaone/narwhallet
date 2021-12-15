@@ -28,12 +28,12 @@ class _bid_table(QTableWidget):
         for _column in range(0, self.columnCount()-1):
             self.item(row, _column).setBackground(color)
 
-    def clear_rows(self):
-        _m = self.rowCount()
+    # def clear_rows(self):
+    #     _m = self.rowCount()
 
-        while _m > -1:
-            self.removeRow(_m)
-            _m = _m - 1
+    #     while _m > -1:
+    #         self.removeRow(_m)
+    #         _m = _m - 1
 
     def add_bids(self, bids: list):
         self.setSortingEnabled(False)
@@ -66,19 +66,16 @@ class _bid_table(QTableWidget):
             MShared.get_timestamp(bid_data['date'])[1]))
         _shortcode = UShared.create_table_item(bid_data['shortcode'])
         _bid = UShared.create_table_item(bid_data['bid'])
-        _empty_item = UShared.create_table_item('')
-        _empty_item2 = UShared.create_table_item('')
-        _empty_item3 = UShared.create_table_item('')
         _bid_tx = UShared.create_table_item(bid_data['bid_tx'])
 
         self.setCellWidget(_r, 0, _coin)
-        self.setItem(_r, 0, _empty_item)
+        self.setItem(_r, 0, UShared.create_table_item(''))
         self.setCellWidget(_r, 1, _valid)
-        self.setItem(_r, 1, _empty_item2)
+        self.setItem(_r, 1, UShared.create_table_item(''))
         self.setItem(_r, 2, _date)
         self.setItem(_r, 3, _shortcode)
         self.setItem(_r, 4, _bid)
-        self.setItem(_r, 5, _empty_item3)
+        self.setItem(_r, 5, UShared.create_table_item(''))
         if bid_data['valid'] is True:
             self.setCellWidget(_r, 5, _accept)
         self.setItem(_r, 6, _bid_tx)

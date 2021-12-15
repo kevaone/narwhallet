@@ -21,11 +21,12 @@ class _address_book_table(QTableWidget):
         self.setColumnHidden(5, True)
 
     def add_bookaddresses(self, book_addresses: list):
-        _m = self.rowCount()
+        UShared.remove_table_rows(self)
+        # _m = self.rowCount()
 
-        while _m > -1:
-            self.removeRow(_m)
-            _m = _m - 1
+        # while _m > -1:
+        #     self.removeRow(_m)
+        #     _m = _m - 1
 
         for i in book_addresses:
             self.add_bookaddress(i)
@@ -58,6 +59,7 @@ class _address_book_table(QTableWidget):
         _dellabel = UShared.create_table_item_graphic(3)
 
         self.setCellWidget(_r, 0, _vpic)
+        self.setItem(_r, 0, UShared.create_table_item(''))
         self.setItem(_r, 1, _coin)
         self.setItem(_r, 2, _name)
         self.setItem(_r, 3, _address)
@@ -65,5 +67,7 @@ class _address_book_table(QTableWidget):
         self.setItem(_r, 5, _received)
         self.setItem(_r, 6, _label)
         self.setCellWidget(_r, 7, _dellabel)
+        self.setItem(_r, 7, UShared.create_table_item(''))
         self.setCellWidget(_r, 8, _bvpic)
+        self.setItem(_r, 9, UShared.create_table_item(''))
         self.setSortingEnabled(True)

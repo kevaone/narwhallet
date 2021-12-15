@@ -22,12 +22,12 @@ class _namespaces_table(QTableWidget):
         # TODO Add settings control to show/hide address column
         self.setColumnHidden(6, True)
 
-    def clear_rows(self):
-        _m = self.rowCount()
+    # def clear_rows(self):
+    #     _m = self.rowCount()
 
-        while _m > -1:
-            self.removeRow(_m)
-            _m = _m - 1
+    #     while _m > -1:
+    #         self.removeRow(_m)
+    #         _m = _m - 1
 
     def add_namespaces(self, wallet: str, namespaces: list):
         self.setSortingEnabled(False)
@@ -53,6 +53,7 @@ class _namespaces_table(QTableWidget):
         _dellabel.setToolTip('Transfer Namespace')
 
         self.setCellWidget(_r, 0, _vpic)
+        self.setItem(_r, 0, UShared.create_table_item(''))
         self.setItem(_r, 1, _date)
         self.setItem(_r, 2, _wallet)
         self.setItem(_r, 3, _shortcode)
@@ -60,3 +61,4 @@ class _namespaces_table(QTableWidget):
         self.setItem(_r, 5, _namespaceid)
         self.setItem(_r, 6, _address)
         self.setCellWidget(_r, 7, _dellabel)
+        self.setItem(_r, 7, UShared.create_table_item(''))

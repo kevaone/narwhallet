@@ -13,6 +13,7 @@ from narwhallet.control.shared import MShared
 
 from narwhallet.core.kui.main import NarwhalletUI
 from narwhallet.core.kui.kexc_worker import Worker
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 from narwhallet.core.kex import KEXclient
 from narwhallet.core.kcl.file_utils import ConfigLoader
@@ -562,8 +563,10 @@ class NarwhalletController():
         self.ui.w_tab.tbl_w.resizeColumnsToContents()
 
     def refresh_nft_tab_data(self, namespaces: List[dict]):
-        self.ui.nft_tab.tbl_auctions.clear_rows()
-        self.ui.nft_tab.tbl_bids.clear_rows()
+        UShared.remove_table_rows(self.ui.nft_tab.tbl_auctions)
+        UShared.remove_table_rows(self.ui.nft_tab.tbl_bids)
+        # self.ui.nft_tab.tbl_auctions.clear_rows()
+        # self.ui.nft_tab.tbl_bids.clear_rows()
         _wallet_bid_tx = []
 
         for ns in namespaces:
@@ -646,7 +649,9 @@ class NarwhalletController():
 
     def refresh_namespace_tab_data(self):
         # TODO Cleanup
-        self.ui.ns_tab.tbl_ns.clear_rows()
+        UShared.remove_table_rows(self.ui.ns_tab.tbl_ns)
+        # UShared.remove_table_rows(self.ui.ns_tab.list_ns_keys)
+        # self.ui.ns_tab.tbl_ns.clear_rows()
         self.ui.ns_tab.list_ns_keys.clear_rows()
         _asa = self.cache.ns.get_view()
 
@@ -775,9 +780,12 @@ class NarwhalletController():
             self.ws = row
 
         if row == -1:
-            self.ui.w_tab.tbl_addr.clear_rows()
-            self.ui.w_tab.tbl_addr2.clear_rows()
-            self.ui.w_tab.tbl_tx.clear_rows()
+            UShared.remove_table_rows(self.ui.w_tab.tbl_addr)
+            UShared.remove_table_rows(self.ui.w_tab.tbl_addr2)
+            UShared.remove_table_rows(self.ui.w_tab.tbl_tx)
+            # self.ui.w_tab.tbl_addr.clear_rows()
+            # self.ui.w_tab.tbl_addr2.clear_rows()
+            # self.ui.w_tab.tbl_tx.clear_rows()
             self.ui.w_tab.reset_info_values()
             return
 
@@ -1056,7 +1064,8 @@ class NarwhalletController():
             self.ui.nft_tab.owner_address.setText('')
             self.ui.nft_tab.address.setText('')
             self.ui.nft_tab.hashtags.setText('')
-            self.ui.nft_tab.tbl_bids_2.clear_rows()
+            UShared.remove_table_rows(self.ui.nft_tab.tbl_bids_2)
+            # self.ui.nft_tab.tbl_bids_2.clear_rows()
         else:
             self.ui.nft_tab.ns.setText(auction[3])
             _nsdat = self.cache.ns.get_namespace_by_id(auction[3])
@@ -1082,7 +1091,8 @@ class NarwhalletController():
             self._update_selected_auction_bids(reactions)
 
     def _update_selected_auction_bids(self, reactions):
-        self.ui.nft_tab.tbl_bids_2.clear_rows()
+        UShared.remove_table_rows(self.ui.nft_tab.tbl_bids_2)
+        # self.ui.nft_tab.tbl_bids_2.clear_rows()
         _bids = []
         for _r in reactions['replies']:
             if _r['value'][:10] == '70736274ff':

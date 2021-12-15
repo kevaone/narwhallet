@@ -14,12 +14,12 @@ class _tx_builder_outputs_table(QTableWidget):
     def build_columns(self):
         UShared.set_table_columns(3, ['Value', 'Address', 'Script'], self)
 
-    def clear_rows(self):
-        _m = self.rowCount()
+    # def clear_rows(self):
+    #     _m = self.rowCount()
 
-        while _m > -1:
-            self.removeRow(_m)
-            _m = _m - 1
+    #     while _m > -1:
+    #         self.removeRow(_m)
+    #         _m = _m - 1
 
     def add_output(self, value: float, address: str, script: str):
         _r = self.rowCount()
