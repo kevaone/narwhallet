@@ -1,4 +1,3 @@
-from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.ux.widgets.generator import UShared
@@ -16,10 +15,6 @@ class _bid_table(QTableWidget):
         self.setColumnWidth(4, 20)
         self.setColumnHidden(5, True)
         self.setColumnHidden(6, True)
-
-    def set_row_color(self, row: int, color=QtCore.Qt.red):
-        for _column in range(0, self.columnCount()-1):
-            self.item(row, _column).setBackground(color)
 
     def add_bids(self, bids: list):
         self.setSortingEnabled(False)
@@ -44,8 +39,10 @@ class _bid_table(QTableWidget):
         _coin = UShared.create_table_item_graphic(0)
         if bid_data['valid'] is True:
             _valid = UShared.create_table_item_graphic(9)
+            _valid.setToolTip('Valid Bid, Click to Accept')
         else:
             _valid = UShared.create_table_item_graphic(10)
+            _valid.setToolTip('Invalid Bid')
 
         _accept = UShared.create_table_item_graphic(5)
         _date = (UShared.create_table_item(

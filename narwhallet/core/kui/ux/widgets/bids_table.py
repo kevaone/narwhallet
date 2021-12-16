@@ -1,4 +1,3 @@
-from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.ux.widgets.generator import UShared
@@ -17,10 +16,6 @@ class _bids_table(QTableWidget):
         self.setColumnWidth(8, 20)
         self.setColumnHidden(10, True)
         self.setColumnHidden(11, True)
-
-    def set_row_color(self, row: int, color=QtCore.Qt.red):
-        for _column in range(0, self.columnCount()-1):
-            self.item(row, _column).setBackground(color)
 
     def add_bids(self, wallet: str, bids: list):
         self.setSortingEnabled(False)

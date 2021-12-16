@@ -1,6 +1,4 @@
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QWidget, QTableWidget, QLabel
-from narwhallet.control.shared import MShared
+from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
@@ -18,29 +16,12 @@ class _electrumx_peers_table(QTableWidget):
         self.setColumnHidden(6, True)
 
     def add_peer(self, coin, host, port, tls):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
-
         _r = self.rowCount()
         self.insertRow(self.rowCount())
-
-        _pic = QtGui.QPixmap(MShared.get_resource_path('gear.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
-        _vpic = QLabel()
+        _vpic = UShared.create_table_item_graphic(11)
         _vpic.setToolTip('Edit ElectrumX Peer')
-        _vpic.setPixmap(_pic)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
-
-        _dpic = QtGui.QPixmap(MShared.get_resource_path('trashcan.png'))
-        _dpic = _dpic.scaledToWidth(20, _transm_st)
-        _dellabel = QLabel()
+        _dellabel = UShared.create_table_item_graphic(3)
         _dellabel.setToolTip('Delete ElectrumX Peer')
-        _dellabel.setPixmap(_dpic)
-        _dellabel.setAlignment(_al_center)
-        _dellabel.setContentsMargins(0, 0, 0, 0)
-        _dellabel.setProperty('class', 'tblImg')
 
         if isinstance(tls, bool):
             if tls is True:
@@ -66,19 +47,9 @@ class _electrumx_peers_table(QTableWidget):
         self.resizeColumnsToContents()
 
     def update_active(self, active_row: int):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
-
         for row in range(0, self.rowCount()):
             self.removeCellWidget(row, 9)
-
-        _pic = QtGui.QPixmap(MShared.get_resource_path('checkmark.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
-        _vpic = QLabel()
+        _vpic = UShared.create_table_item_graphic(9)
         _vpic.setToolTip('Default ElectrumX Peer')
-        _vpic.setPixmap(_pic)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
         self.setCellWidget(active_row, 9, _vpic)
         self.resizeColumnsToContents()

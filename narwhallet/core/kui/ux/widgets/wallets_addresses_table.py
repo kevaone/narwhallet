@@ -42,7 +42,9 @@ class _wallets_addr_tbl(QTableWidget):
         if idx == self.rowCount():
             self.insertRow(idx)
             _pic = UShared.create_table_item_graphic(1)
+            _pic.setToolTip('View Address Details')
             _bpic = UShared.create_table_item_graphic(2)
+            _bpic.setToolTip('Copy Address to Clipboard')
             _address = UShared.create_table_item(address_data['address'])
             address_data['received'] = round(address_data['received'], 9)
             _received = self.test_param(address_data, 'received', '0.0')

@@ -1,6 +1,4 @@
-from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QWidget, QTableWidget, QLabel
-from narwhallet.control.shared import MShared
+from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
@@ -15,37 +13,14 @@ class _ipfs_gateways_table(QTableWidget):
         self.setColumnHidden(5, True)
 
     def add_gateway_from_list(self, gateway_data: list):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
-
         _r = self.rowCount()
         self.insertRow(self.rowCount())
 
-        _pic = QtGui.QPixmap(MShared.get_resource_path('exclamation.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
-        _vpic = QLabel()
-        _vpic.setPixmap(_pic)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
-
-        _gpic = QtGui.QPixmap(MShared.get_resource_path('gear.png'))
-        _gpic = _gpic.scaledToWidth(20, _transm_st)
-        _gvpic = QLabel()
+        _vpic = UShared.create_table_item_graphic(10)
+        _gvpic = UShared.create_table_item_graphic(11)
         _gvpic.setToolTip('Edit IPFS Gateway')
-        _gvpic.setPixmap(_gpic)
-        _gvpic.setAlignment(_al_center)
-        _gvpic.setContentsMargins(0, 0, 0, 0)
-        _gvpic.setProperty('class', 'tblImg')
-
-        _dpic = QtGui.QPixmap(MShared.get_resource_path('trashcan.png'))
-        _dpic = _dpic.scaledToWidth(20, _transm_st)
-        _dellabel = QLabel()
+        _dellabel = UShared.create_table_item_graphic(3)
         _dellabel.setToolTip('Delete IPFS Gateway')
-        _dellabel.setPixmap(_dpic)
-        _dellabel.setAlignment(_al_center)
-        _dellabel.setContentsMargins(0, 0, 0, 0)
-        _dellabel.setProperty('class', 'tblImg')
 
         self.setCellWidget(_r, 0, _gvpic)
         self.setItem(_r, 0, UShared.create_table_item(''))
@@ -61,33 +36,14 @@ class _ipfs_gateways_table(QTableWidget):
         self.resizeColumnsToContents()
 
     def update_gateway_status(self, row: int, status: str):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
-
-        _pic = QtGui.QPixmap(MShared.get_resource_path('star.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
-        _vpic = QLabel()
-        _vpic.setPixmap(_pic)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
+        _vpic = UShared.create_table_item_graphic(4)
         self.setCellWidget(row, 1, _vpic)
         self.resizeColumnsToContents()
 
     def update_active(self, active_row: int):
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
-
         for row in range(0, self.rowCount()):
             self.removeCellWidget(row, 7)
-
-        _pic = QtGui.QPixmap(MShared.get_resource_path('checkmark.png'))
-        _pic = _pic.scaledToWidth(20, _transm_st)
-        _vpic = QLabel()
+        _vpic = UShared.create_table_item_graphic(9)
         _vpic.setToolTip('Default IPFS Gateway')
-        _vpic.setPixmap(_pic)
-        _vpic.setAlignment(_al_center)
-        _vpic.setContentsMargins(0, 0, 0, 0)
-        _vpic.setProperty('class', 'tblImg')
         self.setCellWidget(active_row, 7, _vpic)
         self.resizeColumnsToContents()

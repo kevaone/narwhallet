@@ -38,6 +38,7 @@ class _transaction_table(QTableWidget):
         if idx == self.rowCount():
             self.insertRow(idx)
             _vpic = UShared.create_table_item_graphic(1)
+            _vpic.setToolTip('View Transaction Details')
             _date = (UShared.create_table_item(
                 MShared.get_timestamp(transaction_data['time'])[1]))
             _amount = UShared.create_table_item(transaction_data['amount'])

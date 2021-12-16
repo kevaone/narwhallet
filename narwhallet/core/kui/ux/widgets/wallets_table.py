@@ -1,40 +1,8 @@
-from PyQt5 import QtCore
-from PyQt5.QtGui import QPixmap, QTransform
 from PyQt5.QtWidgets import QWidget, QTableWidget, QLabel
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.models.wallet import MWallet
+from narwhallet.core.kui.ux.widgets.animated_label import animated_label
 from narwhallet.core.kui.ux.widgets.generator import UShared
-
-
-class animation_label(QLabel):
-    def __init__(self):
-        super().__init__()
-
-        _al_center = QtCore.Qt.AlignCenter
-        _transm_st = QtCore.Qt.SmoothTransformation
-
-        self._upic = QPixmap(MShared.get_resource_path('return.png'))
-        self._upic = self._upic.scaledToWidth(20, _transm_st)
-        self.setPixmap(self._upic)
-        self.setAlignment(_al_center)
-        self.setContentsMargins(0, 0, 0, 0)
-        self.setProperty('class', 'tblImg')
-        self.setToolTip('Refresh Wallet')
-
-        self.ani = QtCore.QVariantAnimation()
-        self.ani.setDuration(1000)
-
-        self.ani.setStartValue(0.0)
-        self.ani.setEndValue(360.0)
-        self.ani.setLoopCount(300)
-        self.ani.valueChanged.connect(self.animate)
-
-    def animate(self, value):
-        _transm_st = QtCore.Qt.SmoothTransformation
-
-        t = QTransform()
-        t.rotate(value)
-        self.setPixmap(self._upic.transformed(t, _transm_st))
 
 
 class _wallets_table(QTableWidget):
@@ -60,10 +28,12 @@ class _wallets_table(QTableWidget):
         if wallet_data['kind'] != 0:
             if wallet_data['kind'] == 1:
                 _kvpic = UShared.create_table_item_graphic(4)
+                _kvpic.setToolTip('Read-Only Wallet')
             elif wallet_data['kind'] == 2:
                 _kvpic = UShared.create_table_item_graphic(2)
             elif wallet_data['kind'] == 3:
                 _kvpic = UShared.create_table_item_graphic(4)
+                _kvpic.setToolTip('Read-Only Wallet')
         else:
             _kvpic = QLabel()
             _kvpic.setContentsMargins(0, 0, 0, 0)
@@ -76,8 +46,10 @@ class _wallets_table(QTableWidget):
         _bid_balance = UShared.create_table_item(wallet_data['bid_balance'])
         if wallet_data['locked'] is True:
             _lvpic = UShared.create_table_item_graphic(6)
+            _lvpic.setToolTip('Wallet is Locked')
         else:
             _lvpic = UShared.create_table_item_graphic(7)
+            _lvpic.setToolTip('Wallet is Unlocked')
 
         _upd = '-'
         if 'last_updated' in wallet_data:
@@ -86,7 +58,9 @@ class _wallets_table(QTableWidget):
 
         _updated = UShared.create_table_item(_upd)
         _synch = UShared.create_table_item('')
-        self._vupic = animation_label()
+
+        self._vupic = animated_label()
+        self._vupic.setToolTip('Refresh Wallet')
 
         self.setCellWidget(_r, 0, _vpic)
         self.setItem(_r, 0, UShared.create_table_item(''))
@@ -109,16 +83,20 @@ class _wallets_table(QTableWidget):
     def update_wallet(self, _w: MWallet, row: int):
         if _w.locked is True:
             _lvpic = UShared.create_table_item_graphic(6)
+            _lvpic.setToolTip('Wallet is Locked')
         else:
             _lvpic = UShared.create_table_item_graphic(7)
+            _lvpic.setToolTip('Wallet is Unlocked')
 
         if _w.kind != 0 and _w.kind is not None:
             if _w.kind == 1:
                 _kvpic = UShared.create_table_item_graphic(4)
+                _kvpic.setToolTip('Read-Only Wallet')
             elif _w.kind == 2:
                 _kvpic = UShared.create_table_item_graphic(2)
             elif _w.kind == 3:
                 _kvpic = UShared.create_table_item_graphic(4)
+                _kvpic.setToolTip('Read-Only Wallet')
         else:
             _kvpic = QLabel()
             _kvpic.setContentsMargins(0, 0, 0, 0)

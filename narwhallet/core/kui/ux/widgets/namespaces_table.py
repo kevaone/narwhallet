@@ -28,6 +28,7 @@ class _namespaces_table(QTableWidget):
         _r = self.rowCount()
         self.insertRow(_r)
         _vpic = UShared.create_table_item_graphic(1)
+        _vpic.setToolTip('View Namespace Details')
         _date = MShared.get_timestamp(namespace_data['date'])[1]
         _date = UShared.create_table_item(_date)
         _wallet = UShared.create_table_item(namespace_data['wallet'])

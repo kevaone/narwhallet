@@ -28,7 +28,9 @@ class _address_book_table(QTableWidget):
         self.insertRow(_r)
 
         _vpic = UShared.create_table_item_graphic(1)
+        _vpic.setToolTip('View Address Details')
         _bvpic = UShared.create_table_item_graphic(2)
+        _bvpic.setToolTip('Copy Address to Clipboard')
 
         _coin = UShared.create_table_item(book_address['coin'])
         _name = UShared.create_table_item(book_address['name'])
@@ -45,6 +47,7 @@ class _address_book_table(QTableWidget):
 
         _label = UShared.create_table_item(book_address['label'])
         _dellabel = UShared.create_table_item_graphic(3)
+        _dellabel.setToolTip('Delete Address From Address Book')
 
         self.setCellWidget(_r, 0, _vpic)
         self.setItem(_r, 0, UShared.create_table_item(''))
