@@ -483,12 +483,16 @@ class NarwhalletController():
         if flag == 'svr_version' and self.settings.sync['wallets'][0] is True:
             self._update_wallets()
 
+    def _ex_c(self):
+        _return = self.KEX.call(self.KEX.api.server.version('Narwhallet',
+                                                            1.4, self.KEX.id))
+        return _return
+
     def ex_c(self, _n: str, m: str, i: int):
         self.ui.settings_tab.elxp_tbl.update_peer_status(i, m)
 
         if m == 'connected':
-            self.threader('svr_version', self.KEX.call,
-                          self.KEX.api.server.version, ['Narwhallet', 1.4],
+            self.threader('svr_version', self._ex_c, None, None,
                           self.ex_c_done, None)
             # self.threader('block_count', self.KEX.call,
             #               self.KEX.api.blockchain_block.count, [],

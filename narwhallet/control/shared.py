@@ -105,14 +105,16 @@ class MShared():
 
     @staticmethod
     def get_block_count(kex: KEXclient):
-        _block_count = kex.call(kex.api.blockchain_block.count, [])
+        _block_count = kex.call(kex.api.blockchain_block.count(kex.id))
+        kex.id += 1
         if _block_count != '':
             _block_count = json.loads(_block_count)['result']
         return _block_count
 
     @staticmethod
     def get_fee_rate(kex: KEXclient) -> int:
-        _fee = kex.call(kex.api.blockchain.estimatefee, [2])
+        _fee = kex.call(kex.api.blockchain.estimatefee(2, kex.id))
+        kex.id += 1
         if _fee != '':
             _fee = json.loads(_fee)['result']
             _fee = math.ceil((_fee*100000000)/1024)
@@ -123,7 +125,8 @@ class MShared():
 
     @staticmethod
     def broadcast(tx: str, kex: KEXclient) -> tuple:
-        _result = kex.call(kex.api.bc_tx.broadcast, [tx])
+        _result = kex.call(kex.api.bc_tx.broadcast(tx, kex.id))
+        kex.id += 1
         if _result != '':
             _result = json.loads(_result)
 
@@ -157,8 +160,8 @@ class MShared():
         for _a in addresses.addresses:
             _script_hash = (Scripts.P2SHAddressScriptHash
                             .compileToScriptHash([_a.address], True))
-            _th.append(kex.api.blockchain_scripthash.get_balance
-                       .build_command([_script_hash], kex.id))
+            _th.append(kex.api.blockchain_scripthash
+                       .get_balance(_script_hash, kex.id))
             _tid[str(kex.id)] = {}
             _tid[str(kex.id)]['address'] = _a.address
             _tid[str(kex.id)]['chain'] = chain
@@ -200,8 +203,9 @@ class MShared():
     def _get_balance(address: str, kex: KEXclient) -> dict:
         _script_hash = (Scripts.P2SHAddressScriptHash
                         .compileToScriptHash([address], True))
-        _bal = kex.call(kex.api.blockchain_scripthash.get_balance,
-                        [_script_hash])
+        _bal = kex.call(kex.api.blockchain_scripthash.get_balance
+                        (_script_hash, kex.id))
+        kex.id += 1
         if _bal != '':
             _bal = json.loads(_bal)['result']
         return _bal
@@ -224,7 +228,7 @@ class MShared():
             _script_hash = (Scripts.P2SHAddressScriptHash
                             .compileToScriptHash([_a.address], True))
             _th.append(kex.api.blockchain_scripthash.listunspent
-                       .build_command([_script_hash], kex.id))
+                       (_script_hash, kex.id))
             _tid[str(kex.id)] = {}
             _tid[str(kex.id)]['address'] = _a.address
             _tid[str(kex.id)]['chain'] = chain
@@ -273,8 +277,9 @@ class MShared():
     def _list_unspent(address: str, kex: KEXclient) -> dict:
         _script_hash = (Scripts.P2SHAddressScriptHash
                         .compileToScriptHash([address], True))
-        _bal = kex.call(kex.api.blockchain_scripthash.listunspent,
-                        [_script_hash])
+        _bal = kex.call(kex.api.blockchain_scripthash.listunspent
+                        (_script_hash, kex.id))
+        kex.id += 1
         if _bal != '':
             _bal = json.loads(_bal)['result']
         return _bal
@@ -300,7 +305,7 @@ class MShared():
             _script_hash = (Scripts.P2SHAddressScriptHash
                             .compileToScriptHash([_a.address], True))
             _th.append(kex.api.blockchain_scripthash.get_history
-                       .build_command([_script_hash], kex.id))
+                       (_script_hash, kex.id))
             _tid[str(kex.id)] = {}
             _tid[str(kex.id)]['address'] = _a.address
             _tid[str(kex.id)]['chain'] = chain
@@ -320,7 +325,7 @@ class MShared():
                 _script_hash = (Scripts.P2SHAddressScriptHash
                                 .compileToScriptHash([_addr], True))
                 _th.append(kex.api.blockchain_scripthash.get_history
-                           .build_command([_script_hash], kex.id))
+                           (_script_hash, kex.id))
                 _tid[str(kex.id)] = {}
                 _tid[str(kex.id)]['address'] = _addr
                 _tid[str(kex.id)]['chain'] = chain
@@ -382,8 +387,9 @@ class MShared():
     def _get_history(address: str, kex: KEXclient) -> dict:
         _script_hash = (Scripts.P2SHAddressScriptHash
                         .compileToScriptHash([address], True))
-        _hist = kex.call(kex.api.blockchain_scripthash.get_history,
-                         [_script_hash])
+        _hist = kex.call(kex.api.blockchain_scripthash.get_history
+                         (_script_hash, kex.id))
+        kex.id += 1
         if _hist != '':
             _hist = json.loads(_hist)['result']
         else:
@@ -429,19 +435,16 @@ class MShared():
                 _trx = cache.tx.get_tx_by_txid(_t['tx_hash'])
                 if _trx is None:
                     _tx_h_batch.append(kex.api.bc_tx.get
-                                       .build_command([_t['tx_hash'], True],
-                                                      kex.id))
+                                       (_t['tx_hash'], True, kex.id))
                     kex.id = kex.id + 1
                 else:
                     if _trx.blockhash is None:
                         _tx_h_batch.append(kex.api.bc_tx.get
-                                           .build_command([_t['tx_hash'],
-                                                           True], kex.id))
+                                           (_t['tx_hash'], True, kex.id))
                         kex.id = kex.id + 1
                     elif _trx.confirmations < 6:
                         _tx_h_batch.append(kex.api.bc_tx.get
-                                           .build_command([_t['tx_hash'],
-                                                           True], kex.id))
+                                           (_t['tx_hash'], True, kex.id))
                         kex.id = kex.id + 1
         return _tx_h_batch
 
@@ -462,19 +465,16 @@ class MShared():
 
                     if _in_tx is None:
                         _tx_i_b.append(kex.api.bc_tx.get
-                                       .build_command([_in.txid, True],
-                                                      kex.id))
+                                       (_in.txid, True, kex.id))
                         kex.id = kex.id + 1
                     else:
                         if _in_tx.blockhash is None:
                             _tx_i_b.append(kex.api.bc_tx.get
-                                           .build_command([_in.txid, True],
-                                                          kex.id))
+                                           (_in.txid, True, kex.id))
                             kex.id = kex.id + 1
                         elif _in_tx.confirmations < 6:
                             _tx_i_b.append(kex.api.bc_tx.get
-                                           .build_command([_in.txid, True],
-                                                          kex.id))
+                                           (_in.txid, True, kex.id))
                             kex.id = kex.id + 1
         return _tx_i_b
 
@@ -503,6 +503,9 @@ class MShared():
                         address: MAddress, kex: KEXclient, cache: MCache):
 
         for _in in vin:
+            if _in.coinbase is not None:
+                continue
+
             _vo = _in.vout
             _in_tx = cache.tx.get_tx_by_txid(_in.txid)
             if _in_tx is None:
@@ -530,7 +533,8 @@ class MShared():
 
     @staticmethod
     def get_merkle(txid: str, height: int, kex: KEXclient) -> str:
-        _merkle = kex.call(kex.api.bc_tx.get_merkle, [txid, height])
+        _merkle = kex.call(kex.api.bc_tx.get_merkle(txid, height, kex.id))
+        kex.id += 1
         try:
             _merkle = json.loads(_merkle)
         except Exception:
@@ -552,8 +556,7 @@ class MShared():
             _r_trx = cache.tx.get_tx_by_txid(_reply['tx_hash'])
             if _r_trx is None:
                 _tx_h_batch.append(kex.api.bc_tx.get
-                                   .build_command([_reply['tx_hash'], True],
-                                                  kex.id))
+                                   (_reply['tx_hash'], True, kex.id))
                 kex.id = kex.id + 1
         if len(_tx_h_batch) > 0:
             _ = MShared.__get_tx_by_batch(_tx_h_batch, kex, cache)
@@ -565,8 +568,7 @@ class MShared():
             if _r_tx is not None and isinstance(_r_tx, dict):
                 _r_tx = cache.tx.add_from_json(_r_tx)
             for _ro in _r_tx.vout:
-                MShared._test_for_namespace(_ro.scriptPubKey, kex,
-                                            cache)
+                MShared._test_for_namespace(_ro.scriptPubKey, kex, cache)
 
     @staticmethod
     def _test_for_namespace(_out: MScriptPubKey, kex: KEXclient,
@@ -579,8 +581,9 @@ class MShared():
         if len(_root_ns) == 0:
             _root_ns = (Scripts.KevaRootNamespaceScriptHash
                         .compileToScriptHash([_o[1], b''], True))
-            _root_hist = kex.call(kex.api.blockchain_scripthash.get_history,
-                                  [_root_ns])
+            _root_hist = kex.call(kex.api.blockchain_scripthash.get_history
+                                  (_root_ns, kex.id))
+            kex.id += 1
         else:
             _root_hist = ''
 
@@ -600,8 +603,7 @@ class MShared():
             if _r_trx is None:
                 _th_h_track[str(kex.id)] = k['tx_hash']
                 _tx_h_batch.append(kex.api.bc_tx.get
-                                   .build_command([k['tx_hash'], True],
-                                                  kex.id))
+                                   (k['tx_hash'], True, kex.id))
                 kex.id = kex.id + 1
         if len(_tx_h_batch) > 0:
             _ = MShared.__get_tx_by_batch(_tx_h_batch, kex, cache)
@@ -623,9 +625,7 @@ class MShared():
                     if len(_key) == 0:
                         _m_track[str(kex.id)] = k['tx_hash']
                         _m_batch.append(kex.api.bc_tx.get_merkle
-                                        .build_command([_r_tx.txid,
-                                                        k['height']],
-                                                       kex.id))
+                                        (_r_tx.txid, k['height'], kex.id))
                         kex.id += 1
         if len(_m_batch) > 0:
             _merkles = MShared.__get_merkle_by_batch(_m_batch, _m_track, kex)
@@ -680,9 +680,8 @@ class MShared():
                     _r_trx = cache.tx.get_tx_by_txid(_o[2][4:])
                     if _r_trx is None:
                         _ref_batch.append(kex.api.bc_tx.get
-                                          .build_command([_o[2][4:], True],
-                                                         kex.id))
-
+                                          (_o[2][4:], True, kex.id))
+                        kex.id += 1
                 if _o[2][:4] == '0003':
                     # TODO Fix this upstream...type check for now
                     if isinstance(_trx.vout[1].value, int):
@@ -715,8 +714,9 @@ class MShared():
         if len(_root_ns) == 0:
             _root_ns = (Scripts.KevaRootNamespaceScriptHash
                         .compileToScriptHash([_o[1], b''], True))
-            _root_hist = kex.call(kex.api.blockchain_scripthash.get_history,
-                                  [_root_ns])
+            _root_hist = kex.call(kex.api.blockchain_scripthash.get_history
+                                  (_root_ns, kex.id))
+            kex.id += 1
 
             if _root_hist != '':
                 _root_hist = json.loads(_root_hist)['result']
@@ -792,7 +792,8 @@ class MShared():
     def get_tx(tx_hash: str, kex: KEXclient, verbose=False):
         _tx = None
         ret = b''
-        ret = kex.call(kex.api.bc_tx.get, [tx_hash, verbose])
+        ret = kex.call(kex.api.bc_tx.get(tx_hash, verbose, kex.id))
+        kex.id += 1
         if ret != '':
             _tx = json.loads(ret)['result']
 
@@ -808,8 +809,9 @@ class MShared():
         else:
             return
 
-        _hist = kex.call(kex.api.bc_tx.id_from_pos,
-                         [_b, _p, False])
+        _hist = kex.call(kex.api.bc_tx.id_from_pos
+                         (_b, _p, False, kex.id))
+        kex.id += 1
         _tracker = []
 
         if _hist != '' and 'error' not in _hist:
@@ -852,8 +854,7 @@ class MShared():
                             _boa = _bo.scriptPubKey.addresses[0]
                             _b_hist = MShared._get_history(_boa, kex)
                             _tracker.append(_boa)
-                            MShared.scan_history(_ns, _tracker,
-                                                 _boa,
+                            MShared.scan_history(_ns, _tracker, _boa,
                                                  _b_hist, kex, cache, deep)
                     if _bo.scriptPubKey not in _ns_test:
                         _ns_test.append(_bo.scriptPubKey)
@@ -870,7 +871,9 @@ class MShared():
 
         k_script_hash = (Scripts.KevaNamespaceScriptHash
                          .compileToScriptHash([_ns, b''], True))
-        k_hist = kex.call(kex.api.keva.get_keyvalues, [k_script_hash, -1])
+        k_hist = kex.call(kex.api.keva.get_keyvalues(k_script_hash,
+                                                     -1, kex.id))
+        kex.id += 1
 
         if k_hist != '':
             _keys = json.loads(k_hist)['result']['keyvalues']
@@ -889,7 +892,9 @@ class MShared():
 
         k_script_hash = (Scripts.KevaNamespaceScriptHash
                          .compileToScriptHash([_ns, b''], True))
-        k_hist = kex.call(kex.api.keva.get_keyvalues, [k_script_hash, -1])
+        k_hist = kex.call(kex.api.keva.get_keyvalues(k_script_hash,
+                                                     -1, kex.id))
+        kex.id += 1
 
         if k_hist == '':
             return _keys
@@ -923,7 +928,9 @@ class MShared():
 
     @staticmethod
     def get_ns_key_reactions(txid: str, kex: KEXclient):
-        _responses = kex.call(kex.api.keva.get_keyvalue_reactions, [txid, -1])
+        _responses = kex.call(kex.api.keva.get_keyvalue_reactions(txid, -1,
+                                                                  kex.id))
+        kex.id += 1
         if _responses == '':
             return []
 

@@ -1,86 +1,156 @@
-from typing import Tuple
 from narwhallet.core.kex.cmd_base import _cmd
-from narwhallet.core.kex.param import ElXparams
-
-_CMDT = Tuple[str, list]
 
 
 class _server(_cmd):
-    version: _CMDT = 'server.version', [ElXparams.client_name,
-                                        ElXparams.protocol_version]
-    banner: _CMDT = 'server.banner', []
-    features: _CMDT = 'server.features', []
-    ping: _CMDT = 'server.ping', []
-    add_peer: _CMDT = 'server.add_peer', [ElXparams.features]
-    donation_address: _CMDT = 'server.donation_address', []
-    peers_subscribe: _CMDT = 'server.peers.subscribe', []
+    @staticmethod
+    def version(client_name, protocol_version, eid: int):
+        return _cmd.build_command('server.version',
+                                  [client_name, protocol_version], eid)
+
+    @staticmethod
+    def banner(eid: int):
+        return _cmd.build_command('server.banner', [], eid)
+
+    @staticmethod
+    def features(eid: int):
+        return _cmd.build_command('server.features', [], eid)
+
+    @staticmethod
+    def ping(eid: int):
+        return _cmd.build_command('server.ping', [], eid)
+
+    @staticmethod
+    def add_peer(features, eid: int):
+        return _cmd.build_command('server.add_peer', [features], eid)
+
+    @staticmethod
+    def donation_address(eid: int):
+        return _cmd.build_command('server.donation_address', [], eid)
+
+    @staticmethod
+    def peers_subscribe(eid: int):
+        return _cmd.build_command('server.peers.subscribe', [], eid)
 
 
 class _mempool(_cmd):
-    get_fee_histogram: _CMDT = 'mempool.get_fee_histogram', []
+    @staticmethod
+    def get_fee_histogram(eid: int):
+        return _cmd.build_command('mempool.get_fee_histogram', [], eid)
 
 
 class _address(_cmd):
-    get_proof: _CMDT = 'blockchain.address.getproof', [ElXparams.address]
+    @staticmethod
+    def get_proof(address, eid: int):
+        return _cmd.build_command('blockchain.address.getproof',
+                                  [address], eid)
 
 
 class _block(_cmd):
-    header: _CMDT = ('blockchain.block.header',
-                     [ElXparams.height, ElXparams.chk_height])
-    headers: _CMDT = ('blockchain.block.headers',
-                      [ElXparams.start_height, ElXparams.count,
-                       ElXparams.chk_height])
-    count: _CMDT = 'blockchain.block.count', []
+    @staticmethod
+    def header(height, chk_height, eid: int):
+        return _cmd.build_command('blockchain.block.header',
+                                  [height, chk_height], eid)
+
+    @staticmethod
+    def headers(start_height, count, chk_height, eid: int):
+        return _cmd.build_command('blockchain.block.headers',
+                                  [start_height, count, chk_height], eid)
+
+    @staticmethod
+    def count(eid: int):
+        return _cmd.build_command('blockchain.block.count', [], eid)
 
 
 class _headers(_cmd):
-    subscribe: _CMDT = 'blockchain.headers.subscribe', [ElXparams.raw]
+    @staticmethod
+    def subscribe(raw, eid: int):
+        return _cmd.build_command('blockchain.headers.subscribe', [raw], eid)
 
 
 class _masternode(_cmd):
-    subscribe: _CMDT = ('blockchain.masternode.subscribe',
-                        ['interface{}{collateral}'])
+    @staticmethod
+    def subscribe(eid: int):
+        return _cmd.build_command('blockchain.masternode.subscribe',
+                                  [], eid)
 
 
 class _scripthash(_cmd):
-    get_balance: _CMDT = ('blockchain.scripthash.get_balance',
-                          [ElXparams.scripthash])
-    get_history: _CMDT = ('blockchain.scripthash.get_history',
-                          [ElXparams.scripthash])
-    get_mempool: _CMDT = ('blockchain.scripthash.get_mempool',
-                          [ElXparams.scripthash])
-    listunspent: _CMDT = ('blockchain.scripthash.listunspent',
-                          [ElXparams.scripthash])
-    subscribe: _CMDT = ('blockchain.scripthash.subscribe',
-                        [ElXparams.scripthash])
+    @staticmethod
+    def get_balance(scripthash, eid: int):
+        return _cmd.build_command('blockchain.scripthash.get_balance',
+                                  [scripthash], eid)
+
+    @staticmethod
+    def get_history(scripthash, eid: int):
+        return _cmd.build_command('blockchain.scripthash.get_history',
+                                  [scripthash], eid)
+
+    @staticmethod
+    def get_mempool(scripthash, eid: int):
+        return _cmd.build_command('blockchain.scripthash.get_mempool',
+                                  [scripthash], eid)
+
+    @staticmethod
+    def listunspent(scripthash, eid: int):
+        return _cmd.build_command('blockchain.scripthash.listunspent',
+                                  [scripthash], eid)
+
+    @staticmethod
+    def subscribe(scripthash, eid: int):
+        return _cmd.build_command('blockchain.scripthash.subscribe',
+                                  [scripthash], eid)
 
 
 class _transaction(_cmd):
-    broadcast: _CMDT = ('blockchain.transaction.broadcast',
-                        [ElXparams.rawtx])
-    get: _CMDT = ('blockchain.transaction.get',
-                  [ElXparams.tx_hash, ElXparams.verbose])
-    get_merkle: _CMDT = ('blockchain.transaction.get_merkle',
-                         [ElXparams.tx_hash, ElXparams.height])
-    id_from_pos: _CMDT = ('blockchain.transaction.id_from_pos',
-                          [ElXparams.height, ElXparams.tx_pos,
-                           ElXparams.merkle])
+    @staticmethod
+    def broadcast(rawtx, eid: int):
+        return _cmd.build_command('blockchain.transaction.broadcast',
+                                  [rawtx], eid)
+
+    @staticmethod
+    def get(tx_hash, verbose, eid: int):
+        return _cmd.build_command('blockchain.transaction.get',
+                                  [tx_hash, verbose], eid)
+
+    @staticmethod
+    def get_merkle(tx_hash, height, eid: int):
+        return _cmd.build_command('blockchain.transaction.get_merkle',
+                                  [tx_hash, height], eid)
+
+    @staticmethod
+    def id_from_pos(height, tx_pos, merkle, eid: int):
+        return _cmd.build_command('blockchain.transaction.id_from_pos',
+                                  [height, tx_pos, merkle], eid)
 
 
 class _keva(_cmd):
     # Kevacoin specific APIs
-    get_hashtag: _CMDT = ('blockchain.keva.get_hashtag',
-                          [ElXparams.scripthash, ElXparams.min_tx_num])
-    get_keyvalues: _CMDT = ('blockchain.keva.get_keyvalues',
-                            [ElXparams.scripthash, ElXparams.min_tx_num])
-    get_keyvalue_reactions: _CMDT = ('blockchain.keva.get_keyvalue_reactions',
-                                     [ElXparams.tx_hash,
-                                      ElXparams.min_tx_num])
-    get_transactions_info: _CMDT = ('blockchain.keva.get_transactions_info',
-                                    [ElXparams.tx_hashes,
-                                     ElXparams.namespace_info])
+    @staticmethod
+    def get_hashtag(scripthash, min_tx_num, eid: int):
+        return _cmd.build_command('blockchain.keva.get_hashtag',
+                                  [scripthash, min_tx_num], eid)
+
+    @staticmethod
+    def get_keyvalues(scripthash, min_tx_num, eid: int):
+        return _cmd.build_command('blockchain.keva.get_keyvalues',
+                                  [scripthash, min_tx_num], eid)
+
+    @staticmethod
+    def get_keyvalue_reactions(tx_hash, min_tx_num, eid: int):
+        return _cmd.build_command('blockchain.keva.get_keyvalue_reactions',
+                                  [tx_hash, min_tx_num], eid)
+
+    @staticmethod
+    def get_transactions_info(tx_hashes, namespace_info, eid: int):
+        return _cmd.build_command('blockchain.keva.get_transactions_info',
+                                  [tx_hashes, namespace_info], eid)
 
 
 class _blockchain(_cmd):
-    estimatefee: _CMDT = 'blockchain.estimatefee', [ElXparams.number]
-    relayfee: _CMDT = 'blockchain.relayfee', []
+    @staticmethod
+    def estimatefee(in_blocks: int, eid: int):
+        return _cmd.build_command('blockchain.estimatefee', [in_blocks], eid)
+
+    @staticmethod
+    def relayfee(eid: int):
+        return _cmd.build_command('blockchain.relayfee', [], eid)
