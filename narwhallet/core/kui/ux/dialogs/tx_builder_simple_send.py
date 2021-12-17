@@ -239,14 +239,18 @@ class Ui_simple_send_dlg(QDialog):
             _pk = wallet.get_publickey_raw(_npk, _npkc)
             _sighash = self.new_tx.make_preimage(c, _pk, SIGHASH_TYPE.ALL)
             _sig = wallet.sign_message(_npk, _sighash, _npkc)
-            _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
+            _script = Scripts.P2WPKHScriptSig(_pk)
+            _script = Scripts.compile(_script, True)
+            # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
             _vin_idx.scriptSig.set_hex(_script)
             # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
             # if [_sig+'01', _pk] not in self.new_tx.input_signatures:
             self.new_tx.input_signatures.append([_sig+'01', _pk])
 
             _addr = wallet.get_address_by_index(_npk, False)
-            _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
+            _r = Scripts.P2SHAddressScriptHash(_addr)
+            _r = Scripts.compile(_r, False)
+            # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
             _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
             _ref = _ref + Ut.to_cuint(len(_r)) + _r
             self.new_tx.input_ref_scripts.append(_ref)

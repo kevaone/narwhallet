@@ -253,9 +253,12 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         _ns_key = '\x01_KEVA_NS_'
         _ns_value = json.dumps(_auc, separators=(',', ':'))
         _trans_address = wallet.get_unused_address()
-        _sh = Scripts.KevaKeyValueUpdate.compile([_ns, _ns_key,
-                                                  _ns_value,
-                                                  _trans_address], True)
+        _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
+                                         _trans_address)
+        _sh = Scripts.compile(_sh, True)
+        # _sh = Scripts.KevaKeyValueUpdate.compile([_ns, _ns_key,
+        #                                           _ns_value,
+        #                                           _trans_address], True)
         _ = self.bid_tx.add_output(_namespace_reservation, _trans_address)
         self.bid_tx.vout[0].scriptPubKey.set_hex(_sh)
         _ = self.bid_tx.add_output(_bid_amount, self.nft_addr.text())
@@ -398,13 +401,17 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
             _pk = wallet.get_publickey_raw(_npk, _npkc)
             _sighash = tx.make_preimage(c, _pk, hash_type)
             _sig = wallet.sign_message(_npk, _sighash, _npkc)
-            _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
+            _script = Scripts.P2WPKHScriptSig(_pk)
+            _script = Scripts.compile(_script, True)
+            # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
             _vin_idx.scriptSig.set_hex(_script)
             (tx.input_signatures.append(
                 [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
 
             _addr = wallet.get_address_by_index(_npk, False)
-            _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
+            _r = Scripts.P2SHAddressScriptHash(_addr)
+            _r = Scripts.compile(_r, False)
+            # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
             _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
             _ref = _ref + Ut.to_cuint(len(_r)) + _r
             tx.input_ref_scripts.append(_ref)
@@ -426,10 +433,12 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         _ns_key = (Ut.hex_to_bytes('0001') +
                    Ut.hex_to_bytes(self.bid_nft_tx.text()))
         _ns_value = self.bid_tx.to_psbt()
-
-        _sh = Scripts.KevaKeyValueUpdate.compile([_ns, _ns_key,
-                                                  _ns_value,
-                                                  _ns_address], True)
+        _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
+                                         _ns_address)
+        _sh = Scripts.compile(_sh, True)
+        # _sh = Scripts.KevaKeyValueUpdate.compile([_ns, _ns_key,
+        #                                           _ns_value,
+        #                                           _ns_address], True)
 
         _ = self.new_tx.add_output(_namespace_reservation, _ns_address)
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)

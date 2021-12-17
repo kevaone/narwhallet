@@ -70,7 +70,9 @@ class MTransactionBuilder(MTransaction):
     def add_output(self, value: int, address: str) -> str:
         _vout = MTransactionOutput()
         try:
-            _sh = Scripts.P2SHAddressScriptHash.compile([address], True)
+            _sh = Scripts.P2SHAddressScriptHash(address)
+            _sh = Scripts.compile(_sh, True)
+            # _sh = Scripts.P2SHAddressScriptHash.compile([address], True)
             _vout.set_value(value)
             _vout.scriptPubKey.set_hex(_sh)
             self.add_vout(_vout)
@@ -253,8 +255,9 @@ class MTransactionBuilder(MTransaction):
         _outpoint = Ut.reverse_bytes(Ut.hex_to_bytes(self.vin[i].txid))
         _outpoint = _outpoint + Ut.int_to_bytes(self.vin[i].vout, 4, 'little')
         _pre.append(_outpoint)
-
-        _s3 = Scripts.P2PKHRedeemScript.compile([pk])
+        _s3 = Scripts.P2PKHRedeemScript(pk)
+        _s3 = Scripts.compile(_s3, False)
+        # _s3 = Scripts.P2PKHRedeemScript.compile([pk])
         _pre.append(Ut.to_cuint(len(_s3)) + _s3)
 
         _pre.append(Ut.int_to_bytes(self.vin[i].tb_value, 8, 'little'))

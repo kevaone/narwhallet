@@ -249,7 +249,9 @@ class Ui_keva_op_send_dlg(QDialog):
             _pk = wallet.get_publickey_raw(_npk, _npkc)
             _sighash = self.new_tx.make_preimage(c, _pk, SIGHASH_TYPE.ALL)
             _sig = wallet.sign_message(_npk, _sighash, _npkc)
-            _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
+            _script = Scripts.P2WPKHScriptSig(_pk)
+            _script = Scripts.compile(_script, True)
+            # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
             _vin_idx.scriptSig.set_hex(_script)
             # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
             # if [_sig+'01', _pk] not in self.new_tx.input_signatures:
@@ -289,19 +291,28 @@ class Ui_keva_op_send_dlg(QDialog):
             self.key_v.setText(self.ns_key)
 
         if self.ns is None:
-            _sh = Scripts.KevaNamespaceCreation.compile([_temp_ns,
-                                                         self.ns_value,
-                                                         self.ns_address
-                                                         ], True)
+            _sh = Scripts.KevaNamespaceCreation(_temp_ns, self.ns_value,
+                                                self.ns_address)
+            _sh = Scripts.compile(_sh, True)
+            # _sh = Scripts.KevaNamespaceCreation.compile([_temp_ns,
+            #                                              self.ns_value,
+            #                                              self.ns_address
+            #                                              ], True)
         elif (self.ns is not None and self.ns_key is not None
               and self.ns_value is not None):
-            _sh = Scripts.KevaKeyValueUpdate.compile([self.ns, self.ns_key,
-                                                      self.ns_value,
-                                                      self.ns_address], True)
+            _sh = Scripts.KevaKeyValueUpdate(self.ns, self.ns_key,
+                                             self.ns_value, self.ns_address)
+            _sh = Scripts.compile(_sh, True)
+            # _sh = Scripts.KevaKeyValueUpdate.compile([self.ns, self.ns_key,
+            #                                           self.ns_value,
+            #                                           self.ns_address], True)
         elif (self.ns is not None and self.ns_key is not None
               and self.ns_value is None):
-            _sh = Scripts.KevaKeyValueDelete.compile([self.ns, self.ns_key,
-                                                      self.ns_address], True)
+            _sh = Scripts.KevaKeyValueDelete(self.ns, self.ns_key,
+                                             self.ns_address)
+            _sh = Scripts.compile(_sh, True)
+            # _sh = Scripts.KevaKeyValueDelete.compile([self.ns, self.ns_key,
+            #                                           self.ns_address], True)
 
         _ = self.new_tx.add_output(_namespace_reservation, self.ns_address)
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
@@ -316,20 +327,27 @@ class Ui_keva_op_send_dlg(QDialog):
             if self.ns is None:
                 self.ns = self.tx_to_ns(self.new_tx.vin[0].txid,
                                         self.new_tx.vin[0].vout)
-                _n_sh = Scripts.KevaNamespaceCreation.compile([self.ns,
-                                                               self.ns_value,
-                                                               self.ns_address
-                                                               ], True)
+                _n_sh = Scripts.KevaNamespaceCreation(self.ns, self.ns_value,
+                                                      self.ns_address)
+                _n_sh = Scripts.compile(_n_sh, True)
+                # _n_sh = Scripts.KevaNamespaceCreation.compile([self.ns,
+                #                                                self.ns_value,
+                #                                                self.ns_address
+                #                                                ], True)
                 if _need_change is True:
                     # _change_address = wallet.get_unused_change_address()
                     _ = self.new_tx.add_output(_cv, self.ns_address)
             elif (self.ns is not None and self.ns_key is not None
                   and self.ns_value is not None):
-                _n_sh = Scripts.KevaKeyValueUpdate.compile([self.ns,
-                                                            self.ns_key,
-                                                            self.ns_value,
-                                                            self.ns_address
-                                                            ], True)
+                _n_sh = Scripts.KevaKeyValueUpdate(self.ns, self.ns_key,
+                                                   self.ns_value,
+                                                   self.ns_address)
+                _n_sh = Scripts.compile(_n_sh, True)
+                # _n_sh = Scripts.KevaKeyValueUpdate.compile([self.ns,
+                #                                             self.ns_key,
+                #                                             self.ns_value,
+                #                                             self.ns_address
+                #                                             ], True)
                 if self.is_transfer is True:
                     if _need_change is True:
                         _change_address = wallet.get_unused_change_address()
@@ -338,10 +356,13 @@ class Ui_keva_op_send_dlg(QDialog):
                     _ = self.new_tx.add_output(_cv, self.ns_address)
             elif (self.ns is not None and self.ns_key is not None
                   and self.ns_value is None):
-                _n_sh = Scripts.KevaKeyValueDelete.compile([self.ns,
-                                                            self.ns_key,
-                                                            self.ns_address
-                                                            ], True)
+                _n_sh = Scripts.KevaKeyValueDelete(self.ns, self.ns_key,
+                                                   self.ns_address)
+                _n_sh = Scripts.compile(_n_sh, True)
+                # _n_sh = Scripts.KevaKeyValueDelete.compile([self.ns,
+                #                                             self.ns_key,
+                #                                             self.ns_address
+                #                                             ], True)
                 if _need_change is True:
                     _ = self.new_tx.add_output(_cv, self.ns_address)
 

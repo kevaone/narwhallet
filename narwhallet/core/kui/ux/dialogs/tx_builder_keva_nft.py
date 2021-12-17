@@ -295,7 +295,9 @@ class Ui_keva_op_nft_dlg(QDialog):
             _pk = wallet.get_publickey_raw(_npk, _npkc)
             _sighash = self.new_tx.make_preimage(c, _pk, SIGHASH_TYPE.ALL)
             _sig = wallet.sign_message(_npk, _sighash, _npkc)
-            _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
+            _script = Scripts.P2WPKHScriptSig(_pk)
+            _script = Scripts.compile(_script, True)
+            # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
             _vin_idx.scriptSig.set_hex(_script)
             # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
             self.new_tx.input_signatures.append([_sig+'01', _pk])
@@ -334,10 +336,12 @@ class Ui_keva_op_nft_dlg(QDialog):
 
         _ns_key = '\x01_KEVA_NS_'
         _ns_value = json.dumps(_auc, separators=(',', ':'))
-
-        _sh = Scripts.KevaKeyValueUpdate.compile([_ns, _ns_key,
-                                                  _ns_value,
-                                                  _ns_address], True)
+        _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
+                                         _ns_address)
+        _sh = Scripts.compile(_sh, True)
+        # _sh = Scripts.KevaKeyValueUpdate.compile([_ns, _ns_key,
+        #                                           _ns_value,
+        #                                           _ns_address], True)
 
         _ = self.new_tx.add_output(_namespace_reservation, _ns_address)
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)

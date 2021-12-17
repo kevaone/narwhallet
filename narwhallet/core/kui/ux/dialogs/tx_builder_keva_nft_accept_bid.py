@@ -219,8 +219,10 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         _nft_tx = MShared.check_tx_is_bid(_nft_tx, self.kex, self.cache)
         if _nft_tx[0] is True:
             _bid_psbt = keva_psbt(_nft_tx[2])
-            _sh = (Scripts.P2SHAddressScriptHash
-                   .compile([self.nft_address.text()], True))
+            _sh = Scripts.P2SHAddressScriptHash(self.nft_address.text())
+            _sh = Scripts.compile(_sh, True)
+            # _sh = (Scripts.P2SHAddressScriptHash
+            #        .compile([self.nft_address.text()], True))
             if _bid_psbt.tx.vout[1].scriptPubKey.hex == _sh:
                 (self.bid_amount
                  .setText(str(_bid_psbt.tx.vout[1].value/100000000)))
@@ -296,13 +298,17 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         _pk = wallet.get_publickey_raw(_npk, _npkc)
         _sighash = tx.make_preimage(len(tx.vin)-1, _pk, hash_type)
         _sig = wallet.sign_message(_npk, _sighash, _npkc)
-        _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
+        _script = Scripts.P2WPKHScriptSig(_pk)
+        _script = Scripts.compile(_script, True)
+        # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
         _vin_idx.scriptSig.set_hex(_script)
         (tx.input_signatures.append(
          [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
 
         _addr = wallet.get_address_by_index(_npk, False)
-        _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
+        _r = Scripts.P2SHAddressScriptHash(_addr)
+        _r = Scripts.compile(_r, False)
+        # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
 
         _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
         _ref = _ref + Ut.to_cuint(len(_r)) + _r
