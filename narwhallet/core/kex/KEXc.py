@@ -20,23 +20,20 @@ class KEXclient():
 
     def call(self, command: _cmd):
         try:
-            # _command = command.build_command(params, self.id)
             while self.peers[self.active_peer].busy is True:
-                # print('peer busy, retry in 5 seconds...')
+                # print('peer busy, retry in 1 seconds...')
                 time.sleep(1)
             data = self.peers[self.active_peer].comm(command)
             self.id += 1
         except Exception:
-            data = ''
+            data = b''
 
         try:
-            if isinstance(data, bytes):
-                data = data.decode()
-            _ = json.loads(data)
+            _ = json.loads(data.decode())
         except Exception:
-            data = ''
+            data = b''
 
-        return data
+        return data.decode()
 
     def call_batch(self, commands: list, json_test: bool = True):
         try:
@@ -45,14 +42,12 @@ class KEXclient():
                 time.sleep(1)
             data = self.peers[self.active_peer].comm(commands)
         except Exception:
-            data = '[]'
+            data = b'[]'
 
         try:
             if json_test is True:
-                if isinstance(data, bytes):
-                    data = data.decode()
-                _ = json.loads(data)
+                _ = json.loads(data.decode())
         except Exception:
-            data = '[]'
+            data = b'[]'
 
-        return data
+        return data.decode()
