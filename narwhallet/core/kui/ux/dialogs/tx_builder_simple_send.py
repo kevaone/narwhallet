@@ -1,12 +1,10 @@
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
 from PyQt5.QtCore import QLocale
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
                              QComboBox, QPushButton, QPlainTextEdit)
-
 from narwhallet.control.shared import MShared
-from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
 from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
@@ -32,8 +30,6 @@ class Ui_simple_send_dlg(QDialog):
         self.raw_tx = None
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        # self.label_1 = QLabel(self)
-        # _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.wl = QHBoxLayout()
         self.w_l = QLabel(self)
         self.w = QComboBox(self)
@@ -65,18 +61,12 @@ class Ui_simple_send_dlg(QDialog):
 
         self.setObjectName('send_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        # self.label_1.setAlignment(_al_center)
-        # self.label_1.setContentsMargins(0, 0, 0, 0)
-        # _pic = _pic.scaledToWidth(20, _transm_st)
-        # self.label_1.setPixmap(_pic)
         self.w.setMinimumWidth(250)
         self.w.addItem('-', '-')
         self.value.setMaximumWidth(250)
         self.address.setAlignment(_al_center)
         self.address_book.setVisible(False)
         self.address_book.addItem('-', '-')
-        # self.address_select.setMinimumWidth(55)
-        # self.address_select.setMaximumWidth(55)
         self.tx.setMaximumHeight(65)
         self.tx.setReadOnly(True)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -84,9 +74,6 @@ class Ui_simple_send_dlg(QDialog):
         self.buttonBox.addButton(self.next_btn, _bb_br_ar)
         self.buttonBox.addButton(self.back_btn, _bb_br_ar)
         self.buttonBox.addButton(self.send_btn, _bb_br_ac)
-        # self.buttonBox.addButton(QDialogButtonBox.StandardButton.Cancel)
-        # self.buttonBox.addButton(_b_ok)
-        # self.buttonBox.button(_b_ok).setEnabled(False)
         self.back_btn.setVisible(False)
         self.next_btn.setEnabled(False)
         self.send_btn.setEnabled(False)
@@ -229,33 +216,6 @@ class Ui_simple_send_dlg(QDialog):
             self.new_tx.inputs_to_spend = _usxos
         self.check_next()
 
-    # def txb_preimage(self):
-    #     _n = self.w.currentData()
-    #     wallet = self.wallets.get_wallet_by_name(_n)
-    #     self.new_tx.input_signatures = []
-    #     # print('len(self.new_tx.vin)', len(self.new_tx.vin))
-    #     for c, _vin_idx in enumerate(self.new_tx.vin):
-    #         _npk = _vin_idx.tb_address
-    #         _npkc = _vin_idx.tb_address_chain
-    #         _pk = wallet.get_publickey_raw(_npk, _npkc)
-    #         _sighash = self.new_tx.make_preimage(c, _pk, SIGHASH_TYPE.ALL)
-    #         _sig = wallet.sign_message(_npk, _sighash, _npkc)
-    #         _script = Scripts.P2WPKHScriptSig(_pk)
-    #         _script = Scripts.compile(_script, True)
-    #         # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-    #         _vin_idx.scriptSig.set_hex(_script)
-    #         # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
-    #         # if [_sig+'01', _pk] not in self.new_tx.input_signatures:
-    #         self.new_tx.input_signatures.append([_sig+'01', _pk])
-
-    #         _addr = wallet.get_address_by_index(_npk, False)
-    #         _r = Scripts.P2SHAddressScriptHash(_addr)
-    #         _r = Scripts.compile(_r, False)
-    #         # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
-    #         _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
-    #         _ref = _ref + Ut.to_cuint(len(_r)) + _r
-    #         self.new_tx.input_ref_scripts.append(_ref)
-
     def txb_build_simple_send(self):
         locale = QLocale()
         _result = locale.toDouble(self.value.text())
@@ -275,13 +235,11 @@ class Ui_simple_send_dlg(QDialog):
         if _inp_sel is True:
             _, _, _fv = self.new_tx.get_current_values()
             _cv = _fv - _est_fee
-            # print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
+
             if _need_change is True:
                 _change_address = wallet.get_unused_change_address()
                 _ = self.new_tx.add_output(_cv, _change_address)
 
-            # print('final size', self.new_tx.get_size(len(self.new_tx.vin),
-            #       len(self.new_tx.vout)))
             self.new_tx.txb_preimage(wallet, SIGHASH_TYPE.ALL)
             _stx = self.new_tx.serialize_tx()
 
@@ -289,14 +247,11 @@ class Ui_simple_send_dlg(QDialog):
             self.txsize.setText(str(len(_stx)))
             self.raw_tx = Ut.bytes_to_hex(_stx)
             self.tx.setPlainText(self.raw_tx)
-
             self.w.setEnabled(False)
-            # self.value.setStyle(QFrame.Shape.NoFrame)
             self.value.setFrame(False)
             self.value.setReadOnly(True)
             self.address.setReadOnly(True)
             self.address.setFrame(False)
-            # self.address.setStyle(QFrame.Shape.NoFrame)
             self.next_btn.setVisible(False)
             self.back_btn.setVisible(True)
             self.send_btn.setEnabled(True)
@@ -317,7 +272,6 @@ class Ui_simple_send_dlg(QDialog):
         self.new_tx.set_vout([])
         self.new_tx.input_signatures = []
         self.tx.setPlainText(self.raw_tx)
-
         self.w.setEnabled(True)
         self.value.setReadOnly(False)
         self.address.setReadOnly(False)

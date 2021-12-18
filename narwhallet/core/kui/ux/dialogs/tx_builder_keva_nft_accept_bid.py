@@ -1,4 +1,4 @@
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
@@ -17,7 +17,6 @@ from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class Ui_keva_op_nft_accept_bid_dlg(QDialog):
     def setupUi(self):
-        # _al_center = QtCore.Qt.AlignCenter
         _bb_br_ar = QDialogButtonBox.ActionRole
         _bb_br_ac = QDialogButtonBox.AcceptRole
         _sp_exp = QSizePolicy.Expanding
@@ -31,9 +30,6 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
 
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        # self.label_1 = QLabel(self)
-        # _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
-
         self.hl_0 = QHBoxLayout()
         self.hl_1 = QHBoxLayout()
         self.hl_2 = QHBoxLayout()
@@ -87,9 +83,6 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
 
         self.setObjectName('keva_op_nft_accept_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        # self.label_1.setAlignment(_al_center)
-        # self.label_1.setContentsMargins(0, 0, 0, 0)
-        # self.label_1.setPixmap(_pic)
         self.combo_wallet.addItem('-', '-')
         self.bid_nft_tx.setReadOnly(True)
         self.tx.setMaximumHeight(65)
@@ -222,8 +215,6 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
             _bid_psbt = keva_psbt(_nft_tx[2])
             _sh = Scripts.P2SHAddressScriptHash(self.nft_address.text())
             _sh = Scripts.compile(_sh, True)
-            # _sh = (Scripts.P2SHAddressScriptHash
-            #        .compile([self.nft_address.text()], True))
             if _bid_psbt.tx.vout[1].scriptPubKey.hex == _sh:
                 (self.bid_amount
                  .setText(str(_bid_psbt.tx.vout[1].value/100000000)))
@@ -289,31 +280,6 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
     #         _usxos = []
 
     #     self.new_tx.inputs_to_spend = _usxos
-
-    # def txb_preimage(self, tx: MTransactionBuilder, hash_type: SIGHASH_TYPE):
-    #     wallet = self.wallet
-
-    #     _vin_idx = tx.vin[-1]
-    #     _npk = _vin_idx.tb_address
-    #     _npkc = _vin_idx.tb_address_chain
-    #     _pk = wallet.get_publickey_raw(_npk, _npkc)
-    #     _sighash = tx.make_preimage(len(tx.vin)-1, _pk, hash_type)
-    #     _sig = wallet.sign_message(_npk, _sighash, _npkc)
-    #     _script = Scripts.P2WPKHScriptSig(_pk)
-    #     _script = Scripts.compile(_script, True)
-    #     # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-    #     _vin_idx.scriptSig.set_hex(_script)
-    #     (tx.input_signatures.append(
-    #      [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
-
-    #     _addr = wallet.get_address_by_index(_npk, False)
-    #     _r = Scripts.P2SHAddressScriptHash(_addr)
-    #     _r = Scripts.compile(_r, False)
-    #     # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
-
-    #     _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
-    #     _ref = _ref + Ut.to_cuint(len(_r)) + _r
-    #     tx.input_ref_scripts.append(_ref)
 
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))

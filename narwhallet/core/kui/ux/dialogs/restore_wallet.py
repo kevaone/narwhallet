@@ -14,12 +14,9 @@ class Ui_restore_wallet_dlg(QDialog):
     def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        # _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
         self.verticalLayout = QVBoxLayout(self)
-        # self.label_1 = QLabel(self)
-        # _pic = QPixmap(MShared.get_resource_path('narwhal.png'))
         self.horizontalLayout_3 = QHBoxLayout()
         self.label_4 = QLabel(self)
         self.lineEdit_2 = QLineEdit(self)
@@ -44,13 +41,9 @@ class Ui_restore_wallet_dlg(QDialog):
 
         self.setObjectName('restore_dlg')
         self.resize(400, 400)
-        # self.label_1.setAlignment(_al_center)
-        # self.label_1.setContentsMargins(0, 0, 0, 0)
-        # self.label_1.setPixmap(_pic)
         self.label_5.setVisible(False)
         self.comboBox1.addItem('-')
         self.comboBox1.addItem('bip32')
-        # self.comboBox1.addItem('bip44')
         self.comboBox1.addItem('bip49')
         self.comboBox1.setVisible(False)
         self.label.setVisible(False)

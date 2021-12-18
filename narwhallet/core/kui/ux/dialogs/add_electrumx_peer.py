@@ -12,11 +12,8 @@ class Ui_add_electrumx_peer_dlg(QDialog):
     def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        # _al_center = QtCore.Qt.AlignCenter
 
         self.verticalLayout = QVBoxLayout(self)
-        # self.label_1 = QLabel(self)
-        # _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.horizontalLayout = QHBoxLayout()
         self.comboBox = _coin_dropdown(self)
         self.horizontalLayout_2 = QHBoxLayout()
@@ -34,9 +31,6 @@ class Ui_add_electrumx_peer_dlg(QDialog):
         self.setObjectName('create_electrumx_peer_dlg')
         self.resize(447, 175)
         self.setMaximumSize(QtCore.QSize(500, 175))
-        # self.label_1.setAlignment(_al_center)
-        # self.label_1.setContentsMargins(0, 0, 0, 0)
-        # self.label_1.setPixmap(_pic)
         self.comboBox.setCurrentText('Kevacoin')
         self.comboBox.setVisible(False)
         self.lineEdit_2.setValidator(self.port_v)

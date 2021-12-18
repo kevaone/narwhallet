@@ -1,5 +1,5 @@
 import json
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
 from PyQt5.QtCore import QLocale
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
@@ -17,7 +17,6 @@ from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class Ui_action_dlg(QDialog):
     def setupUi(self):
-        # _al_center = QtCore.Qt.AlignCenter
         _bb_br_ar = QDialogButtonBox.ActionRole
         _bb_br_ac = QDialogButtonBox.AcceptRole
         _sp_exp = QSizePolicy.Expanding
@@ -33,9 +32,6 @@ class Ui_action_dlg(QDialog):
 
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        # self.label_1 = QLabel(self)
-        # _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
-
         self.hl_0 = QHBoxLayout()
         self.hl_1 = QHBoxLayout()
         self.hl_2 = QHBoxLayout()
@@ -77,9 +73,6 @@ class Ui_action_dlg(QDialog):
 
         self.setObjectName('action_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        # self.label_1.setAlignment(_al_center)
-        # self.label_1.setContentsMargins(0, 0, 0, 0)
-        # self.label_1.setPixmap(_pic)
         self.combo_wallet.addItem('-', '-')
         self.combo_ns.addItem('-', '-')
         self.combo_ns.setMinimumWidth(250)
@@ -280,32 +273,6 @@ class Ui_action_dlg(QDialog):
 
     #     self.new_tx.inputs_to_spend = _usxos
 
-    # def txb_preimage(self, tx: MTransactionBuilder, hash_type: SIGHASH_TYPE):
-    #     _n = self.combo_wallet.currentData()
-    #     wallet = self.wallets.get_wallet_by_name(_n)
-    #     tx.input_signatures = []
-
-    #     for c, _vin_idx in enumerate(tx.vin):
-    #         _npk = _vin_idx.tb_address
-    #         _npkc = _vin_idx.tb_address_chain
-    #         _pk = wallet.get_publickey_raw(_npk, _npkc)
-    #         _sighash = tx.make_preimage(c, _pk, hash_type)
-    #         _sig = wallet.sign_message(_npk, _sighash, _npkc)
-    #         _script = Scripts.P2WPKHScriptSig(_pk)
-    #         _script = Scripts.compile(_script, True)
-    #         # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-    #         _vin_idx.scriptSig.set_hex(_script)
-    #         (tx.input_signatures.append(
-    #             [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
-
-    #         _addr = wallet.get_address_by_index(_npk, False)
-    #         _r = Scripts.P2SHAddressScriptHash(_addr)
-    #         _r = Scripts.compile(_r, False)
-    #         # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
-    #         _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
-    #         _ref = _ref + Ut.to_cuint(len(_r)) + _r
-    #         tx.input_ref_scripts.append(_ref)
-
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
         _tx_hash = Ut.hash160(_tx + str(vout).encode())
@@ -338,9 +305,6 @@ class Ui_action_dlg(QDialog):
         _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
                                          _ns_address)
         _sh = Scripts.compile(_sh, True)
-        # _sh = Scripts.KevaKeyValueUpdate.compile([_ns, _ns_key,
-        #                                           _ns_value,
-        #                                           _ns_address], True)
 
         _ = self.new_tx.add_output(_namespace_reservation, _ns_address)
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)

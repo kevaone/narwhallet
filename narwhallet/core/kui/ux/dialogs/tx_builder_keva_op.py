@@ -1,10 +1,8 @@
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
                              QComboBox, QPushButton, QPlainTextEdit)
-
-from narwhallet.control.shared import MShared
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
@@ -16,7 +14,6 @@ from narwhallet.core.kui.ux.widgets.generator import UShared
 
 class Ui_keva_op_send_dlg(QDialog):
     def setupUi(self):
-        # _al_center = QtCore.Qt.AlignCenter
         _bb_br_ar = QDialogButtonBox.ActionRole
         _bb_br_ac = QDialogButtonBox.AcceptRole
         _sp_exp = QSizePolicy.Expanding
@@ -35,8 +32,6 @@ class Ui_keva_op_send_dlg(QDialog):
         self.ns_value = None
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        # self.label_1 = QLabel(self)
-        # _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.wl = QHBoxLayout()
         self.w_l = QLabel(self)
         self.w = QComboBox(self)
@@ -53,9 +48,6 @@ class Ui_keva_op_send_dlg(QDialog):
         self.value_l = QLabel(self)
         self.value = QPlainTextEdit(self)
         self.address_book = QComboBox(self)
-        # self.ahl = QHBoxLayout()
-        # self.address_l = QLabel(keva_op_send_dialog)
-        # self.address = QLineEdit(keva_op_send_dialog)
         self.fee_hl = QHBoxLayout()
         self.fee_l = QLabel(self)
         self.fee = QLabel(self)
@@ -75,10 +67,6 @@ class Ui_keva_op_send_dlg(QDialog):
 
         self.setObjectName('keva_op_send_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        # self.label_1.setAlignment(_al_center)
-        # self.label_1.setContentsMargins(0, 0, 0, 0)
-        # _pic = _pic.scaledToWidth(20, _transm_st)
-        # self.label_1.setPixmap(_pic)
         self.w.setMinimumWidth(250)
         self.w.addItem('-', '-')
         self.sk.addItem('Special Keys', '-')
@@ -88,7 +76,6 @@ class Ui_keva_op_send_dlg(QDialog):
         self.value.setMinimumHeight(65)
         self.address_book.addItem('-', '-')
         self.address_book.setVisible(False)
-        # self.address.setAlignment(_al_center)
         self.tx.setMaximumHeight(65)
         self.tx.setReadOnly(True)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -96,9 +83,6 @@ class Ui_keva_op_send_dlg(QDialog):
         self.buttonBox.addButton(self.next_btn, _bb_br_ar)
         self.buttonBox.addButton(self.back_btn, _bb_br_ar)
         self.buttonBox.addButton(self.send_btn, _bb_br_ac)
-        # self.buttonBox.addButton(QDialogButtonBox.StandardButton.Cancel)
-        # self.buttonBox.addButton(_b_ok)
-        # self.buttonBox.button(_b_ok).setEnabled(False)
         self.back_btn.setVisible(False)
         self.next_btn.setEnabled(False)
         self.send_btn.setEnabled(False)
@@ -126,9 +110,6 @@ class Ui_keva_op_send_dlg(QDialog):
         self.verticalLayout.addLayout(self.vhl)
         self.verticalLayout.addWidget(self.value)
         self.verticalLayout.addWidget(self.address_book)
-        # self.ahl.addWidget(self.address_l)
-        # self.verticalLayout.addLayout(self.ahl)
-        # self.verticalLayout.addWidget(self.address)
         self.fee_hl.addWidget(self.fee_l)
         self.fee_hl.addWidget(self.fee)
         self.fee_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
@@ -164,8 +145,6 @@ class Ui_keva_op_send_dlg(QDialog):
         self.sk_l.setText(_translate('keva_op_send_dlg', 'Special Key:'))
         self.key_v_l.setText(_translate('keva_op_send_dlg', 'Key Name: '))
         self.value_l.setText(_translate('keva_op_send_dlg', 'Name: '))
-        # self.address_l.setText(_translate('keva_op_send_dlg',
-        #                                   'Send to Address:'))
         self.cancel_btn.setText(_translate('keva_op_send_dlg', 'Cancel'))
         self.send_btn.setText(_translate('keva_op_send_dlg', 'Send'))
         self.next_btn.setText(_translate('keva_op_send_dlg', 'Next'))
@@ -241,25 +220,6 @@ class Ui_keva_op_send_dlg(QDialog):
 
     #         self.new_tx.inputs_to_spend = _usxos
 
-    # def txb_preimage(self):
-    #     _n = self.w.currentData()
-    #     wallet = self.wallets.get_wallet_by_name(_n)
-    #     self.new_tx.input_signatures = []
-    #     # print('len(self.new_tx.vin)', len(self.new_tx.vin))
-    #     for c, _vin_idx in enumerate(self.new_tx.vin):
-    #         _npk = _vin_idx.tb_address
-    #         _npkc = _vin_idx.tb_address_chain
-    #         _pk = wallet.get_publickey_raw(_npk, _npkc)
-    #         _sighash = self.new_tx.make_preimage(c, _pk, SIGHASH_TYPE.ALL)
-    #         _sig = wallet.sign_message(_npk, _sighash, _npkc)
-    #         _script = Scripts.P2WPKHScriptSig(_pk)
-    #         _script = Scripts.compile(_script, True)
-    #         # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-    #         _vin_idx.scriptSig.set_hex(_script)
-    #         # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
-    #         # if [_sig+'01', _pk] not in self.new_tx.input_signatures:
-    #         self.new_tx.input_signatures.append([_sig+'01', _pk])
-
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
         _tx_hash = Ut.hash160(_tx + str(vout).encode())
@@ -297,25 +257,16 @@ class Ui_keva_op_send_dlg(QDialog):
             _sh = Scripts.KevaNamespaceCreation(_temp_ns, self.ns_value,
                                                 self.ns_address)
             _sh = Scripts.compile(_sh, True)
-            # _sh = Scripts.KevaNamespaceCreation.compile([_temp_ns,
-            #                                              self.ns_value,
-            #                                              self.ns_address
-            #                                              ], True)
         elif (self.ns is not None and self.ns_key is not None
               and self.ns_value is not None):
             _sh = Scripts.KevaKeyValueUpdate(self.ns, self.ns_key,
                                              self.ns_value, self.ns_address)
             _sh = Scripts.compile(_sh, True)
-            # _sh = Scripts.KevaKeyValueUpdate.compile([self.ns, self.ns_key,
-            #                                           self.ns_value,
-            #                                           self.ns_address], True)
         elif (self.ns is not None and self.ns_key is not None
               and self.ns_value is None):
             _sh = Scripts.KevaKeyValueDelete(self.ns, self.ns_key,
                                              self.ns_address)
             _sh = Scripts.compile(_sh, True)
-            # _sh = Scripts.KevaKeyValueDelete.compile([self.ns, self.ns_key,
-            #                                           self.ns_address], True)
 
         _ = self.new_tx.add_output(_namespace_reservation, self.ns_address)
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
@@ -325,7 +276,6 @@ class Ui_keva_op_send_dlg(QDialog):
         if _inp_sel is True:
             _, _, _fv = self.new_tx.get_current_values()
             _cv = _fv - _est_fee
-            # print('_cv', _cv, 'fv', _fv, 'est_fee', _est_fee)
 
             if self.ns is None:
                 self.ns = self.tx_to_ns(self.new_tx.vin[0].txid,
@@ -333,12 +283,7 @@ class Ui_keva_op_send_dlg(QDialog):
                 _n_sh = Scripts.KevaNamespaceCreation(self.ns, self.ns_value,
                                                       self.ns_address)
                 _n_sh = Scripts.compile(_n_sh, True)
-                # _n_sh = Scripts.KevaNamespaceCreation.compile([self.ns,
-                #                                                self.ns_value,
-                #                                                self.ns_address
-                #                                                ], True)
                 if _need_change is True:
-                    # _change_address = wallet.get_unused_change_address()
                     _ = self.new_tx.add_output(_cv, self.ns_address)
             elif (self.ns is not None and self.ns_key is not None
                   and self.ns_value is not None):
@@ -346,11 +291,7 @@ class Ui_keva_op_send_dlg(QDialog):
                                                    self.ns_value,
                                                    self.ns_address)
                 _n_sh = Scripts.compile(_n_sh, True)
-                # _n_sh = Scripts.KevaKeyValueUpdate.compile([self.ns,
-                #                                             self.ns_key,
-                #                                             self.ns_value,
-                #                                             self.ns_address
-                #                                             ], True)
+
                 if self.is_transfer is True:
                     if _need_change is True:
                         _change_address = wallet.get_unused_change_address()
@@ -362,16 +303,11 @@ class Ui_keva_op_send_dlg(QDialog):
                 _n_sh = Scripts.KevaKeyValueDelete(self.ns, self.ns_key,
                                                    self.ns_address)
                 _n_sh = Scripts.compile(_n_sh, True)
-                # _n_sh = Scripts.KevaKeyValueDelete.compile([self.ns,
-                #                                             self.ns_key,
-                #                                             self.ns_address
-                #                                             ], True)
+
                 if _need_change is True:
                     _ = self.new_tx.add_output(_cv, self.ns_address)
 
             self.new_tx.vout[0].scriptPubKey.set_hex(_n_sh)
-            # print('final size', self.new_tx.get_size(len(self.new_tx.vin),
-            #       len(self.new_tx.vout)))
 
             self.new_tx.txb_preimage(wallet, SIGHASH_TYPE.ALL)
             _stx = self.new_tx.serialize_tx()
@@ -380,12 +316,8 @@ class Ui_keva_op_send_dlg(QDialog):
             self.txsize.setText(str(len(_stx)))
             self.raw_tx = Ut.bytes_to_hex(_stx)
             self.tx.setPlainText(self.raw_tx)
-
             self.w.setEnabled(False)
-
-            # self.value.setFrame(False)
             self.value.setReadOnly(True)
-
             self.next_btn.setVisible(False)
             self.back_btn.setVisible(True)
             self.send_btn.setEnabled(True)
@@ -397,8 +329,6 @@ class Ui_keva_op_send_dlg(QDialog):
         self.next_btn.setVisible(True)
         self.back_btn.setVisible(False)
         self.send_btn.setEnabled(False)
-        # self.value.setFrame(True)
-        # self.address.setFrame(True)
         self.fee.setText('')
         self.txsize.setText('')
         self.raw_tx = ''
@@ -406,7 +336,5 @@ class Ui_keva_op_send_dlg(QDialog):
         self.new_tx.set_vout([])
         self.new_tx.input_signatures = []
         self.tx.setPlainText(self.raw_tx)
-
         self.w.setEnabled(True)
         self.value.setReadOnly(False)
-        # self.address.setReadOnly(False)

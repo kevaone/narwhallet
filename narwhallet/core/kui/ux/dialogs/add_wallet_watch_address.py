@@ -1,11 +1,9 @@
-from PyQt5 import QtCore, QtGui
+from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
                              QDialogButtonBox)
-
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
-# from narwhallet.control.shared import MShared
 from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
@@ -13,12 +11,9 @@ class Ui_add_watch_addr_dlg(QDialog):
     def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        # _al_center = QtCore.Qt.AlignCenter
 
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        # self.label_1 = QLabel(self)
-        # _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.label_hl = QHBoxLayout()
         self.label_label = QLabel(self)
         self.label_d = QLineEdit(self)
@@ -30,9 +25,6 @@ class Ui_add_watch_addr_dlg(QDialog):
 
         self.setObjectName('a_watch_add_dlg')
         self.resize(430, 225)
-        # self.label_1.setAlignment(_al_center)
-        # self.label_1.setContentsMargins(0, 0, 0, 0)
-        # self.label_1.setPixmap(_pic)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(self.set_buttons())
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
