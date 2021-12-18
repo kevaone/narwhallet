@@ -2,8 +2,8 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QLocale
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
-                             QSpacerItem, QSizePolicy, QDialogButtonBox,
-                             QComboBox, QPushButton, QPlainTextEdit)
+                             QSpacerItem, QSizePolicy,
+                             QComboBox, QPushButton)
 from narwhallet.control.shared import MShared
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
@@ -22,8 +22,6 @@ class Ui_simple_send_dlg(QDialog):
         _al_center = QtCore.Qt.AlignCenter
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        # _bb_br_ar = QDialogButtonBox.ActionRole
-        # _bb_br_ac = QDialogButtonBox.AcceptRole
 
         self.wallets: MWallets = None
         self.cache: MCache = None
@@ -44,10 +42,6 @@ class Ui_simple_send_dlg(QDialog):
         self.address_book = QComboBox(self)
         self.address_select = QPushButton(self)
         self.send_info = SendInfoFrame()
-        # self.next_btn = QPushButton(self)
-        # self.back_btn = QPushButton(self)
-        # self.cancel_btn = QPushButton(self)
-        # self.send_btn = QPushButton(self)
         self.buttonBox = DialogButtonBox(self)
 
         self.setObjectName('send_dlg')
@@ -56,14 +50,6 @@ class Ui_simple_send_dlg(QDialog):
         self.address.setAlignment(_al_center)
         self.address_book.setVisible(False)
         self.address_book.addItem('-', '-')
-        # self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        # self.buttonBox.addButton(self.cancel_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.next_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.back_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.send_btn, _bb_br_ac)
-        # self.back_btn.setVisible(False)
-        # self.next_btn.setEnabled(False)
-        # self.send_btn.setEnabled(False)
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
@@ -98,10 +84,6 @@ class Ui_simple_send_dlg(QDialog):
         self.value_l.setText(_translate('send_dlg', 'Value: '))
         self.address_l.setText(_translate('send_dlg', 'Send to Address:'))
         self.address_select.setText(_translate('send_dlg', 'Book'))
-        # self.cancel_btn.setText(_translate('send_dlg', 'Cancel'))
-        # self.send_btn.setText(_translate('send_dlg', 'Send'))
-        # self.next_btn.setText(_translate('send_dlg', 'Next'))
-        # self.back_btn.setText(_translate('send_dlg', 'Back'))
 
     def check_next(self):
         if self.wallet_combo.combo.currentText() != '-':

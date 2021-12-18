@@ -1,8 +1,8 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
-                             QSpacerItem, QSizePolicy, QDialogButtonBox,
-                             QComboBox, QPushButton, QPlainTextEdit)
+                             QSpacerItem, QSizePolicy,
+                             QComboBox, QPlainTextEdit)
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
@@ -17,8 +17,6 @@ from narwhallet.core.kui.ux.widgets.dialog_buttonbox import DialogButtonBox
 
 class Ui_keva_op_send_dlg(QDialog):
     def setupUi(self):
-        # _bb_br_ar = QDialogButtonBox.ActionRole
-        # _bb_br_ac = QDialogButtonBox.AcceptRole
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
 
@@ -50,10 +48,6 @@ class Ui_keva_op_send_dlg(QDialog):
         self.value = QPlainTextEdit(self)
         self.address_book = QComboBox(self)
         self.send_info = SendInfoFrame()
-        # self.next_btn = QPushButton(self)
-        # self.back_btn = QPushButton(self)
-        # self.cancel_btn = QPushButton(self)
-        # self.send_btn = QPushButton(self)
         self.buttonBox = DialogButtonBox(self)
 
         self.setObjectName('keva_op_send_dlg')
@@ -65,14 +59,6 @@ class Ui_keva_op_send_dlg(QDialog):
         self.value.setMinimumHeight(65)
         self.address_book.addItem('-', '-')
         self.address_book.setVisible(False)
-        # self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        # self.buttonBox.addButton(self.cancel_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.next_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.back_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.send_btn, _bb_br_ac)
-        # self.back_btn.setVisible(False)
-        # self.next_btn.setEnabled(False)
-        # self.send_btn.setEnabled(False)
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
@@ -115,10 +101,6 @@ class Ui_keva_op_send_dlg(QDialog):
         self.sk_l.setText(_translate('keva_op_send_dlg', 'Special Key:'))
         self.key_v_l.setText(_translate('keva_op_send_dlg', 'Key Name: '))
         self.value_l.setText(_translate('keva_op_send_dlg', 'Name: '))
-        # self.cancel_btn.setText(_translate('keva_op_send_dlg', 'Cancel'))
-        # self.send_btn.setText(_translate('keva_op_send_dlg', 'Send'))
-        # self.next_btn.setText(_translate('keva_op_send_dlg', 'Next'))
-        # self.back_btn.setText(_translate('keva_op_send_dlg', 'Back'))
 
     def check_next(self):
         if self.w.combo.currentText() != '-' and self.value.toPlainText() != '':

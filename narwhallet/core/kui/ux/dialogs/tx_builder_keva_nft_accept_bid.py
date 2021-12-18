@@ -1,8 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
-                             QSpacerItem, QSizePolicy, QDialogButtonBox,
-                             QComboBox, QPushButton, QPlainTextEdit)
+                             QSpacerItem, QSizePolicy)
 
 from narwhallet.control.shared import MShared
 from narwhallet.core.ksc import Scripts
@@ -21,8 +20,6 @@ from narwhallet.core.kui.ux.widgets.dialog_buttonbox import DialogButtonBox
 
 class Ui_keva_op_nft_accept_bid_dlg(QDialog):
     def setupUi(self):
-        # _bb_br_ar = QDialogButtonBox.ActionRole
-        # _bb_br_ac = QDialogButtonBox.AcceptRole
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
 
@@ -53,38 +50,12 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.bid_amount_l = QLabel(self)
         self.bid_amount = QLabel(self)
         self.auction_info = AuctionInfoFrame()
-        # self.nft_name_l = QLabel(self)
-        # self.nft_name = QLabel(self)
-        # self.nft_desc_l = QLabel(self)
-        # self.nft_desc = QLabel(self)
-        # self.nft_hashtags_l = QLabel(self)
-        # self.nft_hashtags = QLabel(self)
-        # self.nft_price_l = QLabel(self)
-        # self.nft_price = QLabel(self)
-        # self.nft_ns_l = QLabel(self)
-        # self.nft_ns = QLabel(self)
-        # self.nft_shortcode_l = QLabel(self)
-        # self.nft_shortcode = QLabel(self)
-        # self.nft_address_l = QLabel(self)
-        # self.nft_address = QLabel(self)
         self.send_info = SendInfoFrame()
-        # self.next_btn = QPushButton(self)
-        # self.back_btn = QPushButton(self)
-        # self.cancel_btn = QPushButton(self)
-        # self.send_btn = QPushButton(self)
         self.buttonBox = DialogButtonBox(self)
 
         self.setObjectName('keva_op_nft_accept_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
         self.bid_nft_tx.setReadOnly(True)
-        # self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        # self.buttonBox.addButton(self.cancel_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.next_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.back_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.send_btn, _bb_br_ac)
-        # self.back_btn.setVisible(False)
-        # self.next_btn.setEnabled(False)
-        # self.send_btn.setEnabled(False)
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
@@ -101,32 +72,6 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.hl_3.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.hl_3)
 
-        # self.hl_4.addWidget(self.nft_name_l)
-        # self.hl_4.addWidget(self.nft_name)
-        # self.hl_4.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        # self.verticalLayout.addLayout(self.hl_4)
-        # self.hl_5.addWidget(self.nft_desc_l)
-        # self.hl_5.addWidget(self.nft_desc)
-        # self.hl_5.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        # self.verticalLayout.addLayout(self.hl_5)
-        # self.hl_6.addWidget(self.nft_hashtags_l)
-        # self.hl_6.addWidget(self.nft_hashtags)
-        # self.hl_6.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        # self.verticalLayout.addLayout(self.hl_6)
-        # self.hl_7.addWidget(self.nft_price_l)
-        # self.hl_7.addWidget(self.nft_price)
-        # self.hl_7.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        # self.verticalLayout.addLayout(self.hl_7)
-        # self.hl_8.addWidget(self.nft_ns_l)
-        # self.hl_8.addWidget(self.nft_ns)
-        # self.hl_8.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        # self.verticalLayout.addLayout(self.hl_8)
-        # self.hl_9.addWidget(self.nft_shortcode_l)
-        # self.hl_9.addWidget(self.nft_shortcode)
-        # self.hl_9.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        # self.verticalLayout.addLayout(self.hl_9)
-        # self.hl_10.addWidget(self.nft_address_l)
-        # self.verticalLayout.addLayout(self.hl_10)
         self.verticalLayout.addWidget(self.auction_info)
         self.verticalLayout.addWidget(self.send_info)
         self.verticalLayout.addWidget(self.buttonBox)
@@ -148,23 +93,6 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
          .setText(_translate('keva_op_nft_accept_dlg', 'Bid on TX: ')))
         (self.bid_amount_l
          .setText(_translate('keva_op_nft_accept_dlg', 'Bid Amount: ')))
-        # self.nft_name_l.setText(_translate('keva_op_nft_accept_dlg', 'Name: '))
-        # (self.nft_desc_l
-        #  .setText(_translate('keva_op_nft_accept_dlg', 'Description: ')))
-        # (self.nft_hashtags_l
-        #  .setText(_translate('keva_op_nft_accept_dlg', 'Hashtags: ')))
-        # (self.nft_price_l
-        #  .setText(_translate('keva_op_nft_accept_dlg', 'Asking Price: ')))
-        # self.nft_ns_l.setText(_translate('keva_op_nft_accept_dlg', 'NS: '))
-        # (self.nft_shortcode_l
-        #  .setText(_translate('keva_op_nft_accept_dlg', 'Shortcode: ')))
-        # (self.nft_address_l
-        #  .setText(_translate('keva_op_nft_accept_dlg', 'Payment Address: ')))
-
-        # self.cancel_btn.setText(_translate('keva_op_nft_accept_dlg', 'Cancel'))
-        # self.send_btn.setText(_translate('keva_op_nft_accept_dlg', 'Send'))
-        # self.next_btn.setText(_translate('keva_op_nft_accept_dlg', 'Next'))
-        # self.back_btn.setText(_translate('keva_op_nft_accept_dlg', 'Back'))
 
     def check_next(self):
         if (self.combo_wallet.combo.currentText() != '-' and

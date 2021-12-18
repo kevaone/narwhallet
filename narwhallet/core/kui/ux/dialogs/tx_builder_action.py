@@ -2,8 +2,7 @@ import json
 from PyQt5 import QtCore
 from PyQt5.QtCore import QLocale
 from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QHBoxLayout,
-                             QSpacerItem, QSizePolicy, QDialogButtonBox,
-                             QComboBox, QPushButton, QPlainTextEdit, QDialog)
+                             QPlainTextEdit, QDialog)
 
 from narwhallet.control.shared import MShared
 from narwhallet.core.ksc import Scripts
@@ -21,11 +20,6 @@ from narwhallet.core.kui.ux.widgets.dialog_buttonbox import DialogButtonBox
 
 class Ui_action_dlg(QDialog):
     def setupUi(self):
-        # _bb_br_ar = QDialogButtonBox.ActionRole
-        # _bb_br_ac = QDialogButtonBox.AcceptRole
-        # _sp_exp = QSizePolicy.Expanding
-        # _sp_min = QSizePolicy.Minimum
-
         self.wallets: MWallets = None
         self.cache: MCache = None
         self.kex = None
@@ -54,22 +48,10 @@ class Ui_action_dlg(QDialog):
         self.action_value_l = QLabel(self)
         self.action_value = QPlainTextEdit(self)
         self.send_info = SendInfoFrame()
-        # self.next_btn = QPushButton(self)
-        # self.back_btn = QPushButton(self)
-        # self.cancel_btn = QPushButton(self)
-        # self.send_btn = QPushButton(self)
         self.buttonBox = DialogButtonBox(self)
 
         self.setObjectName('action_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        # self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        # self.buttonBox.addButton(self.cancel_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.next_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.back_btn, _bb_br_ar)
-        # self.buttonBox.addButton(self.send_btn, _bb_br_ac)
-        # self.back_btn.setVisible(False)
-        # self.next_btn.setEnabled(False)
-        # self.send_btn.setEnabled(False)
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
@@ -105,11 +87,6 @@ class Ui_action_dlg(QDialog):
          .setText(_translate('action_dlg', 'Action on TX: ')))
         (self.action_value_l
          .setText(_translate('action_dlg', 'Action Value: ')))
-
-        # self.cancel_btn.setText(_translate('action_dlg', 'Cancel'))
-        # self.send_btn.setText(_translate('action_dlg', 'Send'))
-        # self.next_btn.setText(_translate('action_dlg', 'Next'))
-        # self.back_btn.setText(_translate('action_dlg', 'Back'))
 
     def check_next(self):
         if (self.combo_wallet.combo.currentText() != '-' and
