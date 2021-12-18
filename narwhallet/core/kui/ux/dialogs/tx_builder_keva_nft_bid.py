@@ -124,7 +124,7 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         # self.hl_9.addWidget(self.nft_addr_l)
         # self.hl_9.addWidget(self.nft_addr)
         # self.hl_9.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.auction_info)
+        self.verticalLayout.addWidget(self.auction_info)
         self.verticalLayout.addWidget(self.send_info)
         self.verticalLayout.addWidget(self.buttonBox)
 

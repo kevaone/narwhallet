@@ -90,7 +90,7 @@ class Ui_keva_op_nft_dlg(QDialog):
         # self.hl_5.addWidget(self.nft_price_l)
         # self.hl_5.addWidget(self.nft_price)
         # self.hl_5.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.auction_info)
+        self.verticalLayout.addWidget(self.auction_info)
         self.verticalLayout.addWidget(self.send_info)
         self.verticalLayout.addWidget(self.buttonBox)
 
