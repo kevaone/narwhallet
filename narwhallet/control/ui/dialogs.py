@@ -72,7 +72,7 @@ class MDialogs():
 
         _di.user_path = self.user_path
         _di.new_tx.set_fee(_fee)
-        _di.feerate.setText(str(_fee))
+        _di.send_info.feerate.setText(str(_fee))
         for _w in self.wallets.wallets:
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                 # NOTE We don't want wallets to relock while interacting
@@ -111,7 +111,7 @@ class MDialogs():
 
         _di.user_path = self.user_path
         _di.new_tx.set_fee(_fee)
-        _di.feerate.setText(str(_fee))
+        _di.send_info.feerate.setText(str(_fee))
         _di.value.setMinimumHeight(28)
         _di.value.setMaximumHeight(28)
         _di.key_v.setVisible(False)
@@ -152,7 +152,7 @@ class MDialogs():
 
         _di.user_path = self.user_path
         _di.new_tx.set_fee(_fee)
-        _di.feerate.setText(str(_fee))
+        _di.send_info.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Create Key')
         _di.value_l.setText('Value: ')
 
@@ -201,7 +201,7 @@ class MDialogs():
 
         _di.user_path = self.user_path
         _di.new_tx.set_fee(_fee)
-        _di.feerate.setText(str(_fee))
+        _di.send_info.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Edit Key')
         _di.value_l.setText('Value: ')
 
@@ -265,7 +265,7 @@ class MDialogs():
 
         _di.user_path = self.user_path
         _di.new_tx.set_fee(_fee)
-        _di.feerate.setText(str(_fee))
+        _di.send_info.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Delete Key')
         _di.value_l.setText('Value: ')
 
@@ -319,7 +319,7 @@ class MDialogs():
 
         _di.user_path = self.user_path
         _di.new_tx.set_fee(_fee)
-        _di.feerate.setText(str(_fee))
+        _di.send_info.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Transfer Namespace')
         _di.value_l.setText('Value: ')
 
@@ -379,7 +379,7 @@ class MDialogs():
             return
 
         _di.new_tx.set_fee(_fee)
-        _di.feerate.setText(str(_fee))
+        _di.send_info.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Create Auction')
 
         for _wallet in self.wallets.wallets:
@@ -411,7 +411,7 @@ class MDialogs():
 
         _di.new_tx.set_fee(_fee)
         _di.bid_tx.set_fee(_fee)
-        _di.feerate.setText(str(_fee))
+        _di.send_info.feerate.setText(str(_fee))
         if tx is not False:
             _di.bid_nft_tx.setText(tx)
             _data = json.loads(action[3])['data']
@@ -455,7 +455,7 @@ class MDialogs():
         _di.action_value_l.setText(action[2].capitalize() + ' value:')
         if action[2] != 'comment':
             _di.action_value.setMaximumHeight(28)
-        _di.feerate.setText(str(_fee))
+        _di.send_info.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Complete Action')
 
         for _wallet in self.wallets.wallets:
@@ -488,7 +488,7 @@ class MDialogs():
             return
 
         _di.new_tx.set_fee(_fee)
-        _di.feerate.setText(str(_fee))
+        _di.send_info.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Accept Bid')
 
         _di.combo_wallet.combo.addItem(wallet.name, wallet.name)

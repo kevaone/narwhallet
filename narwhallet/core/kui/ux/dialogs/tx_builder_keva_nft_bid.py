@@ -16,6 +16,7 @@ from narwhallet.core.kcl.models.transaction_builder import MTransactionBuilder
 from narwhallet.core.kui.ux.widgets.generator import UShared
 from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
 from narwhallet.core.kui.ux.widgets.namespace_combobox import NamespaceComboBox
+from narwhallet.core.kui.ux.widgets.send_info_frame import SendInfoFrame
 
 
 class Ui_keva_op_nft_bid_dlg(QDialog):
@@ -68,18 +69,18 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         self.nft_ns = QLabel(self)
         self.nft_addr_l = QLabel(self)
         self.nft_addr = QLabel(self)
-
-        self.fee_hl = QHBoxLayout()
-        self.fee_l = QLabel(self)
-        self.fee = QLabel(self)
-        self.feerate_hl = QHBoxLayout()
-        self.feerate_l = QLabel(self)
-        self.feerate = QLabel(self)
-        self.tx_hl = QHBoxLayout()
-        self.tx_l = QLabel(self)
-        self.txsize_l = QLabel(self)
-        self.txsize = QLabel(self)
-        self.tx = QPlainTextEdit(self)
+        self.send_info = SendInfoFrame()
+        # self.fee_hl = QHBoxLayout()
+        # self.fee_l = QLabel(self)
+        # self.fee = QLabel(self)
+        # self.feerate_hl = QHBoxLayout()
+        # self.feerate_l = QLabel(self)
+        # self.feerate = QLabel(self)
+        # self.tx_hl = QHBoxLayout()
+        # self.tx_l = QLabel(self)
+        # self.txsize_l = QLabel(self)
+        # self.txsize = QLabel(self)
+        # self.tx = QPlainTextEdit(self)
         self.next_btn = QPushButton(self)
         self.back_btn = QPushButton(self)
         self.cancel_btn = QPushButton(self)
@@ -91,8 +92,8 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         # self.combo_wallet.addItem('-', '-')
         # self.combo_ns.addItem('-', '-')
         # self.combo_ns.setMinimumWidth(250)
-        self.tx.setMaximumHeight(65)
-        self.tx.setReadOnly(True)
+        # self.tx.setMaximumHeight(65)
+        # self.tx.setReadOnly(True)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.addButton(self.cancel_btn, _bb_br_ar)
         self.buttonBox.addButton(self.next_btn, _bb_br_ar)
@@ -147,20 +148,20 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         self.hl_9.addWidget(self.nft_addr)
         self.hl_9.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.hl_9)
-        self.fee_hl.addWidget(self.fee_l)
-        self.fee_hl.addWidget(self.fee)
-        self.fee_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.fee_hl)
-        self.feerate_hl.addWidget(self.feerate_l)
-        self.feerate_hl.addWidget(self.feerate)
-        self.feerate_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.feerate_hl)
-        self.tx_hl.addWidget(self.tx_l)
-        self.tx_hl.addWidget(self.txsize_l)
-        self.tx_hl.addWidget(self.txsize)
-        self.tx_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.tx_hl)
-        self.verticalLayout.addWidget(self.tx)
+        # self.fee_hl.addWidget(self.fee_l)
+        # self.fee_hl.addWidget(self.fee)
+        # self.fee_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        # self.verticalLayout.addLayout(self.fee_hl)
+        # self.feerate_hl.addWidget(self.feerate_l)
+        # self.feerate_hl.addWidget(self.feerate)
+        # self.feerate_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        # self.verticalLayout.addLayout(self.feerate_hl)
+        # self.tx_hl.addWidget(self.tx_l)
+        # self.tx_hl.addWidget(self.txsize_l)
+        # self.tx_hl.addWidget(self.txsize)
+        # self.tx_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        # self.verticalLayout.addLayout(self.tx_hl)
+        self.verticalLayout.addWidget(self.send_info)
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi()
@@ -201,11 +202,11 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         self.send_btn.setText(_translate('keva_op_nft_bid_dlg', 'Send'))
         self.next_btn.setText(_translate('keva_op_nft_bid_dlg', 'Next'))
         self.back_btn.setText(_translate('keva_op_nft_bid_dlg', 'Back'))
-        self.txsize_l.setText(_translate('keva_op_nft_bid_dlg', 'size:'))
-        self.fee_l.setText(_translate('keva_op_nft_bid_dlg', 'Fee (KVA):'))
-        self.feerate_l.setText(_translate('keva_op_nft_bid_dlg',
-                                          'Fee Rate (Satoshi per byte):'))
-        self.tx_l.setText(_translate('keva_op_nft_bid_dlg', 'Raw TX -'))
+        # self.txsize_l.setText(_translate('keva_op_nft_bid_dlg', 'size:'))
+        # self.fee_l.setText(_translate('keva_op_nft_bid_dlg', 'Fee (KVA):'))
+        # self.feerate_l.setText(_translate('keva_op_nft_bid_dlg',
+        #                                   'Fee Rate (Satoshi per byte):'))
+        # self.tx_l.setText(_translate('keva_op_nft_bid_dlg', 'Raw TX -'))
 
     def check_next(self):
         if (self.combo_wallet.combo.currentText() != '-' and
@@ -421,10 +422,10 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
             self.new_tx.txb_preimage(wallet, SIGHASH_TYPE.ALL)
             _stx = self.new_tx.serialize_tx()
 
-            self.fee.setText(str(_est_fee/100000000))
-            self.txsize.setText(str(len(_stx)))
+            self.send_info.fee.setText(str(_est_fee/100000000))
+            self.send_info.txsize.setText(str(len(_stx)))
             self.raw_tx = Ut.bytes_to_hex(_stx)
-            self.tx.setPlainText(self.raw_tx)
+            self.send_info.tx.setPlainText(self.raw_tx)
 
             self.combo_wallet.combo.setEnabled(False)
             self.combo_ns.combo.setEnabled(False)
@@ -447,8 +448,8 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         self.back_btn.setVisible(False)
         self.send_btn.setEnabled(False)
 
-        self.fee.setText('')
-        self.txsize.setText('')
+        self.send_info.fee.setText('')
+        self.send_info.txsize.setText('')
         self.raw_tx = ''
         self.new_tx.set_vin([])
         self.new_tx.set_vout([])
@@ -456,7 +457,7 @@ class Ui_keva_op_nft_bid_dlg(QDialog):
         self.bid_tx.set_vin([])
         self.bid_tx.set_vout([])
         self.bid_tx.input_signatures = []
-        self.tx.setPlainText(self.raw_tx)
+        self.send_info.tx.setPlainText(self.raw_tx)
 
         self.combo_wallet.combo.setEnabled(True)
         self.combo_ns.combo.setEnabled(True)
