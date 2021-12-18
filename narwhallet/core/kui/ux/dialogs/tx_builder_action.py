@@ -13,6 +13,8 @@ from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.core.kcl.models.wallets import MWallets
 from narwhallet.core.kcl.models.transaction_builder import MTransactionBuilder
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
+from narwhallet.core.kui.ux.widgets.namespace_combobox import NamespaceComboBox
 
 
 class Ui_action_dlg(QDialog):
@@ -43,11 +45,11 @@ class Ui_action_dlg(QDialog):
         self.hl_8 = QHBoxLayout()
         self.hl_9 = QHBoxLayout()
 
-        self.combo_wallet_l = QLabel(self)
-        self.combo_wallet = QComboBox(self)
+        #self.combo_wallet_l = QLabel(self)
+        self.combo_wallet = WalletComboBox()
 
-        self.combo_ns_l = QLabel(self)
-        self.combo_ns = QComboBox(self)
+        # self.combo_ns_l = QLabel(self)
+        self.combo_ns = NamespaceComboBox(self)
 
         self.action_tx_l = QLabel(self)
         self.action_tx = QLineEdit(self)
@@ -73,9 +75,9 @@ class Ui_action_dlg(QDialog):
 
         self.setObjectName('action_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        self.combo_wallet.addItem('-', '-')
-        self.combo_ns.addItem('-', '-')
-        self.combo_ns.setMinimumWidth(250)
+        # self.combo_wallet.addItem('-', '-')
+        # self.combo_ns.addItem('-', '-')
+        # self.combo_ns.setMinimumWidth(250)
         self.tx.setMaximumHeight(65)
         self.tx.setReadOnly(True)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -89,14 +91,14 @@ class Ui_action_dlg(QDialog):
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
-        self.hl_0.addWidget(self.combo_wallet_l)
-        self.hl_0.addWidget(self.combo_wallet)
-        self.hl_0.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.hl_0)
-        self.hl_1.addWidget(self.combo_ns_l)
-        self.hl_1.addWidget(self.combo_ns)
-        self.hl_1.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.hl_1)
+        #self.hl_0.addWidget(self.combo_wallet_l)
+        #self.hl_0.addWidget(self.combo_wallet)
+        #self.hl_0.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        self.verticalLayout.addLayout(self.combo_wallet)
+        # self.hl_1.addWidget(self.combo_ns_l)
+        # self.hl_1.addWidget(self.combo_ns)
+        # self.hl_1.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        self.verticalLayout.addLayout(self.combo_ns)
 
         self.verticalLayout.addWidget(self.action_tx_l)
         self.verticalLayout.addWidget(self.action_tx)
@@ -123,8 +125,8 @@ class Ui_action_dlg(QDialog):
         self.retranslateUi()
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
-        self.combo_wallet.currentTextChanged.connect(self.txb_w_changed)
-        self.combo_ns.currentTextChanged.connect(self.txb_ns_changed)
+        self.combo_wallet.combo.currentTextChanged.connect(self.txb_w_changed)
+        self.combo_ns.combo.currentTextChanged.connect(self.txb_ns_changed)
         self.cancel_btn.clicked.connect(self.reject)
         self.next_btn.clicked.connect(self.txb_build_simple_send)
         self.back_btn.clicked.connect(self.back_click)
@@ -136,10 +138,10 @@ class Ui_action_dlg(QDialog):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('action_dlg',
                                        'Narwhallet - Create Namespace'))
-        (self.combo_wallet_l
-         .setText(_translate('action_dlg', 'Wallet:')))
-        (self.combo_ns_l
-         .setText(_translate('action_dlg', 'Namespace:')))
+        # (self.combo_wallet_l
+        #  .setText(_translate('action_dlg', 'Wallet:')))
+        # (self.combo_ns_l
+        #  .setText(_translate('action_dlg', 'Namespace:')))
         (self.action_tx_l
          .setText(_translate('action_dlg', 'Action on TX: ')))
         (self.action_value_l
@@ -156,8 +158,8 @@ class Ui_action_dlg(QDialog):
         self.tx_l.setText(_translate('action_dlg', 'Raw TX -'))
 
     def check_next(self):
-        if (self.combo_wallet.currentText() != '-' and
-                self.combo_ns.currentText() != '-' and
+        if (self.combo_wallet.combo.currentText() != '-' and
+                self.combo_ns.combo.currentText() != '-' and
                 self.action_tx.text() != '' and
                 self.action_value.toPlainText() != ''):
             self.next_btn.setEnabled(True)
@@ -185,9 +187,9 @@ class Ui_action_dlg(QDialog):
             self.check_next()
 
     def set_namespace_combo(self):
-        self.combo_ns.clear()
-        self.combo_ns.addItem('-', '-')
-        _n = self.combo_wallet.currentData()
+        self.combo_ns.combo.clear()
+        self.combo_ns.combo.addItem('-', '-')
+        _n = self.combo_wallet.combo.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
         MShared.list_unspents(wallet, self.kex)
         _tmp_usxo = wallet.get_usxos()
@@ -222,7 +224,7 @@ class Ui_action_dlg(QDialog):
                     if 'displayName' in _name:
                         _name = json.loads(_name)['displayName']
 
-                    self.combo_ns.addItem(_block+' - '+_name, _ns+':'+tx['a'])
+                    self.combo_ns.combo.addItem(_block+' - '+_name, _ns+':'+tx['a'])
 
     @staticmethod
     def _test_tx(tx: MTransactionBuilder) -> bool:
@@ -279,11 +281,11 @@ class Ui_action_dlg(QDialog):
         return Ut.bytes_to_hex(bytes([53]) + _tx_hash)
 
     def txb_build_simple_send(self):
-        _n = self.combo_wallet.currentData()
+        _n = self.combo_wallet.combo.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
         self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
         _namespace_reservation = 1000000
-        _ns_dat = self.combo_ns.currentData().split(':')
+        _ns_dat = self.combo_ns.combo.currentData().split(':')
         _ns = _ns_dat[0]
         _ns_address = _ns_dat[1]
         self.new_tx.set_availible_usxo(wallet, True, False, _ns, self.cache, self.kex)
@@ -330,8 +332,8 @@ class Ui_action_dlg(QDialog):
             self.raw_tx = Ut.bytes_to_hex(_stx)
             self.tx.setPlainText(self.raw_tx)
 
-            self.combo_wallet.setEnabled(False)
-            self.combo_ns.setEnabled(False)
+            self.combo_wallet.combo.setEnabled(False)
+            self.combo_ns.combo.setEnabled(False)
             self.action_tx.setReadOnly(True)
             self.action_value.setReadOnly(True)
 
@@ -356,7 +358,7 @@ class Ui_action_dlg(QDialog):
         self.new_tx.input_signatures = []
         self.tx.setPlainText(self.raw_tx)
 
-        self.combo_wallet.setEnabled(True)
-        self.combo_ns.setEnabled(True)
+        self.combo_wallet.combo.setEnabled(True)
+        self.combo_ns.combo.setEnabled(True)
         self.action_tx.setReadOnly(False)
         self.action_value.setReadOnly(False)

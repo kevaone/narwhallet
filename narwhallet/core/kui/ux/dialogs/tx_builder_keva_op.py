@@ -10,6 +10,7 @@ from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.core.kcl.models.wallets import MWallets
 from narwhallet.core.kcl.models.transaction_builder import MTransactionBuilder
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
 
 
 class Ui_keva_op_send_dlg(QDialog):
@@ -32,9 +33,9 @@ class Ui_keva_op_send_dlg(QDialog):
         self.ns_value = None
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        self.wl = QHBoxLayout()
-        self.w_l = QLabel(self)
-        self.w = QComboBox(self)
+        # self.wl = QHBoxLayout()
+        # self.w_l = QLabel(self)
+        self.w = WalletComboBox()
         self.wnsl = QHBoxLayout()
         self.wns_l = QLabel(self)
         self.wns = QLabel(self)
@@ -67,8 +68,8 @@ class Ui_keva_op_send_dlg(QDialog):
 
         self.setObjectName('keva_op_send_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        self.w.setMinimumWidth(250)
-        self.w.addItem('-', '-')
+        # self.w.setMinimumWidth(250)
+        # self.w.addItem('-', '-')
         self.sk.addItem('Special Keys', '-')
         self.sk.setVisible(False)
         self.sk_l.setVisible(False)
@@ -89,10 +90,10 @@ class Ui_keva_op_send_dlg(QDialog):
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
-        self.wl.addWidget(self.w_l)
-        self.wl.addWidget(self.w)
-        self.wl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.wl)
+        # self.wl.addWidget(self.w_l)
+        # self.wl.addWidget(self.w)
+        # self.wl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        self.verticalLayout.addLayout(self.w)
         self.wnsl.addWidget(self.wns_l)
         self.wnsl.addWidget(self.wns)
         self.wnsl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
@@ -129,7 +130,7 @@ class Ui_keva_op_send_dlg(QDialog):
         self.retranslateUi()
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
-        self.w.currentTextChanged.connect(self.txb_w_changed)
+        self.w.combo.currentTextChanged.connect(self.txb_w_changed)
         self.cancel_btn.clicked.connect(self.reject)
         self.next_btn.clicked.connect(self.txb_build_simple_send)
         self.back_btn.clicked.connect(self.back_click)
@@ -140,7 +141,7 @@ class Ui_keva_op_send_dlg(QDialog):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('keva_op_send_dlg',
                                        'Narwhallet - Create Namespace'))
-        self.w_l.setText(_translate('keva_op_send_dlg', 'Wallet:'))
+        # self.w_l.setText(_translate('keva_op_send_dlg', 'Wallet:'))
         self.wns_l.setText(_translate('keva_op_send_dlg', 'Namespace:'))
         self.sk_l.setText(_translate('keva_op_send_dlg', 'Special Key:'))
         self.key_v_l.setText(_translate('keva_op_send_dlg', 'Key Name: '))
@@ -156,7 +157,7 @@ class Ui_keva_op_send_dlg(QDialog):
         self.tx_l.setText(_translate('keva_op_send_dlg', 'Raw TX -'))
 
     def check_next(self):
-        if self.w.currentText() != '-' and self.value.toPlainText() != '':
+        if self.w.combo.currentText() != '-' and self.value.toPlainText() != '':
             if self.address_book.isVisible():
                 if self.address_book.currentData() != '-':
                     self.next_btn.setEnabled(True)
@@ -169,7 +170,7 @@ class Ui_keva_op_send_dlg(QDialog):
 
     def txb_w_changed(self, data):
         if data != '-':
-            _n = self.w.currentData()
+            _n = self.w.combo.currentData()
             wallet = self.wallets.get_wallet_by_name(_n)
             self.new_tx.set_availible_usxo(wallet, False, False, self.ns_address, self.cache, self.kex)
 
@@ -227,7 +228,7 @@ class Ui_keva_op_send_dlg(QDialog):
 
     def txb_build_simple_send(self):
         self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
-        _n = self.w.currentData()
+        _n = self.w.combo.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
         _t = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
         _temp_vout = 0
@@ -316,7 +317,7 @@ class Ui_keva_op_send_dlg(QDialog):
             self.txsize.setText(str(len(_stx)))
             self.raw_tx = Ut.bytes_to_hex(_stx)
             self.tx.setPlainText(self.raw_tx)
-            self.w.setEnabled(False)
+            self.w.combo.setEnabled(False)
             self.value.setReadOnly(True)
             self.next_btn.setVisible(False)
             self.back_btn.setVisible(True)
@@ -336,5 +337,5 @@ class Ui_keva_op_send_dlg(QDialog):
         self.new_tx.set_vout([])
         self.new_tx.input_signatures = []
         self.tx.setPlainText(self.raw_tx)
-        self.w.setEnabled(True)
+        self.w.combo.setEnabled(True)
         self.value.setReadOnly(False)

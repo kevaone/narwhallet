@@ -77,7 +77,7 @@ class MDialogs():
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                 # NOTE We don't want wallets to relock while interacting
                 _w.set_updating(True)
-                _di.w.addItem(_w.name+' - '+str(round(_w.balance, 8)),
+                _di.wallet_combo.combo.addItem(_w.name+' - '+str(round(_w.balance, 8)),
                               _w.name)
         for _addr in self.address_book.addresses:
             _aa = self.address_book.addresses[_addr].address
@@ -121,7 +121,7 @@ class MDialogs():
         for _w in self.wallets.wallets:
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                 _w.set_updating(True)
-                _di.w.addItem(_w.name + ' - ' + str(round(_w.balance, 8)),
+                _di.w.combo.addItem(_w.name + ' - ' + str(round(_w.balance, 8)),
                               _w.name)
 
         _result = _di.exec_()
@@ -167,8 +167,8 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.w.addItem(_w, _w)
-        _di.w.setCurrentIndex(1)
+        _di.w.combo.addItem(_w, _w)
+        _di.w.combo.setCurrentIndex(1)
         _di.w.setEnabled(False)
         _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _di.wns.setText(_di.ns)
@@ -216,8 +216,8 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.w.addItem(_w, _w)
-        _di.w.setCurrentIndex(1)
+        _di.w.combo.addItem(_w, _w)
+        _di.w.combo.setCurrentIndex(1)
         _di.w.setEnabled(False)
 
         _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
@@ -280,8 +280,8 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.w.addItem(_w, _w)
-        _di.w.setCurrentIndex(1)
+        _di.w.combo.addItem(_w, _w)
+        _di.w.combo.setCurrentIndex(1)
         _di.w.setEnabled(False)
 
         _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
@@ -334,8 +334,8 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.w.addItem(_w, _w)
-        _di.w.setCurrentIndex(1)
+        _di.w.combo.addItem(_w, _w)
+        _di.w.combo.setCurrentIndex(1)
         _di.w.setEnabled(False)
 
         _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
@@ -384,7 +384,7 @@ class MDialogs():
 
         for _wallet in self.wallets.wallets:
             if _wallet.kind == 0:
-                _di.combo_wallet.addItem(_wallet.name, _wallet.name)
+                _di.combo_wallet.combo.addItem(_wallet.name, _wallet.name)
 
         _result = _di.exec_()
 
@@ -420,7 +420,7 @@ class MDialogs():
 
         for _wallet in self.wallets.wallets:
             if _wallet.kind == 0:
-                _di.combo_wallet.addItem(_wallet.name, _wallet.name)
+                _di.combo_wallet.combo.addItem(_wallet.name, _wallet.name)
 
         _result = _di.exec_()
 
@@ -460,7 +460,7 @@ class MDialogs():
 
         for _wallet in self.wallets.wallets:
             if _wallet.kind == 0:
-                _di.combo_wallet.addItem(_wallet.name, _wallet.name)
+                _di.combo_wallet.combo.addItem(_wallet.name, _wallet.name)
 
         _result = _di.exec_()
 
@@ -491,9 +491,9 @@ class MDialogs():
         _di.feerate.setText(str(_fee))
         _di.setWindowTitle('Narwhallet - Accept Bid')
 
-        _di.combo_wallet.addItem(wallet.name, wallet.name)
-        _di.combo_wallet.setCurrentIndex(1)
-        _di.combo_wallet.setEnabled(False)
+        _di.combo_wallet.combo.addItem(wallet.name, wallet.name)
+        _di.combo_wallet.combo.setCurrentIndex(1)
+        _di.combo_wallet.combo.setEnabled(False)
 
         _bid_selection = self.ui.nft_tab.tbl_bids_2.selectedRanges()
         if len(_bid_selection) == 0:

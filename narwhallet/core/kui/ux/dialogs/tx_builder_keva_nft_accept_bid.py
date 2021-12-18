@@ -13,6 +13,7 @@ from narwhallet.core.kcl.models.wallet import MWallet
 from narwhallet.core.kcl.models.transaction_builder import MTransactionBuilder
 from narwhallet.core.kcl.models.psbt_decoder import keva_psbt
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
 
 
 class Ui_keva_op_nft_accept_bid_dlg(QDialog):
@@ -42,8 +43,8 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.hl_9 = QHBoxLayout()
         self.hl_10 = QHBoxLayout()
 
-        self.combo_wallet_l = QLabel(self)
-        self.combo_wallet = QComboBox(self)
+        # self.combo_wallet_l = QLabel(self)
+        self.combo_wallet = WalletComboBox()
 
         self.bid_nft_tx_l = QLabel(self)
         self.bid_nft_tx = QLineEdit(self)
@@ -83,7 +84,7 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
 
         self.setObjectName('keva_op_nft_accept_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        self.combo_wallet.addItem('-', '-')
+        # self.combo_wallet.addItem('-', '-')
         self.bid_nft_tx.setReadOnly(True)
         self.tx.setMaximumHeight(65)
         self.tx.setReadOnly(True)
@@ -98,10 +99,10 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
-        self.hl_0.addWidget(self.combo_wallet_l)
-        self.hl_0.addWidget(self.combo_wallet)
-        self.hl_0.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.hl_0)
+        #self.hl_0.addWidget(self.combo_wallet_l)
+        #self.hl_0.addWidget(self.combo_wallet)
+        #self.hl_0.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        self.verticalLayout.addLayout(self.combo_wallet)
         self.hl_1.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.hl_1)
 
@@ -170,8 +171,8 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('keva_op_nft_accept_dlg',
                                        'Narwhallet - Create Namespace'))
-        (self.combo_wallet_l
-         .setText(_translate('keva_op_nft_accept_dlg', 'Wallet:')))
+        # (self.combo_wallet_l
+        #  .setText(_translate('keva_op_nft_accept_dlg', 'Wallet:')))
         (self.bid_nft_tx_l
          .setText(_translate('keva_op_nft_accept_dlg', 'Bid on TX: ')))
         (self.bid_amount_l
@@ -200,7 +201,7 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.tx_l.setText(_translate('keva_op_nft_accept_dlg', 'Raw TX -'))
 
     def check_next(self):
-        if (self.combo_wallet.currentText() != '-' and
+        if (self.combo_wallet.combo.currentText() != '-' and
                 self.bid_amount.text() != '' and
                 self.nft_ns.text() != '' and
                 self.nft_price.text() != ''):

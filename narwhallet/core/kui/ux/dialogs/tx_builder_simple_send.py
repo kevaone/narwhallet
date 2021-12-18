@@ -11,6 +11,7 @@ from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.core.kcl.models.wallets import MWallets
 from narwhallet.core.kcl.models.transaction_builder import MTransactionBuilder
+from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
 from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
@@ -30,9 +31,10 @@ class Ui_simple_send_dlg(QDialog):
         self.raw_tx = None
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        self.wl = QHBoxLayout()
-        self.w_l = QLabel(self)
-        self.w = QComboBox(self)
+        # self.wl = QHBoxLayout()
+        # self.w_l = QLabel(self)
+        # self.w = QComboBox(self)
+        self.wallet_combo = WalletComboBox()
         self.hl = QHBoxLayout()
         self.value_l = QLabel(self)
         self.value = QLineEdit(self)
@@ -61,8 +63,8 @@ class Ui_simple_send_dlg(QDialog):
 
         self.setObjectName('send_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        self.w.setMinimumWidth(250)
-        self.w.addItem('-', '-')
+        # self.w.setMinimumWidth(250)
+        # self.w.addItem('-', '-')
         self.value.setMaximumWidth(250)
         self.address.setAlignment(_al_center)
         self.address_book.setVisible(False)
@@ -80,10 +82,10 @@ class Ui_simple_send_dlg(QDialog):
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
-        self.wl.addWidget(self.w_l)
-        self.wl.addWidget(self.w)
-        self.wl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.wl)
+        # self.wl.addWidget(self.w_l)
+        # self.wl.addWidget(self.w)
+        # self.wl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        self.verticalLayout.addLayout(self.wallet_combo)
         self.hl.addWidget(self.value_l)
         self.hl.addWidget(self.value)
         self.hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
@@ -113,7 +115,7 @@ class Ui_simple_send_dlg(QDialog):
         self.retranslateUi()
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
-        self.w.currentTextChanged.connect(self.txb_w_changed)
+        # self.w.currentTextChanged.connect(self.txb_w_changed)
         self.cancel_btn.clicked.connect(self.reject)
         self.next_btn.clicked.connect(self.txb_build_simple_send)
         self.back_btn.clicked.connect(self.back_click)
@@ -125,7 +127,7 @@ class Ui_simple_send_dlg(QDialog):
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('send_dlg', 'Narwhallet - Send'))
-        self.w_l.setText(_translate('send_dlg', 'Wallet:'))
+        # self.w_l.setText(_translate('send_dlg', 'Wallet:'))
         self.value_l.setText(_translate('send_dlg', 'Value: '))
         self.address_l.setText(_translate('send_dlg', 'Send to Address:'))
         self.address_select.setText(_translate('send_dlg', 'Book'))
@@ -140,7 +142,7 @@ class Ui_simple_send_dlg(QDialog):
         self.tx_l.setText(_translate('send_dlg', 'Raw TX -'))
 
     def check_next(self):
-        if self.w.currentText() != '-':
+        if self.wallet_combo.combo.currentText() != '-':
             if self.check_value() and self.check_address():
                 self.next_btn.setEnabled(True)
             else:
@@ -185,7 +187,7 @@ class Ui_simple_send_dlg(QDialog):
 
     def txb_w_changed(self, data):
         if data != '-':
-            _n = self.w.currentData()
+            _n = self.wallet_combo.combo.currentData()
             wallet = self.wallets.get_wallet_by_name(_n)
             MShared.list_unspents(wallet, self.kex)
             _tmp_usxo = wallet.get_usxos()
@@ -227,7 +229,7 @@ class Ui_simple_send_dlg(QDialog):
             _a = self.address_book.currentData()
 
         _ = self.new_tx.add_output(_v, _a)
-        _n = self.w.currentData()
+        _n = self.wallet_combo.combo.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
 
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
@@ -247,7 +249,7 @@ class Ui_simple_send_dlg(QDialog):
             self.txsize.setText(str(len(_stx)))
             self.raw_tx = Ut.bytes_to_hex(_stx)
             self.tx.setPlainText(self.raw_tx)
-            self.w.setEnabled(False)
+            self.wallet_combo.combo.setEnabled(False)
             self.value.setFrame(False)
             self.value.setReadOnly(True)
             self.address.setReadOnly(True)
@@ -272,6 +274,6 @@ class Ui_simple_send_dlg(QDialog):
         self.new_tx.set_vout([])
         self.new_tx.input_signatures = []
         self.tx.setPlainText(self.raw_tx)
-        self.w.setEnabled(True)
+        self.wallet_combo.combo.setEnabled(True)
         self.value.setReadOnly(False)
         self.address.setReadOnly(False)
