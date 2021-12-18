@@ -7,6 +7,16 @@ from narwhallet.control.shared import MShared
 
 class UShared():
     @staticmethod
+    def dialog_header_graphic():
+        _label = QLabel()
+        _pic = QPixmap(MShared.get_resource_path('narwhal.png'))
+        _label.setAlignment(QtCore.Qt.AlignCenter)
+        _label.setContentsMargins(0, 0, 0, 0)
+        _label.setPixmap(_pic)
+
+        return _label
+
+    @staticmethod
     def set_table_properties(table: QTableWidget, name: str):
         table.setObjectName(name)
         table.setSelectionBehavior(table.SelectRows)

@@ -6,19 +6,20 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QComboBox, QPlainTextEdit,
 from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 from narwhallet.core.kcl.models.wallet import MWallet
 from narwhallet.control.shared import MShared
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
 class Ui_create_wallet_dlg(QDialog):
     def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        _al_center = QtCore.Qt.AlignCenter
+        # _al_center = QtCore.Qt.AlignCenter
         _transm_st = QtCore.Qt.SmoothTransformation
 
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_0 = QHBoxLayout()
-        self.label_1 = QLabel(self)
-        _pic = QPixmap(MShared.get_resource_path('narwhal.png'))
+        # self.label_1 = QLabel(self)
+        # _pic = QPixmap(MShared.get_resource_path('narwhal.png'))
         self.label_4 = QLabel(self)
         self.lineEdit_2 = QLineEdit(self)
         self.horizontalLayout = QHBoxLayout()
@@ -49,9 +50,9 @@ class Ui_create_wallet_dlg(QDialog):
 
         self.setObjectName('create_dlg')
         self.resize(400, 475)
-        self.label_1.setAlignment(_al_center)
-        self.label_1.setContentsMargins(0, 0, 0, 0)
-        self.label_1.setPixmap(_pic)
+        # self.label_1.setAlignment(_al_center)
+        # self.label_1.setContentsMargins(0, 0, 0, 0)
+        # self.label_1.setPixmap(_pic)
         self.label_5.setVisible(False)
         self.comboBox1.addItem('-')
         # self.comboBox1.addItem('bip44')
@@ -76,7 +77,7 @@ class Ui_create_wallet_dlg(QDialog):
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(self.set_buttons())
 
-        self.verticalLayout.addWidget(self.label_1)
+        self.verticalLayout.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addItem(QSpacerItem(5, 20, _sp_exp, _sp_min))
         self.horizontalLayout_0.addWidget(self.label_4)
         self.horizontalLayout_0.addWidget(self.lineEdit_2)

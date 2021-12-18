@@ -12,11 +12,12 @@ from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.core.kcl.models.wallets import MWallets
 from narwhallet.core.kcl.models.transaction_builder import MTransactionBuilder
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
 class Ui_action_dlg(QDialog):
     def setupUi(self):
-        _al_center = QtCore.Qt.AlignCenter
+        # _al_center = QtCore.Qt.AlignCenter
         _bb_br_ar = QDialogButtonBox.ActionRole
         _bb_br_ac = QDialogButtonBox.AcceptRole
         _sp_exp = QSizePolicy.Expanding
@@ -32,8 +33,8 @@ class Ui_action_dlg(QDialog):
 
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        self.label_1 = QLabel(self)
-        _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
+        # self.label_1 = QLabel(self)
+        # _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
 
         self.hl_0 = QHBoxLayout()
         self.hl_1 = QHBoxLayout()
@@ -76,9 +77,9 @@ class Ui_action_dlg(QDialog):
 
         self.setObjectName('action_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        self.label_1.setAlignment(_al_center)
-        self.label_1.setContentsMargins(0, 0, 0, 0)
-        self.label_1.setPixmap(_pic)
+        # self.label_1.setAlignment(_al_center)
+        # self.label_1.setContentsMargins(0, 0, 0, 0)
+        # self.label_1.setPixmap(_pic)
         self.combo_wallet.addItem('-', '-')
         self.combo_ns.addItem('-', '-')
         self.combo_ns.setMinimumWidth(250)
@@ -93,7 +94,7 @@ class Ui_action_dlg(QDialog):
         self.next_btn.setEnabled(False)
         self.send_btn.setEnabled(False)
 
-        self.horizontalLayout_1.addWidget(self.label_1)
+        self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
         self.hl_0.addWidget(self.combo_wallet_l)
         self.hl_0.addWidget(self.combo_wallet)
@@ -242,68 +243,68 @@ class Ui_action_dlg(QDialog):
 
         return _return
 
-    def set_availible_usxo(self, isChangeOp: bool):
-        _n = self.combo_wallet.currentData()
-        wallet = self.wallets.get_wallet_by_name(_n)
+    # def set_availible_usxo(self, isChangeOp: bool):
+    #     _n = self.combo_wallet.currentData()
+    #     wallet = self.wallets.get_wallet_by_name(_n)
 
-        _tmp_usxo = wallet.get_usxos()
-        _usxos = []
-        _nsusxo = None
+    #     _tmp_usxo = wallet.get_usxos()
+    #     _usxos = []
+    #     _nsusxo = None
 
-        for tx in _tmp_usxo:
-            _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
+    #     for tx in _tmp_usxo:
+    #         _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
 
-            if _tx is None:
-                _tx = MShared.get_tx(tx['tx_hash'], self.kex, True)
-            if _tx is not None and isinstance(_tx, dict):
-                _tx = self.cache.tx.add_from_json(_tx)
+    #         if _tx is None:
+    #             _tx = MShared.get_tx(tx['tx_hash'], self.kex, True)
+    #         if _tx is not None and isinstance(_tx, dict):
+    #             _tx = self.cache.tx.add_from_json(_tx)
 
-            if self._test_tx(_tx) is False:
-                continue
+    #         if self._test_tx(_tx) is False:
+    #             continue
 
-            if ('OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm):
-                _usxos.append(tx)
-            elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
-                    and isChangeOp is True):
+    #         if ('OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm):
+    #             _usxos.append(tx)
+    #         elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
+    #                 and isChangeOp is True):
 
-                _test = _tx.vout[tx['tx_pos']].scriptPubKey.asm.split(' ')[1]
-                _test = self.cache.ns.convert_to_namespaceid(_test)
+    #             _test = _tx.vout[tx['tx_pos']].scriptPubKey.asm.split(' ')[1]
+    #             _test = self.cache.ns.convert_to_namespaceid(_test)
 
-                if _test == self.combo_ns.currentData().split(':')[0]:
-                    _nsusxo = tx
+    #             if _test == self.combo_ns.currentData().split(':')[0]:
+    #                 _nsusxo = tx
 
-        if _nsusxo is not None and isChangeOp is True:
-            _usxos.insert(0, _nsusxo)
-        elif _nsusxo is None and isChangeOp is True:
-            _usxos = []
+    #     if _nsusxo is not None and isChangeOp is True:
+    #         _usxos.insert(0, _nsusxo)
+    #     elif _nsusxo is None and isChangeOp is True:
+    #         _usxos = []
 
-        self.new_tx.inputs_to_spend = _usxos
+    #     self.new_tx.inputs_to_spend = _usxos
 
-    def txb_preimage(self, tx: MTransactionBuilder, hash_type: SIGHASH_TYPE):
-        _n = self.combo_wallet.currentData()
-        wallet = self.wallets.get_wallet_by_name(_n)
-        tx.input_signatures = []
+    # def txb_preimage(self, tx: MTransactionBuilder, hash_type: SIGHASH_TYPE):
+    #     _n = self.combo_wallet.currentData()
+    #     wallet = self.wallets.get_wallet_by_name(_n)
+    #     tx.input_signatures = []
 
-        for c, _vin_idx in enumerate(tx.vin):
-            _npk = _vin_idx.tb_address
-            _npkc = _vin_idx.tb_address_chain
-            _pk = wallet.get_publickey_raw(_npk, _npkc)
-            _sighash = tx.make_preimage(c, _pk, hash_type)
-            _sig = wallet.sign_message(_npk, _sighash, _npkc)
-            _script = Scripts.P2WPKHScriptSig(_pk)
-            _script = Scripts.compile(_script, True)
-            # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-            _vin_idx.scriptSig.set_hex(_script)
-            (tx.input_signatures.append(
-                [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
+    #     for c, _vin_idx in enumerate(tx.vin):
+    #         _npk = _vin_idx.tb_address
+    #         _npkc = _vin_idx.tb_address_chain
+    #         _pk = wallet.get_publickey_raw(_npk, _npkc)
+    #         _sighash = tx.make_preimage(c, _pk, hash_type)
+    #         _sig = wallet.sign_message(_npk, _sighash, _npkc)
+    #         _script = Scripts.P2WPKHScriptSig(_pk)
+    #         _script = Scripts.compile(_script, True)
+    #         # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
+    #         _vin_idx.scriptSig.set_hex(_script)
+    #         (tx.input_signatures.append(
+    #             [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
 
-            _addr = wallet.get_address_by_index(_npk, False)
-            _r = Scripts.P2SHAddressScriptHash(_addr)
-            _r = Scripts.compile(_r, False)
-            # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
-            _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
-            _ref = _ref + Ut.to_cuint(len(_r)) + _r
-            tx.input_ref_scripts.append(_ref)
+    #         _addr = wallet.get_address_by_index(_npk, False)
+    #         _r = Scripts.P2SHAddressScriptHash(_addr)
+    #         _r = Scripts.compile(_r, False)
+    #         # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
+    #         _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
+    #         _ref = _ref + Ut.to_cuint(len(_r)) + _r
+    #         tx.input_ref_scripts.append(_ref)
 
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
@@ -311,12 +312,14 @@ class Ui_action_dlg(QDialog):
         return Ut.bytes_to_hex(bytes([53]) + _tx_hash)
 
     def txb_build_simple_send(self):
+        _n = self.combo_wallet.currentData()
+        wallet = self.wallets.get_wallet_by_name(_n)
         self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
-        self.set_availible_usxo(True)
         _namespace_reservation = 1000000
         _ns_dat = self.combo_ns.currentData().split(':')
         _ns = _ns_dat[0]
         _ns_address = _ns_dat[1]
+        self.new_tx.set_availible_usxo(wallet, True, False, _ns, self.cache, self.kex)
 
         _ns_key = Ut.hex_to_bytes(self.action_tx.text())
         if self.action == 'comment':
@@ -355,7 +358,7 @@ class Ui_action_dlg(QDialog):
             if _need_change is True:
                 _ = self.new_tx.add_output(_cv, _ns_address)
 
-            self.txb_preimage(self.new_tx, SIGHASH_TYPE.ALL)
+            self.new_tx.txb_preimage(wallet, SIGHASH_TYPE.ALL)
             _stx = self.new_tx.serialize_tx()
 
             self.fee.setText(str(_est_fee/100000000))

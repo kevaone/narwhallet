@@ -7,18 +7,19 @@ from PyQt5.QtWidgets import QDialog
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
 from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 from narwhallet.core.kcl.models.book_address import MBookAddress
-from narwhallet.control.shared import MShared
+
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
 class Ui_add_ab_item_dlg(QDialog):
     def setupUi(self):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        _al_center = QtCore.Qt.AlignCenter
+        # _al_center = QtCore.Qt.AlignCenter
 
         self.verticalLayout = QVBoxLayout(self)
-        self.label_1 = QLabel(self)
-        _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
+        # self.label_1 = QLabel(self)
+        # _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.horizontalLayout = QHBoxLayout()
         self.label = QLabel(self)
         self.comboBox = _coin_dropdown(self)
@@ -35,9 +36,9 @@ class Ui_add_ab_item_dlg(QDialog):
 
         self.setObjectName('add_addrbook')
         self.setMinimumSize(QtCore.QSize(425, 225))
-        self.label_1.setAlignment(_al_center)
-        self.label_1.setContentsMargins(0, 0, 0, 0)
-        self.label_1.setPixmap(_pic)
+        # self.label_1.setAlignment(_al_center)
+        # self.label_1.setContentsMargins(0, 0, 0, 0)
+        # self.label_1.setPixmap(_pic)
         self.label.setVisible(False)
         self.comboBox.setCurrentText('Kevacoin')
         self.comboBox.setVisible(False)
@@ -45,7 +46,7 @@ class Ui_add_ab_item_dlg(QDialog):
         self.buttonBox.setStandardButtons(self.set_buttons())
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
 
-        self.verticalLayout.addWidget(self.label_1)
+        self.verticalLayout.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addItem(QSpacerItem(5, 20, _sp_exp, _sp_min))
         self.horizontalLayout.addWidget(self.label)
         self.horizontalLayout.addWidget(self.comboBox)

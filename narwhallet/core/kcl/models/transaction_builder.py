@@ -1,10 +1,12 @@
 import math
 from typing import List
+#from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.models.transaction import MTransaction
 from narwhallet.core.kcl.models.transaction_input import MTransactionInput
 from narwhallet.core.kcl.models.transaction_output import MTransactionOutput
 from narwhallet.core.kcl.models.script_sig import MScriptSig
 from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
+from narwhallet.core.kcl.models.wallet import MWallet
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
 
@@ -21,6 +23,7 @@ class MTransactionBuilder(MTransaction):
         self.inputs_to_spend: List[MTransactionInput] = []
         self.input_ref_scripts = []
         self.input_signatures = []
+        self.bid_tx: MTransactionBuilder = None
 
     @staticmethod
     def sort(item):
@@ -147,6 +150,46 @@ class MTransactionBuilder(MTransaction):
 
         return _return, _change_flag, _est_fee
 
+    def set_availible_usxo(self, wallet: MWallet, is_change: bool, isBidOp: bool, ns_address, cache, kex):
+        MShared.list_unspents(wallet, kex)
+        _tmp_usxo = wallet.get_usxos()
+        _usxos = []
+        _nsusxo = None
+
+        for tx in _tmp_usxo:
+            # TODO Check for usxo's used by bids
+            _tx = cache.tx.get_tx_by_txid(tx['tx_hash'])
+
+            if _tx is None:
+                _tx = MShared.get_tx(tx['tx_hash'], kex, True)
+
+            if _tx is not None and isinstance(_tx, dict):
+                _tx = cache.tx.add_from_json(_tx)
+
+            # if self._test_tx(_tx) is False:
+            #     continue
+
+            if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
+                if isBidOp is False:
+                    _used = False
+                    for _vin in self.bid_tx.vin:
+                        if _vin.txid == _tx.txid:
+                            _used = True
+                            print('used')
+
+                    if _used is False:
+                        _usxos.append(tx)
+                else:
+                    _usxos.append(tx)
+            elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
+                    and is_change is True and tx['a'] == ns_address):
+                _nsusxo = tx
+
+        if _nsusxo is not None and is_change is True:
+            _usxos.insert(0, _nsusxo)
+
+        self.inputs_to_spend = _usxos
+
     def hash_prevouts(self, hash_type: SIGHASH_TYPE) -> bytes:
         _hash_cache = b''
         if (hash_type is not SIGHASH_TYPE.ALL_ANYONECANPAY
@@ -242,6 +285,32 @@ class MTransactionBuilder(MTransaction):
             _spre = _spre + p
 
         return _spre
+
+    def txb_preimage(self, wallet: MWallet, hash_type: SIGHASH_TYPE):
+        # _n = self.combo_wallet.currentData()
+        # wallet = self.wallets.get_wallet_by_name(wallet_name)
+        self.input_signatures = []
+
+        for c, _vin_idx in enumerate(self.vin):
+            _npk = _vin_idx.tb_address
+            _npkc = _vin_idx.tb_address_chain
+            _pk = wallet.get_publickey_raw(_npk, _npkc)
+            _sighash = self.make_preimage(c, _pk, hash_type)
+            _sig = wallet.sign_message(_npk, _sighash, _npkc)
+            _script = Scripts.P2WPKHScriptSig(_pk)
+            _script = Scripts.compile(_script, True)
+            # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
+            _vin_idx.scriptSig.set_hex(_script)
+            (self.input_signatures.append(
+                [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
+
+            _addr = wallet.get_address_by_index(_npk, False)
+            _r = Scripts.P2SHAddressScriptHash(_addr)
+            _r = Scripts.compile(_r, False)
+            # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
+            _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
+            _ref = _ref + Ut.to_cuint(len(_r)) + _r
+            self.input_ref_scripts.append(_ref)
 
     def make_preimage(self, i: int, pk: str, hash_type: SIGHASH_TYPE) -> str:
         _hash_type = hash_type

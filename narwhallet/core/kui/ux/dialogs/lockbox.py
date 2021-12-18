@@ -3,22 +3,23 @@ from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QHBoxLayout,
                              QLineEdit, QSpacerItem, QSizePolicy,
                              QDialogButtonBox, QDialog)
-from narwhallet.control.shared import MShared
+# from narwhallet.control.shared import MShared
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
 class Ui_lockbox_dlg(QDialog):
     def setupUi(self, mode: int):
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
-        _al_center = QtCore.Qt.AlignCenter
+        # _al_center = QtCore.Qt.AlignCenter
 
         self.mode = mode
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_3 = QHBoxLayout()
-        self.label_1 = QLabel(self)
-        _pic = QPixmap(MShared.get_resource_path('narwhal.png'))
+        # self.label_1 = QLabel(self)
+        # _pic = QPixmap(MShared.get_resource_path('narwhal.png'))
         self.label_2 = QLabel(self)
         self.lineEdit = QLineEdit(self)
         if self.mode == 1:
@@ -27,16 +28,16 @@ class Ui_lockbox_dlg(QDialog):
         self.buttonBox = QDialogButtonBox(self)
 
         self.setObjectName('lb_dlg')
-        self.label_1.setAlignment(_al_center)
-        self.label_1.setContentsMargins(0, 0, 0, 0)
-        self.label_1.setPixmap(_pic)
+        # self.label_1.setAlignment(_al_center)
+        # self.label_1.setContentsMargins(0, 0, 0, 0)
+        # self.label_1.setPixmap(_pic)
         self.lineEdit.setEchoMode(QLineEdit.Password)
         if self.mode == 1:
             self.lineEdit1.setEchoMode(QLineEdit.Password)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(self.set_buttons())
 
-        self.horizontalLayout_1.addWidget(self.label_1)
+        self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
         self.verticalLayout.addItem(QSpacerItem(5, 20, _sp_exp, _sp_min))
         self.horizontalLayout_2.addWidget(self.label_2)

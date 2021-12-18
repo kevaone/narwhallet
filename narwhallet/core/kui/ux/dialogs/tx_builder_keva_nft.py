@@ -12,11 +12,12 @@ from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.core.kcl.models.wallets import MWallets
 from narwhallet.core.kcl.models.transaction_builder import MTransactionBuilder
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
 class Ui_keva_op_nft_dlg(QDialog):
     def setupUi(self):
-        _al_center = QtCore.Qt.AlignCenter
+        # _al_center = QtCore.Qt.AlignCenter
         _bb_br_ar = QDialogButtonBox.ActionRole
         _bb_br_ac = QDialogButtonBox.AcceptRole
         _sp_exp = QSizePolicy.Expanding
@@ -30,8 +31,8 @@ class Ui_keva_op_nft_dlg(QDialog):
 
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        self.label_1 = QLabel(self)
-        _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
+        # self.label_1 = QLabel(self)
+        # _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
 
         self.hl_0 = QHBoxLayout()
         self.hl_1 = QHBoxLayout()
@@ -74,9 +75,9 @@ class Ui_keva_op_nft_dlg(QDialog):
 
         self.setObjectName('keva_op_nft_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        self.label_1.setAlignment(_al_center)
-        self.label_1.setContentsMargins(0, 0, 0, 0)
-        self.label_1.setPixmap(_pic)
+        # self.label_1.setAlignment(_al_center)
+        # self.label_1.setContentsMargins(0, 0, 0, 0)
+        # self.label_1.setPixmap(_pic)
         self.combo_wallet.addItem('-', '-')
         self.combo_ns.addItem('-', '-')
         self.combo_ns.setMinimumWidth(250)
@@ -91,7 +92,7 @@ class Ui_keva_op_nft_dlg(QDialog):
         self.next_btn.setEnabled(False)
         self.send_btn.setEnabled(False)
 
-        self.horizontalLayout_1.addWidget(self.label_1)
+        self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
         self.hl_0.addWidget(self.combo_wallet_l)
         self.hl_0.addWidget(self.combo_wallet)
@@ -190,7 +191,9 @@ class Ui_keva_op_nft_dlg(QDialog):
     def txb_ns_changed(self, data):
         if data not in ('-', ''):
             self.nft_name.setText(self.combo_ns.currentText().split(' - ')[1])
-            self.set_availible_usxo(True)
+            _n = self.combo_wallet.currentData()
+            wallet = self.wallets.get_wallet_by_name(_n)
+            self.new_tx.set_availible_usxo(wallet, True, False, self.combo_ns.currentData().split(':')[0], self.cache, self.kex)
 
         self.check_next()
 
@@ -247,60 +250,60 @@ class Ui_keva_op_nft_dlg(QDialog):
 
         return _return
 
-    def set_availible_usxo(self, isChangeOp: bool):
-        _n = self.combo_wallet.currentData()
-        wallet = self.wallets.get_wallet_by_name(_n)
+    # def set_availible_usxo(self, isChangeOp: bool):
+    #     _n = self.combo_wallet.currentData()
+    #     wallet = self.wallets.get_wallet_by_name(_n)
 
-        _tmp_usxo = wallet.get_usxos()
-        _usxos = []
-        _nsusxo = None
+    #     _tmp_usxo = wallet.get_usxos()
+    #     _usxos = []
+    #     _nsusxo = None
 
-        for tx in _tmp_usxo:
-            _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
+    #     for tx in _tmp_usxo:
+    #         _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
 
-            if _tx is None:
-                _tx = MShared.get_tx(tx['tx_hash'], self.kex, True)
-            if _tx is not None and isinstance(_tx, dict):
-                _tx = self.cache.tx.add_from_json(_tx)
+    #         if _tx is None:
+    #             _tx = MShared.get_tx(tx['tx_hash'], self.kex, True)
+    #         if _tx is not None and isinstance(_tx, dict):
+    #             _tx = self.cache.tx.add_from_json(_tx)
 
-            if self._test_tx(_tx) is False:
-                continue
+    #         if self._test_tx(_tx) is False:
+    #             continue
 
-            if ('OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm):
-                _usxos.append(tx)
-            elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
-                    and isChangeOp is True):
+    #         if ('OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm):
+    #             _usxos.append(tx)
+    #         elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
+    #                 and isChangeOp is True):
 
-                _test = _tx.vout[tx['tx_pos']].scriptPubKey.asm.split(' ')[1]
-                _test = self.cache.ns.convert_to_namespaceid(_test)
+    #             _test = _tx.vout[tx['tx_pos']].scriptPubKey.asm.split(' ')[1]
+    #             _test = self.cache.ns.convert_to_namespaceid(_test)
 
-                if _test == self.combo_ns.currentData().split(':')[0]:
-                    _nsusxo = tx
+    #             if _test == self.combo_ns.currentData().split(':')[0]:
+    #                 _nsusxo = tx
 
-        if _nsusxo is not None and isChangeOp is True:
-            _usxos.insert(0, _nsusxo)
-        elif _nsusxo is None and isChangeOp is True:
-            _usxos = []
+    #     if _nsusxo is not None and isChangeOp is True:
+    #         _usxos.insert(0, _nsusxo)
+    #     elif _nsusxo is None and isChangeOp is True:
+    #         _usxos = []
 
-        self.new_tx.inputs_to_spend = _usxos
+    #     self.new_tx.inputs_to_spend = _usxos
 
-    def txb_preimage(self):
-        _n = self.combo_wallet.currentData()
-        wallet = self.wallets.get_wallet_by_name(_n)
-        self.new_tx.input_signatures = []
+    # def txb_preimage(self):
+    #     _n = self.combo_wallet.currentData()
+    #     wallet = self.wallets.get_wallet_by_name(_n)
+    #     self.new_tx.input_signatures = []
 
-        for c, _vin_idx in enumerate(self.new_tx.vin):
-            _npk = _vin_idx.tb_address
-            _npkc = _vin_idx.tb_address_chain
-            _pk = wallet.get_publickey_raw(_npk, _npkc)
-            _sighash = self.new_tx.make_preimage(c, _pk, SIGHASH_TYPE.ALL)
-            _sig = wallet.sign_message(_npk, _sighash, _npkc)
-            _script = Scripts.P2WPKHScriptSig(_pk)
-            _script = Scripts.compile(_script, True)
-            # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-            _vin_idx.scriptSig.set_hex(_script)
-            # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
-            self.new_tx.input_signatures.append([_sig+'01', _pk])
+    #     for c, _vin_idx in enumerate(self.new_tx.vin):
+    #         _npk = _vin_idx.tb_address
+    #         _npkc = _vin_idx.tb_address_chain
+    #         _pk = wallet.get_publickey_raw(_npk, _npkc)
+    #         _sighash = self.new_tx.make_preimage(c, _pk, SIGHASH_TYPE.ALL)
+    #         _sig = wallet.sign_message(_npk, _sighash, _npkc)
+    #         _script = Scripts.P2WPKHScriptSig(_pk)
+    #         _script = Scripts.compile(_script, True)
+    #         # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
+    #         _vin_idx.scriptSig.set_hex(_script)
+    #         # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
+    #         self.new_tx.input_signatures.append([_sig+'01', _pk])
 
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
@@ -358,7 +361,7 @@ class Ui_keva_op_nft_dlg(QDialog):
             if _need_change is True:
                 _ = self.new_tx.add_output(_cv, _ns_address)
 
-            self.txb_preimage()
+            self.new_tx.txb_preimage(wallet, SIGHASH_TYPE.ALL)
             _stx = self.new_tx.serialize_tx()
 
             self.fee.setText(str(_est_fee/100000000))

@@ -13,6 +13,7 @@ from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.core.kcl.models.wallets import MWallets
 from narwhallet.core.kcl.models.transaction_builder import MTransactionBuilder
+from narwhallet.core.kui.ux.widgets.generator import UShared
 
 
 class Ui_simple_send_dlg(QDialog):
@@ -31,8 +32,8 @@ class Ui_simple_send_dlg(QDialog):
         self.raw_tx = None
         self.verticalLayout = QVBoxLayout(self)
         self.horizontalLayout_1 = QHBoxLayout()
-        self.label_1 = QLabel(self)
-        _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
+        # self.label_1 = QLabel(self)
+        # _pic = QtGui.QPixmap(MShared.get_resource_path('narwhal.png'))
         self.wl = QHBoxLayout()
         self.w_l = QLabel(self)
         self.w = QComboBox(self)
@@ -64,10 +65,10 @@ class Ui_simple_send_dlg(QDialog):
 
         self.setObjectName('send_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        self.label_1.setAlignment(_al_center)
-        self.label_1.setContentsMargins(0, 0, 0, 0)
+        # self.label_1.setAlignment(_al_center)
+        # self.label_1.setContentsMargins(0, 0, 0, 0)
         # _pic = _pic.scaledToWidth(20, _transm_st)
-        self.label_1.setPixmap(_pic)
+        # self.label_1.setPixmap(_pic)
         self.w.setMinimumWidth(250)
         self.w.addItem('-', '-')
         self.value.setMaximumWidth(250)
@@ -90,7 +91,7 @@ class Ui_simple_send_dlg(QDialog):
         self.next_btn.setEnabled(False)
         self.send_btn.setEnabled(False)
 
-        self.horizontalLayout_1.addWidget(self.label_1)
+        self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
         self.wl.addWidget(self.w_l)
         self.wl.addWidget(self.w)
@@ -228,32 +229,32 @@ class Ui_simple_send_dlg(QDialog):
             self.new_tx.inputs_to_spend = _usxos
         self.check_next()
 
-    def txb_preimage(self):
-        _n = self.w.currentData()
-        wallet = self.wallets.get_wallet_by_name(_n)
-        self.new_tx.input_signatures = []
-        # print('len(self.new_tx.vin)', len(self.new_tx.vin))
-        for c, _vin_idx in enumerate(self.new_tx.vin):
-            _npk = _vin_idx.tb_address
-            _npkc = _vin_idx.tb_address_chain
-            _pk = wallet.get_publickey_raw(_npk, _npkc)
-            _sighash = self.new_tx.make_preimage(c, _pk, SIGHASH_TYPE.ALL)
-            _sig = wallet.sign_message(_npk, _sighash, _npkc)
-            _script = Scripts.P2WPKHScriptSig(_pk)
-            _script = Scripts.compile(_script, True)
-            # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
-            _vin_idx.scriptSig.set_hex(_script)
-            # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
-            # if [_sig+'01', _pk] not in self.new_tx.input_signatures:
-            self.new_tx.input_signatures.append([_sig+'01', _pk])
+    # def txb_preimage(self):
+    #     _n = self.w.currentData()
+    #     wallet = self.wallets.get_wallet_by_name(_n)
+    #     self.new_tx.input_signatures = []
+    #     # print('len(self.new_tx.vin)', len(self.new_tx.vin))
+    #     for c, _vin_idx in enumerate(self.new_tx.vin):
+    #         _npk = _vin_idx.tb_address
+    #         _npkc = _vin_idx.tb_address_chain
+    #         _pk = wallet.get_publickey_raw(_npk, _npkc)
+    #         _sighash = self.new_tx.make_preimage(c, _pk, SIGHASH_TYPE.ALL)
+    #         _sig = wallet.sign_message(_npk, _sighash, _npkc)
+    #         _script = Scripts.P2WPKHScriptSig(_pk)
+    #         _script = Scripts.compile(_script, True)
+    #         # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
+    #         _vin_idx.scriptSig.set_hex(_script)
+    #         # HACK - Note assuming signatre was SIGHASH_TYPE.ALL
+    #         # if [_sig+'01', _pk] not in self.new_tx.input_signatures:
+    #         self.new_tx.input_signatures.append([_sig+'01', _pk])
 
-            _addr = wallet.get_address_by_index(_npk, False)
-            _r = Scripts.P2SHAddressScriptHash(_addr)
-            _r = Scripts.compile(_r, False)
-            # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
-            _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
-            _ref = _ref + Ut.to_cuint(len(_r)) + _r
-            self.new_tx.input_ref_scripts.append(_ref)
+    #         _addr = wallet.get_address_by_index(_npk, False)
+    #         _r = Scripts.P2SHAddressScriptHash(_addr)
+    #         _r = Scripts.compile(_r, False)
+    #         # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
+    #         _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
+    #         _ref = _ref + Ut.to_cuint(len(_r)) + _r
+    #         self.new_tx.input_ref_scripts.append(_ref)
 
     def txb_build_simple_send(self):
         locale = QLocale()
@@ -281,7 +282,7 @@ class Ui_simple_send_dlg(QDialog):
 
             # print('final size', self.new_tx.get_size(len(self.new_tx.vin),
             #       len(self.new_tx.vout)))
-            self.txb_preimage()
+            self.new_tx.txb_preimage(wallet, SIGHASH_TYPE.ALL)
             _stx = self.new_tx.serialize_tx()
 
             self.fee.setText(str(_est_fee/100000000))
