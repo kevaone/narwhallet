@@ -40,10 +40,7 @@ class Ui_keva_op_nft_dlg(QDialog):
         self.hl_4 = QHBoxLayout()
         self.hl_5 = QHBoxLayout()
 
-        # self.combo_wallet_l = QLabel(self)
         self.combo_wallet = WalletComboBox()
-
-        # self.combo_ns_l = QLabel(self)
         self.combo_ns = NamespaceComboBox()
 
         self.nft_name_l = QLabel(self)
@@ -55,17 +52,6 @@ class Ui_keva_op_nft_dlg(QDialog):
         self.nft_price_l = QLabel(self)
         self.nft_price = QLineEdit(self)
         self.send_info = SendInfoFrame()
-        # self.fee_hl = QHBoxLayout()
-        # self.fee_l = QLabel(self)
-        # self.fee = QLabel(self)
-        # self.feerate_hl = QHBoxLayout()
-        # self.feerate_l = QLabel(self)
-        # self.feerate = QLabel(self)
-        # self.tx_hl = QHBoxLayout()
-        # self.tx_l = QLabel(self)
-        # self.txsize_l = QLabel(self)
-        # self.txsize = QLabel(self)
-        # self.tx = QPlainTextEdit(self)
         self.next_btn = QPushButton(self)
         self.back_btn = QPushButton(self)
         self.cancel_btn = QPushButton(self)
@@ -74,11 +60,6 @@ class Ui_keva_op_nft_dlg(QDialog):
 
         self.setObjectName('keva_op_nft_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        # self.combo_wallet.addItem('-', '-')
-        # self.combo_ns.addItem('-', '-')
-        # self.combo_ns.setMinimumWidth(250)
-        # self.tx.setMaximumHeight(65)
-        # self.tx.setReadOnly(True)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.addButton(self.cancel_btn, _bb_br_ar)
         self.buttonBox.addButton(self.next_btn, _bb_br_ar)
@@ -90,13 +71,7 @@ class Ui_keva_op_nft_dlg(QDialog):
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
-        # self.hl_0.addWidget(self.combo_wallet_l)
-        # self.hl_0.addWidget(self.combo_wallet)
-        # self.hl_0.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.combo_wallet)
-        # self.hl_1.addWidget(self.combo_ns_l)
-        # self.hl_1.addWidget(self.combo_ns)
-        # self.hl_1.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.combo_ns)
         self.hl_2.addWidget(self.nft_name_l)
         self.hl_2.addWidget(self.nft_name)
@@ -114,19 +89,6 @@ class Ui_keva_op_nft_dlg(QDialog):
         self.hl_5.addWidget(self.nft_price)
         self.hl_5.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout.addLayout(self.hl_5)
-        # self.fee_hl.addWidget(self.fee_l)
-        # self.fee_hl.addWidget(self.fee)
-        # self.fee_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        # self.verticalLayout.addLayout(self.fee_hl)
-        # self.feerate_hl.addWidget(self.feerate_l)
-        # self.feerate_hl.addWidget(self.feerate)
-        # self.feerate_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        # self.verticalLayout.addLayout(self.feerate_hl)
-        # self.tx_hl.addWidget(self.tx_l)
-        # self.tx_hl.addWidget(self.txsize_l)
-        # self.tx_hl.addWidget(self.txsize)
-        # self.tx_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        # self.verticalLayout.addLayout(self.tx_hl)
         self.verticalLayout.addWidget(self.send_info)
         self.verticalLayout.addWidget(self.buttonBox)
 
@@ -148,8 +110,6 @@ class Ui_keva_op_nft_dlg(QDialog):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('keva_op_send_dlg',
                                        'Narwhallet - Create Namespace'))
-        # self.combo_wallet_l.setText(_translate('keva_op_send_dlg', 'Wallet:'))
-        # self.combo_ns_l.setText(_translate('keva_op_send_dlg', 'Namespace:'))
         self.nft_name_l.setText(_translate('keva_op_send_dlg', 'Name: '))
         (self.nft_desc_l
          .setText(_translate('keva_op_send_dlg', 'Description: ')))
@@ -161,11 +121,6 @@ class Ui_keva_op_nft_dlg(QDialog):
         self.send_btn.setText(_translate('keva_op_send_dlg', 'Send'))
         self.next_btn.setText(_translate('keva_op_send_dlg', 'Next'))
         self.back_btn.setText(_translate('keva_op_send_dlg', 'Back'))
-        # self.txsize_l.setText(_translate('keva_op_send_dlg', 'size:'))
-        # self.fee_l.setText(_translate('keva_op_send_dlg', 'Fee (KVA):'))
-        # self.feerate_l.setText(_translate('keva_op_send_dlg',
-        #                                   'Fee Rate (Satoshi per byte):'))
-        # self.tx_l.setText(_translate('keva_op_send_dlg', 'Raw TX -'))
 
     def check_next(self):
         if (self.combo_wallet.combo.currentText() != '-' and
