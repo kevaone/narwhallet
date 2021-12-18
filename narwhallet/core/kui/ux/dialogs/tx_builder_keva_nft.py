@@ -16,6 +16,7 @@ from narwhallet.core.kui.ux.widgets.generator import UShared
 from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
 from narwhallet.core.kui.ux.widgets.namespace_combobox import NamespaceComboBox
 from narwhallet.core.kui.ux.widgets.send_info_frame import SendInfoFrame
+from narwhallet.core.kui.ux.widgets.auction_info_frame import AuctionInfoFrame
 from narwhallet.core.kui.ux.widgets.dialog_buttonbox import DialogButtonBox
 
 
@@ -23,8 +24,8 @@ class Ui_keva_op_nft_dlg(QDialog):
     def setupUi(self):
         # _bb_br_ar = QDialogButtonBox.ActionRole
         # _bb_br_ac = QDialogButtonBox.AcceptRole
-        _sp_exp = QSizePolicy.Expanding
-        _sp_min = QSizePolicy.Minimum
+        # _sp_exp = QSizePolicy.Expanding
+        # _sp_min = QSizePolicy.Minimum
 
         self.wallets: MWallets = None
         self.cache: MCache = None
@@ -43,15 +44,15 @@ class Ui_keva_op_nft_dlg(QDialog):
 
         self.combo_wallet = WalletComboBox()
         self.combo_ns = NamespaceComboBox()
-
-        self.nft_name_l = QLabel(self)
-        self.nft_name = QLineEdit(self)
-        self.nft_desc_l = QLabel(self)
-        self.nft_desc = QLineEdit(self)
-        self.nft_hashtags_l = QLabel(self)
-        self.nft_hashtags = QLineEdit(self)
-        self.nft_price_l = QLabel(self)
-        self.nft_price = QLineEdit(self)
+        self.auction_info = AuctionInfoFrame()
+        # self.nft_name_l = QLabel(self)
+        # self.nft_name = QLineEdit(self)
+        # self.nft_desc_l = QLabel(self)
+        # self.nft_desc = QLineEdit(self)
+        # self.nft_hashtags_l = QLabel(self)
+        # self.nft_hashtags = QLineEdit(self)
+        # self.nft_price_l = QLabel(self)
+        # self.nft_price = QLineEdit(self)
         self.send_info = SendInfoFrame()
         # self.next_btn = QPushButton(self)
         # self.back_btn = QPushButton(self)
@@ -74,22 +75,22 @@ class Ui_keva_op_nft_dlg(QDialog):
         self.verticalLayout.addLayout(self.horizontalLayout_1)
         self.verticalLayout.addLayout(self.combo_wallet)
         self.verticalLayout.addLayout(self.combo_ns)
-        self.hl_2.addWidget(self.nft_name_l)
-        self.hl_2.addWidget(self.nft_name)
-        self.hl_2.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.hl_2)
-        self.hl_3.addWidget(self.nft_desc_l)
-        self.hl_3.addWidget(self.nft_desc)
-        self.hl_3.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.hl_3)
-        self.hl_4.addWidget(self.nft_hashtags_l)
-        self.hl_4.addWidget(self.nft_hashtags)
-        self.hl_4.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.hl_4)
-        self.hl_5.addWidget(self.nft_price_l)
-        self.hl_5.addWidget(self.nft_price)
-        self.hl_5.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.hl_5)
+        # self.hl_2.addWidget(self.nft_name_l)
+        # self.hl_2.addWidget(self.nft_name)
+        # self.hl_2.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        # self.verticalLayout.addLayout(self.hl_2)
+        # self.hl_3.addWidget(self.nft_desc_l)
+        # self.hl_3.addWidget(self.nft_desc)
+        # self.hl_3.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        # self.verticalLayout.addLayout(self.hl_3)
+        # self.hl_4.addWidget(self.nft_hashtags_l)
+        # self.hl_4.addWidget(self.nft_hashtags)
+        # self.hl_4.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        # self.verticalLayout.addLayout(self.hl_4)
+        # self.hl_5.addWidget(self.nft_price_l)
+        # self.hl_5.addWidget(self.nft_price)
+        # self.hl_5.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        self.verticalLayout.addLayout(self.auction_info)
         self.verticalLayout.addWidget(self.send_info)
         self.verticalLayout.addWidget(self.buttonBox)
 
@@ -102,21 +103,21 @@ class Ui_keva_op_nft_dlg(QDialog):
         self.buttonBox.next.clicked.connect(self.txb_build_simple_send)
         self.buttonBox.back.clicked.connect(self.back_click)
 
-        self.nft_name.textChanged.connect(self.check_next)
-        self.nft_desc.textChanged.connect(self.check_next)
-        self.nft_hashtags.textChanged.connect(self.check_next)
-        self.nft_price.textChanged.connect(self.check_next)
+        self.auction_info.nft_name.textChanged.connect(self.check_next)
+        self.auction_info.nft_desc.textChanged.connect(self.check_next)
+        self.auction_info.nft_hashtags.textChanged.connect(self.check_next)
+        self.auction_info.nft_price.textChanged.connect(self.check_next)
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('keva_op_send_dlg',
                                        'Narwhallet - Create Namespace'))
-        self.nft_name_l.setText(_translate('keva_op_send_dlg', 'Name: '))
-        (self.nft_desc_l
-         .setText(_translate('keva_op_send_dlg', 'Description: ')))
-        (self.nft_hashtags_l
-         .setText(_translate('keva_op_send_dlg', 'Hashtags: ')))
-        self.nft_price_l.setText(_translate('keva_op_send_dlg', 'Price: '))
+        # self.nft_name_l.setText(_translate('keva_op_send_dlg', 'Name: '))
+        # (self.nft_desc_l
+        #  .setText(_translate('keva_op_send_dlg', 'Description: ')))
+        # (self.nft_hashtags_l
+        #  .setText(_translate('keva_op_send_dlg', 'Hashtags: ')))
+        # self.nft_price_l.setText(_translate('keva_op_send_dlg', 'Price: '))
 
         # self.cancel_btn.setText(_translate('keva_op_send_dlg', 'Cancel'))
         # self.send_btn.setText(_translate('keva_op_send_dlg', 'Send'))
@@ -126,10 +127,10 @@ class Ui_keva_op_nft_dlg(QDialog):
     def check_next(self):
         if (self.combo_wallet.combo.currentText() != '-' and
                 self.combo_ns.combo.currentText() != '-' and
-                self.nft_name.text() != '' and
-                self.nft_desc.text() != '' and
+                self.auction_info.nft_name.text() != '' and
+                self.auction_info.nft_desc.text() != '' and
                 # self.nft_hashtags.text() != '' and
-                self.nft_price.text() != ''):
+                self.auction_info.nft_price.text() != ''):
             self.buttonBox.next.setEnabled(True)
         else:
             self.buttonBox.next.setEnabled(False)
@@ -142,7 +143,7 @@ class Ui_keva_op_nft_dlg(QDialog):
 
     def txb_ns_changed(self, data):
         if data not in ('-', ''):
-            self.nft_name.setText(self.combo_ns.combo.currentText().split(' - ')[1])
+            self.auction_info.nft_name.setText(self.combo_ns.combo.currentText().split(' - ')[1])
             _n = self.combo_wallet.combo.currentData()
             wallet = self.wallets.get_wallet_by_name(_n)
             self.new_tx.set_availible_usxo(wallet, True, False, self.combo_ns.combo.currentData().split(':')[0], self.cache, self.kex)
@@ -152,7 +153,7 @@ class Ui_keva_op_nft_dlg(QDialog):
     def set_namespace_combo(self):
         self.combo_ns.combo.clear()
         self.combo_ns.combo.addItem('-', '-')
-        self.nft_name.setText('')
+        self.auction_info.nft_name.setText('')
         _n = self.combo_wallet.combo.currentData()
         wallet = self.wallets.get_wallet_by_name(_n)
         MShared.list_unspents(wallet, self.kex)
@@ -254,12 +255,12 @@ class Ui_keva_op_nft_dlg(QDialog):
         _ns_address = _ns_dat[1]
 
         _auc = {}
-        _auc['displayName'] = self.nft_name.text()
-        _auc['price'] = str(self.nft_price.text())
-        _auc['desc'] = self.nft_desc.text()
+        _auc['displayName'] = self.auction_info.nft_name.text()
+        _auc['price'] = str(self.auction_info.nft_price.text())
+        _auc['desc'] = self.auction_info.nft_desc.text()
 
         _tags = {}
-        _hashtags = self.nft_hashtags.text().split(' ')
+        _hashtags = self.auction_info.nft_hashtags.text().split(' ')
         for tag in _hashtags:
             tag = tag.split(',')
             for t in tag:
@@ -299,10 +300,10 @@ class Ui_keva_op_nft_dlg(QDialog):
 
             self.combo_wallet.combo.setEnabled(False)
             self.combo_ns.combo.setEnabled(False)
-            self.nft_name.setReadOnly(True)
-            self.nft_desc.setReadOnly(True)
-            self.nft_hashtags.setReadOnly(True)
-            self.nft_price.setReadOnly(True)
+            self.auction_info.nft_name.setReadOnly(True)
+            self.auction_info.nft_desc.setReadOnly(True)
+            self.auction_info.nft_hashtags.setReadOnly(True)
+            self.auction_info.nft_price.setReadOnly(True)
 
             self.buttonBox.next.setVisible(False)
             self.buttonBox.back.setVisible(True)
@@ -326,7 +327,7 @@ class Ui_keva_op_nft_dlg(QDialog):
 
         self.combo_wallet.combo.setEnabled(True)
         self.combo_ns.combo.setEnabled(True)
-        self.nft_name.setReadOnly(False)
-        self.nft_desc.setReadOnly(False)
-        self.nft_hashtags.setReadOnly(False)
-        self.nft_price.setReadOnly(False)
+        self.auction_info.nft_name.setReadOnly(False)
+        self.auction_info.nft_desc.setReadOnly(False)
+        self.auction_info.nft_hashtags.setReadOnly(False)
+        self.auction_info.nft_price.setReadOnly(False)
