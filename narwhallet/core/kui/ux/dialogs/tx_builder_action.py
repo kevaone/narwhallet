@@ -16,14 +16,15 @@ from narwhallet.core.kui.ux.widgets.generator import UShared
 from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
 from narwhallet.core.kui.ux.widgets.namespace_combobox import NamespaceComboBox
 from narwhallet.core.kui.ux.widgets.send_info_frame import SendInfoFrame
+from narwhallet.core.kui.ux.widgets.dialog_buttonbox import DialogButtonBox
 
 
 class Ui_action_dlg(QDialog):
     def setupUi(self):
-        _bb_br_ar = QDialogButtonBox.ActionRole
-        _bb_br_ac = QDialogButtonBox.AcceptRole
-        _sp_exp = QSizePolicy.Expanding
-        _sp_min = QSizePolicy.Minimum
+        # _bb_br_ar = QDialogButtonBox.ActionRole
+        # _bb_br_ac = QDialogButtonBox.AcceptRole
+        # _sp_exp = QSizePolicy.Expanding
+        # _sp_min = QSizePolicy.Minimum
 
         self.wallets: MWallets = None
         self.cache: MCache = None
@@ -46,7 +47,6 @@ class Ui_action_dlg(QDialog):
         self.hl_8 = QHBoxLayout()
         self.hl_9 = QHBoxLayout()
 
-
         self.combo_wallet = WalletComboBox()
         self.combo_ns = NamespaceComboBox(self)
         self.action_tx_l = QLabel(self)
@@ -54,22 +54,22 @@ class Ui_action_dlg(QDialog):
         self.action_value_l = QLabel(self)
         self.action_value = QPlainTextEdit(self)
         self.send_info = SendInfoFrame()
-        self.next_btn = QPushButton(self)
-        self.back_btn = QPushButton(self)
-        self.cancel_btn = QPushButton(self)
-        self.send_btn = QPushButton(self)
-        self.buttonBox = QDialogButtonBox(self)
+        # self.next_btn = QPushButton(self)
+        # self.back_btn = QPushButton(self)
+        # self.cancel_btn = QPushButton(self)
+        # self.send_btn = QPushButton(self)
+        self.buttonBox = DialogButtonBox(self)
 
         self.setObjectName('action_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.addButton(self.cancel_btn, _bb_br_ar)
-        self.buttonBox.addButton(self.next_btn, _bb_br_ar)
-        self.buttonBox.addButton(self.back_btn, _bb_br_ar)
-        self.buttonBox.addButton(self.send_btn, _bb_br_ac)
-        self.back_btn.setVisible(False)
-        self.next_btn.setEnabled(False)
-        self.send_btn.setEnabled(False)
+        # self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        # self.buttonBox.addButton(self.cancel_btn, _bb_br_ar)
+        # self.buttonBox.addButton(self.next_btn, _bb_br_ar)
+        # self.buttonBox.addButton(self.back_btn, _bb_br_ar)
+        # self.buttonBox.addButton(self.send_btn, _bb_br_ac)
+        # self.back_btn.setVisible(False)
+        # self.next_btn.setEnabled(False)
+        # self.send_btn.setEnabled(False)
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
@@ -90,9 +90,9 @@ class Ui_action_dlg(QDialog):
         self.buttonBox.rejected.connect(self.reject)
         self.combo_wallet.combo.currentTextChanged.connect(self.txb_w_changed)
         self.combo_ns.combo.currentTextChanged.connect(self.txb_ns_changed)
-        self.cancel_btn.clicked.connect(self.reject)
-        self.next_btn.clicked.connect(self.txb_build_simple_send)
-        self.back_btn.clicked.connect(self.back_click)
+        self.buttonBox.cancel.clicked.connect(self.reject)
+        self.buttonBox.next.clicked.connect(self.txb_build_simple_send)
+        self.buttonBox.back.clicked.connect(self.back_click)
 
         self.action_tx.textChanged.connect(self.check_tx_is_ns_key)
         self.action_value.textChanged.connect(self.check_next)
@@ -106,19 +106,19 @@ class Ui_action_dlg(QDialog):
         (self.action_value_l
          .setText(_translate('action_dlg', 'Action Value: ')))
 
-        self.cancel_btn.setText(_translate('action_dlg', 'Cancel'))
-        self.send_btn.setText(_translate('action_dlg', 'Send'))
-        self.next_btn.setText(_translate('action_dlg', 'Next'))
-        self.back_btn.setText(_translate('action_dlg', 'Back'))
+        # self.cancel_btn.setText(_translate('action_dlg', 'Cancel'))
+        # self.send_btn.setText(_translate('action_dlg', 'Send'))
+        # self.next_btn.setText(_translate('action_dlg', 'Next'))
+        # self.back_btn.setText(_translate('action_dlg', 'Back'))
 
     def check_next(self):
         if (self.combo_wallet.combo.currentText() != '-' and
                 self.combo_ns.combo.currentText() != '-' and
                 self.action_tx.text() != '' and
                 self.action_value.toPlainText() != ''):
-            self.next_btn.setEnabled(True)
+            self.buttonBox.next.setEnabled(True)
         else:
-            self.next_btn.setEnabled(False)
+            self.buttonBox.next.setEnabled(False)
 
     def check_tx_is_ns_key(self):
         _action_tx = self.action_tx.text()
@@ -291,18 +291,18 @@ class Ui_action_dlg(QDialog):
             self.action_tx.setReadOnly(True)
             self.action_value.setReadOnly(True)
 
-            self.next_btn.setVisible(False)
-            self.back_btn.setVisible(True)
-            self.send_btn.setEnabled(True)
+            self.buttonBox.next.setVisible(False)
+            self.buttonBox.back.setVisible(True)
+            self.buttonBox.send.setEnabled(True)
         else:
             self.new_tx.set_vin([])
             self.new_tx.set_vout([])
             self.new_tx.input_signatures = []
 
     def back_click(self):
-        self.next_btn.setVisible(True)
-        self.back_btn.setVisible(False)
-        self.send_btn.setEnabled(False)
+        self.buttonBox.next.setVisible(True)
+        self.buttonBox.back.setVisible(False)
+        self.buttonBox.send.setEnabled(False)
 
         self.send_info.fee.setText('')
         self.send_info.txsize.setText('')

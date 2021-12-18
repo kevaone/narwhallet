@@ -15,12 +15,13 @@ from narwhallet.core.kcl.models.psbt_decoder import keva_psbt
 from narwhallet.core.kui.ux.widgets.generator import UShared
 from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
 from narwhallet.core.kui.ux.widgets.send_info_frame import SendInfoFrame
+from narwhallet.core.kui.ux.widgets.dialog_buttonbox import DialogButtonBox
 
 
 class Ui_keva_op_nft_accept_bid_dlg(QDialog):
     def setupUi(self):
-        _bb_br_ar = QDialogButtonBox.ActionRole
-        _bb_br_ac = QDialogButtonBox.AcceptRole
+        # _bb_br_ar = QDialogButtonBox.ActionRole
+        # _bb_br_ac = QDialogButtonBox.AcceptRole
         _sp_exp = QSizePolicy.Expanding
         _sp_min = QSizePolicy.Minimum
 
@@ -66,23 +67,23 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.nft_address_l = QLabel(self)
         self.nft_address = QLabel(self)
         self.send_info = SendInfoFrame()
-        self.next_btn = QPushButton(self)
-        self.back_btn = QPushButton(self)
-        self.cancel_btn = QPushButton(self)
-        self.send_btn = QPushButton(self)
-        self.buttonBox = QDialogButtonBox(self)
+        # self.next_btn = QPushButton(self)
+        # self.back_btn = QPushButton(self)
+        # self.cancel_btn = QPushButton(self)
+        # self.send_btn = QPushButton(self)
+        self.buttonBox = DialogButtonBox(self)
 
         self.setObjectName('keva_op_nft_accept_dlg')
         self.setMinimumSize(QtCore.QSize(475, 350))
         self.bid_nft_tx.setReadOnly(True)
-        self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
-        self.buttonBox.addButton(self.cancel_btn, _bb_br_ar)
-        self.buttonBox.addButton(self.next_btn, _bb_br_ar)
-        self.buttonBox.addButton(self.back_btn, _bb_br_ar)
-        self.buttonBox.addButton(self.send_btn, _bb_br_ac)
-        self.back_btn.setVisible(False)
-        self.next_btn.setEnabled(False)
-        self.send_btn.setEnabled(False)
+        # self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
+        # self.buttonBox.addButton(self.cancel_btn, _bb_br_ar)
+        # self.buttonBox.addButton(self.next_btn, _bb_br_ar)
+        # self.buttonBox.addButton(self.back_btn, _bb_br_ar)
+        # self.buttonBox.addButton(self.send_btn, _bb_br_ac)
+        # self.back_btn.setVisible(False)
+        # self.next_btn.setEnabled(False)
+        # self.send_btn.setEnabled(False)
 
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
@@ -132,9 +133,9 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         self.retranslateUi()
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
-        self.cancel_btn.clicked.connect(self.reject)
-        self.next_btn.clicked.connect(self.txb_build_simple_send)
-        self.back_btn.clicked.connect(self.back_click)
+        self.buttonBox.cancel.clicked.connect(self.reject)
+        self.buttonBox.next.clicked.connect(self.txb_build_simple_send)
+        self.buttonBox.back.clicked.connect(self.back_click)
 
         self.bid_nft_tx.textChanged.connect(self.check_tx_is_bid)
 
@@ -159,19 +160,19 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
         (self.nft_address_l
          .setText(_translate('keva_op_nft_accept_dlg', 'Payment Address: ')))
 
-        self.cancel_btn.setText(_translate('keva_op_nft_accept_dlg', 'Cancel'))
-        self.send_btn.setText(_translate('keva_op_nft_accept_dlg', 'Send'))
-        self.next_btn.setText(_translate('keva_op_nft_accept_dlg', 'Next'))
-        self.back_btn.setText(_translate('keva_op_nft_accept_dlg', 'Back'))
+        # self.cancel_btn.setText(_translate('keva_op_nft_accept_dlg', 'Cancel'))
+        # self.send_btn.setText(_translate('keva_op_nft_accept_dlg', 'Send'))
+        # self.next_btn.setText(_translate('keva_op_nft_accept_dlg', 'Next'))
+        # self.back_btn.setText(_translate('keva_op_nft_accept_dlg', 'Back'))
 
     def check_next(self):
         if (self.combo_wallet.combo.currentText() != '-' and
                 self.bid_amount.text() != '' and
                 self.nft_ns.text() != '' and
                 self.nft_price.text() != ''):
-            self.next_btn.setEnabled(True)
+            self.buttonBox.next.setEnabled(True)
         else:
-            self.next_btn.setEnabled(False)
+            self.buttonBox.next.setEnabled(False)
 
     def check_tx_is_bid(self):
         _nft_tx = self.bid_nft_tx.text()
@@ -202,7 +203,7 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
 
             self.check_next()
         else:
-            self.next_btn.setEnabled(False)
+            self.buttonBox.next.setEnabled(False)
 
     @staticmethod
     def _test_tx(tx: MTransactionBuilder) -> bool:
@@ -274,18 +275,18 @@ class Ui_keva_op_nft_accept_bid_dlg(QDialog):
             self.send_info.tx.setPlainText(self.raw_tx)
 
             self.bid_nft_tx.setReadOnly(True)
-            self.next_btn.setVisible(False)
-            self.back_btn.setVisible(True)
-            self.send_btn.setEnabled(True)
+            self.buttonBox.next.setVisible(False)
+            self.buttonBox.back.setVisible(True)
+            self.buttonBox.send.setEnabled(True)
         else:
             self.new_tx.set_vin([])
             self.new_tx.set_vout([])
             self.new_tx.input_signatures = []
 
     def back_click(self):
-        self.next_btn.setVisible(True)
-        self.back_btn.setVisible(False)
-        self.send_btn.setEnabled(False)
+        self.buttonBox.next.setVisible(True)
+        self.buttonBox.back.setVisible(False)
+        self.buttonBox.send.setEnabled(False)
 
         self.send_info.fee.setText('')
         self.send_info.txsize.setText('')
