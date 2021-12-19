@@ -78,112 +78,176 @@ class Ui_send_dlg(QDialog):
         self.setWindowTitle(_translate('send_dlg', 'Narwhallet - Send'))
         self.address_select.setText(_translate('send_dlg', 'Book'))
 
+    def _mode_simple_send(self):
+        # Simple Send
+        self.setWindowTitle('Narwhallet - Send')
+        self.wallet_combo.show()
+        self.ns_combo.hide()
+        self.amount_input.show()
+        self.address_input.show()
+        self.address_combo.hide()
+        self.transaction_input.hide()
+        self.namespace_key_input.hide()
+        self.namespace_value_input.hide()
+        self.bid_input.hide()
+        self.auction_info.hide()
+
+    def _mode_multi_sig_send(self):
+        # Multi Sig Send
+        self.setWindowTitle('Narwhallet - Multi-Sig Send')
+
+    def _mode_namespace_create(self):
+        # Namespace Create
+        self.setWindowTitle('Narwhallet - Create Namespace')
+        self.wallet_combo.show()
+        self.ns_combo.hide()
+        self.amount_input.hide()
+        self.address_input.hide()
+        self.address_combo.hide()
+        self.address_select.setVisible(False)
+        self.transaction_input.hide()
+        self.namespace_key_input.hide()
+        self.namespace_value_input.show()
+        self.bid_input.hide()
+        self.auction_info.hide()
+        self.namespace_value_input.value.setMinimumHeight(28)
+        self.namespace_value_input.value.setMaximumHeight(28)
+
+    def _mode_namespace_create_key(self):
+        # Namespace Key Create
+        self.setWindowTitle('Narwhallet - Create Key')
+        self.wallet_combo.show()
+        self.ns_combo.show()
+        self.amount_input.hide()
+        self.address_input.hide()
+        self.address_combo.hide()
+        self.address_select.setVisible(False)
+        self.transaction_input.hide()
+        self.namespace_key_input.show()
+        self.namespace_value_input.show()
+        self.bid_input.hide()
+        self.auction_info.hide()
+
+    def _mode_namespace_update_key(self):
+        # Namespace Key Update
+        self.setWindowTitle('Narwhallet - Update Key')
+        self.wallet_combo.show()
+        self.ns_combo.show()
+        self.amount_input.hide()
+        self.address_input.hide()
+        self.address_combo.hide()
+        self.address_select.setVisible(False)
+        self.transaction_input.hide()
+        self.namespace_key_input.show()
+        self.namespace_value_input.show()
+        self.bid_input.hide()
+        self.auction_info.hide()
+
+    def _mode_namespace_delete_key(self):
+        # Namespace Key Delete
+        self.setWindowTitle('Narwhallet - Delete Key')
+        self.wallet_combo.show()
+        self.ns_combo.show()
+        self.amount_input.hide()
+        self.address_input.hide()
+        self.address_combo.hide()
+        self.address_select.setVisible(False)
+        self.transaction_input.hide()
+        self.namespace_key_input.show()
+        self.namespace_value_input.hide()
+        self.bid_input.hide()
+        self.auction_info.hide()
+
+    def _mode_create_auction(self):
+        # Namespace Auction
+        self.setWindowTitle('Narwhallet - Create Auction')
+        self.wallet_combo.show()
+        self.ns_combo.show()
+        self.amount_input.hide()
+        self.address_input.hide()
+        self.address_combo.hide()
+        self.address_select.setVisible(False)
+        self.transaction_input.hide()
+        self.namespace_key_input.hide()
+        self.namespace_value_input.hide()
+        self.bid_input.hide()
+        self.auction_info.show()
+
+    def _mode_create_bid(self):
+        # Namespace Bid
+        self.setWindowTitle('Narwhallet - Create Bid')
+        self.wallet_combo.show()
+        self.ns_combo.show()
+        self.amount_input.hide()
+        self.address_input.hide()
+        self.address_combo.hide()
+        self.address_select.setVisible(False)
+        self.transaction_input.show()
+        self.namespace_key_input.hide()
+        self.namespace_value_input.hide()
+        self.bid_input.show()
+        self.auction_info.show()
+
+    def _mode_accept_bid(self):
+        # Namespace Accept Bid
+        self.setWindowTitle('Narwhallet - Accept Bid')
+        self.wallet_combo.show()
+        self.ns_combo.show()
+        self.amount_input.hide()
+        self.address_input.hide()
+        self.address_combo.hide()
+        self.address_select.setVisible(False)
+        self.transaction_input.show()
+        self.namespace_key_input.hide()
+        self.namespace_value_input.hide()
+        self.bid_input.show()
+        self.auction_info.show()
+
+    def _mode_namespace_transfer(self):
+        # Namespace Transfer
+        self.setWindowTitle('Narwhallet - Namespace Transfer')
+        self.wallet_combo.show()
+        self.ns_combo.show()
+        self.amount_input.hide()
+        self.address_input.show()
+        self.address_combo.hide()
+        self.transaction_input.hide()
+        self.namespace_key_input.hide()
+        self.namespace_value_input.hide()
+        self.bid_input.hide()
+        self.auction_info.hide()
+
     def init_mode(self):
         if self.mode == 0:
             # Simple Send
-            self.wallet_combo.show()
-            self.ns_combo.hide()
-            self.amount_input.show()
-            self.address_input.show()
-            self.address_combo.hide()
-            self.transaction_input.hide()
-            self.namespace_key_input.hide()
-            self.namespace_value_input.hide()
-            self.bid_input.hide()
-            self.auction_info.hide()
+            self._mode_simple_send()
         elif self.mode == 1:
             # Multi Sig Send
-            pass
+            self._mode_multi_sig_send()
         elif self.mode == 2:
             # Namespace Create
-            self.wallet_combo.show()
-            self.ns_combo.hide()
-            self.amount_input.hide()
-            self.address_input.hide()
-            self.address_combo.hide()
-            self.address_select.setVisible(False)
-            self.transaction_input.hide()
-            self.namespace_key_input.hide()
-            self.namespace_value_input.show()
-            self.bid_input.hide()
-            self.auction_info.hide()
+            self._mode_namespace_create()
         elif self.mode == 3:
-            # Namespace Key Create / Edit
-            self.wallet_combo.show()
-            self.ns_combo.show()
-            self.amount_input.hide()
-            self.address_input.hide()
-            self.address_combo.hide()
-            self.address_select.setVisible(False)
-            self.transaction_input.hide()
-            self.namespace_key_input.show()
-            self.namespace_value_input.show()
-            self.bid_input.hide()
-            self.auction_info.hide()
+            # Namespace Key Create
+            self._mode_namespace_create_key()
         elif self.mode == 4:
-            # Namespace Key Delete
-            self.wallet_combo.show()
-            self.ns_combo.show()
-            self.amount_input.hide()
-            self.address_input.hide()
-            self.address_combo.hide()
-            self.address_select.setVisible(False)
-            self.transaction_input.hide()
-            self.namespace_key_input.show()
-            self.namespace_value_input.hide()
-            self.bid_input.hide()
-            self.auction_info.hide()
+            # Namespace Key Update
+            self._mode_namespace_update_key()
         elif self.mode == 5:
-            # Namespace Auction
-            self.wallet_combo.show()
-            self.ns_combo.show()
-            self.amount_input.hide()
-            self.address_input.hide()
-            self.address_combo.hide()
-            self.address_select.setVisible(False)
-            self.transaction_input.hide()
-            self.namespace_key_input.hide()
-            self.namespace_value_input.hide()
-            self.bid_input.hide()
-            self.auction_info.show()
+            # Namespace Key Delete
+            self._mode_namespace_delete_key()
         elif self.mode == 6:
-            # Namespace Bid
-            self.wallet_combo.show()
-            self.ns_combo.show()
-            self.amount_input.hide()
-            self.address_input.hide()
-            self.address_combo.hide()
-            self.address_select.setVisible(False)
-            self.transaction_input.show()
-            self.namespace_key_input.hide()
-            self.namespace_value_input.hide()
-            self.bid_input.show()
-            self.auction_info.show()
+            # Namespace Auction
+            self._mode_create_auction()
         elif self.mode == 7:
-            # Namespace Accept Bid
-            self.wallet_combo.show()
-            self.ns_combo.show()
-            self.amount_input.hide()
-            self.address_input.hide()
-            self.address_combo.hide()
-            self.address_select.setVisible(False)
-            self.transaction_input.show()
-            self.namespace_key_input.hide()
-            self.namespace_value_input.hide()
-            self.bid_input.show()
-            self.auction_info.show()
+            # Namespace Bid
+            self._mode_create_bid()
         elif self.mode == 8:
+            # Namespace Accept Bid
+            self._mode_accept_bid()
+        elif self.mode == 9:
             # Namespace Transfer
-            self.wallet_combo.show()
-            self.ns_combo.show()
-            self.amount_input.hide()
-            self.address_input.show()
-            self.address_combo.hide()
-            self.transaction_input.hide()
-            self.namespace_key_input.hide()
-            self.namespace_value_input.hide()
-            self.bid_input.hide()
-            self.auction_info.hide()
+            self._mode_namespace_transfer()
 
     def check_next(self):
         if self.wallet_combo.combo.currentText() != '-':
