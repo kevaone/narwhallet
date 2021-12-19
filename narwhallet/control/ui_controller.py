@@ -380,7 +380,7 @@ class NarwhalletController():
         (self.ui.settings_tab.ipfs_tbl
          .cellClicked.connect(self.ipfs_gateway_selected))
         # Dialogs
-        self.ui.w_tab.btn_send.clicked.connect(self.dialogs.simple_send_dialog)
+        self.ui.w_tab.btn_send.clicked.connect(self.dialogs.send_dialog)
         (self.ui.ns_tab.btn_create
          .clicked.connect(self.dialogs.create_namespace_send_dialog))
         (self.ui.ns_tab.btn_fav

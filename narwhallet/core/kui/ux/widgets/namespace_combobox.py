@@ -15,3 +15,11 @@ class NamespaceComboBox(QHBoxLayout):
         self.combo.addItem('-', '-')
         self.label.setText(QCoreApplication.translate('NamespaceComboBox',
                                                       'Namespace:'))
+
+    def show(self):
+        self.label.setVisible(True)
+        self.combo.setVisible(True)
+
+    def hide(self):
+        self.label.setVisible(False)
+        self.combo.setVisible(False)

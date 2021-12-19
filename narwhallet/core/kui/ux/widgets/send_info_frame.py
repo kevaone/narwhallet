@@ -20,6 +20,7 @@ class SendInfoFrame(QFrame):
         self.txsize = QLabel()
         self.tx = QPlainTextEdit()
 
+        self.vl.setContentsMargins(0, 0, 0, 0)
         self.tx.setMaximumHeight(65)
         self.tx.setReadOnly(True)
 
@@ -35,8 +36,7 @@ class SendInfoFrame(QFrame):
         self.vl.addLayout(self.tx_hl)
         self.vl.addWidget(self.tx)
 
-        self.fee_l.setText(QCoreApplication.translate('send_dlg',
-                                                      'Fee (KVA):'))
-        self.feerate_l.setText(QCoreApplication.translate('send_dlg',
-                                          'Fee Rate (Satoshi per byte):'))
-        self.tx_l.setText(QCoreApplication.translate('send_dlg', 'Raw TX -'))
+        self.fee_l.setText(QCoreApplication.translate('SIF', 'Fee (KVA):'))
+        _frl = 'Fee Rate (Satoshi per byte):'
+        self.feerate_l.setText(QCoreApplication.translate('SIF', _frl))
+        self.tx_l.setText(QCoreApplication.translate('SIF', 'Raw TX -'))

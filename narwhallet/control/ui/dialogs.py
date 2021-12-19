@@ -18,6 +18,7 @@ from narwhallet.core.kex import KEXclient
 
 from narwhallet.core.kui.main import NarwhalletUI
 from narwhallet.core.kui.ux.dialogs.tx_builder_action import Ui_action_dlg
+from narwhallet.core.kui.ux.dialogs.tx_builder_send import Ui_send_dlg
 from narwhallet.core.kui.ux.dialogs.tx_builder_simple_send import Ui_simple_send_dlg
 from narwhallet.core.kui.ux.dialogs.tx_builder_keva_op import Ui_keva_op_send_dlg
 from narwhallet.core.kui.ux.dialogs.tx_builder_keva_nft import Ui_keva_op_nft_dlg
@@ -57,6 +58,45 @@ class MDialogs():
         self.address_book = address_book
         # TODO Refine this
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
+
+    def send_dialog(self):
+        _di = Ui_send_dlg()
+        _di.setupUi(7)
+        # _di.wallets = self.wallets
+        # _di.cache = self.cache
+        # _di.kex = self.kex
+        _fee = MShared.get_fee_rate(self.kex)
+        if _fee == -1:
+            _ = self.warning_dialog('Could not get fee rate!',
+                                    False, 1)
+            return
+
+        # _di.user_path = self.user_path
+        # _di.new_tx.set_fee(_fee)
+        _di.send_info.feerate.setText(str(_fee))
+        for _w in self.wallets.wallets:
+            if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
+                # NOTE We don't want wallets to relock while interacting
+                _w.set_updating(True)
+                _di.wallet_combo.combo.addItem(_w.name+' - '+str(round(_w.balance, 8)),
+                              _w.name)
+        for _addr in self.address_book.addresses:
+            _aa = self.address_book.addresses[_addr].address
+            _abi = self.address_book.addresses[_addr].name + ' - ' + _aa
+            _di.address_combo.combo.addItem(_abi, _aa)
+        _result = _di.exec_()
+
+        for _w in self.wallets.wallets:
+            if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
+                _w.set_updating(False)
+
+        # if _result != 0:
+        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
+        #     if isinstance(_bc_result[1], dict):
+        #         _result = json.dumps(_bc_result[1])
+        #     else:
+        #         _result = _bc_result[1]
+        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def simple_send_dialog(self):
         _di = Ui_simple_send_dlg()

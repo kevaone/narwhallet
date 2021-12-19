@@ -2,7 +2,7 @@ from PyQt5.QtCore import QCoreApplication
 from PyQt5.QtWidgets import QComboBox, QHBoxLayout, QLabel
 
 
-class WalletComboBox(QHBoxLayout):
+class AddressComboBox(QHBoxLayout):
     def __init__(self):
         super().__init__()
 
@@ -13,8 +13,8 @@ class WalletComboBox(QHBoxLayout):
 
         # _combo.setMinimumWidth(250)
         self.combo.addItem('-', '-')
-        self.label.setText(QCoreApplication.translate('WalletComboBox',
-                                                      'Wallet:'))
+        self.label.setText(QCoreApplication.translate('AddressComboBox',
+                                                      'Address:'))
 
     def show(self):
         self.label.setVisible(True)
