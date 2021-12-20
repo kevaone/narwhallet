@@ -77,7 +77,7 @@ class MDialogs():
         _di.new_tx.set_fee(_fee)
         _di.bid_tx.set_fee(_fee)
 
-        _result = _di.exec_()
+        # _result = _di.exec_()
 
         for _w in self.wallets.wallets:
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
