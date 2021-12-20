@@ -17,7 +17,6 @@ from narwhallet.core.kcl.models.book_address import MBookAddress
 from narwhallet.core.kex import KEXclient
 
 from narwhallet.core.kui.main import NarwhalletUI
-# from narwhallet.core.kui.ux.dialogs.tx_builder_action import Ui_action_dlg
 from narwhallet.core.kui.ux.dialogs.tx_builder_send import Ui_send_dlg
 from narwhallet.core.kui.ux.dialogs.create_wallet import Ui_create_wallet_dlg
 from narwhallet.core.kui.ux.dialogs.add_wallet_watch_address import Ui_add_watch_addr_dlg
@@ -276,7 +275,7 @@ class MDialogs():
         _di.kex = self.kex
         self.send_dialog(_di)
 
-    def bid_namespace_dialog(self, tx = False, action = None):
+    def bid_namespace_dialog(self, tx=False, action=None):
         _di = Ui_send_dlg()
         _di.setupUi(7)
         self.populate_wallet_combo(_di.wallet_combo.combo)
@@ -347,8 +346,10 @@ class MDialogs():
         _di.auction_info.nft_ns.setText(self.ui.nft_tab.ns.text())
         _di.auction_info.nft_address.setText(self.ui.nft_tab.address.text())
         _di.auction_info.nft_price.setText(self.ui.nft_tab.asking.text())
-        _di.auction_info.nft_shortcode.setText(self.ui.nft_tab.shortcode.text())
-        _di.namespace_key_input.key.setText(self.ui.nft_tab.tbl_bids_2.item(_row, 6).text())
+        (_di.auction_info.nft_shortcode
+         .setText(self.ui.nft_tab.shortcode.text()))
+        (_di.namespace_key_input.key
+         .setText(self.ui.nft_tab.tbl_bids_2.item(_row, 6).text()))
 
         self.send_dialog(_di)
 

@@ -82,7 +82,8 @@ class Ui_send_dlg(QDialog):
         self.buttonBox.cancel.clicked.connect(self.reject)
         self.buttonBox.next.clicked.connect(self.build_send)
         self.buttonBox.back.clicked.connect(self.back_click)
-        self.wallet_combo.combo.currentTextChanged.connect(self.wallet_combo_changed)
+        (self.wallet_combo.combo.currentTextChanged
+         .connect(self.wallet_combo_changed))
         self.amount_input.amount.textChanged.connect(self.check_next)
         self.address_input.address.textChanged.connect(self.check_next)
         self.address_combo.combo.currentTextChanged.connect(self.check_next)
@@ -322,7 +323,8 @@ class Ui_send_dlg(QDialog):
         _nft_tx = MShared.check_tx_is_bid(_nft_tx, self.kex, self.cache)
         if _nft_tx[0] is True:
             _bid_psbt = keva_psbt(_nft_tx[2])
-            _sh = Scripts.P2SHAddressScriptHash(self.auction_info.nft_address.text())
+            _sh = (Scripts.P2SHAddressScriptHash
+                   (self.auction_info.nft_address.text()))
             _sh = Scripts.compile(_sh, True)
             if _bid_psbt.tx.vout[1].scriptPubKey.hex == _sh:
                 (self.bid_amount
@@ -381,9 +383,10 @@ class Ui_send_dlg(QDialog):
         _sh = Scripts.compile(_sh, True)
         _ = self.bid_tx.add_output(NS_RESERVATION, _trans_address)
         self.bid_tx.vout[0].scriptPubKey.set_hex(_sh)
-        _ = self.bid_tx.add_output(_bid_amount, self.auction_info.nft_address.text())
+        _ = self.bid_tx.add_output(_bid_amount,
+                                   self.auction_info.nft_address.text())
 
-        self.set_availible_usxo(False, True, self.ns_combo.combo.currentData().split(':')[0])
+        self.set_availible_usxo(False, True, self.ns_combo.combo.currentData())
         _inp_sel, _need_change, _est_fee = self.bid_tx.select_inputs(True)
 
         if _inp_sel is True:
@@ -393,7 +396,8 @@ class Ui_send_dlg(QDialog):
             if _need_change is True:
                 _ = self.bid_tx.add_output(_cv, _trans_address)
 
-            self.bid_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL_ANYONECANPAY)
+            self.bid_tx.txb_preimage(self.wallet,
+                                     SIGHASH_TYPE.ALL_ANYONECANPAY)
 
     def tx_to_ns(self, tx, vout):
         _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
@@ -419,7 +423,8 @@ class Ui_send_dlg(QDialog):
                 self.buttonBox.next.setEnabled(False)
         elif self.mode in (3, 4, 5):
             if self.wallet_combo.combo.currentText() != '-':
-                if self.check_address() and self.namespace_value_input.value.toPlainText() != '':
+                if (self.check_address() and
+                        self.namespace_value_input.value.toPlainText() != ''):
                     self.buttonBox.next.setEnabled(True)
                 else:
                     self.buttonBox.next.setEnabled(False)
@@ -471,9 +476,11 @@ class Ui_send_dlg(QDialog):
     def check_address(self):
         try:
             if self.address_input.address.isVisible():
-                _ = Base58Decoder.CheckDecode(self.address_input.address.text())
+                _ = (Base58Decoder
+                     .CheckDecode(self.address_input.address.text()))
             else:
-                _ = Base58Decoder.CheckDecode(self.address_combo.combo.currentData())
+                _ = (Base58Decoder
+                     .CheckDecode(self.address_combo.combo.currentData()))
             return True
         except Exception:
             return False
@@ -530,10 +537,10 @@ class Ui_send_dlg(QDialog):
                     # _b_s = str(_block[0])
                     # _block = str(str(len(_b_s)) + _b_s + str(_block[1]))
                     # _name = (self.cache.ns.get_namespace_by_key_value(
-                        # _ns, '\x01_KEVA_NS_'))
+                    #    # _ns, '\x01_KEVA_NS_'))
                     # if len(_name) == 0:
                     #     _name = (self.cache.ns
-                    #              .get_namespace_by_key_value(_ns, '_KEVA_NS_'))
+                    #           .get_namespace_by_key_value(_ns, '_KEVA_NS_'))
                     #     if len(_name) > 0:
                     #         _name = _name[0][0]
                     # else:
@@ -692,7 +699,8 @@ class Ui_send_dlg(QDialog):
             self.set_availible_usxo(True, False, _ns_address)
             _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         else:
-            self.set_availible_usxo(False, False, self.auction_info.nft_ns.text())
+            self.set_availible_usxo(False, False,
+                                    self.auction_info.nft_ns.text())
 
             if len(self.new_tx.inputs_to_spend) != 1:
                 _inp_sel = False
@@ -712,8 +720,8 @@ class Ui_send_dlg(QDialog):
                 _ns = self.tx_to_ns(self.new_tx.vin[0].txid,
                                     self.new_tx.vin[0].vout)
                 _ns_value = self.namespace_value_input.value.toPlainText()
-                _n_sh = Scripts.KevaNamespaceCreation(_ns, _ns_value,
-                                                      self.address_input.address.text())
+                _n_sh = (Scripts.KevaNamespaceCreation
+                         (_ns, _ns_value, self.address_input.address.text()))
                 _n_sh = Scripts.compile(_n_sh, True)
 
             if _need_change is True:
@@ -726,7 +734,8 @@ class Ui_send_dlg(QDialog):
                     _ = self.new_tx.add_output(_cv, _ns_address)
 
             if self.mode == 8:
-                self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL_ANYONECANPAY)
+                self.new_tx.txb_preimage(self.wallet,
+                                         SIGHASH_TYPE.ALL_ANYONECANPAY)
                 _, _, _est_fee = self.new_tx.get_current_values(False)
             else:
                 self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)
