@@ -87,7 +87,7 @@ class Ui_SettingsTab(QObject):
 
         self.tabSettings.setObjectName('tabSettings')
         self.path_meta_e.setReadOnly(True)
-        self.path_meta_e.setMaximumHeight(26)
+        self.path_meta_e.setMaximumHeight(28)
         self.path_meta_e.setFrameStyle(QFrame.Shape.NoFrame)
         self.auto_lock_e.setValidator(self.auto_lock_v)
         self.auto_lock_e.setMaximumWidth(50)

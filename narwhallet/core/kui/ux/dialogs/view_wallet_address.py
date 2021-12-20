@@ -51,7 +51,7 @@ class Ui_v_addr_dlg(QDialog):
         self.resize(425, 425)
         self._ppic = self._ppic.scaledToWidth(15, _transm_st)
         self._mpic = self._mpic.scaledToWidth(15, _transm_st)
-        self.address_d.setMaximumHeight(26)
+        self.address_d.setMaximumHeight(28)
         self.address_d.setReadOnly(True)
         self.address_d.setFrameStyle(QFrame.NoFrame)
         self.details_show_img.setIcon(QIcon(self._ppic))

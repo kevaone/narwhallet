@@ -43,19 +43,32 @@ QListWidget
 
 QLineEdit
 {
-    background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #5d5d5d);
+    background-color: #242424;
+    /* background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #5d5d5d); */
     padding-top: 2px;
     padding-bottom: 2px;
     padding-left: 5px;
     padding-right: 5px;
     border-style: solid;
     border: 1px solid grey;
-    border-radius: 5;
+    border-radius: 3;
 }
 
 QLineEdit:hover, QLineEdit:focus
 {
     border: 2px solid palevioletred;
+}
+
+QPlainTextEdit
+{
+    background-color: #242424;
+    border: 1px solid grey;
+    border-radius: 3;
+}
+
+QPlainTextEdit[readOnly="true"]
+{
+    border: 1px solid;
 }
 
 QPlainTextEdit:focus
@@ -65,7 +78,7 @@ QPlainTextEdit:focus
 
 QPushButton
 {
-    border-radius: 6;
+    border-radius: 3;
     padding-top: 2px;
     padding-bottom: 2px;
     padding-left: 10px;
@@ -103,7 +116,7 @@ QComboBox
     background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #565656, stop: 0.1 #525252, stop: 0.5 #4e4e4e, stop: 0.9 #4a4a4a, stop: 1 #464646);
     border-style: solid;
     border: 1px solid grey;
-    border-radius: 5;
+    border-radius: 3;
     padding-top: 2px;
     padding-bottom: 2px;
     padding-left: 10px;
@@ -242,11 +255,6 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
 }
 
 QTextEdit
-{
-    background-color: #242424;
-}
-
-QPlainTextEdit
 {
     background-color: #242424;
 }

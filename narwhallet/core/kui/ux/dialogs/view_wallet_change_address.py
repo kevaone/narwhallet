@@ -39,7 +39,7 @@ class Ui_v_change_addr_dlg(QDialog):
 
         self.setObjectName('v_change_dlg')
         self.resize(430, 225)
-        self.address_d.setMaximumHeight(26)
+        self.address_d.setMaximumHeight(28)
         self.address_d.setReadOnly(True)
         self.address_d.setFrameStyle(QFrame.NoFrame)
         self.details.setFrameShape(QFrame.StyledPanel)

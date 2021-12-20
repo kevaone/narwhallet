@@ -40,7 +40,7 @@ class Ui_v_ab_item_dlg(QDialog):
         self.comboBox.setVisible(False)
         self.lineEdit_3.setReadOnly(True)
         self.lineEdit_3.setFrameStyle(QFrame.NoFrame)
-        self.lineEdit_3.setMaximumHeight(26)
+        self.lineEdit_3.setMaximumHeight(28)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(_b_ok)
 
