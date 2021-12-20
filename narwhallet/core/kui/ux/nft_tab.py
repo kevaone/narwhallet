@@ -72,10 +72,13 @@ class Ui_NFTTab(QObject):
 
         self.btnframe.setFrameShape(QFrame.Shape.StyledPanel)
         self.btnframe.setFrameShadow(QFrame.Shadow.Raised)
-        self.frame_1a.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_1a.setFrameShadow(QFrame.Shadow.Raised)
-        self.frame_1b.setFrameShape(QFrame.Shape.StyledPanel)
-        self.frame_1b.setFrameShadow(QFrame.Shadow.Raised)
+        self.frame_1a.setFrameShape(QFrame.NoFrame)
+        # self.frame_1a.setFrameShadow(QFrame.Shadow.Raised)
+        self.frame_1a_vl.setContentsMargins(0, 0, 0, 0)
+        self.frame_1b.setFrameShape(QFrame.NoFrame)
+        # self.frame_1b.setFrameShadow(QFrame.Shadow.Raised)
+        self.frame_1b_vl.setContentsMargins(0, 0, 0, 0)
+        self.frame_3_vl.setContentsMargins(0, 28, 0, 0)
 
         self.btnframe_hl.addItem(QSpacerItem(0, 0, _sp_exp, _sp_min))
         self.btnframe_hl.addWidget(self.btn_create_auction)
@@ -120,7 +123,7 @@ class Ui_NFTTab(QObject):
         self.frame_3_vl.addWidget(self.tbl_bids_2)
         self.splitter_meta.addWidget(self.frame_2)
         self.splitter_meta.addWidget(self.frame_3)
-        self.splitter_meta.setSizes([275, 300])
+        self.splitter_meta.setSizes([240, 335])
         self.tab_vl.addWidget(self.splitter_meta)
 
     def retranslateUi(self):
