@@ -123,7 +123,8 @@ class Ui_NFTTab(QObject):
         self.frame_3_vl.addWidget(self.tbl_bids_2)
         self.splitter_meta.addWidget(self.frame_2)
         self.splitter_meta.addWidget(self.frame_3)
-        self.splitter_meta.setSizes([240, 335])
+        self.splitter_meta.setSizes([340, 335])
+        self.splitter_meta.setStretchFactor(1, 1)
         self.tab_vl.addWidget(self.splitter_meta)
 
     def retranslateUi(self):
