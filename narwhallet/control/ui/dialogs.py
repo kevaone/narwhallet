@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QDialogButtonBox
 
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
 from narwhallet.control.shared import MShared
-
+from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.file_utils import ConfigLoader
 from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.core.kcl.models.wallets import MWallets
@@ -19,12 +19,6 @@ from narwhallet.core.kex import KEXclient
 from narwhallet.core.kui.main import NarwhalletUI
 # from narwhallet.core.kui.ux.dialogs.tx_builder_action import Ui_action_dlg
 from narwhallet.core.kui.ux.dialogs.tx_builder_send import Ui_send_dlg
-# from narwhallet.core.kui.ux.dialogs.tx_builder_simple_send import Ui_simple_send_dlg
-# from narwhallet.core.kui.ux.dialogs.tx_builder_keva_op import Ui_keva_op_send_dlg
-# from narwhallet.core.kui.ux.dialogs.tx_builder_keva_nft import Ui_keva_op_nft_dlg
-# from narwhallet.core.kui.ux.dialogs.tx_builder_keva_nft_bid import Ui_keva_op_nft_bid_dlg
-# from narwhallet.core.kui.ux.dialogs.tx_builder_keva_nft_accept_bid import (
-#     Ui_keva_op_nft_accept_bid_dlg)
 from narwhallet.core.kui.ux.dialogs.create_wallet import Ui_create_wallet_dlg
 from narwhallet.core.kui.ux.dialogs.add_wallet_watch_address import Ui_add_watch_addr_dlg
 from narwhallet.core.kui.ux.dialogs.add_wallet_watch import Ui_add_wallet_watch_dlg
@@ -80,8 +74,9 @@ class MDialogs():
                                     False, 1)
             return
 
-        # _di.new_tx.set_fee(_fee)
         _di.send_info.feerate.setText(str(_fee))
+        _di.new_tx.set_fee(_fee)
+        _di.bid_tx.set_fee(_fee)
 
         _result = _di.exec_()
 
@@ -102,114 +97,25 @@ class MDialogs():
         _di.setupUi(0)
         self.populate_wallet_combo(_di.wallet_combo.combo)
         self.populate_addressbook_combo(_di.address_combo.combo)
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
         self.send_dialog(_di)
-
-        # _di = Ui_simple_send_dlg()
-        # _di.setupUi()
-        # _di.wallets = self.wallets
-        # _di.cache = self.cache
-        # _di.kex = self.kex
-        # _fee = MShared.get_fee_rate(self.kex)
-        # if _fee == -1:
-        #     _ = self.warning_dialog('Could not get fee rate!',
-        #                             False, 1)
-        #     return
-
-        # _di.user_path = self.user_path
-        # _di.new_tx.set_fee(_fee)
-        # _di.send_info.feerate.setText(str(_fee))
-        # for _w in self.wallets.wallets:
-        #     if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
-        #         # NOTE We don't want wallets to relock while interacting
-        #         _w.set_updating(True)
-        #         _di.wallet_combo.combo.addItem(_w.name+' - '+str(round(_w.balance, 8)),
-        #                       _w.name)
-        # for _addr in self.address_book.addresses:
-        #     _aa = self.address_book.addresses[_addr].address
-        #     _abi = self.address_book.addresses[_addr].name + ' - ' + _aa
-        #     _di.address_book.addItem(_abi, _aa)
-        # _result = _di.exec_()
-
-        # for _w in self.wallets.wallets:
-        #     if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
-        #         _w.set_updating(False)
-
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def create_namespace_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(2)
         self.populate_wallet_combo(_di.wallet_combo.combo)
-        # self.populate_addressbook_combo(_di.address_combo.combo)
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
         self.send_dialog(_di)
-
-        # _di = Ui_keva_op_send_dlg()
-        # _di.setupUi()
-        # _di.wallets = self.wallets
-        # _di.cache = self.cache
-        # _di.kex = self.kex
-        # _fee = MShared.get_fee_rate(self.kex)
-        # if _fee == -1:
-        #     _ = self.warning_dialog('Could not get fee rate!',
-        #                             False, 1)
-        #     return
-
-        # _di.user_path = self.user_path
-        # _di.new_tx.set_fee(_fee)
-        # _di.send_info.feerate.setText(str(_fee))
-        # _di.value.setMinimumHeight(28)
-        # _di.value.setMaximumHeight(28)
-        # _di.key_v.setVisible(False)
-        # _di.key_v_l.setVisible(False)
-        # _di.wns.setVisible(False)
-        # _di.wns_l.setVisible(False)
-        # for _w in self.wallets.wallets:
-        #     if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
-        #         _w.set_updating(True)
-        #         _di.w.combo.addItem(_w.name + ' - ' + str(round(_w.balance, 8)),
-        #                       _w.name)
-
-        # _result = _di.exec_()
-
-        # for _w in self.wallets.wallets:
-        #     if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
-        #         _w.set_updating(False)
-
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def create_namespace_key_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(3)
-        # self.send_dialog(_di)
-
-        # _di = Ui_keva_op_send_dlg()
-        # _di.setupUi()
-        # _di.wallets = self.wallets
-        # _di.cache = self.cache
-        # _di.kex = self.kex
-        # _fee = MShared.get_fee_rate(self.kex)
-        # if _fee == -1:
-        #     _ = self.warning_dialog('Could not get fee rate!',
-        #                             False, 1)
-        #     return
-
-        # _di.user_path = self.user_path
-        # _di.new_tx.set_fee(_fee)
-        # _di.send_info.feerate.setText(str(_fee))
-        # _di.setWindowTitle('Narwhallet - Create Key')
-        # _di.value_l.setText('Value: ')
+        _di.cache = self.cache
+        _di.kex = self.kex
 
         _selection = self.ui.ns_tab.tbl_ns.selectedRanges()
         if len(_selection) == 0:
@@ -222,46 +128,25 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.wallet_combo.combo.addItem(_w, _w)
+        _di.wallet = _wallet
+        _di.wallet_combo.combo.addItem(_wallet.name, _wallet.name)
         _di.wallet_combo.combo.setCurrentIndex(1)
         _di.wallet_combo.setEnabled(False)
-        _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.wns.setText(_di.ns)
-        _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ns_combo.combo.addItem(_ns + ':' + _ns_address)
+        _di.ns_combo.combo.setCurrentIndex(1)
 
         _di.set_availible_usxo(True)
-        # _result = _di.exec_()
+
         self.send_dialog(_di)
         _wallet.set_updating(False)
-
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def edit_namespace_key_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(4)
-        # self.send_dialog(_di)
-        # _di = Ui_keva_op_send_dlg()
-        # _di.setupUi()
-        # _di.wallets = self.wallets
-        # _di.cache = self.cache
-        # _di.kex = self.kex
-        # _fee = MShared.get_fee_rate(self.kex)
-        # if _fee == -1:
-        #     _ = self.warning_dialog('Could not get fee rate!',
-        #                             False, 1)
-        #     return
-
-        # _di.user_path = self.user_path
-        # _di.new_tx.set_fee(_fee)
-        # _di.send_info.feerate.setText(str(_fee))
-        # _di.setWindowTitle('Narwhallet - Edit Key')
-        # _di.value_l.setText('Value: ')
+        _di.cache = self.cache
+        _di.kex = self.kex
 
         _selection = self.ui.ns_tab.tbl_ns.selectedRanges()
         if len(_selection) == 0:
@@ -274,13 +159,15 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.wallet_combo.combo.addItem(_w, _w)
+        _di.wallet = _wallet
+        _di.wallet_combo.combo.addItem(_wallet.name, _wallet.name)
         _di.wallet_combo.combo.setCurrentIndex(1)
         _di.wallet_combo.setEnabled(False)
 
-        _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.wns.setText(_di.ns)
-        _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ns_combo.combo.addItem(_ns + ':' + _ns_address)
+        _di.ns_combo.combo.setCurrentIndex(1)
         _key = self.ui.ns_tab.list_ns_keys.currentItem().text()
         _value = self.ui.ns_tab.ns_tab_text_key_value.toPlainText()
         if _key == '_KEVA_NS_':
@@ -288,48 +175,24 @@ class MDialogs():
             _value = {'displayName': _value}
             _value = json.dumps(_value, separators=(',', ':'))
 
-        _di.ns_key = _key
-        _di.ns_value = _value
+        _di.namespace_key_input.key.setText(_key)
+        _di.namespace_value_input.value.setPlainText(_value)
         _di.namespace_key_input.key.setReadOnly(True)
         _di.namespace_value_input.value.setReadOnly(True)
 
         _di.set_availible_usxo(True)
-        _di.txb_build_simple_send()
+        # _di.txb_build_simple_send()
         _di.buttonBox.next.setVisible(False)
         _di.buttonBox.back.setVisible(False)
-        # _result = _di.exec_()
+
         self.send_dialog(_di)
         _wallet.set_updating(False)
-
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def delete_namespace_key_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(5)
-        # self.send_dialog(_di)
-
-        # _di = Ui_keva_op_send_dlg()
-        # _di.setupUi()
-        # _di.wallets = self.wallets
-        # _di.cache = self.cache
-        # _di.kex = self.kex
-        # _fee = MShared.get_fee_rate(self.kex)
-        # if _fee == -1:
-        #     _ = self.warning_dialog('Could not get fee rate!',
-        #                             False, 1)
-        #     return
-
-        # _di.user_path = self.user_path
-        # _di.new_tx.set_fee(_fee)
-        # _di.send_info.feerate.setText(str(_fee))
-        # _di.setWindowTitle('Narwhallet - Delete Key')
-        # _di.value_l.setText('Value: ')
+        _di.cache = self.cache
+        _di.kex = self.kex
 
         _selection = self.ui.ns_tab.tbl_ns.selectedRanges()
         if len(_selection) == 0:
@@ -342,55 +205,33 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.wallet_combo.combo.addItem(_w, _w)
+        _di.wallet = _wallet
+        _di.wallet_combo.combo.addItem(_wallet.name, _wallet.name)
         _di.wallet_combo.combo.setCurrentIndex(1)
         _di.wallet_combo.setEnabled(False)
 
-        _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.wns.setText(_di.ns)
-        _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ns_key = self.ui.ns_tab.list_ns_keys.currentItem().text()
-        _di.ns_value = ''
+        _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ns_combo.combo.addItem(_ns + ':' + _ns_address)
+        _di.ns_combo.combo.setCurrentIndex(1)
+        _key = self.ui.ns_tab.list_ns_keys.currentItem().text()
+        _di.namespace_key_input.key.setText(_key)
+        _di.namespace_value_input.value.setPlainText('')
 
         _di.set_availible_usxo(True)
         _di.txb_build_simple_send()
         _di.buttonBox.next.setVisible(False)
         _di.buttonBox.back.setVisible(False)
-        # _result = _di.exec_()
+
         self.send_dialog(_di)
         _wallet.set_updating(False)
-
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def transfer_namespace_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(9)
-        # self.populate_wallet_combo(_di.wallet_combo.combo)
         self.populate_addressbook_combo(_di.address_combo.combo)
-        # self.send_dialog(_di)
-
-        # _di = Ui_keva_op_send_dlg()
-        # _di.setupUi()
-        # _di.wallets = self.wallets
-        # _di.cache = self.cache
-        # _di.kex = self.kex
-        # _fee = MShared.get_fee_rate(self.kex)
-        # if _fee == -1:
-        #     _ = self.warning_dialog('Could not get fee rate!',
-        #                             False, 1)
-        #     return
-
-        # _di.user_path = self.user_path
-        # _di.new_tx.set_fee(_fee)
-        # _di.send_info.feerate.setText(str(_fee))
-        # _di.setWindowTitle('Narwhallet - Transfer Namespace')
-        # _di.value_l.setText('Value: ')
+        _di.cache = self.cache
+        _di.kex = self.kex
 
         _selection = self.ui.ns_tab.tbl_ns.selectedRanges()
         if len(_selection) == 0:
@@ -403,118 +244,49 @@ class MDialogs():
         _w = self.ui.ns_tab.tbl_ns.item(_row, 2).text()
         _wallet = self.wallets.get_wallet_by_name(_w)
         _wallet.set_updating(True)
-        _di.wallet_combo.combo.addItem(_w, _w)
+        _di.wallet = _wallet
+        _di.wallet_combo.combo.addItem(_wallet.name, _wallet.name)
         _di.wallet_combo.combo.setCurrentIndex(1)
         _di.wallet_combo.setEnabled(False)
 
-        _di.ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _di.wns.setText(_di.ns)
-        _di.ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.set_availible_usxo(True)
-
-        # for _addr in self.address_book.addresses:
-        #     _aa = self.address_book.addresses[_addr].address
-        #     _abi = self.address_book.addresses[_addr].name + ' - '
-        #     _abi = _abi + _aa
-        #     _di.address_book.addItem(_abi, _aa)
-        # _di.address_book.setVisible(True)
+        _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
+        _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        _di.ns_combo.combo.addItem(_ns + ':' + _ns_address)
+        _di.ns_combo.combo.setCurrentIndex(1)
 
         _di.namespace_value_input.value.setPlainText(str(time.time()))
         _di.namespace_key_input.key.setText('wxfr')
         _di.buttonBox.next.setEnabled(False)
-        _di.is_transfer = True
-        # _result = _di.exec_()
+
+        _di.set_availible_usxo(True)
         self.send_dialog(_di)
 
         _wallet.set_updating(False)
-
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def auction_namespace_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(6)
         self.populate_wallet_combo(_di.wallet_combo.combo)
-        # self.populate_addressbook_combo(_di.address_combo.combo)
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
         self.send_dialog(_di)
-
-        # _di = Ui_keva_op_nft_dlg()
-        # _di.setupUi()
-        # _di.wallets = self.wallets
-        # _di.cache = self.cache
-        # _di.kex = self.kex
-        # _fee = MShared.get_fee_rate(self.kex)
-        # if _fee == -1:
-        #     _ = self.warning_dialog('Could not get fee rate!',
-        #                             False, 1)
-        #     return
-
-        # _di.new_tx.set_fee(_fee)
-        # _di.send_info.feerate.setText(str(_fee))
-        # _di.setWindowTitle('Narwhallet - Create Auction')
-
-        # for _wallet in self.wallets.wallets:
-        #     if _wallet.kind == 0:
-        #         _di.combo_wallet.combo.addItem(_wallet.name, _wallet.name)
-
-        # _result = _di.exec_()
-
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     # print('_bc_result', type(_bc_result), _bc_result)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def bid_namespace_dialog(self, tx = False, action = None):
         _di = Ui_send_dlg()
         _di.setupUi(7)
         self.populate_wallet_combo(_di.wallet_combo.combo)
-        # self.populate_addressbook_combo(_di.address_combo.combo)
-        # self.send_dialog(_di)
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
 
-        # _di = Ui_keva_op_nft_bid_dlg()
-        # _di.setupUi()
-        # _di.wallets = self.wallets
-        # _di.cache = self.cache
-        # _di.kex = self.kex
-        # _fee = MShared.get_fee_rate(self.kex)
-        # if _fee == -1:
-        #     _ = self.warning_dialog('Could not get fee rate!',
-        #                             False, 1)
-        #     return
-
-        _di.new_tx.set_fee(_fee)
-        _di.bid_tx.set_fee(_fee)
-        # _di.send_info.feerate.setText(str(_fee))
         if tx is not False:
-            _di.bid_nft_tx.setText(tx)
+            _di.namespace_key_input.key.setText(tx)
             _data = json.loads(action[3])['data']
-            _di.bid_amount.setText(_data['data'])
-        # _di.setWindowTitle('Narwhallet - Create Bid')
+            _di.amount_input.amount.setText(_data['data'])
 
-        # for _wallet in self.wallets.wallets:
-        #     if _wallet.kind == 0:
-        #         _di.combo_wallet.combo.addItem(_wallet.name, _wallet.name)
-
-        # _result = _di.exec_()
         self.send_dialog(_di)
 
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     # print('_bc_result', type(_bc_result), _bc_result)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
         if tx is not False:
             self.cache.actions.update(action[0], action[1], action[2], 1)
 
@@ -522,69 +294,35 @@ class MDialogs():
         _di = Ui_send_dlg()
         _di.setupUi(10)
         self.populate_wallet_combo(_di.wallet_combo.combo)
-        # self.populate_addressbook_combo(_di.address_combo.combo)
-        # self.send_dialog(_di)
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
 
-        # _di = Ui_action_dlg()
-        # _di.setupUi()
-        # _di.wallets = self.wallets
-        # _di.cache = self.cache
-        # _di.kex = self.kex
-        _di.action = action[2]
-        # _fee = MShared.get_fee_rate(self.kex)
-        # if _fee == -1:
-        #     _ = self.warning_dialog('Could not get fee rate!', False, 1)
-        #     return
-
-        _di.new_tx.set_fee(_fee)
-        _di.action_tx.setText(action[1])
         _data = json.loads(action[3])['data']
-        _di.action_value.setPlainText(_data['data'])
-        _di.action_tx_l.setText(action[2].capitalize() + ' on TX:')
-        _di.action_value_l.setText(action[2].capitalize() + ' value:')
-        if action[2] != 'comment':
-            _di.action_value.setMaximumHeight(28)
-        # _di.send_info.feerate.setText(str(_fee))
-        _di.setWindowTitle('Narwhallet - Complete Action')
 
-        # for _wallet in self.wallets.wallets:
-        #     if _wallet.kind == 0:
-        #         _di.combo_wallet.combo.addItem(_wallet.name, _wallet.name)
+        if action[2] == 'comment':
+            _di.action = 'comment'
+        elif action[2] == 'reward':
+            _di.action = 'reward'
+            _di.amount_input.amount.setText(_data['data'])
+        elif action[2] == 'repost':
+            _di.action = 'repost'
 
-        # _result = _di.exec_()
+        _di.namespace_key_input.key.setText(action[1])
+        _di.namespace_value_input.value.setPlainText(_data['data'])
+
+        # _di.setWindowTitle('Narwhallet - Complete Action')
+
         self.send_dialog(_di)
-
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     # print('_bc_result', type(_bc_result), _bc_result)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
         self.cache.actions.update(action[0], action[1], action[2], 1)
 
     def accept_bid_namespace_dialog(self, wallet: MWallet):
         _di = Ui_send_dlg()
         _di.setupUi(8)
-        # self.send_dialog(_di)
-
-        # _di = Ui_keva_op_nft_accept_bid_dlg()
-        # _di.setupUi()
-        # _di.wallet = wallet
-        # _di.cache = self.cache
-        # _di.kex = self.kex
-        # _fee = MShared.get_fee_rate(self.kex)
-        # if _fee == -1:
-        #     _ = self.warning_dialog('Could not get fee rate!',
-        #                             False, 1)
-        #     return
-
-        # _di.new_tx.set_fee(_fee)
-        # _di.send_info.feerate.setText(str(_fee))
-        # _di.setWindowTitle('Narwhallet - Accept Bid')
-
+        _di.wallet = wallet
+        _di.cache = self.cache
+        _di.kex = self.kex
         _di.wallet_combo.combo.addItem(wallet.name, wallet.name)
         _di.wallet_combo.combo.setCurrentIndex(1)
         _di.wallet_combo.combo.setEnabled(False)
@@ -605,19 +343,9 @@ class MDialogs():
         _di.auction_info.nft_address.setText(self.ui.nft_tab.address.text())
         _di.auction_info.nft_price.setText(self.ui.nft_tab.asking.text())
         _di.auction_info.nft_shortcode.setText(self.ui.nft_tab.shortcode.text())
-        _di.bid_nft_tx.setText(self.ui.nft_tab.tbl_bids_2.item(_row, 6).text())
+        _di.namespace_key_input.key.setText(self.ui.nft_tab.tbl_bids_2.item(_row, 6).text())
 
-        # _result = _di.exec_()
         self.send_dialog(_di)
-
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     # print('_bc_result', type(_bc_result), _bc_result)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     @staticmethod
     def add_wallet_watch_address_dialog():
