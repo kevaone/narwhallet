@@ -687,7 +687,7 @@ class Ui_send_dlg(QDialog):
             _ = self.new_tx.add_output(_reward_value, _address)
 
     def build_send(self):
-        if self.mode != 0 or self.mode != 1:
+        if self.mode not in (0, 1):
             self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
 
         self.set_output()
