@@ -1,6 +1,6 @@
 import math
 from typing import List
-#from narwhallet.control.shared import MShared
+# from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.models.transaction import MTransaction
 from narwhallet.core.kcl.models.transaction_input import MTransactionInput
 from narwhallet.core.kcl.models.transaction_output import MTransactionOutput
@@ -149,46 +149,6 @@ class MTransactionBuilder(MTransaction):
             _return = True
 
         return _return, _change_flag, _est_fee
-
-    def set_availible_usxo(self, wallet: MWallet, is_change: bool, isBidOp: bool, ns_address, cache, kex):
-        MShared.list_unspents(wallet, kex)
-        _tmp_usxo = wallet.get_usxos()
-        _usxos = []
-        _nsusxo = None
-
-        for tx in _tmp_usxo:
-            # TODO Check for usxo's used by bids
-            _tx = cache.tx.get_tx_by_txid(tx['tx_hash'])
-
-            if _tx is None:
-                _tx = MShared.get_tx(tx['tx_hash'], kex, True)
-
-            if _tx is not None and isinstance(_tx, dict):
-                _tx = cache.tx.add_from_json(_tx)
-
-            # if self._test_tx(_tx) is False:
-            #     continue
-
-            if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
-                if isBidOp is False:
-                    _used = False
-                    for _vin in self.bid_tx.vin:
-                        if _vin.txid == _tx.txid:
-                            _used = True
-                            print('used')
-
-                    if _used is False:
-                        _usxos.append(tx)
-                else:
-                    _usxos.append(tx)
-            elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
-                    and is_change is True and tx['a'] == ns_address):
-                _nsusxo = tx
-
-        if _nsusxo is not None and is_change is True:
-            _usxos.insert(0, _nsusxo)
-
-        self.inputs_to_spend = _usxos
 
     def hash_prevouts(self, hash_type: SIGHASH_TYPE) -> bytes:
         _hash_cache = b''

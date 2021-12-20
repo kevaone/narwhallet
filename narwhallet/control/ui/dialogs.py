@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QDialogButtonBox
 
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
 from narwhallet.control.shared import MShared
-from narwhallet.core.ksc.utils import Ut
+# from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.file_utils import ConfigLoader
 from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.core.kcl.models.wallets import MWallets
@@ -95,11 +95,11 @@ class MDialogs():
     def simple_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(0)
-        self.populate_wallet_combo(_di.wallet_combo.combo)
-        self.populate_addressbook_combo(_di.address_combo.combo)
         _di.wallets = self.wallets
         _di.cache = self.cache
         _di.kex = self.kex
+        self.populate_wallet_combo(_di.wallet_combo.combo)
+        self.populate_addressbook_combo(_di.address_combo.combo)
         self.send_dialog(_di)
 
     def create_namespace_send_dialog(self):
@@ -114,6 +114,7 @@ class MDialogs():
     def create_namespace_key_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(3)
+        _di.wallets = self.wallets
         _di.cache = self.cache
         _di.kex = self.kex
 
@@ -134,10 +135,10 @@ class MDialogs():
         _di.wallet_combo.setEnabled(False)
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ns_combo.combo.addItem(_ns + ':' + _ns_address)
+        _di.ns_combo.combo.addItem(_ns, _ns_address)
         _di.ns_combo.combo.setCurrentIndex(1)
 
-        _di.set_availible_usxo(True)
+        # _di.set_availible_usxo(True, False, '')
 
         self.send_dialog(_di)
         _wallet.set_updating(False)
@@ -145,6 +146,7 @@ class MDialogs():
     def edit_namespace_key_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(4)
+        _di.wallets = self.wallets
         _di.cache = self.cache
         _di.kex = self.kex
 
@@ -166,7 +168,7 @@ class MDialogs():
 
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ns_combo.combo.addItem(_ns + ':' + _ns_address)
+        _di.ns_combo.combo.addItem(_ns, _ns_address)
         _di.ns_combo.combo.setCurrentIndex(1)
         _key = self.ui.ns_tab.list_ns_keys.currentItem().text()
         _value = self.ui.ns_tab.ns_tab_text_key_value.toPlainText()
@@ -180,7 +182,7 @@ class MDialogs():
         _di.namespace_key_input.key.setReadOnly(True)
         _di.namespace_value_input.value.setReadOnly(True)
 
-        _di.set_availible_usxo(True)
+        # _di.set_availible_usxo(True)
         # _di.txb_build_simple_send()
         _di.buttonBox.next.setVisible(False)
         _di.buttonBox.back.setVisible(False)
@@ -191,6 +193,7 @@ class MDialogs():
     def delete_namespace_key_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(5)
+        _di.wallets = self.wallets
         _di.cache = self.cache
         _di.kex = self.kex
 
@@ -212,13 +215,13 @@ class MDialogs():
 
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ns_combo.combo.addItem(_ns + ':' + _ns_address)
+        _di.ns_combo.combo.addItem(_ns, _ns_address)
         _di.ns_combo.combo.setCurrentIndex(1)
         _key = self.ui.ns_tab.list_ns_keys.currentItem().text()
         _di.namespace_key_input.key.setText(_key)
         _di.namespace_value_input.value.setPlainText('')
 
-        _di.set_availible_usxo(True)
+        # _di.set_availible_usxo(True)
         _di.txb_build_simple_send()
         _di.buttonBox.next.setVisible(False)
         _di.buttonBox.back.setVisible(False)
@@ -229,6 +232,7 @@ class MDialogs():
     def transfer_namespace_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(9)
+        _di.wallets = self.wallets
         self.populate_addressbook_combo(_di.address_combo.combo)
         _di.cache = self.cache
         _di.kex = self.kex
@@ -251,14 +255,14 @@ class MDialogs():
 
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ns_combo.combo.addItem(_ns + ':' + _ns_address)
+        _di.ns_combo.combo.addItem(_ns, _ns_address)
         _di.ns_combo.combo.setCurrentIndex(1)
 
         _di.namespace_value_input.value.setPlainText(str(time.time()))
         _di.namespace_key_input.key.setText('wxfr')
         _di.buttonBox.next.setEnabled(False)
 
-        _di.set_availible_usxo(True)
+        # _di.set_availible_usxo(True)
         self.send_dialog(_di)
 
         _wallet.set_updating(False)
@@ -320,6 +324,7 @@ class MDialogs():
     def accept_bid_namespace_dialog(self, wallet: MWallet):
         _di = Ui_send_dlg()
         _di.setupUi(8)
+        _di.wallets = self.wallets
         _di.wallet = wallet
         _di.cache = self.cache
         _di.kex = self.kex

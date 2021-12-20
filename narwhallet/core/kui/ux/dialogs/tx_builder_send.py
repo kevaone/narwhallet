@@ -34,10 +34,10 @@ NS_RESERVATION = 1000000
 class Ui_send_dlg(QDialog):
     def setupUi(self, mode):
         self.mode: int = mode
-        self.wallets: MWallets = self.wallets
-        self.wallet: MWallet = self.wallet
-        self.cache: MCache = self.cache
-        self.kex: KEXclient = self.kex
+        self.wallets: MWallets = None
+        self.wallet: MWallet = None
+        self.cache: MCache = None
+        self.kex: KEXclient = None
         self.new_tx = MTransactionBuilder()
         self.bid_tx = MTransactionBuilder()
         self.raw_tx: str = ''
@@ -80,11 +80,14 @@ class Ui_send_dlg(QDialog):
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
         self.buttonBox.cancel.clicked.connect(self.reject)
-        # self.buttonBox.next.clicked.connect(self.txb_build_simple_send)
+        self.buttonBox.next.clicked.connect(self.build_send)
         self.buttonBox.back.clicked.connect(self.back_click)
+        self.wallet_combo.combo.currentTextChanged.connect(self.wallet_combo_changed)
         self.amount_input.amount.textChanged.connect(self.check_next)
         self.address_input.address.textChanged.connect(self.check_next)
         self.address_combo.combo.currentTextChanged.connect(self.check_next)
+        self.namespace_key_input.key.textChanged.connect(self.check_next)
+        self.namespace_value_input.value.textChanged.connect(self.check_next)
         self.address_select.clicked.connect(self.select_swap)
 
     def retranslateUi(self):
@@ -186,7 +189,7 @@ class Ui_send_dlg(QDialog):
         self.namespace_value_input.hide()
         self.bid_input.hide()
         self.auction_info.show()
-        self.namespace_key_input.key = '\x01_KEVA_NS_'
+        self.namespace_key_input.key.setText('\x01_KEVA_NS_')
 
     def _mode_create_bid(self):
         # Namespace Bid
@@ -264,6 +267,46 @@ class Ui_send_dlg(QDialog):
             # Namespace Transfer
             self._mode_namespace_transfer()
 
+    def set_availible_usxo(self, is_change: bool, isBidOp: bool, ns_address):
+        # MShared.list_unspents(self.wallet, self.kex)
+        _tmp_usxo = self.wallet.get_usxos()
+        _usxos = []
+        _nsusxo = None
+
+        for tx in _tmp_usxo:
+            # TODO Check for usxo's used by bids
+            _tx = self.cache.tx.get_tx_by_txid(tx['tx_hash'])
+
+            if _tx is None:
+                _tx = MShared.get_tx(tx['tx_hash'], self.kex, True)
+
+            if _tx is not None and isinstance(_tx, dict):
+                _tx = self.cache.tx.add_from_json(_tx)
+
+            # if self._test_tx(_tx) is False:
+            #     continue
+
+            if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
+                if isBidOp is False:
+                    _used = False
+                    for _vin in self.bid_tx.vin:
+                        if _vin.txid == _tx.txid:
+                            _used = True
+                            print('used')
+
+                    if _used is False:
+                        _usxos.append(tx)
+                else:
+                    _usxos.append(tx)
+            elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
+                    and is_change is True and tx['a'] == ns_address):
+                _nsusxo = tx
+
+        if _nsusxo is not None and is_change is True:
+            _usxos.insert(0, _nsusxo)
+
+        self.new_tx.inputs_to_spend = _usxos
+
     def check_tx_is_ns_key(self):
         _action_tx = self.namespace_key_input.key.text()
 
@@ -340,7 +383,7 @@ class Ui_send_dlg(QDialog):
         self.bid_tx.vout[0].scriptPubKey.set_hex(_sh)
         _ = self.bid_tx.add_output(_bid_amount, self.auction_info.nft_address.text())
 
-        self.bid_tx.set_availible_usxo(self.wallet, False, True, self.ns_combo.combo.currentData().split(':')[0], self.cache, self.kex)
+        self.set_availible_usxo(False, True, self.ns_combo.combo.currentData().split(':')[0])
         _inp_sel, _need_change, _est_fee = self.bid_tx.select_inputs(True)
 
         if _inp_sel is True:
@@ -366,15 +409,20 @@ class Ui_send_dlg(QDialog):
                     self.buttonBox.next.setEnabled(False)
             else:
                 self.buttonBox.next.setEnabled(False)
-        elif self.mode in (2, 3, 4, 5):
-            if self.wallet_combo.combo.currentText() != '-' and self.namespace_value_input.value.toPlainText() != '':
-                if self.address_combo.combo.isVisible():
-                    if self.address_combo.combo.currentData() != '-':
-                        self.buttonBox.next.setEnabled(True)
-                    else:
-                        self.buttonBox.next.setEnabled(False)
-                else:
+        elif self.mode == 2:
+            if self.wallet_combo.combo.currentText() != '-':
+                if self.namespace_value_input.value.toPlainText() != '':
                     self.buttonBox.next.setEnabled(True)
+                else:
+                    self.buttonBox.next.setEnabled(False)
+            else:
+                self.buttonBox.next.setEnabled(False)
+        elif self.mode in (3, 4, 5):
+            if self.wallet_combo.combo.currentText() != '-':
+                if self.check_address() and self.namespace_value_input.value.toPlainText() != '':
+                    self.buttonBox.next.setEnabled(True)
+                else:
+                    self.buttonBox.next.setEnabled(False)
             else:
                 self.buttonBox.next.setEnabled(False)
         elif self.mode == 6:
@@ -478,23 +526,23 @@ class Ui_send_dlg(QDialog):
 
                     _ns = _tx.vout[tx['tx_pos']].scriptPubKey.asm.split(' ')[1]
                     _ns = self.cache.ns.convert_to_namespaceid(_ns)
-                    _block = self.cache.ns.ns_block(_ns)[0]
-                    _b_s = str(_block[0])
-                    _block = str(str(len(_b_s)) + _b_s + str(_block[1]))
-                    _name = (self.cache.ns.get_namespace_by_key_value(
-                        _ns, '\x01_KEVA_NS_'))
-                    if len(_name) == 0:
-                        _name = (self.cache.ns
-                                 .get_namespace_by_key_value(_ns, '_KEVA_NS_'))
-                        if len(_name) > 0:
-                            _name = _name[0][0]
-                    else:
-                        _name = _name[0][0]
+                    # _block = self.cache.ns.ns_block(_ns)[0]
+                    # _b_s = str(_block[0])
+                    # _block = str(str(len(_b_s)) + _b_s + str(_block[1]))
+                    # _name = (self.cache.ns.get_namespace_by_key_value(
+                        # _ns, '\x01_KEVA_NS_'))
+                    # if len(_name) == 0:
+                    #     _name = (self.cache.ns
+                    #              .get_namespace_by_key_value(_ns, '_KEVA_NS_'))
+                    #     if len(_name) > 0:
+                    #         _name = _name[0][0]
+                    # else:
+                    #     _name = _name[0][0]
 
-                    if 'displayName' in _name:
-                        _name = json.loads(_name)['displayName']
+                    # if 'displayName' in _name:
+                    #     _name = json.loads(_name)['displayName']
 
-                    self.ns_combo.combo.addItem(_block+' - '+_name, _ns+':'+tx['a'])
+                    self.ns_combo.combo.addItem(_ns, tx['a'])
 
     def reset_transactions(self):
         self.raw_tx = ''
@@ -511,10 +559,10 @@ class Ui_send_dlg(QDialog):
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.send_info.tx.setPlainText(self.raw_tx)
         self.wallet_combo.combo.setEnabled(False)
-        self.value.setFrame(False)
-        self.value.setReadOnly(True)
-        self.address.setReadOnly(True)
-        self.address.setFrame(False)
+        # self.value.setFrame(False)
+        # self.value.setReadOnly(True)
+        # self.address.setReadOnly(True)
+        # self.address.setFrame(False)
         self.buttonBox.next.setVisible(False)
         self.buttonBox.back.setVisible(True)
         self.buttonBox.send.setEnabled(True)
@@ -527,12 +575,15 @@ class Ui_send_dlg(QDialog):
         elif self.address_combo.combo.isVisible():
             _address = self.address_combo.combo.currentData()
 
-        _ns_dat = self.ns_combo.combo.currentData().split(':')
-        _ns = _ns_dat[0]
-        _ns_address = _ns_dat[1]
-        _ns_key = self.namespace_key_input.key.text()
-        _ns_value = self.namespace_value_input.value.toPlainText()
+        if self.ns_combo.combo.isVisible():
+            _ns_dat = self.ns_combo.combo.currentData().split(':')
+            _ns = _ns_dat[0]
+            _ns_address = _ns_dat[1]
+            _ns_key = self.namespace_key_input.key.text()
+            _ns_value = self.namespace_value_input.value.toPlainText()
+
         _sh = ''
+
         if self.mode == 0:
             # Simple Send
             _result = _locale.toDouble(self.amount_input.amount.text())
@@ -546,11 +597,12 @@ class Ui_send_dlg(QDialog):
             self.address_input.address.setText(_address)
             _amount = NS_RESERVATION
             _temp_ns = self.tx_to_ns(TEMP_TX, 0)
+            _ns_value = self.namespace_value_input.value.toPlainText()
             _sh = Scripts.KevaNamespaceCreation(_temp_ns, _ns_value,
                                                 _address)
             _sh = Scripts.compile(_sh, True)
-        elif self.mode in (3, 4, 7):
-            # Namespace Key Create, Update, Bid
+        elif self.mode in (3, 4):
+            # Namespace Key Create, Update
             _amount = NS_RESERVATION
             _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key,
                                              _ns_value, _ns_address)
@@ -587,8 +639,9 @@ class Ui_send_dlg(QDialog):
             _sh = Scripts.compile(_sh, True)
         elif self.mode == 7:
             # Namespace Bid
+            _amount = NS_RESERVATION
             self.build_bid()
-            self.new_tx.set_availible_usxo(self.wallet, True, False, self.ns_combo.combo.currentData().split(':')[0], self.cache, self.kex)
+
             _ns_key = (Ut.hex_to_bytes('0001') + Ut.hex_to_bytes(_ns_key))
             _ns_value = self.bid_tx.to_psbt()
             _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
@@ -604,7 +657,6 @@ class Ui_send_dlg(QDialog):
             _sh = Scripts.compile(_sh, True)
         elif self.mode == 10:
             _amount = NS_RESERVATION
-            self.new_tx.set_availible_usxo(self.wallet, True, False, _ns, self.cache, self.kex)
 
             _ns_key = Ut.hex_to_bytes(self.namespace_key_input.key.text())
             if self.action == 'comment':
@@ -632,10 +684,15 @@ class Ui_send_dlg(QDialog):
             self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
 
         self.set_output()
-        if self.mode != 8:
+        if self.mode in (0, 1, 2):
+            self.set_availible_usxo(False, False, '')
+            _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
+        elif self.mode in (3, 4, 5, 6, 7, 9, 10):
+            _ns_address = self.ns_combo.combo.currentData().split(':')[0]
+            self.set_availible_usxo(True, False, _ns_address)
             _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         else:
-            self.new_tx.set_availible_usxo(self.wallet, False, False, self.auction_info.nft_ns.text(), self.cache, self.kex)
+            self.set_availible_usxo(False, False, self.auction_info.nft_ns.text())
 
             if len(self.new_tx.inputs_to_spend) != 1:
                 _inp_sel = False
@@ -645,6 +702,7 @@ class Ui_send_dlg(QDialog):
                                       str(tx['a_idx'])+':'+str(tx['ch']),
                                       tx['tx_hash'], tx['tx_pos'])
                 _inp_sel = True
+                _need_change = False
 
         if _inp_sel is True:
             _, _, _fv = self.new_tx.get_current_values()
@@ -659,7 +717,7 @@ class Ui_send_dlg(QDialog):
                 _n_sh = Scripts.compile(_n_sh, True)
 
             if _need_change is True:
-                if self.mode in (0, 1, 9):
+                if self.mode in (0, 1, 2, 9):
                     _change_address = self.wallet.get_unused_change_address()
                     _ = self.new_tx.add_output(_cv, _change_address)
                 else:
