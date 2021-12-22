@@ -11,6 +11,7 @@ class AddressInput(QHBoxLayout):
         self.addWidget(self.label)
         self.addWidget(self.address)
 
+        self.address.setMinimumWidth(350)
         self.label.setText(QCoreApplication.translate('AddressInput',
                                                       'Address:'))
 

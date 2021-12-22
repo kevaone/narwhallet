@@ -31,6 +31,7 @@ class AuctionInfoFrame(QFrame):
         self.nft_address = QLineEdit(self)
 
         self.vl.setContentsMargins(0, 0, 0, 0)
+        self.nft_address.setMinimumWidth(350)
 
         self.hl_1.addWidget(self.short_l)
         self.hl_1.addWidget(self.nft_shortcode)

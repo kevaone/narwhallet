@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout,
                              QLabel, QComboBox, QSpacerItem, QSizePolicy,
                              QPushButton, QLineEdit, QFileDialog, QCheckBox,
                              QPlainTextEdit, QRadioButton, QTabWidget)
+from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
+from narwhallet.core.kui.ux.widgets.address_combobox import AddressComboBox
 
 
 class Ui_UtilsTab(QObject):
@@ -17,11 +19,13 @@ class Ui_UtilsTab(QObject):
         self.sign_tab = QWidget(self.tabWidget_3)
         self.verticalLayout_1 = QVBoxLayout(self.sign_tab)
         self.hl = QHBoxLayout()
-        self.wallet_select_label = QLabel(self.tabUtils)
-        self.wallet_select = QComboBox(self.tabUtils)
+        # self.wallet_select_label = QLabel(self.tabUtils)
+        # self.wallet_select = QComboBox(self.tabUtils)
+        self.wallet_combo = WalletComboBox()
         self.hl_0 = QHBoxLayout()
-        self.sa_label = QLabel(self.sign_tab)
-        self.sa_e = QComboBox(self.tabUtils)
+        # self.sa_label = QLabel(self.sign_tab)
+        # self.sa_e = QComboBox(self.tabUtils)
+        self.address_combo = AddressComboBox()
         self.thl_a = QHBoxLayout()
         self.thl_ac = QRadioButton(self.tabUtils)
         self.hl_1a = QHBoxLayout()
@@ -73,8 +77,8 @@ class Ui_UtilsTab(QObject):
         self.mvs_result = QPlainTextEdit(self.misc_tab)
 
         self.tabUtils.setObjectName('tabUtils')
-        self.wallet_select.addItem('-', '-')
-        self.sa_e.setMinimumWidth(375)
+        # self.wallet_select.addItem('-', '-')
+        # self.sa_e.setMinimumWidth(375)
         self.thl_bcl.setEnabled(False)
         self.thl_bcb.setEnabled(False)
         self.thl_bcb.setText('browse')
@@ -91,14 +95,15 @@ class Ui_UtilsTab(QObject):
         self.m_select.addItem('int8byte', 'int8byte')
         self.m_select.addItem('Reverse', 'Reverse')
 
-        self.hl.addWidget(self.wallet_select_label)
-        self.hl.addWidget(self.wallet_select)
-        self.hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout_1.addLayout(self.hl)
-        self.hl_0.addWidget(self.sa_label)
-        self.hl_0.addWidget(self.sa_e)
-        self.hl_0.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout_1.addLayout(self.hl_0)
+        # self.hl.addWidget(self.wallet_select_label)
+        # self.hl.addWidget(self.wallet_select)
+        # self.hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        self.wallet_combo.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        self.verticalLayout_1.addLayout(self.wallet_combo)
+        # self.hl_0.addWidget(self.sa_label)
+        # self.hl_0.addWidget(self.sa_e)
+        self.address_combo.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        self.verticalLayout_1.addLayout(self.address_combo)
         self.thl_a.addWidget(self.thl_ac)
         self.verticalLayout_1.addLayout(self.thl_a)
         self.hl_1a.addWidget(self.sm_e)
@@ -173,8 +178,8 @@ class Ui_UtilsTab(QObject):
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
-        self.wallet_select_label.setText(_translate('tabUtils', 'Wallet:'))
-        self.sa_label.setText(_translate('tabUtils', 'Address:'))
+        # self.wallet_select_label.setText(_translate('tabUtils', 'Wallet:'))
+        # self.sa_label.setText(_translate('tabUtils', 'Address:'))
         self.thl_ac.setText(_translate('tabUtils', 'Message:'))
         self.thl_bc.setText(_translate('tabUtils', 'File:'))
         self.ss_label.setText(_translate('tabUtils', 'Signature:'))

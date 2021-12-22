@@ -11,7 +11,7 @@ class AddressComboBox(QHBoxLayout):
         self.addWidget(self.label)
         self.addWidget(self.combo)
 
-        # _combo.setMinimumWidth(250)
+        self.combo.setMinimumWidth(350)
         self.combo.addItem('-', '-')
         self.label.setText(QCoreApplication.translate('AddressComboBox',
                                                       'Address:'))

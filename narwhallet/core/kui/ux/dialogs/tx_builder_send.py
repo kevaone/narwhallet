@@ -59,6 +59,8 @@ class Ui_send_dlg(QDialog):
 
         self.address_select = QPushButton(self)
 
+        # self.setMinimumSize(QtCore.QSize(485, 225))
+
         self.horizontalLayout_1.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addLayout(self.horizontalLayout_1)
         self.verticalLayout.addLayout(self.wallet_combo)
@@ -145,6 +147,8 @@ class Ui_send_dlg(QDialog):
         self.namespace_value_input.show()
         self.bid_input.hide()
         self.auction_info.hide()
+        self.wallet_combo.combo.setEnabled(False)
+        self.ns_combo.combo.setEnabled(False)
 
     def _mode_namespace_update_key(self):
         # Namespace Key Update
@@ -160,6 +164,9 @@ class Ui_send_dlg(QDialog):
         self.namespace_value_input.show()
         self.bid_input.hide()
         self.auction_info.hide()
+        self.wallet_combo.combo.setEnabled(False)
+        self.ns_combo.combo.setEnabled(False)
+        self.namespace_key_input.key.setReadOnly(True)
 
     def _mode_namespace_delete_key(self):
         # Namespace Key Delete
@@ -175,6 +182,9 @@ class Ui_send_dlg(QDialog):
         self.namespace_value_input.hide()
         self.bid_input.hide()
         self.auction_info.hide()
+        self.wallet_combo.combo.setEnabled(False)
+        self.ns_combo.combo.setEnabled(False)
+        self.namespace_key_input.key.setReadOnly(True)
 
     def _mode_create_auction(self):
         # Namespace Auction
@@ -191,6 +201,9 @@ class Ui_send_dlg(QDialog):
         self.bid_input.hide()
         self.auction_info.show()
         self.namespace_key_input.key.setText('\x01_KEVA_NS_')
+        self.namespace_key_input.key.setReadOnly(True)
+        self.auction_info.nft_ns.setReadOnly(True)
+        self.auction_info.nft_address.setReadOnly(True)
 
     def _mode_create_bid(self):
         # Namespace Bid
@@ -206,6 +219,13 @@ class Ui_send_dlg(QDialog):
         self.namespace_value_input.hide()
         self.bid_input.show()
         self.auction_info.show()
+        self.address_select.setVisible(False)
+        self.auction_info.nft_desc.setReadOnly(True)
+        self.auction_info.nft_name.setReadOnly(True)
+        self.auction_info.nft_hashtags.setReadOnly(True)
+        self.auction_info.nft_ns.setReadOnly(True)
+        self.auction_info.nft_address.setReadOnly(True)
+        self.auction_info.nft_price.setReadOnly(True)
 
     def _mode_accept_bid(self):
         # Namespace Accept Bid
@@ -215,12 +235,21 @@ class Ui_send_dlg(QDialog):
         self.amount_input.hide()
         self.address_input.hide()
         self.address_combo.hide()
-        self.address_select.setVisible(False)
         self.transaction_input.show()
         self.namespace_key_input.hide()
         self.namespace_value_input.hide()
         self.bid_input.show()
         self.auction_info.show()
+        self.wallet_combo.combo.setEnabled(False)
+        self.ns_combo.combo.setEnabled(False)
+        self.address_select.setVisible(False)
+        self.bid_input.amount.setReadOnly(True)
+        self.auction_info.nft_desc.setReadOnly(True)
+        self.auction_info.nft_name.setReadOnly(True)
+        self.auction_info.nft_hashtags.setReadOnly(True)
+        self.auction_info.nft_ns.setReadOnly(True)
+        self.auction_info.nft_address.setReadOnly(True)
+        self.auction_info.nft_price.setReadOnly(True)
 
     def _mode_namespace_transfer(self):
         # Namespace Transfer
@@ -231,10 +260,12 @@ class Ui_send_dlg(QDialog):
         self.address_input.show()
         self.address_combo.hide()
         self.transaction_input.hide()
-        self.namespace_key_input.hide()
-        self.namespace_value_input.hide()
+        self.namespace_key_input.show()
+        self.namespace_value_input.show()
         self.bid_input.hide()
         self.auction_info.hide()
+        self.wallet_combo.combo.setEnabled(False)
+        self.ns_combo.combo.setEnabled(False)
 
     def init_mode(self):
         if self.mode == 0:

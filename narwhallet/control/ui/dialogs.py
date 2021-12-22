@@ -131,7 +131,7 @@ class MDialogs():
         _di.wallet = _wallet
         _di.wallet_combo.combo.addItem(_wallet.name, _wallet.name)
         _di.wallet_combo.combo.setCurrentIndex(1)
-        _di.wallet_combo.setEnabled(False)
+        # _di.wallet_combo.setEnabled(False)
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
         _di.ns_combo.combo.addItem(_ns, _ns_address)
@@ -163,7 +163,7 @@ class MDialogs():
         _di.wallet = _wallet
         _di.wallet_combo.combo.addItem(_wallet.name, _wallet.name)
         _di.wallet_combo.combo.setCurrentIndex(1)
-        _di.wallet_combo.setEnabled(False)
+        # _di.wallet_combo.setEnabled(False)
 
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
@@ -178,13 +178,13 @@ class MDialogs():
 
         _di.namespace_key_input.key.setText(_key)
         _di.namespace_value_input.value.setPlainText(_value)
-        _di.namespace_key_input.key.setReadOnly(True)
-        _di.namespace_value_input.value.setReadOnly(True)
+        # _di.namespace_key_input.key.setReadOnly(True)
+        # _di.namespace_value_input.value.setReadOnly(True)
 
         # _di.set_availible_usxo(True)
         # _di.txb_build_simple_send()
-        _di.buttonBox.next.setVisible(False)
-        _di.buttonBox.back.setVisible(False)
+        # _di.buttonBox.next.setVisible(False)
+        # _di.buttonBox.back.setVisible(False)
 
         self.send_dialog(_di)
         _wallet.set_updating(False)
@@ -210,7 +210,7 @@ class MDialogs():
         _di.wallet = _wallet
         _di.wallet_combo.combo.addItem(_wallet.name, _wallet.name)
         _di.wallet_combo.combo.setCurrentIndex(1)
-        _di.wallet_combo.setEnabled(False)
+        # _di.wallet_combo.setEnabled(False)
 
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
@@ -221,9 +221,9 @@ class MDialogs():
         _di.namespace_value_input.value.setPlainText('')
 
         # _di.set_availible_usxo(True)
-        _di.txb_build_simple_send()
-        _di.buttonBox.next.setVisible(False)
-        _di.buttonBox.back.setVisible(False)
+        # _di.txb_build_simple_send()
+        # _di.buttonBox.next.setVisible(False)
+        # _di.buttonBox.back.setVisible(False)
 
         self.send_dialog(_di)
         _wallet.set_updating(False)
@@ -250,7 +250,7 @@ class MDialogs():
         _di.wallet = _wallet
         _di.wallet_combo.combo.addItem(_wallet.name, _wallet.name)
         _di.wallet_combo.combo.setCurrentIndex(1)
-        _di.wallet_combo.setEnabled(False)
+        # _di.wallet_combo.setEnabled(False)
 
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
         _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
@@ -259,7 +259,7 @@ class MDialogs():
 
         _di.namespace_value_input.value.setPlainText(str(time.time()))
         _di.namespace_key_input.key.setText('wxfr')
-        _di.buttonBox.next.setEnabled(False)
+        # _di.buttonBox.next.setEnabled(False)
 
         # _di.set_availible_usxo(True)
         self.send_dialog(_di)
@@ -329,7 +329,7 @@ class MDialogs():
         _di.kex = self.kex
         _di.wallet_combo.combo.addItem(wallet.name, wallet.name)
         _di.wallet_combo.combo.setCurrentIndex(1)
-        _di.wallet_combo.combo.setEnabled(False)
+        # _di.wallet_combo.combo.setEnabled(False)
 
         _bid_selection = self.ui.nft_tab.tbl_bids_2.selectedRanges()
         if len(_bid_selection) == 0:

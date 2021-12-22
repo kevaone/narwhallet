@@ -106,7 +106,7 @@ class NarwhalletController():
         self.wallets.save_wallet(wallet.name)
         self.ui.w_tab.tbl_w.add_wallet(wallet.to_dict())
         if wallet.kind != 1:
-            self.ui.u_tab.wallet_select.addItem(wallet.name)
+            self.ui.u_tab.wallet_combo.combo.addItem(wallet.name)
 
     def create_wallet(self):
         _wallet = self.dialogs.create_wallet_dialog()
@@ -164,7 +164,7 @@ class NarwhalletController():
                 if _w is not None:
                     self.ui.w_tab.tbl_w.add_wallet(_w.to_dict())
                     if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
-                        self.ui.u_tab.wallet_select.addItem(_w.name)
+                        self.ui.u_tab.wallet_combo.combo.addItem(_w.name)
         self.ui.w_tab.tbl_w.resizeColumnsToContents()
         self.refresh_namespace_tab_data()
 
@@ -353,7 +353,7 @@ class NarwhalletController():
         (self.ui.ns_tab.list_ns_keys
          .itemSelectionChanged.connect(self.ns_key_selected))
         self.ui.ns_tab.btn_val_edit.clicked.connect(self.ns_key_value_edit)
-        self.ui.ns_tab.btn_val_save.clicked.connect(self.ns_key_value_save)
+        # self.ui.ns_tab.btn_val_save.clicked.connect(self.ns_key_value_save)
         self.ui.ns_tab.btn_val_del.clicked.connect(self.ns_key_delete_click)
         self.ui.ns_tab.sel_ns_sc_bvpic.clicked.connect(self.ns_sc_copy_click)
         self.ui.ns_tab.sel_ns_n_bvpic.clicked.connect(self.ns_name_copy_click)
@@ -367,9 +367,9 @@ class NarwhalletController():
         (self.ui.nft_tab.tbl_bids_2
          .itemSelectionChanged.connect(self.nft_bid_selected))
         self.ui.nft_tab.tbl_bids_2.cellClicked.connect(self.nft_bid_selected)
-        (self.ui.u_tab.wallet_select
+        (self.ui.u_tab.wallet_combo.combo
          .currentTextChanged.connect(self.sign_wallet_changed))
-        (self.ui.u_tab.sa_e
+        (self.ui.u_tab.address_combo.combo
          .currentTextChanged.connect(self.sign_address_changed))
         self.ui.u_tab.sbutton.clicked.connect(self.sign_message)
         self.ui.u_tab.vbutton.clicked.connect(self.verify_message)
@@ -765,7 +765,7 @@ class NarwhalletController():
                     self.ui.w_tab.tbl_w.update_wallet(wallet, row)
                     self.refresh_namespace_tab_data()
                     if wallet.kind not in (1, 3):
-                        self.ui.u_tab.wallet_select.addItem(wallet.name)
+                        self.ui.u_tab.wallet_combo.combo.addItem(wallet.name)
 
     def wallet_selected(self, row: int = -1, column: int = -1):
         self.ui.w_tab.tbl_tx.clearSelection()
@@ -1108,16 +1108,16 @@ class NarwhalletController():
         self.ui.nft_tab.tbl_bids_2.add_bids(_bids)
 
     def sign_wallet_changed(self, data: str):
-        self.ui.u_tab.sa_e.clear()
-        self.ui.u_tab.sa_e.addItem('-', '-')
+        self.ui.u_tab.address_combo.combo.clear()
+        self.ui.u_tab.address_combo.combo.addItem('-', '-')
         if data != '-':
             _w = self.wallets.get_wallet_by_name(data)
             for index in range(0, _w.addresses.count):
                 add = _w.addresses.get_address_by_index(index)
-                self.ui.u_tab.sa_e.addItem(add.address, str(index)+':1')
+                self.ui.u_tab.address_combo.combo.addItem(add.address, str(index)+':1')
             for index in range(0, _w.change_addresses.count):
                 add = _w.change_addresses.get_address_by_index(index)
-                self.ui.u_tab.sa_e.addItem(add.address, str(index)+':0')
+                self.ui.u_tab.address_combo.combo.addItem(add.address, str(index)+':0')
         self.ui.u_tab.ss_e.setPlainText('')
 
     def sign_address_changed(self, _data: str):
@@ -1125,9 +1125,9 @@ class NarwhalletController():
 
     def sign_message(self, _data: str):
         self.ui.u_tab.ss_e.setPlainText('')
-        _n = self.ui.u_tab.wallet_select.currentText()
+        _n = self.ui.u_tab.wallet_combo.combo.currentText()
         _w = self.wallets.get_wallet_by_name(_n)
-        _i_t = self.ui.u_tab.sa_e.currentData().split(':')
+        _i_t = self.ui.u_tab.address_combo.combo.currentData().split(':')
         _index = int(_i_t[0])
         # if _w.kind == 2:
         #     _ul = self.dialogs.lockbox_dialog(0)
@@ -1159,15 +1159,16 @@ class NarwhalletController():
         self.ui.u_tab.success_label.setText(_v)
 
     def ns_key_value_edit(self):
-        self.ui.ns_tab.btn_val_edit.setVisible(False)
-        self.ui.ns_tab.btn_val_save.setVisible(True)
-        self.ui.ns_tab.ns_tab_text_key_value.setReadOnly(False)
-
-    def ns_key_value_save(self):
-        self.ui.ns_tab.btn_val_edit.setVisible(True)
-        self.ui.ns_tab.btn_val_save.setVisible(False)
-        self.ui.ns_tab.ns_tab_text_key_value.setReadOnly(True)
+        # self.ui.ns_tab.btn_val_edit.setVisible(False)
+        # self.ui.ns_tab.btn_val_save.setVisible(True)
+        # self.ui.ns_tab.ns_tab_text_key_value.setReadOnly(False)
         self.dialogs.edit_namespace_key_send_dialog()
+
+    # def ns_key_value_save(self):
+    #     self.ui.ns_tab.btn_val_edit.setVisible(True)
+    #     self.ui.ns_tab.btn_val_save.setVisible(False)
+    #     self.ui.ns_tab.ns_tab_text_key_value.setReadOnly(True)
+    #     self.dialogs.edit_namespace_key_send_dialog()
 
     def update_wallet(self, wallet: MWallet, row: int):
         self.threader(wallet.name + ' -update wallet:', self._update_wallet,
