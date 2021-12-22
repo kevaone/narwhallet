@@ -133,9 +133,9 @@ class MDialogs():
         _di.wallet_combo.combo.setCurrentIndex(1)
         # _di.wallet_combo.setEnabled(False)
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ns_combo.combo.addItem(_ns, _ns_address)
-        _di.ns_combo.combo.setCurrentIndex(1)
+        # _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        # _di.ns_combo.combo.addItem(_ns, _ns_address)
+        _di.ns_combo.combo.setCurrentIndex(_di.ns_combo.combo.findText(_ns))
 
         # _di.set_availible_usxo(True, False, '')
 
@@ -166,9 +166,10 @@ class MDialogs():
         # _di.wallet_combo.setEnabled(False)
 
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ns_combo.combo.addItem(_ns, _ns_address)
-        _di.ns_combo.combo.setCurrentIndex(1)
+        # _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        # _di.ns_combo.combo.addItem(_ns, _ns_address)
+        # _di.ns_combo.combo.setCurrentIndex(1)
+        _di.ns_combo.combo.setCurrentIndex(_di.ns_combo.combo.findText(_ns))
         _key = self.ui.ns_tab.list_ns_keys.currentItem().text()
         _value = self.ui.ns_tab.ns_tab_text_key_value.toPlainText()
         if _key == '_KEVA_NS_':
@@ -213,9 +214,10 @@ class MDialogs():
         # _di.wallet_combo.setEnabled(False)
 
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ns_combo.combo.addItem(_ns, _ns_address)
-        _di.ns_combo.combo.setCurrentIndex(1)
+        # _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        # _di.ns_combo.combo.addItem(_ns, _ns_address)
+        # _di.ns_combo.combo.setCurrentIndex(1)
+        _di.ns_combo.combo.setCurrentIndex(_di.ns_combo.combo.findText(_ns))
         _key = self.ui.ns_tab.list_ns_keys.currentItem().text()
         _di.namespace_key_input.key.setText(_key)
         _di.namespace_value_input.value.setPlainText('')
@@ -253,9 +255,10 @@ class MDialogs():
         # _di.wallet_combo.setEnabled(False)
 
         _ns = self.ui.ns_tab.tbl_ns.item(_row, 5).text()
-        _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
-        _di.ns_combo.combo.addItem(_ns, _ns_address)
-        _di.ns_combo.combo.setCurrentIndex(1)
+        # _ns_address = self.ui.ns_tab.tbl_ns.item(_row, 6).text()
+        # _di.ns_combo.combo.addItem(_ns, _ns_address)
+        # _di.ns_combo.combo.setCurrentIndex(1)
+        _di.ns_combo.combo.setCurrentIndex(_di.ns_combo.combo.findText(_ns))
 
         _di.namespace_value_input.value.setPlainText(str(time.time()))
         _di.namespace_key_input.key.setText('wxfr')

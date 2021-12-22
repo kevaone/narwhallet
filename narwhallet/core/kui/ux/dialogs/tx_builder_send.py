@@ -452,10 +452,29 @@ class Ui_send_dlg(QDialog):
                     self.buttonBox.next.setEnabled(False)
             else:
                 self.buttonBox.next.setEnabled(False)
-        elif self.mode in (3, 4, 5):
+        elif self.mode == 3:
             if self.wallet_combo.combo.currentText() != '-':
-                if (self.check_address() and
+                if (self.ns_combo.combo.currentText() != '' and
+                        self.namespace_key_input.key.text() != '' and
                         self.namespace_value_input.value.toPlainText() != ''):
+                    self.buttonBox.next.setEnabled(True)
+                else:
+                    self.buttonBox.next.setEnabled(False)
+            else:
+                self.buttonBox.next.setEnabled(False)
+        elif self.mode == 4:
+            if (self.wallet_combo.combo.currentText() != '-' and
+                    self.ns_combo.combo.currentText() != '-' and
+                    self.namespace_key_input.key.text() != '' and
+                    self.namespace_value_input.value.toPlainText() != ''):
+                self.buttonBox.next.setEnabled(True)
+            else:
+                self.buttonBox.next.setEnabled(False)
+        elif self.mode == 5:
+            if self.wallet_combo.combo.currentText() != '-':
+                if (self.wallet_combo.combo.currentText() != '-' and
+                        self.ns_combo.combo.currentText() != '-' and
+                        self.namespace_key_input.key.text() != ''):
                     self.buttonBox.next.setEnabled(True)
                 else:
                     self.buttonBox.next.setEnabled(False)
@@ -482,7 +501,16 @@ class Ui_send_dlg(QDialog):
             else:
                 self.buttonBox.next.setEnabled(False)
         elif self.mode == 9:
-            pass
+            if self.wallet_combo.combo.currentText() != '-':
+                if (self.check_address() and
+                        self.ns_combo.combo.currentText() != '' and
+                        self.namespace_key_input.key.text() != '' and
+                        self.namespace_value_input.value.toPlainText() != ''):
+                    self.buttonBox.next.setEnabled(True)
+                else:
+                    self.buttonBox.next.setEnabled(False)
+            else:
+                self.buttonBox.next.setEnabled(False)
         elif self.mode == 10:
             if (self.wallet_combo.combo.currentText() != '-' and
                     self.ns_combo.combo.currentText() != '-' and
@@ -614,9 +642,8 @@ class Ui_send_dlg(QDialog):
             _address = self.address_combo.combo.currentData()
 
         if self.ns_combo.combo.isVisible():
-            _ns_dat = self.ns_combo.combo.currentData().split(':')
-            _ns = _ns_dat[0]
-            _ns_address = _ns_dat[1]
+            _ns = self.ns_combo.combo.currentText()
+            _ns_address = self.ns_combo.combo.currentData()
             _ns_key = self.namespace_key_input.key.text()
             _ns_value = self.namespace_value_input.value.toPlainText()
 
@@ -642,12 +669,14 @@ class Ui_send_dlg(QDialog):
         elif self.mode in (3, 4):
             # Namespace Key Create, Update
             _amount = NS_RESERVATION
+            _address = _ns_address
             _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key,
                                              _ns_value, _ns_address)
             _sh = Scripts.compile(_sh, True)
         elif self.mode == 5:
             # Namespace Key Delete
             _amount = NS_RESERVATION
+            _address = _ns_address
             _sh = Scripts.KevaKeyValueDelete(_ns, _ns_key,
                                              _ns_address)
             _sh = Scripts.compile(_sh, True)
@@ -726,7 +755,7 @@ class Ui_send_dlg(QDialog):
             self.set_availible_usxo(False, False, '')
             _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         elif self.mode in (3, 4, 5, 6, 7, 9, 10):
-            _ns_address = self.ns_combo.combo.currentData().split(':')[0]
+            _ns_address = self.ns_combo.combo.currentData()
             self.set_availible_usxo(True, False, _ns_address)
             _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         else:
@@ -754,14 +783,15 @@ class Ui_send_dlg(QDialog):
                 _n_sh = (Scripts.KevaNamespaceCreation
                          (_ns, _ns_value, self.address_input.address.text()))
                 _n_sh = Scripts.compile(_n_sh, True)
+                self.new_tx.vout[0].scriptPubKey.set_hex(_n_sh)
 
             if _need_change is True:
                 if self.mode in (0, 1, 2, 9):
                     _change_address = self.wallet.get_unused_change_address()
                     _ = self.new_tx.add_output(_cv, _change_address)
                 else:
-                    _ns_dat = self.ns_combo.combo.currentData().split(':')
-                    _ns_address = _ns_dat[1]
+                    # _ns_dat = self.ns_combo.combo.currentData().split(':')
+                    _ns_address = self.ns_combo.combo.currentData()
                     _ = self.new_tx.add_output(_cv, _ns_address)
 
             if self.mode == 8:
