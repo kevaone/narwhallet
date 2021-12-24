@@ -96,7 +96,8 @@ class MTransactionInput(MBase):
             _s = MScriptSig()
             _s.from_json(json['scriptSig'])
             self.set_scriptSig(_s)
-            self.set_txinwitness(json['txinwitness'])
+            if 'txinwitness' in json:
+                self.set_txinwitness(json['txinwitness'])
         self.set_sequence(json['sequence'])
 
     def to_list(self) -> list:

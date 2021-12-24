@@ -354,7 +354,7 @@ class Ui_send_dlg(QDialog):
         _nft_tx = MShared.check_tx_is_bid(_nft_tx, self.kex, self.cache)
         if _nft_tx[0] is True:
             _bid_psbt = keva_psbt(_nft_tx[2])
-            _sh = (Scripts.P2SHAddressScriptHash
+            _sh = (Scripts.AddressScriptHash
                    (self.auction_info.nft_address.text()))
             _sh = Scripts.compile(_sh, True)
             if _bid_psbt.tx.vout[1].scriptPubKey.hex == _sh:

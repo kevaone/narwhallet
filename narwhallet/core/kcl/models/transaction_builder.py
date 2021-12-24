@@ -73,7 +73,7 @@ class MTransactionBuilder(MTransaction):
     def add_output(self, value: int, address: str) -> str:
         _vout = MTransactionOutput()
         try:
-            _sh = Scripts.P2SHAddressScriptHash(address)
+            _sh = Scripts.AddressScriptHash(address)
             _sh = Scripts.compile(_sh, True)
             # _sh = Scripts.P2SHAddressScriptHash.compile([address], True)
             _vout.set_value(value)
@@ -265,7 +265,7 @@ class MTransactionBuilder(MTransaction):
                 [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
 
             _addr = wallet.get_address_by_index(_npk, False)
-            _r = Scripts.P2SHAddressScriptHash(_addr)
+            _r = Scripts.AddressScriptHash(_addr)
             _r = Scripts.compile(_r, False)
             # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
             _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')

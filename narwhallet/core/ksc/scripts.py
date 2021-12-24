@@ -88,9 +88,23 @@ class Scripts(_factory):
         return _script
 
     @staticmethod
+    def AddressScriptHash(address: str):
+        if address.startswith('V'):
+            _script = Scripts.P2SHAddressScriptHash(address)
+        else:
+            _script = Scripts.P2PKHAddressScriptHash(address)
+        return _script
+
+    @staticmethod
     def P2SHAddressScriptHash(address):
         _script = [_o.OP_HASH160, Param.base58Checkhash(address),
                    _o.OP_EQUAL]
+        return _script
+
+    @staticmethod
+    def P2PKHAddressScriptHash(address):
+        _script = [_o.OP_DUP, _o.OP_HASH160, Param.base58Checkhash(address),
+                   _o.OP_EQUALVERIFY, _o.OP_CHECKSIG]
         return _script
 
     @staticmethod

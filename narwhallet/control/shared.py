@@ -158,7 +158,7 @@ class MShared():
     def _get_balances_cmds(addresses: MAddresses, chain: int, _th: list,
                            _tid: dict, kex: KEXclient):
         for _a in addresses.addresses:
-            _script_hash = Scripts.P2SHAddressScriptHash(_a.address)
+            _script_hash = Scripts.AddressScriptHash(_a.address)
             _script_hash = Scripts.compileToScriptHash(_script_hash, True)
             _th.append(kex.api.blockchain_scripthash
                        .get_balance(_script_hash, kex.id))
@@ -201,7 +201,7 @@ class MShared():
 
     @staticmethod
     def _get_balance(address: str, kex: KEXclient) -> dict:
-        _script_hash = Scripts.P2SHAddressScriptHash(address)
+        _script_hash = Scripts.AddressScriptHash(address)
         _script_hash = Scripts.compileToScriptHash(_script_hash, True)
         _bal = kex.call(kex.api.blockchain_scripthash.get_balance
                         (_script_hash, kex.id))
@@ -225,7 +225,7 @@ class MShared():
     def _list_unspents_cmds(addresses: MAddresses, chain: int, _th: list,
                             _tid: dict, kex: KEXclient):
         for _a in addresses.addresses:
-            _script_hash = Scripts.P2SHAddressScriptHash(_a.address)
+            _script_hash = Scripts.AddressScriptHash(_a.address)
             _script_hash = Scripts.compileToScriptHash(_script_hash, True)
             _th.append(kex.api.blockchain_scripthash.listunspent
                        (_script_hash, kex.id))
@@ -275,7 +275,7 @@ class MShared():
 
     @staticmethod
     def _list_unspent(address: str, kex: KEXclient) -> dict:
-        _script_hash = Scripts.P2SHAddressScriptHash(address)
+        _script_hash = Scripts.AddressScriptHash(address)
         _script_hash = Scripts.compileToScriptHash(_script_hash, True)
         _bal = kex.call(kex.api.blockchain_scripthash.listunspent
                         (_script_hash, kex.id))
@@ -302,7 +302,7 @@ class MShared():
             _addresses = wallet.addresses
 
         for _a in _addresses.addresses:
-            _script_hash = Scripts.P2SHAddressScriptHash(_a.address)
+            _script_hash = Scripts.AddressScriptHash(_a.address)
             _script_hash = Scripts.compileToScriptHash(_script_hash, True)
             _th.append(kex.api.blockchain_scripthash.get_history
                        (_script_hash, kex.id))
@@ -322,7 +322,7 @@ class MShared():
                     _pad_value = len(wallet.addresses.addresses) + _pad
                     _addr = wallet.get_address_by_index(_pad_value, False)
 
-                _script_hash = Scripts.P2SHAddressScriptHash(_addr)
+                _script_hash = Scripts.AddressScriptHash(_addr)
                 _script_hash = Scripts.compileToScriptHash(_script_hash, True)
                 _th.append(kex.api.blockchain_scripthash.get_history
                            (_script_hash, kex.id))
@@ -385,7 +385,7 @@ class MShared():
 
     @staticmethod
     def _get_history(address: str, kex: KEXclient) -> dict:
-        _script_hash = Scripts.P2SHAddressScriptHash(address)
+        _script_hash = Scripts.AddressScriptHash(address)
         _script_hash = Scripts.compileToScriptHash(_script_hash, True)
         _hist = kex.call(kex.api.blockchain_scripthash.get_history
                          (_script_hash, kex.id))
