@@ -8,7 +8,7 @@ class NamespaceKeyInput(QHBoxLayout):
 
         self.label = QLabel()
         self.key = QLineEdit()
-        self.key.setMinimumWidth(350)
+        self.key.setMinimumWidth(375)
         self.addWidget(self.label)
         self.addWidget(self.key)
 

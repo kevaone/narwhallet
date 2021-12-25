@@ -11,7 +11,7 @@ class NamespaceComboBox(QHBoxLayout):
         self.addWidget(self.label)
         self.addWidget(self.combo)
 
-        self.combo.setMinimumWidth(350)
+        self.combo.setMinimumWidth(375)
         self.combo.addItem('-', '-')
         self.label.setText(QCoreApplication.translate('NamespaceComboBox',
                                                       'Namespace:'))
