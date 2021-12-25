@@ -86,12 +86,18 @@ class Ui_send_dlg(QDialog):
         self.buttonBox.back.clicked.connect(self.back_click)
         (self.wallet_combo.combo.currentTextChanged
          .connect(self.wallet_combo_changed))
+        (self.ns_combo.combo.currentTextChanged
+         .connect(self.ns_combo_changed))
         self.amount_input.amount.textChanged.connect(self.check_next)
         self.address_input.address.textChanged.connect(self.check_next)
         self.address_combo.combo.currentTextChanged.connect(self.check_next)
         self.namespace_key_input.key.textChanged.connect(self.check_next)
         self.namespace_value_input.value.textChanged.connect(self.check_next)
         self.address_select.clicked.connect(self.select_swap)
+        self.auction_info.nft_desc.textChanged.connect(self.check_next)
+        self.auction_info.nft_name.textChanged.connect(self.check_next)
+        self.auction_info.nft_hashtags.textChanged.connect(self.check_next)
+        self.auction_info.nft_price.textChanged.connect(self.check_next)
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
@@ -202,7 +208,8 @@ class Ui_send_dlg(QDialog):
         self.auction_info.show()
         self.namespace_key_input.key.setText('\x01_KEVA_NS_')
         self.namespace_key_input.key.setReadOnly(True)
-        self.auction_info.nft_ns.setReadOnly(True)
+        self.auction_info.nft_ns.setVisible(False)
+        self.auction_info.ns_l.setVisible(False)
         self.auction_info.nft_address.setReadOnly(True)
 
     def _mode_create_bid(self):
@@ -481,7 +488,8 @@ class Ui_send_dlg(QDialog):
             else:
                 self.buttonBox.next.setEnabled(False)
         elif self.mode == 6:
-            if (self.wallet_combo.combo.currentText() != '-' and
+            if (self.check_auction_amount() and
+                    self.wallet_combo.combo.currentText() != '-' and
                     self.ns_combo.combo.currentText() != '-' and
                     self.auction_info.nft_name.text() != '' and
                     self.auction_info.nft_desc.text() != '' and
@@ -521,9 +529,15 @@ class Ui_send_dlg(QDialog):
                 self.buttonBox.next.setEnabled(False)
 
     def check_amount(self):
+        return self._check_amount(self.amount_input.amount.text())
+
+    def check_auction_amount(self):
+        return self._check_amount(self.auction_info.nft_price.text())
+
+    def _check_amount(self, amount):
         try:
             locale = QLocale()
-            _result = locale.toDouble(self.amount_input.amount.text())
+            _result = locale.toDouble(amount)
             if _result[1] is True:
                 _return = True
             else:
@@ -569,7 +583,30 @@ class Ui_send_dlg(QDialog):
 
     def ns_combo_changed(self, data):
         if data not in ('-', ''):
-            self.check_next()
+            if self.mode == 6:
+                _ns = self.ns_combo.combo.currentText()
+                _block = self.cache.ns.ns_block(_ns)[0]
+                _b_s = str(_block[0])
+                _block = str(str(len(_b_s)) + _b_s + str(_block[1]))
+                _name = (self.cache.ns.get_namespace_by_key_value(
+                             _ns, '\x01_KEVA_NS_'))
+
+                if len(_name) == 0:
+                    _name = (self.cache.ns
+                             .get_namespace_by_key_value(_ns, '_KEVA_NS_'))
+
+                if len(_name) > 0:
+                    _name = _name[0][0]
+
+                if 'displayName' in _name:
+                    _name = json.loads(_name)['displayName']
+                self.auction_info.nft_shortcode.setText(_block)
+                self.auction_info.nft_name.setText(_name)
+        else:
+            if self.mode == 6:
+                self.auction_info.nft_shortcode.setText('')
+                self.auction_info.nft_name.setText('')
+        self.check_next()
 
     def set_namespace_combo(self):
         self.ns_combo.combo.clear()
@@ -592,21 +629,6 @@ class Ui_send_dlg(QDialog):
 
                     _ns = _tx.vout[tx['tx_pos']].scriptPubKey.asm.split(' ')[1]
                     _ns = self.cache.ns.convert_to_namespaceid(_ns)
-                    # _block = self.cache.ns.ns_block(_ns)[0]
-                    # _b_s = str(_block[0])
-                    # _block = str(str(len(_b_s)) + _b_s + str(_block[1]))
-                    # _name = (self.cache.ns.get_namespace_by_key_value(
-                    #    # _ns, '\x01_KEVA_NS_'))
-                    # if len(_name) == 0:
-                    #     _name = (self.cache.ns
-                    #           .get_namespace_by_key_value(_ns, '_KEVA_NS_'))
-                    #     if len(_name) > 0:
-                    #         _name = _name[0][0]
-                    # else:
-                    #     _name = _name[0][0]
-
-                    # if 'displayName' in _name:
-                    #     _name = json.loads(_name)['displayName']
 
                     self.ns_combo.combo.addItem(_ns, tx['a'])
 
@@ -682,6 +704,8 @@ class Ui_send_dlg(QDialog):
             _sh = Scripts.compile(_sh, True)
         elif self.mode == 6:
             # Namespace Auction
+            _amount = NS_RESERVATION
+            _address = _ns_address
             _auc = {}
             _auc['displayName'] = self.auction_info.nft_name.text()
             _auc['price'] = str(self.auction_info.nft_price.text())
@@ -698,7 +722,9 @@ class Ui_send_dlg(QDialog):
             _tags = list(_tags.keys())
             if len(_tags) > 0:
                 _auc['hashtags'] = _tags
-            _auc['addr'] = self.wallet.get_unused_change_address()
+            _payment_addr = self.wallet.get_unused_change_address()
+            self.auction_info.nft_address.setText(_payment_addr)
+            _auc['addr'] = _payment_addr
             _ns_value = json.dumps(_auc, separators=(',', ':'))
 
             _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
