@@ -53,7 +53,6 @@ class Ui_NamespacesTab(QObject):
                                                         self.frame_10)
         p = QPalette(self.ns_tab_text_key_value.palette())
         self.horizontalLayout_12 = QHBoxLayout()
-        # self.btn_val_save = QPushButton(self.frame_12)
         self.btn_val_edit = QPushButton(self.frame_12)
         self.btn_val_del = QPushButton(self.frame_12)
         self.splitter_kv = QSplitter(QtCore.Qt.Orientation.Horizontal)
@@ -87,7 +86,6 @@ class Ui_NamespacesTab(QObject):
         self.ns_tab_text_key_value.setReadOnly(True)
         p.setColor(QPalette.ColorRole.Text, QtCore.Qt.GlobalColor.black)
         self.ns_tab_text_key_value.setPalette(p)
-        # self.btn_val_save.setVisible(False)
         self.btn_val_edit.setEnabled(False)
         self.btn_val_del.setEnabled(False)
 
@@ -113,7 +111,6 @@ class Ui_NamespacesTab(QObject):
         self.verticalLayout_8.addWidget(self.btn_key_add)
         self.verticalLayout_8.addWidget(self.list_ns_keys)
         self.verticalLayout_9.addWidget(self.ns_tab_text_key_value)
-        # self.horizontalLayout_12.addWidget(self.btn_val_save)
         self.horizontalLayout_12.addWidget(self.btn_val_edit)
         self.horizontalLayout_12.addWidget(self.btn_val_del)
         self.verticalLayout_9.addLayout(self.horizontalLayout_12)
@@ -130,7 +127,6 @@ class Ui_NamespacesTab(QObject):
         self.splitter_main.setSizes([375, 350])
         # splitter_kv.setStretchFactor(1, 1)
         self.splitter_main.setStretchFactor(1, 1)
-        
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
@@ -138,7 +134,6 @@ class Ui_NamespacesTab(QObject):
         self.btn_fav.setText(_translate('tabNS', 'Add Favorite'))
         self.btn_create.setText(_translate('tabNS', 'Create'))
         self.btn_key_add.setText(_translate('tabNS', 'Create'))
-        # self.btn_val_save.setText(_translate('tabNS', 'Save'))
         self.btn_val_edit.setText(_translate('tabNS', 'Edit'))
         self.btn_val_del.setText(_translate('tabNS', 'Delete'))
         self.sel_ns.setText(_translate('tabNS', 'Selected namespace:'))

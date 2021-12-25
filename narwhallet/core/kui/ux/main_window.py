@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout,
-                             QSizePolicy, QTabWidget, QMenuBar, QStatusBar)
+                             QSizePolicy, QTabWidget)
 
 from narwhallet.core.kui.ux.wallets_tab import Ui_WalletTab
 from narwhallet.core.kui.ux.address_book_tab import Ui_AddressBookTab
@@ -13,9 +13,6 @@ from narwhallet.core.kui.ux.utils_tab import Ui_UtilsTab
 
 class Ui_MainWindow(QObject):
     def setupUi(self, MainWindow: QMainWindow):
-        # MainWindow.setObjectName('MainWindow')
-        # MainWindow.resize(858, 806)
-        # MainWindow.setWindowTitle('Narwhallet')
         self.centralwidget = QWidget(MainWindow)
         self.verticalLayout = QVBoxLayout(self.centralwidget)
         self.tabWidget = QTabWidget(self.centralwidget)
@@ -27,27 +24,19 @@ class Ui_MainWindow(QObject):
         self.ab_tab = Ui_AddressBookTab()
         self.u_tab = Ui_UtilsTab()
         self.settings_tab = Ui_SettingsTab()
-        self.menubar = QMenuBar(MainWindow)
-        self.statusbar = QStatusBar(MainWindow)
-        # table_pallet = QtGui.QPalette()
-        # table_pallet_color = QtGui.QColor(QtCore.Qt.GlobalColor.darkBlue)
-
-        #self.tabWidget.setEnabled(True)
+        # self.menubar = QMenuBar(MainWindow)
+        # self.statusbar = QStatusBar(MainWindow)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.tabWidget.sizePolicy()
                                      .hasHeightForWidth())
         self.tabWidget.setSizePolicy(sizePolicy)
         self.tabWidget.setMinimumSize(QtCore.QSize(550, 0))
-        #self.tabWidget.setStyleSheet('')
         self.tabWidget.setTabPosition(QTabWidget.TabPosition.North)
         MainWindow.setCentralWidget(self.centralwidget)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 858, 22))
-        MainWindow.setMenuBar(self.menubar)
-        MainWindow.setStatusBar(self.statusbar)
-        # table_pallet_color.setAlpha(25)
-        # table_pallet.setColor(QtGui.QPalette.ColorRole.AlternateBase,
-        #                       table_pallet_color)
+        # self.menubar.setGeometry(QtCore.QRect(0, 0, 858, 22))
+        # MainWindow.setMenuBar(self.menubar)
+        # MainWindow.setStatusBar(self.statusbar)
 
         self.w_tab.setupUi()
         self.tabWidget.addTab(self.w_tab.tabWallets, '')
@@ -71,16 +60,6 @@ class Ui_MainWindow(QObject):
         self.settings_tab.retranslateUi()
 
         self.tabWidget.setCurrentIndex(0)
-
-        # self.w_tab.tbl_w.setPalette(table_pallet)
-        # self.w_tab.tbl_tx.setPalette(table_pallet)
-        # self.w_tab.tbl_addr.setPalette(table_pallet)
-        # self.w_tab.tbl_addr2.setPalette(table_pallet)
-        # self.ns_tab.tbl_ns.setPalette(table_pallet)
-        # self.nft_tab.tbl_auctions.setPalette(table_pallet)
-        # self.ab_tab.tbl_addr.setPalette(table_pallet)
-        # self.settings_tab.elxp_tbl.setPalette(table_pallet)
-        # self.settings_tab.ipfs_tbl.setPalette(table_pallet)
 
         self.retranslateUi()
 

@@ -24,10 +24,10 @@ QWidget:disabled
     background-color: #323232;
 }
 
-QWidget:focus
+/* QWidget:focus
 {
-    /*border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);*/
-}
+    border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #d7801a);
+} */
 
 QTableWidget
 {
@@ -77,14 +77,14 @@ QPlainTextEdit:focus
     border: 2px solid palevioletred;
 }
 
-QPushButton
+QTextEdit
 {
-    border-radius: 3;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-left: 10px;
-    padding-right: 10px;
-    font-size: 18px;
+    background-color: #242424;
+}
+
+QTextEdit:focus
+{
+    border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 palevioletred, stop: 1 #d7801a);
 }
 
 QPushButton
@@ -94,6 +94,12 @@ QPushButton
     border-width: 1px;
     border-color: grey;
     border-style: solid;
+    border-radius: 3;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px;
 }
 
 QPushButton:pressed
@@ -154,11 +160,6 @@ QComboBox::drop-down
     border-top-right-radius: 3px; /* same radius as the QComboBox */
     border-bottom-right-radius: 3px;
  }
-
-QTextEdit:focus
-{
-    border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 palevioletred, stop: 1 #d7801a);
-}
 
 QScrollBar:horizontal {
     border: 1px solid #222222;
@@ -255,11 +256,6 @@ QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical
     background: none;
 }
 
-QTextEdit
-{
-    background-color: #242424;
-}
-
 QHeaderView::section
 {
     background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #565656, stop: 0.1 #525252, stop: 0.5 #4e4e4e, stop: 0.9 #4a4a4a, stop: 1 #464646);
@@ -271,9 +267,12 @@ QHeaderView::section
     border: 1px solid #6c6c6c;
 }
 
-QCheckBox:disabled
-{
-    color: #414141;
+QTabWidget {
+    font: 13px;
+}
+
+QTabWidget::pane {
+    border: 1px solid #444;
 }
 
 QTabBar::tab {
@@ -286,14 +285,6 @@ QTabBar::tab {
     margin-right: -1px;
     font-size: 18px;
     min-width: 125px;
-}
-
-QTabWidget {
-    font: 13px;
-}
-
-QTabWidget::pane {
-    border: 1px solid #444;
 }
 
 QTabBar::tab:last
@@ -354,17 +345,22 @@ QRadioButton::indicator:checked
     );
 }
 
+QRadioButton::indicator:hover, QCheckBox::indicator:hover
+{
+    border: 1px solid palevioletred;
+}
+
+QCheckBox:disabled
+{
+    color: #414141;
+}
+
 QCheckBox::indicator{
     color: lightgrey;
     background-color: #323232;
     border: 1px solid #b1b1b1;
     width: 15px;
     height: 15px;
-}
-
-QRadioButton::indicator:hover, QCheckBox::indicator:hover
-{
-    border: 1px solid palevioletred;
 }
 
 QCheckBox::indicator:checked

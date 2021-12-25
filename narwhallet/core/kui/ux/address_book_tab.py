@@ -34,7 +34,6 @@ class Ui_AddressBookTab(QObject):
         self.ab_tab_line_v_1.setFrameShadow(QFrame.Shadow.Sunken)
         self.frame_2.setFrameShape(QFrame.Shape.StyledPanel)
         self.frame_2.setFrameShadow(QFrame.Shadow.Raised)
-        # self.btn_create.setMaximumSize(QtCore.QSize(120, 100))
 
         self.horizontalLayout_1.addWidget(self.label_1)
         self.horizontalLayout_1.addWidget(self.ab_tab_combo_coin)
