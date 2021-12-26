@@ -251,7 +251,7 @@ class _tx_in(QScrollArea):
         self._txid = QPlainTextEdit()
         if vin.coinbase is not None:
             self._txid_l.setText('coinbase:')
-            self._txid.setPlainText(vin.coinbase)
+            self._txid.setPlainText(str(vin.coinbase))
         else:
             self._txid_l.setText('txid:')
             self._txid.setPlainText(vin.txid)
