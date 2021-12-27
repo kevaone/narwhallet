@@ -319,17 +319,21 @@ class MDialogs():
 
         _row = _bid_selection[0].topRow()
 
+        _ns = self.ui.nft_tab.ns.text()
         _di.auction_info.nft_name.setText(self.ui.nft_tab.display_name.text())
         _di.auction_info.nft_desc.setText(self.ui.nft_tab.desc.text())
         _di.auction_info.nft_hashtags.setText(self.ui.nft_tab.hashtags.text())
-        _di.auction_info.nft_ns.setText(self.ui.nft_tab.ns.text())
+        _di.auction_info.nft_ns.setText(_ns)
         _di.auction_info.nft_address.setText(self.ui.nft_tab.address.text())
         _di.auction_info.nft_price.setText(self.ui.nft_tab.asking.text())
         (_di.auction_info.nft_shortcode
          .setText(self.ui.nft_tab.shortcode.text()))
         (_di.namespace_key_input.key
          .setText(self.ui.nft_tab.tbl_bids_2.item(_row, 6).text()))
+         
+        _di.ns_combo.combo.setCurrentIndex(_di.ns_combo.combo.findText(_ns))
 
+        _di.check_tx_is_bid()
         self.send_dialog(_di)
 
     @staticmethod

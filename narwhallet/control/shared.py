@@ -617,7 +617,7 @@ class MShared():
                 continue
 
             _r_tx = cache.tx.get_tx_by_txid(k['tx_hash'])
-            if _r_tx is None:
+            if _r_tx is None or _r_tx.blockhash is None:
                 continue
 
             for _ro in _r_tx.vout:

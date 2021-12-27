@@ -240,18 +240,18 @@ class Ui_send_dlg(QDialog):
         self.setWindowTitle('Narwhallet - Accept Bid')
         self.wallet_combo.show()
         self.ns_combo.show()
-        self.amount_input.hide()
+        self.amount_input.show()
         self.address_input.hide()
         self.address_combo.hide()
-        self.transaction_input.show()
-        self.namespace_key_input.hide()
+        self.transaction_input.hide()
+        self.namespace_key_input.show()
         self.namespace_value_input.hide()
-        self.bid_input.show()
+        self.bid_input.hide()
         self.auction_info.show()
         self.wallet_combo.combo.setEnabled(False)
         self.ns_combo.combo.setEnabled(False)
         self.address_select.setVisible(False)
-        self.bid_input.amount.setReadOnly(True)
+        # self.bid_input.amount.setReadOnly(True)
         self.auction_info.nft_desc.setReadOnly(True)
         self.auction_info.nft_name.setReadOnly(True)
         self.auction_info.nft_hashtags.setReadOnly(True)
@@ -342,10 +342,13 @@ class Ui_send_dlg(QDialog):
                     and is_change is True and tx['a'] == ns_address):
                 _nsusxo = tx
 
-        if _nsusxo is not None and is_change is True:
+        if _nsusxo is not None and is_change is True and isBidOp is False:
             _usxos.insert(0, _nsusxo)
 
-        self.new_tx.inputs_to_spend = _usxos
+        if isBidOp is True:
+            self.bid_tx.inputs_to_spend = _usxos
+        else:
+            self.new_tx.inputs_to_spend = _usxos
 
     def check_ns_key_input(self):
         if self.mode == 7:
@@ -372,7 +375,7 @@ class Ui_send_dlg(QDialog):
                    (self.auction_info.nft_address.text()))
             _sh = Scripts.compile(_sh, True)
             if _bid_psbt.tx.vout[1].scriptPubKey.hex == _sh:
-                (self.bid_amount
+                (self.amount_input.amount
                  .setText(str(_bid_psbt.tx.vout[1].value/100000000)))
                 self.new_tx = _bid_psbt.tx
                 _idx = 0
@@ -514,7 +517,7 @@ class Ui_send_dlg(QDialog):
                 self.buttonBox.next.setEnabled(False)
         elif self.mode == 8:
             if (self.wallet_combo.combo.currentText() != '-' and
-                    self.bid_input.amount.text() != '' and
+                    self.amount_input.amount.text() != '' and
                     self.auction_info.nft_ns.text() != '' and
                     self.auction_info.nft_price.text() != ''):
                 self.buttonBox.next.setEnabled(True)
@@ -755,7 +758,8 @@ class Ui_send_dlg(QDialog):
             _sh = Scripts.compile(_sh, True)
         elif self.mode == 8:
             # Namespace Accept Bid
-            self.check_tx_is_bid()
+            # self.check_tx_is_bid()
+            pass
         elif self.mode == 9:
             # Namespace Transfer
             _amount = NS_RESERVATION
@@ -799,10 +803,9 @@ class Ui_send_dlg(QDialog):
             self.set_availible_usxo(True, False, _ns_address)
             _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         else:
-            self.set_availible_usxo(False, False,
-                                    self.auction_info.nft_ns.text())
-
-            if len(self.new_tx.inputs_to_spend) != 1:
+            _ns_address = self.ns_combo.combo.currentData()
+            self.set_availible_usxo(True, False, _ns_address)
+            if len(self.new_tx.inputs_to_spend) == 0:
                 _inp_sel = False
             else:
                 tx = self.new_tx.inputs_to_spend[0]
@@ -814,7 +817,8 @@ class Ui_send_dlg(QDialog):
 
         if _inp_sel is True:
             _, _, _fv = self.new_tx.get_current_values()
-            _cv = _fv - _est_fee
+            if _need_change is True:
+                _cv = _fv - _est_fee
 
             if self.mode == 2:
                 _ns = self.tx_to_ns(self.new_tx.vin[0].txid,
@@ -836,7 +840,7 @@ class Ui_send_dlg(QDialog):
 
             if self.mode == 8:
                 self.new_tx.txb_preimage(self.wallet,
-                                         SIGHASH_TYPE.ALL_ANYONECANPAY)
+                                         SIGHASH_TYPE.ALL_ANYONECANPAY, True)
                 _, _, _est_fee = self.new_tx.get_current_values(False)
             else:
                 self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)

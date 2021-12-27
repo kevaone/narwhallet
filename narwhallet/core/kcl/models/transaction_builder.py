@@ -246,12 +246,15 @@ class MTransactionBuilder(MTransaction):
 
         return _spre
 
-    def txb_preimage(self, wallet: MWallet, hash_type: SIGHASH_TYPE):
+    def txb_preimage(self, wallet: MWallet, hash_type: SIGHASH_TYPE, ovr: bool = False):
         # _n = self.combo_wallet.currentData()
         # wallet = self.wallets.get_wallet_by_name(wallet_name)
-        self.input_signatures = []
+        if ovr is False:
+            self.input_signatures = []
 
         for c, _vin_idx in enumerate(self.vin):
+            if ovr is True and c != len(self.vin) - 1:
+                continue
             _npk = _vin_idx.tb_address
             _npkc = _vin_idx.tb_address_chain
             _pk = wallet.get_publickey_raw(_npk, _npkc)
