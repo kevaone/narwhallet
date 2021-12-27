@@ -91,7 +91,8 @@ class Ui_send_dlg(QDialog):
         self.amount_input.amount.textChanged.connect(self.check_next)
         self.address_input.address.textChanged.connect(self.check_next)
         self.address_combo.combo.currentTextChanged.connect(self.check_next)
-        self.namespace_key_input.key.textChanged.connect(self.check_next)
+        (self.namespace_key_input.key.textChanged
+         .connect(self.check_ns_key_input))
         self.namespace_value_input.value.textChanged.connect(self.check_next)
         self.address_select.clicked.connect(self.select_swap)
         self.auction_info.nft_desc.textChanged.connect(self.check_next)
@@ -217,14 +218,14 @@ class Ui_send_dlg(QDialog):
         self.setWindowTitle('Narwhallet - Create Bid')
         self.wallet_combo.show()
         self.ns_combo.show()
-        self.amount_input.hide()
+        self.amount_input.show()
         self.address_input.hide()
         self.address_combo.hide()
         self.address_select.setVisible(False)
-        self.transaction_input.show()
-        self.namespace_key_input.hide()
+        self.transaction_input.hide()
+        self.namespace_key_input.show()
         self.namespace_value_input.hide()
-        self.bid_input.show()
+        self.bid_input.hide()
         self.auction_info.show()
         self.address_select.setVisible(False)
         self.auction_info.nft_desc.setReadOnly(True)
@@ -346,6 +347,12 @@ class Ui_send_dlg(QDialog):
 
         self.new_tx.inputs_to_spend = _usxos
 
+    def check_ns_key_input(self):
+        if self.mode == 7:
+            self.check_tx_is_auction()
+
+        self.check_next()
+
     def check_tx_is_ns_key(self):
         _action_tx = self.namespace_key_input.key.text()
 
@@ -400,8 +407,6 @@ class Ui_send_dlg(QDialog):
             self.auction_info.nft_price.setText(_nft_tx[2]['price'])
             self.auction_info.nft_ns.setText(_nft_tx[1])
             self.auction_info.nft_address.setText(_nft_tx[2]['addr'])
-
-            self.check_next()
 
     def build_bid(self):
         self.bid_tx.set_version(Ut.hex_to_bytes('00710000'))
@@ -499,7 +504,14 @@ class Ui_send_dlg(QDialog):
             else:
                 self.buttonBox.next.setEnabled(False)
         elif self.mode == 7:
-            pass
+            if (self.wallet_combo.combo.currentText() != '-' and
+                    self.ns_combo.combo.currentText() != '-' and
+                    self.check_amount() != '' and
+                    self.auction_info.nft_ns.text() != '' and
+                    self.auction_info.nft_price.text() != ''):
+                self.buttonBox.next.setEnabled(True)
+            else:
+                self.buttonBox.next.setEnabled(False)
         elif self.mode == 8:
             if (self.wallet_combo.combo.currentText() != '-' and
                     self.bid_input.amount.text() != '' and
@@ -733,12 +745,14 @@ class Ui_send_dlg(QDialog):
         elif self.mode == 7:
             # Namespace Bid
             _amount = NS_RESERVATION
+            _address = _ns_address
             self.build_bid()
 
             _ns_key = (Ut.hex_to_bytes('0001') + Ut.hex_to_bytes(_ns_key))
             _ns_value = self.bid_tx.to_psbt()
             _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
                                              _ns_address)
+            _sh = Scripts.compile(_sh, True)
         elif self.mode == 8:
             # Namespace Accept Bid
             self.check_tx_is_bid()
