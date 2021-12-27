@@ -77,19 +77,19 @@ class MDialogs():
         _di.new_tx.set_fee(_fee)
         _di.bid_tx.set_fee(_fee)
 
-        # _result = _di.exec_()
+        _result = _di.exec_()
 
         for _w in self.wallets.wallets:
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                 _w.set_updating(False)
 
-        # if _result != 0:
-        #     _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
-        #     if isinstance(_bc_result[1], dict):
-        #         _result = json.dumps(_bc_result[1])
-        #     else:
-        #         _result = _bc_result[1]
-        #     _ = self.warning_dialog(_result, False, int(_bc_result[0]))
+        if _result != 0:
+            _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
+            if isinstance(_bc_result[1], dict):
+                _result = json.dumps(_bc_result[1])
+            else:
+                _result = _bc_result[1]
+            _ = self.warning_dialog(_result, False, int(_bc_result[0]))
 
     def simple_send_dialog(self):
         _di = Ui_send_dlg()
