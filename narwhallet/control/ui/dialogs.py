@@ -275,26 +275,51 @@ class MDialogs():
 
     def action_dialog(self, action):
         _di = Ui_send_dlg()
-        _di.setupUi(10)
-        self.populate_wallet_combo(_di.wallet_combo.combo)
-        _di.wallets = self.wallets
-        _di.cache = self.cache
-        _di.kex = self.kex
 
+        _ns_key = action[1]
         _data = json.loads(action[3])['data']
 
         if action[2] == 'comment':
+            _di.setupUi(3)
             _di.action = 'comment'
+            _ns_key = '0001' + _ns_key
+            _di.setWindowTitle('Narwhallet - Key Comment')
+            _di.namespace_key_input.key.setReadOnly(True)
+            _di.wallet_combo.combo.setEnabled(True)
+            _di.ns_combo.combo.setEnabled(True)
         elif action[2] == 'reward':
+            _di.setupUi(10)
             _di.action = 'reward'
+            _ns_key = '0003' + _ns_key
             _di.amount_input.amount.setText(_data['data'])
         elif action[2] == 'repost':
+            _di.setupUi(3)
             _di.action = 'repost'
+            _ns_key = '0002' + _ns_key
+            _di.setWindowTitle('Narwhallet - Key Repost')
+            _di.namespace_key_input.key.setReadOnly(True)
+            _di.wallet_combo.combo.setEnabled(True)
+            _di.ns_combo.combo.setEnabled(True)
+        elif action[2] == 'bid':
+            _di.setupUi(7)
+            _di.action = 'bid'
+            # NOTE Key prefix '0001' for bids added in later step
+            # _ns_key = _ns_key
+            _di.setWindowTitle('Narwhallet - Auction Bid')
+            _di.namespace_key_input.key.setReadOnly(True)
 
-        _di.namespace_key_input.key.setText(action[1])
+        _di.wallets = self.wallets
+        _di.cache = self.cache
+        _di.kex = self.kex
+        self.populate_wallet_combo(_di.wallet_combo.combo)
+        _di.namespace_key_input.key.setText(_ns_key)
         _di.namespace_value_input.value.setPlainText(_data['data'])
 
-        # _di.setWindowTitle('Narwhallet - Complete Action')
+        if action[2] == 'reward':
+            _di.check_tx_is_ns_key()
+            _di.namespace_value_input.value.setPlainText('')
+        elif action[2] == 'bid':
+            _di.namespace_value_input.value.setPlainText('')
 
         self.send_dialog(_di)
 
@@ -330,7 +355,7 @@ class MDialogs():
          .setText(self.ui.nft_tab.shortcode.text()))
         (_di.namespace_key_input.key
          .setText(self.ui.nft_tab.tbl_bids_2.item(_row, 6).text()))
-         
+
         _di.ns_combo.combo.setCurrentIndex(_di.ns_combo.combo.findText(_ns))
 
         _di.check_tx_is_bid()

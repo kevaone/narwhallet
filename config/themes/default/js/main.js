@@ -46,11 +46,14 @@ var nww_main = new (function () {
     nww_main.prototype.action = function () {
         let _data = document.getElementById('modal-action-data');
         let _ref = document.getElementById('modal-action-ref').value.split(':');
-
-        let _pl = {};
-        _pl['endPoint'] = _ref[0];
-        _pl['data'] = {'date': Date.now(), 'data': _data.value, 'tx': _ref[1]};
-        Q.postMessage(_pl);
+        if (_ref[0] != 'share') {
+            let _pl = {};
+            _pl['endPoint'] = _ref[0];
+            console.log('_ref[0]', _ref[0]);
+            console.log('_data.value', _data.value);
+            _pl['data'] = {'date': Date.now(), 'data': _data.value, 'tx': _ref[1]};
+            Q.postMessage(_pl);
+        };
     };
 
     ce = function (e) {

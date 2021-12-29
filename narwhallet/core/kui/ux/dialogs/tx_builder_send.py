@@ -275,6 +275,24 @@ class Ui_send_dlg(QDialog):
         self.wallet_combo.combo.setEnabled(False)
         self.ns_combo.combo.setEnabled(False)
 
+    def _mode_namespace_reward(self):
+        # Namespace Key Reward
+        self.setWindowTitle('Narwhallet - Create Reward')
+        self.wallet_combo.show()
+        self.ns_combo.show()
+        self.amount_input.show()
+        self.address_input.show()
+        self.address_input.address.setReadOnly(True)
+        self.address_combo.hide()
+        self.address_select.setVisible(False)
+        self.transaction_input.hide()
+        self.namespace_key_input.show()
+        self.namespace_key_input.key.setReadOnly(True)
+        self.namespace_value_input.show()
+        self.namespace_value_input.value.setReadOnly(True)
+        self.bid_input.hide()
+        self.auction_info.hide()
+
     def init_mode(self):
         if self.mode == 0:
             # Simple Send
@@ -306,6 +324,9 @@ class Ui_send_dlg(QDialog):
         elif self.mode == 9:
             # Namespace Transfer
             self._mode_namespace_transfer()
+        elif self.mode == 10:
+            # Namespace Transfer
+            self._mode_namespace_reward()
 
     def set_availible_usxo(self, is_change: bool, isBidOp: bool, ns_address):
         # MShared.list_unspents(self.wallet, self.kex)
@@ -359,12 +380,13 @@ class Ui_send_dlg(QDialog):
     def check_tx_is_ns_key(self):
         _action_tx = self.namespace_key_input.key.text()
 
-        _action_tx = MShared.check_tx_is_ns_key(_action_tx, self.kex,
-                                                self.cache)
+        if _action_tx[:4] in ('0001', '0002', '0003'):
+            _action_tx = _action_tx[4:]
+
+        _action_tx = MShared.check_tx_is_ns_key(_action_tx, self.kex, self.cache)
 
         if _action_tx[0] is True:
-            self.action_target_address = _action_tx[4]
-            self.check_next()
+            self.address_input.address.setText(_action_tx[4])
 
     def check_tx_is_bid(self):
         _nft_tx = self.namespace_key_input.key.text()

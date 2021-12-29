@@ -1060,6 +1060,9 @@ class MShared():
         _value = cache.ns._decode(_ns_test[3])
         _address = cache.ns.last_address(_ns)
 
+        if len(_address) == 0:
+            return (False, '', '', '', '')
+
         return (True, _ns, _key, _value, _address[0][0])
 
     @staticmethod
