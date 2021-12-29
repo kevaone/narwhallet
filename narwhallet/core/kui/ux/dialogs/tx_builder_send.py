@@ -325,7 +325,7 @@ class Ui_send_dlg(QDialog):
             # Namespace Transfer
             self._mode_namespace_transfer()
         elif self.mode == 10:
-            # Namespace Transfer
+            # Namespace Key Reward
             self._mode_namespace_reward()
 
     def set_availible_usxo(self, is_change: bool, isBidOp: bool, ns_address):
@@ -531,7 +531,7 @@ class Ui_send_dlg(QDialog):
         elif self.mode == 7:
             if (self.wallet_combo.combo.currentText() != '-' and
                     self.ns_combo.combo.currentText() != '-' and
-                    self.check_amount() != '' and
+                    self.check_amount() and
                     self.auction_info.nft_ns.text() != '' and
                     self.auction_info.nft_price.text() != ''):
                 self.buttonBox.next.setEnabled(True)
@@ -557,10 +557,11 @@ class Ui_send_dlg(QDialog):
             else:
                 self.buttonBox.next.setEnabled(False)
         elif self.mode == 10:
-            if (self.wallet_combo.combo.currentText() != '-' and
+            if (self.check_address() and self.check_amount() and
+                    self.wallet_combo.combo.currentText() != '-' and
                     self.ns_combo.combo.currentText() != '-' and
                     self.namespace_key_input.key.text() != '' and
-                    self.namespace_value_input.value.toPlainText() != ''):
+                    self.namespace_value_input.value.toPlainText() == ''):
                 self.buttonBox.next.setEnabled(True)
             else:
                 self.buttonBox.next.setEnabled(False)
@@ -696,7 +697,10 @@ class Ui_send_dlg(QDialog):
         _locale = QLocale()
 
         if self.address_input.address.isVisible():
-            _address = self.address_input.address.text()
+            if self.mode != 10:
+                _address = self.address_input.address.text()
+            else:
+                _reward_address = self.address_input.address.text()
         elif self.address_combo.combo.isVisible():
             _address = self.address_combo.combo.currentData()
 
@@ -789,19 +793,14 @@ class Ui_send_dlg(QDialog):
                                              _ns_value, _address)
             _sh = Scripts.compile(_sh, True)
         elif self.mode == 10:
+            # Namespace Key Reward
             _amount = NS_RESERVATION
-
-            _ns_key = Ut.hex_to_bytes(self.namespace_key_input.key.text())
-            if self.action == 'comment':
-                _ns_key = Ut.hex_to_bytes('0001') + _ns_key
-            elif self.action == 'reward':
-                _ns_key = Ut.hex_to_bytes('0003') + _ns_key
-                _result = _locale.toDouble(self.amount_input.amount.text())
-                _reward_value = int(_result[0] * 100000000)
-            elif self.action == 'repost':
-                _ns_key = Ut.hex_to_bytes('0002') + _ns_key
+            _address = _ns_address
+            _result = _locale.toDouble(self.amount_input.amount.text())
+            _reward_value = int(_result[0] * 100000000)
             _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
                                              _ns_address)
+            _sh = Scripts.compile(_sh, True)
 
         if self.mode != 8:
             _ = self.new_tx.add_output(_amount, _address)
@@ -810,7 +809,7 @@ class Ui_send_dlg(QDialog):
             self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
         if self.action == 'reward':
-            _ = self.new_tx.add_output(_reward_value, _address)
+            _ = self.new_tx.add_output(_reward_value, _reward_address)
 
     def build_send(self):
         if self.mode not in (0, 1):
