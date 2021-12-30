@@ -19,6 +19,7 @@ from narwhallet.core.kui.ux.widgets.amount_input import AmountInput
 from narwhallet.core.kui.ux.widgets.address_input import AddressInput
 from narwhallet.core.kui.ux.widgets.address_combobox import AddressComboBox
 from narwhallet.core.kui.ux.widgets.namespace_combobox import NamespaceComboBox
+from narwhallet.core.kui.ux.widgets.namespace_special_keys_combobox import NamespaceSpecialKeysComboBox
 from narwhallet.core.kui.ux.widgets.namespace_key_input import NamespaceKeyInput
 from narwhallet.core.kui.ux.widgets.namespace_value_input import NamespaceValueInput
 from narwhallet.core.kui.ux.widgets.transaction_input import TransactionInput
@@ -50,6 +51,7 @@ class Ui_send_dlg(QDialog):
         self.address_input = AddressInput()
         self.address_combo = AddressComboBox()
         self.transaction_input = TransactionInput()
+        self.special_keys_combo = NamespaceSpecialKeysComboBox()
         self.namespace_key_input = NamespaceKeyInput()
         self.namespace_value_input = NamespaceValueInput()
         self.bid_input = AmountInput()
@@ -70,6 +72,7 @@ class Ui_send_dlg(QDialog):
         self.verticalLayout.addLayout(self.address_combo)
         self.verticalLayout.addWidget(self.address_select)
         self.verticalLayout.addLayout(self.transaction_input)
+        self.verticalLayout.addLayout(self.special_keys_combo)
         self.verticalLayout.addLayout(self.namespace_key_input)
         self.verticalLayout.addLayout(self.namespace_value_input)
         self.verticalLayout.addLayout(self.bid_input)
@@ -88,6 +91,8 @@ class Ui_send_dlg(QDialog):
          .connect(self.wallet_combo_changed))
         (self.ns_combo.combo.currentTextChanged
          .connect(self.ns_combo_changed))
+        (self.special_keys_combo.combo.currentTextChanged
+         .connect(self.special_keys_combo_changed))
         self.amount_input.amount.textChanged.connect(self.check_next)
         self.address_input.address.textChanged.connect(self.check_next)
         self.address_combo.combo.currentTextChanged.connect(self.check_next)
@@ -150,6 +155,7 @@ class Ui_send_dlg(QDialog):
         self.address_combo.hide()
         self.address_select.setVisible(False)
         self.transaction_input.hide()
+        self.special_keys_combo.show()
         self.namespace_key_input.show()
         self.namespace_value_input.show()
         self.bid_input.hide()
@@ -645,6 +651,14 @@ class Ui_send_dlg(QDialog):
                 self.auction_info.nft_shortcode.setText('')
                 self.auction_info.nft_name.setText('')
         self.check_next()
+
+    def special_keys_combo_changed(self, data):
+        if data not in ('-', ''):
+            _data = self.special_keys_combo.combo.currentData()
+            self.namespace_key_input.key.setText(_data)
+            self.namespace_key_input.key.setReadOnly(True)
+        else:
+            self.namespace_key_input.key.setReadOnly(False)
 
     def set_namespace_combo(self):
         self.ns_combo.combo.clear()

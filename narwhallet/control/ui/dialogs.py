@@ -66,6 +66,15 @@ class MDialogs():
             _abi = self.address_book.addresses[_addr].name + ' - ' + _aa
             combo.addItem(_abi, _aa)
 
+    def populate_namespace_special_keys_combo(self, combo):
+        _keys = ConfigLoader(os.path.join(self.user_path,
+                                          'special_keys.json'))
+        _keys.load()
+
+        for _key in _keys.data:
+            _abi = _key + ' - ' + _keys.data[_key]['tooltip']
+            combo.addItem(_abi, _key)
+
     def send_dialog(self, _di: Ui_send_dlg):
         _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
@@ -113,6 +122,7 @@ class MDialogs():
     def create_namespace_key_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(3)
+        self.populate_namespace_special_keys_combo(_di.special_keys_combo.combo)
         _di.wallets = self.wallets
         _di.cache = self.cache
         _di.kex = self.kex

@@ -1,0 +1,232 @@
+{
+    "PLAYER": {
+        "validateAs": "IPv4 Address",
+        "tooltip": "Legend of Satoshi Player IP Restriction",
+        "description": "",
+        "examples": []
+    },
+    "RAVENCOIN": {
+        "validateAs": "Ravencoin Address",
+        "tooltip": "Your Ravencoin Address",
+        "description": "",
+        "examples": []
+    },
+    "CHIA": {
+        "validateAs": "CHIA Address",
+        "tooltip": "Your Chia Address",
+        "description": "",
+        "examples": []
+    },
+    "BITCOIN": {
+        "validateAs": "Bitcoin Address",
+        "tooltip": "Your Bitcoin Address",
+        "description": "",
+        "examples": []
+    },
+    "DOGECOIN": {
+        "validateAs": "Dogecoin Address",
+        "tooltip": "Your Dogecoin Address",
+        "description": "",
+        "examples": []
+    },
+    "MONERO": {
+        "validateAs": "Monero Address",
+        "tooltip": "Your Monero Address",
+        "description": "",
+        "examples": []
+    },
+    "ETHEREUM": {
+        "validateAs": "ETH Address",
+        "tooltip": "Your ETH Address",
+        "description": "",
+        "examples": []
+    },
+    "OPENSEA": {
+        "validateAs": "int",
+        "tooltip": "List your OpeanSea NFT's",
+        "description": "List n of your OpeanSea NFT's, requires: ETHEREUM key to be set",
+        "examples": [
+            2,
+            5,
+            10
+        ]
+    },
+    "RPGNFT": {
+        "validateAs": "on|off",
+        "tooltip": "Legend of Satoshi NFT's",
+        "description": "List your Legend of Satoshi NFT's",
+        "examples": [
+            "ON",
+            "OFF"
+        ]
+    },
+    "RPGKEY1": {
+        "validateAs": "string",
+        "tooltip": "Ledgend of Satoshi Macro Key 1",
+        "description": "Ledgend of Satoshi macro command/asset name/shortcode",
+        "examples": []
+    },
+    "RPGKEY2": {
+        "validateAs": "string",
+        "tooltip": "Ledgend of Satoshi Macro Key 2",
+        "description": "Ledgend of Satoshi macro command/asset name/shortcode",
+        "examples": []
+    },
+    "RPGKEY3": {
+        "validateAs": "string",
+        "tooltip": "Ledgend of Satoshi Macro Key 3",
+        "description": "Ledgend of Satoshi macro command/asset name/shortcode",
+        "examples": []
+    },
+    "RPGKEY4": {
+        "validateAs": "string",
+        "tooltip": "Ledgend of Satoshi Macro Key 4",
+        "description": "Ledgend of Satoshi macro command/asset name/shortcode",
+        "examples": []
+    },
+    "RPGKEY5": {
+        "validateAs": "string",
+        "tooltip": "Ledgend of Satoshi Macro Key 5",
+        "description": "Ledgend of Satoshi macro command/asset name/shortcode",
+        "examples": []
+    },
+    "RPGKEY6": {
+        "validateAs": "string",
+        "tooltip": "Ledgend of Satoshi Macro Key 6",
+        "description": "Ledgend of Satoshi macro command/asset name/shortcode",
+        "examples": []
+    },
+    "RPGKEY7": {
+        "validateAs": "string",
+        "tooltip": "Ledgend of Satoshi Macro Key 7",
+        "description": "Ledgend of Satoshi macro command/asset name/shortcode",
+        "examples": []
+    },
+    "RPGKEY8": {
+        "validateAs": "string",
+        "tooltip": "Ledgend of Satoshi Macro Key 8",
+        "description": "Ledgend of Satoshi macro command/asset name/shortcode",
+        "examples": []
+    },
+    "RPGKEY9": {
+        "validateAs": "string",
+        "tooltip": "Ledgend of Satoshi Macro Key 9",
+        "description": "Ledgend of Satoshi macro command/asset name/shortcode",
+        "examples": []
+    },
+    "ASSET": {
+        "validateAs": "string",
+        "tooltip": "Ravencoin Assets",
+        "description": "List your Ravencoin assets",
+        "examples": [
+            "list"
+        ]
+    },
+    "THEME": {
+        "validateAs": "selection",
+        "tooltip": "Default Theme",
+        "description": "",
+        "options": {
+            "album": "",
+            "alter": "",
+            "asset": "",
+            "assistant": "",
+            "blogx": "",
+            "book": "",
+            "flag": "",
+            "kevaone": "",
+            "koh": "",
+            "list": "",
+            "milestone": "",
+            "mind": "",
+            "paper": "",
+            "perfectb": "",
+            "pic": "",
+            "roam": "",
+            "rpg": "",
+            "rss": "",
+            "social": "",
+            "txt": ""
+        },
+        "examples": []
+    },
+    "SORT": {
+        "validateAs": "on|off",
+        "tooltip": "Key Sort Order",
+        "description": "Sort your keys; ON=asc A-Z OFF=time",
+        "examples": [
+            "ON",
+            "OFF"
+        ]
+    },
+    "COUNTDOWN": {
+        "validateAs": "datetime",
+        "tooltip": "Countdown Timer",
+        "description": "",
+        "examples": []
+    },
+    "ASSISTANT": {
+        "validateAs": "string",
+        "tooltip": "Your assistant's name",
+        "description": "",
+        "examples": []
+    },
+    "BITDOGE": {
+        "validateAs": "shortcode",
+        "tooltip": "BITDOGE Content",
+        "description": "BITDOGE namespace shortcode for content to read",
+        "examples": []
+    },
+    "TIA": {
+        "validateAs": "shortcode",
+        "tooltip": "TIA Content",
+        "description": "TIA namespace shortcode for content to read",
+        "examples": []
+    },
+    "ANN": {
+        "validateAs": "string",
+        "tooltip": "Announcement for your Bitdoge",
+        "description": "",
+        "examples": []
+    },
+    "MODEL": {
+        "validateAs": "Int 1-66",
+        "tooltip": "Tia Model Style",
+        "description": "Style for Tia on your namespace",
+        "examples": [
+            1,
+            5,
+            61
+        ]
+    },
+    "IPFS": {
+        "validateAs": "IPFS Gateway",
+        "tooltip": "IPFS Gateway",
+        "description": "IPFS Gateway to use for loading this namespace content",
+        "examples": []
+    },
+    "RANDOM": {
+        "validateAs": "int",
+        "tooltip": "Display Random Keys",
+        "description": "Display random number of keys",
+        "examples": []
+    },
+    "MP3": {
+        "validateAs": "HTML",
+        "tooltip": "Enable MP3 Playback",
+        "description": "Enable click and play of MP3's on https: //keva.app",
+        "examples": []
+    },
+    "MYSPACE": {
+        "validateAs": "List of shortcodes",
+        "tooltip": "Your favorite shortcodes",
+        "description": "",
+        "examples": []
+    },
+    "PIN": {
+        "validateAs": "shortcode",
+        "tooltip": "Pin Namespace",
+        "description": "",
+        "examples": []
+    }
+}
