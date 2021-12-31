@@ -1,8 +1,7 @@
-from narwhallet.core.kcl.models._base import MBase
-from narwhallet.core.kcl.models.namespace_keys import MNSKeys
+from narwhallet.core.kcl.models.kevacoin.namespace_keys import MNSKeys
 
 
-class MNamespace(MBase):
+class MNamespace():
     def __init__(self):
         self._date: int = None
         self._address: str = None

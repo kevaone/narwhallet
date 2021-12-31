@@ -1,7 +1,6 @@
-from narwhallet.core.kcl.models._base import MBase
 
 
-class MNSKey(MBase):
+class MNSKey():
     def __init__(self):
         self._date: int = None
         self._key: str = None

@@ -1,6 +1,6 @@
 from typing import Dict, List
 from narwhallet.core.ksc.utils import Ut
-from narwhallet.core.kcl.models.namespace_key import MNSKey
+from narwhallet.core.kcl.models.kevacoin.namespace_key import MNSKey
 
 
 class MNSKeys():

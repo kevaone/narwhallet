@@ -3,7 +3,7 @@ import urllib
 
 from narwhallet.control.web_controller import NarwhalletWebController
 from narwhallet.control.shared import MShared
-from narwhallet.core.kcl.models.namespace import MNamespace
+from narwhallet.core.kcl.models.kevacoin.namespace import MNamespace
 from narwhallet.core.kws.kits.microblog import Feed
 from narwhallet.core.kcl.cache import MCache
 

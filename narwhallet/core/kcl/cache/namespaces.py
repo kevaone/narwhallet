@@ -1,7 +1,7 @@
 from typing import Optional
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.bip_utils.base58 import Base58Encoder
-from narwhallet.core.kcl.models.namespace import MNamespace
+from narwhallet.core.kcl.models.kevacoin.namespace import MNamespace
 from narwhallet.core.kcl.cache.db_utils import SQLInterface
 
 
