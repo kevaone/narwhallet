@@ -961,9 +961,9 @@ class NarwhalletController():
 
         if len(_value) > 0:
             (self.ui.ns_tab.ns_tab_text_key_value
-             .setPlainText(str(_value[0][0])))
+             .setPlainText(str(_value[0][1])))
 
-            _type = self.cache.ns.get_key_type(key.text(), str(_value[0][0]))
+            _type = self.cache.ns.get_key_type(key.text(), str(_value[0][1]))
             self.ui.ns_tab.sel_ns_key_sp.setText(_type)
         else:
             _type = None

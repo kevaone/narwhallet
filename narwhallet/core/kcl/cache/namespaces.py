@@ -180,7 +180,7 @@ class MNamespaces():
                                   (block, n, tx, value,
                                    self.get_key_type(key, value),
                                    address, _ns,
-                                   key, block), 1)
+                                   key), 1)
         return _r
 
     def mark_key_deleted(self, block: int, nsid: str, key: str):

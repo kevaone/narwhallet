@@ -74,7 +74,7 @@ class Scripts(Enum):
             ORDER BY block DESC;'
     SELECT_NS_LAST_ADDRESS = 'SELECT address FROM ns_cache WHERE ns = ? \
         ORDER BY block DESC;'
-    SELECT_NS_KEY_VALUE = 'SELECT value FROM ns_cache \
+    SELECT_NS_KEY_VALUE = 'SELECT block, value FROM ns_cache \
         WHERE ns = ? AND [key] = ? ORDER BY block DESC;'
     SELECT_NS_KEY_REPLIES = 'SELECT block, n, txid, ns, [key], value, \
         special FROM ns_cache WHERE [key] LIKE ? AND (special = \'reply\' \
@@ -110,8 +110,7 @@ class Scripts(Enum):
             blockhash = ?, confirmations = ?, time = ?, blocktime = ?, \
                 hex = ? WHERE txid = ?;'
     UPDATE_NS_KEY = 'UPDATE ns_cache SET block = ?, n = ?, txid = ?, \
-        value = ?, special = ?, address = ? WHERE ns = ? AND [key] = ? \
-            AND block < ?;'
+        value = ?, special = ?, address = ? WHERE ns = ? AND [key] = ?;'
     UPDATE_NS_KEY_MARK = 'UPDATE ns_cache SET special = ? \
         WHERE ns = ? AND [key] = ? AND block < ?;'
     UPDATE_NFT = 'UPDATE nft_cache SET tx = ?, data = ? WHERE tx = ?;'

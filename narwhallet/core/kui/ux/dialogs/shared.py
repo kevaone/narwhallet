@@ -67,9 +67,9 @@ class DShared():
                         _name = (dialog.cache.ns
                                  .get_namespace_by_key_value(_ns, '_KEVA_NS_'))
                         if len(_name) > 0:
-                            _name = _name[0][0]
+                            _name = _name[0][1]
                     else:
-                        _name = _name[0][0]
+                        _name = _name[0][1]
 
                     if 'displayName' in _name:
                         _name = json.loads(_name)['displayName']

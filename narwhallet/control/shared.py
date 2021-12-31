@@ -623,12 +623,12 @@ class MShared():
             for _ro in _r_tx.vout:
                 _tro = _ro.scriptPubKey.asm.split(' ')
                 if _tro[0].startswith('OP_KEVA_') is True:
-                    _key = cache.ns.get_namespace_by_txid(_r_tx.txid, _tro[1])
-                    if len(_key) == 0:
-                        _m_track[str(kex.id)] = k['tx_hash']
-                        _m_batch.append(kex.api.bc_tx.get_merkle
-                                        (_r_tx.txid, k['height'], kex.id))
-                        kex.id += 1
+                    # _key = cache.ns.get_namespace_by_txid(_r_tx.txid, _tro[1])
+                    # if len(_key) == 0:
+                    _m_track[str(kex.id)] = k['tx_hash']
+                    _m_batch.append(kex.api.bc_tx.get_merkle
+                                    (_r_tx.txid, k['height'], kex.id))
+                    kex.id += 1
         if len(_m_batch) > 0:
             _merkles = MShared.__get_merkle_by_batch(_m_batch, _m_track, kex)
         else:
@@ -645,9 +645,9 @@ class MShared():
             for _ro in _r_tx.vout:
                 _tro = _ro.scriptPubKey.asm.split(' ')
                 if _tro[0].startswith('OP_KEVA_') is True:
-                    _key = cache.ns.get_namespace_by_txid(_r_tx.txid, _tro[1])
-                    if len(_key) != 0:
-                        continue
+                    # _key = cache.ns.get_namespace_by_txid(_r_tx.txid, _tro[1])
+                    # if len(_key) != 0:
+                    #     continue
 
                     MShared._p_namespace(_ro.scriptPubKey, _r_tx,
                                          _merkles[k['tx_hash']], _ref_batch,
@@ -656,7 +656,8 @@ class MShared():
             _ = MShared.__get_tx_by_batch(_ref_batch, kex, cache)
 
     @staticmethod
-    def _p_namespace(out, _trx, _merkle, _ref_batch, kex, cache):
+    def _p_namespace(out: MScriptPubKey, _trx: MTransaction, _merkle: dict,
+                     _ref_batch: list, kex: KEXclient, cache: MCache):
         _o = out.asm.split(' ')
         if _o[0].startswith('OP_KEVA_') is False:
             return
@@ -676,27 +677,41 @@ class MShared():
                 _ = (cache.ns
                      .mark_key_deleted(_merkle['block_height'], _o[1], _o[2]))
             else:
-                if (_o[2][:4] == '0001' or _o[2][:4] == '0002'
-                        or _o[2][:4] == '0003'):
+                _ns = cache.ns.convert_to_namespaceid(_o[1])
+                _key = cache.ns._decode(_o[2])
+                _k_test = cache.ns.get_namespace_by_key_value(_ns, _key)
+                # if (len(_k_test) != 0 and 
+                #         (_o[2][:4] != '0001' and _o[2][:4] != '0002'
+                #             and _o[2][:4] != '0003')):
+                if len(_k_test) != 0:
+                    if _k_test[0][0] < _merkle['block_height']:
+                        _ = (cache.ns
+                             .update_key(_merkle['block_height'],
+                                         _merkle['pos'],
+                                         _trx.txid, _o[1], _o[2], _o[3],
+                                         out.addresses[0]))
+                else:
+                    if (_o[2][:4] == '0001' or _o[2][:4] == '0002'
+                            or _o[2][:4] == '0003'):
 
-                    _r_trx = cache.tx.get_tx_by_txid(_o[2][4:])
-                    if _r_trx is None:
-                        _ref_batch.append(kex.api.bc_tx.get
-                                          (_o[2][4:], True, kex.id))
-                        kex.id += 1
-                if _o[2][:4] == '0003':
-                    # TODO Fix this upstream...type check for now
-                    if isinstance(_trx.vout[1].value, int):
-                        _o[3] = str(float(_trx.vout[1].value))
-                    else:
-                        _o[3] = str(_trx.vout[1].value)
+                        _r_trx = cache.tx.get_tx_by_txid(_o[2][4:])
+                        if _r_trx is None:
+                            _ref_batch.append(kex.api.bc_tx.get
+                                              (_o[2][4:], True, kex.id))
+                            kex.id += 1
+                    if _o[2][:4] == '0003':
+                        # TODO Fix this upstream...type check for now
+                        if isinstance(_trx.vout[1].value, int):
+                            _o[3] = str(float(_trx.vout[1].value))
+                        else:
+                            _o[3] = str(_trx.vout[1].value)
 
-                _ = (cache.ns
-                     .from_raw(_merkle['block_height'],
-                               _merkle['pos'],
-                               _trx.txid, _o[1], _o[0],
-                               _o[2], _o[3],
-                               out.addresses[0]))
+                    _ = (cache.ns
+                         .from_raw(_merkle['block_height'],
+                                   _merkle['pos'],
+                                   _trx.txid, _o[1], _o[0],
+                                   _o[2], _o[3],
+                                   out.addresses[0]))
 
     @staticmethod
     def _get_referenced_tx(key: str, kex: KEXclient, cache: MCache):
