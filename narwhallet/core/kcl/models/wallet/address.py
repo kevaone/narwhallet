@@ -1,7 +1,6 @@
-from narwhallet.core.kcl.models._base import MBase
 
 
-class MAddress(MBase):
+class MAddress():
     def __init__(self):
         self._address: str = None
         self._sent: float = 0.0

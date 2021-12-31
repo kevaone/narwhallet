@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QComboBox,
                              QSpacerItem, QSizePolicy, QDialogButtonBox,
                              QFrame, QDialog, QPushButton)
 from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
-from narwhallet.core.kcl.models.wallet import MWallet
+from narwhallet.core.kcl.models.wallet.wallet import MWallet
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.ux.widgets.generator import UShared
 

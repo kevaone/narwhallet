@@ -1,6 +1,6 @@
 import json
 from typing import Dict, List
-from narwhallet.core.kcl.models.wallet import MWallet
+from narwhallet.core.kcl.models.wallet.wallet import MWallet
 from narwhallet.core.kcl.wallet_utils import _wallet_utils as WalletUtils
 
 

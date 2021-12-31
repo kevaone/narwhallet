@@ -9,8 +9,8 @@ from narwhallet.control.shared import MShared
 # from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.file_utils import ConfigLoader
 from narwhallet.core.kcl.cache import MCache
-from narwhallet.core.kcl.models.wallets import MWallets
-from narwhallet.core.kcl.models.wallet import MWallet
+from narwhallet.core.kcl.models.wallet.wallets import MWallets
+from narwhallet.core.kcl.models.wallet.wallet import MWallet
 from narwhallet.core.kcl.models.addr_book import MBookAddresses
 from narwhallet.core.kcl.models.addr_book import MBookAddress
 

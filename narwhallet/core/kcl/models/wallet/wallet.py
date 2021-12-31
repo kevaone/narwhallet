@@ -1,12 +1,11 @@
-from narwhallet.core.kcl.models._base import MBase
-from narwhallet.core.kcl.models.addresses import MAddresses
-from narwhallet.core.kcl.models.wallet_kind import EWalletKind
+from narwhallet.core.kcl.models.wallet.addresses import MAddresses
+from narwhallet.core.kcl.models.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kcl.wallet_utils import _wallet_utils as WalletUtils
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder, Base58Encoder
 from narwhallet.core.ksc.utils import Ut
 
 
-class MWallet(MBase):
+class MWallet():
     def __init__(self):
         self._name: str = None
         self._state_lock: int = 0

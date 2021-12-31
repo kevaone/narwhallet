@@ -20,9 +20,9 @@ from narwhallet.core.kcl.file_utils import ConfigLoader
 from narwhallet.core.kcl.models.transaction import keva_psbt
 
 from narwhallet.core.kcl.cache import MCache
-from narwhallet.core.kcl.models.wallet import MWallet
-from narwhallet.core.kcl.models.wallets import MWallets
-from narwhallet.core.kcl.models.address import MAddress
+from narwhallet.core.kcl.models.wallet.wallet import MWallet
+from narwhallet.core.kcl.models.wallet.wallets import MWallets
+from narwhallet.core.kcl.models.wallet.address import MAddress
 from narwhallet.core.kcl.models.addr_book import MBookAddresses
 from narwhallet.core.kcl.models.transaction import MTransaction
 from narwhallet.core.kcl.wallet_utils import _wallet_utils as WalletUtils
