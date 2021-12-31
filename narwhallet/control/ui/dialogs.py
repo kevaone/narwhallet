@@ -11,8 +11,8 @@ from narwhallet.core.kcl.file_utils import ConfigLoader
 from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.core.kcl.models.wallets import MWallets
 from narwhallet.core.kcl.models.wallet import MWallet
-from narwhallet.core.kcl.models.book_addresses import MBookAddresses
-from narwhallet.core.kcl.models.book_address import MBookAddress
+from narwhallet.core.kcl.models.addr_book import MBookAddresses
+from narwhallet.core.kcl.models.addr_book import MBookAddress
 
 from narwhallet.core.kex import KEXclient
 

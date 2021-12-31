@@ -6,7 +6,7 @@ from PyQt5.QtWidgets import QDialog
 
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
 from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
-from narwhallet.core.kcl.models.book_address import MBookAddress
+from narwhallet.core.kcl.models.addr_book import MBookAddress
 
 from narwhallet.core.kui.ux.widgets.generator import UShared
 

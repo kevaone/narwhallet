@@ -1,7 +1,4 @@
-from narwhallet.core.kcl.models._base import MBase
-
-
-class MBookAddress(MBase):
+class MBookAddress():
     def __init__(self):
         self._coin: str = None
         self._name: str = None

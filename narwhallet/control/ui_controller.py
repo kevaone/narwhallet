@@ -23,7 +23,7 @@ from narwhallet.core.kcl.models.cache import MCache
 from narwhallet.core.kcl.models.wallet import MWallet
 from narwhallet.core.kcl.models.wallets import MWallets
 from narwhallet.core.kcl.models.address import MAddress
-from narwhallet.core.kcl.models.book_addresses import MBookAddresses
+from narwhallet.core.kcl.models.addr_book import MBookAddresses
 from narwhallet.core.kcl.models.transaction import MTransaction
 from narwhallet.core.kcl.wallet_utils import _wallet_utils as WalletUtils
 from narwhallet.core.ksc.utils import Ut

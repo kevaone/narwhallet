@@ -1,6 +1,6 @@
-from narwhallet.core.kcl.models.actions import MActions
-from narwhallet.core.kcl.models.transactions import MTransactions
-from narwhallet.core.kcl.models.namespaces import MNamespaces
+from narwhallet.core.kcl.models.cache.actions import MActions
+from narwhallet.core.kcl.models.cache.transactions import MTransactions
+from narwhallet.core.kcl.models.cache.namespaces import MNamespaces
 from narwhallet.core.kcl.db_utils import SQLInterface
 
 
