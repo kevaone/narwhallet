@@ -5,8 +5,8 @@ from PyQt5.QtWidgets import (QTabWidget, QWidget, QVBoxLayout, QScrollArea,
                              QDialogButtonBox, QFrame, QPlainTextEdit,
                              QPushButton, QDialog)
 
-from narwhallet.core.kcl.models.transaction import MTransactionInput
-from narwhallet.core.kcl.models.transaction import MTransactionOutput
+from narwhallet.core.kcl.transaction import MTransactionInput
+from narwhallet.core.kcl.transaction import MTransactionOutput
 from narwhallet.control.shared import MShared
 
 

@@ -1,7 +1,7 @@
 import time
 from typing import List
-from narwhallet.core.kcl.models.transaction.input import MTransactionInput
-from narwhallet.core.kcl.models.transaction.output import MTransactionOutput
+from narwhallet.core.kcl.transaction.input import MTransactionInput
+from narwhallet.core.kcl.transaction.output import MTransactionOutput
 
 
 class MTransaction():

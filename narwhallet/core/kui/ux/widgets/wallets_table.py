@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QWidget, QTableWidget, QLabel
 from narwhallet.control.shared import MShared
-from narwhallet.core.kcl.models.wallet.wallet import MWallet
+from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.ux.widgets.animated_label import animated_label
 from narwhallet.core.kui.ux.widgets.generator import UShared
 

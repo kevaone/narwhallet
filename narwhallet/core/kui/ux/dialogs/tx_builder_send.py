@@ -9,11 +9,11 @@ from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
 from narwhallet.core.kcl.cache import MCache
-from narwhallet.core.kcl.models.transaction.builder.sighash import SIGHASH_TYPE
-from narwhallet.core.kcl.models.transaction import keva_psbt
-from narwhallet.core.kcl.models.wallet.wallets import MWallets
-from narwhallet.core.kcl.models.wallet.wallet import MWallet
-from narwhallet.core.kcl.models.transaction import MTransactionBuilder
+from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
+from narwhallet.core.kcl.transaction import keva_psbt
+from narwhallet.core.kcl.wallet.wallets import MWallets
+from narwhallet.core.kcl.wallet.wallet import MWallet
+from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
 from narwhallet.core.kui.ux.widgets.amount_input import AmountInput
 from narwhallet.core.kui.ux.widgets.address_input import AddressInput

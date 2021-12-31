@@ -1,5 +1,5 @@
 from typing import Dict, List
-from narwhallet.core.kcl.models.addr_book import MBookAddress
+from narwhallet.core.kcl.addr_book import MBookAddress
 from narwhallet.core.kcl.file_utils.io import AddressBookLoader
 
 

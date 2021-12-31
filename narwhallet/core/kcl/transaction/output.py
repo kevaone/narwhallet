@@ -1,5 +1,5 @@
 import json
-from narwhallet.core.kcl.models.transaction.script_pubkey import MScriptPubKey
+from narwhallet.core.kcl.transaction.script_pubkey import MScriptPubKey
 
 
 class MTransactionOutput():

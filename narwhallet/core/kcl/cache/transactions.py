@@ -1,5 +1,5 @@
 import json
-from narwhallet.core.kcl.models.transaction import MTransaction
+from narwhallet.core.kcl.transaction import MTransaction
 from narwhallet.core.kcl.cache.db_utils import SQLInterface
 
 

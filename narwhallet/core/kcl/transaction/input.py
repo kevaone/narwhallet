@@ -1,6 +1,6 @@
 import json
 from typing import List
-from narwhallet.core.kcl.models.transaction.script_sig import MScriptSig
+from narwhallet.core.kcl.transaction.script_sig import MScriptSig
 
 
 class MTransactionInput():

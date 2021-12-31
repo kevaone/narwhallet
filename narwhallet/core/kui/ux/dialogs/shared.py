@@ -5,7 +5,7 @@ from PyQt5.QtGui import QColor, QPixmap
 from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLabel
 from narwhallet.control.shared import MShared
 from narwhallet.core.ksc.utils import Ut
-from narwhallet.core.kcl.models.transaction import MTransactionBuilder
+from narwhallet.core.kcl.transaction import MTransactionBuilder
 
 
 class DShared():

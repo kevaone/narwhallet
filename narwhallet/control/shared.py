@@ -12,14 +12,14 @@ from narwhallet.core.kex import KEXclient
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.cache import MCache
-from narwhallet.core.kcl.models.wallet.wallet import MWallet
-from narwhallet.core.kcl.models.wallet.addresses import MAddresses
-from narwhallet.core.kcl.models.wallet.address import MAddress
-from narwhallet.core.kcl.models.transaction import keva_psbt
-from narwhallet.core.kcl.models.transaction import MTransaction
-from narwhallet.core.kcl.models.transaction import MTransactionInput
-from narwhallet.core.kcl.models.transaction import MTransactionOutput
-from narwhallet.core.kcl.models.transaction import MScriptPubKey
+from narwhallet.core.kcl.wallet.wallet import MWallet
+from narwhallet.core.kcl.wallet.addresses import MAddresses
+from narwhallet.core.kcl.wallet.address import MAddress
+from narwhallet.core.kcl.transaction import keva_psbt
+from narwhallet.core.kcl.transaction import MTransaction
+from narwhallet.core.kcl.transaction import MTransactionInput
+from narwhallet.core.kcl.transaction import MTransactionOutput
+from narwhallet.core.kcl.transaction import MScriptPubKey
 
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
 

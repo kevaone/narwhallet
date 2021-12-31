@@ -1,4 +1,4 @@
-from narwhallet.core.kcl.models.kevacoin.namespace_keys import MNSKeys
+from narwhallet.core.kcl.kevacoin.namespace_keys import MNSKeys
 
 
 class MNamespace():

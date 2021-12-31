@@ -1,5 +1,5 @@
 from typing import Dict, List
-from narwhallet.core.kcl.models.wallet.address import MAddress
+from narwhallet.core.kcl.wallet.address import MAddress
 
 
 class MAddresses():
