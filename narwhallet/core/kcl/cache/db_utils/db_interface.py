@@ -1,5 +1,5 @@
 import sqlite3
-from narwhallet.core.kcl.db_utils.db_scripts import Scripts
+from narwhallet.core.kcl.cache.db_utils.db_scripts import Scripts
 
 
 class SQLInterface():

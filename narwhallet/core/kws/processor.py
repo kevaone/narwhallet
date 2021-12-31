@@ -3,7 +3,7 @@ import socket
 from narwhallet.core.kws.http import request as _Request
 from narwhallet.core.kws.http import response as _Response
 from narwhallet.core.kws.api import _Api
-from narwhallet.core.kcl.models.cache import MCache
+from narwhallet.core.kcl.cache import MCache
 from narwhallet.control.web_controller import NarwhalletWebController
 
 

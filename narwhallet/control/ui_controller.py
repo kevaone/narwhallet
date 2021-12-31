@@ -19,7 +19,7 @@ from narwhallet.core.kex import KEXclient
 from narwhallet.core.kcl.file_utils import ConfigLoader
 from narwhallet.core.kcl.models.psbt_decoder import keva_psbt
 
-from narwhallet.core.kcl.models.cache import MCache
+from narwhallet.core.kcl.cache import MCache
 from narwhallet.core.kcl.models.wallet import MWallet
 from narwhallet.core.kcl.models.wallets import MWallets
 from narwhallet.core.kcl.models.address import MAddress

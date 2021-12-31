@@ -4,7 +4,7 @@ import bleach
 import re
 
 from narwhallet.control.shared import MShared
-from narwhallet.core.kcl.models.cache import MCache
+from narwhallet.core.kcl.cache import MCache
 
 
 class Feed():

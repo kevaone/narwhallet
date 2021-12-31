@@ -5,7 +5,7 @@ from narwhallet.control.web_controller import NarwhalletWebController
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.models.namespace import MNamespace
 from narwhallet.core.kws.kits.microblog import Feed
-from narwhallet.core.kcl.models.cache import MCache
+from narwhallet.core.kcl.cache import MCache
 
 
 class _Api():

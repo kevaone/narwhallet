@@ -8,7 +8,7 @@ from narwhallet.core.kex import KEXclient
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
-from narwhallet.core.kcl.models.cache import MCache
+from narwhallet.core.kcl.cache import MCache
 from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kcl.models.psbt_decoder import keva_psbt
 from narwhallet.core.kcl.models.wallets import MWallets
