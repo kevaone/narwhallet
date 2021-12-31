@@ -62,13 +62,11 @@ class MTransactionInput(MBase):
         self._sequence = sequence
 
     def from_sql(self, vin):
-        _s = MScriptSig()
         self._idx = vin[0]
         self.set_txid(vin[1])
         self.set_vout(vin[2])
-        _s.set_asm(vin[3])
-        _s.set_hex(vin[4])
-        self.set_scriptSig(_s)
+        self.scriptSig.set_asm(vin[3])
+        self.scriptSig.set_hex(vin[4])
         self._type = vin[5]
         if vin[6] != '':
             self.set_coinbase(vin[6])
@@ -81,21 +79,15 @@ class MTransactionInput(MBase):
         if 'coinbase' in json:
             if json['coinbase'] is not None:
                 self.set_coinbase(json['coinbase'])
-                _s = MScriptSig()
-                self.set_scriptSig(_s)
             else:
                 self.set_txid(json['txid'])
                 self.set_vout(json['vout'])
-                _s = MScriptSig()
-                _s.from_json(json['scriptSig'])
-                self.set_scriptSig(_s)
+                self.scriptSig.from_json(json['scriptSig'])
                 self.set_txinwitness(json['txinwitness'])
         else:
             self.set_txid(json['txid'])
             self.set_vout(json['vout'])
-            _s = MScriptSig()
-            _s.from_json(json['scriptSig'])
-            self.set_scriptSig(_s)
+            self.scriptSig.from_json(json['scriptSig'])
             if 'txinwitness' in json:
                 self.set_txinwitness(json['txinwitness'])
         self.set_sequence(json['sequence'])

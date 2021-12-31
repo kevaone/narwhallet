@@ -4,7 +4,6 @@ from typing import List
 from narwhallet.core.kcl.models.transaction import MTransaction
 from narwhallet.core.kcl.models.transaction_input import MTransactionInput
 from narwhallet.core.kcl.models.transaction_output import MTransactionOutput
-from narwhallet.core.kcl.models.script_sig import MScriptSig
 from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kcl.models.wallet import MWallet
 from narwhallet.core.ksc import Scripts
@@ -86,7 +85,6 @@ class MTransactionBuilder(MTransaction):
 
     def add_input(self, value: int, address: str, txid: str, vout_index: int):
         _vin = MTransactionInput()
-        _ss = MScriptSig()
         _ads = address.split(':')
         _vin.tb_address = int(_ads[0])
         _vin.tb_address_chain = int(_ads[1])
@@ -94,7 +92,6 @@ class MTransactionBuilder(MTransaction):
         _vin.set_sequence('ffffffff')
         _vin.set_txid(txid)
         _vin.set_vout(vout_index)
-        _vin.set_scriptSig = _ss
 
         self.add_vin(_vin)
 

@@ -6,7 +6,6 @@ from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.models.psbt_types import record_types
 from narwhallet.core.kcl.models.transaction_builder import MTransactionBuilder
 from narwhallet.core.kcl.models.transaction_input import MTransactionInput
-from narwhallet.core.kcl.models.script_sig import MScriptSig
 from narwhallet.core.kcl.models.transaction_output import MTransactionOutput
 
 
@@ -72,17 +71,15 @@ class keva_psbt():
                 self.psbt_inputs = self.read_csuint(s_val)
                 for _ in range(self.psbt_inputs):
                     _vin = MTransactionInput()
-                    _script_sig = MScriptSig()
                     (_vin.set_txid(Ut.bytes_to_hex(
                                       Ut.reverse_bytes(s_val.read(32)))))
                     _vin.set_vout(Ut.bytes_to_int(s_val.read(4), 'little'))
                     _script_size = self.read_csuint(s_val)
-                    (_script_sig.set_hex(
+                    (_vin.scriptSig.set_hex(
                         Ut.bytes_to_hex(s_val.read(_script_size))))
-                    if _script_sig.hex == '':
-                        _script_sig.set_hex(None)
+                    if _vin.scriptSig.hex == '':
+                        _vin.scriptSig.set_hex(None)
 
-                    _vin.set_scriptSig(_script_sig)
                     _vin.set_sequence(Ut.bytes_to_hex(s_val.read(4)))
                     self.tx.add_vin(_vin)
 
