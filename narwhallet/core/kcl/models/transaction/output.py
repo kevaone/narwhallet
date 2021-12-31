@@ -1,9 +1,8 @@
 import json
-from narwhallet.core.kcl.models._base import MBase
-from narwhallet.core.kcl.models.script_pubkey import MScriptPubKey
+from narwhallet.core.kcl.models.transaction.script_pubkey import MScriptPubKey
 
 
-class MTransactionOutput(MBase):
+class MTransactionOutput():
     def __init__(self):
         self._n: int = None
         self._value: float = None

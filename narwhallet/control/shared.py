@@ -15,11 +15,11 @@ from narwhallet.core.kcl.cache import MCache
 from narwhallet.core.kcl.models.wallet import MWallet
 from narwhallet.core.kcl.models.addresses import MAddresses
 from narwhallet.core.kcl.models.address import MAddress
-from narwhallet.core.kcl.models.psbt_decoder import keva_psbt
+from narwhallet.core.kcl.models.transaction import keva_psbt
 from narwhallet.core.kcl.models.transaction import MTransaction
-from narwhallet.core.kcl.models.transaction_input import MTransactionInput
-from narwhallet.core.kcl.models.transaction_output import MTransactionOutput
-from narwhallet.core.kcl.models.script_pubkey import MScriptPubKey
+from narwhallet.core.kcl.models.transaction import MTransactionInput
+from narwhallet.core.kcl.models.transaction import MTransactionOutput
+from narwhallet.core.kcl.models.transaction import MScriptPubKey
 
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
 

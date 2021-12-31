@@ -1,10 +1,10 @@
 import math
 from typing import List
 # from narwhallet.control.shared import MShared
-from narwhallet.core.kcl.models.transaction import MTransaction
-from narwhallet.core.kcl.models.transaction_input import MTransactionInput
-from narwhallet.core.kcl.models.transaction_output import MTransactionOutput
-from narwhallet.core.kcl.models.builder.sighash import SIGHASH_TYPE
+from narwhallet.core.kcl.models.transaction.transaction import MTransaction
+from narwhallet.core.kcl.models.transaction.input import MTransactionInput
+from narwhallet.core.kcl.models.transaction.output import MTransactionOutput
+from narwhallet.core.kcl.models.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kcl.models.wallet import MWallet
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut

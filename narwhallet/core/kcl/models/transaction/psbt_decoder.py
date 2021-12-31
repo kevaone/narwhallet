@@ -3,10 +3,10 @@ from io import BytesIO
 
 from narwhallet.core.ksc.utils import Ut
 
-from narwhallet.core.kcl.models.psbt_types import record_types
-from narwhallet.core.kcl.models.transaction_builder import MTransactionBuilder
-from narwhallet.core.kcl.models.transaction_input import MTransactionInput
-from narwhallet.core.kcl.models.transaction_output import MTransactionOutput
+from narwhallet.core.kcl.models.transaction.psbt_types import record_types
+from narwhallet.core.kcl.models.transaction.transaction_builder import MTransactionBuilder
+from narwhallet.core.kcl.models.transaction.input import MTransactionInput
+from narwhallet.core.kcl.models.transaction.output import MTransactionOutput
 
 
 class keva_psbt():

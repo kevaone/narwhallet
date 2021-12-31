@@ -1,8 +1,7 @@
 from typing import List
-from narwhallet.core.kcl.models._base import MBase
 
 
-class MScriptPubKey(MBase):
+class MScriptPubKey():
     def __init__(self):
         self._asm: str = None
         self._hex: str = None

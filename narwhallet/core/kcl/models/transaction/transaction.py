@@ -1,11 +1,10 @@
 import time
 from typing import List
-from narwhallet.core.kcl.models._base import MBase
-from narwhallet.core.kcl.models.transaction_input import MTransactionInput
-from narwhallet.core.kcl.models.transaction_output import MTransactionOutput
+from narwhallet.core.kcl.models.transaction.input import MTransactionInput
+from narwhallet.core.kcl.models.transaction.output import MTransactionOutput
 
 
-class MTransaction(MBase):
+class MTransaction():
     def __init__(self):
         self._txid: str = None
         self._hash: str = None

@@ -1,7 +1,6 @@
-from narwhallet.core.kcl.models._base import MBase
 
 
-class MScriptSig(MBase):
+class MScriptSig():
     def __init__(self):
         self._asm: str = None
         self._hex: str = None
