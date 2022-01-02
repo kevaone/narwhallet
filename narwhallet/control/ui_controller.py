@@ -1147,9 +1147,8 @@ class NarwhalletController():
                                          int(_i_t[1]))
         else:
             _data = self.ui.u_tab.thl_bcl.text()
-            _signature = _w.sign_message(_index,
-                                         MShared.load_message_file(_data),
-                                         int(_i_t[1]))
+            _data = Ut.sha256(MShared.load_message_file(_data))
+            _signature = _w.sign_message(_index, _data, int(_i_t[1]))
         self.ui.u_tab.ss_e.setPlainText(_signature)
         return True
 
@@ -1160,6 +1159,7 @@ class NarwhalletController():
                                             self.ui.u_tab.vm_e.toPlainText())
         else:
             _data = MShared.load_message_file(self.ui.u_tab.vthl_bcl.text())
+            _data = Ut.sha256(MShared.load_message_file(_data))
             _v = WalletUtils.verify_message(self.ui.u_tab.vs_e.toPlainText(),
                                             self.ui.u_tab.va_e.toPlainText(),
                                             _data)
