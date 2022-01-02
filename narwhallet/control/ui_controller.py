@@ -1158,7 +1158,7 @@ class NarwhalletController():
                                             self.ui.u_tab.va_e.toPlainText(),
                                             self.ui.u_tab.vm_e.toPlainText())
         else:
-            _data = MShared.load_message_file(self.ui.u_tab.vthl_bcl.text())
+            _data = self.ui.u_tab.vthl_bcl.text()
             _data = Ut.sha256(MShared.load_message_file(_data))
             _v = WalletUtils.verify_message(self.ui.u_tab.vs_e.toPlainText(),
                                             self.ui.u_tab.va_e.toPlainText(),
