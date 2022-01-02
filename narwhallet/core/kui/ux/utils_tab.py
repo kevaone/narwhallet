@@ -22,6 +22,8 @@ class Ui_UtilsTab(QObject):
         self.wallet_combo = WalletComboBox()
         self.hl_0 = QHBoxLayout()
         self.address_combo = AddressComboBox()
+        self.thl_bcpl = QLabel(self.sign_tab)
+        self.thl_bcp = QLineEdit(self.sign_tab)
         self.thl_a = QHBoxLayout()
         self.thl_ac = QRadioButton(self.tabUtils)
         self.hl_1a = QHBoxLayout()
@@ -40,7 +42,7 @@ class Ui_UtilsTab(QObject):
         self.verticalLayout_2 = QVBoxLayout(self.verify_tab)
         self.hl_3 = QHBoxLayout()
         self.va_label = QLabel(self.verify_tab)
-        self.va_e = QPlainTextEdit(self.verify_tab)
+        self.va_e = QLineEdit(self.verify_tab)
         self.vthl_a = QHBoxLayout()
         self.vthl_ac = QRadioButton(self.tabUtils)
         self.hl_4a = QHBoxLayout()
@@ -73,11 +75,12 @@ class Ui_UtilsTab(QObject):
         self.mvs_result = QPlainTextEdit(self.misc_tab)
 
         self.tabUtils.setObjectName('tabUtils')
+        self.thl_bcp.setReadOnly(True)
         self.thl_bcl.setEnabled(False)
         self.thl_bcb.setEnabled(False)
         self.thl_bcb.setText('browse')
+        self.ss_e.setReadOnly(True)
         self.ss_e.setMaximumHeight(65)
-        self.va_e.setMaximumHeight(45)
         self.vthl_bcl.setEnabled(False)
         self.vthl_bcb.setEnabled(False)
         self.vthl_bcb.setText('browse')
@@ -93,6 +96,8 @@ class Ui_UtilsTab(QObject):
         self.verticalLayout_1.addLayout(self.wallet_combo)
         self.address_combo.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
         self.verticalLayout_1.addLayout(self.address_combo)
+        self.verticalLayout_1.addWidget(self.thl_bcpl)
+        self.verticalLayout_1.addWidget(self.thl_bcp)
         self.thl_a.addWidget(self.thl_ac)
         self.verticalLayout_1.addLayout(self.thl_a)
         self.hl_1a.addWidget(self.sm_e)
@@ -167,6 +172,7 @@ class Ui_UtilsTab(QObject):
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
+        self.thl_bcpl.setText(_translate('tabUtils', 'Public Key:'))
         self.thl_ac.setText(_translate('tabUtils', 'Message:'))
         self.thl_bc.setText(_translate('tabUtils', 'File:'))
         self.ss_label.setText(_translate('tabUtils', 'Signature:'))

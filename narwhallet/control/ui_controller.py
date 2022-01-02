@@ -1121,14 +1121,24 @@ class NarwhalletController():
             _w = self.wallets.get_wallet_by_name(data)
             for index in range(0, _w.addresses.count):
                 add = _w.addresses.get_address_by_index(index)
-                self.ui.u_tab.address_combo.combo.addItem(add.address, str(index)+':1')
+                (self.ui.u_tab.address_combo.combo
+                 .addItem(add.address, str(index)+':1'))
             for index in range(0, _w.change_addresses.count):
                 add = _w.change_addresses.get_address_by_index(index)
-                self.ui.u_tab.address_combo.combo.addItem(add.address, str(index)+':0')
+                (self.ui.u_tab.address_combo.combo
+                 .addItem(add.address, str(index)+':0'))
         self.ui.u_tab.ss_e.setPlainText('')
 
     def sign_address_changed(self, _data: str):
         self.ui.u_tab.ss_e.setPlainText('')
+        if _data not in ('', '-'):
+            _n = self.ui.u_tab.wallet_combo.combo.currentText()
+            _w = self.wallets.get_wallet_by_name(_n)
+            _i_t = self.ui.u_tab.address_combo.combo.currentData().split(':')
+            _pub = _w.get_publickey_raw(int(_i_t[0]), int(_i_t[1]))
+            self.ui.u_tab.thl_bcp.setText(_pub)
+        else:
+            self.ui.u_tab.thl_bcp.setText('')
 
     def sign_message(self, _data: str):
         self.ui.u_tab.ss_e.setPlainText('')
@@ -1155,13 +1165,13 @@ class NarwhalletController():
     def verify_message(self, _data: str):
         if self.ui.u_tab.vthl_ac.isChecked() is True:
             _v = WalletUtils.verify_message(self.ui.u_tab.vs_e.toPlainText(),
-                                            self.ui.u_tab.va_e.toPlainText(),
+                                            self.ui.u_tab.va_e.text(),
                                             self.ui.u_tab.vm_e.toPlainText())
         else:
             _data = self.ui.u_tab.vthl_bcl.text()
             _data = Ut.sha256(MShared.load_message_file(_data))
             _v = WalletUtils.verify_message(self.ui.u_tab.vs_e.toPlainText(),
-                                            self.ui.u_tab.va_e.toPlainText(),
+                                            self.ui.u_tab.va_e.text(),
                                             _data)
         self.ui.u_tab.success_label.setText(_v)
 
