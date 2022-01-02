@@ -4,8 +4,7 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout,
                              QLabel, QComboBox, QSpacerItem, QSizePolicy,
                              QPushButton, QLineEdit, QFileDialog, QCheckBox,
                              QPlainTextEdit, QRadioButton, QTabWidget)
-from narwhallet.core.kui.ux.widgets.wallet_combobox import WalletComboBox
-from narwhallet.core.kui.ux.widgets.address_combobox import AddressComboBox
+from narwhallet.core.kui.ux.widgets import AddressComboBox, WalletComboBox
 
 
 class Ui_UtilsTab(QObject):
@@ -206,7 +205,7 @@ class Ui_UtilsTab(QObject):
     def _file_browse(self):
         return QFileDialog.getOpenFileName()
 
-    def sign_radio_clicked(self, checked):
+    def sign_radio_clicked(self, _checked):
         if self.thl_ac.isChecked() is True:
             self.sm_e.setEnabled(True)
             self.thl_bcl.setEnabled(False)
@@ -216,7 +215,7 @@ class Ui_UtilsTab(QObject):
             self.thl_bcl.setEnabled(True)
             self.thl_bcb.setEnabled(True)
 
-    def verify_radio_clicked(self, checked):
+    def verify_radio_clicked(self, _checked):
         if self.vthl_ac.isChecked() is True:
             self.vm_e.setEnabled(True)
             self.vthl_bcl.setEnabled(False)

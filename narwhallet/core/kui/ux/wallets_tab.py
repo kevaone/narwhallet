@@ -6,9 +6,9 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QFrame, QHBoxLayout,
                              QPlainTextEdit, QScrollArea, QSplitter,
                              QTabWidget)
 from narwhallet.control.shared import MShared
-from narwhallet.core.kui.ux.widgets.wallets_table import _wallets_table
-from narwhallet.core.kui.ux.widgets.wallets_addresses_table import _wallets_addr_tbl
-from narwhallet.core.kui.ux.widgets.wallets_transaction_table import _transaction_table
+from narwhallet.core.kui.ux.widgets import (_transaction_table,
+                                            _wallets_addr_tbl,
+                                            _wallets_table)
 from narwhallet.core.kcl.wallet.wallet import MWallet
 
 

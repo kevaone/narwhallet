@@ -2,9 +2,7 @@ from PyQt5 import QtCore
 from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QFrame, QHBoxLayout,
                              QLabel, QSpacerItem, QSizePolicy, QPushButton)
-
-from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
-from narwhallet.core.kui.ux.widgets.addressbook_table import _address_book_table
+from narwhallet.core.kui.ux.widgets import _address_book_table, _coin_dropdown
 
 
 class Ui_AddressBookTab(QObject):

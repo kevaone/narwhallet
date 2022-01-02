@@ -9,28 +9,24 @@ from narwhallet.control.shared import MShared
 # from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.file_utils import ConfigLoader
 from narwhallet.core.kcl.cache import MCache
-from narwhallet.core.kcl.wallet.wallets import MWallets
-from narwhallet.core.kcl.wallet.wallet import MWallet
-from narwhallet.core.kcl.addr_book import MBookAddresses
-from narwhallet.core.kcl.addr_book import MBookAddress
-
+from narwhallet.core.kcl.wallet import MWallet, MWallets
+from narwhallet.core.kcl.addr_book import MBookAddress, MBookAddresses
 from narwhallet.core.kex import KEXclient
-
 from narwhallet.core.kui.main import NarwhalletUI
-from narwhallet.core.kui.ux.dialogs.tx_builder_send import Ui_send_dlg
-from narwhallet.core.kui.ux.dialogs.create_wallet import Ui_create_wallet_dlg
-from narwhallet.core.kui.ux.dialogs.add_wallet_watch_address import Ui_add_watch_addr_dlg
-from narwhallet.core.kui.ux.dialogs.add_wallet_watch import Ui_add_wallet_watch_dlg
-from narwhallet.core.kui.ux.dialogs.restore_wallet import Ui_restore_wallet_dlg
-from narwhallet.core.kui.ux.dialogs.view_wallet_address import Ui_v_addr_dlg
-from narwhallet.core.kui.ux.dialogs.view_wallet_change_address import Ui_v_change_addr_dlg
-from narwhallet.core.kui.ux.dialogs.view_wallet_transaction import Ui_v_tx_dlg
-from narwhallet.core.kui.ux.dialogs.add_addressbook_item import Ui_add_ab_item_dlg
-from narwhallet.core.kui.ux.dialogs.view_addressbook_item import Ui_v_ab_item_dlg
-from narwhallet.core.kui.ux.dialogs.add_electrumx_peer import Ui_add_electrumx_peer_dlg
-from narwhallet.core.kui.ux.dialogs.lockbox import Ui_lockbox_dlg
-from narwhallet.core.kui.ux.dialogs.warning_dialog import Ui_warning_dlg
-from narwhallet.core.kui.ux.dialogs.add_namespace_favorite import Ui_add_ns_fav_dlg
+from narwhallet.core.kui.ux.dialogs import (Ui_add_ab_item_dlg,
+                                            Ui_add_electrumx_peer_dlg,
+                                            Ui_add_ns_fav_dlg,
+                                            Ui_add_wallet_watch_dlg,
+                                            Ui_add_watch_addr_dlg,
+                                            Ui_create_wallet_dlg,
+                                            Ui_lockbox_dlg,
+                                            Ui_restore_wallet_dlg,
+                                            Ui_send_dlg,
+                                            Ui_v_ab_item_dlg,
+                                            Ui_v_addr_dlg,
+                                            Ui_v_change_addr_dlg,
+                                            Ui_v_tx_dlg,
+                                            Ui_warning_dlg)
 
 
 # TODO Add time check to abort send dialogs if left open to long
@@ -42,15 +38,12 @@ class MDialogs():
                  wallets: MWallets, cache: MCache,
                  address_book: MBookAddresses):
         self.user_path = user_path
-        self._v = _view
-        self.ui = self._v.ui
+        self.ui = _view.ui
         self.kex = kex
         self.wallets = wallets
         self.cache = cache
         self.settings = narwhallet_settings
         self.address_book = address_book
-        # TODO Refine this
-        self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
 
     def populate_wallet_combo(self, combo):
         for _w in self.wallets.wallets:
@@ -122,7 +115,8 @@ class MDialogs():
     def create_namespace_key_send_dialog(self):
         _di = Ui_send_dlg()
         _di.setupUi(3)
-        self.populate_namespace_special_keys_combo(_di.special_keys_combo.combo)
+        (self
+         .populate_namespace_special_keys_combo(_di.special_keys_combo.combo))
         _di.wallets = self.wallets
         _di.cache = self.cache
         _di.kex = self.kex

@@ -3,10 +3,8 @@ from PyQt5.QtCore import QObject
 from PyQt5.QtWidgets import (QWidget, QFrame, QVBoxLayout, QHBoxLayout,
                              QLabel, QSplitter, QPushButton, QSpacerItem,
                              QSizePolicy)
-
-from narwhallet.core.kui.ux.widgets.auctions_table import _auctions_table
-from narwhallet.core.kui.ux.widgets.bids_table import _bids_table
-from narwhallet.core.kui.ux.widgets.bid_table import _bid_table
+from narwhallet.core.kui.ux.widgets import (_auctions_table, _bid_table,
+                                            _bids_table)
 
 
 class Ui_NFTTab(QObject):

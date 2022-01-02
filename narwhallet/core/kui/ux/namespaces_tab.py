@@ -4,9 +4,9 @@ from PyQt5.QtGui import QIcon, QPalette, QPixmap
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QFrame, QHBoxLayout,
                              QLabel, QSpacerItem, QSizePolicy, QPushButton,
                              QSplitter)
-from narwhallet.core.kui.ux.widgets.widgets import _ns_value_textedit
-from narwhallet.core.kui.ux.widgets.namespaces_table import _namespaces_table
-from narwhallet.core.kui.ux.widgets.namespace_keys_list import _namespace_keys_list
+from narwhallet.core.kui.ux.widgets import (_namespace_keys_list,
+                                            _namespaces_table,
+                                            _ns_value_textedit)
 from narwhallet.control.shared import MShared
 
 

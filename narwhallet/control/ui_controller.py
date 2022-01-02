@@ -17,14 +17,10 @@ from narwhallet.core.kui.ux.widgets.generator import UShared
 
 from narwhallet.core.kex import KEXclient
 from narwhallet.core.kcl.file_utils import ConfigLoader
-from narwhallet.core.kcl.transaction import keva_psbt
-
 from narwhallet.core.kcl.cache import MCache
-from narwhallet.core.kcl.wallet.wallet import MWallet
-from narwhallet.core.kcl.wallet.wallets import MWallets
-from narwhallet.core.kcl.wallet.address import MAddress
+from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
 from narwhallet.core.kcl.addr_book import MBookAddresses
-from narwhallet.core.kcl.transaction import MTransaction
+from narwhallet.core.kcl.transaction import keva_psbt, MTransaction
 from narwhallet.core.kcl.wallet_utils import _wallet_utils as WalletUtils
 from narwhallet.core.ksc.utils import Ut
 

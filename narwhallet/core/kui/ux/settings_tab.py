@@ -5,10 +5,9 @@ from PyQt5.QtWidgets import (QComboBox, QWidget, QVBoxLayout, QFrame,
                              QHBoxLayout, QLabel, QSpacerItem,
                              QSizePolicy, QPushButton, QLineEdit,
                              QCheckBox, QPlainTextEdit, QTabWidget)
-
-from narwhallet.core.kui.ux.widgets.widgets import _ns_value_textedit
-from narwhallet.core.kui.ux.widgets.electrumx_peers_table import _electrumx_peers_table
-from narwhallet.core.kui.ux.widgets.ipfs_gateways_table import _ipfs_gateways_table
+from narwhallet.core.kui.ux.widgets import (_electrumx_peers_table,
+                                            _ipfs_gateways_table,
+                                            _ns_value_textedit)
 
 
 class Ui_SettingsTab(QObject):
