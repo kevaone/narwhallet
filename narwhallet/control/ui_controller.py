@@ -214,8 +214,7 @@ class NarwhalletController():
             self.ui.settings_tab.elxp_tbl.add_peer(peer[0], peer[1],
                                                    peer[2], peer[3])
 
-            _ = self.KEX.add_peer(peer[1], int(peer[2]),
-                                  peer[3] == 'True', peer[4] == 'True')
+            _ = self.KEX.add_peer(peer[1], int(peer[2]), peer[3], peer[4])
 
         if self.settings.electrumx_auto_connect:
             (self.ui.settings_tab.elxp_tbl

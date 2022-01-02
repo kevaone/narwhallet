@@ -28,8 +28,7 @@ class NarwhalletWebController():
         self.who = 'http://localhost:' + str(self.strap.port)
 
         for peer in self.settings.electrumx_peers:
-            _ = self.KEX.add_peer(peer[1], int(peer[2]),
-                                  peer[3] == 'True', peer[4] == 'True')
+            _ = self.KEX.add_peer(peer[1], int(peer[2]), peer[3], peer[4])
 
         self.KEX.active_peer = self.settings.primary_peer
         if self.settings.electrumx_auto_connect:
