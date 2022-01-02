@@ -7,7 +7,7 @@
     "electrumx_auto_connect": true,
     "primary_peer": 0,
     "electrumx_peers": [
-        ["Kevacoin", "kex.keva.one", "50002", "True", "True"]
+        ["Kevacoin", "kex.keva.one", "50002", true, true]
     ],
     "primary_ipfs_gateway": 0,
     "ipfs_gateways": [
@@ -22,6 +22,6 @@
     ],
     "data_feeds": {
         "market_data": "",
-        "nft_data": ["/api/nft_raw", "keva.one", 443, "True", "True"]
+        "nft_data": ["/api/nft_raw", "keva.one", 443, true, true]
     }
 }

@@ -596,18 +596,13 @@ class MDialogs():
             peer[0] = _di.comboBox.currentText()
             peer[1] = _di.lineEdit.text()
             peer[2] = _di.lineEdit_2.text()
-            peer[3] = False if _di.checkBox.checkState() == 0 else True
-
-            _p = {'coin': peer[0],
-                  'host': peer[1],
-                  'port': peer[2], 'type': 'HTTP',
-                  'tls': peer[3],
-                  'ping': '0ms', 'status': 'disconnected'}
+            peer[3] = _di.checkBox.isChecked()
 
             self.settings.add_electrumx_peer(peer)
             _ = self.kex.add_peer(peer[1], int(peer[2]),
                                   bool(peer[3]), peer[4])
-            self.ui.settings_tab.elxp_tbl.add_peer(_p)
+            self.ui.settings_tab.elxp_tbl.add_peer(peer[0], peer[1],
+                                                   peer[2], peer[3])
 
             _dat = ConfigLoader(os.path.join(self.user_path, 'settings.json'))
             _dat.save(json.dumps(self.settings.to_dict(), indent=4).encode())
