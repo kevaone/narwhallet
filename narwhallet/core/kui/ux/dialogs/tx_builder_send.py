@@ -461,10 +461,10 @@ class Ui_send_dlg(QDialog):
                                    self.auction_info.nft_address.text())
 
         self.set_availible_usxo(False, True, self.ns_combo.combo.currentData())
-        _inp_sel, _need_change, _est_fee = self.bid_tx.select_inputs(True)
+        _inp_sel, _need_change, _est_fee = self.bid_tx.select_inputs()
 
         if _inp_sel is True:
-            _, _, _fv = self.bid_tx.get_current_values(True)
+            _, _, _fv = self.bid_tx.get_current_values()
             _cv = _fv - _est_fee
 
             if _need_change is True:
@@ -876,7 +876,7 @@ class Ui_send_dlg(QDialog):
             if self.mode == 8:
                 self.new_tx.txb_preimage(self.wallet,
                                          SIGHASH_TYPE.ALL_ANYONECANPAY, True)
-                _, _, _est_fee = self.new_tx.get_current_values(False)
+                _, _, _est_fee = self.new_tx.get_current_values()
             else:
                 self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)
 

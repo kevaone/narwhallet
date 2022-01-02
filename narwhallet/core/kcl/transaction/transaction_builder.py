@@ -1,6 +1,5 @@
 import math
 from typing import List
-# from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.transaction.transaction import MTransaction
 from narwhallet.core.kcl.transaction.input import MTransactionInput
 from narwhallet.core.kcl.transaction.output import MTransactionOutput
@@ -8,6 +7,8 @@ from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
+
+ZHASH = '0000000000000000000000000000000000000000000000000000000000000000'
 
 
 class MTransactionBuilder(MTransaction):
@@ -47,12 +48,10 @@ class MTransactionBuilder(MTransaction):
         _size = _base + (107 * in_count) + in_count
         _total_size = _size + 2
         _vsize = math.ceil((_base * 3 + _total_size) / 4)
-        # print('in_count', in_count, 'out_count', out_count)
-        # print('base', _base, 'size', _size, '_total_size',
-        #       _total_size, 'vsize', _vsize)
+
         return _total_size, _vsize
 
-    def get_current_values(self, isBid: bool = False):
+    def get_current_values(self):
         _i = 0
         _o = 0
         _f = 0
@@ -63,9 +62,6 @@ class MTransactionBuilder(MTransaction):
         for vo in self.vout:
             _o += vo.value
 
-        # if isBid is True:
-        #     print('hit bid')
-
         _f = _i - _o
         return _i, _o, _f
 
@@ -74,7 +70,6 @@ class MTransactionBuilder(MTransaction):
         try:
             _sh = Scripts.AddressScriptHash(address)
             _sh = Scripts.compile(_sh, True)
-            # _sh = Scripts.P2SHAddressScriptHash.compile([address], True)
             _vout.set_value(value)
             _vout.scriptPubKey.set_hex(_sh)
             self.add_vout(_vout)
@@ -95,13 +90,13 @@ class MTransactionBuilder(MTransaction):
 
         self.add_vin(_vin)
 
-    def select_inputs(self, isBid: bool = False):
+    def select_inputs(self):
         _est_fee = 0
         self.inputs_to_spend.sort(reverse=False, key=self.sort)
         _enough_inputs = False
         _change_flag = False
         for tx in self.inputs_to_spend:
-            _, _, fv = self.get_current_values(isBid)
+            _, _, fv = self.get_current_values()
             # print('iv', iv, 'ov', ov, 'fv', fv)
             _size, _vsize = self.get_size(len(self.vin) + 1, len(self.vout))
             _est_fee = self.fee * _vsize
@@ -159,7 +154,7 @@ class MTransactionBuilder(MTransaction):
 
             _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
         else:
-            _hash_cache = Ut.hex_to_bytes('0000000000000000000000000000000000000000000000000000000000000000')
+            _hash_cache = Ut.hex_to_bytes(ZHASH)
 
         return _hash_cache
 
@@ -171,7 +166,7 @@ class MTransactionBuilder(MTransaction):
                     Ut.hex_to_bytes(inp.sequence)
             _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
         else:
-            _hash_cache = Ut.hex_to_bytes('0000000000000000000000000000000000000000000000000000000000000000')
+            _hash_cache = Ut.hex_to_bytes(ZHASH)
 
         return _hash_cache
 
@@ -190,7 +185,7 @@ class MTransactionBuilder(MTransaction):
             _hash_cache = self.vout[idx]
             _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
         else:
-            _hash_cache = Ut.hex_to_bytes('0000000000000000000000000000000000000000000000000000000000000000')
+            _hash_cache = Ut.hex_to_bytes(ZHASH)
 
         return _hash_cache
 
@@ -243,9 +238,8 @@ class MTransactionBuilder(MTransaction):
 
         return _spre
 
-    def txb_preimage(self, wallet: MWallet, hash_type: SIGHASH_TYPE, ovr: bool = False):
-        # _n = self.combo_wallet.currentData()
-        # wallet = self.wallets.get_wallet_by_name(wallet_name)
+    def txb_preimage(self, wallet: MWallet, hash_type: SIGHASH_TYPE,
+                     ovr: bool = False):
         if ovr is False:
             self.input_signatures = []
 
@@ -259,7 +253,6 @@ class MTransactionBuilder(MTransaction):
             _sig = wallet.sign_message(_npk, _sighash, _npkc)
             _script = Scripts.P2WPKHScriptSig(_pk)
             _script = Scripts.compile(_script, True)
-            # _script = Scripts.P2WPKHScriptSig.compile([_pk], True)
             _vin_idx.scriptSig.set_hex(_script)
             (self.input_signatures.append(
                 [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
@@ -267,7 +260,6 @@ class MTransactionBuilder(MTransaction):
             _addr = wallet.get_address_by_index(_npk, False)
             _r = Scripts.AddressScriptHash(_addr)
             _r = Scripts.compile(_r, False)
-            # _r = Scripts.P2SHAddressScriptHash.compile([_addr], False)
             _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
             _ref = _ref + Ut.to_cuint(len(_r)) + _r
             self.input_ref_scripts.append(_ref)
@@ -286,7 +278,6 @@ class MTransactionBuilder(MTransaction):
         _pre.append(_outpoint)
         _s3 = Scripts.P2PKHRedeemScript(pk)
         _s3 = Scripts.compile(_s3, False)
-        # _s3 = Scripts.P2PKHRedeemScript.compile([pk])
         _pre.append(Ut.to_cuint(len(_s3)) + _s3)
 
         _pre.append(Ut.int_to_bytes(self.vin[i].tb_value, 8, 'little'))
@@ -305,7 +296,6 @@ class MTransactionBuilder(MTransaction):
         return _sighash
 
     def to_psbt(self) -> str:
-        # self.set_version(Ut.hex_to_bytes('00710000'))
         _pre = []
         _magic = '70736274'
         _seperator = 'ff'
@@ -355,7 +345,6 @@ class MTransactionBuilder(MTransaction):
         for p in _pre:
             _spre = _spre + p
 
-        # print('psbt', Ut.bytes_to_hex(_spre))
         return _spre
 
     def to_dict(self) -> dict:
