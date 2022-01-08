@@ -60,12 +60,8 @@ class MDialogs():
             combo.addItem(_abi, _aa)
 
     def populate_namespace_special_keys_combo(self, combo):
-        _keys = ConfigLoader(os.path.join(self.user_path,
-                                          'special_keys.json'))
-        _keys.load()
-
-        for _key in _keys.data:
-            _abi = _key + ' - ' + _keys.data[_key]['tooltip']
+        for _key in self.cache.ns.special_keys:
+            _abi = _key + ' - ' + self.cache.ns.special_keys[_key]['tooltip']
             combo.addItem(_abi, _key)
 
     def send_dialog(self, _di: Ui_send_dlg):

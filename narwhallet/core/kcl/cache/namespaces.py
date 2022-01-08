@@ -8,6 +8,14 @@ from narwhallet.core.kcl.cache.db_utils import SQLInterface
 class MNamespaces():
     def __init__(self, db_interface: SQLInterface):
         self.dbi = db_interface
+        self._special_keys: dict = {}
+
+    @property
+    def special_keys(self) -> dict:
+        return self._special_keys
+
+    def set_special_keys(self, special_keys: dict) -> None:
+        self._special_keys = special_keys
 
     @staticmethod
     def sort(item):
@@ -38,8 +46,7 @@ class MNamespaces():
         return _d2
 
     # TODO Move types to own class; stubbing as strings here for now
-    @staticmethod
-    def get_key_type(key, value) -> Optional[str]:
+    def get_key_type(self, key, value) -> Optional[str]:
         _type = None
         if key == '_KEVA_NS_':
             _type = 'root_ns'
@@ -61,6 +68,8 @@ class MNamespaces():
             _type = 'nft_auction'
         elif key[:4] == '0005' and len(key) == 68:
             _type = 'nft_confirm_sell'
+        elif key in self.special_keys:
+            _type = self.special_keys[key]['tooltip']
 
         return _type
 

@@ -185,6 +185,11 @@ class NarwhalletController():
 
         self.cache.interface.setup_tables()
 
+        _special_keys = ConfigLoader(os.path.join(self.user_path,
+                                                  'special_keys.json'))
+        _special_keys.load()
+        self.cache.ns.set_special_keys(_special_keys.data)
+
         try:
             self.address_book.load_address_book(self.user_path)
             (self.ui.ab_tab.tbl_addr
@@ -969,6 +974,7 @@ class NarwhalletController():
         elif _type in ('nft_bid', 'reply', 'repost', 'reward'):
             _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
             self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
+            # self.ui.ns_tab.sel_ns_key_tx.setVisible(True)
 
         if _w.kind not in (1, 3):
             self.ui.ns_tab.btn_val_edit.setEnabled(True)
