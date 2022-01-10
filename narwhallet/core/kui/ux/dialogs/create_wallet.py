@@ -2,7 +2,8 @@ from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QComboBox, QPlainTextEdit,
                              QPushButton, QHBoxLayout, QLineEdit, QSpacerItem,
-                             QSizePolicy, QDialogButtonBox, QFrame, QDialog)
+                             QSizePolicy, QDialogButtonBox, QFrame, QDialog,
+                             QCheckBox)
 from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.control.shared import MShared
@@ -43,6 +44,9 @@ class Ui_create_wallet_dlg(QDialog):
         self.label_7 = QLabel(self)
         self.lineEdit1 = QLineEdit(self)
         self.buttonBox = QDialogButtonBox(self)
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.is_testnet = QCheckBox(self)
+        self.is_regnet = QCheckBox(self)
         self.label_3 = QLabel(self)
 
         self.setObjectName('create_dlg')
@@ -65,6 +69,8 @@ class Ui_create_wallet_dlg(QDialog):
         self.adv_label_p.setVisible(False)
         self.adv_label.setVisible(False)
         self.adv_f.setVisible(False)
+        self.is_testnet.setVisible(False)
+        self.is_regnet.setVisible(False)
         self.lineEdit.setEchoMode(QLineEdit.Password)
         self.lineEdit1.setEchoMode(QLineEdit.Password)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
@@ -97,6 +103,10 @@ class Ui_create_wallet_dlg(QDialog):
         self.adv_f_vl.addLayout(self.horizontalLayout_4)
         self.adv_f_vl.addWidget(self.label_3)
         self.verticalLayout.addWidget(self.adv_f)
+        self.horizontalLayout_5.addWidget(self.is_testnet)
+        self.horizontalLayout_5.addWidget(self.is_regnet)
+        self.horizontalLayout_5.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
+        self.verticalLayout.addLayout(self.horizontalLayout_5)
         self.verticalLayout.addWidget(self.buttonBox)
 
         self._init_wallet()
@@ -110,6 +120,8 @@ class Ui_create_wallet_dlg(QDialog):
         self.lineEdit1.textChanged.connect(self._test_password_match)
         self.comboBox.currentTextChanged.connect(self._set_coin)
         self.comboBox1.currentTextChanged.connect(self.set_wallet_type)
+        self.is_testnet.clicked.connect(self._set_testnet)
+        self.is_regnet.clicked.connect(self._set_regnet)
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
         self.adv_label_p.clicked.connect(self._display_advanced)
 
@@ -127,6 +139,8 @@ class Ui_create_wallet_dlg(QDialog):
         self.adv_label.setText(_translate('create_dlg', 'Advanced'))
         self.label_3.setText(_translate('create_dlg',
                                         '* = Optional Mnemonic Seed Password'))
+        self.is_testnet.setText(_translate('create_dlg', 'Test Net'))
+        self.is_regnet.setText(_translate('create_dlg', 'Reg Test'))
 
     @staticmethod
     def set_buttons():
@@ -145,7 +159,12 @@ class Ui_create_wallet_dlg(QDialog):
 
     def ret_wallet(self) -> MWallet:
         self._w.set_bip('bip49')
-        self._w.set_coin(self.comboBox.currentText().upper())
+        if self.is_testnet.isChecked():
+            self._w.set_coin('KEVACOIN_TESTNET')
+        elif self.is_regnet.isChecked():
+            self._w.set_coin('KEVACOIN_REGTEST')
+        else:
+            self._w.set_coin(self.comboBox.currentText().upper())
 
         if (self._w.mnemonic is None
            and self.plainTextEdit.toPlainText() != ''):
@@ -204,3 +223,11 @@ class Ui_create_wallet_dlg(QDialog):
             self.buttonBox.button(_b_ok).setEnabled(True)
         else:
             self.buttonBox.button(_b_ok).setEnabled(False)
+
+    def _set_testnet(self, data):
+        if data is True and self.is_regnet.isChecked():
+            self.is_regnet.setChecked(False)
+
+    def _set_regnet(self, data):
+        if data is True and self.is_testnet.isChecked():
+            self.is_testnet.setChecked(False)

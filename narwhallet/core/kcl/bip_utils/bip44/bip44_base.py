@@ -93,6 +93,7 @@ class Bip44Coins(Enum):
     DASH_TESTNET = auto(),
     DOGECOIN_TESTNET = auto(),
     KEVACOIN_TESTNET = auto(),
+    KEVACOIN_REGTEST = auto(),
     LITECOIN_TESTNET = auto(),
     ZCASH_TESTNET = auto(),
 
@@ -176,6 +177,7 @@ class Bip44BaseConst:
             Bip44Coins.DASH_TESTNET: 1,
             Bip44Coins.DOGECOIN_TESTNET: 1,
             Bip44Coins.KEVACOIN_TESTNET: 1,
+            Bip44Coins.KEVACOIN_REGTEST: 1,
             Bip44Coins.LITECOIN_TESTNET: 1,
             Bip44Coins.ZCASH_TESTNET: 1,
         }

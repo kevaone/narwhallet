@@ -47,6 +47,7 @@ class Bip49Const:
             Bip44Coins.DOGECOIN_TESTNET: Bip49DogecoinTestNet,
             Bip44Coins.KEVACOIN: Bip49KevacoinMainNet,
             Bip44Coins.KEVACOIN_TESTNET: Bip49KevacoinTestNet,
+            Bip44Coins.KEVACOIN_REGTEST: Bip49KevacoinRegTest,
             Bip44Coins.LITECOIN: Bip49LitecoinMainNet,
             Bip44Coins.LITECOIN_TESTNET: Bip49LitecoinTestNet,
             Bip44Coins.ZCASH: Bip49ZcashMainNet,

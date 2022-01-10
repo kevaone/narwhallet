@@ -162,6 +162,16 @@ Bip49KevacoinTestNet: BipCoinConf = BipCoinConf(
     bip32_type=Bip32Types.SECP256K1,
     addr_conf={"net_ver": b"\x41", "hrp": "tkva"},
     addr_type=AddrTypes.P2SH)
+# Configuration for Kevacoin reg test
+Bip49KevacoinRegTest: BipCoinConf = BipCoinConf(
+    coin_name=CoinNames("Kevacoin RegTest", "KVA"),
+    is_testnet=True,
+    def_path=NOT_HARDENED_DEF_PATH,
+    key_net_ver=KeyNetVersions(b"0488b21e", b"04358394"),
+    wif_net_ver=b"\x3a",
+    bip32_type=Bip32Types.SECP256K1,
+    addr_conf={"net_ver": b"\x39", "hrp": "rkva"},
+    addr_type=AddrTypes.P2SH)
 
 # Configuration for Litecoin main net
 Bip49LitecoinMainNet: BipLitecoinConf = BipLitecoinConf(
