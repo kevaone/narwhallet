@@ -370,10 +370,10 @@ Bip44KevacoinRegTest: BipCoinConf = BipCoinConf(
     coin_name=CoinNames("Kevacoin RegTest", "KVA"),
     is_testnet=True,
     def_path=NOT_HARDENED_DEF_PATH,
-    key_net_ver=KeyNetVersions(b"0488b21e", b"0488ade4"),
-    wif_net_ver=b"\x3a",
+    key_net_ver=KeyNetVersions(b"0488b21e", b"04358394"),
+    wif_net_ver=b"\xef",
     bip32_type=Bip32Types.SECP256K1,
-    addr_conf={"net_ver": b"\x37", "hrp": "rkva"},
+    addr_conf={"net_ver": b"\x6f", "hrp": "rkva"},
     addr_type=AddrTypes.P2PKH)
 
 # Configuration for Kusama (ed25519 SLIP-0010)
