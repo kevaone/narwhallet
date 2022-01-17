@@ -9,6 +9,5 @@ from narwhallet.core.kui.ux.dialogs.restore_wallet import Ui_restore_wallet_dlg
 from narwhallet.core.kui.ux.dialogs.tx_builder_send import Ui_send_dlg
 from narwhallet.core.kui.ux.dialogs.view_addressbook_item import Ui_v_ab_item_dlg
 from narwhallet.core.kui.ux.dialogs.view_wallet_address import Ui_v_addr_dlg
-from narwhallet.core.kui.ux.dialogs.view_wallet_change_address import Ui_v_change_addr_dlg
 from narwhallet.core.kui.ux.dialogs.view_wallet_transaction import Ui_v_tx_dlg
 from narwhallet.core.kui.ux.dialogs.warning_dialog import Ui_warning_dlg

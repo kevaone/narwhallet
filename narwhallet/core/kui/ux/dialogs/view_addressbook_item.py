@@ -1,11 +1,9 @@
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import (QVBoxLayout, QLineEdit, QLabel, QFrame,
-                             QHBoxLayout, QSpacerItem, QSizePolicy,
-                             QDialogButtonBox, QPlainTextEdit, QDialog)
-
+from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QLineEdit, QFrame,
+                             QSpacerItem, QSizePolicy,
+                             QDialogButtonBox, QPlainTextEdit)
 from narwhallet.core.kui.ux.widgets.qr_widget import QRImage
-from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
-from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.generator import UShared, HLSection
 
 
 class Ui_v_ab_item_dlg(QDialog):
@@ -15,56 +13,37 @@ class Ui_v_ab_item_dlg(QDialog):
         _b_ok = QDialogButtonBox.Ok
 
         self.verticalLayout = QVBoxLayout(self)
-        self.horizontalLayout = QHBoxLayout()
-        self.label = QLabel(self)
-        self.comboBox = _coin_dropdown(self)
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.label_2 = QLabel(self)
-        self.lineEdit = QLineEdit(self)
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.label_4 = QLabel(self)
-        self.lineEdit_3 = QPlainTextEdit(self)
-        self.horizontalLayout_3 = QHBoxLayout()
-        self.label_3 = QLabel(self)
-        self.lineEdit_2 = QLineEdit(self)
-        self.qr_hl1 = QHBoxLayout()
-        self.qr_d = QLabel(self)
-        self.qr_hl2 = QHBoxLayout()
-        self.horizontalLayout5 = QHBoxLayout()
+        # TODO Add coin display on address details
+        # self.coin = HLSection('Coin:', QLineEdit(self))
+        self.name = HLSection('Name:', QLineEdit(self))
+        self.label = HLSection('Label:', QLineEdit(self))
+        self.address = HLSection('Address:', QPlainTextEdit(self))
+        # TODO Fix centering
+        self.qr_code = HLSection('', None)
+        self.qr_data = HLSection('QR Data:', QLineEdit(self))
         self.buttonBox = QDialogButtonBox(self)
 
         self.setObjectName('view_ab_item_dlg')
         self.setMinimumSize(QtCore.QSize(425, 225))
-        self.label.setVisible(False)
-        self.comboBox.setCurrentText('Kevacoin')
-        self.comboBox.setVisible(False)
-        self.lineEdit_3.setReadOnly(True)
-        self.lineEdit_3.setFrameStyle(QFrame.NoFrame)
-        self.lineEdit_3.setMaximumHeight(28)
+        # self.coin.widgets[0].setReadOnly(True)
+        self.address.widgets[0].setReadOnly(True)
+        self.address.widgets[0].setFrameStyle(QFrame.NoFrame)
+        self.address.widgets[0].setMaximumHeight(28)
+        self.qr_data.widgets[0].setReadOnly(True)
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(_b_ok)
 
         self.verticalLayout.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addItem(QSpacerItem(5, 20, _sp_exp, _sp_min))
-        self.horizontalLayout.addWidget(self.label)
-        self.horizontalLayout.addWidget(self.comboBox)
-        self.verticalLayout.addLayout(self.horizontalLayout)
-        self.horizontalLayout_2.addWidget(self.label_2)
-        self.horizontalLayout_2.addWidget(self.lineEdit)
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
-        self.horizontalLayout_4.addWidget(self.label_4)
-        self.horizontalLayout_4.addWidget(self.lineEdit_3)
-        self.verticalLayout.addLayout(self.horizontalLayout_4)
-        self.horizontalLayout_3.addWidget(self.label_3)
-        self.horizontalLayout_3.addWidget(self.lineEdit_2)
-        self.verticalLayout.addLayout(self.horizontalLayout_3)
-        self.qr_hl1.addItem(QSpacerItem(10, 10, _sp_exp, _sp_min))
-        self.qr_hl1.addWidget(self.qr_d)
-        self.qr_hl1.addItem(QSpacerItem(10, 10, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.qr_hl1)
-        self.verticalLayout.addLayout(self.qr_hl2)
-        self.horizontalLayout5.addItem(QSpacerItem(40, 20, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.horizontalLayout5)
+        # self.verticalLayout.addLayout(self.coin)
+        self.verticalLayout.addLayout(self.name)
+        self.verticalLayout.addLayout(self.label)
+        self.verticalLayout.addLayout(self.address)
+        # self.qr_hl1.addItem(QSpacerItem(10, 10, _sp_exp, _sp_min))
+        self.verticalLayout.addLayout(self.qr_code)
+        # self.qr_hl1.addItem(QSpacerItem(10, 10, _sp_exp, _sp_min))
+        self.verticalLayout.addLayout(self.qr_data)
+        self.verticalLayout.addItem(QSpacerItem(10, 10, _sp_exp, _sp_min))
         self.verticalLayout.addWidget(self.buttonBox)
 
         self.retranslateUi()
@@ -75,10 +54,7 @@ class Ui_v_ab_item_dlg(QDialog):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('view_ab_item_dlg',
                                        'Narwhallet - Address Book'))
-        self.label.setText(_translate('view_ab_item_dlg', 'Coin:'))
-        self.label_2.setText(_translate('view_ab_item_dlg', 'Name:'))
-        self.label_3.setText(_translate('view_ab_item_dlg', 'Label:'))
-        self.label_4.setText(_translate('view_ab_item_dlg', 'Address:'))
 
     def set_qr(self, data: str):
-        self.qr_d.setPixmap(QRImage.make(data, image_factory=QRImage))
+        self.qr_code.label.setPixmap(QRImage.make(data, image_factory=QRImage))
+        self.qr_data.widgets[0].setText(data)

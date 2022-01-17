@@ -24,7 +24,6 @@ from narwhallet.core.kui.ux.dialogs import (Ui_add_ab_item_dlg,
                                             Ui_send_dlg,
                                             Ui_v_ab_item_dlg,
                                             Ui_v_addr_dlg,
-                                            Ui_v_change_addr_dlg,
                                             Ui_v_tx_dlg,
                                             Ui_warning_dlg)
 
@@ -368,8 +367,8 @@ class MDialogs():
         _result = _di.exec_()
 
         if _result != 0:
-            _a = _di.address_d.text()
-            _l = _di.label_d.text()
+            _a = _di.address.widgets[0].text()
+            _l = _di.label.widgets[0].text()
             if _a == '':
                 _a = None
 
@@ -388,7 +387,7 @@ class MDialogs():
         _result = _di.exec_()
 
         if _result != 0:
-            _name = _di.name_d.text()
+            _name = _di.name.widgets[0].text()
             if _name == '':
                 _name = None
         else:
@@ -403,7 +402,7 @@ class MDialogs():
         _result = _di.exec_()
 
         if _result != 0:
-            _shortcode = _di.name_d.text()
+            _shortcode = _di.shortcode.widgets[0].text()
             if _shortcode == '':
                 _shortcode = None
         else:
@@ -453,10 +452,10 @@ class MDialogs():
             _di.buttonBox.button(_b_cancel).setText('No')
 
         if msgType == 1:
-            _di.label_1.setPixmap(_di.error_pic)
+            _di.message_pic.label.setPixmap(_di.error_pic)
             _di.buttonBox.button(_b_cancel).setVisible(False)
         elif msgType == 2:
-            _di.label_1.setPixmap(_di.success_pic)
+            _di.message_pic.label.setPixmap(_di.success_pic)
             _di.buttonBox.button(_b_cancel).setVisible(False)
 
         _result = _di.exec()
@@ -493,28 +492,29 @@ class MDialogs():
         _tmp_label = self.ui.w_tab.tbl_addr.item(row, 5).text()
         _di.setupUi()
 
-        _di.label_d.setText(self.ui.w_tab.tbl_addr.item(row, 5).text())
-        (_di.address_d
+        (_di.label.widgets[0]
+         .setText(self.ui.w_tab.tbl_addr.item(row, 5).text()))
+        (_di.address.widgets[0]
          .setPlainText(self.ui.w_tab.tbl_addr.item(row, 1).text()))
-        (_di.details_received_d
+        (_di.recevied.widgets[0]
          .setText(self.ui.w_tab.tbl_addr.item(row, 2).text()))
-        (_di.details_sent_d
+        (_di.sent.widgets[0]
          .setText(self.ui.w_tab.tbl_addr.item(row, 3).text()))
-        (_di.details_balance_d
+        (_di.balance.widgets[0]
          .setText(self.ui.w_tab.tbl_addr.item(row, 4).text()))
-        _di.details_locked_d.setText('<todo>')
+        _di.locked.widgets[0].setText('<todo>')
 
         _di.set_qr(self.ui.w_tab.tbl_addr.item(row, 1).text())
 
         _result = _di.exec_()
 
         if _result != 0:
-            if _di.label_d.text() != _tmp_label:
-                _addr.set_label(_di.label_d.text())
+            if _di.label.widgets[0].text() != _tmp_label:
+                _addr.set_label(_di.label.widgets[0].text())
                 self.wallets.save_wallet(_w.name)
 
     def view_wallet_change_address_dialog(self, row, _column):
-        _di = Ui_v_change_addr_dlg()
+        _di = Ui_v_addr_dlg()
 
         _ws = self.ui.w_tab.tbl_w.selectedRanges()
         # HACK FIX for no wallet selected:
@@ -531,22 +531,25 @@ class MDialogs():
         _tmp_label = self.ui.w_tab.tbl_addr2.item(row, 5).text()
         _di.setupUi()
 
-        _di.label_d.setText(self.ui.w_tab.tbl_addr2.item(row, 5).text())
-        (_di.address_d
+        (_di.label.widgets[0]
+         .setText(self.ui.w_tab.tbl_addr2.item(row, 5).text()))
+        (_di.address.widgets[0]
          .setPlainText(self.ui.w_tab.tbl_addr2.item(row, 1).text()))
-        (_di.details_received_d
+        (_di.recevied.widgets[0]
          .setText(self.ui.w_tab.tbl_addr2.item(row, 2).text()))
-        (_di.details_sent_d
+        (_di.sent.widgets[0]
          .setText(self.ui.w_tab.tbl_addr2.item(row, 3).text()))
-        (_di.details_balance_d
+        (_di.balance.widgets[0]
          .setText(self.ui.w_tab.tbl_addr2.item(row, 4).text()))
-        _di.details_locked_d.setText('<todo>')
+        _di.locked.widgets[0].setText('<todo>')
+
+        _di.set_qr(self.ui.w_tab.tbl_addr2.item(row, 1).text())
 
         _result = _di.exec_()
 
         if _result != 0:
-            if _di.label_d.text() != _tmp_label:
-                _addr.set_label(_di.label_d.text())
+            if _di.label.widgets[0].text() != _tmp_label:
+                _addr.set_label(_di.label.widgets[0].text())
                 self.wallets.save_wallet(_w.name)
 
     def view_wallet_transaction_dialog(self, row, _column):
@@ -562,9 +565,9 @@ class MDialogs():
 
         _t = self.cache.tx.get_tx_by_txid(_tr)
 
-        _di.txid_d.setPlainText(_t.txid)
-        _di.hash_d.setPlainText(_t.hash)
-        _di.blockhash_d.setPlainText(_t.blockhash)
+        _di.txid.widgets[0].setPlainText(_t.txid)
+        _di.hash.widgets[0].setPlainText(_t.hash)
+        _di.block_hash.widgets[0].setPlainText(_t.blockhash)
         _di.hex_d.setPlainText(_t.hex)
         _t_dict = _t.to_dict()
         _di.json_d.setPlainText(json.dumps(_t_dict, indent=4))
@@ -589,10 +592,10 @@ class MDialogs():
         # TODO: check for exsistance before addition
         if _result != 0:
             peer = ['', '', 0, False, False]
-            peer[0] = _di.comboBox.currentText()
-            peer[1] = _di.lineEdit.text()
-            peer[2] = _di.lineEdit_2.text()
-            peer[3] = _di.checkBox.isChecked()
+            peer[0] = _di.coin.widgets[0].currentData()
+            peer[1] = _di.host.widgets[0].text()
+            peer[2] = _di.host.widgets[2].text()
+            peer[3] = _di.host.widgets[3].isChecked()
 
             self.settings.add_electrumx_peer(peer)
             _ = self.kex.add_peer(peer[1], int(peer[2]),
@@ -623,23 +626,23 @@ class MDialogs():
         _addr = self.ui.ab_tab.tbl_addr.item(row, 3).text()
         _addr_name = self.ui.ab_tab.tbl_addr.item(row, 2).text()
         _addr_label = self.ui.ab_tab.tbl_addr.item(row, 6).text()
-        _di.lineEdit.setText(_addr_name)
-        _di.lineEdit_3.setPlainText(_addr)
-        _di.lineEdit_2.setText(_addr_label)
+        _di.name.widgets[0].setText(_addr_name)
+        _di.address.widgets[0].setPlainText(_addr)
+        _di.label.widgets[0].setText(_addr_label)
 
         _di.set_qr(_addr)
         _result = _di.exec_()
 
         if _result != 0:
             _update_table = False
-            if _addr_label != _di.lineEdit_2.text():
+            if _addr_label != _di.label.widgets[0].text():
                 (self.address_book.addresses[_addr]
-                 .set_label(_di.lineEdit_2.text()))
+                 .set_label(_di.label.widgets[0].text()))
                 _update_table = True
 
-            if _addr_name != _di.lineEdit.text():
+            if _addr_name != _di.name.widgets[0].text():
                 (self.address_book.addresses[_addr]
-                 .set_name(_di.lineEdit.text()))
+                 .set_name(_di.name.widgets[0].text()))
                 _update_table = True
 
             if _update_table is True:

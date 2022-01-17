@@ -7,7 +7,7 @@ from narwhallet.control.shared import MShared
 
 
 class HLSection(QHBoxLayout):
-    def __init__(self, label: str, widgets) -> QHBoxLayout:
+    def __init__(self, label: str, widgets):
         super().__init__()
 
         self.label = QLabel()
@@ -21,8 +21,8 @@ class HLSection(QHBoxLayout):
         elif widgets is not None:
             self.widgets.append(widgets)
             self.addWidget(self.widgets[-1])
-        self.addItem(QSpacerItem(0, 0, QSizePolicy.MinimumExpanding,
-                                 QSizePolicy.Minimum))
+        # self.addItem(QSpacerItem(0, 0, QSizePolicy.MinimumExpanding,
+        #                          QSizePolicy.Minimum))
 
 
 class UShared():
