@@ -1,8 +1,22 @@
 from typing import List
 from PyQt5 import QtCore
 from PyQt5.QtGui import QColor, QPixmap
-from PyQt5.QtWidgets import QTableWidget, QTableWidgetItem, QLabel
+from PyQt5.QtWidgets import (QHBoxLayout, QTableWidget, QTableWidgetItem,
+                             QLabel, QSizePolicy, QSpacerItem)
 from narwhallet.control.shared import MShared
+
+
+class HLSection(QHBoxLayout):
+    def __init__(self, label: str, widget) -> QHBoxLayout:
+        super().__init__()
+
+        self.label = QLabel()
+        self.label.setText(label)
+        self.widget = widget
+        self.addWidget(self.label)
+        self.addWidget(self.widget)
+        self.addItem(QSpacerItem(0, 0, QSizePolicy.MinimumExpanding,
+                                 QSizePolicy.Minimum))
 
 
 class UShared():
