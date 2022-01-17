@@ -1,13 +1,11 @@
 from PyQt5 import QtCore
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import (QVBoxLayout, QLabel, QComboBox, QPlainTextEdit,
-                             QPushButton, QHBoxLayout, QLineEdit, QSpacerItem,
-                             QSizePolicy, QDialogButtonBox, QFrame, QDialog,
-                             QCheckBox)
-from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
+from PyQt5.QtWidgets import (QVBoxLayout, QComboBox, QPlainTextEdit, QDialog,
+                             QPushButton, QLineEdit, QSpacerItem, QFrame,
+                             QSizePolicy, QDialogButtonBox, QRadioButton)
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.control.shared import MShared
-from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.generator import UShared, HLSection
 
 
 class Ui_create_wallet_dlg(QDialog):
@@ -17,130 +15,110 @@ class Ui_create_wallet_dlg(QDialog):
         _transm_st = QtCore.Qt.SmoothTransformation
 
         self.verticalLayout = QVBoxLayout(self)
-        self.horizontalLayout_0 = QHBoxLayout()
-        self.label_4 = QLabel(self)
-        self.lineEdit_2 = QLineEdit(self)
-        self.horizontalLayout = QHBoxLayout()
-        self.label_5 = QLabel(self)
-        self.comboBox1 = QComboBox(self)
-        self.label = QLabel(self)
-        self.comboBox = _coin_dropdown(self)
-        self.label_6 = QLabel(self)
-        self.lineEdit_1 = QLineEdit(self)
-        self.horizontalLayout_2 = QHBoxLayout()
-        self.pushButton = QPushButton(self)
-        self.plainTextEdit = QPlainTextEdit(self)
-        self.horizontalLayout_3 = QHBoxLayout()
         self._ppic = QPixmap(MShared.get_resource_path('plus.png'))
         self._mpic = QPixmap(MShared.get_resource_path('minus.png'))
-        self.adv_hl = QHBoxLayout()
-        self.adv_label = QLabel(self)
-        self.adv_label_p = QPushButton(self)
-        self.adv_f = QFrame(self)
-        self.adv_f_vl = QVBoxLayout(self.adv_f)
-        self.label_2 = QLabel(self)
-        self.lineEdit = QLineEdit(self)
-        self.horizontalLayout_4 = QHBoxLayout()
-        self.label_7 = QLabel(self)
-        self.lineEdit1 = QLineEdit(self)
+        self.wallet_name = HLSection('Name:', QLineEdit(self))
+        self.options_label = HLSection('Options -', QPushButton(self))
+        self.options = QFrame(self)
+        self.options_verticalLayout = QVBoxLayout(self.options)
+        self.coin = HLSection('Coin:', QComboBox(self))
+        self.coin.widgets[0].addItem('Kevacoin', 'KEVACOIN')
+        self.coin_network_label = HLSection('Network:', None)
+        self.coin_network = HLSection('', [QRadioButton(self),
+                                      QRadioButton(self), QRadioButton(self),
+                                      QRadioButton(self)])
+        self.wallet_bip = HLSection('Bip:', QComboBox(self))
+        self.mnemonic_language = HLSection('Language:', QComboBox(self))
+        self.mnemonic_language.widgets[0].addItem('English', 'ENGLISH')
+        self.mnemonic_language.widgets[0].addItem('Italian', 'ITALIAN')
+        self.mnemonic_language.widgets[0].addItem('French', 'FRENCH')
+        self.mnemonic_language.widgets[0].addItem('Spanish', 'SPANISH')
+        self.mnemonic_language.widgets[0].addItem('Portuguese', 'PORTUGUESE')
+        self.mnemonic_language.widgets[0].addItem('Czech', 'CZECH')
+        self.mnemonic_language.widgets[0].addItem('Chinese Simplified',
+                                                  'CHINESE_SIMPLIFIED')
+        self.mnemonic_language.widgets[0].addItem('Chinese Traditional',
+                                                  'CHINESE_TRADITIONAL')
+        self.mnemonic_language.widgets[0].addItem('Korean', 'KOREAN')
+        self.mnemonic_words = HLSection('Words:', QComboBox(self))
+        self.mnemonic_words.widgets[0].addItem('12', 12)
+        self.mnemonic_words.widgets[0].addItem('15', 15)
+        self.mnemonic_words.widgets[0].addItem('18', 18)
+        self.mnemonic_words.widgets[0].addItem('21', 21)
+        self.mnemonic_words.widgets[0].addItem('24', 24)
+        self.mnemonic_words.widgets[0].setCurrentIndex(4)
+        self.mnemonic_passphrase = HLSection('Passphrase:', QLineEdit(self))
+        self.mnemonic_passphrase_confirm = HLSection('Confirm:',
+                                                     QLineEdit(self))
+        self.options_verticalLayout.addLayout(self.coin_network_label)
+        self.options_verticalLayout.addLayout(self.coin_network)
+        self.options_verticalLayout.addLayout(self.wallet_bip)
+        self.options_verticalLayout.addLayout(self.mnemonic_language)
+        self.options_verticalLayout.addLayout(self.mnemonic_words)
+        self.options_verticalLayout.addLayout(self.mnemonic_passphrase)
+        self.options_verticalLayout.addLayout(self.mnemonic_passphrase_confirm)
+        self.generate_mnemonic = HLSection('', QPushButton(self))
+        self.generate_mnemonic.widgets[0].setText('Generate Mnemonic')
+        self.mnemonic_label = HLSection('Mnemonic:', None)
+        self.mnemonic = QPlainTextEdit(self)
         self.buttonBox = QDialogButtonBox(self)
-        self.horizontalLayout_5 = QHBoxLayout()
-        self.is_testnet = QCheckBox(self)
-        self.is_regnet = QCheckBox(self)
-        self.label_3 = QLabel(self)
 
         self.setObjectName('create_dlg')
         self.resize(400, 475)
-        self.label_5.setVisible(False)
-        self.comboBox1.addItem('-')
-        self.comboBox1.addItem('bip49')
-        self.comboBox1.setCurrentText('bip49')
-        self.comboBox1.setVisible(False)
-        self.label.setVisible(False)
-        self.comboBox.setCurrentText('Kevacoin')
-        self.comboBox.setVisible(False)
-        self.label_6.setVisible(False)
-        self.lineEdit_1.setText('1')
-        self.lineEdit_1.setVisible(False)
+
+        self.coin_network.widgets[0].setText('mainnet')
+        self.coin_network.widgets[0].setChecked(True)
+        self.coin_network.widgets[1].setText('testnet')
+        self.coin_network.widgets[2].setText('signet')
+        self.coin_network.widgets[3].setText('regtest')
+        self.coin_network.widgets[1].setEnabled(False)
+        self.coin_network.widgets[2].setEnabled(False)
+        self.coin_network.widgets[3].setEnabled(False)
         self._ppic = self._ppic.scaledToWidth(15, _transm_st)
         self._mpic = self._mpic.scaledToWidth(15, _transm_st)
-        self.adv_label_p.setIcon(QIcon(self._ppic))
-        self.adv_label_p.setFlat(True)
-        self.adv_label_p.setVisible(False)
-        self.adv_label.setVisible(False)
-        self.adv_f.setVisible(False)
-        self.is_testnet.setVisible(False)
-        self.is_regnet.setVisible(False)
-        self.lineEdit.setEchoMode(QLineEdit.Password)
-        self.lineEdit1.setEchoMode(QLineEdit.Password)
+        self.options_label.widgets[0].setIcon(QIcon(self._ppic))
+        self.options_label.widgets[0].setFlat(True)
+        self.options_label.widgets[0].setEnabled(False)
+        self.options.setVisible(False)
+        self.mnemonic_passphrase.widgets[0].setEchoMode(QLineEdit.Password)
+        (self.mnemonic_passphrase_confirm.widgets[0]
+         .setEchoMode(QLineEdit.Password))
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(self.set_buttons())
 
         self.verticalLayout.addWidget(UShared.dialog_header_graphic())
         self.verticalLayout.addItem(QSpacerItem(5, 20, _sp_exp, _sp_min))
-        self.horizontalLayout_0.addWidget(self.label_4)
-        self.horizontalLayout_0.addWidget(self.lineEdit_2)
-        self.verticalLayout.addLayout(self.horizontalLayout_0)
-        self.horizontalLayout.addWidget(self.label_5)
-        self.horizontalLayout.addWidget(self.comboBox1)
-        self.horizontalLayout.addWidget(self.label)
-        self.horizontalLayout.addWidget(self.comboBox)
-        self.horizontalLayout.addWidget(self.label_6)
-        self.horizontalLayout.addWidget(self.lineEdit_1)
-        self.verticalLayout.addLayout(self.horizontalLayout)
-        self.horizontalLayout_2.addWidget(self.pushButton)
-        self.verticalLayout.addLayout(self.horizontalLayout_2)
-        self.verticalLayout.addWidget(self.plainTextEdit)
-        self.adv_hl.addWidget(self.adv_label)
-        self.adv_hl.addWidget(self.adv_label_p)
-        self.adv_hl.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.adv_hl)
-        self.horizontalLayout_3.addWidget(self.label_2)
-        self.horizontalLayout_3.addWidget(self.lineEdit)
-        self.adv_f_vl.addLayout(self.horizontalLayout_3)
-        self.horizontalLayout_4.addWidget(self.label_7)
-        self.horizontalLayout_4.addWidget(self.lineEdit1)
-        self.adv_f_vl.addLayout(self.horizontalLayout_4)
-        self.adv_f_vl.addWidget(self.label_3)
-        self.verticalLayout.addWidget(self.adv_f)
-        self.horizontalLayout_5.addWidget(self.is_testnet)
-        self.horizontalLayout_5.addWidget(self.is_regnet)
-        self.horizontalLayout_5.addItem(QSpacerItem(5, 5, _sp_exp, _sp_min))
-        self.verticalLayout.addLayout(self.horizontalLayout_5)
+        self.verticalLayout.addLayout(self.coin)
+        self.verticalLayout.addLayout(self.wallet_name)
+        self.verticalLayout.addLayout(self.options_label)
+        self.verticalLayout.addWidget(self.options)
+        self.verticalLayout.addLayout(self.generate_mnemonic)
+        self.verticalLayout.addLayout(self.mnemonic_label)
+        self.verticalLayout.addWidget(self.mnemonic)
         self.verticalLayout.addWidget(self.buttonBox)
 
         self._init_wallet()
         self.retranslateUi()
         self.buttonBox.accepted.connect(self.accept)
         self.buttonBox.rejected.connect(self.reject)
-        self.pushButton.clicked.connect(self._generate_mnemonic)
-        self.lineEdit_2.textChanged.connect(self._set_name)
-        self.plainTextEdit.textChanged.connect(self._mnemonic_changed)
-        self.lineEdit.textChanged.connect(self._test_password_match)
-        self.lineEdit1.textChanged.connect(self._test_password_match)
-        self.comboBox.currentTextChanged.connect(self._set_coin)
-        self.comboBox1.currentTextChanged.connect(self.set_wallet_type)
-        self.is_testnet.clicked.connect(self._set_testnet)
-        self.is_regnet.clicked.connect(self._set_regnet)
+        (self.generate_mnemonic.widgets[0]
+         .clicked.connect(self._generate_mnemonic))
+        self.wallet_name.widgets[0].textChanged.connect(self._set_name)
+        self.mnemonic.textChanged.connect(self._mnemonic_changed)
+        (self.mnemonic_passphrase.widgets[0]
+         .textChanged.connect(self._test_password_match))
+        (self.mnemonic_passphrase_confirm.widgets[0]
+         .textChanged.connect(self._test_password_match))
+        self.coin.widgets[0].currentTextChanged.connect(self._set_coin)
+        (self.wallet_bip.widgets[0]
+         .currentTextChanged.connect(self.set_wallet_bip))
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)
-        self.adv_label_p.clicked.connect(self._display_advanced)
+        self.options_label.widgets[0].clicked.connect(self._display_advanced)
 
     def retranslateUi(self):
         _translate = QtCore.QCoreApplication.translate
         self.setWindowTitle(_translate('create_dlg',
                                        'Narwhallet - Create Wallet'))
-        self.label_4.setText(_translate('create_dlg', 'Name:'))
-        self.label_6.setText(_translate('create_dlg', 'PreGen Addresses:'))
-        self.label.setText(_translate('create_dlg', 'Coin:'))
-        self.label_5.setText(_translate('create_dlg', 'Type:'))
-        self.label_2.setText(_translate('create_dlg', '*Password:'))
-        self.label_7.setText(_translate('create_dlg', 'Confirm:'))
-        self.pushButton.setText(_translate('create_dlg', 'Generate Mnemonic'))
-        self.adv_label.setText(_translate('create_dlg', 'Advanced'))
-        self.label_3.setText(_translate('create_dlg',
-                                        '* = Optional Mnemonic Seed Password'))
-        self.is_testnet.setText(_translate('create_dlg', 'Test Net'))
-        self.is_regnet.setText(_translate('create_dlg', 'Reg Test'))
 
     @staticmethod
     def set_buttons():
@@ -150,67 +128,58 @@ class Ui_create_wallet_dlg(QDialog):
         self._w = MWallet()
 
     def _display_advanced(self, _event):
-        if self.adv_f.isVisible() is True:
-            self.adv_f.setVisible(False)
-            self.adv_label_p.setIcon(QIcon(self._ppic))
+        if self.options.isVisible() is True:
+            self.options.setVisible(False)
+            self.options_label.widgets[0].setIcon(QIcon(self._ppic))
         else:
-            self.adv_f.setVisible(True)
-            self.adv_label_p.setIcon(QIcon(self._mpic))
+            self.options.setVisible(True)
+            self.options_label.widgets[0].setIcon(QIcon(self._mpic))
 
     def ret_wallet(self) -> MWallet:
+        self._w.set_coin(self.coin.widgets[0].currentData())
         self._w.set_bip('bip49')
-        if self.is_testnet.isChecked():
-            self._w.set_coin('KEVACOIN_TESTNET')
-        elif self.is_regnet.isChecked():
-            self._w.set_coin('KEVACOIN_REGTEST')
-        else:
-            self._w.set_coin(self.comboBox.currentText().upper())
 
         if (self._w.mnemonic is None
-           and self.plainTextEdit.toPlainText() != ''):
+           and self.mnemonic.toPlainText() != ''):
 
-            _m = self.plainTextEdit.toPlainText().replace('\n', ' ')
+            _m = self.mnemonic.toPlainText().replace('\n', ' ')
             self._w.set_mnemonic(_m)
 
-        self._w.generate_seed(self.lineEdit.text())
+        self._w.generate_seed(self.mnemonic_passphrase.widgets[0].text())
         return self._w
 
     def _test_password_match(self):
         _b_ok = QDialogButtonBox.Ok
 
-        if self.lineEdit.text() != self.lineEdit1.text():
+        if (self.mnemonic_passphrase.widgets[0].text() !=
+                self.mnemonic_passphrase_confirm.widgets[0].text()):
             self.buttonBox.button(_b_ok).setEnabled(False)
         else:
             self.buttonBox.button(_b_ok).setEnabled(True)
 
     def _generate_mnemonic(self):
         self._w.generate_mnemonic()
-        self.plainTextEdit.setPlainText(self._w.mnemonic)
+        self.mnemonic.setPlainText(self._w.mnemonic)
 
     def _mnemonic_changed(self):
         _b_ok = QDialogButtonBox.Ok
 
-        if len(self.plainTextEdit.toPlainText().strip().split(' ')) != 24:
+        if len(self.mnemonic.toPlainText().strip().split(' ')) != 24:
             self.buttonBox.button(_b_ok).setEnabled(False)
         else:
             self.buttonBox.button(_b_ok).setEnabled(True)
             self._set_name()
 
     def _set_coin(self):
-        self._w.set_coin(self.comboBox.currentText().upper())
+        self._w.set_coin(self.coin.widgets[0].currentText().upper())
 
-    def set_wallet_type(self):
-        if self.comboBox1.currentText() == 'bip44':
-            self.comboBox.set_coins(44)
-            self._w.set_bip('bip44')
-        elif self.comboBox1.currentText() == 'bip49':
-            self.comboBox.set_coins(49)
-            self._w.set_bip('bip49')
+    def set_wallet_bip(self):
+        self._w.set_bip(self.wallet_bip.widgets[0].currentText())
 
     def _set_name(self):
         _b_ok = QDialogButtonBox.Ok
 
-        _name = self.lineEdit_2.text().strip()
+        _name = self.wallet_name.widgets[0].text().strip()
         _filters = ['\\', '/', '\'', '"', ',', '*',
                     '?', '<', '>', ':', ';', '|']
         for _filter in _filters:
@@ -218,16 +187,8 @@ class Ui_create_wallet_dlg(QDialog):
                 self.buttonBox.button(_b_ok).setEnabled(False)
                 return
 
-        if _name != '' and self.plainTextEdit.toPlainText().strip() != '':
+        if _name != '' and self.mnemonic.toPlainText().strip() != '':
             self._w.set_name(_name)
             self.buttonBox.button(_b_ok).setEnabled(True)
         else:
             self.buttonBox.button(_b_ok).setEnabled(False)
-
-    def _set_testnet(self, data):
-        if data is True and self.is_regnet.isChecked():
-            self.is_regnet.setChecked(False)
-
-    def _set_regnet(self, data):
-        if data is True and self.is_testnet.isChecked():
-            self.is_testnet.setChecked(False)
