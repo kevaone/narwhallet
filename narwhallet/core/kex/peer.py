@@ -60,15 +60,17 @@ class _peer():
                 if data == b'':
                     break
 
-                if (_r.endswith(b'"}\n')
-                        or _r.endswith(b'}]\n')
-                        or _r.endswith(b']\n}\n')):
+                if (data.endswith(b'"}\n')
+                        or data.endswith(b'}]\n')
+                        or data.endswith(b']\n}\n')):
                     break
 
             if data == b'':
+                # TODO Add socket state check before connect/command replay
                 self.connect()
                 data = self.comm(command)
         except Exception as ex:
+            # TODO Better handle specific socket errors
             if ex == 'The read operation timed out':
                 print('time out, reattempting', ex)
                 self.connect()
