@@ -64,6 +64,14 @@ class MDialogs():
             combo.addItem(_abi, _key)
 
     def send_dialog(self, _di: Ui_send_dlg):
+        _warn_msg = 'You are about to add data to public blockchain!\n\n' \
+            'Please take care, once data is added it can not be removed and ' \
+            'anyone is able read it.'
+        if _di.mode not in [0, 1]:
+            _warn_reminder = self.warning_dialog(_warn_msg, False, 0)
+            if _warn_reminder == 0:
+                return
+
         _fee = MShared.get_fee_rate(self.kex)
         if _fee == -1:
             _ = self.warning_dialog('Could not get fee rate!',
