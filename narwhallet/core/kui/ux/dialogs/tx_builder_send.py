@@ -705,7 +705,8 @@ class Ui_send_dlg(QDialog):
         # self.address.setFrame(False)
         self.buttonBox.next.setVisible(False)
         self.buttonBox.back.setVisible(True)
-        self.buttonBox.send.setEnabled(True)
+        # self.buttonBox.send.setEnabled(True)
+        self.buttonBox.send.ani.start()
 
     def set_output(self):
         _locale = QLocale()
