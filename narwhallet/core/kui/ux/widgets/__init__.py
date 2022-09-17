@@ -5,7 +5,6 @@ from narwhallet.core.kui.ux.widgets.bid_table import _bid_table
 from narwhallet.core.kui.ux.widgets.bids_table import _bids_table
 from narwhallet.core.kui.ux.widgets.coin_dropdown import _coin_dropdown
 from narwhallet.core.kui.ux.widgets.electrumx_peers_table import _electrumx_peers_table
-from narwhallet.core.kui.ux.widgets.ipfs_gateways_table import _ipfs_gateways_table
 from narwhallet.core.kui.ux.widgets.namespace_keys_list import _namespace_keys_list
 from narwhallet.core.kui.ux.widgets.namespaces_table import _namespaces_table
 from narwhallet.core.kui.ux.widgets.widgets import _ns_value_textedit

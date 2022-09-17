@@ -9,20 +9,5 @@
     "electrumx_peers": [
         ["Kevacoin", "kex.keva.one", "50002", true, true]
     ],
-    "primary_ipfs_gateway": 0,
-    "ipfs_gateways": [
-        ["", "", "https://ipfs.io/ipfs/"],
-        ["", "", "https://dweb.link/ipfs/"],
-        ["", "", "https://gateway.ipfs.io/ipfs/"],
-        ["", "", "https://infura-ipfs.io/ipfs/"],
-        ["", "", "https://cloudflare-ipfs.com/ipfs/"],
-        ["", "", "https://astyanax.io/ipfs/"],
-        ["", "", "https://cf-ipfs.com/ipfs/"],
-        ["", "", "https://gateway.pinata.cloud/ipfs/"]
-    ],
-    "data_feeds": {
-        "market_data": "",
-        "nft_data": ["/api/nft_raw", "keva.one", 443, true, true]
-    },
     "enabled_coins": ["KEVACOIN"]
 }

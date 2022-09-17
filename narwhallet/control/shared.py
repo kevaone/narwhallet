@@ -1076,8 +1076,3 @@ class MShared():
             return (False, '', '', '', '')
 
         return (True, _ns, _key, _value, _address[0][0])
-
-    @staticmethod
-    def check_for_web_actions(cache: MCache) -> list:
-        _actions = cache.actions.all(0)
-        return _actions

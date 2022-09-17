@@ -11,7 +11,6 @@ class Scripts(Enum):
     DROP_TX_VOUT_CACHE = 'DROP TABLE tx_vout_cache'
     DROP_NS_CACHE = 'DROP TABLE ns_cache'
     DROP_NFT_CACHE = 'DROP TABLE nft_cache'
-    DROP_ACTION_CACHE = 'DROP TABLE action_cache'
     DROP_TX_IDX = 'DROP INDEX tx_cache_idx'
     DROP_TX_VIN_IDX = 'DROP INDEX tx_vin_cache_idx'
     DROP_TX_VOUT_IDX = 'DROP INDEX tx_vout_cache_idx'
@@ -41,9 +40,6 @@ class Scripts(Enum):
             [key] STRNIG, value STRING, special STRING, address STRING);'
     CREATE_NFT_CACHE = 'CREATE TABLE nft_cache \
         (tx STRING UNIQUE, data STRING);'
-    CREATE_ACTION_CACHE = 'CREATE TABLE action_cache \
-        (time DATETIME DEFAULT current_timestamp, tx STRING, \
-            [action] STRING, data STRING, state INTEGER DEFAULT (0));'
     SELECT_TX = 'SELECT txid FROM tx_cache WHERE txid = ?;'
     SELECT_TX_TIME = 'SELECT time FROM tx_cache WHERE txid = ?;'
     SELECT_TX_FULL = 'SELECT txid, hash, version, size, vsize, locktime, \
@@ -86,10 +82,6 @@ class Scripts(Enum):
     SELECT_NS_ROOT_TEST = 'SELECT ns FROM ns_cache \
         WHERE ns = ? AND [key] = "_KEVA_NS_";'
     SELECT_NFT = 'SELECT tx, data FROM nft_cache WHERE tx = ?;'
-    SELECT_ACTION_CACHE_ALL = 'SELECT time, tx, [action], data, state \
-        FROM action_cache WHERE state = ?;'
-    SELECT_ACTION_CACHE_ENTRY = 'SELECT time, tx, [action], data, state \
-        FROM action_cache WHERE tx = ? AND [action] = ?;'
     INSERT_TX = 'INSERT INTO tx_cache (txid, hash, version, size, vsize, \
         locktime, vin, vout, blockhash, confirmations, time, blocktime, \
             hex) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'
@@ -103,8 +95,6 @@ class Scripts(Enum):
     INSERT_NS = 'INSERT INTO ns_cache (block, n, txid, ns, op, [key] , value, \
         special, address) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);'
     INSERT_NFT = 'INSERT INTO nft_cache (tx, data) VALUES (?, ?);'
-    INSERT_ACTION_CACHE = 'INSERT INTO action_cache (tx, [action], data) \
-        VALUES (?, ?, ?);'
     UPDATE_TX = 'UPDATE tx_cache SET txid = ?, hash = ?, version = ?, \
         size = ?, vsize = ?, locktime = ?, vin = ?, vout = ?, \
             blockhash = ?, confirmations = ?, time = ?, blocktime = ?, \
@@ -114,12 +104,8 @@ class Scripts(Enum):
     UPDATE_NS_KEY_MARK = 'UPDATE ns_cache SET special = ? \
         WHERE ns = ? AND [key] = ? AND block < ?;'
     UPDATE_NFT = 'UPDATE nft_cache SET tx = ?, data = ? WHERE tx = ?;'
-    UPDATE_ACTION_CACHE = 'UPDATE action_cache SET state = ? \
-        WHERE time = ? AND tx = ? AND [action] = ?;'
     DELETE_TX = 'DELETE FROM tx_cache WHERE tx = ?;'
     DELETE_NS = 'DELETE FROM ns_cache WHERE ns = ?;'
     DELETE_NS_KEY = 'DELETE FROM ns_cache WHERE ns = ? AND [key] = ? \
         AND block < ?;'
     DELETE_NFT = 'DELETE FROM nft_cache WHERE tx = ?;'
-    DELETE_ACTION_CACHE = 'DELETE FROM action_cache WHERE tx = ? \
-        AND [action] = ?;'

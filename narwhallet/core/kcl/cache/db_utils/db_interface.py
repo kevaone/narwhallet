@@ -50,12 +50,6 @@ class SQLInterface():
             self.execute_sql(Scripts.CREATE_NFT_CACHE, (), 1)
             # print('created nft cache table')
 
-        _tmp = self.execute_sql(self.scripts.SELECT_ACTION_CACHE_ENTRY,
-                                ('', ''), 3)
-        if isinstance(_tmp, sqlite3.OperationalError):
-            self.execute_sql(self.scripts.CREATE_ACTION_CACHE, (), 1)
-            # print('created action cache table')
-
         _tmp = self.execute_sql(self.scripts.SELECT_IDX,
                                 ('tx_cache_idx', ), 3)
         if len(_tmp) == 0:
@@ -94,10 +88,6 @@ class SQLInterface():
         _tmp = self.execute_sql(self.scripts.DROP_NFT_CACHE, (), 1)
         if _tmp is True:
             self.execute_sql(Scripts.CREATE_NFT_CACHE, (), 1)
-
-        _tmp = self.execute_sql(self.scripts.DROP_ACTION_CACHE, (), 1)
-        if _tmp is True:
-            self.execute_sql(self.scripts.CREATE_ACTION_CACHE, (), 1)
 
         _tmp = self.execute_sql(self.scripts.DROP_TX_IDX, (), 1)
         # if _tmp is True:

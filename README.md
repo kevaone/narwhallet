@@ -32,12 +32,6 @@ python3 ./narwhallet_gui.py
 
 **Upon launch Narwhallet will create the directory .narwhalllet within you're home directory. You're wallets, address book, settings and cache are saved here.**
 
-After initial launch of narwhallet.py, Narwhallet Web may be launched.
-
-python3 ./narwhallet_web.py
-
-Once web launched can navigate to http://localhost:8099/
-
 It is also highly recommended you run your own instance of ElectrumX. If you have large wallets or large number of wallets you will probably be throttled updating against public peers; Running your own ElectrumX you can adjust for your needs.
 
 Can download ElectrumX here: https://github.com/kevacoin-project/electrumx
@@ -58,5 +52,3 @@ Track individual addresses
 The default ElectrumX peer, kex.keva.one, currently *does not support IPFS uploads*.
 
 While experimenting with alpha perform initial sych with the default peer unless running your own. Initial tx/ns cache building will be getting refined further to reduce calls and load to allow faster synch.
-
-While Narhwallet Web looks like https://keva.one it is different. Narhwallet Web is being rewritten to be more of an local ad-hoc experience.

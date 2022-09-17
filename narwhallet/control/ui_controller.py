@@ -7,7 +7,6 @@ from PyQt5.QtCore import QThread, Qt
 from PyQt5.QtGui import QClipboard
 
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
-from narwhallet.control.narwhallet_web_settings import MNarwhalletWebSettings
 from narwhallet.control.ui.dialogs import MDialogs
 from narwhallet.control.shared import MShared
 
@@ -34,7 +33,6 @@ class NarwhalletController():
         self.user_path: str = self.set_paths()
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
         self.settings: MNarwhalletSettings = MNarwhalletSettings()
-        self.web_settings: MNarwhalletWebSettings = MNarwhalletWebSettings()
         self.wallets: MWallets = MWallets()
         self.cache = MCache(self.cache_path)
         self.address_book: MBookAddresses = MBookAddresses()
@@ -177,12 +175,6 @@ class NarwhalletController():
                                                  'settings.json'))
         self.set_dat.load()
         self.settings.from_dict(self.set_dat.data)
-
-        self.wset_dat = ConfigLoader(os.path.join(self.user_path,
-                                                  'strap.json'))
-        self.wset_dat.load()
-        self.web_settings.from_dict(self.wset_dat.data)
-
         self.cache.interface.setup_tables()
 
         _special_keys = ConfigLoader(os.path.join(self.user_path,
@@ -201,18 +193,8 @@ class NarwhalletController():
 
         _sync: Dict[str, List[bool, bool, int]] = self.settings.sync
         self.ui.settings_tab.s_a_wallet.setChecked(_sync['wallets'][0])
-        self.ui.settings_tab.s_a_df.setChecked(_sync['datafeed'][0])
-        self.ui.settings_tab.s_a_fav.setChecked(_sync['favorites'][0])
         self.ui.settings_tab.s_t_wallet_l.setChecked(_sync['wallets'][1])
-        self.ui.settings_tab.s_t_df_l.setChecked(_sync['datafeed'][1])
-        self.ui.settings_tab.s_t_fav_l.setChecked(_sync['favorites'][1])
         self.ui.settings_tab.s_t_wallet_e.setText(str(_sync['wallets'][2]))
-        self.ui.settings_tab.s_t_df_e.setText(str(_sync['datafeed'][2]))
-        self.ui.settings_tab.s_t_fav_e.setText(str(_sync['favorites'][2]))
-
-        self.ui.settings_tab.nw_theme.setCurrentText(self.web_settings.theme)
-        self.ui.settings_tab.nw_host.setText(self.web_settings.ip)
-        self.ui.settings_tab.nw_port.setText(str(self.web_settings.port))
 
         self.KEX.active_peer = self.settings.primary_peer
         for peer in self.settings.electrumx_peers:
@@ -232,27 +214,6 @@ class NarwhalletController():
                           None, None, self.ex_c, self.settings.primary_peer)
         self.ui.settings_tab.elxp_tbl.update_active(self.settings.primary_peer)
 
-        for gateway in self.settings.ipfs_gateways:
-            self.ui.settings_tab.ipfs_tbl.add_gateway_from_list(gateway)
-        (self.ui.settings_tab.ipfs_tbl
-         .update_active(self.settings.primary_ipfs_gateway))
-
-        _datafeed = self.settings.data_feeds
-        if 'nft_data' in _datafeed:
-            self.ui.settings_tab.lineEdit_2.setText(_datafeed['nft_data'][1])
-            (self.ui.settings_tab.lineEdit_2a
-             .setText(str(_datafeed['nft_data'][2])))
-            self.ui.settings_tab.lineEdit_2b.setText(_datafeed['nft_data'][0])
-        else:
-            self.settings.data_feeds['nft_data'] = ['/api/nft_raw',
-                                                    'keva.one', 443,
-                                                    'True', 'True']
-            self.ui.settings_tab.lineEdit_2.setText(_datafeed['nft_data'][1])
-            (self.ui.settings_tab.lineEdit_2a
-             .setText(str(_datafeed['nft_data'][2])))
-            self.ui.settings_tab.lineEdit_2b.setText(_datafeed['nft_data'][0])
-            self.set_dat.save(json.dumps(self.settings.to_dict()))
-
         self.ui.w_tab.tbl_addr2.hideColumn(6)
         (self.ui.settings_tab.auto_lock_e
          .setText(str(self.settings.auto_lock_timer)))
@@ -265,14 +226,6 @@ class NarwhalletController():
             self.cache.interface.reset_tables()
             self.ui.w_tab.tbl_w.clearSelection()
             self.refresh_namespace_tab_data()
-
-    def check_for_web_actions(self):
-        _actions = MShared.check_for_web_actions(self.cache)
-        for _action in _actions:
-            if _action[2] == 'bid':
-                self.dialogs.bid_namespace_dialog(_action[1], _action)
-            else:
-                self.dialogs.action_dialog(_action)
 
     def threader(self, name: str, command, command_params_1,
                  command_params_2, work_done_func, optional: int = None):
@@ -315,17 +268,11 @@ class NarwhalletController():
                 self.lock_wallet(wallet.name)
 
             self.threader(i, time.sleep, 60, None, self.t_restart)
-        elif i == 'actions_timer':
-            self.check_for_web_actions()
-            self.threader(i, time.sleep, 2, None, self.t_restart)
         else:
             if self.settings.sync[i.replace('_timer', '')][1] is True:
                 if 'wallets' in i:
                     self._update_wallets()
-                elif 'datafeed' in i:
-                    print('datafeed sync')
-                elif 'favorites' in i:
-                    print('favorites sync')
+
             if self.settings.sync[i.replace('_timer', '')][2] >= 60:
                 self.threader(i, time.sleep,
                               self.settings.sync[i.replace('_timer', '')][2],
@@ -384,8 +331,6 @@ class NarwhalletController():
         self.ui.settings_tab.reset_cache.clicked.connect(self.reset_cache)
         (self.ui.settings_tab.elxp_tbl
          .cellClicked.connect(self.electrumx_peer_selected))
-        (self.ui.settings_tab.ipfs_tbl
-         .cellClicked.connect(self.ipfs_gateway_selected))
         # Dialogs
         self.ui.w_tab.btn_send.clicked.connect(self.dialogs.simple_send_dialog)
         (self.ui.ns_tab.btn_create
@@ -417,24 +362,9 @@ class NarwhalletController():
          .textChanged.connect(self.save_settings))
         self.ui.settings_tab.show_change.clicked.connect(self.show_change)
         self.ui.settings_tab.s_a_wallet.clicked.connect(self.save_settings)
-        self.ui.settings_tab.s_a_df.clicked.connect(self.save_settings)
-        self.ui.settings_tab.s_a_fav.clicked.connect(self.save_settings)
         self.ui.settings_tab.s_t_wallet_l.clicked.connect(self.save_settings)
-        self.ui.settings_tab.s_t_df_l.clicked.connect(self.save_settings)
-        self.ui.settings_tab.s_t_fav_l.clicked.connect(self.save_settings)
         (self.ui.settings_tab.s_t_wallet_e
          .textChanged.connect(self.save_settings))
-        self.ui.settings_tab.s_t_df_e.textChanged.connect(self.save_settings)
-        self.ui.settings_tab.s_t_fav_e.textChanged.connect(self.save_settings)
-        self.ui.settings_tab.lineEdit_2.textChanged.connect(self.save_settings)
-        (self.ui.settings_tab.lineEdit_2a
-         .textChanged.connect(self.save_settings))
-        (self.ui.settings_tab.lineEdit_2b
-         .textChanged.connect(self.save_settings))
-        (self.ui.settings_tab.nw_host
-         .textChanged.connect(self.save_web_settings))
-        (self.ui.settings_tab.nw_port
-         .textChanged.connect(self.save_web_settings))
 
         if self.settings.auto_lock_timer >= 30:
             self.threader('wallet_lock_timer', time.sleep,
@@ -444,15 +374,6 @@ class NarwhalletController():
             self.threader('wallets_timer', time.sleep,
                           self.settings.sync['wallets'][2],
                           None, self.t_restart)
-        # TODO Add config setting for interval
-        self.threader('actions_timer', time.sleep, 2, None, self.t_restart)
-        # self.threader('datafeed_timer', time.sleep,
-        #               self.settings.sync['datafeed'][2],
-        #               None, self.t_restart)
-        # if self.settings.sync['favorites'][2] >= 60:
-        #     self.threader('favorites_timer', time.sleep,
-        #                   self.settings.sync['favorites'][2],
-        #                   None, self.t_restart)
 
     def util_submit(self, _i):
         _selected = self.ui.u_tab.m_select.currentText()
@@ -511,19 +432,8 @@ class NarwhalletController():
                 int(self.ui.settings_tab.auto_lock_e.text())))
             _s = self.settings.sync
             _s['wallets'][0] = self.ui.settings_tab.s_a_wallet.isChecked()
-            _s['datafeed'][0] = self.ui.settings_tab.s_a_df.isChecked()
-            _s['favorites'][0] = self.ui.settings_tab.s_a_fav.isChecked()
             _s['wallets'][1] = self.ui.settings_tab.s_t_wallet_l.isChecked()
-            _s['datafeed'][1] = self.ui.settings_tab.s_t_df_l.isChecked()
-            _s['favorites'][1] = self.ui.settings_tab.s_t_fav_l.isChecked()
             _s['wallets'][2] = int(self.ui.settings_tab.s_t_wallet_e.text())
-            _s['datafeed'][2] = int(self.ui.settings_tab.s_t_df_e.text())
-            _s['favorites'][2] = int(self.ui.settings_tab.s_t_fav_e.text())
-            _df = self.settings.data_feeds
-            _df['nft_data'] = [self.ui.settings_tab.lineEdit_2b.text(),
-                               self.ui.settings_tab.lineEdit_2.text(),
-                               int(self.ui.settings_tab.lineEdit_2a.text()),
-                               True, True]
         except Exception:
             return False
         self.set_dat.save(json.dumps(self.settings.to_dict()))
@@ -534,14 +444,6 @@ class NarwhalletController():
          .set_show_change(self.ui.settings_tab.show_change.isChecked()))
         self.ui.w_tab.tabWidget_2.setTabVisible(2, self.settings.show_change)
         self.set_dat.save(json.dumps(self.settings.to_dict()))
-
-    def save_web_settings(self):
-        _h = self.ui.settings_tab.nw_host.text()
-        _p = self.ui.settings_tab.nw_port.text()
-        if _h != '' and _p != '':
-            self.web_settings.set_ip(_h)
-            self.web_settings.set_port(_p)
-            self.wset_dat.save(json.dumps(self.web_settings.to_dict()))
 
     def refresh_wallet_data_tabs(self, _c: str, _m: str, i: int):
         _n = self.ui.w_tab.tbl_w.item(i, 3).text()
@@ -737,12 +639,6 @@ class NarwhalletController():
             self.threader(_tn,
                           self.KEX.peers[self.settings.primary_peer].connect,
                           None, None, self.ex_c, self.settings.primary_peer)
-
-    def ipfs_gateway_selected(self, row: int, column: int):
-        if column == 7:
-            self.ui.settings_tab.ipfs_tbl.update_active(row)
-            self.settings.set_primary_ipfs_gateway(row)
-            self.set_dat.save(json.dumps(self.settings.to_dict()))
 
     def _update_wallets(self):
         for row in range(self.ui.w_tab.tbl_w.rowCount()):

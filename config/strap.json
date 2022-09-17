@@ -1,9 +1,0 @@
-{
-    "sync": {},
-    "theme": "default",
-    "ip": "0.0.0.0",
-    "port": 8099,
-    "ssl": false,
-    "ssl_key": "",
-    "ssl_cert": ""
-}
