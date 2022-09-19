@@ -63,17 +63,6 @@ class NarwhalletController():
             os.mkdir(_narwhallet_path)
             os.mkdir(os.path.join(_narwhallet_path, 'wallets'))
 
-        if os.path.isdir(os.path.join(_narwhallet_path,
-                                      'narwhallet_web')) is False:
-            os.mkdir(os.path.join(_narwhallet_path, 'narwhallet_web'))
-            os.mkdir(os.path.join(os.path.join(_narwhallet_path,
-                                               'narwhallet_web'), 'themes'))
-            _dth = os.path.join(self.program_path, 'config/themes/default')
-            _dthd = os.path.join(os.path.join(_narwhallet_path,
-                                              'narwhallet_web'),
-                                 'themes/default')
-            shutil.copytree(_dth, _dthd)
-
         if os.path.isfile(os.path.join(_narwhallet_path,
                                        'settings.json')) is False:
             print('settings.json created.')
