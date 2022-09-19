@@ -81,12 +81,6 @@ class NarwhalletController():
                                      'config/settings.json'), _narwhallet_path)
 
         if os.path.isfile(os.path.join(_narwhallet_path,
-                                       'strap.json')) is False:
-            print('strap.json created.')
-            shutil.copy(os.path.join(self.program_path,
-                                     'config/strap.json'), _narwhallet_path)
-
-        if os.path.isfile(os.path.join(_narwhallet_path,
                                        'narwhallet.addressbook')) is False:
             print('narwhallet.addressbook created.')
             shutil.copy(os.path.join(self.program_path,
