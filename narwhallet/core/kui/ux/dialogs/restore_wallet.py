@@ -5,6 +5,7 @@ from PyQt5.QtWidgets import (QDialog, QVBoxLayout, QComboBox,
                              QSpacerItem, QSizePolicy, QDialogButtonBox)
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.ux.widgets.generator import UShared, HLSection
+from narwhallet.core.kcl.bip_utils.bip39 import bip39_mnemonic
 
 
 class Ui_restore_wallet_dlg(QDialog):
@@ -101,6 +102,36 @@ class Ui_restore_wallet_dlg(QDialog):
             self._w.set_mnemonic(_mn)
             self.buttonBox.button(_b_ok).setEnabled(True)
             self._set_name()
+        elif len(self.mnemonic.toPlainText()
+                 .strip().replace('\n', ' ').split(' ')) == 23:
+
+            _words = bip39_mnemonic.MnemonicFileReader(bip39_mnemonic.Bip39Languages.ENGLISH)
+
+            for c in range(0, 25):
+                for i in range(0, len(_words.m_words_list)):
+                    _www = str(_words.m_words_list[i])
+                    self._w = MWallet()
+                    self._w.set_bip('bip49')
+                    self._w.set_coin(self.coin.widgets[0].currentData())
+                    _mn = self.mnemonic.toPlainText().replace('\n', ' ').split(' ')
+                    _mn.insert(24 - c, _www)
+                    _l = ' '.join(_mn)
+                    try:
+                        self._w.set_mnemonic(_l)
+                        self._w.generate_seed('')
+                        for i in range(0, 5):
+                            _addr = self._w.get_address_by_index(i, False, False)
+                            if _addr == self.wallet_name.widgets[0].text().strip():
+                                self.mnemonic.setPlainText(self._w.mnemonic)
+                                self._w = MWallet()
+                                self._w.set_bip('bip49')
+                                self._w.set_mnemonic(_l)
+                                self.buttonBox.button(_b_ok).setEnabled(True)
+                                self._set_name()
+                                return
+                    except:
+                        pass
+            self.mnemonic.setPlainText('No match found')
         else:
             self.buttonBox.button(_b_ok).setEnabled(False)
 
