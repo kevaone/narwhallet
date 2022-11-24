@@ -327,9 +327,9 @@ class MDialogs():
 
         #     if _l == '':
         #         _l = None
-        # else:
-        #     _a = None
-        #     _l = None
+        else:
+            _a = ''
+            _l = ''
 
         return _a, _l
 

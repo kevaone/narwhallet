@@ -19,6 +19,7 @@ class Ui_add_watch_addr_dlg(QDialog):
 
         self.setObjectName('a_watch_add_dlg')
         self.resize(430, 225)
+        self.coin.widgets[0].addItem('Kevacoin', 'KEVACOIN')
         self.buttonBox.setOrientation(QtCore.Qt.Horizontal)
         self.buttonBox.setStandardButtons(self.set_buttons())
         self.buttonBox.button(QDialogButtonBox.Ok).setEnabled(False)

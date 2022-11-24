@@ -104,7 +104,7 @@ class NarwhalletController():
 
     def create_watch_wallet(self):
         _name = self.dialogs.add_wallet_watch_dialog()
-        if _name is not None:
+        if _name != '':
             _w = MWallet()
             _w.set_kind(3)
             _w.set_coin('KEVACOIN')
@@ -116,7 +116,7 @@ class NarwhalletController():
 
     def add_wallet_watch(self):
         _a, _l = self.dialogs.add_wallet_watch_address_dialog()
-        if _a is not None:
+        if _a != '':
             _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
             _w = self.wallets.get_wallet_by_name(_n)
             _w.addresses.from_pool(_a, _l)
@@ -133,7 +133,7 @@ class NarwhalletController():
 
     def add_namespace_favorite(self):
         _shortcode = self.dialogs.add_namespace_favorite_dialog()
-        if _shortcode is not None:
+        if _shortcode != 0:
             MShared.get_K(int(_shortcode), self.cache, self.KEX)
 
             self.refresh_namespace_tab_data()
