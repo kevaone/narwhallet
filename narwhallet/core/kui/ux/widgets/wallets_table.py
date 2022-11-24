@@ -53,7 +53,7 @@ class _wallets_table(QTableWidget):
 
         _upd = '-'
         if 'last_updated' in wallet_data:
-            if wallet_data['last_updated'] is not None:
+            if wallet_data['last_updated'] != 0.0:
                 _upd = MShared.get_timestamp(wallet_data['last_updated'])[1]
 
         _updated = UShared.create_table_item(_upd)
@@ -88,7 +88,7 @@ class _wallets_table(QTableWidget):
             _lvpic = UShared.create_table_item_graphic(7)
             _lvpic.setToolTip('Wallet is Unlocked')
 
-        if _w.kind != 0 and _w.kind is not None:
+        if _w.kind != 0 and _w.kind != -1:
             if _w.kind == 1:
                 _kvpic = UShared.create_table_item_graphic(4)
                 _kvpic.setToolTip('Read-Only Wallet')
@@ -102,7 +102,7 @@ class _wallets_table(QTableWidget):
             _kvpic.setContentsMargins(0, 0, 0, 0)
             _kvpic.setProperty('class', 'tblImg')
 
-        if _w.last_updated is not None:
+        if _w.last_updated != 0.0:
             _upd = MShared.get_timestamp(_w.last_updated)[1]
         else:
             _upd = '-'

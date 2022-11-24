@@ -1,11 +1,11 @@
 class MBookAddress():
     def __init__(self):
-        self._coin: str = None
-        self._name: str = None
-        self._address: str = None
+        self._coin: str = ''
+        self._name: str = ''
+        self._address: str = ''
         self._sent: float = 0.0
         self._received: float = 0.0
-        self._label: str = None
+        self._label: str = ''
         self._history: list = []
         self._input_tx: list = []
         self._output_tx: list = []

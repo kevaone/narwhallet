@@ -65,7 +65,7 @@ class Ui_restore_wallet_dlg(QDialog):
 
     def ret_wallet(self):
         self._w.set_coin(self.coin.widgets[0].currentData())
-        if self._w.bip == 'bip49' and self._w.mnemonic is not None:
+        if self._w.bip == 'bip49' and self._w.mnemonic != '':
             # TODO Pass password if advanced enabled
             self._w.generate_seed('')
 
@@ -82,14 +82,14 @@ class Ui_restore_wallet_dlg(QDialog):
         elif self.mnemonic.toPlainText().startswith('xpub'):
             self._w.set_bip('bip32')
             self._w.set_extended_pub(self.mnemonic.toPlainText())
-            if self._w.extended_pub is not None:
+            if self._w.extended_pub != '':
                 self.buttonBox.button(_b_ok).setEnabled(True)
                 self._set_name()
         elif self.mnemonic.toPlainText().startswith('ypub'):
             self._w.set_bip('bip49')
             self._w.set_kind(1)
             self._w.set_extended_pub(self.mnemonic.toPlainText())
-            if self._w.extended_pub is not None:
+            if self._w.extended_pub != '':
                 self.buttonBox.button(_b_ok).setEnabled(True)
                 self._set_name()
         elif self.mnemonic.toPlainText().strip() == '':

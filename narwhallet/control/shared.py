@@ -34,8 +34,8 @@ class MShared():
         return _path
 
     @staticmethod
-    def get_timestamp(timestamp: float = None):
-        if timestamp is None:
+    def get_timestamp(timestamp: float = 0.0):
+        if timestamp == 0.0:
             _now = time.time()
         else:
             _now = timestamp
@@ -435,7 +435,7 @@ class MShared():
                                        (_t['tx_hash'], True, kex.id))
                     kex.id = kex.id + 1
                 else:
-                    if _trx.blockhash is None:
+                    if _trx.blockhash == '':
                         _tx_h_batch.append(kex.api.bc_tx.get
                                            (_t['tx_hash'], True, kex.id))
                         kex.id = kex.id + 1
@@ -455,7 +455,7 @@ class MShared():
                     continue
 
                 for _in in _trx.vin:
-                    if _in.coinbase is not None:
+                    if _in.coinbase != '':
                         continue
 
                     _in_tx = cache.tx.get_tx_by_txid(_in.txid)
@@ -465,7 +465,7 @@ class MShared():
                                        (_in.txid, True, kex.id))
                         kex.id = kex.id + 1
                     else:
-                        if _in_tx.blockhash is None:
+                        if _in_tx.blockhash != '':
                             _tx_i_b.append(kex.api.bc_tx.get
                                            (_in.txid, True, kex.id))
                             kex.id = kex.id + 1
@@ -500,7 +500,7 @@ class MShared():
                         address: MAddress, kex: KEXclient, cache: MCache):
 
         for _in in vin:
-            if _in.coinbase is not None:
+            if _in.coinbase != '':
                 continue
 
             _vo = _in.vout
@@ -614,7 +614,7 @@ class MShared():
                 continue
 
             _r_tx = cache.tx.get_tx_by_txid(k['tx_hash'])
-            if _r_tx is None or _r_tx.blockhash is None:
+            if _r_tx is None or _r_tx.blockhash == '':
                 continue
 
             for _ro in _r_tx.vout:
@@ -787,7 +787,7 @@ class MShared():
                 if 'result' in g:
                     _i_tx = cache.tx.add_from_json(g['result'])
             else:
-                if _i_tx.blockhash is None:
+                if _i_tx.blockhash == '':
                     if 'blockhash' not in g['result']:
                         continue
 

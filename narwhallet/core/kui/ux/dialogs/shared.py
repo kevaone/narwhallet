@@ -14,7 +14,7 @@ class DShared():
         _return = True
         if tx is None:
             _return = False
-        elif tx.confirmations is None:
+        elif tx.confirmations == -1:
             _return = False
         elif tx.confirmations < 6:
             _return = False

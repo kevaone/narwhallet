@@ -322,14 +322,14 @@ class MDialogs():
         if _result != 0:
             _a = _di.address.widgets[0].text()
             _l = _di.label.widgets[0].text()
-            if _a == '':
-                _a = None
+        #     if _a == '':
+        #         _a = None
 
-            if _l == '':
-                _l = None
-        else:
-            _a = None
-            _l = None
+        #     if _l == '':
+        #         _l = None
+        # else:
+        #     _a = None
+        #     _l = None
 
         return _a, _l
 
@@ -341,10 +341,10 @@ class MDialogs():
 
         if _result != 0:
             _name = _di.name.widgets[0].text()
-            if _name == '':
-                _name = None
+            # if _name == '':
+            #     _name = None
         else:
-            _name = None
+            _name = ''
 
         return _name
 
@@ -356,10 +356,10 @@ class MDialogs():
 
         if _result != 0:
             _shortcode = _di.shortcode.widgets[0].text()
-            if _shortcode == '':
-                _shortcode = None
+            # if _shortcode == '':
+            #     _shortcode = None
         else:
-            _shortcode = None
+            _shortcode = 0
 
         return _shortcode
 

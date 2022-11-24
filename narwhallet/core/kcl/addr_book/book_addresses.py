@@ -5,7 +5,7 @@ from narwhallet.core.kcl.file_utils.io import AddressBookLoader
 
 class MBookAddresses():
     def __init__(self):
-        self.root_path: str = None
+        self.root_path: str = ''
         self._addresses: Dict[str, MBookAddress] = {}
 
     @property

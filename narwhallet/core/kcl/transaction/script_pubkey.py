@@ -3,10 +3,10 @@ from typing import List
 
 class MScriptPubKey():
     def __init__(self):
-        self._asm: str = None
-        self._hex: str = None
-        self._reqSigs: int = None
-        self._type: str = None
+        self._asm: str = ''
+        self._hex: str = ''
+        self._reqSigs: int = -1
+        self._type: str = ''
         self._addresses: List[str] = []
 
     @property

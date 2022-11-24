@@ -4,8 +4,8 @@ from narwhallet.core.kcl.transaction.script_pubkey import MScriptPubKey
 
 class MTransactionOutput():
     def __init__(self):
-        self._n: int = None
-        self._value: float = None
+        self._n: int = -1
+        self._value: float = 0.0
         self._scriptPubKey: MScriptPubKey = MScriptPubKey()
 
     @property

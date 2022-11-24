@@ -139,7 +139,7 @@ class Ui_create_wallet_dlg(QDialog):
         self._w.set_coin(self.coin.widgets[0].currentData())
         self._w.set_bip('bip49')
 
-        if (self._w.mnemonic is None
+        if (self._w.mnemonic == ''
            and self.mnemonic.toPlainText() != ''):
 
             _m = self.mnemonic.toPlainText().replace('\n', ' ')

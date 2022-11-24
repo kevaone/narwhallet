@@ -23,7 +23,7 @@ class _transaction_table(QTableWidget):
             else:
                 dat['<->'] = 'Send'
 
-            if dat['blockhash'] is None:
+            if dat['blockhash'] == '':
                 dat['<->'] = 'Pending - ' + dat['<->']
             elif dat['confirmations'] < 6:
                 _confirming = ('Confirming -' + str(dat['confirmations']))

@@ -4,12 +4,12 @@ from typing import List
 class MNarwhalletSettings():
     def __init__(self):
         self._auto_lock_timer: int = 60
-        self._electrumx_auto_connect: bool = None
-        self._electrumx_peers: List[list] = None
+        self._electrumx_auto_connect: bool = False
+        self._electrumx_peers: List[list] = []
         self._enabled_coins: list = ['KEVACOIN']
-        self._primary_peer: int = None
+        self._primary_peer: int = -1
         self._show_change: bool = False
-        self._sync: dict = None
+        self._sync: dict = {}
 
     @property
     def auto_lock_timer(self) -> int:

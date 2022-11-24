@@ -356,7 +356,7 @@ class Ui_WalletTab(QObject):
 
     def set_info_values(self, wallet: MWallet):
         self.wname.setText(wallet.name)
-        if wallet.mnemonic is None:
+        if wallet.mnemonic == '':
             self.lwmnemonic.setVisible(False)
             self.llwmnemonic.setVisible(False)
             self.wmnemonic.setVisible(False)
@@ -370,7 +370,7 @@ class Ui_WalletTab(QObject):
             self.llwmnemonic.setIcon(QIcon(self._ppic))
             self.wmnemonic.setPlainText(wallet.mnemonic)
 
-        if wallet.seed is None:
+        if wallet.seed == '':
             self.llwseed.setVisible(False)
             self.lwseed.setVisible(False)
             self.wseed.setVisible(False)
@@ -385,7 +385,7 @@ class Ui_WalletTab(QObject):
             self.wseed.setPlainText(wallet.seed)
 
         wallet.generate_extended_prv()
-        if wallet.extended_prv is None:
+        if wallet.extended_prv == '':
             self.llxprv.setVisible(False)
             self.lxprv.setVisible(False)
             self.wxprv.setVisible(False)
@@ -433,12 +433,12 @@ class Ui_WalletTab(QObject):
         self.wchange_index.setText(str(wallet.change_index))
         self.wbalance.setText(str(wallet.balance))
 
-        if wallet.locked is not None:
+        if wallet.locked is not False:
             self.wlocked.setText(str(wallet.locked))
         else:
             self.wlocked.setText('False')
 
-        if wallet.last_updated is not None:
+        if wallet.last_updated != 0.0:
             (self.wlast_updated.setText(
                 MShared.get_timestamp(wallet.last_updated)[1]))
 

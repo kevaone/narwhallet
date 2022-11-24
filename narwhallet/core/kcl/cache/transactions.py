@@ -56,7 +56,7 @@ class MTransactions():
                               _tx.blockhash, _tx.confirmations,
                               _tx.time, _tx.blocktime, _tx.hex), 2)
         for i, _vin in enumerate(_tx.vin):
-            if _vin.coinbase is None:
+            if _vin.coinbase == '':
                 self.dbi.execute_sql(self.dbi.scripts.INSERT_TX_VIN,
                                      (_tx.txid, i, _vin.txid,
                                       _vin.vout, _vin.scriptSig.asm,

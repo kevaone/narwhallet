@@ -2,9 +2,9 @@
 
 class MNSKey():
     def __init__(self):
-        self._date: int = None
-        self._key: str = None
-        self._value: str = None
+        self._date: int = -1
+        self._key: str = ''
+        self._value: str = ''
 
     @property
     def date(self) -> int:

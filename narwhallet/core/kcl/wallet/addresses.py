@@ -5,7 +5,7 @@ from narwhallet.core.kcl.wallet.address import MAddress
 class MAddresses():
     def __init__(self):
         self._addresses: List[MAddress] = []
-        self._names: Dict[int] = {}
+        self._names: Dict[str, int] = {}
 
     @property
     def addresses(self) -> List[MAddress]:
@@ -46,11 +46,11 @@ class MAddresses():
         self._addresses.append(_address)
         self._names[_address.address] = len(self._addresses) - 1
 
-    def from_pool(self, address: str, label: str = None):
+    def from_pool(self, address: str, label: str = ''):
         _address = MAddress()
 
         _address.set_address(address)
-        if label is not None:
+        if label != '':
             _address.set_label(label)
 
         self._addresses.append(_address)

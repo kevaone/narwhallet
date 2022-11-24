@@ -203,7 +203,7 @@ class _tx_in(QScrollArea):
 
         self._vl_0 = QVBoxLayout(self._tx_input)
         self._txid = HLSection('txid:', QPlainTextEdit(self))
-        if vin.coinbase is not None:
+        if vin.coinbase != '':
             self._txid.label.setText('coinbase:')
             self._txid.widgets[0].setPlainText(str(vin.coinbase))
         else:
@@ -242,7 +242,7 @@ class _tx_in(QScrollArea):
         self._sequence.widgets[0].setText(str(vin.sequence))
 
         self._vl_0.addLayout(self._txid)
-        if vin.coinbase is None:
+        if vin.coinbase == '':
             self._vl_0.addLayout(self._vout)
             self._vl_0.addLayout(self._scriptsig_l)
             self._vl_0.addLayout(self._asm)

@@ -211,7 +211,7 @@ class NarwhalletController():
             self.refresh_namespace_tab_data()
 
     def threader(self, name: str, command, command_params_1,
-                 command_params_2, work_done_func, optional: int = None):
+                 command_params_2, work_done_func, optional: int = -1):
         # 1 - create Worker and Thread inside the Form, no parent!
         self._o[name] = Worker(name, command, command_params_1,
                                command_params_2, optional)

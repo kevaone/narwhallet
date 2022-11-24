@@ -7,23 +7,23 @@ from narwhallet.core.ksc.utils import Ut
 
 class MWallet():
     def __init__(self):
-        self._name: str = None
+        self._name: str = ''
         self._state_lock: int = 0
-        self._mnemonic: str = None
-        self._seed: str = None
-        self._extended_prv: str = None
-        self._extended_pub: str = None
-        self._i_extended_pub: str = None
-        self._coin: str = None
-        self._bip: str = None
+        self._mnemonic: str = ''
+        self._seed: str = ''
+        self._extended_prv: str = ''
+        self._extended_pub: str = ''
+        self._i_extended_pub: str = ''
+        self._coin: str = ''
+        self._bip: str = ''
         self._kind: EWalletKind = EWalletKind.NORMAL
-        self._k: bytes = None
+        self._k: bytes = b''
         self._balance: float = 0.0
         self._bid_balance: float = 0.0
         self._bid_tx: list = []
         self._locked: bool = False
         self._updating: bool = False
-        self._last_updated: float = None
+        self._last_updated: float = 0.0
         self._account_index: int = 0
         self._change_index: int = 0
         self._addresses = MAddresses()
@@ -127,7 +127,7 @@ class MWallet():
         self._extended_prv = extended_prv
 
     def set_extended_pub(self, extended_pub: str, version: str = '0488b21e'):
-        if extended_pub is not None:
+        if extended_pub != '':
             try:
                 _data = Base58Decoder.CheckDecode(extended_pub)
                 _data = _data[4:]
@@ -141,9 +141,9 @@ class MWallet():
                 else:
                     self._extended_pub = _pub
             except Exception:
-                self._extended_pub = None
+                self._extended_pub = ''
         else:
-            self._extended_pub = None
+            self._extended_pub = ''
 
     def set_coin(self, coin: str) -> None:
         self._coin = coin
@@ -191,16 +191,16 @@ class MWallet():
         self._change_index = self.change_index + 1
 
     def generate_mnemonic(self) -> None:
-        if self.seed is None:
+        if self.seed == '':
             self.set_mnemonic(WalletUtils.generate_mnemonic())
         else:
             raise Exception
 
-    def generate_seed(self, password: str = None) -> None:
-        if password is not None and password != '':
+    def generate_seed(self, password: str = '') -> None:
+        if password != '':
             self.set_kind(2)
 
-        if self.seed is None:
+        if self.seed == '':
             self.set_seed(WalletUtils.generate_seed(self.mnemonic,
                                                     password, True))
         else:
@@ -211,7 +211,7 @@ class MWallet():
 
     def generate_extended_pub(self):
         if self.bip == 'bip49' and self.kind != EWalletKind.READ_ONLY:
-            if self.seed is not None:
+            if self.seed != '':
                 _xpub = WalletUtils.get_account_extended_pub(self.seed,
                                                              self.coin,
                                                              self.bip)
@@ -234,8 +234,8 @@ class MWallet():
                   .gen_bip32_address_from_extended(self.extended_prv,
                                                    self.account_index))
         elif (self.bip == 'bip49'
-              and (self.extended_prv is not None
-                   or self._i_extended_pub is not None)):
+              and (self.extended_prv != ''
+                   or self._i_extended_pub != '')):
             _a = (WalletUtils
                   .get_next_account_address_from_pub(self._i_extended_pub,
                                                      self.coin, self.bip,
@@ -254,8 +254,8 @@ class MWallet():
                                                             self._change_index
                                                             )
         elif (self.bip == 'bip49'
-              and (self.extended_prv is not None
-                   or self._i_extended_pub is not None)):
+              and (self.extended_prv != ''
+                   or self._i_extended_pub != '')):
             _a = (WalletUtils
                   .get_next_change_address_from_pub(self._i_extended_pub,
                                                     self.coin, self.bip,
@@ -275,8 +275,8 @@ class MWallet():
             _a = (WalletUtils
                   .gen_bip32_address_from_extended(self.extended_prv, index))
         elif (self.bip == 'bip49'
-              and (self.extended_prv is not None
-                   or self._i_extended_pub is not None)):
+              and (self.extended_prv != ''
+                   or self._i_extended_pub != '')):
             _a = (WalletUtils
                   .get_next_account_address_from_pub(self._i_extended_pub,
                                                      self.coin, self.bip,
@@ -298,8 +298,8 @@ class MWallet():
             _a = WalletUtils.gen_bip32_change_from_extended(self.extended_prv,
                                                             index)
         elif (self.bip == 'bip49'
-              and (self.extended_prv is not None
-                   or self._i_extended_pub is not None)):
+              and (self.extended_prv != ''
+                   or self._i_extended_pub != '')):
             _a = (WalletUtils
                   .get_next_change_address_from_pub(self._i_extended_pub,
                                                     self.coin, self.bip,
@@ -338,7 +338,7 @@ class MWallet():
         if self.bip == 'bip32':
             _a_p = WalletUtils.get_bip32_address_private(self.extended_prv,
                                                          address_index, chain)
-        elif self.bip == 'bip49' and self.extended_prv is not None:
+        elif self.bip == 'bip49' and self.extended_prv != '':
             _a_p = (WalletUtils
                     .get_account_address_private_from_prv(self.extended_prv,
                                                           self.coin,

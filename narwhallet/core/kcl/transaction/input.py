@@ -5,18 +5,18 @@ from narwhallet.core.kcl.transaction.script_sig import MScriptSig
 
 class MTransactionInput():
     def __init__(self):
-        self._idx: int = None
-        self._type: str = None
-        self._coinbase: str = None
-        self._txid: str = None
-        self._vout: int = None
+        self._idx: int = -1
+        self._type: str = ''
+        self._coinbase: str = ''
+        self._txid: str = ''
+        self._vout: int = -1
         self._scriptSig: MScriptSig = MScriptSig()
         self._txinwitness: List[str] = []
-        self._sequence: int = None
+        self._sequence: int = -1
 
-        self.tb_address: int = None
-        self.tb_address_chain: int = None
-        self.tb_value: int = None
+        self.tb_address: int = -1
+        self.tb_address_chain: int = -1
+        self.tb_value: int = -1
 
     @property
     def coinbase(self) -> str:
@@ -76,7 +76,7 @@ class MTransactionInput():
     def from_json(self, json: dict):
         # TODO Refine this, hack to support cache changing
         if 'coinbase' in json:
-            if json['coinbase'] is not None:
+            if json['coinbase'] != '':
                 self.set_coinbase(json['coinbase'])
             else:
                 self.set_txid(json['txid'])
@@ -96,7 +96,7 @@ class MTransactionInput():
                 self.txinwitness, self.sequence]
 
     def to_dict(self) -> dict:
-        if self.coinbase is not None:
+        if self.coinbase != '':
             _return = {'coinbase': self.coinbase, 'txid': self.txid,
                        'vout': self.vout,
                        'scriptSig': self.scriptSig.to_dict(),

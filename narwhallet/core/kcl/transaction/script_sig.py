@@ -2,8 +2,8 @@
 
 class MScriptSig():
     def __init__(self):
-        self._asm: str = None
-        self._hex: str = None
+        self._asm: str = ''
+        self._hex: str = ''
 
     @property
     def asm(self) -> str:

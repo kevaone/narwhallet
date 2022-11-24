@@ -6,19 +6,19 @@ from narwhallet.core.kcl.transaction.output import MTransactionOutput
 
 class MTransaction():
     def __init__(self):
-        self._txid: str = None
-        self._hash: str = None
-        self._version: int = None
-        self._size: int = None
-        self._vsize: int = None
-        self._locktime: int = None
-        self._blockhash: str = None
+        self._txid: str = ''
+        self._hash: str = ''
+        self._version: int = -1
+        self._size: int = -1
+        self._vsize: int = -1
+        self._locktime: int = -1
+        self._blockhash: str = ''
         self._vin: List[MTransactionInput] = []
         self._vout: List[MTransactionOutput] = []
-        self._hex: str = None
-        self._confirmations: int = None
-        self._time: int = None
-        self._blocktime: int = None
+        self._hex: str = ''
+        self._confirmations: int = -1
+        self._time: int = -1
+        self._blocktime: int = -1
 
     @property
     def txid(self) -> str:

@@ -74,7 +74,7 @@ class MWallets():
             _wallet.change_addresses.from_json(addr)
 
         if 'change_index' in _wm_dat:
-            if _wm_dat['change_index'] is not None:
+            if _wm_dat['change_index'] != -1:
                 _wallet.set_change_index(_wm_dat['change_index'])
             else:
                 _wallet.set_change_index(0)
@@ -82,7 +82,7 @@ class MWallets():
             _wallet.set_change_index(0)
 
         if 'account_index' in _wm_dat:
-            if _wm_dat['account_index'] is not None:
+            if _wm_dat['account_index'] != -1:
                 _wallet.set_account_index(_wm_dat['account_index'])
             else:
                 _wallet.set_account_index(0)
@@ -103,7 +103,7 @@ class MWallets():
 
     def relock_wallet(self, name: str) -> bool:
         if (self._wallets[self._names[name]].locked is False
-           and self._wallets[self._names[name]].k is not None
+           and self._wallets[self._names[name]].k != b''
            and self._wallets[self._names[name]].updating is False):
 
             self.load_wallet(name)
@@ -115,7 +115,7 @@ class MWallets():
     def load_wallet(self, name: str, wallet: MWallet = None):
         if wallet is not None:
             _wallet = wallet
-            if _wallet.k is not None:
+            if _wallet.k != b'':
                 _dat = WalletUtils.load_wallet(name, self.root_path,
                                                _wallet.k)
                 if _dat != b'InvalidTag':

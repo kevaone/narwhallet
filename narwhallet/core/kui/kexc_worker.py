@@ -7,7 +7,7 @@ class Worker(QObject):
     work_done = pyqtSignal(str, str, int)
 
     def __init__(self, name: str, command, command_params_1,
-                 command_params_2, optional: int = None):
+                 command_params_2, optional: int = -1):
         super().__init__()
 
         self.name = name
@@ -45,6 +45,6 @@ class Worker(QObject):
         if isinstance(ret, bytes):
             ret = ret.decode()
 
-        self.optional = self.optional if self.optional is not None else -1
+        self.optional = self.optional  # if self.optional is not None else -1
         self.work_done.emit(self.name, ret, self.optional)
         self.finished.emit()

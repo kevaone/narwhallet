@@ -169,7 +169,7 @@ class _wallet_utils():
 
     @staticmethod
     def generate_seed(mnemonic: str, password: str = '', toHex=False):
-        if password is not None or password != '':
+        if password != '':
             _seed = Bip39SeedGenerator(mnemonic).Generate(password)
         else:
             _seed = Bip39SeedGenerator(mnemonic).Generate()
