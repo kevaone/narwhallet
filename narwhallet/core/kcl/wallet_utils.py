@@ -1,4 +1,5 @@
 import binascii
+from typing import Union
 import ecdsa
 from ecdsa import util as ecdsautil
 from hashlib import sha256
@@ -168,17 +169,17 @@ class _wallet_utils():
         return Bip39MnemonicValidator(mnemonic).GetEntropy()
 
     @staticmethod
-    def generate_seed(mnemonic: str, password: str = '', toHex=False):
+    def generate_seed(mnemonic: str, password: str = '',
+                      toHex=False) -> Union[str, bytes]:
         if password != '':
             _seed = Bip39SeedGenerator(mnemonic).Generate(password)
         else:
             _seed = Bip39SeedGenerator(mnemonic).Generate()
 
         if toHex is True:
-            _return = binascii.hexlify(_seed).decode()
-        else:
-            _return = _seed
-        return _return
+            return binascii.hexlify(_seed).decode()
+
+        return _seed
 
     @staticmethod
     def generate_master_from_seed(seed, coin: str, bip: str):

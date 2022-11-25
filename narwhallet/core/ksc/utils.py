@@ -1,5 +1,5 @@
 import struct
-from typing import Union
+from typing import Optional, Union
 from narwhallet.core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
 
 
@@ -45,7 +45,7 @@ class Ut():
         return ConvUtils.ReverseBytes(data)
 
     @staticmethod
-    def int_to_bytes(value: int, size: int, endianness: str) -> bytes:
+    def int_to_bytes(value: int, size: Optional[int], endianness: str) -> bytes:
         return ConvUtils.IntegerToBytes(value, size, endianness)
 
     @staticmethod

@@ -1,4 +1,4 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.kevacoin.namespace_key import MNSKey
 
@@ -30,7 +30,7 @@ class MNSKeys():
     def get_key_by_index(self, index: int) -> MNSKey:
         return self.keys[index]
 
-    def get_key_by_name(self, name: str, convert: bool = False) -> MNSKey:
+    def get_key_by_name(self, name: str, convert: bool = False) -> Optional[MNSKey]:
         if convert is True:
             _name = self.decode(name)
         else:
@@ -63,8 +63,7 @@ class MNSKeys():
             _d2 = Ut.hex_to_bytes(data).decode()
         except Exception:
             try:
-                _d2 = Ut.int_to_bytes(int(data), None, 'little')
-                _d2.decode()
+                _d2 = Ut.int_to_bytes(int(data), None, 'little').decode()
             except Exception:
                 _d2 = data
 

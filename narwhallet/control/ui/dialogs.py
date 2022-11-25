@@ -1,6 +1,7 @@
 import json
 import os
 import time
+from typing import Optional
 
 from PyQt5.QtWidgets import QDialogButtonBox
 
@@ -82,13 +83,13 @@ class MDialogs():
         _di.new_tx.set_fee(_fee)
         _di.bid_tx.set_fee(_fee)
 
-        _result = _di.exec_()
+        _di_result = _di.exec_()
 
         for _w in self.wallets.wallets:
             if _w.kind != 1 and _w.kind != 3 and _w.locked is False:
                 _w.set_updating(False)
 
-        if _result != 0:
+        if _di_result != 0:
             _bc_result = MShared.broadcast(_di.raw_tx, self.kex)
             if isinstance(_bc_result[1], dict):
                 _result = json.dumps(_bc_result[1])
@@ -174,8 +175,8 @@ class MDialogs():
         _value = self.ui.ns_tab.ns_tab_text_key_value.toPlainText()
         if _key == '_KEVA_NS_':
             _key = '\x01_KEVA_NS_'
-            _value = {'displayName': _value}
-            _value = json.dumps(_value, separators=(',', ':'))
+            _val = {'displayName': _value}
+            _value = json.dumps(_val, separators=(',', ':'))
 
         _di.namespace_key_input.key.setText(_key)
         _di.namespace_value_input.value.setPlainText(_value)
@@ -364,7 +365,7 @@ class MDialogs():
         return _shortcode
 
     @staticmethod
-    def create_wallet_dialog() -> MWallet:
+    def create_wallet_dialog() -> Optional[MWallet]:
         _di = Ui_create_wallet_dlg()
         _di.setupUi()
         _result = _di.exec_()

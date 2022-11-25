@@ -1,4 +1,5 @@
 import json
+from typing import Optional
 from narwhallet.core.kcl.transaction import MTransaction
 from narwhallet.core.kcl.cache.db_utils import SQLInterface
 
@@ -15,7 +16,7 @@ class MTransactions():
     def sort_dict(item):
         return item['time']
 
-    def get_tx_by_txid(self, txid: str) -> MTransaction:
+    def get_tx_by_txid(self, txid: str) -> Optional[MTransaction]:
         _tx = self.dbi.execute_sql(self.dbi.scripts.SELECT_TX_FULL,
                                    (txid, ), 3)
         _vin = self.dbi.execute_sql(self.dbi.scripts.SELECT_TX_VIN,

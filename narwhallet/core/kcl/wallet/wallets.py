@@ -1,5 +1,5 @@
 import json
-from typing import Dict, List
+from typing import Dict, List, Optional
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kcl.wallet_utils import _wallet_utils as WalletUtils
 
@@ -7,7 +7,7 @@ from narwhallet.core.kcl.wallet_utils import _wallet_utils as WalletUtils
 class MWallets():
     def __init__(self):
         self._root_path = None
-        self._names: Dict[int] = {}
+        self._names: Dict[str, int] = {}
         self._wallets: List[MWallet] = []
 
     @property
@@ -24,7 +24,7 @@ class MWallets():
     def get_wallet_by_index(self, index: int) -> MWallet:
         return self._wallets[index]
 
-    def get_wallet_by_name(self, name: str) -> MWallet:
+    def get_wallet_by_name(self, name: str) -> Optional[MWallet]:
         if name in self._names:
             _return = self._wallets[self._names[name]]
         else:
@@ -39,16 +39,19 @@ class MWallets():
         _error = False
         _wallet = self.get_wallet_by_name(name)
         try:
-            _dump = json.dumps(_wallet.to_dict(), indent=4).encode()
+            if _wallet is not None:
+                _dump = json.dumps(_wallet.to_dict(), indent=4).encode()
         except Exception:
             _error = True
 
         if _error is not True:
-            if _wallet.state_lock in (1, 3):
-                WalletUtils.save_wallet(_wallet.name, self.root_path, _dump,
-                                        _wallet.k)
-            else:
-                WalletUtils.save_wallet(_wallet.name, self.root_path, _dump)
+            if _wallet is not None:
+                if _wallet.state_lock in (1, 3):
+                    WalletUtils.save_wallet(_wallet.name, self.root_path,
+                                            _dump, _wallet.k)
+                else:
+                    WalletUtils.save_wallet(_wallet.name, self.root_path,
+                                            _dump)
 
     def _load_wallet(self, _wm_dat: dict, _wallet: MWallet) -> MWallet:
         _wallet.set_name(_wm_dat['name'])
@@ -112,7 +115,7 @@ class MWallets():
             _return = False
         return _return
 
-    def load_wallet(self, name: str, wallet: MWallet = None):
+    def load_wallet(self, name: str, wallet: Optional[MWallet] = None):
         if wallet is not None:
             _wallet = wallet
             if _wallet.k != b'':

@@ -1,5 +1,6 @@
 import os
 import json
+from typing import List
 from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 from cryptography.exceptions import InvalidTag
 
@@ -67,7 +68,7 @@ class WalletLoader(_loader):
 
 class AddressBookLoader(_loader):
     @staticmethod
-    def save(root_path: str, data: str):
+    def save(root_path: str, data: List[dict]):
         _path = os.path.join(root_path, 'narwhallet.addressbook')
         _loader._save(_path, json.dumps(data, indent=4).encode())
         return True
