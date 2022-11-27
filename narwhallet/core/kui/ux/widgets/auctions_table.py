@@ -1,3 +1,4 @@
+from typing import Optional
 from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.ux.widgets.generator import UShared
@@ -58,3 +59,15 @@ class _auctions_table(QTableWidget):
         self.setItem(_r, 6, _high_bid)
         self.setItem(_r, 8, _auc_ns)
         self.setItem(_r, 9, _auc_tx)
+
+    def gtext(self, row: int, column: int) -> Optional[str]:
+        _r = self.item(row, column)
+        if _r is not None:
+            return _r.text()
+
+        return None
+
+    def stext(self, row: int, column: int, text: str):
+        _r = self.item(row, column)
+        if _r is not None:
+            _r.setText(text)

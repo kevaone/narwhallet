@@ -1,3 +1,4 @@
+from typing import Optional
 from PyQt5.QtWidgets import QWidget, QTableWidget, QLabel
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.wallet.wallet import MWallet
@@ -80,6 +81,18 @@ class _wallets_table(QTableWidget):
         self.resizeColumnsToContents()
         self.setSortingEnabled(True)
 
+    def gtext(self, row: int, column: int) -> Optional[str]:
+        _r = self.item(row, column)
+        if _r is not None:
+            return _r.text()
+
+        return None
+
+    def stext(self, row: int, column: int, text: str):
+        _r = self.item(row, column)
+        if _r is not None:
+            _r.setText(text)
+
     def update_wallet(self, _w: MWallet, row: int):
         if _w.locked is True:
             _lvpic = UShared.create_table_item_graphic(6)
@@ -108,10 +121,10 @@ class _wallets_table(QTableWidget):
             _upd = '-'
 
         self.setCellWidget(row, 1, _lvpic)
-        self.item(row, 2).setText(_w.coin)
-        self.item(row, 4).setText(_w.bip)
+        self.stext(row, 2, _w.coin)
+        self.stext(row, 4, _w.bip)
         self.setCellWidget(row, 5, _kvpic)
-        self.item(row, 6).setText(str(round(_w.balance, 8)))
-        self.item(row, 7).setText(str(round(_w.bid_balance, 8)))
-        self.item(row, 8).setText(_upd)
+        self.stext(row, 6, str(round(_w.balance, 8)))
+        self.stext(row, 7, str(round(_w.bid_balance, 8)))
+        self.stext(row, 8, _upd)
         self.resizeColumnsToContents()

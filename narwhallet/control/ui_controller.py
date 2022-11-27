@@ -117,10 +117,12 @@ class NarwhalletController():
     def add_wallet_watch(self):
         _a, _l = self.dialogs.add_wallet_watch_address_dialog()
         if _a != '':
-            _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
-            _w = self.wallets.get_wallet_by_name(_n)
-            _w.addresses.from_pool(_a, _l)
-            self.wallets.save_wallet(_w.name)
+            _n = self.ui.w_tab.tbl_w.gtext(self.ws, 3)
+            if isinstance(_n, str):
+                _w = self.wallets.get_wallet_by_name(_n)
+                if _w is not None:
+                    _w.addresses.from_pool(_a, _l)
+                    self.wallets.save_wallet(_w.name)
 
     def add_addressbook_item(self):
         _address = self.dialogs.add_addressbook_item_dialog()
@@ -235,11 +237,11 @@ class NarwhalletController():
         if _reloaded is True:
             _r = self.ui.w_tab.tbl_w.findItems(name, Qt.MatchFlag.MatchExactly)
             if len(_r) == 1:
-                (self.ui.w_tab.tbl_w
-                 .update_wallet(self.wallets
-                                .get_wallet_by_name(name), _r[0].row()))
-                if self.ui.w_tab.tbl_w.currentRow() == _r[0].row():
-                    self.refresh_wallet_data_tabs('', '', _r[0].row())
+                _w = self.wallets.get_wallet_by_name(name)
+                if _w is not None:
+                    self.ui.w_tab.tbl_w.update_wallet(_w, _r[0].row())
+                    if self.ui.w_tab.tbl_w.currentRow() == _r[0].row():
+                        self.refresh_wallet_data_tabs('', '', _r[0].row())
 
     def t_restart(self, i: str):
         # print('timer restarting', i)
@@ -362,28 +364,28 @@ class NarwhalletController():
         _selected = self.ui.u_tab.m_select.currentText()
         _input = self.ui.u_tab.msa_e.toPlainText()
         _results = self.ui.u_tab.mvs_result.toPlainText()
-        if self.ui.u_tab.mishex.isChecked() is True:
-            _input_value = _input.replace('\n', '')
-            _input_value = Ut.hex_to_bytes(_input_value)
+        # if self.ui.u_tab.mishex.isChecked() is True:
+        #     _input_value = _input.replace('\n', '')
+        #     _input_value = Ut.hex_to_bytes(_input_value)
 
         if _selected == 'Sha256':
             _result = Ut.bytes_to_hex(Ut.sha256(_input))
         elif _selected == 'dSha256':
-            _result = Ut.sha256(Ut.sha256(_input))
-            _result = Ut.bytes_to_hex(_result)
+            _res = Ut.sha256(Ut.sha256(_input))
+            _result = Ut.bytes_to_hex(_res)
         elif _selected == 'Hash160':
             _result = Ut.bytes_to_hex(Ut.hash160(_input))
         elif _selected == 'int4byte':
-            _input = int(_input)
-            _result = Ut.int_to_bytes(_input, 4, 'little')
-            _result = Ut.bytes_to_hex(_result)
+            _in = int(_input)
+            _res = Ut.int_to_bytes(_in, 4, 'little')
+            _result = Ut.bytes_to_hex(_res)
         elif _selected == 'int8byte':
-            _input = int(_input)
-            _result = Ut.int_to_bytes(_input, 8, 'little')
-            _result = Ut.bytes_to_hex(_result)
+            _in = int(_input)
+            _res = Ut.int_to_bytes(_in, 8, 'little')
+            _result = Ut.bytes_to_hex(_res)
         elif _selected == 'Reverse':
-            _result = Ut.reverse_bytes(_input)
-            _result = Ut.bytes_to_hex(_result)
+            _res = Ut.reverse_bytes(_input.encode())
+            _result = Ut.bytes_to_hex(_res)
 
         self.ui.u_tab.mvs_result.setPlainText(_result + '\n' + _results)
 
@@ -404,7 +406,7 @@ class NarwhalletController():
 
         if m == 'connected':
             self.threader('svr_version', self._ex_c, None, None,
-                          self.ex_c_done, None)
+                          self.ex_c_done, -1)
             # self.threader('block_count', self.KEX.call,
             #               self.KEX.api.blockchain_block.count, [],
             #               self.ex_c_done, None)
@@ -429,8 +431,12 @@ class NarwhalletController():
         self.set_dat.save(json.dumps(self.settings.to_dict()))
 
     def refresh_wallet_data_tabs(self, _c: str, _m: str, i: int):
-        _n = self.ui.w_tab.tbl_w.item(i, 3).text()
-        wallet = self.wallets.get_wallet_by_name(_n)
+        _n = self.ui.w_tab.tbl_w.gtext(i, 3)
+        if _n is not None:
+            wallet = self.wallets.get_wallet_by_name(_n)
+        else:
+            wallet = None
+
         self.refresh_namespace_tab_data()
         if wallet is not None:
             if i == self.ws:
@@ -443,15 +449,15 @@ class NarwhalletController():
                  .add_transactions(self._display_wallet_tx(wallet)))
                 self.ui.w_tab.set_info_values(wallet)
 
-            (self.ui.w_tab.tbl_w.item(i, 6)
-             .setText(str(round(wallet.balance - wallet.bid_balance, 8))))
+            (self.ui.w_tab.tbl_w.stext(i, 6,
+             str(round(wallet.balance - wallet.bid_balance, 8))))
 
             if wallet.bid_balance > 0:
                 self.wallets.save_wallet(wallet.name)
-            (self.ui.w_tab.tbl_w.item(i, 7)
-             .setText(str(round(wallet.bid_balance, 8))))
-            (self.ui.w_tab.tbl_w.item(i, 8)
-             .setText(MShared.get_timestamp(wallet.last_updated)[1]))
+            (self.ui.w_tab.tbl_w.stext(i, 7,
+             str(round(wallet.bid_balance, 8))))
+            (self.ui.w_tab.tbl_w.stext(i, 8,
+             MShared.get_timestamp(wallet.last_updated)[1]))
 
             wallet.set_updating(False)
             self.ui.w_tab.tbl_w.cellWidget(i, 9).ani.stop()
@@ -513,6 +519,10 @@ class NarwhalletController():
     def _scan_wallets_for_bids(self, _wallet_bid):
         for _btx in _wallet_bid:
             _w = self.wallets.get_wallet_by_name(_btx[0])
+
+            # TODO Cleanup better, this not necessarily clear
+            if _w is None:
+                continue
 
             for _ad in _w.addresses.addresses:
                 for _us in _ad.unspent_tx:
@@ -625,17 +635,23 @@ class NarwhalletController():
 
     def _update_wallets(self):
         for row in range(self.ui.w_tab.tbl_w.rowCount()):
-            _n = self.ui.w_tab.tbl_w.item(row, 3).text()
-            _w = self.wallets.get_wallet_by_name(_n)
-            if (_w.last_updated != '' and
-                    _w.last_updated is not None and
-                    _w.locked is False):
-                _current_time = MShared.get_timestamp()[0]
-                if _current_time - float(_w.last_updated) >= 60:
-                    if _w.updating is not True:
-                        _w.set_updating(True)
-                        self.ui.w_tab.tbl_w.cellWidget(row, 9).ani.start()
-                        self.update_wallet(_w, row)
+            _n = self.ui.w_tab.tbl_w.gtext(row, 3)
+            _w = None
+
+            if _n is not None:
+                _w = self.wallets.get_wallet_by_name(_n)
+
+            if _w is not None:
+                # TODO Add these checks to MWallet
+                if (_w.last_updated != '' and
+                        _w.last_updated is not None and
+                        _w.locked is False):
+                    _current_time = MShared.get_timestamp()[0]
+                    if _current_time - float(_w.last_updated) >= 60:
+                        if _w.updating is not True:
+                            _w.set_updating(True)
+                            self.ui.w_tab.tbl_w.cellWidget(row, 9).ani.start()
+                            self.update_wallet(_w, row)
 
     def _wallet_check_lock(self, row: int, column: int, wallet: MWallet):
         if wallet.locked is False and column == 1:
@@ -679,8 +695,14 @@ class NarwhalletController():
             self.ui.w_tab.reset_info_values()
             return
 
-        _n = self.ui.w_tab.tbl_w.item(row, 3).text()
+        _n = self.ui.w_tab.tbl_w.gtext(row, 3)
+        if _n is None:
+            return
+
         _w = self.wallets.get_wallet_by_name(_n)
+        if _w is None:
+            return
+
         self._wallet_check_lock(row, column, _w)
 
         self.ui.w_tab.tbl_addr.add_addresses(_w.addresses.to_dict_list())
@@ -715,7 +737,9 @@ class NarwhalletController():
         if column == 0:
             self.dialogs.view_wallet_address_dialog(row, column)
         elif column == 6:
-            _data = self.ui.w_tab.tbl_addr.item(row, 1).text()
+            _data = self.ui.w_tab.tbl_addr.gtext(row, 1)
+            if _data is None:
+                _data = ''
             self.copy_to_clipboard(_data)
 
     def w_c_address_selected(self, row: int, column: int):
@@ -737,7 +761,9 @@ class NarwhalletController():
 
     def ab_address_selected(self, row: int, column: int):
         self.ui.ab_tab.tbl_addr.selectRow(row)
-        _a = self.ui.ab_tab.tbl_addr.item(row, 3).text()
+        _a = self.ui.ab_tab.tbl_addr.gtext(row, 3)
+        if _a is None:
+            return
 
         if column == 0:
             self.dialogs.view_addressbook_item_dialog(row)
@@ -751,7 +777,7 @@ class NarwhalletController():
                     (self.ui.ab_tab.tbl_addr
                      .add_bookaddresses(self.address_book.to_dict_list()))
         elif column == 8:
-            self.copy_to_clipboard(self.ui.ab_tab.tbl_addr.item(row, 3).text())
+            self.copy_to_clipboard(_a)
 
     def ns_cell_clicked(self, _row: int, column: int):
         if column == 7:
@@ -762,26 +788,36 @@ class NarwhalletController():
 
     def ns_selected(self):
         self.ui.ns_tab.list_ns_keys.clearSelection()
-        row = self.ui.ns_tab.tbl_ns.selectedRanges()
-        if len(row) > 0:
-            row = row[0].topRow()
+        _r = self.ui.ns_tab.tbl_ns.selectedRanges()
+        if len(_r) > 0:
+            row = _r[0].topRow()
         else:
             self.ui.ns_tab.sel_ns_sc.setText('')
             self.ui.ns_tab.sel_ns_name.setText('')
             return
 
-        _n = self.ui.ns_tab.tbl_ns.item(row, 2).text()
-        _ns = self.ui.ns_tab.tbl_ns.item(row, 5).text()
+        _n = self.ui.ns_tab.tbl_ns.gtext(row, 2)
+        if _n is None:
+            return
+
+        _nst = self.ui.ns_tab.tbl_ns.gtext(row, 5)
+        if _nst is None:
+            return
+
         if _n in ('live', 'favorites'):
             _w = MWallet()
             _w.set_kind(3)
         else:
-            _w = self.wallets.get_wallet_by_name(_n)
+            _tw = self.wallets.get_wallet_by_name(_n)
+            if _tw is None:
+                return
+            else:
+                _w = _tw
 
-        _key_count = self.cache.ns.key_count(_ns)
+        _key_count = self.cache.ns.key_count(_nst)
 
         if len(_key_count) > 0:
-            _ns = self.cache.ns.get_namespace_by_id(_ns)
+            _ns = self.cache.ns.get_namespace_by_id(_nst)
             self.ui.ns_tab.list_ns_keys.add_keys(_ns)
 
         self.ui.ns_tab.sel_ns_key.setText('No key selected')
@@ -826,8 +862,14 @@ class NarwhalletController():
             self.ui.ns_tab.sel_ns_key_tx.setText('')
             self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(False)
             return
-        _n = self.ui.ns_tab.tbl_ns.item(row, 2).text()
-        _ns = self.ui.ns_tab.tbl_ns.item(row, 5).text()
+        _n = self.ui.ns_tab.tbl_ns.gtext(row, 2)
+        if _n is None:
+            return
+
+        _ns = self.ui.ns_tab.tbl_ns.gtext(row, 5)
+        if _ns is None:
+            return
+
         if _n in ('live', 'favorites'):
             _w = MWallet()
             _w.set_kind(3)
@@ -852,7 +894,8 @@ class NarwhalletController():
             self.ui.ns_tab.sel_ns_key_tx.setText('')
         elif _type in ('nft_bid', 'reply', 'repost', 'reward'):
             _ref_tx = self.cache.tx.get_tx_by_txid(key.text()[4:])
-            self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
+            if _ref_tx is not None:
+                self.ui.ns_tab.sel_ns_key_tx.setText(_ref_tx.txid)
             # self.ui.ns_tab.sel_ns_key_tx.setVisible(True)
 
         if _w.kind not in (1, 3):
@@ -875,8 +918,14 @@ class NarwhalletController():
         if _row != -1:
             self.ui.nft_tab.tbl_bids.clearSelection()
             self.ui.nft_tab.tbl_auctions.selectRow(_row)
-            _auction_ns = self.ui.nft_tab.tbl_auctions.item(_row, 8).text()
-            _auction_tx = self.ui.nft_tab.tbl_auctions.item(_row, 9).text()
+            _auction_ns = self.ui.nft_tab.tbl_auctions.gtext(_row, 8)
+            _auction_tx = self.ui.nft_tab.tbl_auctions.gtext(_row, 9)
+            if _auction_ns is None:
+                self.update_selected_auction_data(None, None, True)
+                return
+            elif _auction_tx is None:
+                return
+
             _auction = self.cache.ns.get_namespace_auctions(_auction_ns)
 
             if len(_auction) > 0:
@@ -896,8 +945,14 @@ class NarwhalletController():
         if _row != -1:
             self.ui.nft_tab.tbl_auctions.clearSelection()
             self.ui.nft_tab.tbl_bids.selectRow(_row)
-            _auction_ns = self.ui.nft_tab.tbl_bids.item(_row, 10).text()
-            _auction_tx = self.ui.nft_tab.tbl_bids.item(_row, 11).text()
+            _auction_ns = self.ui.nft_tab.tbl_bids.gtext(_row, 10)
+            _auction_tx = self.ui.nft_tab.tbl_bids.gtext(_row, 11)
+            if _auction_ns is None:
+                self.update_selected_auction_data(None, None, True)
+                return
+            elif _auction_tx is None:
+                return
+
             _auction = self.cache.ns.get_namespace_auctions(_auction_ns)
 
             if len(_auction) > 0:
@@ -999,14 +1054,15 @@ class NarwhalletController():
         self.ui.u_tab.address_combo.combo.addItem('-', '-')
         if data != '-':
             _w = self.wallets.get_wallet_by_name(data)
-            for index in range(0, _w.addresses.count):
-                add = _w.addresses.get_address_by_index(index)
-                (self.ui.u_tab.address_combo.combo
-                 .addItem(add.address, str(index)+':1'))
-            for index in range(0, _w.change_addresses.count):
-                add = _w.change_addresses.get_address_by_index(index)
-                (self.ui.u_tab.address_combo.combo
-                 .addItem(add.address, str(index)+':0'))
+            if _w is not None:
+                for index in range(0, _w.addresses.count):
+                    add = _w.addresses.get_address_by_index(index)
+                    (self.ui.u_tab.address_combo.combo
+                     .addItem(add.address, str(index)+':1'))
+                for index in range(0, _w.change_addresses.count):
+                    add = _w.change_addresses.get_address_by_index(index)
+                    (self.ui.u_tab.address_combo.combo
+                     .addItem(add.address, str(index)+':0'))
         self.ui.u_tab.ss_e.setPlainText('')
 
     def sign_address_changed(self, _data: str):
@@ -1014,6 +1070,9 @@ class NarwhalletController():
         if _data not in ('', '-'):
             _n = self.ui.u_tab.wallet_combo.combo.currentText()
             _w = self.wallets.get_wallet_by_name(_n)
+            if _w is None:
+                return
+
             _i_t = self.ui.u_tab.address_combo.combo.currentData().split(':')
             _pub = _w.get_publickey_raw(int(_i_t[0]), int(_i_t[1]))
             self.ui.u_tab.thl_bcp.setText(_pub)
@@ -1024,6 +1083,9 @@ class NarwhalletController():
         self.ui.u_tab.ss_e.setPlainText('')
         _n = self.ui.u_tab.wallet_combo.combo.currentText()
         _w = self.wallets.get_wallet_by_name(_n)
+        if _w is None:
+            return
+
         _i_t = self.ui.u_tab.address_combo.combo.currentData().split(':')
         _index = int(_i_t[0])
         # if _w.kind == 2:
@@ -1037,8 +1099,8 @@ class NarwhalletController():
                                          int(_i_t[1]))
         else:
             _data = self.ui.u_tab.thl_bcl.text()
-            _data = Ut.sha256(MShared.load_message_file(_data))
-            _signature = _w.sign_message(_index, _data, int(_i_t[1]))
+            _dat = Ut.sha256(MShared.load_message_file(_data))
+            _signature = _w.sign_message(_index, _dat, int(_i_t[1]))
         self.ui.u_tab.ss_e.setPlainText(_signature)
         return True
 
@@ -1049,10 +1111,10 @@ class NarwhalletController():
                                             self.ui.u_tab.vm_e.toPlainText())
         else:
             _data = self.ui.u_tab.vthl_bcl.text()
-            _data = Ut.sha256(MShared.load_message_file(_data))
+            _dat = Ut.sha256(MShared.load_message_file(_data))
             _v = WalletUtils.verify_message(self.ui.u_tab.vs_e.toPlainText(),
                                             self.ui.u_tab.va_e.text(),
-                                            _data)
+                                            _dat)
         self.ui.u_tab.success_label.setText(_v)
 
     def ns_key_value_edit(self):
@@ -1143,8 +1205,12 @@ class NarwhalletController():
                 tx_d[trx.txid]['amount'] = _am + _out.value
 
     def _get_unused_address(self):
-        _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
+        _n = self.ui.w_tab.tbl_w.gtext(self.ws, 3)
+        if _n is None:
+            return
         _w = self.wallets.get_wallet_by_name(_n)
+        if _w is None:
+            return
         _idx = _w.account_index
         _a = _w.get_unused_address()
         _dat = {'address': _a, 'received': 0.0, 'sent': 0.0, 'balance': 0.0}
@@ -1153,8 +1219,12 @@ class NarwhalletController():
         self.wallets.save_wallet(_w.name)
 
     def _get_unused_changeaddress(self):
-        _n = self.ui.w_tab.tbl_w.item(self.ws, 3).text()
+        _n = self.ui.w_tab.tbl_w.gtext(self.ws, 3)
+        if _n is None:
+            return
         _w = self.wallets.get_wallet_by_name(_n)
+        if _w is None:
+            return
         _idx = _w.change_index
         _a = _w.get_unused_change_address()
         _dat = {'address': _a, 'received': 0.0, 'sent': 0.0, 'balance': 0.0}

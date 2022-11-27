@@ -1,3 +1,4 @@
+from typing import Optional
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QWidget, QTableWidget
 from narwhallet.core.kui.ux.widgets.generator import UShared
@@ -28,6 +29,18 @@ class _wallets_addr_tbl(QTableWidget):
             else:
                 _return = str(default)
         return _return
+
+    def gtext(self, row: int, column: int) -> Optional[str]:
+        _r = self.item(row, column)
+        if _r is not None:
+            return _r.text()
+
+        return None
+
+    def stext(self, row: int, column: int, text: str):
+        _r = self.item(row, column)
+        if _r is not None:
+            _r.setText(text)
 
     def add_addresses(self, addresses_data: list):
         UShared.clear_table_rows(self)
@@ -73,12 +86,12 @@ class _wallets_addr_tbl(QTableWidget):
             address_data['sent'] = round(address_data['sent'], 9)
             address_data['balance'] = round(address_data['balance'], 9)
             address_data['label'] = ''
-            self.item(idx, 1).setText(address_data['address'])
-            (self.item(idx, 2)
-             .setText(self.test_param(address_data, 'received', '0.0', True)))
-            (self.item(idx, 3)
-             .setText(self.test_param(address_data, 'sent', '0.0', True)))
-            (self.item(idx, 4)
-             .setText(self.test_param(address_data, 'balance', '0.0', True)))
-            self.item(idx, 5).setText(address_data['label'])
+            self.stext(idx, 1, address_data['address'])
+            (self.stext(idx, 2,
+             self.test_param(address_data, 'received', '0.0', True)))
+            (self.stext(idx, 3,
+             self.test_param(address_data, 'sent', '0.0', True)))
+            (self.stext(idx, 4,
+             self.test_param(address_data, 'balance', '0.0', True)))
+            self.stext(idx, 5, address_data['label'])
             self.setRowHidden(idx, False)
