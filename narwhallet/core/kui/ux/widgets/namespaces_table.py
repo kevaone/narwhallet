@@ -1,17 +1,17 @@
-from typing import Optional
-from PyQt5.QtWidgets import QWidget, QTableWidget
+from PyQt5.QtWidgets import QWidget
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.ntablewidget import NTableWidget
 
 
-class _namespaces_table(QTableWidget):
+class _namespaces_table(NTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        UShared.set_table_properties(self, name)
-        UShared.set_table_columns(8, ['', 'Date', 'Wallet',
+        self.set_properties(name)
+        self.set_columns(8, ['', 'Date', 'Wallet',
                                       'Shortcode', 'Keys',
-                                      'NamespaceId', 'Address', ''], self)
+                                      'NamespaceId', 'Address', ''])
         self.setColumnHidden(1, True)
         # TODO Add settings control to show/hide address column
         self.setColumnHidden(6, True)
@@ -50,15 +50,3 @@ class _namespaces_table(QTableWidget):
         self.setItem(_r, 6, _address)
         self.setCellWidget(_r, 7, _dellabel)
         self.setItem(_r, 7, UShared.create_table_item(''))
-
-    def gtext(self, row: int, column: int) -> Optional[str]:
-        _r = self.item(row, column)
-        if _r is not None:
-            return _r.text()
-
-        return None
-
-    def stext(self, row: int, column: int, text: str):
-        _r = self.item(row, column)
-        if _r is not None:
-            _r.setText(text)

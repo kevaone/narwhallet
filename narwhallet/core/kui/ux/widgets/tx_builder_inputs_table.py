@@ -1,14 +1,15 @@
-from PyQt5.QtWidgets import QWidget, QTableWidget
+from PyQt5.QtWidgets import QWidget
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.ntablewidget import NTableWidget
 
 
-class _tx_builder_inputs_table(QTableWidget):
+class _tx_builder_inputs_table(NTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        UShared.set_table_properties(self, name)
-        UShared.set_table_columns(6, ['value', 'address', 'tx_hash',
-                                      'n', 'script_sig', 'sequence'], self)
+        self.set_properties(name)
+        self.set_columns(6, ['value', 'address', 'tx_hash',
+                                      'n', 'script_sig', 'sequence'])
 
     def add_input(self, value: float, address: str, tx_hash: str, n: int,
                   script: str):

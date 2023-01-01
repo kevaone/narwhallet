@@ -117,7 +117,7 @@ class NarwhalletController():
     def add_wallet_watch(self):
         _a, _l = self.dialogs.add_wallet_watch_address_dialog()
         if _a != '':
-            _n = self.ui.w_tab.tbl_w.gtext(self.ws, 3)
+            _n = self.ui.w_tab.tbl_w.get_text(self.ws, 3)
             if isinstance(_n, str):
                 _w = self.wallets.get_wallet_by_name(_n)
                 if _w is not None:
@@ -431,7 +431,7 @@ class NarwhalletController():
         self.set_dat.save(json.dumps(self.settings.to_dict()))
 
     def refresh_wallet_data_tabs(self, _c: str, _m: str, i: int):
-        _n = self.ui.w_tab.tbl_w.gtext(i, 3)
+        _n = self.ui.w_tab.tbl_w.get_text(i, 3)
         if _n is not None:
             wallet = self.wallets.get_wallet_by_name(_n)
         else:
@@ -449,14 +449,14 @@ class NarwhalletController():
                  .add_transactions(self._display_wallet_tx(wallet)))
                 self.ui.w_tab.set_info_values(wallet)
 
-            (self.ui.w_tab.tbl_w.stext(i, 6,
+            (self.ui.w_tab.tbl_w.set_text(i, 6,
              str(round(wallet.balance - wallet.bid_balance, 8))))
 
             if wallet.bid_balance > 0:
                 self.wallets.save_wallet(wallet.name)
-            (self.ui.w_tab.tbl_w.stext(i, 7,
+            (self.ui.w_tab.tbl_w.set_text(i, 7,
              str(round(wallet.bid_balance, 8))))
-            (self.ui.w_tab.tbl_w.stext(i, 8,
+            (self.ui.w_tab.tbl_w.set_text(i, 8,
              MShared.get_timestamp(wallet.last_updated)[1]))
 
             wallet.set_updating(False)
@@ -465,8 +465,8 @@ class NarwhalletController():
         self.ui.w_tab.tbl_w.resizeColumnsToContents()
 
     def refresh_nft_tab_data(self, namespaces: List[dict]):
-        UShared.remove_table_rows(self.ui.nft_tab.tbl_auctions)
-        UShared.remove_table_rows(self.ui.nft_tab.tbl_bids)
+        self.ui.nft_tab.tbl_auctions.remove_rows()
+        self.ui.nft_tab.tbl_bids.remove_rows()
         # self.ui.nft_tab.tbl_auctions.clear_rows()
         # self.ui.nft_tab.tbl_bids.clear_rows()
         _wallet_bid_tx = []
@@ -555,7 +555,7 @@ class NarwhalletController():
 
     def refresh_namespace_tab_data(self):
         # TODO Cleanup
-        UShared.remove_table_rows(self.ui.ns_tab.tbl_ns)
+        self.ui.ns_tab.tbl_ns.remove_rows()
         # UShared.remove_table_rows(self.ui.ns_tab.list_ns_keys)
         # self.ui.ns_tab.tbl_ns.clear_rows()
         self.ui.ns_tab.list_ns_keys.clear_rows()
@@ -635,7 +635,7 @@ class NarwhalletController():
 
     def _update_wallets(self):
         for row in range(self.ui.w_tab.tbl_w.rowCount()):
-            _n = self.ui.w_tab.tbl_w.gtext(row, 3)
+            _n = self.ui.w_tab.tbl_w.get_text(row, 3)
             _w = None
 
             if _n is not None:
@@ -686,16 +686,16 @@ class NarwhalletController():
             self.ws = row
 
         if row == -1:
-            UShared.remove_table_rows(self.ui.w_tab.tbl_addr)
-            UShared.remove_table_rows(self.ui.w_tab.tbl_addr2)
-            UShared.remove_table_rows(self.ui.w_tab.tbl_tx)
+            self.ui.w_tab.tbl_addr.remove_rows()
+            self.ui.w_tab.tbl_addr2.remove_rows()
+            self.ui.w_tab.tbl_tx.remove_rows()
             # self.ui.w_tab.tbl_addr.clear_rows()
             # self.ui.w_tab.tbl_addr2.clear_rows()
             # self.ui.w_tab.tbl_tx.clear_rows()
             self.ui.w_tab.reset_info_values()
             return
 
-        _n = self.ui.w_tab.tbl_w.gtext(row, 3)
+        _n = self.ui.w_tab.tbl_w.get_text(row, 3)
         if _n is None:
             return
 
@@ -737,7 +737,7 @@ class NarwhalletController():
         if column == 0:
             self.dialogs.view_wallet_address_dialog(row, column)
         elif column == 6:
-            _data = self.ui.w_tab.tbl_addr.gtext(row, 1)
+            _data = self.ui.w_tab.tbl_addr.get_text(row, 1)
             if _data is None:
                 _data = ''
             self.copy_to_clipboard(_data)
@@ -761,7 +761,7 @@ class NarwhalletController():
 
     def ab_address_selected(self, row: int, column: int):
         self.ui.ab_tab.tbl_addr.selectRow(row)
-        _a = self.ui.ab_tab.tbl_addr.gtext(row, 3)
+        _a = self.ui.ab_tab.tbl_addr.get_text(row, 3)
         if _a is None:
             return
 
@@ -796,11 +796,11 @@ class NarwhalletController():
             self.ui.ns_tab.sel_ns_name.setText('')
             return
 
-        _n = self.ui.ns_tab.tbl_ns.gtext(row, 2)
+        _n = self.ui.ns_tab.tbl_ns.get_text(row, 2)
         if _n is None:
             return
 
-        _nst = self.ui.ns_tab.tbl_ns.gtext(row, 5)
+        _nst = self.ui.ns_tab.tbl_ns.get_text(row, 5)
         if _nst is None:
             return
 
@@ -862,11 +862,11 @@ class NarwhalletController():
             self.ui.ns_tab.sel_ns_key_tx.setText('')
             self.ui.ns_tab.sel_ns_key_tx_sc.setVisible(False)
             return
-        _n = self.ui.ns_tab.tbl_ns.gtext(row, 2)
+        _n = self.ui.ns_tab.tbl_ns.get_text(row, 2)
         if _n is None:
             return
 
-        _ns = self.ui.ns_tab.tbl_ns.gtext(row, 5)
+        _ns = self.ui.ns_tab.tbl_ns.get_text(row, 5)
         if _ns is None:
             return
 
@@ -918,8 +918,8 @@ class NarwhalletController():
         if _row != -1:
             self.ui.nft_tab.tbl_bids.clearSelection()
             self.ui.nft_tab.tbl_auctions.selectRow(_row)
-            _auction_ns = self.ui.nft_tab.tbl_auctions.gtext(_row, 8)
-            _auction_tx = self.ui.nft_tab.tbl_auctions.gtext(_row, 9)
+            _auction_ns = self.ui.nft_tab.tbl_auctions.get_text(_row, 8)
+            _auction_tx = self.ui.nft_tab.tbl_auctions.get_text(_row, 9)
             if _auction_ns is None:
                 self.update_selected_auction_data(None, None, True)
                 return
@@ -945,8 +945,8 @@ class NarwhalletController():
         if _row != -1:
             self.ui.nft_tab.tbl_auctions.clearSelection()
             self.ui.nft_tab.tbl_bids.selectRow(_row)
-            _auction_ns = self.ui.nft_tab.tbl_bids.gtext(_row, 10)
-            _auction_tx = self.ui.nft_tab.tbl_bids.gtext(_row, 11)
+            _auction_ns = self.ui.nft_tab.tbl_bids.get_text(_row, 10)
+            _auction_tx = self.ui.nft_tab.tbl_bids.get_text(_row, 11)
             if _auction_ns is None:
                 self.update_selected_auction_data(None, None, True)
                 return
@@ -1010,7 +1010,7 @@ class NarwhalletController():
             self.ui.nft_tab.owner_address.setText('')
             self.ui.nft_tab.address.setText('')
             self.ui.nft_tab.hashtags.setText('')
-            UShared.remove_table_rows(self.ui.nft_tab.tbl_bids_2)
+            self.ui.nft_tab.tbl_bids_2.remove_rows()
             # self.ui.nft_tab.tbl_bids_2.clear_rows()
         else:
             self.ui.nft_tab.ns.setText(auction[3])
@@ -1037,7 +1037,7 @@ class NarwhalletController():
             self._update_selected_auction_bids(reactions)
 
     def _update_selected_auction_bids(self, reactions):
-        UShared.remove_table_rows(self.ui.nft_tab.tbl_bids_2)
+        self.ui.nft_tab.tbl_bids_2.remove_rows()
         # self.ui.nft_tab.tbl_bids_2.clear_rows()
         _bids = []
         for _r in reactions['replies']:
@@ -1205,7 +1205,7 @@ class NarwhalletController():
                 tx_d[trx.txid]['amount'] = _am + _out.value
 
     def _get_unused_address(self):
-        _n = self.ui.w_tab.tbl_w.gtext(self.ws, 3)
+        _n = self.ui.w_tab.tbl_w.get_text(self.ws, 3)
         if _n is None:
             return
         _w = self.wallets.get_wallet_by_name(_n)
@@ -1219,7 +1219,7 @@ class NarwhalletController():
         self.wallets.save_wallet(_w.name)
 
     def _get_unused_changeaddress(self):
-        _n = self.ui.w_tab.tbl_w.gtext(self.ws, 3)
+        _n = self.ui.w_tab.tbl_w.get_text(self.ws, 3)
         if _n is None:
             return
         _w = self.wallets.get_wallet_by_name(_n)

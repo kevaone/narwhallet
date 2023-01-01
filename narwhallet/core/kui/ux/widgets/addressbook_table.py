@@ -1,21 +1,21 @@
-from typing import Optional
-from PyQt5.QtWidgets import QWidget, QTableWidget
+from PyQt5.QtWidgets import QWidget
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.ntablewidget import NTableWidget
 
 
-class _address_book_table(QTableWidget):
+class _address_book_table(NTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        UShared.set_table_properties(self, name)
-        UShared.set_table_columns(9, ['', 'Coin', 'Name', 'Address', 'Sent',
-                                      'Received', 'Label', '', ''], self)
+        self.set_properties(name)
+        self.set_columns(9, ['', 'Coin', 'Name', 'Address', 'Sent',
+                                      'Received', 'Label', '', ''])
         self.setColumnHidden(1, True)
         self.setColumnHidden(4, True)
         self.setColumnHidden(5, True)
 
     def add_bookaddresses(self, book_addresses: list):
-        UShared.remove_table_rows(self)
+        self.remove_rows()
 
         for i in book_addresses:
             self.add_bookaddress(i)
@@ -63,15 +63,3 @@ class _address_book_table(QTableWidget):
         self.setCellWidget(_r, 8, _bvpic)
         self.setItem(_r, 9, UShared.create_table_item(''))
         self.setSortingEnabled(True)
-
-    def gtext(self, row: int, column: int) -> Optional[str]:
-        _r = self.item(row, column)
-        if _r is not None:
-            return _r.text()
-
-        return None
-
-    def stext(self, row: int, column: int, text: str):
-        _r = self.item(row, column)
-        if _r is not None:
-            _r.setText(text)

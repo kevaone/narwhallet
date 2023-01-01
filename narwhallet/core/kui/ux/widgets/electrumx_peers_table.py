@@ -1,15 +1,16 @@
-from PyQt5.QtWidgets import QWidget, QTableWidget
+from PyQt5.QtWidgets import QWidget
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.ntablewidget import NTableWidget
 
 
-class _electrumx_peers_table(QTableWidget):
+class _electrumx_peers_table(NTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        UShared.set_table_properties(self, name)
-        UShared.set_table_columns(10, ['', 'Coin', 'Host', 'Port',
+        self.set_properties(name)
+        self.set_columns(10, ['', 'Coin', 'Host', 'Port',
                                        'Type', 'TLS', 'Ping', 'Status',
-                                       '', 'Active'], self)
+                                       '', 'Active'])
         self.setColumnHidden(1, True)
         self.setColumnHidden(4, True)
         self.setColumnHidden(5, True)

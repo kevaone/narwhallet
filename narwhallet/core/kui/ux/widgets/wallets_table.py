@@ -1,19 +1,19 @@
-from typing import Optional
-from PyQt5.QtWidgets import QWidget, QTableWidget, QLabel
+from PyQt5.QtWidgets import QWidget, QLabel
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.ux.widgets.animated_label import animated_label
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.ntablewidget import NTableWidget
 
 
-class _wallets_table(QTableWidget):
+class _wallets_table(NTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        UShared.set_table_properties(self, name)
-        UShared.set_table_columns(10, ['', 'Locked', 'Coin', 'Name', 'Type',
+        self.set_properties(name)
+        self.set_columns(10, ['', 'Locked', 'Coin', 'Name', 'Type',
                                        'Kind', 'Balance', 'Bid Locked',
-                                       'Last Updated', ''], self)
+                                       'Last Updated', ''])
         self.setColumnHidden(2, True)
         self.setColumnHidden(4, True)
 
@@ -81,18 +81,6 @@ class _wallets_table(QTableWidget):
         self.resizeColumnsToContents()
         self.setSortingEnabled(True)
 
-    def gtext(self, row: int, column: int) -> Optional[str]:
-        _r = self.item(row, column)
-        if _r is not None:
-            return _r.text()
-
-        return None
-
-    def stext(self, row: int, column: int, text: str):
-        _r = self.item(row, column)
-        if _r is not None:
-            _r.setText(text)
-
     def update_wallet(self, _w: MWallet, row: int):
         if _w.locked is True:
             _lvpic = UShared.create_table_item_graphic(6)
@@ -121,10 +109,10 @@ class _wallets_table(QTableWidget):
             _upd = '-'
 
         self.setCellWidget(row, 1, _lvpic)
-        self.stext(row, 2, _w.coin)
-        self.stext(row, 4, _w.bip)
+        self.set_text(row, 2, _w.coin)
+        self.set_text(row, 4, _w.bip)
         self.setCellWidget(row, 5, _kvpic)
-        self.stext(row, 6, str(round(_w.balance, 8)))
-        self.stext(row, 7, str(round(_w.bid_balance, 8)))
-        self.stext(row, 8, _upd)
+        self.set_text(row, 6, str(round(_w.balance, 8)))
+        self.set_text(row, 7, str(round(_w.bid_balance, 8)))
+        self.set_text(row, 8, _upd)
         self.resizeColumnsToContents()

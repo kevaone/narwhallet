@@ -1,20 +1,21 @@
-from PyQt5.QtWidgets import QWidget, QTableWidget
+from PyQt5.QtWidgets import QWidget
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.ntablewidget import NTableWidget
 
 
-class _transaction_table(QTableWidget):
+class _transaction_table(NTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        UShared.set_table_properties(self, name)
-        UShared.set_table_columns(6, ['', 'Date', 'Tx', 'Amount',
-                                      'Type', 'txid'], self)
+        self.set_properties(name)
+        self.set_columns(6, ['', 'Date', 'Tx', 'Amount',
+                                      'Type', 'txid'])
         self.setColumnHidden(2, True)
         self.setColumnHidden(5, True)
 
     def add_transactions(self, transactions: list):
-        UShared.clear_table_rows(self)
+        self.clear_rows()
         self.setSortingEnabled(False)
         for c, dat in enumerate(transactions):
             dat['amount'] = round(dat['amount'], 8)
@@ -52,9 +53,9 @@ class _transaction_table(QTableWidget):
             self.setItem(idx, 4, _direction)
             self.setItem(idx, 5, _txid)
         elif idx <= self.rowCount():
-            (self.item(idx, 1).setText(
+            (self.set_text(idx, 1,
                 MShared.get_timestamp(transaction_data['time'])[1]))
-            self.item(idx, 3).setText(str(transaction_data['amount']))
-            self.item(idx, 4).setText(transaction_data['<->'])
-            self.item(idx, 5).setText(transaction_data['txid'])
+            self.set_text(idx, 3, str(transaction_data['amount']))
+            self.set_text(idx, 4, transaction_data['<->'])
+            self.set_text(idx, 5, transaction_data['txid'])
             self.setRowHidden(idx, False)

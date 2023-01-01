@@ -1,16 +1,16 @@
-from typing import Optional
 from PyQt5 import QtCore
-from PyQt5.QtWidgets import QWidget, QTableWidget
+from PyQt5.QtWidgets import QWidget
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.ntablewidget import NTableWidget
 
 
-class _wallets_addr_tbl(QTableWidget):
+class _wallets_addr_tbl(NTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        UShared.set_table_properties(self, name)
-        UShared.set_table_columns(7, ['', 'Address', 'Received',
-                                      'Sent', 'Balance', 'Label', ''], self)
+        self.set_properties(name)
+        self.set_columns(7, ['', 'Address', 'Received',
+                                      'Sent', 'Balance', 'Label', ''])
 
     def test_param(self, address_data: dict, val: str, default: str,
                    ret_str: bool = False):
@@ -30,20 +30,8 @@ class _wallets_addr_tbl(QTableWidget):
                 _return = str(default)
         return _return
 
-    def gtext(self, row: int, column: int) -> Optional[str]:
-        _r = self.item(row, column)
-        if _r is not None:
-            return _r.text()
-
-        return None
-
-    def stext(self, row: int, column: int, text: str):
-        _r = self.item(row, column)
-        if _r is not None:
-            _r.setText(text)
-
     def add_addresses(self, addresses_data: list):
-        UShared.clear_table_rows(self)
+        self.clear_rows()
         self.setSortingEnabled(False)
         for c, dat in enumerate(addresses_data):
             self.add_address(c, dat)
@@ -86,12 +74,12 @@ class _wallets_addr_tbl(QTableWidget):
             address_data['sent'] = round(address_data['sent'], 9)
             address_data['balance'] = round(address_data['balance'], 9)
             address_data['label'] = ''
-            self.stext(idx, 1, address_data['address'])
-            (self.stext(idx, 2,
+            self.set_text(idx, 1, address_data['address'])
+            (self.set_text(idx, 2,
              self.test_param(address_data, 'received', '0.0', True)))
-            (self.stext(idx, 3,
+            (self.set_text(idx, 3,
              self.test_param(address_data, 'sent', '0.0', True)))
-            (self.stext(idx, 4,
+            (self.set_text(idx, 4,
              self.test_param(address_data, 'balance', '0.0', True)))
-            self.stext(idx, 5, address_data['label'])
+            self.set_text(idx, 5, address_data['label'])
             self.setRowHidden(idx, False)

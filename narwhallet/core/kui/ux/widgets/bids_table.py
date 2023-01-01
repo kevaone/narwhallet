@@ -1,18 +1,18 @@
-from typing import Optional
-from PyQt5.QtWidgets import QWidget, QTableWidget
+from PyQt5.QtWidgets import QWidget
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.ntablewidget import NTableWidget
 
 
-class _bids_table(QTableWidget):
+class _bids_table(NTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        UShared.set_table_properties(self, name)
-        UShared.set_table_columns(12, ['', 'Date', 'Wallet', 'Bid From',
+        self.set_properties(name)
+        self.set_columns(12, ['', 'Date', 'Wallet', 'Bid From',
                                        'Bid On', 'Asking', 'High Bid',
                                        'Your Bid', 'Is High Bid', '', '',
-                                       ''], self)
+                                       ''])
         self.setColumnWidth(0, 20)
         self.setColumnWidth(8, 20)
         self.setColumnHidden(10, True)
@@ -69,15 +69,3 @@ class _bids_table(QTableWidget):
         self.setItem(_r, 9, UShared.create_table_item(''))
         self.setItem(_r, 10, _auc_ns)
         self.setItem(_r, 11, _auc_tx)
-
-    def gtext(self, row: int, column: int) -> Optional[str]:
-        _r = self.item(row, column)
-        if _r is not None:
-            return _r.text()
-
-        return None
-
-    def stext(self, row: int, column: int, text: str):
-        _r = self.item(row, column)
-        if _r is not None:
-            _r.setText(text)

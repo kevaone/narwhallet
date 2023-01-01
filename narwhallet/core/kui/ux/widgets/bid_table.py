@@ -1,15 +1,16 @@
-from PyQt5.QtWidgets import QWidget, QTableWidget
+from PyQt5.QtWidgets import QWidget
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.ux.widgets.generator import UShared
+from narwhallet.core.kui.ux.widgets.ntablewidget import NTableWidget
 
 
-class _bid_table(QTableWidget):
+class _bid_table(NTableWidget):
     def __init__(self, name: str, _parent: QWidget):
         super().__init__()
 
-        UShared.set_table_properties(self, name)
-        UShared.set_table_columns(7, ['', '', 'Date', 'Shortcode',
-                                      'Bid', '', ''], self)
+        self.set_properties(name)
+        self.set_columns(7, ['', '', 'Date', 'Shortcode',
+                                      'Bid', '', ''])
         self.setColumnWidth(0, 20)
         self.setColumnWidth(1, 20)
         self.setColumnWidth(4, 20)

@@ -1,7 +1,7 @@
 from typing import List
 from PyQt5 import QtCore
-from PyQt5.QtGui import QColor, QPixmap
-from PyQt5.QtWidgets import (QHBoxLayout, QTableWidget, QTableWidgetItem,
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import (QHBoxLayout, QTableWidgetItem,
                              QLabel, QSizePolicy, QSpacerItem)
 from narwhallet.control.shared import MShared
 
@@ -35,46 +35,6 @@ class UShared():
         _label.setPixmap(_pic)
 
         return _label
-
-    @staticmethod
-    def set_table_properties(table: QTableWidget, name: str):
-        table.setObjectName(name)
-        table.setSelectionBehavior(table.SelectRows)
-        table.setSelectionMode(table.SingleSelection)
-        table.setAlternatingRowColors(True)
-        table.setSortingEnabled(True)
-
-    @staticmethod
-    def set_table_columns(columns, headers: List[str], table: QTableWidget):
-        table.setColumnCount(columns)
-        table.setHorizontalHeaderLabels(headers)
-        for c in range(0, columns):
-            table.horizontalHeaderItem(c).setTextAlignment(4)
-        table.horizontalHeader().setMinimumSectionSize(5)
-
-    @staticmethod
-    def remove_table_rows(table: QTableWidget):
-        _m = table.rowCount()
-
-        while _m > -1:
-            table.removeRow(_m)
-            _m = _m - 1
-
-    @staticmethod
-    def clear_table_row(table: QTableWidget, row: int):
-        table.setRowHidden(row, True)
-        for c in range(0, table.columnCount()):
-            table.item(row, c).setText('')
-
-    @staticmethod
-    def clear_table_rows(table: QTableWidget):
-        for i in range(0, table.rowCount()):
-            UShared.clear_table_row(table, i)
-
-    @staticmethod
-    def set_table_row_color(table: QTableWidget, row: int, color: QColor):
-        for c in range(0, table.columnCount()):
-            table.item(row, c).setBackground(color)
 
     @staticmethod
     def create_table_item_graphic(pic: int):
