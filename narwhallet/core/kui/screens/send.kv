@@ -1,0 +1,92 @@
+<SendScreen>
+    wallet_name: wallet_name
+    send_to: send_to
+    amount: amount
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Name:'
+                text_size: self.size
+
+            Spinner:
+                id: wallet_name
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Send To:'
+                text_size: self.size
+
+            Spinner:
+                id: send_to
+                halign: 'left'
+                text: 'Address'
+                text_size: self.size
+
+            TextInput:
+                id: send_to
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Amount:'
+                text_size: self.size
+
+            TextInput:
+                id: amount
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwbutton:
+                text: 'Cancel'
+                on_press: root.manager.current = 'wallet_screen'
+
+            Nwbutton:
+                text: 'Send'
+                on_press: root.manager.current = 'wallet_screen'

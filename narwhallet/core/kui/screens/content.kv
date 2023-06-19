@@ -1,0 +1,85 @@
+<ContentScreen>
+    wallet_list: wallet_list
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwbutton:
+                text: 'Market'
+                on_press: root.manager.current = 'market_screen'
+
+            Nwbutton:
+                text: 'My Offers'
+                on_press: root.manager.current = 'offers_screen'
+
+            Nwbutton:
+                text: 'Pending'
+                on_press: root.manager.current = 'pending_screen'
+
+            Nwbutton:
+                text: '!'
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            GridLayout:
+                id: wallet_list
+                canvas:
+                    Color:
+                        rgba: 1, .1, .7, 1
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint_y: None
+                height: self.minimum_height * 20
+                cols: 1
+                spacing: 5
+                padding: 5
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 35
+
+            Nwbutton:
+                text: 'Home'
+                on_press: root.manager.current = 'home_screen'
+
+            Nwbutton:
+                text: 'All'
+
+            Nwbutton:
+                text: 'Favorites'
+
+            Nwbutton:
+                text: 'NFT''s'

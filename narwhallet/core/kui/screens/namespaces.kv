@@ -1,0 +1,68 @@
+<NamespacesScreen>
+    namespaces_list: namespaces_list
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Namespaces'
+                halign: 'left'
+                font_size: 25
+                text_size: self.size
+                padding_x: 10
+                padding_y: 1
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            GridLayout:
+                id: namespaces_list
+                canvas:
+                    Color:
+                        rgba: 60/255, 61/255, 61/255, 1
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint_y: None
+                height: self.minimum_height * 16
+                cols: 1
+                spacing: 5
+                padding: 5
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 35
+
+            Nwbutton:
+                text: 'Home'
+                on_press: root.manager.current = 'home_screen'
+
+            Nwbutton:
+                text: 'Wallet'
+                on_press: root.manager.current = 'wallet_screen'

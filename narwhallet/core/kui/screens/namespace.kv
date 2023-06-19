@@ -1,0 +1,118 @@
+<NamespaceScreen>
+    namespaceid: namespaceid
+    namespace_name: namespace_name
+    shortcode: shortcode
+    namespace_key_list: namespace_key_list
+    owner: owner
+    creator: creator
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                id: namespaceid
+                text: 'Namwspace Example'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            orientation: 'horizontal'
+
+            Nwlabel:
+                id: shortcode
+                font_size: 25
+                text_size: self.size
+                text: 'Shortcode'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 30
+            orientation: 'horizontal'
+
+            Nwlabel:
+                id: namespace_name
+                font_size: 25
+                text_size: self.size
+                text: 'Name'
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Creator:'
+
+            Nwlabel:
+                id: creator
+                text: ''
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Owner:'
+
+            Nwlabel:
+                id: owner
+                text: 'Owner:'
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            GridLayout:
+                id: namespace_key_list
+                canvas:
+                    Color:
+                        rgba: 60/255, 61/255, 61/255, 1
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint_y: None
+                rows: 0
+                # TODO: Fixme
+                height: dp(85) * self.rows + (10*self.rows) if root.width <= dp(650) else dp(65) * self.rows + (10*self.rows)
+                # row_default_height: dp(85) if root.width <= dp(650) else dp(65)
+                cols: 1
+                spacing: 5
+                padding: 5
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 35
+
+            Nwbutton:
+                text: 'Wallet'
+                on_press: root.manager.current = 'wallet_screen'
+
+            Nwbutton:
+                text: 'Namespaces'
+                on_press: root.manager.current = 'namespaces_screen'

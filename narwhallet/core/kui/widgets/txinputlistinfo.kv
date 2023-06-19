@@ -1,0 +1,42 @@
+<TXInputListInfo@BoxLayout>
+    sm: None
+    txid: txid
+    vout: vout
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 15
+
+            Nwlabel:
+                id: txid
+                text: 'txid'
+                font_size: 20
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'vout:'
+                text_size: self.size
+                halign: 'left'
+                padding_x: 5
+            Nwlabel:
+                id: vout
+                text: 'vout'
+                halign: 'right'
+                padding_x: 5
+                text_size: self.size

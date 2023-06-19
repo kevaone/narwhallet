@@ -1,0 +1,44 @@
+<TXOutputListInfo@BoxLayout>
+    sm: None
+    n: n
+    value: value
+    scriptpubkey_asm: scriptpubkey_asm
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+            spacing: 5
+
+            Nwlabel:
+                id: n
+                text: ''
+                text_size: self.size
+
+            Nwlabel:
+                id: value
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                id: scriptpubkey_asm
+                text: ''
+                halign: 'left'
+                padding_x: 5
+                text_size: self.size

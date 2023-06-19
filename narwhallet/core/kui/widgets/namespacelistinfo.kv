@@ -1,0 +1,76 @@
+<NamespaceListInfo@BoxLayout>
+    sm: None
+    address: address
+    shortcode: shortcode
+    keys: keys
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 10
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Nwlabel:
+                id: shortcode
+                text: ''
+                height: 25
+                font_size: 20
+                text_size: self.size
+                padding_x: 5
+                size_hint_x: None
+                width: dp(115)
+
+            Nwlabel:
+                id: ns_name
+                text: ''
+                height: 25
+                font_size: 20
+                text_size: self.size
+                padding_x: 5
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Nwlabel:
+                id: address
+                text: ''
+                height: 20
+                font_size: 15
+                text_size: self.size
+                padding_x: 5
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Keys:'
+                text_size: self.size
+                halign: 'left'
+                padding_x: 5
+                width: dp(45)
+                size_hint_x: None
+
+            Nwlabel:
+                id: keys
+                text: ''
+                halign: 'left'
+                padding_x: 5
+                text_size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 10

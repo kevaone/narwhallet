@@ -1,0 +1,63 @@
+<TransactionListInfo@BoxLayout>
+    sm: None
+    block: block
+    transaction: transaction
+    balance: '0.0'
+    status: 'unspent'
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 10
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Nwlabel:
+                id: transaction
+                text: ''
+                text_size: self.size
+                padding_x: 5
+                font_size: 17
+                size_hint_y: None
+                height: 40
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 30
+
+            Nwlabel:
+                id: block
+                text: ''
+                text_size: self.size
+                padding_x: 5
+            Nwlabel:
+                text: root.status
+                padding_x: 5
+                text_size: self.size
+            Nwlabel:
+                text: 'Value:'
+                text_size: self.size
+                halign: 'right'
+                padding_x: 5
+            Nwlabel:
+                text: root.balance
+                halign: 'right'
+                padding_x: 5
+                text_size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 10

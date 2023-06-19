@@ -1,0 +1,43 @@
+<NamespaceInfo@BoxLayout>
+    sm: None
+    key: key
+    data: data
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                id: key
+                text: 'key'
+                size_hint_x: None
+                size_hint_y: None
+                height: 20
+                width: dp(265)
+                font_size: 15
+                text_size: self.size
+                padding_x: 5
+
+        BoxLayout:
+            orientation: 'horizontal'
+            # size_hint_y: None
+            # height: 10
+
+            Nwlabel:
+                id: data
+                text: 'Data'
+                font_size: 15
+                text_size: self.size
+                padding_x: 5

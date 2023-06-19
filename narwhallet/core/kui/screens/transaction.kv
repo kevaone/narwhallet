@@ -1,0 +1,343 @@
+<TransactionScreen>
+    txid: txid
+    tx_hash: tx_hash
+    version: version
+    tx_size: tx_size
+    vsize: vsize
+    locktime: locktime
+    blockhash: blockhash
+    vin: vin
+    vout: vout
+    hex: hex
+    confirmations: confirmations
+    time: time
+    blocktime: blocktime
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: 25
+            orientation: 'horizontal'
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Nwlabel:
+                halign: 'left'
+                text: 'TX ID:'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(85)
+
+            Nwlabel:
+                id: txid
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Nwlabel:
+                halign: 'left'
+                text: 'TX Hash:'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(85)
+
+            Nwlabel:
+                id: tx_hash
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Block Hash:'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(85)
+
+            Nwlabel:
+                id: blockhash
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Block Time:'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(85)
+
+            Nwlabel:
+                id: blocktime
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: 25
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'TX Size:'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(85)
+
+            Nwlabel:
+                id: tx_size
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: dp(85)
+
+            Nwlabel:
+                halign: 'left'
+                text: 'vsize:'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(65)
+
+            Nwlabel:
+                id: vsize
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: dp(50)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Nwlabel:
+                halign: 'left'
+                text: 'time:'
+                text_size: self.size
+
+            Nwlabel:
+                id: time
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+            Nwlabel:
+                halign: 'left'
+                text: 'version:'
+                text_size: self.size
+
+            Nwlabel:
+                id: version
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+            Nwlabel:
+                halign: 'left'
+                text: 'confirmation:'
+                text_size: self.size
+
+            Nwlabel:
+                id: confirmations
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+            Nwlabel:
+                halign: 'left'
+                text: 'lock time:'
+                text_size: self.size
+
+            Nwlabel:
+                id: locktime
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Inputs:'
+                halign: 'left'
+                text_size: self.size
+                padding_x: 10
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            GridLayout:
+                id: vin
+                canvas:
+                    Color:
+                        rgba: 60/255, 61/255, 61/255, 1
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint_y: None
+                # height: self.minimum_height * 15
+                height: self.minimum_height * 8 if root.width <= dp(650) else self.minimum_height * 6
+                cols: 1
+                spacing: 5
+                padding: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Outputs:'
+                halign: 'left'
+                text_size: self.size
+                padding_x: 10
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            GridLayout:
+                id: vout
+                canvas:
+                    Color:
+                        rgba: 60/255, 61/255, 61/255, 1
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint_y: None
+                # height: self.minimum_height * 15
+                height: self.minimum_height * 8 if root.width <= dp(650) else self.minimum_height * 6
+                cols: 1
+                spacing: 5
+                padding: 5
+
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Nwlabel:
+                halign: 'left'
+                text: 'hex:'
+                text_size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+
+            Nwlabel:
+                id: hex
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_y: None
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwbutton:
+                text: 'Home'
+                on_press: root.manager.current = 'home_screen'
+
+            Nwbutton:
+                text: 'Wallet'
+                on_press: root.manager.current = 'wallet_screen'

@@ -1,0 +1,65 @@
+<TransactionsScreen>
+    transaction_list: transaction_list
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Transactions'
+                halign: 'left'
+                font_size: 25
+                text_size: self.size
+                padding_x: 10
+                padding_y: 1
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+
+            GridLayout:
+                id: transaction_list
+                canvas:
+                    Color:
+                        rgba: 60/255, 61/255, 61/255, 1
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint_y: None
+                # height: self.minimum_height * 15
+                # height: self.minimum_height * 19 if root.width <= dp(650) else self.minimum_height * 15
+                rows: 0
+                height: dp(85) * self.rows + (10*self.rows) if root.width <= dp(650) else dp(65) * self.rows + (10*self.rows)
+                cols: 1
+
+                row_default_height: dp(85) if root.width <= dp(650) else dp(65)
+                spacing: 5
+                padding: 5
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwbutton:
+                text: 'Home'
+                on_press: root.manager.current = 'home_screen'
+
+            Nwbutton:
+                text: 'Wallet'
+                on_press: root.manager.current = 'wallet_screen'

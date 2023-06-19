@@ -1,6 +1,8 @@
 # Narwhallet - alpha
 ## **UN-Official** Kevacoin ElectrumX Wallet
 
+# Runable version see 'qt' branch. This branch undergoing change.
+
 ### Please Note
 This project currently in **alpha**.
 

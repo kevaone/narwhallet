@@ -1,0 +1,203 @@
+<WalletInfoScreen>
+    wallet_name: wallet_name
+    mnemonic_phrase: mnemonic_phrase
+    seed: seed
+    ypub: ypub
+    coin: coin
+    kind: kind
+    account_index: account_index
+    change_index: change_index
+    balance: balance
+    locked_balance: locked_balance
+    last_updated: last_updated
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Wallet Name:'
+                text_size: self.size
+
+            Nwlabel:
+                id: wallet_name
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Last Updated:'
+                text_size: self.size
+
+            Nwlabel:
+                id: last_updated
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Coin:'
+                text_size: self.size
+
+            Nwlabel:
+                id: coin
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Kind:'
+                text_size: self.size
+
+            Nwlabel:
+                id: kind
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Account Index:'
+                text_size: self.size
+
+            Nwlabel:
+                id: account_index
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Change Index:'
+                text_size: self.size
+
+            Nwlabel:
+                id: change_index
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Balance:'
+                text_size: self.size
+
+            Nwlabel:
+                id: balance
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Locked Balance:'
+                text_size: self.size
+
+            Nwlabel:
+                id: locked_balance
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Mnemonic Phrase:'
+                text_size: self.size
+
+            Nwlabel:
+                id: mnemonic_phrase
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Seed:'
+                text_size: self.size
+
+            Nwlabel:
+                id: seed
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwlabel:
+                halign: 'left'
+                text: 'ypub:'
+                text_size: self.size
+
+            Nwlabel:
+                id: ypub
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwbutton:
+                text: 'Home'
+                on_press: root.manager.current = 'home_screen'
+
+            Nwbutton:
+                text: 'Wallet'
+                on_press: root.manager.current = 'wallet_screen'

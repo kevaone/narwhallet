@@ -1,0 +1,66 @@
+<AddressListInfo@BoxLayout>
+    sm: None
+    wallet_name: None
+    address: address
+    address_label: address_label
+    balance: balance
+    transactions: transactions
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 15
+
+            Nwlabel:
+                id: address
+                text: ''
+                height: 25
+                font_size: 20
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 15
+
+            Nwlabel:
+                id: address_label
+                text: ''
+                font_size: 20
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Transactions:'
+                halign: 'left'
+                padding_x: 5
+                text_size: self.size
+
+            Nwlabel:
+                id: transactions
+                text: ''
+                halign: 'right'
+                padding_x: 5
+                text_size: self.size
+
+            Nwlabel:
+                text: 'Balance:'
+                text_size: self.size
+                halign: 'left'
+                padding_x: 5
+
+            Nwlabel:
+                id: balance
+                text: ''
+                halign: 'right'
+                padding_x: 5
+                text_size: self.size

@@ -1,0 +1,75 @@
+<WalletListInfo@BoxLayout>
+    sm: None
+    wallet_name: wallet_name
+    ticker: ticker
+    balance: balance
+    last_updated: last_updated
+    canvas:
+        Color:
+            rgba: (87/255, 95/255, 97/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(35)
+
+            Image:
+                id: ticker
+                source: 'narwhallet/core/kui/ux/assets/keva-logo.png'
+                allow_stretch: True
+                fit_mode: 'contain'
+                size_hint_y: None
+                height: dp(30)
+                size_hint_x: None
+                width: dp(45)
+
+            Nwlabel:
+                id: wallet_name
+                text: ''
+                height: dp(35)
+                font_size: 25
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(20)
+
+            Nwlabel:
+                text: 'Balance:'
+                text_size: self.size
+                halign: 'right'
+                padding_x: 5
+                padding_y: 0
+
+            Nwlabel:
+                id: balance
+                text: ''
+                halign: 'right'
+                padding_x: 5
+                padding_y: 0
+                text_size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(20)
+
+            Nwlabel:
+                text: 'Last Updated:'
+                halign: 'right'
+                padding_x: 5
+                text_size: self.size
+
+            Nwlabel:
+                id: last_updated
+                text: ''
+                halign: 'right'
+                padding_x: 5
+                text_size: self.size

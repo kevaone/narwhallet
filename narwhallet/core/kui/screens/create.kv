@@ -1,0 +1,235 @@
+<CreateScreen>
+    wallet_name: wallet_name
+    coin: coin
+    # wallet_type: wallet_type
+    mnemonic: mnemonic
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(10) if root.width >= dp(250) else dp(35)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Name:'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(0) if root.width >= dp(250) else dp(75)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            size_hint_x: None
+            # width: root.width * 0.9 if root.width * 0.9 <= dp(250) else (250)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 10
+
+            Nwlabel:
+                halign: 'right'
+                text: 'Name:' if root.width >= dp(250) else ''
+                text_size: self.size
+                size_hint_x: None
+                width: dp(75) if root.width >= dp(250) else dp(0)
+
+            Nwlabel:
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 10
+
+            TextInput:
+                id: wallet_name
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: root.width * 0.9 if root.width * 0.9 <= dp(250) else (250)
+
+            Nwlabel:
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(10) if root.width >= dp(250) else dp(35)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Coin:'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(0) if root.width >= dp(250) else dp(75)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+            size_hint_x: None
+            # width: root.width * 0.9 if root.width * 0.9 <= dp(250) else (250)
+
+            Nwlabel:
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 10
+
+            Nwlabel:
+                halign: 'right'
+                text: 'Coin:' if root.width >= dp(250) else ''
+                text_size: self.size
+                size_hint_x: None
+                width: dp(75) if root.width >= dp(250) else dp(0)
+
+            Nwlabel:
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 10
+
+            Spinner:
+                id: coin
+                halign: 'left'
+                text: 'KVA'
+                text_size: self.size
+                size_hint_x: None
+                width: root.width * 0.9 if root.width * 0.9 <= dp(250) else (250)
+
+            Nwlabel:
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(10) if root.width >= dp(250) else dp(35)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Type:'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(0) if root.width >= dp(250) else dp(75)
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(10)
+            orientation: 'horizontal'
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: dp(55) if root.width <= dp(250) else dp(135)
+
+            Nwbutton:
+                text: 'Generate Mnemonic'
+                size_hint_x: None
+                width: dp(175) if root.width <= dp(250) else dp(200)
+                on_press: root.generate_mnemonic()
+
+            Nwlabel:
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'right'
+                text: 'Mnemonic Phrase:'
+                text_size: self.size
+                size_hint_x: None
+                width: 250
+
+        BoxLayout:
+            size_hint_y: None
+            height: 125
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 10
+
+            TextInput:
+                id: mnemonic
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 250
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(10)
+            orientation: 'horizontal'
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwbutton:
+                text: 'Home'
+                on_press: root.return_home()
+
+            Nwbutton:
+                text: 'Create'
+                on_press: root.create_wallet()

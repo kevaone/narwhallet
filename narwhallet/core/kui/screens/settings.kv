@@ -1,0 +1,203 @@
+<SettingsScreen>
+    iserver_host: iserver_host
+    iserver_port: iserver_port
+    iserver_althost: iserver_althost
+    iserver_altport: iserver_altport
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Connection Settings'
+                halign: 'left'
+                font_size: 25
+                text_size: self.size
+                padding_x: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Server:'
+                halign: 'left'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: dp(115)
+
+            TextInput:
+                id: iserver_host
+                halign: 'left'
+                text: 'kva.keva.one'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                size_hint_y: None
+                height: 30
+                width: dp(250)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Port:'
+                halign: 'left'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: dp(115)
+
+            TextInput:
+                id: iserver_port
+                halign: 'left'
+                text: '50002'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                size_hint_y: None
+                height: 30
+                width: dp(250)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Alt Server:'
+                halign: 'left'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: dp(115)
+
+            TextInput:
+                id: iserver_althost
+                halign: 'left'
+                text: 'kva.keva.one'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                size_hint_y: None
+                height: 30
+                width: dp(250)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Alt Port:'
+                halign: 'left'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: dp(115)
+
+            TextInput:
+                id: iserver_altport
+                halign: 'left'
+                text: '50002'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                size_hint_y: None
+                height: 30
+                width: dp(250)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'IPFS Settings'
+                halign: 'left'
+                font_size: 25
+                text_size: self.size
+                padding_x: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Gateway:'
+                halign: 'left'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: dp(115)
+
+            TextInput:
+                text: 'ipfs.keva.one'
+                halign: 'left'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                size_hint_y: None
+                height: 30
+                width: dp(250)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 45
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Alt Gateway:'
+                halign: 'left'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: dp(115)
+
+            TextInput:
+                text: 'ipfs.keva.one'
+                halign: 'left'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                size_hint_y: None
+                height: 30
+                width: dp(250)
+
+        BoxLayout: # Spacer
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwbutton:
+                text: 'Home'
+                on_press: root.manager.current = 'home_screen'
