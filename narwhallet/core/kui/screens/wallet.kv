@@ -11,6 +11,7 @@
     btn_addresses: btn_addresses
     btn_namespaces: btn_namespaces
     btn_transactions: btn_transactions
+    last_updated: last_updated
 
     GridLayout:
         size: root.width, root.height
@@ -41,6 +42,35 @@
         Nwboxlayout:
             size_hint_y: None
             height: 10
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(25)
+
+            Nwlabel:
+                halign: 'left'
+                font_size: dp(20)
+                text_size: self.size
+                text: 'Last Updated:'
+                padding_x: 10
+
+            Nwlabel:
+                id: last_updated
+                halign: 'right'
+                font_size: dp(20)
+                text_size: self.size
+                text: ''
+                padding_x: 10
+
+            Image:
+                id: update_wallet
+                source: 'narwhallet/core/kui/assets/return.png'
+                allow_stretch: True
+                fit_mode: 'contain'
+                size_hint_y: None
+                height: dp(30)
+                size_hint_x: None
+                width: dp(45)
 
         Nwboxlayout:
             size_hint_y: None

@@ -1,6 +1,6 @@
 from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
-
+from narwhallet.control.shared import MShared
 
 class WalletScreen(Screen):
     wallet_name = ObjectProperty(None)
@@ -14,7 +14,7 @@ class WalletScreen(Screen):
     wallet_recent_transactions = ObjectProperty(None)
     btn_addresses = ObjectProperty(None)
     btn_namespaces = ObjectProperty(None)
-
+    last_updated = ObjectProperty(None)
 
     def populate(self, wallet_name):
         _w = self.manager.wallets.get_wallet_by_name(wallet_name)
@@ -28,6 +28,7 @@ class WalletScreen(Screen):
         _tx = {}
         if _w is not None:
             self.wallet_name.text = _w.name
+            self.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
             self.wallet_balance.text = str(_w.balance)
             _w.last_updated
 
@@ -72,3 +73,6 @@ class WalletScreen(Screen):
         self.btn_addresses.text = 'Addresses (' + str(_count_addresses) + ')'
         self.btn_namespaces.text = 'Namespaces (' + str(_count_namespaces) + ')'
         self.manager.current = 'wallet_screen'
+
+    def update_wallet(self):
+        _update_time = MShared.get_timestamp()

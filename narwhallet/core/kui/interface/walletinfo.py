@@ -1,6 +1,6 @@
 from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
-
+from narwhallet.control.shared import MShared
 
 class WalletInfoScreen(Screen):
     wallet_name = ObjectProperty(None)
@@ -31,5 +31,5 @@ class WalletInfoScreen(Screen):
             self.change_index.text = str(_w.change_index)
             self.balance.text = str(_w.balance)
             self.locked_balance.text = str(_w.locked)
-            self.last_updated.text = str(_w.last_updated)
+            self.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
         self.manager.current = 'walletinfo_screen'
