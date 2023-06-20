@@ -1,6 +1,9 @@
 from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.control.shared import MShared
+from narwhallet.core.kcl.cache import MCache
+from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
+
 
 class WalletScreen(Screen):
     wallet_name = ObjectProperty(None)
@@ -75,4 +78,22 @@ class WalletScreen(Screen):
         self.manager.current = 'wallet_screen'
 
     def update_wallet(self):
+        _w = self.manager.wallets.get_wallet_by_name(self.wallet_name.text)
+        if _w is None:
+            return
+        return self._update_wallet(_w)
+    
+    def _update_wallet(self, wallet: MWallet):
+        wallet.set_bid_balance(0.0)
+        wallet.set_bid_tx([])
+        MShared.get_histories(wallet, self.manager.kex)
+        MShared.get_balances(wallet, self.manager.kex)
+        MShared.list_unspents(wallet, self.manager.kex)
+        MShared.get_transactions(wallet, self.manager.kex, self.manager.cache)
         _update_time = MShared.get_timestamp()
+        wallet.set_last_updated(_update_time[0])
+        self.manager.wallets.save_wallet(wallet.name)
+        
+        self.populate(wallet.name)
+
+        return 'True'

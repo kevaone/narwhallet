@@ -2,7 +2,7 @@ import os
 import shutil
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
-
+from narwhallet.core.kex import KEXclient
 from narwhallet.core.kcl.cache import MCache
 from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
 from narwhallet.core.kui.widgets.walletlistinfo import WalletListInfo
@@ -59,6 +59,7 @@ class NarwhalletScreens(ScreenManager):
         self.user_path = self.set_paths()
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
         self.cache = MCache(self.cache_path)
+        self.kex = KEXclient()
 
     def set_paths(self) -> str:
         _user_home = os.path.expanduser('~')
@@ -100,6 +101,11 @@ class NarwhalletScreens(ScreenManager):
                 self.wallets.load_wallet(file)
 
     def setup(self):
+        self.cache.interface.setup_tables()
+        self.settings_screen.load_settings()
+        self.kex.add_peer(self.settings_screen.iserver_host.text, int(self.settings_screen.iserver_port.text), True, False)
+        self.kex.active_peer = 0
+        self.kex.peers[0].connect()
+        
         self.load_wallets()
         self.home_screen.populate()
-        self.settings_screen.load_settings()
