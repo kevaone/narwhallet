@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.core.kui.widgets.walletlistinfo import WalletListInfo
+from narwhallet.control.shared import MShared
 
 
 class HomeScreen(Screen):
@@ -15,7 +16,7 @@ class HomeScreen(Screen):
                 _t.wallet_name.text = _w.name
                 _t.ticker.text = _w.coin
                 _t.balance.text = str(round(_w.balance, 8)) #str(_w.balance)
-                _t.last_updated.text = str(_w.last_updated)
+                _t.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
                 _t.sm = self.manager
 
                 self.wallet_list.add_widget(_t)
