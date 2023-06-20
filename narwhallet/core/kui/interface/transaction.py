@@ -42,7 +42,7 @@ class TransactionScreen(Screen):
             for o in _asa.vout:
                 _o = TXOutputListInfo()
                 _o.n.text = str(o.n)
-                _o.value.text = str(o.value)
+                _o.value.text = str(round(o.value, 8)) #str(o.value)
                 _o.scriptpubkey_asm.text = o.scriptPubKey.asm
                 self.vout.add_widget(_o)
             self.hex.text = _asa.hex # 'hex'

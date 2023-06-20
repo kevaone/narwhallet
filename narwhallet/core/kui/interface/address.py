@@ -25,7 +25,7 @@ class AddressScreen(Screen):
                 _addr = _w.change_addresses.get_address_by_name(address)
 
             self.address.text = address
-            self.balance.text = str(_addr.balance)
+            self.balance.text = str(round(_addr.balance, 8)) #str(_addr.balance)
             self.label.text = _addr.label
             self.transactions.text = str(len(_addr.history))
 

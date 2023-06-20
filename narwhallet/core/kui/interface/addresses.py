@@ -21,7 +21,7 @@ class AddressesScreen(Screen):
                     _a = AddressListInfo()
                     _a.address.text = address.address
                     _a.address_label.text = address.label
-                    _a.balance.text = str(address.balance)
+                    _a.balance.text = str(round(address.balance, 8)) #str(address.balance)
                     _a.transactions.text = str(len(address.history))
                     _a.wallet_name = wallet_name
                     _a.sm = self.manager
@@ -38,7 +38,7 @@ class AddressesScreen(Screen):
                     _a = AddressListInfo()
                     _a.address.text = address.address
                     _a.address_label.text = address.label
-                    _a.balance.text = str(address.balance)
+                    _a.balance.text = str(round(address.balance, 8)) #str(address.balance)
                     _a.transactions.text = str(len(address.history))
                     _a.wallet_name = wallet_name
                     _a.sm = self.manager

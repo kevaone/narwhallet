@@ -29,7 +29,7 @@ class WalletScreen(Screen):
         if _w is not None:
             self.wallet_name.text = _w.name
             self.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
-            self.wallet_balance.text = str(_w.balance)
+            self.wallet_balance.text = str(round(_w.balance, 8)) #str(_w.balance)
             _w.last_updated
 
             _asa = self.manager.cache.ns.get_view()
@@ -66,9 +66,9 @@ class WalletScreen(Screen):
         for _k, _v in _tx.items():
             _transactions += 1
 
-        self.wallet_unconfirmed_balance.text = str(_unconfirmed)
-        self.wallet_sent.text = str(_sent)
-        self.wallet_received.text = str(_received)
+        self.wallet_unconfirmed_balance.text = str(round(_unconfirmed, 8)) #str(_unconfirmed)
+        self.wallet_sent.text = str(round(_sent, 8)) #str(_sent)
+        self.wallet_received.text = str(round(_received, 8)) #str(_received)
         self.btn_transactions.text = 'Transactions (' + str(_ustx) + ' / ' + str(_transactions) + ')'
         self.btn_addresses.text = 'Addresses (' + str(_count_addresses) + ')'
         self.btn_namespaces.text = 'Namespaces (' + str(_count_namespaces) + ')'

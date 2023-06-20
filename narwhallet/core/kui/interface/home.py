@@ -14,7 +14,7 @@ class HomeScreen(Screen):
                 _t = WalletListInfo()
                 _t.wallet_name.text = _w.name
                 _t.ticker.text = _w.coin
-                _t.balance.text = str(_w.balance)
+                _t.balance.text = str(round(_w.balance, 8)) #str(_w.balance)
                 _t.last_updated.text = str(_w.last_updated)
                 _t.sm = self.manager
 

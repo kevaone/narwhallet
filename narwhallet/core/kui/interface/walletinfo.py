@@ -29,7 +29,7 @@ class WalletInfoScreen(Screen):
             self.kind.text = _w.kind.name
             self.account_index.text = str(_w.account_index)
             self.change_index.text = str(_w.change_index)
-            self.balance.text = str(_w.balance)
-            self.locked_balance.text = str(_w.locked)
+            self.balance.text = str(round(_w.balance, 8)) #str(_w.balance)
+            self.locked_balance.text = str(round(_w.locked, 8)) #str(_w.locked)
             self.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
         self.manager.current = 'walletinfo_screen'
