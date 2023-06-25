@@ -1,0 +1,24 @@
+<LoadingSpinner@FloatLayout>:
+    size_hint: None, 1
+    width: dp(30)
+
+    canvas.before:
+        PushMatrix
+
+        Rotate:
+            angle: root.angle
+            axis: 0, 0, 1
+            origin: root.center
+            on_angle: root.on_angle(root.angle)
+
+    canvas.after:
+        PopMatrix
+
+    Image:
+        source: 'narwhallet/core/kui/assets/return.png'
+        size_hint: None, None
+        pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+        allow_stretch: True
+        fit_mode: 'contain'
+        height: dp(30)
+        width: dp(30)

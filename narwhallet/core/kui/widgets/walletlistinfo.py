@@ -14,6 +14,7 @@ class WalletListInfo(BoxLayout):
 
     def on_touch_down(self, touch):
         if self.collide_point(touch.x, touch.y):
+            self.sm.wallet_screen._animate_loading_stop()
             self.sm.wallet_screen.populate(self.wallet_name.text)
             return
         return super(WalletListInfo, self).on_touch_down(touch)

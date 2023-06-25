@@ -1,9 +1,12 @@
 from kivy.uix.screenmanager import Screen
+from kivy.animation import Animation
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.cache import MCache
 from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
+from narwhallet.core.kui.widgets.loadingspinner import LoadingSpinner
 
+from kivy.clock import Clock
 
 class WalletScreen(Screen):
     wallet_name = ObjectProperty(None)
@@ -18,6 +21,14 @@ class WalletScreen(Screen):
     btn_addresses = ObjectProperty(None)
     btn_namespaces = ObjectProperty(None)
     last_updated = ObjectProperty(None)
+    btn_update_wallet = LoadingSpinner()
+
+    def __init__(self, **kwargs):
+        super(WalletScreen, self).__init__(**kwargs)
+
+        self.anim = Animation(angle = 360, duration=2) 
+        self.anim += Animation(angle = 0, duration=0.01)
+        self.anim.repeat = True
 
     def populate(self, wallet_name):
         _w = self.manager.wallets.get_wallet_by_name(wallet_name)
@@ -32,7 +43,7 @@ class WalletScreen(Screen):
         if _w is not None:
             self.wallet_name.text = _w.name
             self.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
-            self.wallet_balance.text = str(round(_w.balance, 8)) #str(_w.balance)
+            self.wallet_balance.text = str(round(_w.balance, 8))
             _w.last_updated
 
             _asa = self.manager.cache.ns.get_view()
@@ -69,23 +80,31 @@ class WalletScreen(Screen):
         for _k, _v in _tx.items():
             _transactions += 1
 
-        self.wallet_unconfirmed_balance.text = str(round(_unconfirmed, 8)) #str(_unconfirmed)
-        self.wallet_sent.text = str(round(_sent, 8)) #str(_sent)
-        self.wallet_received.text = str(round(_received, 8)) #str(_received)
+        self.wallet_unconfirmed_balance.text = str(round(_unconfirmed, 8))
+        self.wallet_sent.text = str(round(_sent, 8))
+        self.wallet_received.text = str(round(_received, 8))
         self.btn_transactions.text = 'Transactions (' + str(_ustx) + ' / ' + str(_transactions) + ')'
         self.btn_addresses.text = 'Addresses (' + str(_count_addresses) + ')'
         self.btn_namespaces.text = 'Namespaces (' + str(_count_namespaces) + ')'
         self.manager.current = 'wallet_screen'
 
+    def _animate_loading_start(self, dt):
+        self.anim.start(self.btn_update_wallet)
+
+    def _animate_loading_stop(self):
+        self.anim.stop(self.btn_update_wallet)
+
     def update_wallet(self):
-        _w = self.manager.wallets.get_wallet_by_name(self.wallet_name.text)
-        if _w is None:
-            return
-        return self._update_wallet(_w)
-    
-    def _update_wallet(self, wallet: MWallet):
+        Clock.schedule_once(self._animate_loading_start, -1)
+        Clock.schedule_once(self._update_wallet, 0.1)
+
+    def _update_wallet(self, dt): #wallet: MWallet):
+        wallet = self.manager.wallets.get_wallet_by_name(self.wallet_name.text)
+        if wallet is None:
+            return False
         wallet.set_bid_balance(0.0)
         wallet.set_bid_tx([])
+        # TODO Move update calls to thread
         MShared.get_histories(wallet, self.manager.kex)
         MShared.get_balances(wallet, self.manager.kex)
         MShared.list_unspents(wallet, self.manager.kex)
@@ -95,5 +114,6 @@ class WalletScreen(Screen):
         self.manager.wallets.save_wallet(wallet.name)
         
         self.populate(wallet.name)
-
-        return 'True'
+        print('done here')
+        self._animate_loading_stop()
+        return True

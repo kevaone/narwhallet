@@ -12,6 +12,7 @@
     btn_namespaces: btn_namespaces
     btn_transactions: btn_transactions
     last_updated: last_updated
+    btn_update_wallet: btn_update_wallet
 
     GridLayout:
         size: root.width, root.height
@@ -62,16 +63,8 @@
                 text: ''
                 padding_x: 10
 
-            Image:
-                id: update_wallet
-                source: 'narwhallet/core/kui/assets/return.png'
-                allow_stretch: True
-                fit_mode: 'contain'
-                size_hint_y: None
-                height: dp(30)
-                size_hint_x: None
-                width: dp(45)
-                on_touch_down: root.update_wallet()
+            LoadingSpinner:
+                id: btn_update_wallet
 
         Nwboxlayout:
             size_hint_y: None
