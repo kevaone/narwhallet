@@ -1,3 +1,4 @@
+import os
 from kivy.uix.screenmanager import Screen
 from kivy.animation import Animation
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
@@ -7,6 +8,8 @@ from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
 from narwhallet.core.kui.widgets.loadingspinner import LoadingSpinner
 
 from kivy.clock import Clock
+import threading
+
 
 class WalletScreen(Screen):
     wallet_name = ObjectProperty(None)
@@ -30,7 +33,10 @@ class WalletScreen(Screen):
         self.anim += Animation(angle = 0, duration=0.01)
         self.anim.repeat = True
 
-    def populate(self, wallet_name):
+    def populate(self, wallet_name, cache=None):
+        if cache is None:
+            cache_path = os.path.join(self.manager.user_path, 'narwhallet_cache.db')
+            cache = MCache(cache_path)
         _w = self.manager.wallets.get_wallet_by_name(wallet_name)
         _unconfirmed = 0.0
         _sent = 0.0
@@ -41,17 +47,12 @@ class WalletScreen(Screen):
         _count_namespaces = 0
         _tx = {}
         if _w is not None:
-            self.wallet_name.text = _w.name
-            self.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
-            self.wallet_balance.text = str(round(_w.balance, 8))
-            _w.last_updated
-
-            _asa = self.manager.cache.ns.get_view()
+            _asa = cache.ns.get_view()
 
             for address in _w.addresses.addresses:
                 if address is not None:
                     for p in _asa:
-                        _oa = self.manager.cache.ns.last_address(p[0])
+                        _oa = cache.ns.last_address(p[0])
                         if _oa[0][0] == address.address:
                             _count_namespaces += 1
                     _unconfirmed += address.unconfirmed_balance
@@ -66,7 +67,7 @@ class WalletScreen(Screen):
             for address in _w.change_addresses.addresses:
                 if address is not None:
                     for p in _asa:
-                        _oa = self.manager.cache.ns.last_address(p[0])
+                        _oa = cache.ns.last_address(p[0])
                         if _oa[0][0] == address.address:
                             _count_namespaces += 1
                     _unconfirmed += address.unconfirmed_balance
@@ -77,6 +78,11 @@ class WalletScreen(Screen):
                         _tx[_h['tx_hash']] = _h['height']
                     for _u in address.unspent_tx:
                         _ustx += 1
+
+            self.wallet_name.text = _w.name
+            self.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
+            self.wallet_balance.text = str(round(_w.balance, 8))
+
         for _k, _v in _tx.items():
             _transactions += 1
 
@@ -88,32 +94,37 @@ class WalletScreen(Screen):
         self.btn_namespaces.text = 'Namespaces (' + str(_count_namespaces) + ')'
         self.manager.current = 'wallet_screen'
 
-    def _animate_loading_start(self, dt):
-        self.anim.start(self.btn_update_wallet)
+        return True
 
-    def _animate_loading_stop(self):
+    def _animate_loading_start(self, dt=None):
+        self.anim.start(self.btn_update_wallet)
+        self.btn_update_wallet.rotating = True
+
+    def _animate_loading_stop(self, dt=None):
         self.anim.stop(self.btn_update_wallet)
+        self.btn_update_wallet.rotating = False
 
     def update_wallet(self):
         Clock.schedule_once(self._animate_loading_start, -1)
-        Clock.schedule_once(self._update_wallet, 0.1)
+        threading.Thread(target=self._update_wallet).start()
 
-    def _update_wallet(self, dt): #wallet: MWallet):
-        wallet = self.manager.wallets.get_wallet_by_name(self.wallet_name.text)
+    def _update_wallet(self, dt=None): #wallet: MWallet):
+        cache_path = os.path.join(self.manager.user_path, 'narwhallet_cache.db')
+        cache = MCache(cache_path)
+        wallet: MWallet = self.manager.wallets.get_wallet_by_name(self.wallet_name.text)
         if wallet is None:
             return False
         wallet.set_bid_balance(0.0)
         wallet.set_bid_tx([])
-        # TODO Move update calls to thread
         MShared.get_histories(wallet, self.manager.kex)
         MShared.get_balances(wallet, self.manager.kex)
         MShared.list_unspents(wallet, self.manager.kex)
-        MShared.get_transactions(wallet, self.manager.kex, self.manager.cache)
+        MShared.get_transactions(wallet, self.manager.kex, cache)
         _update_time = MShared.get_timestamp()
         wallet.set_last_updated(_update_time[0])
         self.manager.wallets.save_wallet(wallet.name)
         
-        self.populate(wallet.name)
-        print('done here')
-        self._animate_loading_stop()
+        self.populate(wallet.name, cache)
+        Clock.schedule_once(self._animate_loading_stop, 0)
+
         return True

@@ -1,10 +1,11 @@
 from kivy.uix.floatlayout import FloatLayout
 # from kivy.animation import Animation
-from kivy.properties import NumericProperty
+from kivy.properties import NumericProperty, BooleanProperty
 
 
 class LoadingSpinner(FloatLayout):
     angle = NumericProperty(0)
+    rotating = BooleanProperty(False)
 
     def __init__(self, **kwargs):
         super(LoadingSpinner, self).__init__(**kwargs)
