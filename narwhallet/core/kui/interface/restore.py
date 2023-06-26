@@ -46,8 +46,7 @@ class RestoreScreen(Screen):
         
         self.manager.wallets.from_mwallet(self._w)
         self.manager.wallets.save_wallet(self._w.name)
-        self.manager.populate()
-        self.manager.populate(self._w.name)
+        self.manager.wallet_screen.populate(self._w.name)
         self.reset_screen()
         self.manager.current = 'wallet_screen'
 
