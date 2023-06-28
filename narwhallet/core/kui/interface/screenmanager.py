@@ -103,9 +103,7 @@ class NarwhalletScreens(ScreenManager):
     def setup(self):
         self.cache.interface.setup_tables()
         self.settings_screen.load_settings()
-        self.kex.add_peer(self.settings_screen.iserver_host.text, int(self.settings_screen.iserver_port.text), True, False)
-        self.kex.active_peer = 0
-        self.kex.peers[0].connect()
+        self.kex.peers[self.kex.active_peer].connect()
         
         self.load_wallets()
         self.home_screen.populate()
