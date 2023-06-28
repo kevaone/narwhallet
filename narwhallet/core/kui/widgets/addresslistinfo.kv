@@ -19,48 +19,77 @@
 
         BoxLayout:
             orientation: 'horizontal'
-            spacing: 15
+            spacing: 5
 
             Nwlabel:
                 id: address
                 text: ''
                 height: 25
-                font_size: 20
+                font_size: 18
+                padding_x: 5
 
         BoxLayout:
             orientation: 'horizontal'
-            spacing: 15
+            spacing: 5
 
             Nwlabel:
                 id: address_label
                 text: ''
-                font_size: 20
+                height: 20
+                font_size: 15
+                padding_x: 5
 
         BoxLayout:
             orientation: 'horizontal'
 
+            # Image:
+            #     source: 'narwhallet/core/kui/assets/star.png'
+            #     size_hint: None, None
+            #     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            #     allow_stretch: True
+            #     fit_mode: 'contain'
+            #     height: dp(30)
+            #     width: dp(30)
+
+            # Image:
+            #     source: 'narwhallet/core/kui/assets/star.png'
+            #     size_hint: None, None
+            #     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            #     allow_stretch: True
+            #     fit_mode: 'contain'
+            #     height: dp(30)
+            #     width: dp(30)
+
             Nwlabel:
-                text: 'Transactions:'
+                text: 'TX:'
                 halign: 'left'
                 padding_x: 5
                 text_size: self.size
+                size_hint_x: None
+                width: 45
 
             Nwlabel:
                 id: transactions
                 text: ''
-                halign: 'right'
+                halign: 'left'
                 padding_x: 5
                 text_size: self.size
+                size_hint_x: None
+                width: 50
 
             Nwlabel:
                 text: 'Balance:'
                 text_size: self.size
                 halign: 'left'
                 padding_x: 5
+                size_hint_x: None
+                width: 75
 
             Nwlabel:
                 id: balance
                 text: ''
-                halign: 'right'
+                halign: 'left'
                 padding_x: 5
                 text_size: self.size
+                size_hint_x: None
+                width: 100
