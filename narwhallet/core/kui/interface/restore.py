@@ -1,14 +1,13 @@
 from kivy.uix.screenmanager import Screen
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
-from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
-
+from narwhallet.core.kcl.wallet import MWallet
+from kivy.uix.textinput import TextInput
+from kivy.uix.spinner import Spinner
 
 class RestoreScreen(Screen):
-    wallet_name = ObjectProperty(None)
-    coin = ObjectProperty(None)
-    type = ObjectProperty(None)
-    data = ObjectProperty(None)
-
+    wallet_name = TextInput()
+    coin = Spinner()
+    # type = ObjectProperty(None)
+    data = TextInput()
 
     def __init__(self, **kwargs):
         super(RestoreScreen, self).__init__(**kwargs)
@@ -28,9 +27,13 @@ class RestoreScreen(Screen):
             self._w.set_extended_pub(self.data.text)
         elif len(self.data.text
                  .strip().replace('\n', ' ').split(' ')) == 24:
+            self._w.set_bip('bip49')
             self._w.set_mnemonic(self.data.text)
 
     def restore(self):
+        if self.wallet_name.text == '' or self.data.text == '':
+            return
+
         _filters = ['\\', '/', '\'', '"', ',', '*',
                     '?', '<', '>', ':', ';', '|']
         for _filter in _filters:
@@ -46,6 +49,8 @@ class RestoreScreen(Screen):
         
         self.manager.wallets.from_mwallet(self._w)
         self.manager.wallets.save_wallet(self._w.name)
+
+        self.manager.home_screen.populate()
         self.manager.wallet_screen.populate(self._w.name)
         self.reset_screen()
         self.manager.current = 'wallet_screen'
