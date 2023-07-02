@@ -216,7 +216,7 @@
                 id: btn_send
                 font_size: dp(25)
                 text: 'Send'
-                on_press: root.manager.current = 'send_screen'
+                on_press: root.manager.send_screen.populate(wallet_name.text)
 
         Nwboxlayout:
             size_hint_y: None

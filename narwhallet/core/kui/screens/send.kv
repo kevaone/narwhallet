@@ -1,7 +1,14 @@
 <SendScreen>
     wallet_name: wallet_name
+    wallet_balance: wallet_balance
     send_to: send_to
     amount: amount
+    address_book: address_book
+    valid_send_to: valid_send_to
+    valid_amount: valid_amount
+    fee: fee
+    fee_rate: fee_rate
+    txsize: txsize
 
     GridLayout:
         size: root.width, root.height
@@ -24,11 +31,33 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'Name:'
+                text: 'Wallet:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: wallet_name
+                halign: 'left'
+                text: ''
                 text_size: self.size
 
-            Spinner:
-                id: wallet_name
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Balance:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: wallet_balance
                 halign: 'left'
                 text: ''
                 text_size: self.size
@@ -42,18 +71,38 @@
                 halign: 'left'
                 text: 'Send To:'
                 text_size: self.size
-
-            Spinner:
-                id: send_to
-                halign: 'left'
-                text: 'Address'
-                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
 
             TextInput:
                 id: send_to
                 halign: 'left'
                 text: ''
                 text_size: self.size
+                size_hint_x: None
+                width: 350
+
+            Image:
+                id: valid_send_to
+                source: 'narwhallet/core/kui/assets/checkmark.png'
+                allow_stretch: True
+                fit_mode: 'contain'
+                size_hint_y: None
+                height: dp(30)
+                size_hint_x: None
+                width: dp(30)
+
+            Image:
+                id: address_book
+                source: 'narwhallet/core/kui/assets/narwhal.png'
+                allow_stretch: True
+                fit_mode: 'contain'
+                size_hint_y: None
+                height: dp(30)
+                size_hint_x: None
+                width: dp(30)
+                on_touch_down: if self.collide_point(*args[1].pos): root.select_from_address_book()
 
         BoxLayout:
             size_hint_y: None
@@ -64,12 +113,90 @@
                 halign: 'left'
                 text: 'Amount:'
                 text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
 
             TextInput:
                 id: amount
                 halign: 'left'
                 text: ''
                 text_size: self.size
+                size_hint_x: None
+                width: 175
+
+            Image:
+                id: valid_amount
+                source: 'narwhallet/core/kui/assets/checkmark.png'
+                allow_stretch: True
+                fit_mode: 'contain'
+                size_hint_y: None
+                height: dp(30)
+                size_hint_x: None
+                width: dp(30)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Fee Rate:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: fee_rate
+                halign: 'left'
+                text: '0'
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Fee:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: fee
+                halign: 'left'
+                text: '0.0'
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'TX Size:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: txsize
+                halign: 'left'
+                text: '0.0'
+                text_size: self.size
+                size_hint_x: None
+                width: 175
 
         BoxLayout:
             canvas:
@@ -89,4 +216,4 @@
 
             Nwbutton:
                 text: 'Send'
-                on_press: root.manager.current = 'wallet_screen'
+                on_press: root.build_send() #root.manager.current = 'wallet_screen'

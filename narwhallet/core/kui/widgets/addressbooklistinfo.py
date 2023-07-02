@@ -12,8 +12,17 @@ class AddressBookListInfo(BoxLayout):
     received = Nwlabel()
     sm = ScreenManager()
 
+    def __init__(self, **kwargs):
+        super(AddressBookListInfo, self).__init__(**kwargs)
+
+        self.mode = 0
+
     def on_touch_down(self, touch):
         if self.collide_point(touch.x, touch.y):
-            self.sm.addressbookentry_screen.populate(self.address.text)
+            if self.mode == 0:
+                self.sm.addressbookentry_screen.populate(self.address.text)
+            elif self.mode == 1:
+                self.sm.send_screen.send_to.text = self.address.text
+                self.sm.current = 'send_screen'
             return
         return super(AddressBookListInfo, self).on_touch_down(touch)

@@ -1,24 +1,38 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
 from narwhallet.core.kui.widgets.addressbooklistinfo import AddressBookListInfo
-
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 
 class AddressBookScreen(Screen):
     address_list = GridLayout()
+    nav0 = Nwbutton()
 
     def __init__(self, **kwargs):
         super(AddressBookScreen, self).__init__(**kwargs)
 
-    def populate(self):
+        self.is_populated = False
+
+    def set_current(self, button: Nwbutton):
+        if button.text == 'Home':
+            self.manager.current = 'home_screen'
+        elif button.text == 'Cancel':
+            self.manager.current = 'send_screen'
+
+    def populate(self, _mode=0):
         self.address_list.clear_widgets()
+        if _mode == 0:
+            self.nav0.text = 'Home'
+            self.nav0.bind(on_press=self.set_current)
+        elif _mode == 1:
+            self.nav0.text = 'Cancel'
+            self.nav0.bind(on_press=self.set_current)
         
         try:
-            self.manager.address_book.load_address_book(self.manager.user_path)
-            
             _book = self.manager.address_book.to_dict_list()
 
             for _entry in _book:
                 _a = AddressBookListInfo()
+                _a.mode = _mode
                 _a.address.text = _entry['address']
                 _a.address_name.text = _entry['name']
                 _a.address_label.text = _entry['label']
@@ -26,7 +40,6 @@ class AddressBookScreen(Screen):
                 _a.balance.text = str(_entry['received'] - _entry['sent'])
                 _a.sent.text = str(_entry['sent'])
                 _a.received.text = str(_entry['received'])
-
                 _a.sm = self.manager
                 self.address_list.add_widget(_a)
             

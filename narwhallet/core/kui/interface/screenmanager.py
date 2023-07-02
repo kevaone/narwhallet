@@ -108,6 +108,7 @@ class NarwhalletScreens(ScreenManager):
     def setup(self):
         self.cache.interface.setup_tables()
         self.settings_screen.load_settings()
+        self.address_book.load_address_book(self.user_path)
         self.kex.peers[self.kex.active_peer].connect()
         
         self.load_wallets()
