@@ -34,7 +34,8 @@
                 on_press: root.manager.current = 'restore_screen'
 
             Nwbutton:
-                text: '!'
+                text: 'Address Book'
+                on_press: root.manager.addressbook_screen.populate()
 
         ScrollView:
             do_scroll_x: False

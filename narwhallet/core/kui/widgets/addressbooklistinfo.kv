@@ -1,0 +1,147 @@
+<AddressBookListInfo@BoxLayout>
+    sm: None
+    wallet_name: None
+    address: address
+    address_label: address_label
+    address_name: address_name
+    balance: balance
+    coin: coin
+    sent: sent
+    received: received
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 5
+            # height: 20
+
+            Nwlabel:
+                id: address
+                text: ''
+                height: 20
+                font_size: 18
+                padding_x: 5
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 5
+            # height: 20
+
+            Nwlabel:
+                id: address_name
+                text: ''
+                height: 20
+                font_size: 18
+                padding_x: 5
+
+        BoxLayout:
+            orientation: 'horizontal'
+            spacing: 5
+            # height: 20
+
+            Nwlabel:
+                id: address_label
+                text: ''
+                height: 20
+                font_size: 18
+                padding_x: 5
+
+        BoxLayout:
+            orientation: 'horizontal'
+            # height: 25
+
+            # Image:
+            #     source: 'narwhallet/core/kui/assets/star.png'
+            #     size_hint: None, None
+            #     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            #     allow_stretch: True
+            #     fit_mode: 'contain'
+            #     height: dp(30)
+            #     width: dp(30)
+
+            # Image:
+            #     source: 'narwhallet/core/kui/assets/star.png'
+            #     size_hint: None, None
+            #     pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+            #     allow_stretch: True
+            #     fit_mode: 'contain'
+            #     height: dp(30)
+            #     width: dp(30)
+
+            Nwlabel:
+                text: 'Coin:'
+                halign: 'left'
+                padding_x: 5
+                text_size: self.size
+                size_hint_x: None
+                width: 45
+
+            Nwlabel:
+                id: coin
+                text: ''
+                halign: 'left'
+                padding_x: 5
+                text_size: self.size
+                size_hint_x: None
+                width: 50
+
+            Nwlabel:
+                text: 'Balance:'
+                text_size: self.size
+                halign: 'left'
+                padding_x: 5
+                size_hint_x: None
+                width: 75
+
+            Nwlabel:
+                id: balance
+                text: ''
+                halign: 'left'
+                padding_x: 5
+                text_size: self.size
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                text: 'Sent:'
+                text_size: self.size
+                halign: 'left'
+                padding_x: 5
+                size_hint_x: None
+                width: 75
+
+            Nwlabel:
+                id: sent
+                text: ''
+                halign: 'left'
+                padding_x: 5
+                text_size: self.size
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                text: 'Received:'
+                text_size: self.size
+                halign: 'left'
+                padding_x: 5
+                size_hint_x: None
+                width: 75
+
+            Nwlabel:
+                id: received
+                text: ''
+                halign: 'left'
+                padding_x: 5
+                text_size: self.size
+                size_hint_x: None
+                width: 100

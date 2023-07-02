@@ -11,6 +11,8 @@ from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
 from narwhallet.core.kui.widgets.namespacelistinfo import NamespaceListInfo
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.interface.address import AddressScreen
+from narwhallet.core.kui.interface.addressbook import AddressBookScreen
+from narwhallet.core.kui.interface.addressbookentry import AddressBookEntryScreen
 from narwhallet.core.kui.interface.addresses import AddressesScreen
 from narwhallet.core.kui.interface.create import CreateScreen
 from narwhallet.core.kui.interface.content import ContentScreen
@@ -30,10 +32,12 @@ from narwhallet.core.kui.interface.send import SendScreen
 from narwhallet.core.kui.interface.settings import SettingsScreen
 from narwhallet.core.kui.interface.transaction import TransactionScreen
 from narwhallet.core.kui.interface.transactions import TransactionsScreen
+from narwhallet.core.kcl.addr_book import MBookAddresses
 
 
 class NarwhalletScreens(ScreenManager):
     address_screen = ObjectProperty(None)
+    addressbook_screen = ObjectProperty(None)
     addresses_screen = ObjectProperty(None)
     block_screen = ObjectProperty(None)
     content_screen = ObjectProperty(None)
@@ -56,6 +60,7 @@ class NarwhalletScreens(ScreenManager):
         super(NarwhalletScreens, self).__init__(**kwargs)
 
         self.wallets = MWallets()
+        self.address_book: MBookAddresses = MBookAddresses()
         self.user_path = self.set_paths()
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
         self.cache = MCache(self.cache_path)

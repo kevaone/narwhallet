@@ -1,0 +1,166 @@
+<AddressBookEntryScreen>
+    address: address
+    address_name: address_name
+    balance: balance
+    coin: coin
+    label: label
+    qr_code: qr_code
+    sent: sent
+    received: received
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: 25
+            orientation: 'horizontal'
+
+            Nwlabel:
+                id: address
+                text: ''
+                font_size: dp(18)
+                padding_x: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: 25
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Coin:'
+                font_size: dp(18)
+                padding_x: 10
+
+            Nwlabel:
+                id: coin
+                text: ''
+                font_size: dp(18)
+                padding_x: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: 25
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Name:'
+                font_size: dp(18)
+                padding_x: 10
+
+            Nwlabel:
+                id: address_name
+                text: ''
+                font_size: dp(18)
+                padding_x: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: 25
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Label:'
+                font_size: dp(18)
+                padding_x: 10
+
+            Nwlabel:
+                id: label
+                text: ''
+                font_size: dp(18)
+                padding_x: 10
+
+        BoxLayout:
+            # size_hint_y: None
+            # height: 65
+            orientation: 'horizontal'
+
+            QR_Code:
+                id: qr_code
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Balance:'
+                font_size: dp(15)
+                size_hint_x: None
+                padding_x: 10
+                width: dp(120)
+
+            Nwlabel:
+                id: balance
+                text: '0'
+                font_size: dp(15)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Sent:'
+                font_size: dp(15)
+                size_hint_x: None
+                padding_x: 10
+                width: dp(120)
+
+            Nwlabel:
+                id: sent
+                text: '0.0'
+                font_size: dp(15)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Received:'
+                font_size: dp(15)
+                size_hint_x: None
+                padding_x: 10
+                width: dp(120)
+
+            Nwlabel:
+                id: received
+                text: '0.0'
+                font_size: dp(15)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 10
+            orientation: 'horizontal'
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 35
+
+            Nwbutton:
+                text: 'Home'
+                on_press: root.manager.current = 'home_screen'
+
+            Nwbutton:
+                text: 'Address Book'
+                on_press: root.manager.current = 'addressbook_screen'
