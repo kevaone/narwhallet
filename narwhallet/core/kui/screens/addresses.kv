@@ -34,6 +34,20 @@
         #         text: 'balance'
         #     Nwlabel:
         #         text: '0.0'
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 35
+
+            Nwbutton:
+                text: 'Increase Pool'
 
         ScrollView:
             do_scroll_x: False

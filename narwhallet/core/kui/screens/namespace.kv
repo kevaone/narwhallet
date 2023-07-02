@@ -75,6 +75,21 @@
                 id: owner
                 text: 'Owner:'
 
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 35
+
+            Nwbutton:
+                text: 'Create Key'
+
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
