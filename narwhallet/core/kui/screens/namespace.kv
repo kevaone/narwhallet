@@ -5,6 +5,7 @@
     namespace_key_list: namespace_key_list
     owner: owner
     creator: creator
+    wallet_name: wallet_name
 
     GridLayout:
         size: root.width, root.height
@@ -19,6 +20,14 @@
             size_hint_y: None
             height: 47
             padding_x: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                id: wallet_name
 
         BoxLayout:
             size_hint_y: None
@@ -89,6 +98,7 @@
 
             Nwbutton:
                 text: 'Create Key'
+                on_press: root.manager.createnamespacekey_screen.populate()
 
         ScrollView:
             do_scroll_x: False

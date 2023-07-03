@@ -1,0 +1,65 @@
+<ScriptBuilderScreen>
+    build_grid: build_grid
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: 6
+
+            GridLayout:
+                id: build_grid
+                canvas:
+                    Color:
+                        rgba: 60/255, 61/255, 61/255, 1
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint_y: None
+                rows: 17
+                height: dp(45) * self.rows + (10*self.rows) if root.width <= dp(650) else dp(45) * self.rows + (10*self.rows)
+                cols: 1
+                # row_default_height: dp(65) if root.width <= dp(650) else dp(65)
+                spacing: 5
+                padding: 5
+
+                # Nwboxlayout:
+                #     size_hint_y: None
+                #     height: 20
+
+                #     Nwlabel:
+                #         halign: 'left'
+                #         text: 'Wallet Name:'
+                #         text_size: self.size
+                #         size_hint_x: None
+                #         width: 150
+
+                #     Nwlabel:
+                #         id: wallet_name
+                #         halign: 'left'
+                #         text: ''
+                #         text_size: self.size
+
+                
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 35
+
+            Nwbutton:
+                text: 'Cancel'
+                on_press: root.clear_screen()

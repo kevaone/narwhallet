@@ -1,0 +1,216 @@
+<CreateNamespaceScreen>
+    wallet_name: wallet_name
+    wallet_balance: wallet_balance
+    amount: amount
+    namespace_name: namespace_name
+    namespace_address: namespace_address
+    valid_amount: valid_amount
+    fee: fee
+    fee_rate: fee_rate
+    txsize: txsize
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Wallet:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: wallet_name
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Balance:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: wallet_balance
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Namespace Address:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: namespace_address
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Amount:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            TextInput:
+                id: amount
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+
+            Image:
+                id: valid_amount
+                source: 'narwhallet/core/kui/assets/checkmark.png'
+                allow_stretch: True
+                fit_mode: 'contain'
+                size_hint_y: None
+                height: dp(30)
+                size_hint_x: None
+                width: dp(30)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Namespace Name:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            TextInput:
+                id: namespace_name
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 255
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Fee Rate:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: fee_rate
+                halign: 'left'
+                text: '0'
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Fee:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: fee
+                halign: 'left'
+                text: '0.0'
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'TX Size:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: txsize
+                halign: 'left'
+                text: '0.0'
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwbutton:
+                text: 'Cancel'
+                on_press: root.manager.current = 'namespaces_screen'
+
+            Nwbutton:
+                text: 'Create'
+                on_press: root.build_send() #root.manager.current = 'wallet_screen'

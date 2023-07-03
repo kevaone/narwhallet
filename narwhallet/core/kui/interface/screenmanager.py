@@ -15,6 +15,8 @@ from narwhallet.core.kui.interface.addressbook import AddressBookScreen
 from narwhallet.core.kui.interface.addressbookentry import AddressBookEntryScreen
 from narwhallet.core.kui.interface.addresses import AddressesScreen
 from narwhallet.core.kui.interface.create import CreateScreen
+from narwhallet.core.kui.interface.createnamespace import CreateNamespaceScreen
+from narwhallet.core.kui.interface.createnamespacekey import CreateNamespaceKeyScreen
 from narwhallet.core.kui.interface.content import ContentScreen
 from narwhallet.core.kui.interface.market import MarketScreen
 from narwhallet.core.kui.interface.namespace import NamespaceScreen
@@ -27,7 +29,7 @@ from narwhallet.core.kui.interface.wallet import WalletScreen
 from narwhallet.core.kui.interface.walletinfo import WalletInfoScreen
 from narwhallet.core.kui.interface.restore import RestoreScreen
 from narwhallet.core.kui.interface.receive import ReceiveScreen
-
+from narwhallet.core.kui.interface.scriptbuilder import ScriptBuilderScreen
 from narwhallet.core.kui.interface.send import SendScreen
 from narwhallet.core.kui.interface.settings import SettingsScreen
 from narwhallet.core.kui.interface.transaction import TransactionScreen
@@ -47,6 +49,7 @@ class NarwhalletScreens(ScreenManager):
     namespaces_screen = ObjectProperty(None)
     offers_screen = ObjectProperty(None)
     pending_screen = ObjectProperty(None)
+    scriptbuilder_screen = ObjectProperty(None)
     send_screen = ObjectProperty(None)
     settings_screen = ObjectProperty(None)
     transaction_screen = ObjectProperty(None)
@@ -54,6 +57,8 @@ class NarwhalletScreens(ScreenManager):
     wallet_screen = ObjectProperty(None)
     walletinfo_screen = ObjectProperty(None)
     create_screen = ObjectProperty(None)
+    createnamespace_screen = ObjectProperty(None)
+    createnamespacekey_screen = ObjectProperty(None)
     restore_screen = ObjectProperty(None)
     
     def __init__(self, **kwargs):

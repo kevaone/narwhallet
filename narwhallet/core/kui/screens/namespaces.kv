@@ -1,5 +1,6 @@
 <NamespacesScreen>
     namespaces_list: namespaces_list
+    wallet_name: wallet_name
 
     GridLayout:
         size: root.width, root.height
@@ -29,6 +30,27 @@
                 padding_y: 1
 
         BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Wallet'
+                halign: 'left'
+                font_size: 20
+                text_size: self.size
+                padding_x: 10
+                padding_y: 1
+
+            Nwlabel:
+                id: wallet_name
+                halign: 'left'
+                font_size: 20
+                text_size: self.size
+                padding_x: 10
+                padding_y: 1
+
+        BoxLayout:
             canvas:
                 Color:
                     rgba: 60/255, 61/255, 61/255, 1
@@ -42,6 +64,7 @@
 
             Nwbutton:
                 text: 'Create'
+                on_press: root.manager.createnamespace_screen.populate()
 
         ScrollView:
             do_scroll_x: False
