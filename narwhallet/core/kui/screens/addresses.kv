@@ -1,5 +1,6 @@
 <AddressesScreen>
     address_list: address_list
+    wallet_name: wallet_name
 
     GridLayout:
         size: root.width, root.height
@@ -19,6 +20,26 @@
             size_hint_y: None
             height: 35
             orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Wallet:'
+                halign: 'left'
+                font_size: 25
+                text_size: self.size
+                padding_x: 10
+
+            Nwlabel:
+                id: wallet_name
+                halign: 'left'
+                font_size: 25
+                text_size: self.size
+                padding_x: 10
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
             Nwlabel:
                 text: 'Addresses'
                 halign: 'left'
@@ -26,14 +47,6 @@
                 text_size: self.size
                 padding_x: 10
 
-        # BoxLayout:
-        #     size_hint_y: None
-        #     height: 35
-        #     orientation: 'horizontal'
-        #     Nwlabel:
-        #         text: 'balance'
-        #     Nwlabel:
-        #         text: '0.0'
         BoxLayout:
             canvas:
                 Color:
@@ -48,6 +61,7 @@
 
             Nwbutton:
                 text: 'Increase Pool'
+                on_press: root.increase_address_pool()
 
         ScrollView:
             do_scroll_x: False
@@ -56,13 +70,6 @@
 
             GridLayout:
                 id: address_list
-                # canvas:
-                #     Color:
-                #         rgba: 60/255, 61/255, 61/255, 1
-
-                #     Rectangle:
-                #         pos: self.pos
-                #         size: self.size
                 size_hint_y: None
                 height: self.minimum_height * 17
                 cols: 1
