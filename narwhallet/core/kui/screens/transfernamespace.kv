@@ -4,6 +4,7 @@
     amount: amount
     namespace_name: namespace_name
     namespace_address: namespace_address
+    new_namespace_address: new_namespace_address
     namespace_key: namespace_key
     namespace_value: namespace_value
     valid_amount: valid_amount
@@ -95,8 +96,27 @@
                 size_hint_x: None
                 width: 100
 
-            TextInput:
+            Nwlabel:
                 id: namespace_address
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'New NS Address:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            TextInput:
+                id: new_namespace_address
                 halign: 'left'
                 text: ''
                 text_size: self.size

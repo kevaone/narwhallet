@@ -18,7 +18,8 @@ class TransferNamespaceScreen(Screen):
     wallet_balance = Nwlabel()
     amount = TextInput()
     namespace_name = Nwlabel()
-    namespace_address = TextInput()
+    namespace_address = Nwlabel()
+    new_namespace_address = TextInput()
     namespace_key = TextInput()
     namespace_value = TextInput()
     valid_amount = Image()
@@ -39,7 +40,8 @@ class TransferNamespaceScreen(Screen):
         self.namespace_name.text = self.manager.namespace_screen.namespaceid.text
         self.namespace_key.text = 'Transfer'
         self.namespace_value.text = ''
-        self.namespace_address.text = ''
+        self.namespace_address.text = self.manager.namespace_screen.owner.text
+        self.new_namespace_address.text = ''
         self.fee.text = ''
         self.txsize.text = ''
         self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
@@ -79,9 +81,11 @@ class TransferNamespaceScreen(Screen):
         # Namespace Key Create, Update
         _amount = NS_RESERVATION
         _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.namespace_key.text,
-                                             _amount, self.namespace_address.text)
+                                             self.namespace_value.text, self.new_namespace_address.text)
         _sh = Scripts.compile(_sh, True)
 
+        _ = self.new_tx.add_output(_amount, self.new_namespace_address.text)
+        self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
     def reset_transactions(self):
         self.raw_tx = ''

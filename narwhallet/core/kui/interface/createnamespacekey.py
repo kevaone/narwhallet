@@ -75,9 +75,11 @@ class CreateNamespaceKeyScreen(Screen):
         # Namespace Key Create, Update
         _amount = NS_RESERVATION
         _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.namespace_key.text,
-                                             _amount, self.namespace_address.text)
+                                             self.namespace_value.text, self.namespace_address.text)
         _sh = Scripts.compile(_sh, True)
 
+        _ = self.new_tx.add_output(_amount, self.namespace_address.text)
+        self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
     def reset_transactions(self):
         self.raw_tx = ''
