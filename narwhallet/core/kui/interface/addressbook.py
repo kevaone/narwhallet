@@ -11,19 +11,26 @@ class AddressBookScreen(Screen):
         super(AddressBookScreen, self).__init__(**kwargs)
 
         self.is_populated = False
+        self.mode = 0
 
     def set_current(self, button: Nwbutton):
-        if button.text == 'Home':
+        if self.mode == 0:
             self.manager.current = 'home_screen'
-        elif button.text == 'Cancel':
+        elif self.mode == 1:
             self.manager.current = 'send_screen'
+        elif self.mode == 2:
+            self.manager.current = 'transfernamespace_screen'
 
     def populate(self, _mode=0):
+        self.mode = _mode
         self.address_list.clear_widgets()
         if _mode == 0:
             self.nav0.text = 'Home'
             self.nav0.bind(on_press=self.set_current)
         elif _mode == 1:
+            self.nav0.text = 'Cancel'
+            self.nav0.bind(on_press=self.set_current)
+        elif _mode == 2:
             self.nav0.text = 'Cancel'
             self.nav0.bind(on_press=self.set_current)
         

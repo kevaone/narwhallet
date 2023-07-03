@@ -34,6 +34,7 @@ from narwhallet.core.kui.interface.send import SendScreen
 from narwhallet.core.kui.interface.settings import SettingsScreen
 from narwhallet.core.kui.interface.transaction import TransactionScreen
 from narwhallet.core.kui.interface.transactions import TransactionsScreen
+from narwhallet.core.kui.interface.transfernamespace import TransferNamespaceScreen
 from narwhallet.core.kcl.addr_book import MBookAddresses
 
 

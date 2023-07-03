@@ -24,5 +24,8 @@ class AddressBookListInfo(BoxLayout):
             elif self.mode == 1:
                 self.sm.send_screen.send_to.text = self.address.text
                 self.sm.current = 'send_screen'
+            elif self.mode == 2:
+                self.sm.transfernamespace_screen.namespace_address.text = self.address.text
+                self.sm.current = 'transfernamespace_screen'
             return
         return super(AddressBookListInfo, self).on_touch_down(touch)
