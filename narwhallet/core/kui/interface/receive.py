@@ -24,4 +24,5 @@ class ReceiveScreen(Screen):
             self.qr_code.data = _addr
             self.address.text = _addr
 
+            self.manager.wallet_screen.btn_addresses.text = 'Addresses (' + str(_w.account_index + _w.change_index) + ')'
         self.manager.current = 'receive_screen'
