@@ -1,7 +1,6 @@
 <RestoreScreen>
     wallet_name: wallet_name
     coin: coin
-    # wallet_type: wallet_type
     data: data
     header: header
 
@@ -15,7 +14,7 @@
 
         BoxLayout:
             size_hint_y: None
-            height: dp(10) if root.width >= dp(250) else dp(35)
+            height: 35
             orientation: 'horizontal'
 
             Nwlabel:
@@ -23,38 +22,26 @@
                 text: 'Name:'
                 text_size: self.size
                 size_hint_x: None
-                width: dp(0) if root.width >= dp(250) else dp(75)
+                width: 75
+                padding_x: 10
+
+            TextInput:
+                id: wallet_name
+                halign: 'center'
+                valign:'center'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+
+        BoxLayout:
+            size_hint_y: None
+            height: 10
+            orientation: 'horizontal'
 
         BoxLayout:
             size_hint_y: None
             height: 35
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'right'
-                text: 'Name:' if root.width >= dp(250) else ''
-                text_size: self.size
-                size_hint_x: None
-                width: dp(75) if root.width >= dp(250) else dp(0)
-
-            Nwlabel:
-                halign: 'left'
-                text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: 10
-
-            TextInput:
-                id: wallet_name
-                halign: 'left'
-                text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: root.width * 0.9 if root.width * 0.9 <= dp(250) else (250)
-
-        BoxLayout:
-            size_hint_y: None
-            height: dp(10) if root.width >= dp(250) else dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -62,34 +49,17 @@
                 text: 'Coin:'
                 text_size: self.size
                 size_hint_x: None
-                width: dp(0) if root.width >= dp(250) else dp(75)
-
-        BoxLayout:
-            size_hint_y: None
-            height: 35
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'right'
-                text: 'Coin:' if root.width >= dp(250) else ''
-                text_size: self.size
-                size_hint_x: None
-                width: dp(75) if root.width >= dp(250) else dp(0)
-
-            Nwlabel:
-                halign: 'left'
-                text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: 10
+                width: 75
+                padding_x: 10
 
             Spinner:
                 id: coin
-                halign: 'left'
+                halign: 'center'
+                valign: 'center'
                 text: 'KEVACOIN'
                 text_size: self.size
                 size_hint_x: None
-                width: root.width * 0.9 if root.width * 0.9 <= dp(250) else (250)
+                width: 175
 
         BoxLayout:
             size_hint_y: None
@@ -97,15 +67,16 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                halign: 'right'
+                halign: 'left'
                 text: 'Data:'
                 text_size: self.size
                 size_hint_x: None
-                width: 250
+                width: 75
+                padding_x: 10
 
         BoxLayout:
             size_hint_y: None
-            # height: 35
+            height: 125
             orientation: 'horizontal'
 
             Nwlabel:
@@ -121,11 +92,9 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: dp(250)
+                width: 250
 
         BoxLayout:
-            size_hint_y: None
-            height: dp(10)
             orientation: 'horizontal'
 
         BoxLayout:
@@ -141,7 +110,7 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: 'Home'
+                text: 'Cancel'
                 on_press: root.return_home()
 
             Nwbutton:

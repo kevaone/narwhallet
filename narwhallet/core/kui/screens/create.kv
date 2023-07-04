@@ -1,7 +1,6 @@
 <CreateScreen>
     wallet_name: wallet_name
     coin: coin
-    # wallet_type: wallet_type
     mnemonic: mnemonic
     header: header
 
@@ -15,129 +14,60 @@
 
         BoxLayout:
             size_hint_y: None
-            height: dp(10) if root.width >= dp(250) else dp(35)
+            height: 35
+            size_hint_x: None
             orientation: 'horizontal'
 
             Nwlabel:
                 halign: 'left'
+                valign: 'center'
                 text: 'Name:'
                 text_size: self.size
                 size_hint_x: None
-                width: dp(0) if root.width >= dp(250) else dp(75)
-
-        BoxLayout:
-            size_hint_y: None
-            height: 35
-            size_hint_x: None
-            # width: root.width * 0.9 if root.width * 0.9 <= dp(250) else (250)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: 10
-
-            Nwlabel:
-                halign: 'right'
-                text: 'Name:' if root.width >= dp(250) else ''
-                text_size: self.size
-                size_hint_x: None
-                width: dp(75) if root.width >= dp(250) else dp(0)
-
-            Nwlabel:
-                halign: 'left'
-                text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: 10
+                width: 75
+                padding_x: 10
 
             TextInput:
                 id: wallet_name
-                halign: 'left'
+                halign: 'center'
+                valign: 'center'
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: root.width * 0.9 if root.width * 0.9 <= dp(250) else (250)
-
-            Nwlabel:
-                halign: 'left'
-                text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: 10
+                width: 200
 
         BoxLayout:
             size_hint_y: None
-            height: dp(10) if root.width >= dp(250) else dp(35)
+            height: 10
             orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'Coin:'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(0) if root.width >= dp(250) else dp(75)
 
         BoxLayout:
             size_hint_y: None
             height: 35
             orientation: 'horizontal'
             size_hint_x: None
-            # width: root.width * 0.9 if root.width * 0.9 <= dp(250) else (250)
 
             Nwlabel:
                 halign: 'left'
-                text: ''
+                valign: 'center'
+                text: 'Coin:'
                 text_size: self.size
                 size_hint_x: None
-                width: 10
-
-            Nwlabel:
-                halign: 'right'
-                text: 'Coin:' if root.width >= dp(250) else ''
-                text_size: self.size
-                size_hint_x: None
-                width: dp(75) if root.width >= dp(250) else dp(0)
-
-            Nwlabel:
-                halign: 'left'
-                text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: 10
+                width: 75
+                padding_x: 10
 
             Spinner:
                 id: coin
-                halign: 'left'
+                halign: 'center'
+                valign: 'center'
                 text: 'KEVACOIN'
                 text_size: self.size
                 size_hint_x: None
-                width: root.width * 0.9 if root.width * 0.9 <= dp(250) else (250)
-
-            Nwlabel:
-                halign: 'left'
-                text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: 10
+                width: 200
 
         BoxLayout:
             size_hint_y: None
-            height: dp(10) if root.width >= dp(250) else dp(35)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'Type:'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(0) if root.width >= dp(250) else dp(75)
-
-        BoxLayout:
-            size_hint_y: None
-            height: dp(10)
+            height: 10
             orientation: 'horizontal'
 
         BoxLayout:
@@ -151,19 +81,7 @@
             size_hint_y: None
             height: 35
             orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: dp(55) if root.width <= dp(250) else dp(135)
-
-            Nwbutton:
-                text: 'Generate Mnemonic'
-                size_hint_x: None
-                width: dp(175) if root.width <= dp(250) else dp(200)
-                on_press: root.generate_mnemonic()
+            padding_y: 10
 
             Nwlabel:
                 halign: 'left'
@@ -172,17 +90,24 @@
                 size_hint_x: None
                 width: 10
 
+            Nwbutton:
+                text: 'Generate Mnemonic'
+                size_hint_x: None
+                width: 175
+                on_press: root.generate_mnemonic()
+
         BoxLayout:
             size_hint_y: None
             height: 35
             orientation: 'horizontal'
 
             Nwlabel:
-                halign: 'right'
+                halign: 'left'
                 text: 'Mnemonic Phrase:'
                 text_size: self.size
                 size_hint_x: None
-                width: 250
+                width: 175
+                padding_x: 10
 
         BoxLayout:
             size_hint_y: None
@@ -203,10 +128,9 @@
                 text_size: self.size
                 size_hint_x: None
                 width: 250
+                padding_x: 10
 
         BoxLayout:
-            size_hint_y: None
-            height: dp(10)
             orientation: 'horizontal'
 
         BoxLayout:
@@ -222,7 +146,7 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: 'Home'
+                text: 'Cancel'
                 on_press: root.return_home()
 
             Nwbutton:
