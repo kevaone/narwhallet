@@ -1,10 +1,19 @@
 from kivy.uix.screenmanager import Screen
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from kivy.uix.gridlayout import GridLayout
 from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
 
 
 class TransactionsScreen(Screen):
-    transaction_list = ObjectProperty(None)
+    transaction_list = GridLayout()
+
+    def tx_value(self, txid):
+        _asa = self.manager.cache.tx.get_tx_by_txid(txid)
+        _value = 0.0
+        if _asa is not None:
+            for o in _asa.vout:
+                _value += o.value
+                # _o.value.text = str(round(o.value, 8)) #str(o.value)
+        return _value
 
     def populate(self, wallet_name):
         self.transaction_list.clear_widgets()
@@ -19,23 +28,57 @@ class TransactionsScreen(Screen):
             for address in _w.addresses.addresses:
                 if address is not None:
                     for _h in address.history:
+                        # TODO Check if tx_hash already present then fix the items below
                         _t = TransactionListInfo()
                         _t.transaction.text = _h['tx_hash']
                         _t.block.text = str(_h['height'])
+                        # TODO Fix
+                        _t.txvalue.text = str(round(self.tx_value(_h['tx_hash']), 8))
                         _t.sm = self.manager
+                        _t.status.text = 'Spent'
                         _tx[_h['tx_hash']] = _t
                     for _u in address.unspent_tx:
+                        if _u['tx_hash'] in list(_tx.keys()):
+                            _tx[_u['tx_hash']].status.text = 'Partial Spend'
+                            # TODO Include in above correction
+                            _tx[_u['tx_hash']].txvalue.text = str(round(_u['value']/10000000, 8))
+                        else:
+                            _t = TransactionListInfo()
+                            _t.transaction.text = _u['tx_hash']
+                            _t.block.text = str(_u['height'])
+                            # TODO Include in above correction
+                            _t.txvalue.text = str(round(_u['value']/10000000, 8))
+                            _t.sm = self.manager
+                            _t.status.text = 'Unspent'
+                            _tx[_u['tx_hash']] = _t
                         _ustx += 1
             # Change
             for address in _w.change_addresses.addresses:
                 if address is not None:
                     for _h in address.history:
+                        # TODO Check if tx_hash already present then fix the items below
                         _t = TransactionListInfo()
                         _t.transaction.text = _h['tx_hash']
                         _t.block.text = str(_h['height'])
+                        # TODO Fix
+                        _t.txvalue.text = str(round(self.tx_value(_h['tx_hash']), 8))
                         _t.sm = self.manager
+                        _t.status.text = 'Spent'
                         _tx[_h['tx_hash']] = _t
                     for _u in address.unspent_tx:
+                        if _u['tx_hash'] in list(_tx.keys()):
+                            _tx[_u['tx_hash']].status.text = 'Partial Spend'
+                            # TODO Include in above correction
+                            _tx[_u['tx_hash']].txvalue.text = str(round(_u['value']/10000000, 8))
+                        else:
+                            _t = TransactionListInfo()
+                            _t.transaction.text = _u['tx_hash']
+                            _t.block.text = str(_u['height'])
+                            # TODO Include in above correction
+                            _t.txvalue.text = str(round(_u['value']/10000000, 8))
+                            _t.sm = self.manager
+                            _t.status.text = 'Unspent'
+                            _tx[_u['tx_hash']] = _t
                         _ustx += 1
             for _k, _v in _tx.items():
                 self.transaction_list.rows += 1

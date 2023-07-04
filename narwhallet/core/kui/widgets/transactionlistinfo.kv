@@ -2,8 +2,8 @@
     sm: None
     block: block
     transaction: transaction
-    balance: '0.0'
-    status: 'unspent'
+    txvalue: txvalue
+    status: status
 
     canvas:
         Color:
@@ -43,7 +43,7 @@
                 text_size: self.size
                 padding_x: 5
             Nwlabel:
-                text: root.status
+                id: status
                 padding_x: 5
                 text_size: self.size
             Nwlabel:
@@ -52,7 +52,7 @@
                 halign: 'right'
                 padding_x: 5
             Nwlabel:
-                text: root.balance
+                id: txvalue
                 halign: 'right'
                 padding_x: 5
                 text_size: self.size
