@@ -1,19 +1,13 @@
 <ScriptBuilderScreen>
     build_grid: build_grid
+    header: header
 
     GridLayout:
         size: root.width, root.height
         cols: 1
 
-        Nwlabel:
-            text: 'Narwhallet'
-            halign: 'left'
-            valign: 'center'
-            font_size: 37
-            text_size: self.size
-            size_hint_y: None
-            height: 47
-            padding_x: 5
+        Header:
+            id: header
 
         ScrollView:
             do_scroll_x: False

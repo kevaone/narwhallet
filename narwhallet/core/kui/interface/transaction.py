@@ -2,6 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.core.kui.widgets.txinputlistinfo import TXInputListInfo
 from narwhallet.core.kui.widgets.txoutputlistinfo import TXOutputListInfo
+from narwhallet.core.kui.widgets.header import Header
 
 
 class TransactionScreen(Screen):
@@ -18,9 +19,11 @@ class TransactionScreen(Screen):
     confirmations = ObjectProperty(None)
     time = ObjectProperty(None)
     blocktime = ObjectProperty(None)
+    header = Header()
 
 
     def populate(self, txid):
+        self.header.value = self.manager.wallet_screen.header.value
         self.txid.text = txid
         _asa = self.manager.cache.tx.get_tx_by_txid(txid)
         self.vin.clear_widgets()

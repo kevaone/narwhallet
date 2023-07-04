@@ -9,10 +9,12 @@ from narwhallet.core.kui.widgets.loadingspinner import LoadingSpinner
 
 from kivy.clock import Clock
 import threading
+from narwhallet.core.kui.widgets.header import Header
 
 
 class WalletScreen(Screen):
-    wallet_name = ObjectProperty(None)
+    # wallet_name = ObjectProperty(None)
+    header = Header()
     wallet_balance = ObjectProperty(None)
     wallet_unconfiremd_balance = ObjectProperty(None)
     wallet_locked_balance = ObjectProperty(None)
@@ -79,7 +81,8 @@ class WalletScreen(Screen):
                     for _u in address.unspent_tx:
                         _ustx += 1
 
-            self.wallet_name.text = _w.name
+            # self.wallet_name.text = _w.name
+            self.header.value = _w.name
             self.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
             self.wallet_balance.text = str(round(_w.balance, 8))
 

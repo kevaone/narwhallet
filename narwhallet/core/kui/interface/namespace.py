@@ -4,6 +4,8 @@ from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectPrope
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
+from narwhallet.core.kui.widgets.header import Header
+
 
 class NamespaceScreen(Screen):
     namespaceid = ObjectProperty(None)
@@ -11,11 +13,12 @@ class NamespaceScreen(Screen):
     namespace_key_list = ObjectProperty(None)
     creator = ObjectProperty(None)
     namespace_name = ObjectProperty(None)
-    wallet_name = Nwlabel()
+    # wallet_name = Nwlabel()
     transfer_button = Image()
+    header = Header()
 
     def populate(self, namespaceid):
-        self.wallet_name.text = self.manager.wallet_screen.wallet_name.text
+        self.header.value = self.manager.wallet_screen.header.value
         self.namespace_key_list.clear_widgets()
         self.namespace_key_list.rows = 0
         _ns = self.manager.cache.ns.get_namespace_by_id(namespaceid)

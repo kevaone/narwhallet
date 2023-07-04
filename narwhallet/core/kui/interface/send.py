@@ -8,10 +8,12 @@ from narwhallet.control.shared import MShared
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
+from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from narwhallet.core.kui.widgets.header import Header
 
 
 class SendScreen(Screen):
-    wallet_name = Nwlabel()
+    # wallet_name = Nwlabel()
     wallet_balance = Nwlabel()
     send_to = TextInput()
     amount = TextInput()
@@ -21,6 +23,7 @@ class SendScreen(Screen):
     fee = Nwlabel()
     fee_rate = Nwlabel()
     txsize = Nwlabel()
+    header = Header()
 
     def __init__(self, **kwargs):
         super(SendScreen, self).__init__(**kwargs)
@@ -29,7 +32,8 @@ class SendScreen(Screen):
         
     def populate(self, wallet_name):
         self.wallet = self.manager.wallets.get_wallet_by_name(wallet_name)
-        self.wallet_name.text = self.wallet.name
+        # self.wallet_name.text = self.wallet.name
+        self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.send_to.text = ''
         self.amount.text = ''

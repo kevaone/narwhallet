@@ -3,6 +3,7 @@ from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectPrope
 from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
 from narwhallet.core.kui.widgets.qrcode import QR_Code
 import qrcode
+from narwhallet.core.kui.widgets.header import Header
 
 
 class AddressScreen(Screen):
@@ -12,10 +13,12 @@ class AddressScreen(Screen):
     transactions = ObjectProperty(None)
     transaction_list = ObjectProperty(None)
     qr_code = ObjectProperty(None)
+    header = Header()
 
     def populate(self, wallet_name, address):
         self.transaction_list.clear_widgets()
         _w = self.manager.wallets.get_wallet_by_name(wallet_name)
+        self.header.value = wallet_name
         
         
         if _w is not None:

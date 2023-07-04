@@ -2,6 +2,9 @@ from kivy.uix.screenmanager import Screen
 from narwhallet.core.kcl.wallet import MWallet
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
+from kivy.properties import ObjectProperty
+from narwhallet.core.kui.widgets.header import Header
+
 
 class CreateScreen(Screen):
     wallet_name = TextInput()
@@ -9,6 +12,7 @@ class CreateScreen(Screen):
     # type = ObjectProperty(None)
     mnemonic = TextInput()
     _w = MWallet()
+    header = Header()
 
     def __init__(self, **kwargs):
         super(CreateScreen, self).__init__(**kwargs)

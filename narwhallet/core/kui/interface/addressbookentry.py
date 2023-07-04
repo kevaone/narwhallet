@@ -1,6 +1,9 @@
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kui.widgets.qrcode import QR_Code
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
+from kivy.properties import ObjectProperty
+from narwhallet.core.kui.widgets.header import Header
+
 
 class AddressBookEntryScreen(Screen):
     address = Nwlabel()
@@ -10,6 +13,7 @@ class AddressBookEntryScreen(Screen):
     label = Nwlabel()
     coin = Nwlabel()
     qr_code = QR_Code()
+    header = Header()
 
     def populate(self, address):
         _a = self.manager.address_book.get_address_by_name(address)

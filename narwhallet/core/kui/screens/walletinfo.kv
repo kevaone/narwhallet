@@ -1,5 +1,4 @@
 <WalletInfoScreen>
-    wallet_name: wallet_name
     mnemonic_phrase: mnemonic_phrase
     seed: seed
     ypub: ypub
@@ -12,20 +11,14 @@
     balance: balance
     locked_balance: locked_balance
     last_updated: last_updated
+    header: header
 
     GridLayout:
         size: root.width, root.height
         cols: 1
 
-        Nwlabel:
-            text: 'Narwhallet'
-            halign: 'left'
-            valign: 'center'
-            font_size: 37
-            text_size: self.size
-            size_hint_y: None
-            height: 47
-            padding_x: 5
+        Header:
+            id: header
 
         ScrollView:
             do_scroll_x: False
@@ -47,23 +40,6 @@
                 # row_default_height: dp(65) if root.width <= dp(650) else dp(65)
                 spacing: 5
                 padding: 5
-
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: 20
-
-                    Nwlabel:
-                        halign: 'left'
-                        text: 'Wallet Name:'
-                        text_size: self.size
-                        size_hint_x: None
-                        width: 150
-
-                    Nwlabel:
-                        id: wallet_name
-                        halign: 'left'
-                        text: ''
-                        text_size: self.size
 
                 Nwboxlayout:
                     size_hint_y: None

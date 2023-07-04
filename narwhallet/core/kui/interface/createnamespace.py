@@ -8,13 +8,15 @@ from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.ksc import Scripts
+from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from narwhallet.core.kui.widgets.header import Header
 
 
 TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
 NS_RESERVATION = 1000000
 
 class CreateNamespaceScreen(Screen):
-    wallet_name = Nwlabel()
+    # wallet_name = Nwlabel()
     wallet_balance = Nwlabel()
     amount = TextInput()
     namespace_name = TextInput()
@@ -23,6 +25,7 @@ class CreateNamespaceScreen(Screen):
     fee = Nwlabel()
     fee_rate = Nwlabel()
     txsize = Nwlabel()
+    header = Header()
 
     def __init__(self, **kwargs):
         super(CreateNamespaceScreen, self).__init__(**kwargs)
@@ -30,8 +33,8 @@ class CreateNamespaceScreen(Screen):
         self.wallet: MWallet
         
     def populate(self):
-        self.wallet = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.wallet_name.text)
-        self.wallet_name.text = self.wallet.name
+        self.wallet = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+        self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)
         self.namespace_name.text = ''

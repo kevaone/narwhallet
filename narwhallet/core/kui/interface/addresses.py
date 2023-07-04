@@ -2,20 +2,23 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
 from narwhallet.core.kui.widgets.addresslistinfo import AddressListInfo
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
+from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from narwhallet.core.kui.widgets.header import Header
 
 
 class AddressesScreen(Screen):
     address_list = GridLayout()
     wallet_name = Nwlabel()
+    header = Header()
 
     def __init__(self, **kwargs):
         super(AddressesScreen, self).__init__(**kwargs)
 
     def populate(self, wallet_name):
-        self.wallet_name.text = wallet_name.text
+        self.header.value = wallet_name
         self.address_list.clear_widgets()
         
-        _w = self.manager.wallets.get_wallet_by_name(wallet_name.text)
+        _w = self.manager.wallets.get_wallet_by_name(wallet_name)
 
         if _w is not None:
             for address in _w.addresses.addresses:
@@ -44,7 +47,7 @@ class AddressesScreen(Screen):
         self.manager.current = 'addresses_screen'
 
     def increase_address_pool(self):
-        _w = self.manager.wallets.get_wallet_by_name(self.wallet_name.text)
+        _w = self.manager.wallets.get_wallet_by_name(self.header.wallet_name)
         _addr = _w.get_unused_address()
         self.manager.wallets.save_wallet(_w.name)
         _a = AddressListInfo()

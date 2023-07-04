@@ -15,21 +15,16 @@
     iserver_ipfs_1: iserver_ipfs_1
     iserver_active_0: iserver_active_0
     iserver_active_1: iserver_active_1
+    header: header
 
     GridLayout:
         size_hint: None, None
         size: root.width, root.height
         cols: 1
 
-        Nwlabel:
-            text: 'Narwhallet'
-            halign: 'left'
-            valign: 'center'
-            font_size: 37
-            text_size: self.size
-            size_hint_y: None
-            height: 47
-            padding_x: 5
+        Header:
+            id: header
+            value: 'Settings'
 
         ScrollView:
             do_scroll_x: False

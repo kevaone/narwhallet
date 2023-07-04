@@ -1,11 +1,13 @@
 from kivy.uix.screenmanager import Screen
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.core.kui.widgets.walletlistinfo import WalletListInfo
 from narwhallet.control.shared import MShared
+from kivy.properties import ObjectProperty
+from narwhallet.core.kui.widgets.header import Header
 
 
 class HomeScreen(Screen):
     wallet_list = ObjectProperty(None)
+    header = Header()
 
     def populate(self):
         self.wallet_list.clear_widgets()

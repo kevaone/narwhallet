@@ -6,9 +6,13 @@ from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.nwboxlayout import Nwboxlayout
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
+from kivy.properties import ObjectProperty
+from narwhallet.core.kui.widgets.header import Header
+
 
 class ScriptBuilderScreen(Screen):
     build_grid = GridLayout()
+    header = Header()
     # mnemonic_phrase = Nwlabel()
     # seed = Nwlabel()
     # ypub = Nwlabel()

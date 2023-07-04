@@ -13,6 +13,6 @@ class AddressListInfo(BoxLayout):
 
     def on_touch_down(self, touch):
         if self.collide_point(touch.x, touch.y):
-            self.sm.address_screen.populate(self.wallet_name.text, self.address.text)
+            self.sm.address_screen.populate(self.wallet_name, self.address.text)
             return
         return super(AddressListInfo, self).on_touch_down(touch)

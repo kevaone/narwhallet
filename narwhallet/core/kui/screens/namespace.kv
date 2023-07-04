@@ -5,30 +5,15 @@
     namespace_key_list: namespace_key_list
     owner: owner
     creator: creator
-    wallet_name: wallet_name
     transfer_button: transfer_button
+    header: header
 
     GridLayout:
         size: root.width, root.height
         cols: 1
 
-        Nwlabel:
-            text: 'Narwhallet'
-            halign: 'left'
-            valign: 'center'
-            font_size: 37
-            text_size: self.size
-            size_hint_y: None
-            height: 47
-            padding_x: 5
-
-        BoxLayout:
-            size_hint_y: None
-            height: 35
-            orientation: 'horizontal'
-
-            Nwlabel:
-                id: wallet_name
+        Header:
+            id: header
 
         BoxLayout:
             size_hint_y: None

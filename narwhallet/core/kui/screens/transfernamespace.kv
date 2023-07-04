@@ -1,5 +1,4 @@
 <TransferNamespaceScreen>
-    wallet_name: wallet_name
     wallet_balance: wallet_balance
     amount: amount
     namespace_name: namespace_name
@@ -11,39 +10,14 @@
     fee: fee
     fee_rate: fee_rate
     txsize: txsize
+    header: header
 
     GridLayout:
         size: root.width, root.height
         cols: 1
 
-        Nwlabel:
-            text: 'Narwhallet'
-            halign: 'left'
-            valign: 'center'
-            font_size: 37
-            text_size: self.size
-            size_hint_y: None
-            height: 47
-            padding_x: 5
-
-        BoxLayout:
-            size_hint_y: None
-            height: 35
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'Wallet:'
-                text_size: self.size
-                padding_x: 10
-                size_hint_x: None
-                width: 100
-
-            Nwlabel:
-                id: wallet_name
-                halign: 'left'
-                text: ''
-                text_size: self.size
+        Header:
+            id: header
 
         BoxLayout:
             size_hint_y: None

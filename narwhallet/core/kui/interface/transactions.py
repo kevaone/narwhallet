@@ -1,10 +1,13 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
 from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
+from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from narwhallet.core.kui.widgets.header import Header
 
 
 class TransactionsScreen(Screen):
     transaction_list = GridLayout()
+    header = Header()
 
     def tx_value(self, txid):
         _asa = self.manager.cache.tx.get_tx_by_txid(txid)
@@ -19,6 +22,7 @@ class TransactionsScreen(Screen):
         self.transaction_list.clear_widgets()
         self.transaction_list.parent.scroll_y = 1
         _w = self.manager.wallets.get_wallet_by_name(wallet_name)
+        self.header.value = wallet_name
         _transactions = 0
         _ustx = 0
         self.transaction_list.rows = 0

@@ -2,10 +2,14 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
 from narwhallet.core.kui.widgets.addressbooklistinfo import AddressBookListInfo
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
+from kivy.properties import ObjectProperty
+from narwhallet.core.kui.widgets.header import Header
+
 
 class AddressBookScreen(Screen):
     address_list = GridLayout()
     nav0 = Nwbutton()
+    header = Header()
 
     def __init__(self, **kwargs):
         super(AddressBookScreen, self).__init__(**kwargs)

@@ -1,20 +1,13 @@
 <NamespacesScreen>
     namespaces_list: namespaces_list
-    wallet_name: wallet_name
+    header: header
 
     GridLayout:
         size: root.width, root.height
         cols: 1
 
-        Nwlabel:
-            text: 'Narwhallet'
-            halign: 'left'
-            valign: 'center'
-            font_size: 37
-            text_size: self.size
-            size_hint_y: None
-            height: 47
-            padding_x: 5
+        Header:
+            id: header
 
         BoxLayout:
             size_hint_y: None
@@ -25,27 +18,6 @@
                 text: 'Namespaces'
                 halign: 'left'
                 font_size: 25
-                text_size: self.size
-                padding_x: 10
-                padding_y: 1
-
-        BoxLayout:
-            size_hint_y: None
-            height: 20
-            orientation: 'horizontal'
-
-            Nwlabel:
-                text: 'Wallet'
-                halign: 'left'
-                font_size: 20
-                text_size: self.size
-                padding_x: 10
-                padding_y: 1
-
-            Nwlabel:
-                id: wallet_name
-                halign: 'left'
-                font_size: 20
                 text_size: self.size
                 padding_x: 10
                 padding_y: 1

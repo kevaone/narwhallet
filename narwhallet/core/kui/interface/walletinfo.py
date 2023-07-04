@@ -2,6 +2,9 @@ from kivy.uix.screenmanager import Screen
 from narwhallet.core.kcl.wallet import MWallet
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
+from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from narwhallet.core.kui.widgets.header import Header
+
 
 class WalletInfoScreen(Screen):
     wallet_name = Nwlabel()
@@ -17,14 +20,16 @@ class WalletInfoScreen(Screen):
     balance = Nwlabel()
     locked_balance = Nwlabel()
     last_updated = Nwlabel()
+    header = Header()
 
     def populate(self, name):
-        _w: MWallet = self.manager.wallets.get_wallet_by_name(name.text)
+        _w: MWallet = self.manager.wallets.get_wallet_by_name(name)
 
         if _w is not None:
             # _w.bip
             
-            self.wallet_name.text = _w.name
+            # self.wallet_name.text = _w.name
+            self.header.value = _w.name
             self.mnemonic_phrase.text = _w.mnemonic
             self.seed.text = _w.seed
             self.ypub.text = _w.extended_pub

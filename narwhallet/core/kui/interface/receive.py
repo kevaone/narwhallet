@@ -4,6 +4,7 @@ from narwhallet.core.kui.widgets.qrcode import QR_Code
 import qrcode
 from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
 from narwhallet.core.kcl.wallet.address import MAddress
+from narwhallet.core.kui.widgets.header import Header
 
 
 class ReceiveScreen(Screen):
@@ -11,6 +12,7 @@ class ReceiveScreen(Screen):
     amount = ObjectProperty(None)
     label = ObjectProperty(None)
     qr_code = ObjectProperty(None)
+    header = Header()
 
     def populate(self, wallet_name):
         self.address.text = ''
@@ -18,6 +20,7 @@ class ReceiveScreen(Screen):
         # self.address.text = ''
         # self.qr_code = QR_Code()
         _w: MWallet = self.manager.wallets.get_wallet_by_name(wallet_name)
+        self.header.value = wallet_name
         
         if _w is not None:
             _addr = _w.get_unused_address()

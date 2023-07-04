@@ -1,17 +1,13 @@
 <ContentScreen>
     wallet_list: wallet_list
+    header: header
 
     GridLayout:
         size: root.width, root.height
         cols: 1
 
-        Nwlabel:
-            text: 'Narwhallet'
-            halign: 'left'
-            valign: 'center'
-            font_size: 37
-            text_size: self.size
-            size_hint_y: None
+        Header:
+            id: header
 
         BoxLayout:
             canvas:

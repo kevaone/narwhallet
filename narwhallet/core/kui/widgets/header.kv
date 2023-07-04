@@ -1,0 +1,45 @@
+<Header@GridLayout>
+    value: ''
+    cols: 1
+    size_hint_y: None
+    height: 82
+
+    Nwboxlayout:
+        canvas:
+            Color:
+                rgba: 1/255, 1/255, 1/255, 1
+
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        size_hint_y: None
+        height: 47
+
+        Nwlabel:
+            text: 'Narwhallet'
+            halign: 'left'
+            valign: 'center'
+            font_size: 37
+            text_size: self.size
+            size_hint_y: None
+            height: 47
+            padding_x: 5
+
+    Nwboxlayout:
+        canvas:
+            Color:
+                rgba: 1/255, 1/255, 1/255, 1
+
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        size_hint_y: None
+        height: 35
+        padding_y: 5
+
+        Nwlabel:
+            halign: 'left'
+            font_size: 35
+            text_size: self.size
+            text: root.value
+            padding_x: 10

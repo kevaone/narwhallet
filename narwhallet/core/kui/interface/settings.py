@@ -6,6 +6,8 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
 from narwhallet.core.kcl.file_utils import ConfigLoader
+from kivy.properties import ObjectProperty
+from narwhallet.core.kui.widgets.header import Header
 
 
 class SettingsScreen(Screen):
@@ -25,6 +27,7 @@ class SettingsScreen(Screen):
     iserver_ipfs_1 = TextInput()
     iserver_active_0 = ToggleButton()
     iserver_active_1 = ToggleButton()
+    header = Header()
 
     def set_paths(self) -> str:
         _user_home = os.path.expanduser('~')
