@@ -1,12 +1,12 @@
 import os
 from kivy.uix.screenmanager import Screen
 from kivy.animation import Animation
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.cache import MCache
 from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
 from narwhallet.core.kui.widgets.loadingspinner import LoadingSpinner
-
+from narwhallet.core.kui.widgets.nwlabel import Nwlabel
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from kivy.clock import Clock
 import threading
 from narwhallet.core.kui.widgets.header import Header
@@ -15,17 +15,18 @@ from narwhallet.core.kui.widgets.header import Header
 class WalletScreen(Screen):
     # wallet_name = ObjectProperty(None)
     header = Header()
-    wallet_balance = ObjectProperty(None)
-    wallet_unconfiremd_balance = ObjectProperty(None)
-    wallet_locked_balance = ObjectProperty(None)
-    wallet_sent = ObjectProperty(None)
-    wallet_received = ObjectProperty(None)
-    wallet_transaction_count = ObjectProperty(None)
-    wallet_unspenttransaction_count = ObjectProperty(None)
-    wallet_recent_transactions = ObjectProperty(None)
-    btn_addresses = ObjectProperty(None)
-    btn_namespaces = ObjectProperty(None)
-    last_updated = ObjectProperty(None)
+    wallet_balance = Nwlabel()
+    wallet_unconfirmed_balance = Nwlabel()
+    wallet_locked_balance = Nwlabel()
+    wallet_sent = Nwlabel()
+    wallet_received = Nwlabel()
+    wallet_transaction_count = Nwlabel()
+    wallet_unspenttransaction_count = Nwlabel()
+    wallet_recent_transactions = Nwlabel()
+    btn_addresses = Nwbutton()
+    btn_namespaces = Nwbutton()
+    btn_transactions = Nwbutton()
+    last_updated = Nwlabel()
     btn_update_wallet = LoadingSpinner()
 
     def __init__(self, **kwargs):
@@ -48,36 +49,43 @@ class WalletScreen(Screen):
         _count_addresses = 0
         _count_namespaces = 0
         _tx = {}
+
         if _w is not None:
+            # TODO create owner view
             _asa = cache.ns.get_view()
+            owner_list = []
+
+            for p in _asa:
+                _oa = cache.ns.last_address(p[0])
+                owner_list.append(_oa[0][0])
 
             for address in _w.addresses.addresses:
                 if address is not None:
-                    for p in _asa:
-                        _oa = cache.ns.last_address(p[0])
-                        if _oa[0][0] == address.address:
-                            _count_namespaces += 1
+                    if address.address in owner_list:
+                        _count_namespaces += 1
                     _unconfirmed += address.unconfirmed_balance
                     _sent += address.sent
                     _received += address.received
                     _count_addresses += 1
+
                     for _h in address.history:
                         _tx[_h['tx_hash']] = _h['height']
+
                     for _u in address.unspent_tx:
                         _ustx += 1
             # Change
             for address in _w.change_addresses.addresses:
                 if address is not None:
-                    for p in _asa:
-                        _oa = cache.ns.last_address(p[0])
-                        if _oa[0][0] == address.address:
-                            _count_namespaces += 1
+                    if address.address in owner_list:
+                        _count_namespaces += 1
                     _unconfirmed += address.unconfirmed_balance
                     _sent += address.sent
                     _received += address.received
                     _count_addresses += 1
+
                     for _h in address.history:
                         _tx[_h['tx_hash']] = _h['height']
+
                     for _u in address.unspent_tx:
                         _ustx += 1
 
