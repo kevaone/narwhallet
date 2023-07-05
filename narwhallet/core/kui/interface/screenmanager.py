@@ -13,6 +13,7 @@ from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.interface.address import AddressScreen
 from narwhallet.core.kui.interface.addressbook import AddressBookScreen
 from narwhallet.core.kui.interface.addressbookentry import AddressBookEntryScreen
+from narwhallet.core.kui.interface.addaddressbookentry import AddAddressBookEntryScreen
 from narwhallet.core.kui.interface.addresses import AddressesScreen
 from narwhallet.core.kui.interface.create import CreateScreen
 from narwhallet.core.kui.interface.createnamespace import CreateNamespaceScreen
@@ -41,6 +42,7 @@ from narwhallet.core.kcl.addr_book import MBookAddresses
 class NarwhalletScreens(ScreenManager):
     address_screen = ObjectProperty(None)
     addressbook_screen = ObjectProperty(None)
+    addaddressbookentry_screen = ObjectProperty(None)
     addresses_screen = ObjectProperty(None)
     block_screen = ObjectProperty(None)
     content_screen = ObjectProperty(None)

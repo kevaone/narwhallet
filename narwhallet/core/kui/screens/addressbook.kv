@@ -11,16 +11,13 @@
             id: header
             value: 'Address Book'
 
-        BoxLayout:
+        Nwboxlayout:
             size_hint_y: None
             height: 35
-            orientation: 'horizontal'
-            Nwlabel:
-                text: 'Address Book'
-                halign: 'left'
-                font_size: 25
-                text_size: self.size
-                padding_x: 10
+
+            Nwbutton:
+                text: 'Add'
+                on_press: root.add_address()
 
         ScrollView:
             do_scroll_x: False

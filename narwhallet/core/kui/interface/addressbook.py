@@ -59,3 +59,6 @@ class AddressBookScreen(Screen):
 
         self.address_list.parent.scroll_y = 1
         self.manager.current = 'addressbook_screen'
+
+    def add_address(self):
+        self.manager.addaddressbookentry_screen.populate()
