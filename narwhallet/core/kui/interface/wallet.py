@@ -119,12 +119,14 @@ class WalletScreen(Screen):
         Clock.schedule_once(self._animate_loading_start, -1)
         threading.Thread(target=self._update_wallet).start()
 
-    def _update_wallet(self, dt=None): #wallet: MWallet):
+    def _update_wallet(self, dt=None):
         cache_path = os.path.join(self.manager.user_path, 'narwhallet_cache.db')
         cache = MCache(cache_path)
-        wallet: MWallet = self.manager.wallets.get_wallet_by_name(self.wallet_name.text)
+        wallet: MWallet = self.manager.wallets.get_wallet_by_name(self.header.value)
+
         if wallet is None:
             return False
+
         wallet.set_bid_balance(0.0)
         wallet.set_bid_tx([])
         MShared.get_histories(wallet, self.manager.kex)
