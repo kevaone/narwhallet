@@ -23,7 +23,7 @@
 
         BoxLayout:
             size_hint_y: None
-            height: 25
+            height: 20
             orientation: 'horizontal'
             canvas:
                 Color:
@@ -38,17 +38,23 @@
                 text: 'TX ID:'
                 text_size: self.size
                 size_hint_x: None
-                width: dp(85)
+                width: 85
+                padding_x: 10
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 40 if root.width <= dp(650) else 20
 
             Nwlabel:
                 id: txid
                 halign: 'left'
                 text: ''
                 text_size: self.size
+                padding_x: 10
 
         BoxLayout:
             size_hint_y: None
-            height: 35
+            height: 20
             orientation: 'horizontal'
             canvas:
                 Color:
@@ -63,17 +69,23 @@
                 text: 'TX Hash:'
                 text_size: self.size
                 size_hint_x: None
-                width: dp(85)
+                width: 85
+                padding_x: 10
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 40 if root.width <= dp(650) else 20
 
             Nwlabel:
                 id: tx_hash
                 halign: 'left'
                 text: ''
                 text_size: self.size
+                padding_x: 10
 
         BoxLayout:
             size_hint_y: None
-            height: 35
+            height: 20
             orientation: 'horizontal'
             canvas:
                 Color:
@@ -88,17 +100,23 @@
                 text: 'Block Hash:'
                 text_size: self.size
                 size_hint_x: None
-                width: dp(85)
+                width: 85
+                padding_x: 10
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: 40 if root.width <= dp(650) else 20
 
             Nwlabel:
                 id: blockhash
                 halign: 'left'
                 text: ''
                 text_size: self.size
+                padding_x: 10
 
         BoxLayout:
             size_hint_y: None
-            height: 35
+            height: 20
             orientation: 'horizontal'
             canvas:
                 Color:
@@ -113,7 +131,8 @@
                 text: 'Block Time:'
                 text_size: self.size
                 size_hint_x: None
-                width: dp(85)
+                width: 85
+                padding_x: 10
 
             Nwlabel:
                 id: blocktime
@@ -130,7 +149,7 @@
                     pos: self.pos
                     size: self.size
             size_hint_y: None
-            height: 25
+            height: 20
             orientation: 'horizontal'
 
             Nwlabel:
@@ -138,7 +157,8 @@
                 text: 'TX Size:'
                 text_size: self.size
                 size_hint_x: None
-                width: dp(85)
+                width: 85
+                padding_x: 10
 
             Nwlabel:
                 id: tx_size
@@ -146,14 +166,14 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: dp(85)
+                width: 85
 
             Nwlabel:
                 halign: 'left'
                 text: 'vsize:'
                 text_size: self.size
                 size_hint_x: None
-                width: dp(65)
+                width: 65
 
             Nwlabel:
                 id: vsize
@@ -161,11 +181,11 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: dp(50)
+                width: 50
 
         BoxLayout:
             size_hint_y: None
-            height: 35
+            height: 20
             orientation: 'horizontal'
             canvas:
                 Color:
@@ -179,6 +199,7 @@
                 halign: 'left'
                 text: 'time:'
                 text_size: self.size
+                padding_x: 10
 
             Nwlabel:
                 id: time
@@ -186,10 +207,15 @@
                 text: ''
                 text_size: self.size
 
+        Nwboxlayout:
+            size_hint_y: None
+            height: 20
+
             Nwlabel:
                 halign: 'left'
                 text: 'version:'
                 text_size: self.size
+                padding_x: 10
 
             Nwlabel:
                 id: version
@@ -197,10 +223,15 @@
                 text: ''
                 text_size: self.size
 
+        Nwboxlayout:
+            size_hint_y: None
+            height: 20
+
             Nwlabel:
                 halign: 'left'
                 text: 'confirmation:'
                 text_size: self.size
+                padding_x: 10
 
             Nwlabel:
                 id: confirmations
@@ -208,10 +239,15 @@
                 text: ''
                 text_size: self.size
 
+        Nwboxlayout:
+            size_hint_y: None
+            height: 20
+
             Nwlabel:
                 halign: 'left'
                 text: 'lock time:'
                 text_size: self.size
+                padding_x: 10
 
             Nwlabel:
                 id: locktime
@@ -246,7 +282,7 @@
                         size: self.size
                 size_hint_y: None
                 # height: self.minimum_height * 15
-                height: self.minimum_height * 8 if root.width <= dp(650) else self.minimum_height * 6
+                height: self.minimum_height * 9 if root.width <= dp(650) else self.minimum_height * 7
                 cols: 1
                 spacing: 5
                 padding: 5
@@ -278,7 +314,7 @@
                         size: self.size
                 size_hint_y: None
                 # height: self.minimum_height * 15
-                height: self.minimum_height * 8 if root.width <= dp(650) else self.minimum_height * 6
+                height: self.minimum_height * 14 if root.width <= dp(650) else self.minimum_height * 7
                 cols: 1
                 spacing: 5
                 padding: 5
@@ -301,22 +337,31 @@
                 text: 'hex:'
                 text_size: self.size
 
-        BoxLayout:
-            orientation: 'horizontal'
-            canvas:
-                Color:
-                    rgba: 60/255, 61/255, 61/255, 1
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: 6
 
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-
-            Nwlabel:
-                id: hex
-                halign: 'left'
-                text: ''
-                text_size: self.size
+            BoxLayout:
+                orientation: 'horizontal'
                 size_hint_y: None
+                height: 250
+                canvas:
+                    Color:
+                        rgba: 60/255, 61/255, 61/255, 1
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+
+                Nwlabel:
+                    id: hex
+                    halign: 'left'
+                    valign: 'top'
+                    text: ''
+                    text_size: self.size
+                    # size_hint_y: None
+                    padding_x: 10
 
         BoxLayout:
             canvas:

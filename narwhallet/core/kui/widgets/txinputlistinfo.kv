@@ -16,17 +16,20 @@
 
         BoxLayout:
             orientation: 'horizontal'
-            spacing: 15
+            size_hint_y: None
+            height: 40 if root.width <= dp(650) else 20
+            # spacing: 5
 
             Nwlabel:
                 id: txid
                 text: 'txid'
-                font_size: 20
+                # font_size: 20
                 text_size: self.size
+                padding_x: 5
 
         BoxLayout:
             size_hint_y: None
-            height: dp(20)
+            height: 20
             orientation: 'horizontal'
 
             Nwlabel:
