@@ -59,6 +59,10 @@ class RestoreScreen(Screen):
         self.reset_screen()
         self.manager.current = 'wallet_screen'
 
+    def populate(self):
+        self.reset_screen()
+        self.manager.current = 'restore_screen'
+
     def return_home(self):
         self.reset_screen()
         self.manager.current = 'home_screen'

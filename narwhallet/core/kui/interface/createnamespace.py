@@ -2,6 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from narwhallet.core.kcl.wallet.wallet import MWallet
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.control.shared import MShared
 from narwhallet.core.ksc.utils import Ut
@@ -25,7 +26,9 @@ class CreateNamespaceScreen(Screen):
     fee = Nwlabel()
     fee_rate = Nwlabel()
     txsize = Nwlabel()
+    txhex = Nwlabel()
     header = Header()
+    btn_send = Nwbutton()
 
     def __init__(self, **kwargs):
         super(CreateNamespaceScreen, self).__init__(**kwargs)
@@ -41,6 +44,8 @@ class CreateNamespaceScreen(Screen):
         self.namespace_address.text = ''
         self.fee.text = ''
         self.txsize.text = ''
+        self.txhex.text = ''
+        self.btn_send.text = 'Create TX'
         self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
         _address = self.wallet.get_unused_address()
         self.namespace_address.text = _address
@@ -92,7 +97,8 @@ class CreateNamespaceScreen(Screen):
         self.fee.text = str(_est_fee/100000000)
         self.txsize.text = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
-        print(self.raw_tx)
+        self.txhex.text = Ut.bytes_to_hex(_stx)
+        self.btn_send.text = 'Send'
         # self.send_info.tx.setPlainText(self.raw_tx)
 
     def build_send(self):
@@ -126,3 +132,6 @@ class CreateNamespaceScreen(Screen):
             # TODO Validate TX and Broadcast
         else:
             self.reset_transactions()
+
+    def process_send(self):
+        pass

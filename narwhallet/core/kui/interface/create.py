@@ -49,6 +49,10 @@ class CreateScreen(Screen):
         self.reset_screen()
         self.manager.current = 'wallet_screen'
 
+    def populate(self):
+        self.reset_screen()
+        self.manager.current = 'create_screen'
+
     def return_home(self):
         self.reset_screen()
         self.manager.current = 'home_screen'

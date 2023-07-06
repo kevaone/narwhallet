@@ -23,11 +23,11 @@
 
             Nwbutton:
                 text: 'Create'
-                on_press: root.manager.current = 'create_screen'
+                on_press: root.manager.create_screen.populate()
 
             Nwbutton:
                 text: 'Restore'
-                on_press: root.manager.current = 'restore_screen'
+                on_press: root.manager.restore_screen.populate()
 
             Nwbutton:
                 text: 'Address Book'

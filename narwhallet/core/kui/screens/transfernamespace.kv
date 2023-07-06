@@ -7,10 +7,13 @@
     namespace_key: namespace_key
     namespace_value: namespace_value
     valid_amount: valid_amount
+    valid_address: valid_address
     fee: fee
     fee_rate: fee_rate
     txsize: txsize
+    txhex: txhex
     header: header
+    btn_send: btn_send
 
     GridLayout:
         size: root.width, root.height
@@ -40,22 +43,8 @@
 
         BoxLayout:
             size_hint_y: None
-            height: 35
+            height: 10
             orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'NS:'
-                text_size: self.size
-                padding_x: 10
-                size_hint_x: None
-                width: 100
-
-            Nwlabel:
-                id: namespace_name
-                halign: 'left'
-                text: ''
-                text_size: self.size
 
         BoxLayout:
             size_hint_y: None
@@ -64,55 +53,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'NS Address:'
-                text_size: self.size
-                padding_x: 10
-                size_hint_x: None
-                width: 100
-
-            Nwlabel:
-                id: namespace_address
-                halign: 'left'
-                text: ''
-                text_size: self.size
-
-        BoxLayout:
-            size_hint_y: None
-            height: 35
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'New NS Address:'
-                text_size: self.size
-                padding_x: 10
-                size_hint_x: None
-                width: 100
-
-            TextInput:
-                id: new_namespace_address
-                halign: 'left'
-                text: ''
-                text_size: self.size
-
-            Image:
-                id: address_book
-                source: 'narwhallet/core/kui/assets/narwhal.png'
-                allow_stretch: True
-                fit_mode: 'contain'
-                size_hint_y: None
-                height: dp(30)
-                size_hint_x: None
-                width: dp(30)
-                on_touch_down: if self.collide_point(*args[1].pos): root.select_from_address_book()
-
-        BoxLayout:
-            size_hint_y: None
-            height: 35
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
+                valign: 'center'
                 text: 'Amount:'
                 text_size: self.size
                 padding_x: 10
@@ -133,13 +74,75 @@
                 allow_stretch: True
                 fit_mode: 'contain'
                 size_hint_y: None
-                height: dp(30)
+                height: 30
                 size_hint_x: None
-                width: dp(30)
+                width: 30
+
+        BoxLayout:
+            size_hint_y: None
+            height: 10
+            orientation: 'horizontal'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'New NS Address:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
 
         BoxLayout:
             size_hint_y: None
             height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 10
+
+            TextInput:
+                id: new_namespace_address
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 325
+
+            Image:
+                id: valid_address
+                source: 'narwhallet/core/kui/assets/checkmark.png'
+                allow_stretch: True
+                fit_mode: 'contain'
+                size_hint_y: None
+                height: 30
+                size_hint_x: None
+                width: 30
+
+            Image:
+                id: address_book
+                source: 'narwhallet/core/kui/assets/narwhal.png'
+                allow_stretch: True
+                fit_mode: 'contain'
+                size_hint_y: None
+                height: 30
+                size_hint_x: None
+                width: 30
+                on_touch_down: if self.collide_point(*args[1].pos): root.select_from_address_book()
+
+        BoxLayout:
+            size_hint_y: None
+            height: 10
+            orientation: 'horizontal'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
             orientation: 'horizontal'
 
             Nwlabel:
@@ -149,6 +152,16 @@
                 padding_x: 10
                 size_hint_x: None
                 width: 100
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 10
 
             TextInput:
                 id: namespace_key
@@ -160,7 +173,12 @@
 
         BoxLayout:
             size_hint_y: None
-            height: 35
+            height: 10
+            orientation: 'horizontal'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
             orientation: 'horizontal'
 
             Nwlabel:
@@ -170,6 +188,16 @@
                 padding_x: 10
                 size_hint_x: None
                 width: 100
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 10
 
             TextInput:
                 id: namespace_value
@@ -181,7 +209,50 @@
 
         BoxLayout:
             size_hint_y: None
-            height: 35
+            height: 10
+            orientation: 'horizontal'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'NS:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: namespace_name
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'NS Address:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: namespace_address
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
             orientation: 'horizontal'
 
             Nwlabel:
@@ -202,7 +273,7 @@
 
         BoxLayout:
             size_hint_y: None
-            height: 35
+            height: 20
             orientation: 'horizontal'
 
             Nwlabel:
@@ -223,7 +294,7 @@
 
         BoxLayout:
             size_hint_y: None
-            height: 35
+            height: 20
             orientation: 'horizontal'
 
             Nwlabel:
@@ -243,6 +314,42 @@
                 width: 175
 
         BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                text: 'TX Hex:'
+                text_size: self.size
+                padding_x: 10
+                size_hint_x: None
+                width: 100
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: 6
+
+            BoxLayout:
+                size_hint_y: None
+                height: 380
+                orientation: 'horizontal'
+
+                Nwlabel:
+                    id: txhex
+                    halign: 'left'
+                    valign: 'top'
+                    text: '0.0'
+                    text_size: self.size
+                    size_hint_x: None
+                    size_hint_y: None
+                    padding_x: 20
+                    width: root.width - 40
+                    height: 380
+
+        BoxLayout:
             canvas:
                 Color:
                     rgba: 60/255, 61/255, 61/255, 1
@@ -259,5 +366,6 @@
                 on_press: root.manager.current = 'namespace_screen'
 
             Nwbutton:
-                text: 'Create'
-                on_press: root.build_send() #root.manager.current = 'wallet_screen'
+                id: btn_send
+                text: 'Create TX'
+                on_press: root.process_send() if self.text == 'Send' else root.build_send()

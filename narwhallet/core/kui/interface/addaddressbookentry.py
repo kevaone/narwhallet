@@ -13,6 +13,7 @@ class AddAddressBookEntryScreen(Screen):
     header = Header()
 
     def populate(self):
+        self.reset_screen()
         self.manager.current = 'addaddressbookentry_screen'
 
     def reset_screen(self):
