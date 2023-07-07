@@ -4,7 +4,6 @@
     address: address
     address_label: address_label
     address_name: address_name
-    balance: balance
     coin: coin
     sent: sent
     received: received
@@ -23,7 +22,8 @@
         BoxLayout:
             orientation: 'horizontal'
             spacing: 5
-            # height: 20
+            size_hint_y: None
+            height: 25
 
             Nwlabel:
                 id: address
@@ -35,7 +35,8 @@
         BoxLayout:
             orientation: 'horizontal'
             spacing: 5
-            # height: 20
+            size_hint_y: None
+            height: 30
 
             Nwlabel:
                 id: address_name
@@ -47,7 +48,8 @@
         BoxLayout:
             orientation: 'horizontal'
             spacing: 5
-            # height: 20
+            size_hint_y: None
+            height: 25
 
             Nwlabel:
                 id: address_label
@@ -58,7 +60,8 @@
 
         BoxLayout:
             orientation: 'horizontal'
-            # height: 25
+            size_hint_y: None
+            height: 40
 
             # Image:
             #     source: 'narwhallet/core/kui/assets/star.png'
@@ -77,37 +80,35 @@
             #     fit_mode: 'contain'
             #     height: dp(30)
             #     width: dp(30)
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 5
+
+            Image:
+                source: 'narwhallet/core/kui/assets/keva-logo.png'
+                size_hint: None, None
+                pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+                allow_stretch: True
+                fit_mode: 'contain'
+                height: 35
+                width: 30
 
             Nwlabel:
                 text: 'Coin:'
                 halign: 'left'
-                padding_x: 5
-                text_size: self.size
-                size_hint_x: None
-                width: 45
-
-            Nwlabel:
-                id: coin
-                text: ''
-                halign: 'left'
+                valign: 'center'
                 padding_x: 5
                 text_size: self.size
                 size_hint_x: None
                 width: 50
 
             Nwlabel:
-                text: 'Balance:'
-                text_size: self.size
-                halign: 'left'
-                padding_x: 5
-                size_hint_x: None
-                width: 75
-
-            Nwlabel:
-                id: balance
+                id: coin
                 text: ''
                 halign: 'left'
-                padding_x: 5
+                valign: 'center'
                 text_size: self.size
                 size_hint_x: None
                 width: 100
@@ -116,15 +117,15 @@
                 text: 'Sent:'
                 text_size: self.size
                 halign: 'left'
-                padding_x: 5
+                valign: 'center'
                 size_hint_x: None
-                width: 75
+                width: 45
 
             Nwlabel:
                 id: sent
                 text: ''
                 halign: 'left'
-                padding_x: 5
+                valign: 'center'
                 text_size: self.size
                 size_hint_x: None
                 width: 100
@@ -133,7 +134,7 @@
                 text: 'Received:'
                 text_size: self.size
                 halign: 'left'
-                padding_x: 5
+                valign: 'center'
                 size_hint_x: None
                 width: 75
 
@@ -141,7 +142,12 @@
                 id: received
                 text: ''
                 halign: 'left'
-                padding_x: 5
+                valign: 'center'
                 text_size: self.size
                 size_hint_x: None
                 width: 100
+
+        # BoxLayout:
+        #     orientation: 'horizontal'
+        #     size_hint_y: None
+        #     height: 5

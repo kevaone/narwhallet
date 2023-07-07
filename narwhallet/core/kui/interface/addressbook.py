@@ -48,7 +48,6 @@ class AddressBookScreen(Screen):
                 _a.address_name.text = _entry['name']
                 _a.address_label.text = _entry['label']
                 _a.coin.text = _entry['coin']
-                _a.balance.text = str(_entry['received'] - _entry['sent'])
                 _a.sent.text = str(_entry['sent'])
                 _a.received.text = str(_entry['received'])
                 _a.sm = self.manager

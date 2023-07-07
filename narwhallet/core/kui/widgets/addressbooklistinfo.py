@@ -7,7 +7,6 @@ class AddressBookListInfo(BoxLayout):
     address_label = Nwlabel()
     address_name = Nwlabel()
     coin = Nwlabel()
-    balance = Nwlabel()
     sent = Nwlabel()
     received = Nwlabel()
     sm = ScreenManager()
