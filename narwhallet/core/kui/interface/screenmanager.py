@@ -1,6 +1,7 @@
 import os
 import shutil
 from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.core.clipboard import Clipboard
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.core.kex import KEXclient
 from narwhallet.core.kcl.cache import MCache
@@ -121,3 +122,9 @@ class NarwhalletScreens(ScreenManager):
         
         self.load_wallets()
         self.home_screen.populate()
+
+    def copy_to_clipboard(self, data):
+        Clipboard.copy(data)
+
+    def paste_from_clipboard(self):
+        self.text = Clipboard.paste()

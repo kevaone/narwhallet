@@ -210,8 +210,8 @@
                 on_press: root.manager.receive_screen.populate(header.value) #= 'receive_screen'
 
         Nwboxlayout:
-            size_hint_y: None
-            height: 10
+            # size_hint_y: None
+            # height: 10
 
         Nwboxlayout:
             size_hint_y: None
@@ -219,4 +219,7 @@
 
             Nwbutton:
                 text: 'Home'
+                icon: 'narwhallet/core/kui/assets/home_white.png'
+                icon_size: (25, 25)
+                icon_padding: 20
                 on_press: root.manager.current = 'home_screen'

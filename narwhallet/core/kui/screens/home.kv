@@ -23,14 +23,23 @@
 
             Nwbutton:
                 text: 'Create'
+                icon: 'narwhallet/core/kui/assets/plus_white.png'
+                icon_size: (25, 25)
+                icon_padding: 17
                 on_press: root.manager.create_screen.populate()
 
             Nwbutton:
                 text: 'Restore'
+                icon: 'narwhallet/core/kui/assets/wrench_white.png'
+                icon_size: (25, 25)
+                icon_padding: 20
                 on_press: root.manager.restore_screen.populate()
 
             Nwbutton:
                 text: 'Address Book'
+                icon: 'narwhallet/core/kui/assets/menuList_white.png'
+                icon_size: (25, 25)
+                icon_padding: 30
                 on_press: root.manager.addressbook_screen.populate()
 
         ScrollView:
@@ -72,4 +81,7 @@
 
             Nwbutton:
                 text: 'Settings'
+                icon: 'narwhallet/core/kui/assets/gear_white.png'
+                icon_size: (25, 25)
+                icon_padding: 20
                 on_press: root.manager.current = 'settings_screen'

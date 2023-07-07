@@ -1,2 +1,29 @@
 <Nwbutton@Button>
     background_color: (54/255, 58/255, 59/255, 1)
+
+    state_image: self.background_normal if self.state == 'normal' else self.background_down
+    disabled_image: self.background_disabled_normal if self.state == 'normal' else self.background_disabled_down
+    canvas:
+        Color:
+            rgba: self.background_color
+        BorderImage:
+            border: self.border
+            pos: self.pos
+            size: self.size
+            source: self.disabled_image if self.disabled else self.state_image
+
+        Color:
+            rgba: (1, 1, 1, 1) if root.icon != None and root.icon != '' else (1,1,1,0)
+
+        Rectangle:
+            source: root.icon
+            size: (self.texture_size[1],self.texture_size[1]) if self.icon_size == (0,0) else self.icon_size
+            pos: int(self.center_x - self.icon_size[0] / 2.)-dp(root.icon_padding), int(self.center_y - self.icon_size[1] / 2.)
+
+        Color:
+            rgba: 1, 1, 1, 1
+
+        Rectangle:
+            texture: self.texture
+            size: self.texture_size
+            pos: int(self.center_x - self.texture_size[0] / 2.)+dp(root.icon_padding), int(self.center_y - self.texture_size[1] / 2.)

@@ -15,7 +15,7 @@ class LoadingSpinner(FloatLayout):
             item.angle = 0
 
     def on_touch_down(self, touch):
-        if self.collide_point(touch.x, touch.y):
+        if self.collide_point(touch.x, touch.y) and touch.is_mouse_scrolling is False:
             self.parent.parent.parent.update_wallet()
             return
         return super(LoadingSpinner, self).on_touch_down(touch)

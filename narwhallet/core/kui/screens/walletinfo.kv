@@ -179,79 +179,159 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: 10
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: 35
+
+                    Nwimage:
+                        source: 'narwhallet/core/kui/assets/clipboard_white.png'
+                        height: 25
+                        width: 25
+                        on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.ypub.text)
 
                     Nwlabel:
                         halign: 'left'
+                        valign: 'center'
                         text: 'ypub:'
                         text_size: self.size
+                        padding_x: 5
 
                 Nwboxlayout:
                     size_hint_y: None
                     height: 80
+
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: 15
 
                     Nwlabel:
                         id: ypub
                         halign: 'left'
+                        valign: 'top'
                         text: ''
                         text_size: self.size
 
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: 10
+
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: 35
+
+                    Nwimage:
+                        source: 'narwhallet/core/kui/assets/clipboard_white.png'
+                        height: 25
+                        width: 25
+                        on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.xpriv.text)
 
                     Nwlabel:
                         halign: 'left'
+                        valign: 'center'
                         text: 'xpriv:'
                         text_size: self.size
+                        padding_x: 5
 
                 Nwboxlayout:
                     size_hint_y: None
                     height: 80
+
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: 15
 
                     Nwlabel:
                         id: xpriv
                         halign: 'left'
+                        valign: 'top'
                         text: ''
                         text_size: self.size
 
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: 10
+
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: 35
+
+                    Nwimage:
+                        source: 'narwhallet/core/kui/assets/clipboard_white.png'
+                        height: 25
+                        width: 25
+                        on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.seed.text)
 
                     Nwlabel:
                         halign: 'left'
+                        valign: 'center'
                         text: 'Seed:'
                         text_size: self.size
+                        padding_x: 5
 
                 Nwboxlayout:
                     size_hint_y: None
                     height: 80
+
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: 15
 
                     Nwlabel:
                         id: seed
                         halign: 'left'
+                        valign: 'top'
                         text: ''
                         text_size: self.size
 
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: 10
+
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: 35
+
+                    Nwimage:
+                        source: 'narwhallet/core/kui/assets/clipboard_white.png'
+                        height: 25
+                        width: 25
+                        on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.mnemonic_phrase.text)
 
                     Nwlabel:
                         halign: 'left'
+                        valign: 'center'
                         text: 'Mnemonic Phrase:'
                         text_size: self.size
+                        padding_x: 5
 
                 Nwboxlayout:
                     size_hint_y: None
                     height: 80
 
                     Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: 15
+
+                    Nwlabel:
                         id: mnemonic_phrase
                         halign: 'left'
+                        valign: 'top'
                         text: ''
                         text_size: self.size
+
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: 10
 
         Nwboxlayout:
             size_hint_y: None

@@ -20,10 +20,21 @@
             orientation: 'horizontal'
 
             Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 10
+
+            Nwimage:
+                source: 'narwhallet/core/kui/assets/clipboard_white.png'
+                height: 25
+                width: 25
+                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.address.text)
+
+            Nwlabel:
                 id: address
                 text: ''
                 font_size: dp(18)
-                padding_x: 10
+                padding_x: 5
 
         BoxLayout:
             size_hint_y: None

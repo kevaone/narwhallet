@@ -30,12 +30,16 @@ class AddressBookScreen(Screen):
         self.address_list.clear_widgets()
         if _mode == 0:
             self.nav0.text = 'Home'
+            self.nav0.icon = 'narwhallet/core/kui/assets/home_white.png'
             self.nav0.bind(on_press=self.set_current)
         elif _mode == 1:
             self.nav0.text = 'Cancel'
+            self.nav0.icon = ''
+            
             self.nav0.bind(on_press=self.set_current)
         elif _mode == 2:
             self.nav0.text = 'Cancel'
+            self.nav0.icon = ''
             self.nav0.bind(on_press=self.set_current)
         
         try:
