@@ -74,20 +74,21 @@ class WalletScreen(Screen):
                     for _u in address.unspent_tx:
                         _ustx += 1
             # Change
-            for address in _w.change_addresses.addresses:
-                if address is not None:
-                    if address.address in owner_list:
-                        _count_namespaces += 1
-                    _unconfirmed += address.unconfirmed_balance
-                    _sent += address.sent
-                    _received += address.received
-                    _count_addresses += 1
+            if self.manager.settings_screen.settings.show_change:
+                for address in _w.change_addresses.addresses:
+                    if address is not None:
+                        if address.address in owner_list:
+                            _count_namespaces += 1
+                        _unconfirmed += address.unconfirmed_balance
+                        _sent += address.sent
+                        _received += address.received
+                        _count_addresses += 1
 
-                    for _h in address.history:
-                        _tx[_h['tx_hash']] = _h['height']
+                        for _h in address.history:
+                            _tx[_h['tx_hash']] = _h['height']
 
-                    for _u in address.unspent_tx:
-                        _ustx += 1
+                        for _u in address.unspent_tx:
+                            _ustx += 1
 
             # self.wallet_name.text = _w.name
             self.header.value = _w.name

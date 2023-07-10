@@ -56,34 +56,37 @@ class TransactionsScreen(Screen):
                             _t.status.text = 'Unspent'
                             _tx[_u['tx_hash']] = _t
                         _ustx += 1
+
             # Change
-            for address in _w.change_addresses.addresses:
-                if address is not None:
-                    for _h in address.history:
-                        # TODO Check if tx_hash already present then fix the items below
-                        _t = TransactionListInfo()
-                        _t.transaction.text = _h['tx_hash']
-                        _t.block.text = str(_h['height'])
-                        # TODO Fix
-                        _t.txvalue.text = str(round(self.tx_value(_h['tx_hash']), 8))
-                        _t.sm = self.manager
-                        _t.status.text = 'Spent'
-                        _tx[_h['tx_hash']] = _t
-                    for _u in address.unspent_tx:
-                        if _u['tx_hash'] in list(_tx.keys()):
-                            _tx[_u['tx_hash']].status.text = 'Partial Spend'
-                            # TODO Include in above correction
-                            _tx[_u['tx_hash']].txvalue.text = str(round(_u['value']/10000000, 8))
-                        else:
+            if self.manager.settings_screen.settings.show_change:
+                for address in _w.change_addresses.addresses:
+                    if address is not None:
+                        for _h in address.history:
+                            # TODO Check if tx_hash already present then fix the items below
                             _t = TransactionListInfo()
-                            _t.transaction.text = _u['tx_hash']
-                            _t.block.text = str(_u['height'])
-                            # TODO Include in above correction
-                            _t.txvalue.text = str(round(_u['value']/10000000, 8))
+                            _t.transaction.text = _h['tx_hash']
+                            _t.block.text = str(_h['height'])
+                            # TODO Fix
+                            _t.txvalue.text = str(round(self.tx_value(_h['tx_hash']), 8))
                             _t.sm = self.manager
-                            _t.status.text = 'Unspent'
-                            _tx[_u['tx_hash']] = _t
-                        _ustx += 1
+                            _t.status.text = 'Spent'
+                            _tx[_h['tx_hash']] = _t
+                        for _u in address.unspent_tx:
+                            if _u['tx_hash'] in list(_tx.keys()):
+                                _tx[_u['tx_hash']].status.text = 'Partial Spend'
+                                # TODO Include in above correction
+                                _tx[_u['tx_hash']].txvalue.text = str(round(_u['value']/10000000, 8))
+                            else:
+                                _t = TransactionListInfo()
+                                _t.transaction.text = _u['tx_hash']
+                                _t.block.text = str(_u['height'])
+                                # TODO Include in above correction
+                                _t.txvalue.text = str(round(_u['value']/10000000, 8))
+                                _t.sm = self.manager
+                                _t.status.text = 'Unspent'
+                                _tx[_u['tx_hash']] = _t
+                            _ustx += 1
+
             for _k, _v in _tx.items():
                 self.transaction_list.rows += 1
                 # self.transaction_list.rows_minimum[self.transaction_list.rows] = 65

@@ -32,15 +32,17 @@ class AddressesScreen(Screen):
                     _a.sm = self.manager
 
                     self.address_list.add_widget(_a)
-            for address in _w.change_addresses.addresses:
-                if address is not None:
-                    _a = AddressListInfo()
-                    _a.address.text = address.address
-                    _a.address_label.text = address.label
-                    _a.balance.text = str(round(address.balance, 8))
-                    _a.transactions.text = str(len(address.history))
-                    _a.wallet_name = wallet_name
-                    _a.sm = self.manager
+
+            if self.manager.settings_screen.settings.show_change:
+                for address in _w.change_addresses.addresses:
+                    if address is not None:
+                        _a = AddressListInfo()
+                        _a.address.text = address.address
+                        _a.address_label.text = address.label
+                        _a.balance.text = str(round(address.balance, 8))
+                        _a.transactions.text = str(len(address.history))
+                        _a.wallet_name = wallet_name
+                        _a.sm = self.manager
 
                     self.address_list.add_widget(_a)
         self.address_list.parent.scroll_y = 1

@@ -28,6 +28,7 @@ class SettingsScreen(Screen):
     iserver_active_0 = ToggleButton()
     iserver_active_1 = ToggleButton()
     header = Header()
+    show_change = ToggleButton()
 
     def set_paths(self) -> str:
         _user_home = os.path.expanduser('~')
@@ -68,6 +69,12 @@ class SettingsScreen(Screen):
                                                  'settings.json'))
         self.set_dat.load()
         self.settings.from_dict(self.set_dat.data)
+
+        if self.settings.show_change:
+            self.show_change.state = 'down'
+        else:
+            self.show_change.state = 'normal'
+
         self.manager.kex.active_peer = self.settings.primary_peer
 
         for _p in self.settings.electrumx_peers:
@@ -154,6 +161,14 @@ class SettingsScreen(Screen):
             return
 
         self.settings.electrumx_peers[server][option] = setting
+        self.save_settings()
+
+    def update_show_change_option(self):
+        if self.show_change.state == 'down':
+            self.settings.set_show_change(True)
+        else:
+            self.settings.set_show_change(False)
+        
         self.save_settings()
 
     def save_settings(self):

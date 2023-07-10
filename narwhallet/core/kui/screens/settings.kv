@@ -16,6 +16,7 @@
     iserver_active_0: iserver_active_0
     iserver_active_1: iserver_active_1
     header: header
+    show_change: show_change
 
     GridLayout:
         size_hint: None, None
@@ -33,12 +34,53 @@
 
             GridLayout:
                 size_hint_y: None
-                rows: 16
+                rows: 18
                 height: dp(35) * self.rows + (10*self.rows) if root.width <= dp(650) else dp(35) * self.rows + (10*self.rows)
                 cols: 1
                 # row_default_height: dp(65) if root.width <= dp(650) else dp(65)
                 spacing: 5
                 padding: 5
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 35
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: 'General Settings'
+                        halign: 'left'
+                        font_size: 25
+                        text_size: self.size
+                        padding_x: 10
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 35
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: 'Show Change Addresses:'
+                        halign: 'left'
+                        text_size: self.size
+                        padding_x: 10
+                        size_hint_x: None
+                        width: 200
+
+                    ToggleButton:
+                        id: show_change
+                        text_size: self.size
+                        font_size: 20
+                        padding_x: 10
+                        size_hint_x: None
+                        size_hint_y: None
+                        height: 30
+                        width: 75
+                        text: 'Yes'
+                        group: 'change'
+                        # state: 'down'
+                        halign: 'center'
+                        valign: 'center'
+                        on_press: root.update_show_change_option()
 
                 BoxLayout:
                     size_hint_y: None
@@ -63,7 +105,7 @@
                         text_size: self.size
                         padding_x: 10
                         size_hint_x: None
-                        width: dp(115)
+                        width: 115
 
                     TextInput:
                         id: iserver_host
@@ -74,7 +116,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(250)
+                        width: 250
                         on_text: root.update_host()
 
                 BoxLayout:
@@ -88,7 +130,7 @@
                         text_size: self.size
                         padding_x: 10
                         size_hint_x: None
-                        width: dp(115)
+                        width: 115
 
                     TextInput:
                         id: iserver_port
@@ -99,7 +141,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(250)
+                        width: 250
                         on_text: root.update_port()
 
                 BoxLayout:
@@ -113,7 +155,7 @@
                         text_size: self.size
                         padding_x: 10
                         size_hint_x: None
-                        width: dp(115)
+                        width: 115
 
                     ToggleButton:
                         id: iserver_ssl_0
@@ -123,7 +165,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(75)
+                        width: 75
                         text: 'Yes'
                         group: 'ssl'
                         # state: 'down'
@@ -139,7 +181,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(75)
+                        width: 75
                         text: 'No'
                         group: 'ssl'
                         # state: 'down'
@@ -158,7 +200,7 @@
                         text_size: self.size
                         padding_x: 10
                         size_hint_x: None
-                        width: dp(115)
+                        width: 115
 
                     ToggleButton:
                         id: iserver_verify_0
@@ -168,7 +210,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(75)
+                        width: 75
                         text: 'Yes'
                         group: 'vssl'
                         # state: 'down'
@@ -184,7 +226,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(75)
+                        width: 75
                         text: 'No'
                         group: 'vssl'
                         # state: 'down'
@@ -205,7 +247,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(150)
+                        width: 150
                         text: 'Active'
                         group: 'con'
                         # state: 'down'
@@ -224,7 +266,7 @@
                         text_size: self.size
                         padding_x: 10
                         size_hint_x: None
-                        width: dp(115)
+                        width: 115
 
                     TextInput:
                         id: iserver_althost
@@ -235,7 +277,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(250)
+                        width: 250
                         on_text: root.update_althost()
 
                 BoxLayout:
@@ -249,7 +291,7 @@
                         text_size: self.size
                         padding_x: 10
                         size_hint_x: None
-                        width: dp(115)
+                        width: 115
 
                     TextInput:
                         id: iserver_altport
@@ -260,7 +302,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(250)
+                        width: 250
                         on_text: root.update_altport()
 
                 BoxLayout:
@@ -274,7 +316,7 @@
                         text_size: self.size
                         padding_x: 10
                         size_hint_x: None
-                        width: dp(115)
+                        width: 115
 
                     ToggleButton:
                         id: iserver_altssl_0
@@ -284,7 +326,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(75)
+                        width: 75
                         text: 'Yes'
                         group: 'assl'
                         # state: 'down'
@@ -300,7 +342,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(75)
+                        width: 75
                         text: 'No'
                         group: 'assl'
                         # state: 'down'
@@ -319,7 +361,7 @@
                         text_size: self.size
                         padding_x: 10
                         size_hint_x: None
-                        width: dp(115)
+                        width: 115
 
                     ToggleButton:
                         id: iserver_altverify_0
@@ -329,7 +371,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(75)
+                        width: 75
                         text: 'Yes'
                         group: 'avssl'
                         # state: 'down'
@@ -345,7 +387,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(75)
+                        width: 75
                         text: 'No'
                         group: 'avssl'
                         # state: 'down'
@@ -366,7 +408,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(150)
+                        width: 150
                         text: 'Active'
                         group: 'con'
                         # state: 'down'
@@ -397,7 +439,7 @@
                         text_size: self.size
                         padding_x: 10
                         size_hint_x: None
-                        width: dp(115)
+                        width: 115
 
                     TextInput:
                         text: 'ipfs.keva.one'
@@ -407,7 +449,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(250)
+                        width: 250
                         on_text: root.update_ipfs()
 
                 BoxLayout:
@@ -423,7 +465,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(150)
+                        width: 150
                         text: 'Active'
                         group: 'ipfs'
                         # state: 'down'
@@ -442,7 +484,7 @@
                         text_size: self.size
                         padding_x: 10
                         size_hint_x: None
-                        width: dp(115)
+                        width: 115
 
                     TextInput:
                         text: 'ipfs.keva.one'
@@ -452,7 +494,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(250)
+                        width: 250
                         on_text: root.update_altipfs()
 
                 BoxLayout:
@@ -468,7 +510,7 @@
                         size_hint_x: None
                         size_hint_y: None
                         height: 30
-                        width: dp(150)
+                        width: 150
                         text: 'Active'
                         group: 'ipfs'
                         # state: 'down'
