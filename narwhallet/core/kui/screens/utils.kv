@@ -3,8 +3,11 @@
     address: address
     pubk: pubk
     message: message
-    file: file
+    # file: file
     signature: signature
+    valid_sig: valid_sig
+    # s_msg: s_msg
+    # s_file: s_file
     header: header
 
     GridLayout:
@@ -57,6 +60,13 @@
                     size_hint_x: None
                     orientation: 'horizontal'
 
+                    Nwlabel:
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 10
+
                     Spinner:
                         id: wallet_name
                         halign: 'center'
@@ -65,6 +75,7 @@
                         text_size: self.size
                         size_hint_x: None
                         width: 200
+                        on_text: root.sign_wallet_changed()
 
                 BoxLayout:
                     size_hint_y: None
@@ -87,6 +98,13 @@
                     size_hint_x: None
                     orientation: 'horizontal'
 
+                    Nwlabel:
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 10
+
                     Spinner:
                         id: address
                         halign: 'center'
@@ -94,7 +112,8 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 200
+                        width: 325
+                        on_text: root.sign_address_changed()
 
                 BoxLayout:
                     size_hint_y: None
@@ -118,18 +137,25 @@
 
                 BoxLayout:
                     size_hint_y: None
-                    height: 35
+                    height: 45
                     size_hint_x: None
                     orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 10
 
                     TextInput:
                         id: pubk
                         halign: 'center'
                         valign: 'center'
-                        text: 'KEVACOIN'
+                        text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 200
+                        width: 325
 
                 BoxLayout:
                     size_hint_y: None
@@ -140,6 +166,22 @@
                     size_hint_y: None
                     height: 20
                     orientation: 'horizontal'
+
+                    # ToggleButton:
+                    #     id: s_msg
+                    #     text_size: self.size
+                    #     font_size: 20
+                    #     padding_x: 10
+                    #     size_hint_x: None
+                    #     size_hint_y: None
+                    #     height: 30
+                    #     width: 75
+                    #     text: ''
+                    #     group: 'sign_target'
+                    #     state: 'down'
+                    #     halign: 'center'
+                    #     valign: 'center'
+                    #     # on_press: root.update_show_change_option()
 
                     Nwlabel:
                         halign: 'left'
@@ -170,25 +212,73 @@
                         width: 250
                         padding_x: 10
 
+                # BoxLayout:
+                #     size_hint_y: None
+                #     height: 35
+                #     orientation: 'horizontal'
+
+                #     # ToggleButton:
+                #     #     id: s_file
+                #     #     text_size: self.size
+                #     #     font_size: 20
+                #     #     padding_x: 10
+                #     #     size_hint_x: None
+                #     #     size_hint_y: None
+                #     #     height: 30
+                #     #     width: 75
+                #     #     text: ''
+                #     #     group: 'sign_target'
+                #     #     state: 'normal'
+                #     #     halign: 'center'
+                #     #     valign: 'center'
+                #     #     # on_press: root.update_show_change_option()
+
+                #     Nwlabel:
+                #         halign: 'left'
+                #         text: 'File:'
+                #         text_size: self.size
+                #         size_hint_x: None
+                #         width: 50
+                #         padding_x: 10
+
+                #     Nwlabel:
+                #         id: file
+                #         text: ''
+
+                #     Nwbutton:
+                #         text: '...'
+
                 BoxLayout:
+                    canvas:
+                        Color:
+                            rgba: 60/255, 61/255, 61/255, 1
+
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
+                    padding_y: 10
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'File:'
+                        text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 50
-                        padding_x: 10
-
-                    Nwlabel:
-                        id: file
-                        text: ''
+                        width: 10
 
                     Nwbutton:
-                        text: '...'
+                        text: 'Sign'
+                        size_hint_x: None
+                        width: 150
+                        on_press: root.sign_message()
+
+                    # Nwbutton:
+                    #     text: 'Verify'
+                    #     size_hint_x: None
+                    #     width: 150
+                    #     on_press: root.verify_message()
 
                 BoxLayout:
                     size_hint_y: None
@@ -218,6 +308,47 @@
                     TextInput:
                         id: signature
                         halign: 'left'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 250
+                        padding_x: 10
+
+                BoxLayout:
+                    canvas:
+                        Color:
+                            rgba: 60/255, 61/255, 61/255, 1
+
+                        Rectangle:
+                            pos: self.pos
+                            size: self.size
+                    size_hint_y: None
+                    height: 35
+                    orientation: 'horizontal'
+                    padding_y: 10
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 10
+
+                    Nwbutton:
+                        text: 'Verify'
+                        size_hint_x: None
+                        width: 150
+                        on_press: root.verify_message()
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 25
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        id: valid_sig
+                        halign: 'left'
+                        valign: 'center'
                         text: ''
                         text_size: self.size
                         size_hint_x: None
