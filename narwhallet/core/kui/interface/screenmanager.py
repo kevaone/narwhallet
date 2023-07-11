@@ -37,6 +37,7 @@ from narwhallet.core.kui.interface.settings import SettingsScreen
 from narwhallet.core.kui.interface.transaction import TransactionScreen
 from narwhallet.core.kui.interface.transactions import TransactionsScreen
 from narwhallet.core.kui.interface.transfernamespace import TransferNamespaceScreen
+from narwhallet.core.kui.interface.utils import UtilsScreen
 from narwhallet.core.kcl.addr_book import MBookAddresses
 
 
@@ -64,6 +65,7 @@ class NarwhalletScreens(ScreenManager):
     createnamespace_screen = ObjectProperty(None)
     createnamespacekey_screen = ObjectProperty(None)
     restore_screen = ObjectProperty(None)
+    utils_screen = ObjectProperty(None)
     
     def __init__(self, **kwargs):
         super(NarwhalletScreens, self).__init__(**kwargs)

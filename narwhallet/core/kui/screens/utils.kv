@@ -1,0 +1,244 @@
+<UtilsScreen>
+    wallet_name: wallet_name
+    address: address
+    pubk: pubk
+    message: message
+    file: file
+    signature: signature
+    header: header
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Header:
+            id: header
+            value: 'Create New Wallet'
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: 6
+
+            GridLayout:
+                # canvas:
+                #     Color:
+                #         rgba: 60/255, 61/255, 61/255, 1
+
+                #     Rectangle:
+                #         pos: self.pos
+                #         size: self.size
+                size_hint_y: None
+                rows: 17
+                height: dp(45) * self.rows + (10*self.rows) if root.width <= dp(650) else dp(45) * self.rows + (10*self.rows)
+                cols: 1
+                # row_default_height: dp(65) if root.width <= dp(650) else dp(65)
+                spacing: 5
+                padding: 5
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 20
+                    size_hint_x: None
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        text: 'Wallet:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 75
+                        padding_x: 10
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 35
+                    size_hint_x: None
+                    orientation: 'horizontal'
+
+                    Spinner:
+                        id: wallet_name
+                        halign: 'center'
+                        valign: 'center'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 200
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 20
+                    size_hint_x: None
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        text: 'Address:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 100
+                        padding_x: 10
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 35
+                    size_hint_x: None
+                    orientation: 'horizontal'
+
+                    Spinner:
+                        id: address
+                        halign: 'center'
+                        valign: 'center'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 200
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 10
+                    orientation: 'horizontal'
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 20
+                    orientation: 'horizontal'
+                    size_hint_x: None
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        text: 'Public Key:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 150
+                        padding_x: 10
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 35
+                    size_hint_x: None
+                    orientation: 'horizontal'
+
+                    TextInput:
+                        id: pubk
+                        halign: 'center'
+                        valign: 'center'
+                        text: 'KEVACOIN'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 200
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 10
+                    orientation: 'horizontal'
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 20
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'Message:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 175
+                        padding_x: 10
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 125
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 10
+
+                    TextInput:
+                        id: message
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 250
+                        padding_x: 10
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 35
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'File:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 50
+                        padding_x: 10
+
+                    Nwlabel:
+                        id: file
+                        text: ''
+
+                    Nwbutton:
+                        text: '...'
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 20
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'Signature:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 175
+                        padding_x: 10
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 125
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 10
+
+                    TextInput:
+                        id: signature
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: 250
+                        padding_x: 10
+
+    BoxLayout:
+        orientation: 'horizontal'
+
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: 60/255, 61/255, 61/255, 1
+
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        size_hint_y: None
+        height: 35
+        orientation: 'horizontal'
+
+        Nwbutton:
+            text: 'Home'
+            on_press: root.manager.current = 'home_screen'
