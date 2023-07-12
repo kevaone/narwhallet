@@ -1,5 +1,7 @@
 from kivy.uix.screenmanager import Screen
+from kivy.uix.gridlayout import GridLayout
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
 from narwhallet.core.kui.widgets.qrcode import QR_Code
 import qrcode
@@ -7,12 +9,12 @@ from narwhallet.core.kui.widgets.header import Header
 
 
 class AddressScreen(Screen):
-    address = ObjectProperty(None)
-    balance = ObjectProperty(None)
-    label = ObjectProperty(None)
-    transactions = ObjectProperty(None)
-    transaction_list = ObjectProperty(None)
-    qr_code = ObjectProperty(None)
+    address = Nwlabel()
+    balance = Nwlabel()
+    label = Nwlabel()
+    transactions = Nwlabel()
+    transaction_list = GridLayout()
+    qr_code = QR_Code()
     header = Header()
 
     def populate(self, wallet_name, address):

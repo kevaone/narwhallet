@@ -1,6 +1,6 @@
 <ReceiveScreen>
     address: address
-    amount: amount
+    # amount: amount
     label: label
     qr_code: qr_code
     header: header
@@ -14,13 +14,14 @@
 
         BoxLayout:
             size_hint_y: None
-            height: 35
+            height: 40
             orientation: 'horizontal'
 
             Nwlabel:
                 id: address
+                valign: 'center'
                 text: ''
-                font_size: dp(18)
+                font_size: 18
                 padding_x: 10
 
         BoxLayout:
@@ -30,46 +31,48 @@
 
             Nwlabel:
                 text: 'Label:'
-                font_size: dp(18)
+                valign: 'center'
+                font_size: 18
                 size_hint_x: None
                 padding_x: 10
-                width: dp(120)
+                width: 75
 
             TextInput:
                 id: label
-                font_size: dp(18)
+                valign: 'center'
+                font_size: 18
                 size_hint_x: None
                 padding_x: 10
-                width: dp(250)
+                width: 300
 
         BoxLayout:
             size_hint_y: None
-            height: dp(10)
+            height: 10
             orientation: 'horizontal'
 
+        # BoxLayout:
+        #     size_hint_y: None
+        #     height: 35
+        #     orientation: 'horizontal'
+
+        #     Nwlabel:
+        #         text: 'Amount:'
+        #         font_size: dp(18)
+        #         size_hint_x: None
+        #         padding_x: 10
+        #         width: dp(120)
+
+        #     TextInput:
+        #         id: amount
+        #         text: '0.0'
+        #         font_size: dp(18)
+        #         size_hint_x: None
+        #         padding_x: 10
+        #         width: dp(250)
+
         BoxLayout:
             size_hint_y: None
-            height: 35
-            orientation: 'horizontal'
-
-            Nwlabel:
-                text: 'Amount:'
-                font_size: dp(18)
-                size_hint_x: None
-                padding_x: 10
-                width: dp(120)
-
-            TextInput:
-                id: amount
-                text: '0.0'
-                font_size: dp(18)
-                size_hint_x: None
-                padding_x: 10
-                width: dp(250)
-
-        BoxLayout:
-            size_hint_y: None
-            height: dp(10)
+            height: 10
             orientation: 'horizontal'
 
         BoxLayout:
@@ -82,7 +85,7 @@
 
         BoxLayout:
             size_hint_y: None
-            height: dp(10)
+            height: 10
             orientation: 'horizontal'
 
         BoxLayout:
@@ -99,7 +102,7 @@
 
             Nwbutton:
                 text: 'Done'
-                on_press: root.manager.current = 'wallet_screen'
+                on_press: root.save()
 
             # Nwbutton:
             #     text: 'Addresses'

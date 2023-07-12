@@ -49,7 +49,7 @@ class AddressesScreen(Screen):
         self.manager.current = 'addresses_screen'
 
     def increase_address_pool(self):
-        _w = self.manager.wallets.get_wallet_by_name(self.header.wallet_name)
+        _w = self.manager.wallets.get_wallet_by_name(self.header.value)
         _addr = _w.get_unused_address()
         self.manager.wallets.save_wallet(_w.name)
         _a = AddressListInfo()

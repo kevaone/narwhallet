@@ -33,7 +33,7 @@
             Nwlabel:
                 id: address
                 text: ''
-                font_size: dp(18)
+                font_size: 18
                 padding_x: 5
 
         BoxLayout:
@@ -42,15 +42,17 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Label='''
-                font_size: dp(18)
+                text: 'Label:'
+                font_size: 18
                 padding_x: 10
+                size_hint_x: None
+                width: 70
 
             Nwlabel:
                 id: label
+                halign: 'left'
                 text: ''
-                font_size: dp(18)
-                padding_x: 10
+                font_size: 18
 
         BoxLayout:
             # size_hint_y: None
@@ -67,15 +69,15 @@
 
             Nwlabel:
                 text: 'Transactions:'
-                font_size: dp(15)
+                font_size: 15
                 size_hint_x: None
                 padding_x: 10
-                width: dp(120)
+                width: 120
 
             Nwlabel:
                 id: transactions
                 text: '0'
-                font_size: dp(15)
+                font_size: 15
 
         BoxLayout:
             size_hint_y: None
@@ -84,15 +86,15 @@
 
             Nwlabel:
                 text: 'Balance:'
-                font_size: dp(15)
+                font_size: 15
                 size_hint_x: None
                 padding_x: 10
-                width: dp(120)
+                width: 120
 
             Nwlabel:
                 id: balance
                 text: '0.0'
-                font_size: dp(15)
+                font_size: 15
 
         BoxLayout:
             size_hint_y: None
