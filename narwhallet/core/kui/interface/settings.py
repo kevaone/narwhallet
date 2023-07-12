@@ -1,6 +1,5 @@
 import json
 import os
-import shutil
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
@@ -30,41 +29,10 @@ class SettingsScreen(Screen):
     header = Header()
     show_change = ToggleButton()
 
-    def set_paths(self) -> str:
-        _user_home = os.path.expanduser('~')
-        _narwhallet_path = os.path.join(_user_home, '.narwhallet')
-
-        if os.path.isdir(_narwhallet_path) is False:
-            # TODO Add error handling
-            os.mkdir(_narwhallet_path)
-            os.mkdir(os.path.join(_narwhallet_path, 'wallets'))
-
-        if os.path.isfile(os.path.join(_narwhallet_path,
-                                       'settings.json')) is False:
-            print('settings.json created.')
-            shutil.copy(os.path.join(self.program_path,
-                                     'config/settings.json'), _narwhallet_path)
-
-        if os.path.isfile(os.path.join(_narwhallet_path,
-                                       'narwhallet.addressbook')) is False:
-            print('narwhallet.addressbook created.')
-            shutil.copy(os.path.join(self.program_path,
-                                     'config/narwhallet.addressbook'),
-                        _narwhallet_path)
-
-        if os.path.isfile(os.path.join(_narwhallet_path,
-                                       'special_keys.json')) is False:
-            print('special_keys.json created.')
-            shutil.copy(os.path.join(self.program_path,
-                                     'config/special_keys.json'),
-                        _narwhallet_path)
-
-        return _narwhallet_path
-
     def load_settings(self):
         # TODO Clean up
         self.settings: MNarwhalletSettings = MNarwhalletSettings()
-        self.user_path = self.set_paths()
+        self.user_path = self.manager.user_path
         self.set_dat = ConfigLoader(os.path.join(self.user_path,
                                                  'settings.json'))
         self.set_dat.load()

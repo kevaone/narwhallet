@@ -7,7 +7,7 @@
     "electrumx_auto_connect": true,
     "primary_peer": 0,
     "electrumx_peers": [
-        ["Kevacoin", "kex.keva.one", "50002", true, true]
+        ["Kevacoin", "kex.keva.one", "50002", true, true], ["Local", "127.0.0.1", "50001", false, false]
     ],
     "enabled_coins": ["KEVACOIN"]
 }
