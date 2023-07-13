@@ -35,9 +35,9 @@
             GridLayout:
                 size_hint_y: None
                 rows: 18
-                height: dp(35) * self.rows + (10*self.rows) if root.width <= dp(650) else dp(35) * self.rows + (10*self.rows)
+                height: 35 * self.rows + (10*self.rows) if root.width <= 650 else 35 * self.rows + (10*self.rows)
                 cols: 1
-                # row_default_height: dp(65) if root.width <= dp(650) else dp(65)
+                # row_default_height: 65 if root.width <= 650 else 65
                 spacing: 5
                 padding: 5
 

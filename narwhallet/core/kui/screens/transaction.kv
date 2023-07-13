@@ -43,7 +43,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 40 if root.width <= dp(650) else 20
+            height: 40 if root.width <= 650 else 20
 
             Nwlabel:
                 id: txid
@@ -74,7 +74,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 40 if root.width <= dp(650) else 20
+            height: 40 if root.width <= 650 else 20
 
             Nwlabel:
                 id: tx_hash
@@ -105,7 +105,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 40 if root.width <= dp(650) else 20
+            height: 40 if root.width <= 650 else 20
 
             Nwlabel:
                 id: blockhash
@@ -282,7 +282,7 @@
                         size: self.size
                 size_hint_y: None
                 # height: self.minimum_height * 15
-                height: self.minimum_height * 9 if root.width <= dp(650) else self.minimum_height * 7
+                height: self.minimum_height * 9 if root.width <= 650 else self.minimum_height * 7
                 cols: 1
                 spacing: 5
                 padding: 5
@@ -314,7 +314,7 @@
                         size: self.size
                 size_hint_y: None
                 # height: self.minimum_height * 15
-                height: self.minimum_height * 14 if root.width <= dp(650) else self.minimum_height * 7
+                height: self.minimum_height * 14 if root.width <= 650 else self.minimum_height * 7
                 cols: 1
                 spacing: 5
                 padding: 5

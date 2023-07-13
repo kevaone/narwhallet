@@ -176,8 +176,8 @@
                 size_hint_y: None
                 rows: 0
                 # TODO: Fixme
-                height: 85 * self.rows + (10*self.rows) if root.width <= dp(650) else 65 * self.rows + (10*self.rows)
-                # row_default_height: dp(85) if root.width <= dp(650) else dp(65)
+                height: 85 * self.rows + (10*self.rows) if root.width <= 650 else 65 * self.rows + (10*self.rows)
+                # row_default_height: 85 if root.width <= 650 else 65
                 cols: 1
                 spacing: 5
                 padding: 5
