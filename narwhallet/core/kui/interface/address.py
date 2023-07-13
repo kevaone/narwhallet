@@ -36,8 +36,8 @@ class AddressScreen(Screen):
 
             for _h in _addr.history:
                 _t = TransactionListInfo()
-                _t.transaction.text = _h['tx_hash']
-                _t.block.text = str(_h['height'])
+                _t.transaction = _h['tx_hash']
+                _t.block = str(_h['height'])
                 _t.sm = self.manager
                 self.transaction_list.add_widget(_t)
 

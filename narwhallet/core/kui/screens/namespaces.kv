@@ -38,13 +38,13 @@
                 text: 'Create'
                 on_press: root.manager.createnamespace_screen.populate()
 
-        ScrollView:
-            do_scroll_x: False
+        RecycleView:
+            id: namespaces_list
+            viewclass: 'NamespaceListInfo'
             do_scroll_y: True
             bar_width: 6
 
-            GridLayout:
-                id: namespaces_list
+            RecycleGridLayout:
                 canvas:
                     Color:
                         rgba: 60/255, 61/255, 61/255, 1

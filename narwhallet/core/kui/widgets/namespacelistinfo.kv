@@ -1,8 +1,8 @@
 <NamespaceListInfo>
     sm: None
-    address: address
-    shortcode: shortcode
-    keys: keys
+    address: 'address'
+    shortcode: 'shortcode'
+    keys: 'keys'
 
     canvas:
         Color:
@@ -10,10 +10,12 @@
 
         Rectangle:
             pos: self.pos
-            size: self.size
+            size: (650, self.size[1])
 
     GridLayout:
         cols: 1
+        size_hint_x: None
+        width: 600
 
         BoxLayout:
             orientation: 'horizontal'
@@ -24,29 +26,26 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                id: shortcode
-                text: ''
+                text: root.shortcode
                 height: 25
                 font_size: 20
                 text_size: self.size
                 padding_x: 5
                 size_hint_x: None
-                width: dp(115)
+                width: 115
 
-            Nwlabel:
-                id: ns_name
-                text: ''
-                height: 25
-                font_size: 20
-                text_size: self.size
-                padding_x: 5
+            # Nwlabel:
+            #     text: root.ns_name
+            #     height: 25
+            #     font_size: 20
+            #     text_size: self.size
+            #     padding_x: 5
 
         BoxLayout:
             orientation: 'horizontal'
 
             Nwlabel:
-                id: address
-                text: ''
+                text: root.address
                 height: 20
                 font_size: 15
                 text_size: self.size
@@ -60,12 +59,11 @@
                 text_size: self.size
                 halign: 'left'
                 padding_x: 5
-                width: dp(45)
+                width: 45
                 size_hint_x: None
 
             Nwlabel:
-                id: keys
-                text: ''
+                text: root.keys
                 halign: 'left'
                 padding_x: 5
                 text_size: self.size

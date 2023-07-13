@@ -27,7 +27,7 @@ class AddressBookScreen(Screen):
 
     def populate(self, _mode=0):
         self.mode = _mode
-        self.address_list.clear_widgets()
+        self.address_list.data = []
         if _mode == 0:
             self.nav0.text = 'Home'
             self.nav0.icon = 'narwhallet/core/kui/assets/home_white.png'
@@ -46,21 +46,21 @@ class AddressBookScreen(Screen):
             _book = self.manager.address_book.to_dict_list()
 
             for _entry in _book:
-                _a = AddressBookListInfo()
-                _a.mode = _mode
-                _a.address.text = _entry['address']
-                _a.address_name.text = _entry['name']
-                _a.address_label.text = _entry['label']
-                _a.coin.text = _entry['coin']
-                _a.sent.text = str(_entry['sent'])
-                _a.received.text = str(_entry['received'])
-                _a.sm = self.manager
-                self.address_list.add_widget(_a)
+                _a = {
+                'mode': _mode,
+                'address': _entry['address'],
+                'address_name': _entry['name'],
+                'address_label': _entry['label'],
+                'coin': _entry['coin'],
+                'sent': str(_entry['sent']),
+                'received': str(_entry['received']),
+                'sm': self.manager}
+                self.address_list.data.append(_a)
             
         except Exception:
             print('Error Loading address book')
 
-        self.address_list.parent.scroll_y = 1
+        self.address_list.scroll_y = 1
         self.manager.current = 'addressbook_screen'
 
     def add_address(self):

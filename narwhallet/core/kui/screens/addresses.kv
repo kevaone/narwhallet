@@ -37,15 +37,15 @@
                 text: 'Increase Pool'
                 on_press: root.increase_address_pool()
 
-        ScrollView:
-            do_scroll_x: False
+        RecycleView:
+            id: address_list
+            viewclass: 'AddressListInfo'
             do_scroll_y: True
             bar_width: 6
 
-            GridLayout:
-                id: address_list
+            RecycleGridLayout:
                 size_hint_y: None
-                height: self.minimum_height * 17
+                height: self.minimum_height * 50
                 cols: 1
                 spacing: 5
                 padding: 5

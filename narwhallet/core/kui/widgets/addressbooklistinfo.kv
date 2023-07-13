@@ -1,12 +1,12 @@
 <AddressBookListInfo>
     sm: None
     wallet_name: None
-    address: address
-    address_label: address_label
-    address_name: address_name
-    coin: coin
-    sent: sent
-    received: received
+    address: 'address'
+    address_label: 'address_label'
+    address_name: 'address_name'
+    coin: 'coin'
+    sent: 'sent'
+    received: 'received'
 
     canvas:
         Color:
@@ -14,10 +14,12 @@
 
         Rectangle:
             pos: self.pos
-            size: self.size
+            size: (650, self.size[1])
 
     GridLayout:
         cols: 1
+        size_hint_x: None
+        width: 600
 
         BoxLayout:
             orientation: 'horizontal'
@@ -26,8 +28,7 @@
             height: 25
 
             Nwlabel:
-                id: address
-                text: ''
+                text: root.address
                 height: 20
                 font_size: 18
                 padding_x: 5
@@ -39,8 +40,7 @@
             height: 30
 
             Nwlabel:
-                id: address_name
-                text: ''
+                text: root.address_name
                 height: 20
                 font_size: 18
                 padding_x: 5
@@ -52,8 +52,7 @@
             height: 25
 
             Nwlabel:
-                id: address_label
-                text: ''
+                text: root.address_label
                 height: 20
                 font_size: 18
                 padding_x: 5
@@ -101,8 +100,8 @@
                 width: 50
 
             Nwlabel:
-                id: coin
-                text: ''
+                # id: coin
+                text: root.coin
                 halign: 'left'
                 valign: 'center'
                 text_size: self.size
@@ -118,8 +117,8 @@
                 width: 45
 
             Nwlabel:
-                id: sent
-                text: ''
+                # id: sent
+                text: root.sent
                 halign: 'left'
                 valign: 'center'
                 text_size: self.size
@@ -135,8 +134,7 @@
                 width: 75
 
             Nwlabel:
-                id: received
-                text: ''
+                text: root.received
                 halign: 'left'
                 valign: 'center'
                 text_size: self.size

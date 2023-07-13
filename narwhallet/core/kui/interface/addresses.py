@@ -16,36 +16,37 @@ class AddressesScreen(Screen):
 
     def populate(self, wallet_name):
         self.header.value = wallet_name
-        self.address_list.clear_widgets()
+        self.address_list.data = []
         
         _w = self.manager.wallets.get_wallet_by_name(wallet_name)
-
+        _addr = []
         if _w is not None:
             for address in _w.addresses.addresses:
                 if address is not None:
-                    _a = AddressListInfo()
-                    _a.address.text = address.address
-                    _a.address_label.text = address.label
-                    _a.balance.text = str(round(address.balance, 8))
-                    _a.transactions.text = str(len(address.history))
-                    _a.wallet_name = wallet_name
-                    _a.sm = self.manager
+                    _a = {
+                    'address': address.address,
+                    'address_label': address.label,
+                    'balance': str(round(address.balance, 8)),
+                    'transactions': str(len(address.history)),
+                    'wallet_name': wallet_name,
+                    'sm': self.manager}
 
-                    self.address_list.add_widget(_a)
+                    _addr.append(_a)
 
             if self.manager.settings_screen.settings.show_change:
                 for address in _w.change_addresses.addresses:
                     if address is not None:
-                        _a = AddressListInfo()
-                        _a.address.text = address.address
-                        _a.address_label.text = address.label
-                        _a.balance.text = str(round(address.balance, 8))
-                        _a.transactions.text = str(len(address.history))
-                        _a.wallet_name = wallet_name
-                        _a.sm = self.manager
+                        _a = {
+                        'address': address.address,
+                        'address_label': address.label,
+                        'balance': str(round(address.balance, 8)),
+                        'transactions': str(len(address.history)),
+                        'wallet_name': wallet_name,
+                        'sm': self.manager}
 
-                    self.address_list.add_widget(_a)
-        self.address_list.parent.scroll_y = 1
+                        _addr.append(_a)
+        self.address_list.scroll_y = 1
+        self.address_list.data = _addr
         self.manager.current = 'addresses_screen'
 
     def increase_address_pool(self):

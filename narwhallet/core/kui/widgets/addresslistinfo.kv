@@ -1,10 +1,10 @@
 <AddressListInfo>
     sm: None
-    wallet_name: None
-    address: address
-    address_label: address_label
-    balance: balance
-    transactions: transactions
+    wallet_name: 'None'
+    address: 'address'
+    address_label: 'address_label'
+    balance: 'balance'
+    transactions: 'transactions'
 
     canvas:
         Color:
@@ -12,10 +12,13 @@
 
         Rectangle:
             pos: self.pos
-            size: self.size
+            size: (650, self.size[1])
 
     GridLayout:
         cols: 1
+
+        size_hint_x: None
+        width: 600
 
         BoxLayout:
             orientation: 'horizontal'
@@ -23,8 +26,7 @@
             # height: 20
 
             Nwlabel:
-                id: address
-                text: ''
+                text: root.address
                 height: 20
                 font_size: 18
                 padding_x: 5
@@ -35,8 +37,7 @@
             # height: 20
 
             Nwlabel:
-                id: address_label
-                text: ''
+                text: root.address_label
                 height: 20
                 font_size: 18
                 padding_x: 5
@@ -72,8 +73,7 @@
                 width: 45
 
             Nwlabel:
-                id: transactions
-                text: ''
+                text: root.transactions
                 halign: 'left'
                 padding_x: 5
                 text_size: self.size
@@ -89,8 +89,7 @@
                 width: 75
 
             Nwlabel:
-                id: balance
-                text: ''
+                text: root.balance
                 halign: 'left'
                 padding_x: 5
                 text_size: self.size

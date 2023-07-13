@@ -21,7 +21,7 @@ class TransactionsScreen(Screen):
     def populate(self, wallet_name):
         self.transaction_list.children[0].rows = 0
         self.transaction_list.data = []
-        self.transaction_list.parent.scroll_y = 1
+        self.transaction_list.scroll_y = 1
         _w = self.manager.wallets.get_wallet_by_name(wallet_name)
         self.header.value = wallet_name
         _transactions = 0
