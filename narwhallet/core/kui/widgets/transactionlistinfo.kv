@@ -5,21 +5,16 @@
     txvalue: 'txvalue'
     status: 'status'
 
-    size_hint_x: None
-    width: 500
-
     canvas:
         Color:
             rgba: (25/255, 27/255, 27/255, 1)
 
         Rectangle:
             pos: self.pos
-            size: (650, self.size[1])
+            size: self.size
 
     GridLayout:
         cols: 1
-        size_hint_x: None
-        width: 650
 
         BoxLayout:
             orientation: 'horizontal'

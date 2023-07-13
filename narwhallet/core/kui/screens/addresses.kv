@@ -45,8 +45,10 @@
 
             RecycleGridLayout:
                 size_hint_y: None
-                height: self.minimum_height * 50
                 cols: 1
+                height: self.minimum_height
+                default_size: None, 85
+                default_size_hint: 1, None
                 spacing: 5
                 padding: 5
 
