@@ -56,17 +56,20 @@ class UtilsScreen(Screen):
         self.pubk.text = ''
         self.address.text = ''
         self.address.values = []
+        _v = []
         
         if self.wallet_name.text != '-':
             self._w = self.manager.wallets.get_wallet_by_name(self.wallet_name.text)
             if self._w is not None:
                 for index in range(0, self._w.addresses.count):
                     _addr = self._w.addresses.get_address_by_index(index)
-                    self.address.values.append(_addr.address)
+                    _v.append(_addr.address)
 
                 for index in range(0, self._w.change_addresses.count):
                     _addr = self._w.change_addresses.get_address_by_index(index)
-                    self.address.values.append(_addr.address)
+                    _v.append(_addr.address)
+
+        self.address.values = _v
 
     def sign_address_changed(self):
         self.signature.text = ''
