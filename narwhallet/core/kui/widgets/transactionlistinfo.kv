@@ -1,9 +1,12 @@
 <TransactionListInfo>
     sm: None
-    block: block
-    transaction: transaction
-    txvalue: txvalue
-    status: status
+    block: 'block'
+    transaction: 'transaction'
+    txvalue: 'txvalue'
+    status: 'status'
+
+    size_hint_x: None
+    width: 500
 
     canvas:
         Color:
@@ -11,10 +14,12 @@
 
         Rectangle:
             pos: self.pos
-            size: self.size
+            size: (650, self.size[1])
 
     GridLayout:
         cols: 1
+        size_hint_x: None
+        width: 650
 
         BoxLayout:
             orientation: 'horizontal'
@@ -24,8 +29,8 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                id: transaction
-                text: ''
+                # id: transaction
+                text: root.transaction
                 text_size: self.size
                 padding_x: 5
                 font_size: 17
@@ -38,12 +43,13 @@
             height: 30
 
             Nwlabel:
-                id: block
-                text: ''
+                # id: block
+                text: root.block
                 text_size: self.size
                 padding_x: 5
             Nwlabel:
-                id: status
+                # id: status
+                text: root.status
                 padding_x: 5
                 text_size: self.size
             Nwlabel:
@@ -52,7 +58,8 @@
                 halign: 'right'
                 padding_x: 5
             Nwlabel:
-                id: txvalue
+                # id: txvalue
+                text: root.txvalue
                 halign: 'right'
                 padding_x: 5
                 text_size: self.size
