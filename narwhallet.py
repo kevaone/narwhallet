@@ -15,6 +15,8 @@ def resourcePath():
     return os.path.join(os.path.abspath("."))
 
 class NarwhalletApp(App):
+    icon = 'narwhallet/core/kui/assets/narwhal.png'
+
     def build(self):
         _program_path = os.path.dirname(__file__)
         self.sm = NarwhalletScreens()
