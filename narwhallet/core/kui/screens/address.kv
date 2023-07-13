@@ -101,13 +101,13 @@
             height: 10
             orientation: 'horizontal'
 
-        ScrollView:
-            do_scroll_x: False
+        RecycleView:
+            id: transaction_list
+            viewclass: 'TransactionListInfo'
             do_scroll_y: True
             bar_width: 6
 
-            GridLayout:
-                id: transaction_list
+            RecycleGridLayout:
                 canvas:
                     Color:
                         rgba: 60/255, 61/255, 61/255, 1
@@ -116,8 +116,9 @@
                         pos: self.pos
                         size: self.size
                 size_hint_y: None
-                # height:75
-                height: self.minimum_height * 15 if root.width <= dp(650) else self.minimum_height * 12
+                height: self.minimum_height
+                default_size: None, 85 if root.width <= 650 else 65
+                default_size_hint: 1, None
                 cols: 1
                 spacing: 5
                 padding: 5
