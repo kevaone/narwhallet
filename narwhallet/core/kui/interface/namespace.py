@@ -32,11 +32,11 @@ class NamespaceScreen(Screen):
             # elif ns[4] == 'OP_KEVA_PUT':
             if ns[5] == '\x01_KEVA_NS_':
                 self.namespace_name.text = ns[6]
-            _dns.key.text = ns[5]
-            _dns.data.text = ns[6]
+            _dns.key.text = str(ns[5])
+            _dns.data.text = str(ns[6])
             self.owner.text = ns[8]
             
-            self.namespace_key_list.rows_minimum[self.namespace_key_list.rows] = 25 * len(ns[6].split('\n'))
+            self.namespace_key_list.rows_minimum[self.namespace_key_list.rows] = 25 * len(str(ns[6]).split('\n'))
             self.namespace_key_list.rows += 1
             self.namespace_key_list.add_widget(_dns)
 
