@@ -3,6 +3,7 @@ import sys
 import kivy
 from kivy.app import App
 from kivy.config import Config
+from narwhallet import _version
 from narwhallet.core.kui.interface.screenmanager import NarwhalletScreens
 # Config.set('graphics', 'width', '500')
 # Config.set('graphics', 'height', '700')
@@ -16,6 +17,7 @@ def resourcePath():
 
 class NarwhalletApp(App):
     icon = 'narwhallet/core/kui/assets/narwhal.png'
+    title = 'Narwhallet v.' + str(_version.__version__)
 
     def build(self):
         _program_path = os.path.dirname(__file__)
