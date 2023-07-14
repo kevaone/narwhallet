@@ -21,6 +21,7 @@
     Image:
         id: qrimage
         pos_hint: {'center_x': .5, 'center_y': .5}
-        allow_stretch: True
+        # allow_stretch: True
+        fit_mode: 'contain'
         size_hint: None, None
         size: root.width * .9, root.height * .9

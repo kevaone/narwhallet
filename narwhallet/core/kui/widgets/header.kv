@@ -36,7 +36,7 @@
             text_size: self.size
             size_hint_y: None
             height: 50
-            padding_x: 5
+            padding: [5, 0, 0, 0]
 
     # Nwboxlayout:
     #     canvas:
@@ -59,7 +59,7 @@
                 size: self.size
         size_hint_y: None
         height: 35
-        padding_y: 10
+        # padding: [0, 10, 0, 10]
 
         Nwlabel:
             halign: 'left'
@@ -67,4 +67,4 @@
             font_size: 25
             text_size: self.size
             text: root.value
-            padding_x: 10
+            padding: [10, 10, 0, 10]
