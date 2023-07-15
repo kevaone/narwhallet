@@ -399,16 +399,18 @@ class MShared():
         # _block_count = MShared.get_block_count(kex)
         # print('_block_count', _block_count)
         wallet.set_balance(0.0)
-        _tx_h_batch: list = []
-        _tx_in_b: list = []
+        _tx_h_batch: dict = {}
+        _tx_in_b: dict = {}
         _tx_h_batch = MShared.__get_tx_cmds(_tx_h_batch,
                                             wallet.addresses.addresses,
                                             kex, cache)
         _tx_h_batch = MShared.__get_tx_cmds(_tx_h_batch,
                                             wallet.change_addresses.addresses,
                                             kex, cache)
-        if len(_tx_h_batch) > 0:
-            _ = MShared.__get_tx_by_batch(_tx_h_batch, kex, cache)
+        _tx_b = list(_tx_h_batch.values())
+        _tx_b = MShared.btx(_tx_b, kex, cache)
+        if len(_tx_b) > 0:
+            _ = MShared.__get_tx_by_batch(_tx_b, kex, cache)
 
         _tx_in_b = MShared.__get_tx_vin_cmds(_tx_in_b,
                                              wallet.addresses.addresses,
@@ -416,37 +418,73 @@ class MShared():
         _tx_in_b = MShared.__get_tx_vin_cmds(_tx_in_b,
                                              wallet.change_addresses.addresses,
                                              kex, cache)
-        if len(_tx_in_b) > 0:
-            _ = MShared.__get_tx_by_batch(_tx_in_b, kex, cache)
+        _intx_b = list(_tx_in_b.values())
+        _intx_b = MShared.bintx(_intx_b, kex, cache)
+
+        if len(_intx_b) > 0:
+            _ = MShared.__get_tx_by_batch(_intx_b, kex, cache)
 
         MShared._get_tx(wallet, wallet.addresses.addresses, kex, cache)
         MShared._get_tx(wallet, wallet.change_addresses.addresses, kex, cache)
 
     @staticmethod
-    def __get_tx_cmds(_tx_h_batch: list, addresses: List[MAddress],
+    def btx(_tx_h_batch: list, kex: KEXclient, cache: MCache):
+        _batch = []
+        for _t in _tx_h_batch:
+            _trx = cache.tx.get_tx_by_txid(_t)
+            if _trx is None:
+                _batch.append(kex.api.bc_tx.get
+                              (_t, True, kex.id))
+                kex.id = kex.id + 1
+            else:
+                if _trx.blockhash == '':
+                    _batch.append(kex.api.bc_tx.get
+                                  (_t, True, kex.id))
+                    kex.id = kex.id + 1
+                elif _trx.confirmations < 6:
+                    _batch.append(kex.api.bc_tx.get
+                                  (_t, True, kex.id))
+                    kex.id = kex.id + 1
+        return _batch
+
+    @staticmethod
+    def bintx(_tx_h_batch: list, kex: KEXclient, cache: MCache):
+        _batch = []
+        for _t in _tx_h_batch:
+            # print('_t', _t)
+            _in_tx = cache.tx.get_tx_by_txid(_t)
+
+            if _in_tx is None:
+                _batch.append(kex.api.bc_tx.get
+                                (_t, True, kex.id))
+                kex.id = kex.id + 1
+            else:
+                if _in_tx.blockhash != '':
+                    _batch.append(kex.api.bc_tx.get
+                                   (_t, True, kex.id))
+                    kex.id = kex.id + 1
+                elif _in_tx.confirmations < 6:
+                    _batch.append(kex.api.bc_tx.get
+                                   (_t, True, kex.id))
+                    kex.id = kex.id + 1
+        return _batch
+
+    @staticmethod
+    def __get_tx_cmds(_tx_h_batch: dict, addresses: List[MAddress],
                       kex: KEXclient, cache: MCache):
+        # _tx_batch = {}
+        _tx_count = 0
         for _a in addresses:
             _a.set_received(0.0)
             _a.set_sent(0.0)
+            _tx_count += len(_a.history)
             for _t in _a.history:
-                _trx = cache.tx.get_tx_by_txid(_t['tx_hash'])
-                if _trx is None:
-                    _tx_h_batch.append(kex.api.bc_tx.get
-                                       (_t['tx_hash'], True, kex.id))
-                    kex.id = kex.id + 1
-                else:
-                    if _trx.blockhash == '':
-                        _tx_h_batch.append(kex.api.bc_tx.get
-                                           (_t['tx_hash'], True, kex.id))
-                        kex.id = kex.id + 1
-                    elif _trx.confirmations < 6:
-                        _tx_h_batch.append(kex.api.bc_tx.get
-                                           (_t['tx_hash'], True, kex.id))
-                        kex.id = kex.id + 1
-        return _tx_h_batch
+                _tx_h_batch[_t['tx_hash']] = _t['tx_hash'] #.encode('utf-8')
+
+        return _tx_h_batch # _tx_h_batch
 
     @staticmethod
-    def __get_tx_vin_cmds(_tx_i_b: list, addresses: List[MAddress],
+    def __get_tx_vin_cmds(_tx_i_b: dict, addresses: List[MAddress],
                           kex: KEXclient, cache: MCache):
         for _a in addresses:
             for _t in _a.history:
@@ -461,18 +499,7 @@ class MShared():
                     _in_tx = cache.tx.get_tx_by_txid(_in.txid)
 
                     if _in_tx is None:
-                        _tx_i_b.append(kex.api.bc_tx.get
-                                       (_in.txid, True, kex.id))
-                        kex.id = kex.id + 1
-                    else:
-                        if _in_tx.blockhash != '':
-                            _tx_i_b.append(kex.api.bc_tx.get
-                                           (_in.txid, True, kex.id))
-                            kex.id = kex.id + 1
-                        elif _in_tx.confirmations < 6:
-                            _tx_i_b.append(kex.api.bc_tx.get
-                                           (_in.txid, True, kex.id))
-                            kex.id = kex.id + 1
+                        _tx_i_b[_in.txid] = _in.txid
         return _tx_i_b
 
     @staticmethod
@@ -493,6 +520,7 @@ class MShared():
                         _ns_test.append(_out.scriptPubKey)
 
         for _t in _ns_test:
+            # TODO: move this check to churn through unspents only
             MShared._test_for_namespace(_t, kex, cache)
 
     @staticmethod
