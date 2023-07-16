@@ -40,6 +40,8 @@ class SendScreen(Screen):
         self.wallet_balance.text = str(self.wallet.balance)
         self.send_to.text = ''
         self.amount.text = ''
+        self.valid_amount.size = (0, 0)
+        self.valid_send_to.size = (0, 0)
         self.fee.text = ''
         self.txsize.text = ''
         self.txhex.text = ''
@@ -60,13 +62,16 @@ class SendScreen(Screen):
             _bal = float(self.wallet_balance.text)
             if _amount < _bal:
                 _ca = True
+                self.valid_amount.size = (30, 30)
                 if cb is True:
                     _ca =self.check_address(False)
 
                 if _ca is True:
                     self.btn_send.disabled = False
+                    
                     return True
             else:
+                self.valid_amount.size = (0, 0)
                 self.btn_send.disabled = True    
         except Exception:
             self.btn_send.disabled = True
@@ -78,12 +83,14 @@ class SendScreen(Screen):
             _ = (Base58Decoder
                  .CheckDecode(self.send_to.text))
             _ca = True
+            self.valid_send_to.size = (30, 30)
             if cb is True:
                 _ca = self.check_amount(False)
 
             if _ca is True:
                 self.btn_send.disabled = False
         except Exception:
+            self.valid_send_to.size = (0, 0)
             self.btn_send.disabled = True
             return False
         return True
