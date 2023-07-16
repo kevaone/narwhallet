@@ -54,16 +54,19 @@ class _peer():
             data = b''
 
             while True:
-                _r = self.socket.recv(4096)
+                _r = self.socket.recv(1024)
                 data = data + _r
 
-                if data == b'':
+                if len(_r) < 1024:
                     break
 
-                if (data.endswith(b'"}\n')
-                        or data.endswith(b'}]\n')
-                        or data.endswith(b']\n}\n')):
-                    break
+                # if data == b'':
+                #     break
+
+                # if (data.endswith(b'"}\n')
+                #         or data.endswith(b'}]\n')
+                #         or data.endswith(b']\n}\n')):
+                #     break
 
             if data == b'':
                 # TODO Add socket state check before connect/command replay
