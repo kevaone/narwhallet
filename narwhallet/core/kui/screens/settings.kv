@@ -17,6 +17,7 @@
     iserver_active_1: iserver_active_1
     header: header
     show_change: show_change
+    connection_status: ''
 
     GridLayout:
         size_hint: None, None
@@ -34,7 +35,7 @@
 
             GridLayout:
                 size_hint_y: None
-                rows: 18
+                rows: 19
                 height: 35 * self.rows + (10*self.rows) if root.width <= 650 else 35 * self.rows + (10*self.rows)
                 cols: 1
                 # row_default_height: 65 if root.width <= 650 else 65
@@ -93,6 +94,26 @@
                         font_size: 25
                         text_size: self.size
                         padding: [10, 0, 0, 0]
+
+                BoxLayout:
+                    size_hint_y: None
+                    height: 35
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: 'Status:'
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: 115
+
+                    Nwlabel:
+                        text: root.connection_status
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
 
                 BoxLayout:
                     size_hint_y: None

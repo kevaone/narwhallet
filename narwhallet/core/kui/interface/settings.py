@@ -5,7 +5,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
 from narwhallet.core.kcl.file_utils import ConfigLoader
-from kivy.properties import ObjectProperty
+from kivy.properties import ObjectProperty, StringProperty
 from narwhallet.core.kui.widgets.header import Header
 
 
@@ -28,6 +28,7 @@ class SettingsScreen(Screen):
     iserver_active_1 = ToggleButton()
     header = Header()
     show_change = ToggleButton()
+    connection_status = StringProperty()
 
     def load_settings(self):
         # TODO Clean up
@@ -117,8 +118,9 @@ class SettingsScreen(Screen):
     def update_active(self, value):
         self.settings.set_primary_peer(value)
         self.save_settings()
+        self.connection_status = self.manager.kex.peers[value].connect()
 
-    def update_ipfa_active(self, value):
+    def update_ipfs_active(self, value):
         pass
 
     def update_ssl_option(self, server, option, setting):

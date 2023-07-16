@@ -138,7 +138,8 @@ class NarwhalletScreens(ScreenManager):
         self.settings_screen.load_settings()
         self.address_book.load_address_book(self.user_path)
         self.favorites.load_favorites(self.user_path)
-        self.kex.peers[self.kex.active_peer].connect()
+        _connection_status = self.kex.peers[self.kex.active_peer].connect()
+        self.settings_screen.connection_status = _connection_status
         
         self.load_wallets()
         self.home_screen.populate()
