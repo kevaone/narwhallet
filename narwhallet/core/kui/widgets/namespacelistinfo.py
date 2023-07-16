@@ -14,6 +14,7 @@ class NamespaceListInfo(BoxLayout):
     wallet_name = StringProperty()
     favorite = Nwimage()
     favorite_source = StringProperty()
+    ns_name = StringProperty()
     sm = ScreenManager()
 
     def on_touch_down(self, touch):
