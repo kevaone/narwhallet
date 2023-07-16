@@ -74,6 +74,7 @@ class SendScreen(Screen):
                 self.valid_amount.size = (0, 0)
                 self.btn_send.disabled = True    
         except Exception:
+            self.valid_amount.size = (0, 0)
             self.btn_send.disabled = True
             
         return False
