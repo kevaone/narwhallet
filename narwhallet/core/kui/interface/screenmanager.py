@@ -104,6 +104,13 @@ class NarwhalletScreens(ScreenManager):
                         _narwhallet_path)
 
         if os.path.isfile(os.path.join(_narwhallet_path,
+                                       'narwhallet.favorites')) is False:
+            print('narwhallet.favorites created.')
+            shutil.copy(os.path.join(self.program_path,
+                                     'config/narwhallet.favorites'),
+                        _narwhallet_path)
+
+        if os.path.isfile(os.path.join(_narwhallet_path,
                                        'special_keys.json')) is False:
             print('special_keys.json created.')
             shutil.copy(os.path.join(self.program_path,

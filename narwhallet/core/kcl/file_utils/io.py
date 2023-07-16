@@ -78,6 +78,18 @@ class AddressBookLoader(_loader):
         _path = os.path.join(root_path, 'narwhallet.addressbook')
         return json.loads(_loader._load(_path))
 
+class FavoritesLoader(_loader):
+    @staticmethod
+    def save(root_path: str, data: List[dict]):
+        _path = os.path.join(root_path, 'narwhallet.favorites')
+        _loader._save(_path, json.dumps(data, indent=4).encode())
+        return True
+
+    @staticmethod
+    def load(root_path: str):
+        _path = os.path.join(root_path, 'narwhallet.favorites')
+        return json.loads(_loader._load(_path))
+
 
 class TransactionLoader(_loader):
     @staticmethod
