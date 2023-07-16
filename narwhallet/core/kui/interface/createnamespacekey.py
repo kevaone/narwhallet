@@ -50,8 +50,73 @@ class CreateNamespaceKeyScreen(Screen):
         self.txsize.text = ''
         self.txhex.text = ''
         self.btn_send.text = 'Create TX'
+        self.btn_send.disabled = True
         self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'createnamespacekey_screen'
+
+    def check_amount(self, cb=True):
+        try:
+            # TODO: Account for locale!!!
+            # locale = QLocale()
+            # _result = locale.toDouble(amount)
+            _amount = float(self.amount.text)
+            _bal = float(self.wallet_balance.text)
+
+            if _amount < 0.01:
+                self.valid_amount.size = (0, 0)
+                self.btn_send.disabled = True
+                return False
+
+            if _amount < _bal:
+                # _ca = True
+                _a, _b = True, True
+                self.valid_amount.size = (30, 30)
+                if cb is True:
+                    _a = self.check_key(False)
+                    _b = self.check_value(False)
+
+                if _a and _b is True:
+                    self.btn_send.disabled = False
+                    
+                    return True
+            else:
+                self.valid_amount.size = (0, 0)
+                self.btn_send.disabled = True    
+        except Exception:
+            self.valid_amount.size = (0, 0)
+            self.btn_send.disabled = True
+            
+        return False
+
+    def check_key(self, cb=True):
+        if self.namespace_key.text != '':
+            _a, _b = True, True
+            if cb is True:
+                _a = self.check_amount(False)
+                _b = self.check_value(False)
+
+            if _a and _b is True:
+                self.btn_send.disabled = False
+                return True
+
+        self.btn_send.disabled = True
+        
+        return False
+
+    def check_value(self, cb=True):
+        if self.namespace_value.text != '':
+            _a, _b = True, True
+            if cb is True:
+                _a = self.check_amount(False)
+                _b = self.check_key(False)
+
+            if _a and _b is True:
+                self.btn_send.disabled = False
+                return True
+
+        self.btn_send.disabled = True
+
+        return False
 
     def set_availible_usxo(self):
         _tmp_usxo = self.wallet.get_usxos()

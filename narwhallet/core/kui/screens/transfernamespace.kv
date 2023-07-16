@@ -67,10 +67,12 @@
                 text_size: self.size
                 size_hint_x: None
                 width: 175
+                on_text: root.check_amount()
 
             Nwimage:
                 id: valid_amount
                 source: 'narwhallet/core/kui/assets/checkmark.png'
+                size: (0, 0)
 
         BoxLayout:
             size_hint_y: None
@@ -107,15 +109,17 @@
                 text_size: self.size
                 size_hint_x: None
                 width: 325
+                on_text: root.check_address()
 
-            Nwimage:
-                id: valid_address
-                source: 'narwhallet/core/kui/assets/checkmark.png'
-                
             Nwimage:
                 id: address_book
                 source: 'narwhallet/core/kui/assets/narwhal.png'
                 on_touch_down: if self.collide_point(*args[1].pos): root.select_from_address_book()
+
+            Nwimage:
+                id: valid_address
+                source: 'narwhallet/core/kui/assets/checkmark.png'
+                size: (0, 0)
 
         BoxLayout:
             size_hint_y: None
@@ -152,6 +156,7 @@
                 text_size: self.size
                 size_hint_x: None
                 width: 255
+                on_text: root.check_key()
 
         BoxLayout:
             size_hint_y: None
@@ -188,6 +193,7 @@
                 text_size: self.size
                 size_hint_x: None
                 width: 255
+                on_text: root.check_value()
 
         BoxLayout:
             size_hint_y: None

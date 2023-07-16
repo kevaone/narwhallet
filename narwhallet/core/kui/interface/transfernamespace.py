@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
+from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
@@ -26,6 +27,7 @@ class TransferNamespaceScreen(Screen):
     namespace_key = TextInput()
     namespace_value = TextInput()
     valid_amount = Image()
+    valid_address = Image()
     fee = Nwlabel()
     fee_rate = Nwlabel()
     txsize = Nwlabel()
@@ -52,12 +54,98 @@ class TransferNamespaceScreen(Screen):
         self.txsize.text = ''
         self.txhex.text = ''
         self.btn_send.text = 'Create TX'
+        self.btn_send.disabled = True
         self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'transfernamespace_screen'
 
     def select_from_address_book(self):
         self.manager.addressbook_screen.populate(2)
         self.manager.current = 'addressbook_screen'
+
+    def check_amount(self, cb=True):
+        try:
+            # TODO: Account for locale!!!
+            # locale = QLocale()
+            # _result = locale.toDouble(amount)
+            _amount = float(self.amount.text)
+            _bal = float(self.wallet_balance.text)
+
+            if _amount < 0.01:
+                self.valid_amount.size = (0, 0)
+                self.btn_send.disabled = True
+                return False
+
+            if _amount < _bal:
+                _a, _b, _c = True, True, True
+                self.valid_amount.size = (30, 30)
+                if cb is True:
+                    _a = self.check_address(False)
+                    _b = self.check_key(False)
+                    _c = self.check_value(False)
+
+                if _a and _b and _c is True:
+                    self.btn_send.disabled = False
+                    
+                    return True
+            else:
+                self.valid_amount.size = (0, 0)
+                self.btn_send.disabled = True
+        except Exception:
+            self.valid_amount.size = (0, 0)
+            self.btn_send.disabled = True
+            
+        return False
+
+    def check_address(self, cb=True):
+        try:
+            _ = (Base58Decoder
+                 .CheckDecode(self.new_namespace_address.text))
+            _a, _b, _c = True, True, True
+            self.valid_address.size = (30, 30)
+            if cb is True:
+                _a = self.check_amount(False)
+                _b = self.check_key(False)
+                _c = self.check_value(False)
+
+            if _a and _b and _c is True:
+                self.btn_send.disabled = False
+        except Exception:
+            self.valid_address.size = (0, 0)
+            self.btn_send.disabled = True
+            return False
+        return True
+
+    def check_key(self, cb=True):
+        if self.namespace_key.text != '':
+            _a, _b, _c = True, True, True
+            if cb is True:
+                _a = self.check_amount(False)
+                _b = self.check_address(False)
+                _c = self.check_value(False)
+
+            if _a and _b and _c is True:
+                self.btn_send.disabled = False
+                return True
+
+        self.btn_send.disabled = True
+        
+        return False
+
+    def check_value(self, cb=True):
+        if self.namespace_value.text != '':
+            _a, _b, _c = True, True, True
+            if cb is True:
+                _a = self.check_amount(False)
+                _b = self.check_address(False)
+                _c = self.check_key(False)
+
+            if _a and _b and _c is True:
+                self.btn_send.disabled = False
+                return True
+
+        self.btn_send.disabled = True
+
+        return False
 
     def set_availible_usxo(self):
         _tmp_usxo = self.wallet.get_usxos()

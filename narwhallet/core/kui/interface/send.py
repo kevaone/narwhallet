@@ -46,6 +46,7 @@ class SendScreen(Screen):
         self.txsize.text = ''
         self.txhex.text = ''
         self.btn_send.text = 'Create TX'
+        self.btn_send.disabled = True
         self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'send_screen'
 
@@ -60,11 +61,11 @@ class SendScreen(Screen):
             # _result = locale.toDouble(amount)
             _amount = float(self.amount.text)
             _bal = float(self.wallet_balance.text)
-            if _amount < _bal:
+            if _amount < _bal and _amount > 0:
                 _ca = True
                 self.valid_amount.size = (30, 30)
                 if cb is True:
-                    _ca =self.check_address(False)
+                    _ca = self.check_address(False)
 
                 if _ca is True:
                     self.btn_send.disabled = False
