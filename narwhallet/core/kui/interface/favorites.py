@@ -13,10 +13,10 @@ class FavoritesScreen(Screen):
         _asa = self.manager.cache.ns.get_view()
 
         for p in _asa:
-            _ns_name = self.manager.cache.ns.ns_root_value(p[0])[0][0]
             for favorite in self.manager.favorites.favorites:
                 if p[0] == favorite:
                     _block = self.manager.cache.ns.ns_block(p[0])[0]
+                    _ns_name = self.manager.cache.ns.ns_root_value(p[0])[0][0]
                     _fav = 'narwhallet/core/kui/assets/star.png'
                     _ns = {
                         'address': p[0],
