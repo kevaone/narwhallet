@@ -3,6 +3,7 @@ import shutil
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.clipboard import Clipboard
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from narwhallet.core.kcl.favorites.favorites import MFavorites
 from narwhallet.core.kex import KEXclient
 from narwhallet.core.kcl.cache import MCache
 from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
@@ -75,6 +76,7 @@ class NarwhalletScreens(ScreenManager):
 
         self.wallets = MWallets()
         self.address_book: MBookAddresses = MBookAddresses()
+        self.favorites: MFavorites = MFavorites()
         self.program_path = ''
         # self.user_path = '' #self.set_paths()
         # self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
@@ -135,6 +137,7 @@ class NarwhalletScreens(ScreenManager):
         self.cache.interface.setup_tables()
         self.settings_screen.load_settings()
         self.address_book.load_address_book(self.user_path)
+        self.favorites.load_favorites(self.user_path)
         self.kex.peers[self.kex.active_peer].connect()
         
         self.load_wallets()

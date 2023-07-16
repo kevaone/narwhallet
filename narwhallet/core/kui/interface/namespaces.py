@@ -25,20 +25,30 @@ class NamespacesScreen(Screen):
             for address in _w.addresses.addresses:
                 if _oa[0][0] == address.address:
                     _block = self.manager.cache.ns.ns_block(p[0])[0]
+                    if p[0] in self.manager.favorites.favorites:
+                        _fav = 'narwhallet/core/kui/assets/star.png'
+                    else:
+                        _fav = 'narwhallet/core/kui/assets/star_dark.png'
                     _ns = {
                     'address': p[0],
                     'shortcode': str(len(str(_block[0])))+str(_block[0])+str(_block[1]),
                     'keys': str(self.manager.cache.ns.key_count(p[0])[0][0]),
-                    'sm': self.manager}
+                    'sm': self.manager,
+                    'favorite_source': _fav}
                     self.namespaces_list.data.append(_ns)
 
             for address in _w.change_addresses.addresses:
                 if _oa[0][0] == address.address:
                     _block = self.manager.cache.ns.ns_block(p[0])[0]
+                    if p[0] in self.manager.favorites.favorites:
+                        _fav = 'narwhallet/core/kui/assets/star.png'
+                    else:
+                        _fav = 'narwhallet/core/kui/assets/star_dark.png'
                     _ns = {
                     'address': p[0],
                     'shortcode': str(len(str(_block[0])))+str(_block[0])+str(_block[1]),
                     'keys': str(self.manager.cache.ns.key_count(p[0])[0][0]),
-                    'sm': self.manager}
+                    'sm': self.manager,
+                    'favorite_source': _fav}
                     self.namespaces_list.data.append(_ns)
             self.manager.current = 'namespaces_screen'
