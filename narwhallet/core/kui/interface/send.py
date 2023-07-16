@@ -2,6 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.spinner import Spinner
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
+from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
@@ -50,11 +51,42 @@ class SendScreen(Screen):
         self.manager.addressbook_screen.populate(1)
         self.manager.current = 'addressbook_screen'
 
-    def validate_address(self):
-        pass
+    def check_amount(self, cb=True):
+        try:
+            # TODO: Account for locale!!!
+            # locale = QLocale()
+            # _result = locale.toDouble(amount)
+            _amount = float(self.amount.text)
+            _bal = float(self.wallet_balance.text)
+            if _amount < _bal:
+                _ca = True
+                if cb is True:
+                    _ca =self.check_address(False)
 
-    def validate_amount(self):
-        pass
+                if _ca is True:
+                    self.btn_send.disabled = False
+                    return True
+            else:
+                self.btn_send.disabled = True    
+        except Exception:
+            self.btn_send.disabled = True
+            
+        return False
+
+    def check_address(self, cb=True):
+        try:
+            _ = (Base58Decoder
+                 .CheckDecode(self.send_to.text))
+            _ca = True
+            if cb is True:
+                _ca = self.check_amount(False)
+
+            if _ca is True:
+                self.btn_send.disabled = False
+        except Exception:
+            self.btn_send.disabled = True
+            return False
+        return True
 
     def set_availible_usxo(self):
         _tmp_usxo = self.wallet.get_usxos()

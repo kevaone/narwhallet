@@ -69,6 +69,7 @@
                 text_size: self.size
                 size_hint_x: None
                 width: 325
+                on_text: root.check_address()
 
             Nwimage:
                 id: valid_send_to
@@ -106,6 +107,7 @@
                 text_size: self.size
                 size_hint_x: None
                 width: 155
+                on_text: root.check_amount()
 
             Nwimage:
                 id: valid_amount
@@ -243,4 +245,5 @@
             Nwbutton:
                 id: btn_send
                 text: 'Create TX'
+                disabled: True
                 on_press: root.process_send() if self.text == 'Send' else root.build_send()
