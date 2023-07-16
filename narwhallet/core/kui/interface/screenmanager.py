@@ -40,6 +40,7 @@ from narwhallet.core.kui.interface.transactions import TransactionsScreen
 from narwhallet.core.kui.interface.transfernamespace import TransferNamespaceScreen
 from narwhallet.core.kui.interface.utils import UtilsScreen
 from narwhallet.core.kcl.addr_book import MBookAddresses
+from narwhallet.core.kui.interface.favorites import FavoritesScreen
 
 
 class NarwhalletScreens(ScreenManager):

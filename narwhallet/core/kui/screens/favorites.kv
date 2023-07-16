@@ -1,0 +1,88 @@
+<FavoritesScreen>
+    favorites_list: favorites_list
+    header: header
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Header:
+            id: header
+
+        # BoxLayout:
+        #     canvas:
+        #         Color:
+        #             rgba: 60/255, 61/255, 61/255, 1
+
+        #         Rectangle:
+        #             pos: self.pos
+        #             size: self.size
+        #     size_hint_y: None
+        #     height: 35
+        #     orientation: 'horizontal'
+
+        #     Nwbutton:
+        #         text: 'Market'
+        #         on_press: root.manager.current = 'market_screen'
+
+        #     Nwbutton:
+        #         text: 'My Offers'
+        #         on_press: root.manager.current = 'offers_screen'
+
+        #     Nwbutton:
+        #         text: 'Pending'
+        #         on_press: root.manager.current = 'pending_screen'
+
+        #     Nwbutton:
+        #         text: '!'
+
+        RecycleView:
+            id: favorites_list
+            viewclass: 'NamespaceListInfo'
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: 6
+
+            RecycleGridLayout:
+                canvas:
+                    Color:
+                        rgba: 60/255, 61/255, 61/255, 1
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint_y: None
+                height: self.minimum_height
+                default_size: None, 85
+                default_size_hint: 1, None
+                cols: 1
+                spacing: 5
+                padding: 5
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 35
+
+            Nwbutton:
+                text: 'Content'
+                # icon: 'narwhallet/core/kui/assets/home_white.png'
+                # icon_size: (25, 25)
+                # icon_padding: 20
+                on_press: root.manager.current = 'content_screen'
+
+            Nwbutton:
+                text: 'All'
+
+            Nwbutton:
+                text: 'Favorites'
+
+            Nwbutton:
+                text: 'NFT''s'
