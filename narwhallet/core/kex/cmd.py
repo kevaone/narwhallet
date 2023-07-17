@@ -154,3 +154,8 @@ class _blockchain(_cmd):
     @staticmethod
     def relayfee(eid: int):
         return _cmd.build_command('blockchain.relayfee', [], eid)
+
+class _custom(_cmd):
+    @staticmethod
+    def get_nft_auctions(eid: int):
+        return _cmd.build_command('get_nft_auctions', [], eid)
