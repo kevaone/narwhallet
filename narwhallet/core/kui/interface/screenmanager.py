@@ -12,6 +12,7 @@ from narwhallet.core.kui.widgets.addresslistinfo import AddressListInfo
 from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
 from narwhallet.core.kui.widgets.namespacelistinfo import NamespaceListInfo
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
+from narwhallet.core.kui.widgets.marketlistinfo import MarketListInfo
 from narwhallet.core.kui.interface.address import AddressScreen
 from narwhallet.core.kui.interface.addressbook import AddressBookScreen
 from narwhallet.core.kui.interface.addressbookentry import AddressBookEntryScreen
@@ -23,6 +24,7 @@ from narwhallet.core.kui.interface.createnamespacekey import CreateNamespaceKeyS
 from narwhallet.core.kui.interface.content import ContentScreen
 from narwhallet.core.kui.interface.market import MarketScreen
 from narwhallet.core.kui.interface.namespace import NamespaceScreen
+from narwhallet.core.kui.interface.namespacealt import NamespaceAltScreen
 from narwhallet.core.kui.interface.namespaces import NamespacesScreen
 from narwhallet.core.kui.interface.offers import OffersScreen
 from narwhallet.core.kui.interface.pending import PendingScreen
@@ -54,6 +56,7 @@ class NarwhalletScreens(ScreenManager):
     home_screen = HomeScreen()
     market_screen = MarketScreen()
     namespace_screen = NamespaceScreen()
+    namespacealt_screen = NamespaceAltScreen()
     namespaces_screen = NamespacesScreen()
     offers_screen = OffersScreen()
     pending_screen = PendingScreen()

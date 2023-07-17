@@ -1,11 +1,11 @@
-<NamespaceScreen>
-    namespaceid: namespaceid
+<NamespaceAltScreen>
+    namespaceid: ''
     namespace_name: namespace_name
     shortcode: shortcode
     namespace_key_list: namespace_key_list
     owner: owner
     creator: creator
-    transfer_button: transfer_button
+    # transfer_button: transfer_button
     header: header
 
     GridLayout:
@@ -32,9 +32,9 @@
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.namespaceid.text)
 
             Nwlabel:
-                id: namespaceid
+                # id: namespaceid
                 valign: 'center'
-                text: 'Namwspace Example'
+                text: root.namespaceid
                 font_size: 18
                 text_size: self.size
                 padding: [10, 0, 0, 0]
@@ -65,10 +65,10 @@
                 padding: [10, 0, 0, 0]
                 width: 150
 
-            Nwimage:
-                id: transfer_button
-                source: 'narwhallet/core/kui/assets/transfer_white.png'
-                on_touch_down: if self.collide_point(*args[1].pos): root.transfer_namespace()
+            # Nwimage:
+            #     id: transfer_button
+            #     source: 'narwhallet/core/kui/assets/transfer_white.png'
+            #     on_touch_down: if self.collide_point(*args[1].pos): root.transfer_namespace()
 
         BoxLayout:
             size_hint_y: None
@@ -143,21 +143,21 @@
             height: 10
             orientation: 'horizontal'
 
-        BoxLayout:
-            canvas:
-                Color:
-                    rgba: 60/255, 61/255, 61/255, 1
+        # BoxLayout:
+        #     canvas:
+        #         Color:
+        #             rgba: 60/255, 61/255, 61/255, 1
 
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: 35
+        #         Rectangle:
+        #             pos: self.pos
+        #             size: self.size
+        #     orientation: 'horizontal'
+        #     size_hint_y: None
+        #     height: 35
 
-            Nwbutton:
-                text: 'Create Key'
-                on_press: root.manager.createnamespacekey_screen.populate()
+        #     Nwbutton:
+        #         text: 'Create Key'
+        #         on_press: root.manager.createnamespacekey_screen.populate()
 
         ScrollView:
             do_scroll_x: False
@@ -199,5 +199,5 @@
             #     on_press: root.manager.current = 'wallet_screen'
 
             Nwbutton:
-                text: 'Namespaces'
-                on_press: root.manager.current = 'namespaces_screen'
+                text: 'Market'
+                on_press: root.manager.current = 'market_screen'

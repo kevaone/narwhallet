@@ -1,5 +1,5 @@
 <MarketScreen>
-    wallet_list: wallet_list
+    auction_list: auction_list
     header: header
 
     GridLayout:
@@ -30,22 +30,25 @@
             Nwbutton:
                 text: '!'
 
-        ScrollView:
+        RecycleView:
+            id: auction_list
+            viewclass: 'MarketListInfo'
             do_scroll_x: False
             do_scroll_y: True
             bar_width: 6
 
-            GridLayout:
-                id: wallet_list
+            RecycleGridLayout:
                 canvas:
                     Color:
-                        rgba: 1, .1, .7, 1
+                        rgba: 60/255, 61/255, 61/255, 1
 
                     Rectangle:
                         pos: self.pos
                         size: self.size
                 size_hint_y: None
-                height: self.minimum_height * 20
+                height: self.minimum_height
+                default_size: None, 85
+                default_size_hint: 1, None
                 cols: 1
                 spacing: 5
                 padding: 5
