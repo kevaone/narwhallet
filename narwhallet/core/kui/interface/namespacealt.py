@@ -21,10 +21,11 @@ class NamespaceAltScreen(Screen):
     header = Header()
     # nav_0 = Nwbutton()
 
-    def populate(self, namespaceid):
+    def populate(self, namespaceid, shortcode):
         self.namespace_key_list.scroll_y = 1
         self.namespace_key_list.data = []
         self.namespaceid = namespaceid
+        self.shortcode.text = shortcode
         # self.header.value = self.manager.wallet_screen.header.value
         # self.namespace_key_list.clear_widgets()
         # self.namespace_key_list.rows = 0
@@ -35,7 +36,7 @@ class NamespaceAltScreen(Screen):
             _dns = {} #NamespaceInfo()
             if ns['type'] == 'REG':
                 self.creator.text = '' #ns[8]
-                self.shortcode.text = '' #str(len(str(ns[0]))) + str(ns[0]) + str(ns[1])
+                # self.shortcode.text = '' #str(len(str(ns[0]))) + str(ns[0]) + str(ns[1])
 
             # if ns[5] == '\x01_KEVA_NS_':
                 # self.namespace_name.text = ns[6]
@@ -53,3 +54,6 @@ class NamespaceAltScreen(Screen):
             self.namespace_key_list.data.append(_dns)
 
         self.manager.current = 'namespacealt_screen'
+
+    def bid_namespace(self):
+        pass

@@ -12,6 +12,7 @@ class NamespacesScreen(Screen):
 
     def populate(self):
         self.header.value = self.manager.wallet_screen.header.value
+        self.namespaces_list.scroll_y = 1
         self.namespaces_list.data = []
         
         _w = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)

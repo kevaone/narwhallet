@@ -11,6 +11,8 @@ class MarketScreen(Screen):
     header = Header()
 
     def populate(self):
+        self.auction_list.scroll_y = 1
+        self.auction_list.data = []
         # https://kva.keva.one/get_nft_auctions
         _market_data_peer = _peer('kva.keva.one', 443, True, True)
         _market_data_peer.connect()

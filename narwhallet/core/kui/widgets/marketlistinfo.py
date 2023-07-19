@@ -26,7 +26,7 @@ class MarketListInfo(BoxLayout):
             return
 
         if self.collide_point(touch.x, touch.y):
-            self.sm.namespacealt_screen.populate(self.namespaceid)
+            self.sm.namespacealt_screen.populate(self.namespaceid, self.root_shortcode)
             return
         return super(MarketListInfo, self).on_touch_down(touch)
 
