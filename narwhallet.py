@@ -7,6 +7,10 @@ from narwhallet import _version
 from narwhallet.core.kui.interface.screenmanager import NarwhalletScreens
 # Config.set('graphics', 'width', '500')
 # Config.set('graphics', 'height', '700')
+from kivy.clock import Clock
+
+
+Clock.max_iteration = 20
 
 def resourcePath():
     '''Returns path containing content - either locally or in pyinstaller tmp file'''
