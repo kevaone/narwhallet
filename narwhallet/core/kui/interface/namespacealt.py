@@ -22,15 +22,17 @@ class NamespaceAltScreen(Screen):
     # nav_0 = Nwbutton()
 
     def populate(self, namespaceid):
+        self.namespace_key_list.scroll_y = 1
+        self.namespace_key_list.data = []
         self.namespaceid = namespaceid
         # self.header.value = self.manager.wallet_screen.header.value
-        self.namespace_key_list.clear_widgets()
-        self.namespace_key_list.rows = 0
+        # self.namespace_key_list.clear_widgets()
+        # self.namespace_key_list.rows = 0
 
         # self.nav_0.bind(on_press=self.set_current)
         _ns = MShared.get_namespace_keys(namespaceid, self.manager.kex)
         for ns in _ns:
-            _dns = NamespaceInfo()
+            _dns = {} #NamespaceInfo()
             if ns['type'] == 'REG':
                 self.creator.text = '' #ns[8]
                 self.shortcode.text = '' #str(len(str(ns[0]))) + str(ns[0]) + str(ns[1])
@@ -38,18 +40,16 @@ class NamespaceAltScreen(Screen):
             # if ns[5] == '\x01_KEVA_NS_':
                 # self.namespace_name.text = ns[6]
             try:
-                _dns.key.text = base64.b64decode(ns['key']).decode()
+                _dns['key'] = base64.b64decode(ns['key']).decode()
             except:
-                _dns.key.text = Ut.bytes_to_hex(base64.b64decode(ns['key']))
+                _dns['key'] = Ut.bytes_to_hex(base64.b64decode(ns['key']))
                 
             if ns['type'] not in ('REG', 'DEL'):
-                _dns.data.text = base64.b64decode(ns['value']).decode()
+                _dns['data'] = base64.b64decode(ns['value']).decode()
             else:
-                _dns.data.text = ''
+                _dns['data'] = ''
             self.owner.text = ''
 
-            self.namespace_key_list.rows_minimum[self.namespace_key_list.rows] = 25 * len(str(_dns.data.text).split('\n'))
-            self.namespace_key_list.rows += 1
-            self.namespace_key_list.add_widget(_dns)
+            self.namespace_key_list.data.append(_dns)
 
         self.manager.current = 'namespacealt_screen'

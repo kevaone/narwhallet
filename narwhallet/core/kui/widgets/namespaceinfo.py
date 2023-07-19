@@ -1,18 +1,17 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from kivy.uix.gridlayout import GridLayout
+from kivy.uix.boxlayout import BoxLayout
+from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty)
 
 
 class NamespaceInfo(BoxLayout):
-    key = ObjectProperty(None)
-    data = ObjectProperty(None)
+    key = StringProperty()
+    data = StringProperty()
     sm = ObjectProperty(None)
 
-    # def on_touch_down(self, touch):
-    #     if self.collide_point(touch.x, touch.y):
-    #         # self.sm.populate(self.wallet_name, self.address.text)
-    #         # self.sm.address_screen.address.text = self.address.text
-    #         # self.sm.address_screen.balance.text = self.balance.text
-    #         self.sm.populate(self.address.text)
-    #         self.sm.current = 'namespace_key_screen'
-    #         # return
-    #     return super(NamespaceInfo, self).on_touch_down(touch)
+    def sizer(self):
+        height = 0
+        for child in self.children:
+            height += child.texture_size[1]
+            height += 2 * child.padding_y
+        self.height = height

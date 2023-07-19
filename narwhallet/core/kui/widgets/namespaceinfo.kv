@@ -1,7 +1,10 @@
 <NamespaceInfo>
     sm: None
-    key: key
-    data: data
+    key: ''
+    data: ''
+    orientation: 'vertical'
+    size_hint_y: None
+    height: 0
 
     canvas:
         Color:
@@ -11,33 +14,35 @@
             pos: self.pos
             size: self.size
 
-    GridLayout:
-        cols: 1
+    # GridLayout:
+    #     size_hint_y: None
+    #     height: self.minimum_height
+    #     cols: 1
 
-        BoxLayout:
-            size_hint_y: None
-            height: 20
-            orientation: 'horizontal'
+    # BoxLayout:
+    #     height: 0
+    #     size_hint_y: None
+    #     orientation: 'horizontal'
 
-            Nwlabel:
-                id: key
-                text: 'key'
-                size_hint_x: None
-                size_hint_y: None
-                height: 20
-                width: 265
-                font_size: 15
-                text_size: self.size
-                padding: [5, 0, 0, 0]
+    Nwlabel:
+        # id: key
+        text: root.key
+        padding: [5, 5, 5, 5]
+        size_hint_y: None
+        text_size: self.width, None
+        height: self.texture_size[1]
+        on_texture_size: root.sizer()
 
-        BoxLayout:
-            orientation: 'horizontal'
-            # size_hint_y: None
-            # height: 10
+    # BoxLayout:
+    #     orientation: 'horizontal'
+    #     size_hint_y: None
+    #     height: 0
 
-            Nwlabel:
-                id: data
-                text: 'Data'
-                font_size: 15
-                text_size: self.size
-                padding: [5, 0, 0, 0]
+    Nwlabel:
+        # id: data
+        text: root.data
+        padding: [5, 5, 5, 5]
+        size_hint_y: None
+        text_size: self.width, None
+        height: self.texture_size[1]
+        on_texture_size: root.sizer()

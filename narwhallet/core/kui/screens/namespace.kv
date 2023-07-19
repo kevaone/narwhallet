@@ -159,13 +159,14 @@
                 text: 'Create Key'
                 on_press: root.manager.createnamespacekey_screen.populate()
 
-        ScrollView:
-            do_scroll_x: False
+        RecycleView:
+            id: namespace_key_list
+            viewclass: 'NamespaceInfo'
             do_scroll_y: True
             bar_width: 6
 
-            GridLayout:
-                id: namespace_key_list
+            RecycleBoxLayout:
+                orientation: 'vertical'
                 canvas:
                     Color:
                         rgba: 60/255, 61/255, 61/255, 1
@@ -173,12 +174,11 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
+
                 size_hint_y: None
-                rows: 0
-                # TODO: Fixme
-                height: 85 * self.rows + (10*self.rows) if root.width <= 650 else 65 * self.rows + (10*self.rows)
-                # row_default_height: 85 if root.width <= 650 else 65
-                cols: 1
+                height: self.minimum_height
+                default_size: None, None
+                default_size_hint: 1, None
                 spacing: 5
                 padding: 5
 
