@@ -164,6 +164,7 @@
             viewclass: 'NamespaceInfo'
             do_scroll_y: True
             bar_width: 6
+            size_hint: 1, 1
 
             RecycleBoxLayout:
                 orientation: 'vertical'
@@ -175,7 +176,7 @@
                         pos: self.pos
                         size: self.size
 
-                size_hint_y: None
+                size_hint: 1, None
                 height: self.minimum_height
                 default_size: None, None
                 default_size_hint: 1, None

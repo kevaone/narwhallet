@@ -3,7 +3,7 @@
     key: ''
     data: ''
     orientation: 'vertical'
-    size_hint_y: None
+    size_hint: 1, None
     height: 0
 
     canvas:
@@ -28,10 +28,10 @@
         # id: key
         text: root.key
         padding: [5, 5, 5, 5]
-        size_hint_y: None
+        size_hint: 1, None
         text_size: self.width, None
         height: self.texture_size[1]
-        on_texture_size: root.sizer()
+        # on_texture_size: root.sizer()
 
     # BoxLayout:
     #     orientation: 'horizontal'
@@ -42,7 +42,7 @@
         # id: data
         text: root.data
         padding: [5, 5, 5, 5]
-        size_hint_y: None
+        size_hint: 1, None
         text_size: self.width, None
         height: self.texture_size[1]
         on_texture_size: root.sizer()
