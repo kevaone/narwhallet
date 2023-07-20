@@ -7,7 +7,7 @@ block_cipher = None
 a = Analysis(['../narwhallet.py'],
              pathex=[],
              #binaries=[],
-             datas=[('../narwhallet.kv', '.'), ('../config', './config/'),('../narwhallet/core/kui/widgets/', './narwhallet/core/kui/widgets/'),('../narwhallet/core/kui/screens', './narwhallet/core/kui/screens/'),('../narwhallet/core/kui/assets', './narwhallet/core/kui/assets/'),('../narwhallet/core/kcl/bip_utils/bip39/bip39_words/','./narwhallet/core/kcl/bip_utils/bip39/bip39_words/')],
+             datas=[('../narwhallet.kv', '.'), ('../config', './config/'),('../narwhallet/core/kui/widgets/', './narwhallet/core/kui/widgets/'),('../narwhallet/core/kui/screens', './narwhallet/core/kui/screens/'),('../narwhallet/core/kui/assets', './narwhallet/core/kui/assets/'), ('../narwhallet/core/kui/fonts/', './narwhallet/core/kui/fonts/'),('../narwhallet/core/kcl/bip_utils/bip39/bip39_words/','./narwhallet/core/kcl/bip_utils/bip39/bip39_words/')],
              #hiddenimports=[],
              hookspath=hookspath(),
              hooksconfig={},
@@ -19,12 +19,12 @@ a = Analysis(['../narwhallet.py'],
              noarchive=False,
              **get_deps_minimal(video=None, audio=None))
 
-splash = Splash('../narwhallet/core/kui/assets/narwhal.png',
-                binaries=a.binaries,
-                datas=a.datas,
-                text_pos=(10, 50),
-                text_size=12,
-                text_color='black')
+#splash = Splash('../narwhallet/core/kui/assets/narwhal.png',
+#               binaries=a.binaries,
+#                datas=a.datas,
+#                text_pos=(10, 50),
+#                text_size=12,
+#                text_color='black')
 
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
