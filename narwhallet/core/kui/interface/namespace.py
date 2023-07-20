@@ -15,6 +15,7 @@ class NamespaceScreen(Screen):
     namespace_name = ObjectProperty(None)
     # wallet_name = Nwlabel()
     transfer_button = Image()
+    auction_button = Image()
     header = Header()
 
     def populate(self, namespaceid):
@@ -46,3 +47,6 @@ class NamespaceScreen(Screen):
 
     def transfer_namespace(self):
         self.manager.transfernamespace_screen.populate()
+
+    def auction_namespace(self):
+        self.manager.auctionnamespace_screen.populate()

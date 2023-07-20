@@ -6,6 +6,7 @@
     owner: owner
     creator: creator
     transfer_button: transfer_button
+    auction_button: auction_button
     header: header
 
     GridLayout:
@@ -69,6 +70,11 @@
                 id: transfer_button
                 source: 'narwhallet/core/kui/assets/transfer_white.png'
                 on_touch_down: if self.collide_point(*args[1].pos): root.transfer_namespace()
+
+            Nwimage:
+                id: auction_button
+                source: 'narwhallet/core/kui/assets/medal2.png'
+                on_touch_down: if self.collide_point(*args[1].pos): root.auction_namespace()
 
         BoxLayout:
             size_hint_y: None

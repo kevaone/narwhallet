@@ -1,0 +1,311 @@
+<AuctionNamespaceScreen>
+    wallet_balance: wallet_balance
+    amount: amount
+    namespace_name: namespace_name
+    namespace_address: namespace_address
+    namespace_key: namespace_key
+    namespace_value: namespace_value
+    valid_amount: valid_amount
+    fee: fee
+    fee_rate: fee_rate
+    txsize: txsize
+    txhex: txhex
+    header: header
+    btn_send: btn_send
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Header:
+            id: header
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Balance:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: wallet_balance
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 10
+            orientation: 'horizontal'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                text: 'Amount:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+            TextInput:
+                id: amount
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+                on_text: root.check_amount()
+
+            Nwimage:
+                id: valid_amount
+                source: 'narwhallet/core/kui/assets/checkmark.png'
+                size: (0, 0)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 10
+            orientation: 'horizontal'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Key:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 10
+
+            TextInput:
+                id: namespace_key
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 255
+                on_text: root.check_key()
+
+        BoxLayout:
+            size_hint_y: None
+            height: 10
+            orientation: 'horizontal'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Value:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 10
+
+            TextInput:
+                id: namespace_value
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 255
+                on_text: root.check_value()
+
+        BoxLayout:
+            size_hint_y: None
+            height: 10
+            orientation: 'horizontal'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'NS:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: namespace_name
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'NS Address:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: namespace_address
+                halign: 'left'
+                text: ''
+                text_size: self.size
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Fee Rate:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: fee_rate
+                halign: 'left'
+                text: '0'
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'Fee:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: fee
+                halign: 'left'
+                text: '0.0'
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                text: 'TX Size:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+            Nwlabel:
+                id: txsize
+                halign: 'left'
+                text: '0.0'
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+
+        BoxLayout:
+            size_hint_y: None
+            height: 20
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                text: 'TX Hex:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: 15
+            scroll_type: ['bars','content']
+
+            BoxLayout:
+                size_hint_y: None
+                height: 380
+                orientation: 'horizontal'
+
+                Nwlabel:
+                    id: txhex
+                    halign: 'left'
+                    valign: 'top'
+                    text: '0.0'
+                    text_size: self.size
+                    size_hint_x: None
+                    size_hint_y: None
+                    padding: [20, 0, 0, 0]
+                    width: root.width - 40
+                    height: 380
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwbutton:
+                text: 'Cancel'
+                on_press: root.manager.current = 'namespace_screen'
+
+            Nwbutton:
+                id: btn_send
+                text: 'Create TX'
+                on_press: root.process_send() if self.text == 'Send' else root.build_send()

@@ -23,6 +23,7 @@ from narwhallet.core.kui.interface.createnamespace import CreateNamespaceScreen
 from narwhallet.core.kui.interface.createnamespacekey import CreateNamespaceKeyScreen
 from narwhallet.core.kui.interface.content import ContentScreen
 from narwhallet.core.kui.interface.market import MarketScreen
+from narwhallet.core.kui.interface.auctionnamespace import AuctionNamespaceScreen
 from narwhallet.core.kui.interface.namespace import NamespaceScreen
 from narwhallet.core.kui.interface.namespacealt import NamespaceAltScreen
 from narwhallet.core.kui.interface.namespaces import NamespacesScreen
@@ -58,6 +59,7 @@ class NarwhalletScreens(ScreenManager):
     namespace_screen = NamespaceScreen()
     namespacealt_screen = NamespaceAltScreen()
     namespaces_screen = NamespacesScreen()
+    auctionnamespace_screen = AuctionNamespaceScreen()
     offers_screen = OffersScreen()
     pending_screen = PendingScreen()
     scriptbuilder_screen = ScriptBuilderScreen()
