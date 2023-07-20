@@ -11,6 +11,7 @@ class MarketScreen(Screen):
     header = Header()
 
     def populate(self):
+        self.header.value = 'Market'
         self.auction_list.scroll_y = 1
         self.auction_list.data = []
         # https://kva.keva.one/get_nft_auctions

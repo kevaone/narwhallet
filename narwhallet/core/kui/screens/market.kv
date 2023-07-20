@@ -9,26 +9,26 @@
         Header:
             id: header
 
-        BoxLayout:
-            canvas:
-                Color:
-                    rgba: 60/255, 61/255, 61/255, 1
+        # BoxLayout:
+        #     canvas:
+        #         Color:
+        #             rgba: 60/255, 61/255, 61/255, 1
 
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-            size_hint_y: None
-            height: 35
-            orientation: 'horizontal'
+        #         Rectangle:
+        #             pos: self.pos
+        #             size: self.size
+        #     size_hint_y: None
+        #     height: 35
+        #     orientation: 'horizontal'
 
-            Nwbutton:
-                text: 'New'
-                # on_press: root.manager.current =
-            Nwbutton:
-                text: 'btn'
-                # on_press: root.manager.current =
-            Nwbutton:
-                text: '!'
+        #     Nwbutton:
+        #         text: 'New'
+        #         # on_press: root.manager.current =
+        #     Nwbutton:
+        #         text: 'btn'
+        #         # on_press: root.manager.current =
+        #     Nwbutton:
+        #         text: '!'
 
         RecycleView:
             id: auction_list
