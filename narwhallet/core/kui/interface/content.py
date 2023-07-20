@@ -4,5 +4,9 @@ from narwhallet.core.kui.widgets.header import Header
 
 
 class ContentScreen(Screen):
-    wallet_list = ObjectProperty(None)
+    content_list = ObjectProperty(None)
     header = Header()
+
+    def populate(self):
+        self.header.value = 'Keacoin Content'
+        self.manager.current = 'content_screen'

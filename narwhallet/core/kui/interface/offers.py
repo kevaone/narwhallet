@@ -4,5 +4,9 @@ from narwhallet.core.kui.widgets.header import Header
 
 
 class OffersScreen(Screen):
-    wallet_list = ObjectProperty(None)
+    bid_list = ObjectProperty(None)
     header = Header()
+
+    def populate(self):
+        self.header.value = 'My Offers'
+        self.manager.current = 'offers_screen'

@@ -1,5 +1,5 @@
 <OffersScreen>
-    wallet_list: wallet_list
+    bid_list: bid_list
     header: header
 
     GridLayout:
@@ -9,45 +9,26 @@
         Header:
             id: header
 
-        BoxLayout:
-            canvas:
-                Color:
-                    rgba: 60/255, 61/255, 61/255, 1
-
-                Rectangle:
-                    pos: self.pos
-                    size: self.size
-            size_hint_y: None
-            height: 35
-            orientation: 'horizontal'
-
-            Nwbutton:
-                text: 'Create'
-                on_press: root.manager.current = 'create_screen'
-
-            Nwbutton:
-                text: 'btn'
-                on_press: root.manager.current = 'restore_screen'
-
-            Nwbutton:
-                text: '!'
-
-        ScrollView:
+        RecycleView:
+            id: bid_list
+            viewclass: 'MarketListInfo'
             do_scroll_x: False
             do_scroll_y: True
             bar_width: 15
+            scroll_type: ['bars','content']
 
-            GridLayout:
-                id: wallet_list
+            RecycleGridLayout:
                 canvas:
                     Color:
-                        rgba: 1, .1, .7, 1
+                        rgba: 60/255, 61/255, 61/255, 1
 
                     Rectangle:
                         pos: self.pos
                         size: self.size
                 size_hint_y: None
-                height: self.minimum_height * 20
+                height: self.minimum_height
+                default_size: None, 85
+                default_size_hint: 1, None
                 cols: 1
                 spacing: 5
                 padding: 5
@@ -67,7 +48,3 @@
             Nwbutton:
                 text: 'Content'
                 on_press: root.manager.current = 'content_screen'
-
-            # Nwbutton:
-            #     text: 'Settings'
-            #     on_press: root.manager.current = 'settings_screen'
