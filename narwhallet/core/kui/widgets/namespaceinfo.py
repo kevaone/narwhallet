@@ -13,5 +13,4 @@ class NamespaceInfo(BoxLayout):
         height = 0
         for child in self.children:
             height += child.texture_size[1]
-            height += 2 * child.padding_y
         self.height = height
