@@ -1,4 +1,5 @@
 import base64
+import json
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty)
@@ -26,12 +27,20 @@ class NamespaceAltScreen(Screen):
         self.namespace_key_list.data = []
         self.namespaceid = namespaceid
         self.shortcode.text = shortcode
+        self.namespace_name.text = ''
         # self.header.value = self.manager.wallet_screen.header.value
         # self.namespace_key_list.clear_widgets()
         # self.namespace_key_list.rows = 0
 
         # self.nav_0.bind(on_press=self.set_current)
         _ns = MShared.get_namespace_keys(namespaceid, self.manager.kex)
+        # _ns.reverse()
+        # for ns in _ns:
+        #     _key = base64.b64decode(ns['key']).decode()
+        #     print('_dns[key]', _key, ns['type'])
+        #     if _key == '\x01_KEVA_NS_':
+        #         self.namespace_name.text = base64.b64decode(ns['value']).decode()
+        # _ns.reverse()
         for ns in _ns:
             _dns = {} #NamespaceInfo()
             if ns['type'] == 'REG':
@@ -39,9 +48,18 @@ class NamespaceAltScreen(Screen):
                 # self.shortcode.text = '' #str(len(str(ns[0]))) + str(ns[0]) + str(ns[1])
 
             # if ns[5] == '\x01_KEVA_NS_':
-                # self.namespace_name.text = ns[6]
+                if self.namespace_name.text == '':
+                    self.namespace_name.text = base64.b64decode(ns['key']).decode()
             try:
                 _dns['key'] = base64.b64decode(ns['key']).decode()
+                # print('_dns[key]', _dns['key'])
+                if _dns['key'] == '\x01_KEVA_NS_':
+                    if self.namespace_name.text == '':
+                        try:
+                            _k = json.loads(base64.b64decode(ns['value']).decode())['displayName']
+                            self.namespace_name.text = _k
+                        except:
+                            self.namespace_name.text = base64.b64decode(ns['value']).decode()
             except:
                 _dns['key'] = Ut.bytes_to_hex(base64.b64decode(ns['key']))
                 

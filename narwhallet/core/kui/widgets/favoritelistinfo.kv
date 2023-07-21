@@ -1,0 +1,88 @@
+<FavoriteListInfo>
+    sm: None
+    favorite: favorite
+    favorite_source: ''
+    ns_name: ''
+    address: ''
+    shortcode: ''
+    keys: ''
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 10
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 25
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 5
+
+            Nwimage:
+                id: favorite
+                source: root.favorite_source
+                height: 35
+                width: 35
+
+            Nwlabel:
+                text: root.shortcode
+                # height: 25
+                valign: 'center'
+                font_size: 20
+                text_size: self.size
+                size_hint_x: None
+                width: 115
+
+            Nwlabel:
+                text: root.ns_name
+                height: 25
+                font_size: 20
+                text_size: self.size
+                padding: [5, 0, 0, 0]
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: root.address
+                height: 20
+                font_size: 15
+                text_size: self.size
+                padding: [5, 0, 0, 0]
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Keys:'
+                text_size: self.size
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                width: 45
+                size_hint_x: None
+
+            Nwlabel:
+                text: root.keys
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                text_size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: 10

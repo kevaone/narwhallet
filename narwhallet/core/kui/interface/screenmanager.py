@@ -13,6 +13,7 @@ from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
 from narwhallet.core.kui.widgets.namespacelistinfo import NamespaceListInfo
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.marketlistinfo import MarketListInfo
+from narwhallet.core.kui.widgets.favoritelistinfo import FavoriteListInfo
 from narwhallet.core.kui.interface.address import AddressScreen
 from narwhallet.core.kui.interface.addressbook import AddressBookScreen
 from narwhallet.core.kui.interface.addressbookentry import AddressBookEntryScreen
@@ -44,6 +45,7 @@ from narwhallet.core.kui.interface.transfernamespace import TransferNamespaceScr
 from narwhallet.core.kui.interface.utils import UtilsScreen
 from narwhallet.core.kcl.addr_book import MBookAddresses
 from narwhallet.core.kui.interface.favorites import FavoritesScreen
+from narwhallet.core.kui.interface.favorite import FavoriteScreen
 
 
 class NarwhalletScreens(ScreenManager):
@@ -76,6 +78,8 @@ class NarwhalletScreens(ScreenManager):
     restore_screen = RestoreScreen()
     transfernamespaces_screen = TransferNamespaceScreen()
     utils_screen = UtilsScreen()
+    favorites_screen = FavoritesScreen()
+    favorite_screen = FavoriteScreen()
     
     def __init__(self, **kwargs):
         super(NarwhalletScreens, self).__init__(**kwargs)
