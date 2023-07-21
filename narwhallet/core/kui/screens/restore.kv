@@ -3,6 +3,7 @@
     coin: coin
     data: data
     header: header
+    btn_restore: btn_restore
 
     GridLayout:
         size: root.width, root.height
@@ -33,6 +34,7 @@
                 text_size: self.size
                 size_hint_x: None
                 width: 175
+                on_text: root.validate_name()
 
         BoxLayout:
             size_hint_y: None
@@ -93,6 +95,7 @@
                 text_size: self.size
                 size_hint_x: None
                 width: 250
+                on_text: root.validate_data()
 
         BoxLayout:
             orientation: 'horizontal'
@@ -114,5 +117,6 @@
                 on_press: root.return_home()
 
             Nwbutton:
+                id: btn_restore
                 text: 'Restore'
                 on_press: root.restore()

@@ -4,6 +4,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
 from kivy.properties import ObjectProperty
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 
 
 class RestoreScreen(Screen):
@@ -12,6 +13,7 @@ class RestoreScreen(Screen):
     # type = ObjectProperty(None)
     data = TextInput()
     header = Header()
+    btn_restore = Nwbutton()
 
     def __init__(self, **kwargs):
         super(RestoreScreen, self).__init__(**kwargs)
@@ -71,3 +73,28 @@ class RestoreScreen(Screen):
         self._w = MWallet()
         self.wallet_name.text = ''
         self.data.text = ''
+        self.btn_restore.disabled = True
+
+    def validate_name(self, cb=True):
+        if self.wallet_name.text != '':
+            _a = True
+            if cb is True:
+                _a = self.validate_data(False)
+
+            if _a is True:
+                self.btn_restore.disabled = False
+                return True
+        self.btn_restore.disabled = True
+        return False
+
+    def validate_data(self, cb=True):
+        if self.data.text != '':
+            _a = True
+            if cb is True:
+                _a = self.validate_name(False)
+
+            if _a is True:
+                self.btn_restore.disabled = False
+                return True
+        self.btn_restore.disabled = True
+        return False

@@ -3,6 +3,7 @@
     coin: coin
     mnemonic: mnemonic
     header: header
+    btn_create: btn_create
 
     GridLayout:
         size: root.width, root.height
@@ -35,6 +36,7 @@
                 text_size: self.size
                 size_hint_x: None
                 width: 200
+                on_text: root.validate_name()
 
         BoxLayout:
             size_hint_y: None
@@ -129,6 +131,7 @@
                 size_hint_x: None
                 width: 250
                 padding: [10, 0, 0, 0]
+                on_text: root.validate_mnemonic()
 
         BoxLayout:
             orientation: 'horizontal'
@@ -150,5 +153,6 @@
                 on_press: root.return_home()
 
             Nwbutton:
+                id: btn_create
                 text: 'Create'
                 on_press: root.create_wallet()

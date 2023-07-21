@@ -4,6 +4,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
 from kivy.properties import ObjectProperty
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 
 
 class CreateScreen(Screen):
@@ -13,6 +14,7 @@ class CreateScreen(Screen):
     mnemonic = TextInput()
     _w = MWallet()
     header = Header()
+    btn_create = Nwbutton()
 
     def __init__(self, **kwargs):
         super(CreateScreen, self).__init__(**kwargs)
@@ -61,3 +63,27 @@ class CreateScreen(Screen):
         self._w = MWallet()
         self.wallet_name.text = ''
         self.mnemonic.text = ''
+        self.btn_create.disabled = True
+
+    def validate_name(self, cb=True):
+        if self.wallet_name.text != '':
+            _a = True
+            if cb is True:
+                _a = self.validate_mnemonic(False)
+
+            if _a is True:
+                self.btn_create.disabled = False
+                return True
+        self.btn_create.disabled = True
+
+    def validate_mnemonic(self, cb=True):
+        if self.mnemonic.text != '':
+            if len(self.mnemonic.text.split(' ')) == 24:
+                _a = True
+                if cb is True:
+                    _a = self.validate_name(False)
+
+                if _a is True:
+                    self.btn_create.disabled = False
+                    return True
+        self.btn_create.disabled = True
