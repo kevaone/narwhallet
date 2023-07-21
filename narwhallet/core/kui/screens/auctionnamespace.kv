@@ -1,11 +1,16 @@
 <AuctionNamespaceScreen>
     wallet_balance: wallet_balance
     amount: amount
+    payment_address: payment_address
+    price: price
+    description: description
     namespace_name: namespace_name
     namespace_address: namespace_address
-    namespace_key: namespace_key
-    namespace_value: namespace_value
+    address_book: address_book
+    valid_send_to: valid_send_to
     valid_amount: valid_amount
+    valid_price: valid_price
+    valid_description: valid_description
     fee: fee
     fee_rate: fee_rate
     txsize: txsize
@@ -84,11 +89,11 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'Key:'
+                text: 'Payment Address:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: 175
 
         BoxLayout:
             size_hint_y: None
@@ -101,13 +106,66 @@
                 width: 10
 
             TextInput:
-                id: namespace_key
+                id: payment_address
                 halign: 'left'
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 255
-                on_text: root.check_key()
+                width: 325
+                on_text: root.check_payment_address()
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 5
+
+            Nwimage:
+                id: address_book
+                source: 'narwhallet/core/kui/assets/narwhal.png'
+                on_touch_down: if self.collide_point(*args[1].pos): root.select_from_address_book()
+
+            Nwimage:
+                id: valid_send_to
+                source: 'narwhallet/core/kui/assets/checkmark.png'
+                size: (0, 0)
+
+        BoxLayout:
+            size_hint_y: None
+            height: 10
+            orientation: 'horizontal'
+
+        BoxLayout:
+            size_hint_y: None
+            height: 35
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                text: 'Asking Price:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: 100
+
+            TextInput:
+                id: price
+                halign: 'left'
+                text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: 175
+                on_text: root.check_price()
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 5
+
+            Nwimage:
+                id: valid_price
+                source: 'narwhallet/core/kui/assets/checkmark.png'
+                size: (0, 0)
 
         BoxLayout:
             size_hint_y: None
@@ -121,7 +179,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'Value:'
+                text: 'Description:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -138,13 +196,23 @@
                 width: 10
 
             TextInput:
-                id: namespace_value
+                id: description
                 halign: 'left'
                 text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: 255
-                on_text: root.check_value()
+                on_text: root.check_desc()
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: 5
+
+            Nwimage:
+                id: valid_description
+                source: 'narwhallet/core/kui/assets/checkmark.png'
+                size: (0, 0)
 
         BoxLayout:
             size_hint_y: None

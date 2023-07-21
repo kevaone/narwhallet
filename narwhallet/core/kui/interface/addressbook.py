@@ -24,6 +24,8 @@ class AddressBookScreen(Screen):
             self.manager.current = 'send_screen'
         elif self.mode == 2:
             self.manager.current = 'transfernamespace_screen'
+        elif self.mode == 3:
+            self.manager.current = 'auctionnamespace_screen'
 
     def populate(self, _mode=0):
         self.mode = _mode
@@ -38,6 +40,10 @@ class AddressBookScreen(Screen):
             
             self.nav0.bind(on_press=self.set_current)
         elif _mode == 2:
+            self.nav0.text = 'Cancel'
+            self.nav0.icon = ''
+            self.nav0.bind(on_press=self.set_current)
+        elif _mode == 3:
             self.nav0.text = 'Cancel'
             self.nav0.icon = ''
             self.nav0.bind(on_press=self.set_current)
