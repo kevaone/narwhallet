@@ -16,8 +16,12 @@ class MarketScreen(Screen):
         self.auction_list.data = []
         # https://kva.keva.one/get_nft_auctions
         _market_data_peer = _peer('kva.keva.one', 443, True, True)
-        _market_data_peer.connect()
-        _data = json.loads(_market_data_peer.comm(_custom.get_nft_auctions(1)))
+        try:
+            _market_data_peer.connect()
+            _data = json.loads(_market_data_peer.comm(_custom.get_nft_auctions(1)))
+        except:
+            # TODO: Handle failure in aquiring market data
+            return
 
         for result in _data['result']['data']:
             if result['nsid'] in self.manager.favorites.favorites:
