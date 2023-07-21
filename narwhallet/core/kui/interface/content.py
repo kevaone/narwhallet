@@ -8,5 +8,5 @@ class ContentScreen(Screen):
     header = Header()
 
     def populate(self):
-        self.header.value = 'Keacoin Content'
+        self.header.value = 'Keavcoin Content'
         self.manager.current = 'content_screen'
