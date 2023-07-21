@@ -1,6 +1,7 @@
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -16,6 +17,7 @@ class NamespaceScreen(Screen):
     # wallet_name = Nwlabel()
     transfer_button = Image()
     auction_button = Image()
+    btn_create = Nwbutton()
     header = Header()
 
     def populate(self, namespaceid):
@@ -26,6 +28,19 @@ class NamespaceScreen(Screen):
         self.namespace_key_list.data = []
         _ns = self.manager.cache.ns.get_namespace_by_id(namespaceid)
         self.namespaceid.text = namespaceid
+
+        _w = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+        if _w is None:
+            return
+
+        if _w.kind == EWalletKind.NORMAL:
+            self.btn_create.disabled = False
+            self.transfer_button.size = (30, 30)
+            self.auction_button.size = (30, 30)
+        else:
+            self.btn_create.disabled = True
+            self.transfer_button.size = (0, 0)
+            self.auction_button.size = (0, 0)
 
         for ns in _ns:
             _dns = {} #NamespaceInfo()

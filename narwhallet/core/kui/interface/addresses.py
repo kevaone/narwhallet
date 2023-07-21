@@ -1,6 +1,8 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
+from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.addresslistinfo import AddressListInfo
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.core.kui.widgets.header import Header
@@ -10,6 +12,7 @@ class AddressesScreen(Screen):
     address_list = GridLayout()
     wallet_name = Nwlabel()
     header = Header()
+    btn_add = Nwbutton()
 
     def __init__(self, **kwargs):
         super(AddressesScreen, self).__init__(**kwargs)
@@ -21,6 +24,11 @@ class AddressesScreen(Screen):
         _w = self.manager.wallets.get_wallet_by_name(wallet_name)
         _addr = []
         if _w is not None:
+            if _w.kind == EWalletKind.NORMAL:
+                self.btn_add.text = 'Increase Pool'
+            else:
+                self.btn_add.text = 'Add Address'
+
             for address in _w.addresses.addresses:
                 if address is not None:
                     _a = {
@@ -55,3 +63,13 @@ class AddressesScreen(Screen):
         self.manager.wallets.save_wallet(_w.name)
         self.manager.wallet_screen.btn_addresses.text = 'Addresses (' + str(_w.account_index + _w.change_index) + ')'
         self.populate(self.header.value)
+
+    def add_watch_address(self):
+        # TODO: Impliment
+        pass
+
+    def btn_add_click(self):
+        if self.btn_add.text == 'Increase Pool':
+            self.increase_address_pool()
+        else:
+            self.add_watch_address()

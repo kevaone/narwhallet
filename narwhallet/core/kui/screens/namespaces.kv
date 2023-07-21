@@ -1,5 +1,6 @@
 <NamespacesScreen>
     namespaces_list: namespaces_list
+    btn_create: btn_create
     header: header
 
     GridLayout:
@@ -34,6 +35,7 @@
             height: 35
 
             Nwbutton:
+                id: btn_create
                 text: 'Create'
                 on_press: root.manager.createnamespace_screen.populate()
 

@@ -8,6 +8,7 @@
     transfer_button: transfer_button
     auction_button: auction_button
     header: header
+    btn_create: btn_create
 
     GridLayout:
         size: root.width, root.height
@@ -162,6 +163,7 @@
             height: 35
 
             Nwbutton:
+                id: btn_create
                 text: 'Create Key'
                 on_press: root.manager.createnamespacekey_screen.populate()
 

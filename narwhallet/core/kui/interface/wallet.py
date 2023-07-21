@@ -4,6 +4,7 @@ from kivy.animation import Animation
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.cache import MCache
 from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
+from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.loadingspinner import LoadingSpinner
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -26,6 +27,8 @@ class WalletScreen(Screen):
     btn_addresses = Nwbutton()
     btn_namespaces = Nwbutton()
     btn_transactions = Nwbutton()
+    btn_send = Nwbutton()
+    btn_receive = Nwbutton()
     last_updated = Nwlabel()
     btn_update_wallet = LoadingSpinner()
 
@@ -51,6 +54,13 @@ class WalletScreen(Screen):
         _tx = {}
 
         if _w is not None:
+            if _w.kind == EWalletKind.NORMAL:
+                self.btn_send.disabled = False
+                self.btn_receive.disabled = False
+            else:
+                self.btn_send.disabled = True
+                self.btn_receive.disabled = True
+
             # TODO create owner view
             _asa = cache.ns.get_view()
             owner_list = []

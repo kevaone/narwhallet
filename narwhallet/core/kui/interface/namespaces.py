@@ -1,6 +1,8 @@
 from kivy.uix.screenmanager import Screen
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.namespacelistinfo import NamespaceListInfo
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.header import Header
 
@@ -8,6 +10,7 @@ from narwhallet.core.kui.widgets.header import Header
 class NamespacesScreen(Screen):
     namespaces_list = ObjectProperty(None)
     # wallet_name = Nwlabel()
+    btn_create = Nwbutton()
     header = Header()
 
     def populate(self):
@@ -18,6 +21,11 @@ class NamespacesScreen(Screen):
         _w = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         if _w is None:
             return
+
+        if _w.kind == EWalletKind.NORMAL:
+            self.btn_create.disabled = False
+        else:
+            self.btn_create.disabled = True
         
         _asa = self.manager.cache.ns.get_view()
 

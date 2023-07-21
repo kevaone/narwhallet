@@ -5,6 +5,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
 from kivy.uix.togglebutton import ToggleButton
 from kivy.properties import ObjectProperty
+from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
@@ -33,7 +34,8 @@ class UtilsScreen(Screen):
         self.reset_screen()
         self.wallet_name.values = []
         for _w in self.manager.wallets.wallets:
-            self.wallet_name.values.append(_w.name)
+            if _w.kind == EWalletKind.NORMAL:
+                self.wallet_name.values.append(_w.name)
         self.manager.current = 'utils_screen'
 
     def return_home(self):
