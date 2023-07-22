@@ -23,7 +23,6 @@ class _loader():
             _nonce = os.urandom(12)  # GCM mode needs 12 fresh bytes every time
             data = _nonce + AESGCM(k).encrypt(_nonce, data, b'')
             data = b'narw'+data
-        print('file_path', file_path)
         with open(file_path, mode='wb') as _file:
             _file.write(data)
         return True
