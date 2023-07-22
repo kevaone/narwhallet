@@ -16,10 +16,10 @@
     GridLayout:
         cols: 1
 
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: 10
+        # BoxLayout:
+        #     orientation: 'horizontal'
+        #     size_hint_y: None
+        #     height: 10
         BoxLayout:
             orientation: 'horizontal'
 
@@ -30,7 +30,7 @@
                 padding: [5, 0, 0, 0]
                 font_size: 17
                 size_hint_y: None
-                height: 40
+                height: 60 if root.width <= 650 else 30
 
         BoxLayout:
             orientation: 'horizontal'
@@ -59,7 +59,7 @@
                 padding: [5, 0, 0, 0]
                 text_size: self.size
 
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: 10
+        # BoxLayout:
+        #     orientation: 'horizontal'
+        #     size_hint_y: None
+        #     height: 10
