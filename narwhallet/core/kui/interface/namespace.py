@@ -57,6 +57,7 @@ class NamespaceScreen(Screen):
                     self.namespace_name.text = ns[6]
             
             self.owner.text = ns[8]
+            self.manager.cache_IPFS(_dns['data'])
             
             self.namespace_key_list.data.append(_dns)
         self.manager.current = 'namespace_screen'

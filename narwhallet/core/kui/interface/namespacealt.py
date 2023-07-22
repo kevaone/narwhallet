@@ -69,6 +69,7 @@ class NamespaceAltScreen(Screen):
                 _dns['data'] = ''
             self.owner.text = ''
 
+            self.manager.cache_IPFS(_dns['data'])
             self.namespace_key_list.data.append(_dns)
 
         self.manager.current = 'namespacealt_screen'

@@ -1,12 +1,17 @@
 import os
+import re
 import shutil
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.core.clipboard import Clipboard
 from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from narwhallet.core.kcl.enums.mediatypes import content_type
 from narwhallet.core.kcl.favorites.favorites import MFavorites
+from narwhallet.core.kcl.file_utils.io import _loader
 from narwhallet.core.kex import KEXclient
 from narwhallet.core.kcl.cache import MCache
 from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
+from narwhallet.core.kex.cmd import _custom
+from narwhallet.core.kex.peer import _peer
 from narwhallet.core.kui.widgets.walletlistinfo import WalletListInfo
 from narwhallet.core.kui.widgets.addresslistinfo import AddressListInfo
 from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
@@ -102,6 +107,10 @@ class NarwhalletScreens(ScreenManager):
             os.mkdir(_narwhallet_path)
             os.mkdir(os.path.join(_narwhallet_path, 'wallets'))
 
+        if os.path.isdir(os.path.join(_narwhallet_path, 'tmp_ipfs')) is False:
+            # TODO Add error handling
+            os.mkdir(os.path.join(_narwhallet_path, 'tmp_ipfs'))
+
         if os.path.isfile(os.path.join(_narwhallet_path,
                                        'settings.json')) is False:
             print('settings.json created.')
@@ -142,6 +151,7 @@ class NarwhalletScreens(ScreenManager):
     def setup(self):
         self.user_path = self.set_paths()
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
+        self.ipfs_cache_path = os.path.join(self.user_path, 'tmp_ipfs')
         self.cache = MCache(self.cache_path)
         self.kex = KEXclient()
         self.cache.interface.setup_tables()
@@ -159,3 +169,33 @@ class NarwhalletScreens(ScreenManager):
 
     def paste_from_clipboard(self):
         self.text = Clipboard.paste()
+
+    def cache_IPFS(self, _item):
+        _ipfs_images = re.findall(r'\{\{[^|image(|/png|/jpeg|/jpg|/gif)\}\}].*|image|image/png|image/jpeg|image/jpg|image/gif\}\}', _item)
+        _data_peer = _peer('gateway.ipfs.io', 443, True, True)
+        # https://gateway.ipfs.io/ipfs/
+        # https://ipfs.sloppyta.co/ipfs/
+        for _image in _ipfs_images:
+            _image = _image.replace('{{', '')
+            _image = _image.replace('}}', '')
+            _image = _image.split('|')
+            if len(_image) == 2:
+                for _c in content_type:
+                    if _image[1] == _c.value:
+                        _extension = _c.name
+                        break
+
+                    if _image[1] == 'image':
+                        _extension = 'jpg'
+                        break
+
+                if os.path.isfile(os.path.join(self.ipfs_cache_path,
+                                        _image[0] + '.' + _extension)) is False:
+                    _data_peer.connect()
+                    _data_test = _data_peer.comm(_custom.get_web_content('gateway.ipfs.io', '/ipfs/' + _image[0], 1))
+                    _tt = _data_test.split(b'\r\n\r\n')
+
+                    if _tt != [b'']:
+                        _ = _loader._save(os.path.join(self.ipfs_cache_path, _image[0] + '.' + _extension), _tt[1])
+
+        return True

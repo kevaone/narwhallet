@@ -159,3 +159,7 @@ class _custom(_cmd):
     @staticmethod
     def get_nft_auctions(eid: int):
         return _cmd.build_command('get_nft_auctions', [], eid)
+
+    @staticmethod
+    def get_web_content(host, path, eid:int):
+        return _cmd.build_web_command('GET', [host, path], eid)

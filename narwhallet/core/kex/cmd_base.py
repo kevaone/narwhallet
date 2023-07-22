@@ -26,3 +26,14 @@ class _cmd():
         _command = _command + '", "params": ' + _parms + ', "id": "' + str(eid)
         _command = _command + '" }\n'
         return _command.encode('utf-8')
+
+    @staticmethod
+    def build_web_command(command: str, parms: list, eid: int) -> bytes:
+        if command == 'GET':
+            _command = 'GET ' + parms[1] + ' HTTP/1.1\n'
+            _command = _command + 'Host: ' + parms[0] + '\n'
+            _command = _command + 'User-Agent: curl/7.54.0\n'
+            _command = _command + 'Accept: */*\n'
+            _command = _command + '\n'
+
+        return _command.encode('utf-8')
