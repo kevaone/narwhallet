@@ -2,7 +2,6 @@ from kivy.uix.screenmanager import Screen
 from narwhallet.core.kcl.wallet import MWallet
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.core.kui.widgets.header import Header
 
 

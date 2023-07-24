@@ -1,7 +1,5 @@
 import qrcode
-# from kivy.clock import Clock
 from kivy.graphics.texture import Texture
-from kivy.lang import Builder
 from kivy.properties import (BooleanProperty, ListProperty, NumericProperty,
                              StringProperty, ObjectProperty)
 from kivy.uix.floatlayout import FloatLayout

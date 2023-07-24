@@ -1,12 +1,8 @@
 from kivy.uix.screenmanager import Screen
-from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.wallet import MWallet
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
-from kivy.uix.togglebutton import ToggleButton
-from kivy.properties import ObjectProperty
 from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
-from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kcl.wallet_utils import _wallet_utils as WalletUtils

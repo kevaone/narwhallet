@@ -1,6 +1,5 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from kivy.properties import StringProperty
 
 class AddressListInfo(BoxLayout):

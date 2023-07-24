@@ -1,10 +1,5 @@
-from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
-from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
-from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
-from narwhallet.core.kui.widgets.nwlabel import Nwlabel
-from narwhallet.core.kui.widgets.nwbutton import Nwbutton
+from kivy.properties import ObjectProperty
 from narwhallet.core.kui.widgets.header import Header
 
 

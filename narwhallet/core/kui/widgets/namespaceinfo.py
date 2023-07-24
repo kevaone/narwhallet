@@ -1,7 +1,5 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.gridlayout import GridLayout
-from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty)
+from kivy.properties import ObjectProperty, StringProperty
 
 
 class NamespaceInfo(BoxLayout):

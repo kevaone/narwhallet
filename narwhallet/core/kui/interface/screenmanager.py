@@ -1,15 +1,14 @@
 import os
 import re
 import shutil
-from kivy.uix.screenmanager import ScreenManager, Screen
+from kivy.uix.screenmanager import ScreenManager
 from kivy.core.clipboard import Clipboard
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.core.kcl.enums.mediatypes import content_type
 from narwhallet.core.kcl.favorites.favorites import MFavorites
 from narwhallet.core.kcl.file_utils.io import _loader
 from narwhallet.core.kex import KEXclient
 from narwhallet.core.kcl.cache import MCache
-from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
+from narwhallet.core.kcl.wallet import MWallets
 from narwhallet.core.kex.cmd import _custom
 from narwhallet.core.kex.peer import _peer
 from narwhallet.core.kui.widgets.walletlistinfo import WalletListInfo
@@ -19,6 +18,7 @@ from narwhallet.core.kui.widgets.namespacelistinfo import NamespaceListInfo
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.marketlistinfo import MarketListInfo
 from narwhallet.core.kui.widgets.favoritelistinfo import FavoriteListInfo
+from narwhallet.core.kui.widgets.addressbooklistinfo import AddressBookListInfo
 from narwhallet.core.kui.interface.address import AddressScreen
 from narwhallet.core.kui.interface.addressbook import AddressBookScreen
 from narwhallet.core.kui.interface.addressbookentry import AddressBookEntryScreen

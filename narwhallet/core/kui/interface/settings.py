@@ -5,7 +5,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
 from narwhallet.core.kcl.file_utils import ConfigLoader
-from kivy.properties import ObjectProperty, StringProperty
+from kivy.properties import StringProperty
 from narwhallet.core.kui.widgets.header import Header
 
 

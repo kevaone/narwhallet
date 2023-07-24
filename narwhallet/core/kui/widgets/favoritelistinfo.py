@@ -1,5 +1,5 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import (StringProperty, NumericProperty, ReferenceListProperty, ObjectProperty)
+from kivy.properties import StringProperty
 from kivy.uix.screenmanager import ScreenManager
 
 from narwhallet.core.kcl.favorites.favorite import MFavorite

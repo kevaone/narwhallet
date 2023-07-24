@@ -3,7 +3,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.animation import Animation
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.cache import MCache
-from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
+from narwhallet.core.kcl.wallet import MWallet
 from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.loadingspinner import LoadingSpinner
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel

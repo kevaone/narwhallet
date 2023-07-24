@@ -1,12 +1,8 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
-from narwhallet.core.kui.widgets.addresslistinfo import AddressListInfo
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.qrcode import QR_Code
-import qrcode
-from narwhallet.core.kcl.wallet import MAddress, MWallet, MWallets
-from narwhallet.core.kcl.wallet.address import MAddress
+from narwhallet.core.kcl.wallet import MWallet
 from narwhallet.core.kui.widgets.header import Header
 
 

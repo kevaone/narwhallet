@@ -1,6 +1,5 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager
-from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from kivy.properties import StringProperty
 
 

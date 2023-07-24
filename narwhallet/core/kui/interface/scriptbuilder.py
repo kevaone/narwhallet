@@ -1,12 +1,9 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
-from narwhallet.core.kcl.wallet import MWallet
-from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.nwboxlayout import Nwboxlayout
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
-from kivy.properties import ObjectProperty
 from narwhallet.core.kui.widgets.header import Header
 
 

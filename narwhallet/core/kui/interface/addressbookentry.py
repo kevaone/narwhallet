@@ -1,7 +1,6 @@
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kui.widgets.qrcode import QR_Code
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
-from kivy.properties import ObjectProperty
 from narwhallet.core.kui.widgets.header import Header
 
 

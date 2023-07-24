@@ -1,5 +1,5 @@
 from kivy.uix.button import Button
-from kivy.properties import (ObjectProperty, NumericProperty)
+from kivy.properties import ObjectProperty, NumericProperty
 
 
 class Nwbutton(Button):

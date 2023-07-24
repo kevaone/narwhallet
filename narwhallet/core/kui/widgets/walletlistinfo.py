@@ -1,5 +1,5 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from kivy.properties import ObjectProperty
 
 
 class WalletListInfo(BoxLayout):

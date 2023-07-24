@@ -1,8 +1,6 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
-from narwhallet.core.kui.widgets.addressbooklistinfo import AddressBookListInfo
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
-from kivy.properties import ObjectProperty
 from narwhallet.core.kui.widgets.header import Header
 
 

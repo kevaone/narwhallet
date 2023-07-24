@@ -1,8 +1,5 @@
 from kivy.uix.screenmanager import Screen
-from kivy.uix.gridlayout import GridLayout
 from kivy.uix.recycleview import RecycleView
-from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
 from narwhallet.core.kui.widgets.header import Header
 
 

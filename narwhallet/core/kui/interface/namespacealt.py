@@ -1,13 +1,9 @@
 import base64
 import json
-from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty, StringProperty)
+from kivy.properties import ObjectProperty, StringProperty
 from narwhallet.control.shared import MShared
 from narwhallet.core.ksc.utils import Ut
-from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
-from narwhallet.core.kui.widgets.nwlabel import Nwlabel
-from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.header import Header
 
 

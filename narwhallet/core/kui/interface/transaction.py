@@ -1,5 +1,5 @@
 from kivy.uix.screenmanager import Screen
-from kivy.properties import (NumericProperty, ReferenceListProperty, ObjectProperty)
+from kivy.properties import ObjectProperty
 from narwhallet.core.kui.widgets.txinputlistinfo import TXInputListInfo
 from narwhallet.core.kui.widgets.txoutputlistinfo import TXOutputListInfo
 from narwhallet.core.kui.widgets.header import Header
