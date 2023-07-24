@@ -23,7 +23,8 @@
 from typing import Type, Union
 from narwhallet.core.kcl.bip_utils.ecc import (
     EllipticCurveGetter, IPublicKey,
-    Ed25519PublicKey, Ed25519Blake2bPublicKey, Nist256p1PublicKey, Secp256k1PublicKey, Sr25519PublicKey
+    Ed25519PublicKey, #Ed25519Blake2bPublicKey, 
+    Nist256p1PublicKey, Secp256k1PublicKey, Sr25519PublicKey
 )
 
 

@@ -5,7 +5,7 @@ from narwhallet.core.kcl.bip_utils.addr.egld_addr import EgldAddr
 from narwhallet.core.kcl.bip_utils.addr.eth_addr import EthAddr
 from narwhallet.core.kcl.bip_utils.addr.fil_addr import FilAddr
 from narwhallet.core.kcl.bip_utils.addr.okex_addr import OkexAddr
-from narwhallet.core.kcl.bip_utils.addr.nano_addr import NanoAddr
+# from narwhallet.core.kcl.bip_utils.addr.nano_addr import NanoAddr
 from narwhallet.core.kcl.bip_utils.addr.neo_addr import NeoAddr
 from narwhallet.core.kcl.bip_utils.addr.one_addr import OneAddr
 from narwhallet.core.kcl.bip_utils.addr.P2PKH_addr import P2PKHAddr, BchP2PKHAddr

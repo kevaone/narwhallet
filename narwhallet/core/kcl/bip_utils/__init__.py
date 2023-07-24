@@ -56,7 +56,7 @@ from narwhallet.core.kcl.bip_utils.substrate import (
 from narwhallet.core.kcl.bip_utils.ecc import (
     EllipticCurveGetter, EllipticCurveTypes,
     Ed25519, Ed25519Point, Ed25519PublicKey, Ed25519PrivateKey,
-    Ed25519Blake2b, Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey,
+    #Ed25519Blake2b, Ed25519Blake2bPublicKey, Ed25519Blake2bPrivateKey,
     Nist256p1, Nist256p1Point, Nist256p1PublicKey, Nist256p1PrivateKey,
     Secp256k1, Secp256k1Point, Secp256k1PublicKey, Secp256k1PrivateKey,
     Sr25519, Sr25519Point, Sr25519PublicKey, Sr25519PrivateKey
