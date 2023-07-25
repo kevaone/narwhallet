@@ -28,7 +28,7 @@ cd narwhallet<br/>
 pip install -r ./requirements.txt<br/>
 
 ### Launch
-python3 ./narwhallet_gui.py<br/>
+python3 ./main.py<br/>
 
 ### (optional) Build
 pip install pyinstaller<br/>
@@ -52,7 +52,7 @@ cd narwhallet<br/>
 pip install -r ./requirements.txt<br/>
 
 ### Launch
-python3 ./narwhallet_gui.py<br/>
+python3 ./main.py<br/>
 
 ### (optional) Build
 pip install pyinstaller<br/>

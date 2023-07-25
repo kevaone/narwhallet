@@ -4,10 +4,10 @@ from kivy.tools.packaging.pyinstaller_hooks import get_deps_minimal, get_deps_al
 
 block_cipher = None
 
-a = Analysis(['../narwhallet.py'],
+a = Analysis(['../main.py'],
              pathex=[],
              #binaries=[],
-             datas=[('../narwhallet.kv', '.'), ('../config', './config/'),('../narwhallet/core/kui/widgets/', './narwhallet/core/kui/widgets/'),('../narwhallet/core/kui/screens', './narwhallet/core/kui/screens/'),('../narwhallet/core/kui/assets', './narwhallet/core/kui/assets/'), ('../narwhallet/core/kui/fonts/', './narwhallet/core/kui/fonts/'),('../narwhallet/core/kcl/bip_utils/bip39/bip39_words/','./narwhallet/core/kcl/bip_utils/bip39/bip39_words/')],
+             datas=[('../main.kv', '.'), ('../config', './config/'),('../narwhallet/core/kui/widgets/', './narwhallet/core/kui/widgets/'),('../narwhallet/core/kui/screens', './narwhallet/core/kui/screens/'),('../narwhallet/core/kui/assets', './narwhallet/core/kui/assets/'), ('../narwhallet/core/kui/fonts/', './narwhallet/core/kui/fonts/'),('../narwhallet/core/kcl/bip_utils/bip39/bip39_words/','./narwhallet/core/kcl/bip_utils/bip39/bip39_words/')],
              #hiddenimports=[],
              hookspath=hookspath(),
              hooksconfig={},

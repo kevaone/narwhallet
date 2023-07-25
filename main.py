@@ -19,7 +19,7 @@ def resourcePath():
 
     return os.path.join(os.path.abspath("."))
 
-class NarwhalletApp(App):
+class MainApp(App):
     icon = 'narwhallet/core/kui/assets/narwhal.png'
     title = 'Narwhallet v.' + str(_version.__version__)
 
@@ -33,4 +33,4 @@ class NarwhalletApp(App):
 
 if __name__ == '__main__':
     kivy.resources.resource_add_path(resourcePath())
-    NarwhalletApp().run()
+    MainApp().run()
