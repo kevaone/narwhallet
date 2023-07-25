@@ -37,7 +37,7 @@ version.filename = %(source.dir)s/narwhallet/_version.py
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,https://github.com/cython/cython/releases/download/0.29.30/Cython-0.29.30-py2.py3-none-any.whl
+requirements = python3,kivy,https://github.com/cython/cython/releases/download/0.29.32/Cython-0.29.32-py2.py3-none-any.whl
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
