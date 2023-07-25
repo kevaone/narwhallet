@@ -7,7 +7,7 @@ title = Narwhallet
 package.name = narwhallet
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.test
+package.domain = org.narwhallet
 
 # (str) Source code where the main.py live
 source.dir = .
@@ -22,22 +22,22 @@ source.include_exts = py,png,jpg,kv,atlas
 #source.exclude_exts = spec
 
 # (list) List of directory to exclude (let empty to not exclude anything)
-#source.exclude_dirs = tests, bin, venv
+source.exclude_dirs = share
 
 # (list) List of exclusions using pattern matching
 # Do not prefix with './'
 #source.exclude_patterns = license,images/*/*.jpg
 
 # (str) Application versioning (method 1)
-version = 0.1
+# version = 0.1
 
 # (str) Application versioning (method 2)
-# version.regex = __version__ = ['"](.*)['"]
-# version.filename = %(source.dir)s/main.py
+version.regex = __version__: str = ['"](.*)['"]
+version.filename = %(source.dir)s/narwhallet/_version.py
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy
+requirements = python3,kivy,https://github.com/cython/cython/releases/download/0.29.30/Cython-0.29.30-py2.py3-none-any.whl
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -408,10 +408,10 @@ log_level = 2
 warn_on_root = 1
 
 # (str) Path to build artifact storage, absolute or relative to spec file
-# build_dir = ./.buildozer
+build_dir = ./share/build
 
 # (str) Path to build output (i.e. .apk, .aab, .ipa) storage
-# bin_dir = ./bin
+bin_dir = ./share/dist
 
 #    -----------------------------------------------------------------------------
 #    List as sections
