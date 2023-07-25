@@ -14,9 +14,11 @@ Until initial beta release recommended to use a read-only or watch wallet.
 
 
 ## Setup Ubuntu
-*recommended to use a virtual environment for separation and to ensure no dependency conflicts*
+You will need Python and Git installed, can install both via apt with the command:
+sudo apt install python3 git
 
 ### venv example
+*recommended to use a virtual environment for separation and to ensure no dependency conflicts*
 mkdir K1<br/>
 cd K1<br/>
 python3 -m venv ./venv<br/>
@@ -37,10 +39,23 @@ pyinstaller linux_gui_with_deps.spec<br/>
 cd dist<br/>
 ./Narwhallet<br/>
 
+### (optional) Android Build
+pip install buildozer<br/>
+We also need older version of Cython; we can just use pip and install from wheel:
+pip install https://github.com/cython/cython/releases/download/0.29.32/Cython-0.29.32-py2.py3-none-any.whl<br/>
+buildozer android release<br/>
+
+
 ## Setup Windows
-*recommended to use a virtual environment for separation and to ensure no dependency conflicts*
+You will need Python installed, can download and install from https://www.python.org/downloads/windows/. You will also need Git which can be downloaded and installed from https://git-scm.com/download/win.
+
+You can test the instilation status by opening a command prompt and issuing the commands:
+python --version
+git --version
+If either of these commands fail check the instilation status of the program. If the program is installed it might not be added to PATH; consult the programs documentation on how to add.
 
 ### venv example
+*recommended to use a virtual environment for separation and to ensure no dependency conflicts*
 mkdir K1<br/>
 cd K1<br/>
 python -m venv ./venv<br/>
@@ -60,6 +75,12 @@ cd share<br/>
 pyinstaller linux_gui_with_deps.spec<br/>
 cd dist<br/>
 Narwhallet.exe<br/>
+
+### (optional) Android Build
+pip install buildozer<br/>
+We also need older version of Cython; we can just use pip and install from wheel:
+pip install https://github.com/cython/cython/releases/download/0.29.32/Cython-0.29.32-py2.py3-none-any.whl<br/>
+buildozer android release<br/>
 
 **Upon launch Narwhallet will create the directory .narwhalllet within you're home directory. You're wallets, address book, settings and cache are saved here.**
 
