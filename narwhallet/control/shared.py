@@ -424,8 +424,14 @@ class MShared():
         if len(_intx_b) > 0:
             _ = MShared.__get_tx_by_batch(_intx_b, kex, cache)
 
-        MShared._get_tx(wallet, wallet.addresses.addresses, kex, cache)
-        MShared._get_tx(wallet, wallet.change_addresses.addresses, kex, cache)
+        _ns_test = []
+        _ns_test_id = []
+        _ns_test, _ns_test_id = MShared._get_tx(wallet, wallet.addresses.addresses, kex, cache, _ns_test, _ns_test_id)
+        _ns_test, _ns_test_id = MShared._get_tx(wallet, wallet.change_addresses.addresses, kex, cache, _ns_test, _ns_test_id)
+
+        for _t in _ns_test:
+            # TODO: move this check to churn through unspents only
+            MShared._test_for_namespace(_t, kex, cache)
 
     @staticmethod
     def btx(_tx_h_batch: list, kex: KEXclient, cache: MCache):
@@ -504,8 +510,7 @@ class MShared():
 
     @staticmethod
     def _get_tx(wallet: MWallet, addresses: List[MAddress], kex: KEXclient,
-                cache: MCache):
-        _ns_test = []
+                cache: MCache, _ns_test, _ns_test_id):
         for _a in addresses:
             for _t in _a.history:
                 _trx = cache.tx.get_tx_by_txid(_t['tx_hash'])
@@ -517,11 +522,13 @@ class MShared():
 
                 for _out in _trx.vout:
                     if _out.scriptPubKey not in _ns_test:
-                        _ns_test.append(_out.scriptPubKey)
+                        _o = _out.scriptPubKey.asm.split(' ')
+                        if _o[0].startswith('OP_KEVA_') is True:
+                            if _o[1] not in _ns_test_id:
+                                _ns_test_id.append(_o[1])
+                                _ns_test.append(_out.scriptPubKey)
 
-        for _t in _ns_test:
-            # TODO: move this check to churn through unspents only
-            MShared._test_for_namespace(_t, kex, cache)
+        return _ns_test, _ns_test_id
 
     @staticmethod
     def _process_tx_vin(wallet: MWallet, vin: List[MTransactionInput],
