@@ -14,8 +14,8 @@ Until initial beta release recommended to use a read-only or watch wallet.
 
 
 ## Setup Ubuntu
-You will need Python and Git installed, can install both via apt with the command:
-sudo apt install python3 git
+You will need Python and Git installed, can install both via apt with the command:<br/>
+sudo apt install python3 git<br/>
 
 ### venv example
 *recommended to use a virtual environment for separation and to ensure no dependency conflicts*
@@ -41,18 +41,18 @@ cd dist<br/>
 
 ### (optional) Android Build
 pip install buildozer<br/>
-We also need older version of Cython; we can just use pip and install from wheel:
+We also need older version of Cython; we can just use pip and install from wheel:<br/>
 pip install https://github.com/cython/cython/releases/download/0.29.32/Cython-0.29.32-py2.py3-none-any.whl<br/>
 buildozer android release<br/>
 
 
 ## Setup Windows
-You will need Python installed, can download and install from https://www.python.org/downloads/windows/. You will also need Git which can be downloaded and installed from https://git-scm.com/download/win.
+You will need Python installed, can download and install from https://www.python.org/downloads/windows/. You will also need Git which can be downloaded and installed from https://git-scm.com/download/win.<br/>
 
-You can test the instilation status by opening a command prompt and issuing the commands:
-python --version
-git --version
-If either of these commands fail check the instilation status of the program. If the program is installed it might not be added to PATH; consult the programs documentation on how to add.
+You can test the instilation status by opening a command prompt and issuing the commands:<br/>
+python --version<br/>
+git --version<br/>
+If either of these commands fail check the instilation status of the program. If the program is installed it might not be added to PATH; consult the programs documentation on how to add.<br/>
 
 ### venv example
 *recommended to use a virtual environment for separation and to ensure no dependency conflicts*
@@ -78,7 +78,7 @@ Narwhallet.exe<br/>
 
 ### (optional) Android Build
 pip install buildozer<br/>
-We also need older version of Cython; we can just use pip and install from wheel:
+We also need older version of Cython; we can just use pip and install from wheel:<br/>
 pip install https://github.com/cython/cython/releases/download/0.29.32/Cython-0.29.32-py2.py3-none-any.whl<br/>
 buildozer android release<br/>
 
@@ -92,7 +92,7 @@ Can download ElectrumX here: https://github.com/kevacoin-team/electrumx
 ## Wallets Supported
 
 ### Normal Wallets
-Create or restore mnemonic phrase for bip49 based wallet
+Create or restore bip32/bip49 based wallets
 
 ### Read Only Wallet
 Restore an ypub or track wallet addresses
