@@ -35,6 +35,13 @@
             scroll_type: ['bars','content']
 
             GridLayout:
+                canvas:
+                    Color:
+                        rgba: 36/255, 36/255, 36/255, 1
+
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 size_hint_y: None
                 rows: 19
                 height: 35 * self.rows + (10*self.rows) if root.width <= 650 else 35 * self.rows + (10*self.rows)
@@ -42,8 +49,9 @@
                 # row_default_height: 65 if root.width <= 650 else 65
                 spacing: 5
                 padding: 5
+                
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -55,7 +63,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -84,7 +92,7 @@
                         valign: 'center'
                         on_press: root.update_show_change_option()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -96,7 +104,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -116,7 +124,7 @@
                         valign: 'center'
                         text_size: self.size
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -141,7 +149,7 @@
                         width: 250
                         on_text: root.update_host()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -166,7 +174,7 @@
                         width: 250
                         on_text: root.update_port()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -210,7 +218,7 @@
                         valign: 'center'
                         on_press: root.update_ssl_option(0, 3, False)
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -254,7 +262,7 @@
                         valign: 'center'
                         on_press: root.update_ssl_option(0, 4, False)
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -274,7 +282,7 @@
                         valign: 'center'
                         on_press: root.update_active(0)
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -299,7 +307,7 @@
                         width: 250
                         on_text: root.update_althost()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -324,7 +332,7 @@
                         width: 250
                         on_text: root.update_altport()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -368,7 +376,7 @@
                         valign: 'center'
                         on_press: root.update_ssl_option(1, 3, False)
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -412,7 +420,7 @@
                         valign: 'center'
                         on_press: root.update_ssl_option(1, 4, False)
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -432,7 +440,7 @@
                         valign: 'center'
                         on_press: root.update_active(1)
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -444,7 +452,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -468,7 +476,7 @@
                         width: 250
                         on_text: root.update_ipfs()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -488,7 +496,7 @@
                         valign: 'center'
                         on_press: root.update_ipfs_active(0)
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -512,7 +520,7 @@
                         width: 250
                         on_text: root.update_altipfs()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
                     orientation: 'horizontal'
@@ -532,7 +540,7 @@
                         valign: 'center'
                         on_press: root.update_ipfs_active(1)
 
-                BoxLayout: # Spacer
+                Nwboxlayout: # Spacer
 
         BoxLayout:
             canvas:

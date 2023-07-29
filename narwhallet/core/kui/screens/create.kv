@@ -13,10 +13,9 @@
             id: header
             value: 'Create New Wallet'
 
-        BoxLayout:
+        Nwboxlayout:
             size_hint_y: None
             height: 35
-            size_hint_x: None
             orientation: 'horizontal'
 
             Nwlabel:
@@ -35,19 +34,18 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 200
+                width: 175
                 on_text: root.validate_name()
 
-        BoxLayout:
+        Nwboxlayout:
             size_hint_y: None
             height: 10
             orientation: 'horizontal'
 
-        BoxLayout:
+        Nwboxlayout:
             size_hint_y: None
             height: 35
             orientation: 'horizontal'
-            size_hint_x: None
 
             Nwlabel:
                 halign: 'left'
@@ -65,9 +63,9 @@
                 text: 'KEVACOIN'
                 text_size: self.size
                 size_hint_x: None
-                width: 200
+                width: 175
 
-        BoxLayout:
+        Nwboxlayout:
             size_hint_y: None
             height: 10
             orientation: 'horizontal'
@@ -98,7 +96,7 @@
                 width: 175
                 on_press: root.generate_mnemonic()
 
-        BoxLayout:
+        Nwboxlayout:
             size_hint_y: None
             height: 35
             orientation: 'horizontal'
@@ -111,7 +109,7 @@
                 width: 175
                 padding: [10, 0, 0, 0]
 
-        BoxLayout:
+        Nwboxlayout:
             size_hint_y: None
             height: 125
             orientation: 'horizontal'
@@ -133,7 +131,7 @@
                 padding: [10, 0, 0, 0]
                 on_text: root.validate_mnemonic()
 
-        BoxLayout:
+        Nwboxlayout:
             orientation: 'horizontal'
 
         BoxLayout:

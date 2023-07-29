@@ -11,6 +11,7 @@
     header: header
 
     GridLayout:
+        size_hint: None, None
         size: root.width, root.height
         cols: 1
 
@@ -25,13 +26,13 @@
             scroll_type: ['bars','content']
 
             GridLayout:
-                # canvas:
-                #     Color:
-                #         rgba: 60/255, 61/255, 61/255, 1
+                canvas:
+                    Color:
+                        rgba: 36/255, 36/255, 36/255, 1
 
-                #     Rectangle:
-                #         pos: self.pos
-                #         size: self.size
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
                 size_hint_y: None
                 rows: 17
                 height: 45 * self.rows + (10*self.rows) if root.width <= 650 else 45 * self.rows + (10*self.rows)
@@ -40,10 +41,9 @@
                 spacing: 5
                 padding: 5
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 20
-                    size_hint_x: None
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -55,10 +55,9 @@
                         width: 75
                         padding: [10, 0, 0, 0]
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
-                    size_hint_x: None
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -78,10 +77,9 @@
                         width: 200
                         on_text: root.sign_wallet_changed()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 20
-                    size_hint_x: None
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -93,10 +91,9 @@
                         width: 100
                         padding: [10, 0, 0, 0]
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 35
-                    size_hint_x: None
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -116,16 +113,15 @@
                         width: 325
                         on_text: root.sign_address_changed()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 10
                     orientation: 'horizontal'
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 20
                     orientation: 'horizontal'
-                    size_hint_x: None
 
                     Nwlabel:
                         halign: 'left'
@@ -136,10 +132,9 @@
                         width: 150
                         padding: [10, 0, 0, 0]
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 45
-                    size_hint_x: None
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -158,12 +153,12 @@
                         size_hint_x: None
                         width: 325
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 10
                     orientation: 'horizontal'
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 20
                     orientation: 'horizontal'
@@ -192,7 +187,7 @@
                         width: 175
                         padding: [10, 0, 0, 0]
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 125
                     orientation: 'horizontal'
@@ -249,7 +244,7 @@
                 #     Nwbutton:
                 #         text: '...'
 
-                BoxLayout:
+                Nwboxlayout:
                     canvas:
                         Color:
                             rgba: 60/255, 61/255, 61/255, 1
@@ -281,7 +276,7 @@
                     #     width: 150
                     #     on_press: root.verify_message()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 20
                     orientation: 'horizontal'
@@ -294,7 +289,7 @@
                         width: 175
                         padding: [10, 0, 0, 0]
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 125
                     orientation: 'horizontal'
@@ -315,7 +310,7 @@
                         width: 250
                         padding: [10, 0, 0, 0]
 
-                BoxLayout:
+                Nwboxlayout:
                     canvas:
                         Color:
                             rgba: 60/255, 61/255, 61/255, 1
@@ -341,7 +336,7 @@
                         width: 150
                         on_press: root.verify_message()
 
-                BoxLayout:
+                Nwboxlayout:
                     size_hint_y: None
                     height: 25
                     orientation: 'horizontal'
@@ -356,8 +351,8 @@
                         width: 250
                         padding: [10, 0, 0, 0]
 
-    BoxLayout:
-        orientation: 'horizontal'
+    # Nwboxlayout:
+    #     orientation: 'horizontal'
 
     BoxLayout:
         canvas:
