@@ -31,4 +31,4 @@ class EllipticCurveTypes(Enum):
     ED25519_BLAKE2B = auto(),
     NIST256P1 = auto(),
     SECP256K1 = auto(),
-    SR25519 = auto(),
+    # SR25519 = auto(),

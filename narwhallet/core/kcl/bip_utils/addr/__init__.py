@@ -12,7 +12,7 @@ from narwhallet.core.kcl.bip_utils.addr.P2PKH_addr import P2PKHAddr, BchP2PKHAdd
 from narwhallet.core.kcl.bip_utils.addr.P2SH_addr import P2SHAddr, BchP2SHAddr
 from narwhallet.core.kcl.bip_utils.addr.P2WPKH_addr import P2WPKHAddr
 from narwhallet.core.kcl.bip_utils.addr.sol_addr import SolAddr
-from narwhallet.core.kcl.bip_utils.addr.substrate_addr import SubstrateEd25519Addr, SubstrateSr25519Addr
+from narwhallet.core.kcl.bip_utils.addr.substrate_addr import SubstrateEd25519Addr#, SubstrateSr25519Addr
 from narwhallet.core.kcl.bip_utils.addr.trx_addr import TrxAddr
 from narwhallet.core.kcl.bip_utils.addr.xlm_addr import XlmAddr
 from narwhallet.core.kcl.bip_utils.addr.xrp_addr import XrpAddr

@@ -1,28 +1,34 @@
 import os
 import json
 from typing import List
-from cryptography.hazmat.primitives.ciphers.aead import AESGCM
-from cryptography.exceptions import InvalidTag
+from kivy.utils import platform
+# AESGCM is not availible on most all androids so we will skip over when detected
+# TODO: Provide alternative for android 
+if platform != 'android':
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    from cryptography.exceptions import InvalidTag
 
 
 class _loader():
-    @staticmethod
-    def generate_host_key(path):
-        _key = AESGCM.generate_key(256)
-        file_path = os.path.join('host_key', path)
-        with open(file_path, mode='wb') as _file:
-            _file.write(_key)
-        return True
+    if platform == 'android':
+        @staticmethod
+        def generate_host_key(path):
+            _key = AESGCM.generate_key(256)
+            file_path = os.path.join('host_key', path)
+            with open(file_path, mode='wb') as _file:
+                _file.write(_key)
+            return True
 
     @staticmethod
     def _save(file_path: str, data, k=None):
         if isinstance(data, str):
             data = data.encode()
 
-        if k is not None:
-            _nonce = os.urandom(12)  # GCM mode needs 12 fresh bytes every time
-            data = _nonce + AESGCM(k).encrypt(_nonce, data, b'')
-            data = b'narw'+data
+        if platform == 'android':
+            if k is not None:
+                _nonce = os.urandom(12)  # GCM mode needs 12 fresh bytes every time
+                data = _nonce + AESGCM(k).encrypt(_nonce, data, b'')
+                data = b'narw'+data
         with open(file_path, mode='wb') as _file:
             _file.write(data)
         return True
@@ -31,12 +37,13 @@ class _loader():
     def _load(file_path: str, k=None):
         with open(file_path, mode='rb') as _file:
             _data = _file.read()
-        if k is not None:
-            _data = _data[4:]
-            try:
-                _data = AESGCM(k).decrypt(_data[:12], _data[12:], b'')
-            except InvalidTag:
-                _data = b'InvalidTag'
+        if platform == 'android':
+            if k is not None:
+                _data = _data[4:]
+                try:
+                    _data = AESGCM(k).decrypt(_data[:12], _data[12:], b'')
+                except InvalidTag:
+                    _data = b'InvalidTag'
         return _data
 
 
