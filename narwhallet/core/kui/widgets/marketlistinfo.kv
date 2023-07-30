@@ -25,37 +25,37 @@
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: 10
+            height: dp(10)
 
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: 25
+            height: dp(25)
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 5
+                width: dp(5)
 
             Nwimage:
                 id: favorite
                 source: root.favorite_source
-                height: 35
-                width: 35
+                height: dp(35)
+                width: dp(35)
 
             Nwlabel:
                 text: root.root_shortcode
                 # height: 25
                 valign: 'center'
-                font_size: 20
+                font_size: dp(20)
                 text_size: self.size
                 size_hint_x: None
-                width: 115
+                width: dp(115)
 
             Nwlabel:
                 text: root.displayName
-                height: 25
-                font_size: 20
+                height: dp(25)
+                font_size: dp(20)
                 text_size: self.size
                 padding: [5, 0, 0, 0]
 
@@ -64,8 +64,8 @@
 
             Nwlabel:
                 text: root.desc
-                height: 20
-                font_size: 15
+                height: dp(20)
+                font_size: dp(15)
                 text_size: self.size
                 padding: [5, 0, 0, 0]
 
@@ -77,7 +77,7 @@
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]
-                width: 45
+                width: dp(45)
                 size_hint_x: None
 
             Nwlabel:
@@ -91,7 +91,7 @@
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]
-                width: 45
+                width: dp(45)
                 size_hint_x: None
 
             Nwlabel:
@@ -105,7 +105,7 @@
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]
-                width: 45
+                width: dp(45)
                 size_hint_x: None
 
             Nwlabel:
@@ -117,4 +117,4 @@
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: 10
+            height: dp(10)

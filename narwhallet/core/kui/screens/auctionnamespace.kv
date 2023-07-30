@@ -27,7 +27,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -36,7 +36,7 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: dp(100)
 
             Nwlabel:
                 id: wallet_balance
@@ -46,12 +46,12 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 10
+            height: dp(10)
             orientation: 'horizontal'
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -61,7 +61,7 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: dp(100)
 
             TextInput:
                 id: amount
@@ -69,7 +69,7 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 175
+                width: dp(175)
                 on_text: root.check_amount()
 
             Nwimage:
@@ -79,12 +79,12 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 10
+            height: dp(10)
             orientation: 'horizontal'
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -93,17 +93,17 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 175
+                width: dp(175)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 10
+                width: dp(10)
 
             TextInput:
                 id: payment_address
@@ -111,13 +111,13 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 325
+                width: dp(325)
                 on_text: root.check_payment_address()
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 5
+                width: dp(5)
 
             Nwimage:
                 id: address_book
@@ -131,12 +131,12 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 10
+            height: dp(10)
             orientation: 'horizontal'
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -146,7 +146,7 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: dp(100)
 
             TextInput:
                 id: price
@@ -154,13 +154,13 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 175
+                width: dp(175)
                 on_text: root.check_price()
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 5
+                width: dp(5)
 
             Nwimage:
                 id: valid_price
@@ -169,12 +169,12 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 10
+            height: dp(10)
             orientation: 'horizontal'
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -183,17 +183,17 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: dp(100)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 10
+                width: dp(10)
 
             TextInput:
                 id: description
@@ -201,13 +201,13 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 255
+                width: dp(255)
                 on_text: root.check_desc()
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 5
+                width: dp(5)
 
             Nwimage:
                 id: valid_description
@@ -216,12 +216,12 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 10
+            height: dp(10)
             orientation: 'horizontal'
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -230,7 +230,7 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: dp(100)
 
             Nwlabel:
                 id: namespace_name
@@ -240,7 +240,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -249,7 +249,7 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: dp(100)
 
             Nwlabel:
                 id: namespace_address
@@ -259,7 +259,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -268,7 +268,7 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: dp(100)
 
             Nwlabel:
                 id: fee_rate
@@ -276,11 +276,11 @@
                 text: '0'
                 text_size: self.size
                 size_hint_x: None
-                width: 175
+                width: dp(175)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -289,7 +289,7 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: dp(100)
 
             Nwlabel:
                 id: fee
@@ -297,11 +297,11 @@
                 text: '0.0'
                 text_size: self.size
                 size_hint_x: None
-                width: 175
+                width: dp(175)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -310,7 +310,7 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: dp(100)
 
             Nwlabel:
                 id: txsize
@@ -318,11 +318,11 @@
                 text: '0.0'
                 text_size: self.size
                 size_hint_x: None
-                width: 175
+                width: dp(175)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -332,17 +332,17 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 100
+                width: dp(100)
 
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             Nwboxlayout:
                 size_hint_y: None
-                height: 380
+                height: dp(380)
                 orientation: 'horizontal'
 
                 Nwlabel:
@@ -354,8 +354,8 @@
                     size_hint_x: None
                     size_hint_y: None
                     padding: [20, 0, 0, 0]
-                    width: root.width - 40
-                    height: 380
+                    width: root.width - dp(40)
+                    height: dp(380)
 
         BoxLayout:
             canvas:
@@ -366,7 +366,7 @@
                     pos: self.pos
                     size: self.size
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwbutton:

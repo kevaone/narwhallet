@@ -12,7 +12,7 @@
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
 
             GridLayout:
                 id: build_grid
@@ -25,11 +25,11 @@
                         size: self.size
                 size_hint_y: None
                 rows: 17
-                height: 45 * self.rows + (10*self.rows) if root.width <= 650 else 45 * self.rows + (10*self.rows)
+                height: dp(45) * self.rows + (dp(10)*self.rows) if root.width <= dp(650)else dp(45) * self.rows + (dp(10)*self.rows)
                 cols: 1
                 # row_default_height: 65 if root.width <= 650 else 65
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
                 # Nwboxlayout:
                 #     size_hint_y: None
@@ -52,7 +52,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
 
             Nwbutton:
                 text: 'Cancel'

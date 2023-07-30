@@ -12,13 +12,13 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: 'Addresses'
                 halign: 'left'
-                font_size: 25
+                font_size: dp(25)
                 text_size: self.size
                 padding: [10, 0, 0, 0]
 
@@ -32,7 +32,7 @@
                     size: self.size
             orientation: 'horizontal'
             size_hint_y: None
-            height: 35
+            height: dp(35)
 
             Nwbutton:
                 id: btn_add
@@ -43,7 +43,7 @@
             id: address_list
             viewclass: 'AddressListInfo'
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             RecycleGridLayout:
@@ -57,10 +57,10 @@
                 size_hint_y: None
                 cols: 1
                 height: self.minimum_height
-                default_size: None, 85
+                default_size: None, dp(85)
                 default_size_hint: 1, None
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
         BoxLayout:
             canvas:
@@ -72,7 +72,7 @@
                     size: self.size
             orientation: 'horizontal'
             size_hint_y: None
-            height: 35
+            height: dp(35)
 
             # Nwbutton:
             #     text: 'Home'

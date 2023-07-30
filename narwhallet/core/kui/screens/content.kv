@@ -18,7 +18,7 @@
                     pos: self.pos
                     size: self.size
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwbutton:
@@ -41,7 +41,7 @@
             viewclass: 'MarketListInfo'
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             RecycleGridLayout:
@@ -54,11 +54,11 @@
                         size: self.size
                 size_hint_y: None
                 height: self.minimum_height
-                default_size: None, 85
+                default_size: None, dp(85)
                 default_size_hint: 1, None
                 cols: 1
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
         BoxLayout:
             canvas:
@@ -70,13 +70,13 @@
                     size: self.size
             orientation: 'horizontal'
             size_hint_y: None
-            height: 35
+            height: dp(35)
 
             Nwbutton:
                 text: 'Home'
                 icon: 'narwhallet/core/kui/assets/home_white.png'
-                icon_size: (25, 25)
-                icon_padding: 20
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
                 on_press: root.manager.current = 'home_screen'
 
             Nwbutton:

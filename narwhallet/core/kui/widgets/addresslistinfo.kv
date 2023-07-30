@@ -19,24 +19,24 @@
 
         BoxLayout:
             orientation: 'horizontal'
-            spacing: 5
+            spacing: dp(5)
             # height: 20
 
             Nwlabel:
                 text: root.address
-                height: 20
-                font_size: 18
+                height: dp(20)
+                font_size: dp(18)
                 padding: [5, 0, 0, 0]
 
         BoxLayout:
             orientation: 'horizontal'
-            spacing: 5
+            spacing: dp(5)
             # height: 20
 
             Nwlabel:
                 text: root.address_label
-                height: 20
-                font_size: 18
+                height: dp(20)
+                font_size: dp(18)
                 padding: [5, 0, 0, 0]
 
         BoxLayout:
@@ -67,7 +67,7 @@
                 padding: [5, 0, 0, 0]
                 text_size: self.size
                 size_hint_x: None
-                width: 45
+                width: dp(45)
 
             Nwlabel:
                 text: root.transactions
@@ -75,7 +75,7 @@
                 padding: [5, 0, 0, 0]
                 text_size: self.size
                 size_hint_x: None
-                width: 50
+                width: dp(50)
 
             Nwlabel:
                 text: 'Balance:'
@@ -83,7 +83,7 @@
                 halign: 'left'
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
-                width: 75
+                width: dp(75)
 
             Nwlabel:
                 text: root.balance
@@ -91,4 +91,4 @@
                 padding: [5, 0, 0, 0]
                 text_size: self.size
                 size_hint_x: None
-                width: 100
+                width: dp(100)

@@ -16,43 +16,43 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 25
+            height: dp(25)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 10
+                width: dp(10)
 
             Nwimage:
                 source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: 25
-                width: 25
+                height: dp(25)
+                width: dp(25)
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.address.text)
 
             Nwlabel:
                 id: address
                 text: ''
-                font_size: 18
+                font_size: dp(18)
                 padding: [5, 0, 0, 0]
 
         Nwboxlayout:
             size_hint_y: None
-            height: 25
+            height: dp(25)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: 'Label:'
-                font_size: 18
+                font_size: dp(18)
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: 70
+                width: dp(70)
 
             Nwlabel:
                 id: label
                 halign: 'left'
                 text: ''
-                font_size: 18
+                font_size: dp(18)
 
         Nwboxlayout:
             # size_hint_y: None
@@ -64,48 +64,48 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: 'Transactions:'
-                font_size: 15
+                font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
-                width: 120
+                width: dp(120)
 
             Nwlabel:
                 id: transactions
                 text: '0'
-                font_size: 15
+                font_size: dp(15)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: 'Balance:'
-                font_size: 15
+                font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
-                width: 120
+                width: dp(120)
 
             Nwlabel:
                 id: balance
                 text: '0.0'
-                font_size: 15
+                font_size: dp(15)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 10
+            height: dp(10)
             orientation: 'horizontal'
 
         RecycleView:
             id: transaction_list
             viewclass: 'TransactionListInfo'
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             RecycleGridLayout:
@@ -118,11 +118,11 @@
                         size: self.size
                 size_hint_y: None
                 height: self.minimum_height
-                default_size: None, 85 if root.width <= 650 else 60
+                default_size: None, dp(85) if root.width <= dp(650) else dp(60)
                 default_size_hint: 1, None
                 cols: 1
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
         BoxLayout:
             canvas:
@@ -134,7 +134,7 @@
                     size: self.size
             orientation: 'horizontal'
             size_hint_y: None
-            height: 35
+            height: dp(35)
 
             Nwbutton:
                 text: 'Wallet'

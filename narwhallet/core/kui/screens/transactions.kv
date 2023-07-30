@@ -11,13 +11,13 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: 'Transactions'
                 halign: 'left'
-                font_size: 25
+                font_size: dp(25)
                 text_size: self.size
                 padding: [10, 0, 0, 0]
 
@@ -26,7 +26,7 @@
             viewclass: 'TransactionListInfo'
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             RecycleGridLayout:
@@ -41,15 +41,15 @@
                 rows: 0
                 cols: 1
                 height: self.minimum_height #85 * self.rows + (10*self.rows) if root.width <= 650 else 65 * self.rows + (10*self.rows)
-                row_default_height: 85 if root.width <= 650 else 60
-                default_size: None, 85 if root.width <= 650 else 60
+                row_default_height: dp(85) if root.width <= dp(650) else dp(60)
+                default_size: None, dp(85) if root.width <= dp(650) else dp(60)
                 default_size_hint: 1, None
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
 
             # Nwbutton:
             #     text: 'Home'

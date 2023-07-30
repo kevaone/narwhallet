@@ -22,7 +22,7 @@
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             GridLayout:
@@ -35,15 +35,15 @@
                         size: self.size
                 size_hint_y: None
                 rows: 17
-                height: 45 * self.rows + (10*self.rows) if root.width <= 650 else 45 * self.rows + (10*self.rows)
+                height: dp(45) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(45) * self.rows + (dp(10)*self.rows)
                 cols: 1
                 # row_default_height: 65 if root.width <= 650 else 65
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -52,12 +52,12 @@
                         text: 'Wallet:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 75
+                        width: dp(75)
                         padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -65,7 +65,7 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
                     Spinner:
                         id: wallet_name
@@ -74,12 +74,12 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 200
+                        width: dp(200)
                         on_text: root.sign_wallet_changed()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -88,12 +88,12 @@
                         text: 'Address:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 100
+                        width: dp(100)
                         padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -101,7 +101,7 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
                     Spinner:
                         id: address
@@ -110,17 +110,17 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 325
+                        width: dp(325)
                         on_text: root.sign_address_changed()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 10
+                    height: dp(10)
                     orientation: 'horizontal'
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -129,12 +129,12 @@
                         text: 'Public Key:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
                         padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 45
+                    height: dp(45)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -142,7 +142,7 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
                     TextInput:
                         id: pubk
@@ -151,16 +151,16 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 325
+                        width: dp(325)
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 10
+                    height: dp(10)
                     orientation: 'horizontal'
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
                     orientation: 'horizontal'
 
                     # ToggleButton:
@@ -184,12 +184,12 @@
                         text: 'Message:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 175
+                        width: dp(175)
                         padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 125
+                    height: dp(125)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -197,7 +197,7 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
                     TextInput:
                         id: message
@@ -205,7 +205,7 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 250
+                        width: dp(250)
                         padding: [10, 0, 0, 0]
 
                 # BoxLayout:
@@ -253,7 +253,7 @@
                             pos: self.pos
                             size: self.size
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
                     padding: [0, 2, 0, 2]
 
@@ -262,12 +262,12 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
                     Nwbutton:
                         text: 'Sign'
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
                         on_press: root.sign_message()
 
                     # Nwbutton:
@@ -278,7 +278,7 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -286,12 +286,12 @@
                         text: 'Signature:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 175
+                        width: dp(175)
                         padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 125
+                    height: dp(125)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -299,7 +299,7 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
                     TextInput:
                         id: signature
@@ -307,7 +307,7 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 250
+                        width: dp(250)
                         padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
@@ -319,7 +319,7 @@
                             pos: self.pos
                             size: self.size
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
                     padding: [0, 2, 0, 2]
 
@@ -328,17 +328,17 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
                     Nwbutton:
                         text: 'Verify'
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
                         on_press: root.verify_message()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 25
+                    height: dp(25)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -348,7 +348,7 @@
                         text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: 250
+                        width: dp(250)
                         padding: [10, 0, 0, 0]
 
     # Nwboxlayout:
@@ -363,7 +363,7 @@
                 pos: self.pos
                 size: self.size
         size_hint_y: None
-        height: 35
+        height: dp(35)
         orientation: 'horizontal'
 
         Nwbutton:

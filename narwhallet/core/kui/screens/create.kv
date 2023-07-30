@@ -15,7 +15,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -24,7 +24,7 @@
                 text: 'Name:'
                 text_size: self.size
                 size_hint_x: None
-                width: 75
+                width: dp(75)
                 padding: [10, 0, 0, 0]
 
             TextInput:
@@ -34,17 +34,17 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 175
+                width: dp(175)
                 on_text: root.validate_name()
 
         Nwboxlayout:
             size_hint_y: None
-            height: 10
+            height: dp(10)
             orientation: 'horizontal'
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -53,7 +53,7 @@
                 text: 'Coin:'
                 text_size: self.size
                 size_hint_x: None
-                width: 75
+                width: dp(75)
                 padding: [10, 0, 0, 0]
 
             Spinner:
@@ -63,11 +63,11 @@
                 text: 'KEVACOIN'
                 text_size: self.size
                 size_hint_x: None
-                width: 175
+                width: dp(175)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 10
+            height: dp(10)
             orientation: 'horizontal'
 
         BoxLayout:
@@ -79,7 +79,7 @@
                     pos: self.pos
                     size: self.size
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
             padding: [0, 2, 0, 2]
 
@@ -88,17 +88,17 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 10
+                width: dp(10)
 
             Nwbutton:
                 text: 'Generate Mnemonic'
                 size_hint_x: None
-                width: 175
+                width: dp(175)
                 on_press: root.generate_mnemonic()
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -106,12 +106,12 @@
                 text: 'Mnemonic Phrase:'
                 text_size: self.size
                 size_hint_x: None
-                width: 175
+                width: dp(175)
                 padding: [10, 0, 0, 0]
 
         Nwboxlayout:
             size_hint_y: None
-            height: 125
+            height: dp(125)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -119,7 +119,7 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 10
+                width: dp(10)
 
             TextInput:
                 id: mnemonic
@@ -127,7 +127,7 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 250
+                width: dp(250)
                 padding: [10, 0, 0, 0]
                 on_text: root.validate_mnemonic()
 
@@ -143,7 +143,7 @@
                     pos: self.pos
                     size: self.size
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwbutton:

@@ -19,53 +19,53 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 5
+                width: dp(5)
 
             Nwimage:
                 source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: 25
-                width: 25
+                height: dp(25)
+                width: dp(25)
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.namespaceid.text)
 
             Nwlabel:
                 id: namespaceid
                 valign: 'center'
                 text: 'Namwspace Example'
-                font_size: 18
+                font_size: dp(18)
                 text_size: self.size
                 padding: [10, 0, 0, 0]
 
         Nwboxlayout:
             size_hint_y: None
-            height: 30
+            height: dp(30)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 5
+                width: dp(5)
 
             Nwimage:
                 source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: 25
-                width: 25
+                height: dp(25)
+                width: dp(25)
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.shortcode.text)
 
             Nwlabel:
                 id: shortcode
                 valign: 'center'
-                font_size: 20
+                font_size: dp(20)
                 text_size: self.size
                 text: 'Shortcode'
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
-                width: 150
+                width: dp(150)
 
             # Nwimage:
             #     id: transfer_button
@@ -79,30 +79,30 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 30
+            height: dp(30)
             orientation: 'horizontal'
 
             Nwlabel:
                 id: namespace_name
-                font_size: 25
+                font_size: dp(25)
                 text_size: self.size
                 text: 'Name'
                 padding: [10, 0, 0, 0]
 
         Nwboxlayout:
             size_hint_y: None
-            height: 25
+            height: dp(25)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 5
+                width: dp(5)
 
             Nwimage:
                 source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: 20
-                width: 20
+                height: dp(20)
+                width: dp(20)
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.creator.text)
 
             Nwlabel:
@@ -110,7 +110,7 @@
                 valign: 'center'
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
-                width: 75
+                width: dp(75)
 
             Nwlabel:
                 id: creator
@@ -119,18 +119,18 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 25
+            height: dp(25)
             orientation: 'horizontal'
 
             Nwlabel:
                 text: ''
                 size_hint_x: None
-                width: 5
+                width: dp(5)
 
             Nwimage:
                 source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: 20
-                width: 20
+                height: dp(20)
+                width: dp(20)
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.owner.text)
 
             Nwlabel:
@@ -138,7 +138,7 @@
                 valign: 'center'
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
-                width: 75
+                width: dp(75)
 
             Nwlabel:
                 id: owner
@@ -147,7 +147,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 10
+            height: dp(10)
             orientation: 'horizontal'
 
         # BoxLayout:
@@ -171,7 +171,7 @@
             id: namespace_key_list
             viewclass: 'NamespaceInfo'
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             size_hint: 1, 1
             scroll_type: ['bars','content']
 
@@ -189,8 +189,8 @@
                 height: self.minimum_height
                 default_size: 0, 0
                 default_size_hint: 1, None
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
         BoxLayout:
             canvas:
@@ -202,7 +202,7 @@
                     size: self.size
             orientation: 'horizontal'
             size_hint_y: None
-            height: 35
+            height: dp(35)
 
             # Nwbutton:
             #     text: 'Wallet'

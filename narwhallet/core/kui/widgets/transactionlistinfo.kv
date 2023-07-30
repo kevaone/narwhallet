@@ -28,14 +28,14 @@
                 text: root.transaction
                 text_size: self.size
                 padding: [5, 0, 0, 0]
-                font_size: 17
+                font_size: dp(17)
                 size_hint_y: None
-                height: 60 if root.width <= 650 else 30
+                height: dp(60) if root.width <= dp(650) else dp(30)
 
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: 30
+            height: dp(30)
 
             Nwlabel:
                 # id: block

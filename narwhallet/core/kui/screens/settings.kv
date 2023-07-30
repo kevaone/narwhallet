@@ -31,7 +31,7 @@
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             GridLayout:
@@ -44,28 +44,28 @@
                         size: self.size
                 size_hint_y: None
                 rows: 19
-                height: 35 * self.rows + (10*self.rows) if root.width <= 650 else 35 * self.rows + (10*self.rows)
+                height: dp(35) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(35) * self.rows + (dp(10)*self.rows)
                 cols: 1
                 # row_default_height: 65 if root.width <= 650 else 65
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
                 
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
                         text: 'General Settings'
                         halign: 'left'
-                        font_size: 25
+                        font_size: dp(25)
                         text_size: self.size
                         padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -75,16 +75,16 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 200
+                        width: dp(200)
 
                     ToggleButton:
                         id: show_change
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 75
+                        height: dp(30)
+                        width: dp(75)
                         text: 'Yes'
                         group: 'change'
                         # state: 'down'
@@ -94,19 +94,19 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
                         text: 'Connection Settings'
                         halign: 'left'
-                        font_size: 25
+                        font_size: dp(25)
                         text_size: self.size
                         padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -116,7 +116,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     Nwlabel:
                         text: root.connection_status
@@ -126,7 +126,7 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -136,7 +136,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     TextInput:
                         id: iserver_host
@@ -145,13 +145,13 @@
                         text_size: self.size
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 250
+                        height: dp(30)
+                        width: dp(250)
                         on_text: root.update_host()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -161,7 +161,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     TextInput:
                         id: iserver_port
@@ -170,13 +170,13 @@
                         text_size: self.size
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 250
+                        height: dp(30)
+                        width: dp(250)
                         on_text: root.update_port()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -186,16 +186,16 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     ToggleButton:
                         id: iserver_ssl_0
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 75
+                        height: dp(30)
+                        width: dp(75)
                         text: 'Yes'
                         group: 'ssl'
                         # state: 'down'
@@ -206,11 +206,11 @@
                     ToggleButton:
                         id: iserver_ssl_1
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 75
+                        height: dp(30)
+                        width: dp(75)
                         text: 'No'
                         group: 'ssl'
                         # state: 'down'
@@ -220,7 +220,7 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -230,16 +230,16 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     ToggleButton:
                         id: iserver_verify_0
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 75
+                        height: dp(30)
+                        width: dp(75)
                         text: 'Yes'
                         group: 'vssl'
                         # state: 'down'
@@ -250,11 +250,11 @@
                     ToggleButton:
                         id: iserver_verify_1
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 75
+                        height: dp(30)
+                        width: dp(75)
                         text: 'No'
                         group: 'vssl'
                         # state: 'down'
@@ -264,17 +264,17 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     ToggleButton:
                         id: iserver_active_0
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 150
+                        height: dp(30)
+                        width: dp(150)
                         text: 'Active'
                         group: 'con'
                         # state: 'down'
@@ -284,7 +284,7 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -294,7 +294,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     TextInput:
                         id: iserver_althost
@@ -303,13 +303,13 @@
                         text_size: self.size
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 250
+                        height: dp(30)
+                        width: dp(250)
                         on_text: root.update_althost()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -319,7 +319,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     TextInput:
                         id: iserver_altport
@@ -328,13 +328,13 @@
                         text_size: self.size
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 250
+                        height: dp(30)
+                        width: dp(250)
                         on_text: root.update_altport()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -344,16 +344,16 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     ToggleButton:
                         id: iserver_altssl_0
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 75
+                        height: dp(30)
+                        width: dp(75)
                         text: 'Yes'
                         group: 'assl'
                         # state: 'down'
@@ -364,11 +364,11 @@
                     ToggleButton:
                         id: iserver_altssl_1
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 75
+                        height: dp(30)
+                        width: dp(75)
                         text: 'No'
                         group: 'assl'
                         # state: 'down'
@@ -378,7 +378,7 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -388,16 +388,16 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     ToggleButton:
                         id: iserver_altverify_0
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 75
+                        height: dp(30)
+                        width: dp(75)
                         text: 'Yes'
                         group: 'avssl'
                         # state: 'down'
@@ -408,11 +408,11 @@
                     ToggleButton:
                         id: iserver_altverify_1
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 75
+                        height: dp(30)
+                        width: dp(75)
                         text: 'No'
                         group: 'avssl'
                         # state: 'down'
@@ -422,17 +422,17 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     ToggleButton:
                         id: iserver_active_1
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 150
+                        height: dp(30)
+                        width: dp(150)
                         text: 'Active'
                         group: 'con'
                         # state: 'down'
@@ -442,19 +442,19 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
                         text: 'IPFS Settings'
                         halign: 'left'
-                        font_size: 25
+                        font_size: dp(25)
                         text_size: self.size
                         padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -464,7 +464,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     TextInput:
                         text: 'ipfs.keva.one'
@@ -472,23 +472,23 @@
                         text_size: self.size
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 250
+                        height: dp(30)
+                        width: dp(250)
                         on_text: root.update_ipfs()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     ToggleButton:
                         id: iserver_ipfs_0
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 150
+                        height: dp(30)
+                        width: dp(150)
                         text: 'Active'
                         group: 'ipfs'
                         # state: 'down'
@@ -498,7 +498,7 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -508,7 +508,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: 115
+                        width: dp(115)
 
                     TextInput:
                         text: 'ipfs.keva.one'
@@ -516,23 +516,23 @@
                         text_size: self.size
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 250
+                        height: dp(30)
+                        width: dp(250)
                         on_text: root.update_altipfs()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     ToggleButton:
                         id: iserver_ipfs_1
                         text_size: self.size
-                        font_size: 20
+                        font_size: dp(20)
                         size_hint_x: None
                         size_hint_y: None
-                        height: 30
-                        width: 150
+                        height: dp(30)
+                        width: dp(150)
                         text: 'Active'
                         group: 'ipfs'
                         # state: 'down'
@@ -540,7 +540,7 @@
                         valign: 'center'
                         on_press: root.update_ipfs_active(1)
 
-                Nwboxlayout: # Spacer
+                # Nwboxlayout: # Spacer
 
         BoxLayout:
             canvas:
@@ -551,12 +551,12 @@
                     pos: self.pos
                     size: self.size
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwbutton:
                 text: 'Home'
                 icon: 'narwhallet/core/kui/assets/home_white.png'
-                icon_size: (25, 25)
-                icon_padding: 20
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
                 on_press: root.manager.current = 'home_screen'

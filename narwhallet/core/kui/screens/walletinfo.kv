@@ -23,7 +23,7 @@
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             GridLayout:
@@ -36,22 +36,22 @@
                         size: self.size
                 size_hint_y: None
                 rows: 17
-                height: 45 * self.rows + (10*self.rows) if root.width <= 650 else 45 * self.rows + (10*self.rows)
+                height: dp(45) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(45) * self.rows + (dp(10)*self.rows)
                 cols: 1
                 # row_default_height: 65 if root.width <= 650 else 65
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
 
                     Nwlabel:
                         halign: 'left'
                         text: 'Last Updated:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
 
                     Nwlabel:
                         id: last_updated
@@ -61,14 +61,14 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
 
                     Nwlabel:
                         halign: 'left'
                         text: 'Coin:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
 
                     Nwlabel:
                         id: coin
@@ -78,14 +78,14 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
 
                     Nwlabel:
                         halign: 'left'
                         text: 'Bip:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
 
                     Nwlabel:
                         id: bip
@@ -95,14 +95,14 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
 
                     Nwlabel:
                         halign: 'left'
                         text: 'Kind:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
 
                     Nwlabel:
                         id: kind
@@ -112,14 +112,14 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
 
                     Nwlabel:
                         halign: 'left'
                         text: 'Account Index:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
 
                     Nwlabel:
                         id: account_index
@@ -129,14 +129,14 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
 
                     Nwlabel:
                         halign: 'left'
                         text: 'Change Index:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
 
                     Nwlabel:
                         id: change_index
@@ -146,14 +146,14 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
 
                     Nwlabel:
                         halign: 'left'
                         text: 'Balance:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
 
                     Nwlabel:
                         id: balance
@@ -163,14 +163,14 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 20
+                    height: dp(20)
 
                     Nwlabel:
                         halign: 'left'
                         text: 'Locked Balance:'
                         text_size: self.size
                         size_hint_x: None
-                        width: 150
+                        width: dp(150)
 
                     Nwlabel:
                         id: locked_balance
@@ -180,16 +180,16 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 10
+                    height: dp(10)
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
 
                     Nwimage:
                         source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                        height: 25
-                        width: 25
+                        height: dp(25)
+                        width: dp(25)
                         on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.ypub.text)
 
                     Nwlabel:
@@ -201,12 +201,12 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 80
+                    height: dp(80)
 
                     Nwlabel:
                         text: ''
                         size_hint_x: None
-                        width: 15
+                        width: dp(15)
 
                     Nwlabel:
                         id: ypub
@@ -218,16 +218,16 @@
                     Nwlabel:
                         text: ''
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
 
                     Nwimage:
                         source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                        height: 25
-                        width: 25
+                        height: dp(25)
+                        width: dp(25)
                         on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.xpriv.text)
 
                     Nwlabel:
@@ -239,12 +239,12 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 80
+                    height: dp(80)
 
                     Nwlabel:
                         text: ''
                         size_hint_x: None
-                        width: 15
+                        width: dp(15)
 
                     Nwlabel:
                         id: xpriv
@@ -256,16 +256,16 @@
                     Nwlabel:
                         text: ''
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
 
                     Nwimage:
                         source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                        height: 25
-                        width: 25
+                        height: dp(25)
+                        width: dp(25)
                         on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.seed.text)
 
                     Nwlabel:
@@ -277,12 +277,12 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 80
+                    height: dp(80)
 
                     Nwlabel:
                         text: ''
                         size_hint_x: None
-                        width: 15
+                        width: dp(15)
 
                     Nwlabel:
                         id: seed
@@ -294,16 +294,16 @@
                     Nwlabel:
                         text: ''
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 35
+                    height: dp(35)
 
                     Nwimage:
                         source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                        height: 25
-                        width: 25
+                        height: dp(25)
+                        width: dp(25)
                         on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.mnemonic_phrase.text)
 
                     Nwlabel:
@@ -315,12 +315,12 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: 80
+                    height: dp(80)
 
                     Nwlabel:
                         text: ''
                         size_hint_x: None
-                        width: 15
+                        width: dp(15)
 
                     Nwlabel:
                         id: mnemonic_phrase
@@ -332,11 +332,11 @@
                     Nwlabel:
                         text: ''
                         size_hint_x: None
-                        width: 10
+                        width: dp(10)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
 
             Nwbutton:
                 text: 'Wallet'

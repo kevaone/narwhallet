@@ -23,7 +23,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -31,12 +31,12 @@
                 text: 'TX ID:'
                 text_size: self.size
                 size_hint_x: None
-                width: 85
+                width: dp(85)
                 padding: [10, 0, 0, 0]
 
         Nwboxlayout:
             size_hint_y: None
-            height: 40 if root.width <= 650 else 20
+            height: dp(40) if root.width <= dp(650) else dp(20)
 
             Nwlabel:
                 id: txid
@@ -47,7 +47,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -55,12 +55,12 @@
                 text: 'TX Hash:'
                 text_size: self.size
                 size_hint_x: None
-                width: 85
+                width: dp(85)
                 padding: [10, 0, 0, 0]
 
         Nwboxlayout:
             size_hint_y: None
-            height: 40 if root.width <= 650 else 20
+            height: dp(40) if root.width <= dp(650) else dp(20)
 
             Nwlabel:
                 id: tx_hash
@@ -71,7 +71,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -79,12 +79,12 @@
                 text: 'Block Hash:'
                 text_size: self.size
                 size_hint_x: None
-                width: 85
+                width: dp(85)
                 padding: [10, 0, 0, 0]
 
         Nwboxlayout:
             size_hint_y: None
-            height: 40 if root.width <= 650 else 20
+            height: dp(40) if root.width <= dp(650) else dp(20)
 
             Nwlabel:
                 id: blockhash
@@ -95,7 +95,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -103,7 +103,7 @@
                 text: 'Block Time:'
                 text_size: self.size
                 size_hint_x: None
-                width: 85
+                width: dp(85)
                 padding: [10, 0, 0, 0]
 
             Nwlabel:
@@ -114,7 +114,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -122,7 +122,7 @@
                 text: 'TX Size:'
                 text_size: self.size
                 size_hint_x: None
-                width: 85
+                width: dp(85)
                 padding: [10, 0, 0, 0]
 
             Nwlabel:
@@ -131,14 +131,14 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 85
+                width: dp(85)
 
             Nwlabel:
                 halign: 'left'
                 text: 'vsize:'
                 text_size: self.size
                 size_hint_x: None
-                width: 65
+                width: dp(65)
 
             Nwlabel:
                 id: vsize
@@ -146,11 +146,11 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: 50
+                width: dp(50)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -167,7 +167,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
 
             Nwlabel:
                 halign: 'left'
@@ -183,7 +183,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
 
             Nwlabel:
                 halign: 'left'
@@ -199,7 +199,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
 
             Nwlabel:
                 halign: 'left'
@@ -215,7 +215,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -227,7 +227,7 @@
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             GridLayout:
@@ -241,14 +241,14 @@
                         size: self.size
                 size_hint_y: None
                 # height: self.minimum_height * 15
-                height: self.minimum_height * 9 if root.width <= 650 else self.minimum_height * 7
+                height: self.minimum_height * dp(9) if root.width <= dp(650) else self.minimum_height * dp(7)
                 cols: 1
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
         Nwboxlayout:
             size_hint_y: None
-            height: 20
+            height: dp(20)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -260,7 +260,7 @@
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             GridLayout:
@@ -274,15 +274,15 @@
                         size: self.size
                 size_hint_y: None
                 # height: self.minimum_height * 15
-                height: self.minimum_height * 14 if root.width <= 650 else self.minimum_height * 7
+                height: self.minimum_height * dp(14) if root.width <= dp(650) else self.minimum_height * dp(7)
                 cols: 1
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
 
         Nwboxlayout:
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -294,13 +294,13 @@
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             Nwboxlayout:
                 orientation: 'horizontal'
                 size_hint_y: None
-                height: 250
+                height: dp(250)
 
                 Nwlabel:
                     id: hex
@@ -320,7 +320,7 @@
                     pos: self.pos
                     size: self.size
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             # Nwbutton:

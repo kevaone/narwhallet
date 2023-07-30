@@ -18,34 +18,34 @@
                     pos: self.pos
                     size: self.size
             size_hint_y: None
-            height: 35
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwbutton:
                 text: 'Create'
                 icon: 'narwhallet/core/kui/assets/plus_white.png'
-                icon_size: (25, 25)
-                icon_padding: 17
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(17)
                 on_press: root.manager.create_screen.populate()
 
             Nwbutton:
                 text: 'Restore'
                 icon: 'narwhallet/core/kui/assets/wrench_white.png'
-                icon_size: (25, 25)
-                icon_padding: 20
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
                 on_press: root.manager.restore_screen.populate()
 
             Nwbutton:
                 text: 'Address Book'
                 icon: 'narwhallet/core/kui/assets/menuList_white.png'
-                icon_size: (25, 25)
-                icon_padding: 30
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(30)
                 on_press: root.manager.addressbook_screen.populate()
 
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
-            bar_width: 15
+            bar_width: dp(15)
             scroll_type: ['bars','content']
 
             GridLayout:
@@ -58,15 +58,15 @@
                         pos: self.pos
                         size: self.size
                 size_hint_y: None
-                height: self.minimum_height * 15
+                height: self.minimum_height * dp(15)
                 cols: 1
-                spacing: 5
-                padding: 5
+                spacing: dp(5)
+                padding: dp(5)
 
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: 35
+            height: dp(35)
 
             canvas:
                 Color:
@@ -87,6 +87,6 @@
             Nwbutton:
                 text: 'Settings'
                 icon: 'narwhallet/core/kui/assets/gear_white.png'
-                icon_size: (25, 25)
-                icon_padding: 20
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
                 on_press: root.manager.current = 'settings_screen'

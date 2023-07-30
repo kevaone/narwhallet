@@ -15,28 +15,28 @@
                 pos: self.pos
                 size: self.size
         size_hint_y: None
-        height: 50
+        height: dp(50)
 
         Nwlabel:
             text: ''
             size_hint_x: None
-            width: 10
+            width: dp(10)
 
         Nwimage:
             id: logo
             source: 'narwhallet/core/kui/assets/narwhal.png'
-            height: 50
-            width: 45
+            height: dp(50)
+            width: dp(45)
             valign: 'center'
 
         Nwlabel:
             text: 'Narwhallet'
             halign: 'left'
             valign: 'center'
-            font_size: 37
+            font_size: dp(37)
             text_size: self.size
             size_hint_y: None
-            height: 50
+            height: dp(50)
             padding: [5, 0, 0, 0]
 
     # Nwboxlayout:
@@ -59,13 +59,13 @@
                 pos: self.pos
                 size: self.size
         size_hint_y: None
-        height: 35
+        height: dp(35)
         # padding: [0, 10, 0, 10]
 
         Nwlabel:
             halign: 'left'
             valign: 'center'
-            font_size: 25
+            font_size: dp(25)
             text_size: self.size
             text: root.value
             padding: [10, 10, 0, 10]
