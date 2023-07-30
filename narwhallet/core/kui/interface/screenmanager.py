@@ -3,6 +3,7 @@ import re
 import shutil
 from kivy.uix.screenmanager import ScreenManager
 from kivy.core.clipboard import Clipboard
+from kivy.utils import platform
 from narwhallet.core.kcl.enums.mediatypes import content_type
 from narwhallet.core.kcl.favorites.favorites import MFavorites
 from narwhallet.core.kcl.file_utils.io import _loader
@@ -99,7 +100,11 @@ class NarwhalletScreens(ScreenManager):
         # self.kex = KEXclient()
 
     def set_paths(self) -> str:
-        _user_home = os.path.expanduser('~')
+        if platform != 'android':
+            _user_home = os.path.expanduser('~')
+        else:
+            _user_home = '/data/user/0/one.keva.narwhallet/files/'
+
         _narwhallet_path = os.path.join(_user_home, '.narwhallet')
 
         if os.path.isdir(_narwhallet_path) is False:

@@ -7,13 +7,13 @@ title = Narwhallet
 package.name = narwhallet
 
 # (str) Package domain (needed for android/ios packaging)
-package.domain = org.narwhallet
+package.domain = one.keva
 
 # (str) Source code where the main.py live
 source.dir = .
 
 # (list) Source files to include (let empty to include all the files)
-source.include_exts = py,png,jpg,kv,json,addressbook,favorites
+source.include_exts = py,png,jpg,kv,json,addressbook,favorites,txt
 
 # (list) List of inclusions using pattern matching
 #source.include_patterns = assets/*,images/*.png
@@ -37,7 +37,7 @@ version.filename = %(source.dir)s/narwhallet/_version.py
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,https://github.com/cython/cython/releases/download/0.29.32/Cython-0.29.32-py2.py3-none-any.whl
+requirements = python3,crcmod~=1.7,pycryptodome~=3.6,ecdsa,pynacl,scalecodec,qrcode~=6.1,kivy
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -96,6 +96,7 @@ fullscreen = 0
 # (list) Permissions
 # (See https://python-for-android.readthedocs.io/en/latest/buildoptions/#build-options-1 for all the supported syntaxes and properties)
 #android.permissions = android.permission.INTERNET, (name=android.permission.WRITE_EXTERNAL_STORAGE;maxSdkVersion=18)
+android.permissions = android.permission.INTERNET, android.permission.WRITE_EXTERNAL_STORAGE
 
 # (list) features (adds uses-feature -tags to manifest)
 #android.features = android.hardware.usb.host
@@ -322,7 +323,7 @@ android.allow_backup = True
 
 # (str) python-for-android branch to use, defaults to master
 #p4a.branch = master
-
+p4a.branch = develop
 # (str) python-for-android specific commit to use, defaults to HEAD, must be within p4a.branch
 #p4a.commit = HEAD
 
