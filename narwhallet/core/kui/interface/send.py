@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
+from kivy.metrics import dp
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -61,7 +62,7 @@ class SendScreen(Screen):
             _bal = float(self.wallet_balance.text)
             if _amount < _bal and _amount > 0:
                 _ca = True
-                self.valid_amount.size = (30, 30)
+                self.valid_amount.size = (dp(30), dp(30))
                 if cb is True:
                     _ca = self.check_address(False)
 
@@ -83,7 +84,7 @@ class SendScreen(Screen):
             _ = (Base58Decoder
                  .CheckDecode(self.send_to.text))
             _ca = True
-            self.valid_send_to.size = (30, 30)
+            self.valid_send_to.size = (dp(30), dp(30))
             if cb is True:
                 _ca = self.check_amount(False)
 

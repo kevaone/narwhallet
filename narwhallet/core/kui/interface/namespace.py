@@ -1,6 +1,7 @@
 from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
+from kivy.metrics import dp
 from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.header import Header
@@ -33,8 +34,8 @@ class NamespaceScreen(Screen):
 
         if _w.kind == EWalletKind.NORMAL:
             self.btn_create.disabled = False
-            self.transfer_button.size = (30, 30)
-            self.auction_button.size = (30, 30)
+            self.transfer_button.size = (dp(30), dp(30))
+            self.auction_button.size = (dp(30), dp(30))
         else:
             self.btn_create.disabled = True
             self.transfer_button.size = (0, 0)

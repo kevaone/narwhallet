@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
+from kivy.metrics import dp
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
@@ -69,7 +70,7 @@ class CreateNamespaceKeyScreen(Screen):
             if _amount < _bal:
                 # _ca = True
                 _a, _b = True, True
-                self.valid_amount.size = (30, 30)
+                self.valid_amount.size = (dp(30), dp(30))
                 if cb is True:
                     _a = self.check_key(False)
                     _b = self.check_value(False)

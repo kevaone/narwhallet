@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
 from kivy.uix.textinput import TextInput
+from kivy.metrics import dp
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.nwboxlayout import Nwboxlayout
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -48,13 +49,13 @@ class ScriptBuilderScreen(Screen):
             _box_3 = Nwboxlayout()
             _box_4 = Nwboxlayout()
             _box_1.size_hint_y = None
-            _box_1.height = 20
+            _box_1.height = dp(20)
             _box_2.size_hint_y = None
-            _box_2.height = 20
+            _box_2.height = dp(20)
             _box_3.size_hint_y = None
-            _box_3.height = 35
+            _box_3.height = dp(35)
             _box_4.size_hint_y = None
-            _box_4.height = 35
+            _box_4.height = dp(35)
             _box_4_button_1 = Nwbutton()
             _box_1_label_1 = Nwlabel()
             _box_2_label_1 = Nwlabel()
@@ -79,17 +80,17 @@ class ScriptBuilderScreen(Screen):
             _box_5 = Nwboxlayout()
             _box_6 = Nwboxlayout()
             _box_1.size_hint_y = None
-            _box_1.height = 20
+            _box_1.height = dp(20)
             _box_2.size_hint_y = None
-            _box_2.height = 20
+            _box_2.height = dp(20)
             _box_3.size_hint_y = None
-            _box_3.height = 35
+            _box_3.height = dp(35)
             _box_4.size_hint_y = None
-            _box_4.height = 35
+            _box_4.height = dp(35)
             _box_5.size_hint_y = None
-            _box_5.height = 65
+            _box_5.height = dp(65)
             _box_6.size_hint_y = None
-            _box_6.height = 35
+            _box_6.height = dp(35)
             _box_6_button_1 = Nwbutton()
             _box_1_label_1 = Nwlabel()
             _box_2_label_1 = Nwlabel()

@@ -2,6 +2,7 @@ import json
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
+from kivy.metrics import dp
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -76,7 +77,7 @@ class AuctionNamespaceScreen(Screen):
                 return False
 
             if _amount < _bal:
-                self.valid_amount.size = (30, 30)
+                self.valid_amount.size = (dp(30), dp(30))
                 _a, _b, _c, _d = True, True, True, True
                 if cb is True:
                     _a = self.check_payment_address(False)
@@ -110,7 +111,7 @@ class AuctionNamespaceScreen(Screen):
                 self.btn_send.disabled = True
                 return False
 
-            self.valid_price.size = (30, 30)
+            self.valid_price.size = (dp(30), dp(30))
             _a, _b, _c, _d = True, True, True, True
             if cb is True:
                 _a = self.check_payment_address(False)
@@ -131,7 +132,7 @@ class AuctionNamespaceScreen(Screen):
 
     def check_desc(self, cb=True):
         if self.description.text != '':
-            self.valid_description.size = (30, 30)
+            self.valid_description.size = (dp(30), dp(30))
             _a, _b, _c, _d = True, True, True, True
             if cb is True:
                 _a = self.check_payment_address(False)
@@ -178,7 +179,7 @@ class AuctionNamespaceScreen(Screen):
             _ = (Base58Decoder
                  .CheckDecode(self.payment_address.text))
 
-            self.valid_send_to.size = (30, 30)
+            self.valid_send_to.size = (dp(30), dp(30))
             _a, _b, _c, _d = True, True, True, True
             if cb is True:
                 _a = self.check_amount(False)

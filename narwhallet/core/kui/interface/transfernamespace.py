@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
+from kivy.metrics import dp
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -76,7 +77,7 @@ class TransferNamespaceScreen(Screen):
 
             if _amount < _bal:
                 _a, _b, _c = True, True, True
-                self.valid_amount.size = (30, 30)
+                self.valid_amount.size = (dp(30), dp(30))
                 if cb is True:
                     _a = self.check_address(False)
                     _b = self.check_key(False)
@@ -100,7 +101,7 @@ class TransferNamespaceScreen(Screen):
             _ = (Base58Decoder
                  .CheckDecode(self.new_namespace_address.text))
             _a, _b, _c = True, True, True
-            self.valid_address.size = (30, 30)
+            self.valid_address.size = (dp(30), dp(30))
             if cb is True:
                 _a = self.check_amount(False)
                 _b = self.check_key(False)
