@@ -159,15 +159,14 @@
         #         text: 'Create Key'
         #         on_press: root.manager.createnamespacekey_screen.populate()
 
-        RecycleView:
-            id: namespace_key_list
-            viewclass: 'NamespaceInfo'
+        ScrollView:
             do_scroll_y: True
             bar_width: dp(15)
             size_hint: 1, 1
             scroll_type: ['bars','content']
 
-            RecycleBoxLayout:
+            BoxLayout:
+                id: namespace_key_list
                 orientation: 'vertical'
                 canvas:
                     Color:
@@ -179,8 +178,6 @@
 
                 size_hint: 1, None
                 height: self.minimum_height
-                default_size: 0, 0
-                default_size_hint: 1, None
                 spacing: dp(5)
                 padding: dp(5)
 
