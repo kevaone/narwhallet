@@ -29,6 +29,17 @@ git clone https://github.com/kevaone/narwhallet.git<br/>
 cd narwhallet<br/>
 pip install -r ./requirements.txt<br/>
 
+# Pango support
+pip uninstall kivy<br/>
+mkdir kivy-deps-build && cd kivy-deps-build<br/>
+curl https://raw.githubusercontent.com/kivy/kivy/master/tools/build_linux_dependencies.sh -o build_kivy_deps.sh<br/>
+chmod +x build_kivy_deps.sh<br/>
+./build_kivy_deps.sh<br/>
+export KIVY_DEPS_ROOT=$(pwd)/kivy-dependencies<br/>
+export USE_PANGOFT2=1<br/>
+export KIVY_TEXT='pango'<br/>
+pip install --no-binary :all: kivy<br/>
+
 ### Launch
 python3 ./main.py<br/>
 
@@ -42,7 +53,7 @@ cd dist<br/>
 ### (optional) Android Build
 pip install buildozer<br/>
 We also need older version of Cython; we can just use pip and install from wheel:<br/>
-pip install https://github.com/cython/cython/releases/download/0.29.32/Cython-0.29.32-py2.py3-none-any.whl<br/>
+pip install https://github.com/cython/cython/releases/download/0.29.33/Cython-0.29.33-py2.py3-none-any.whl<br/>
 buildozer android release<br/>
 
 
@@ -78,8 +89,9 @@ Narwhallet.exe<br/>
 
 ### (optional) Android Build
 pip install buildozer<br/>
+Also enable Windows Subsystem for Linux (WSL) and install a Linux distribution: https://docs.microsoft.com/en-us/windows/wsl/install to use buildozer with Windows<br/>
 We also need older version of Cython; we can just use pip and install from wheel:<br/>
-pip install https://github.com/cython/cython/releases/download/0.29.32/Cython-0.29.32-py2.py3-none-any.whl<br/>
+pip install https://github.com/cython/cython/releases/download/0.29.33/Cython-0.29.33-py2.py3-none-any.whl<br/>
 buildozer android release<br/>
 
 **Upon launch Narwhallet will create the directory .narwhalllet within you're home directory. You're wallets, address book, settings and cache are saved here.**
