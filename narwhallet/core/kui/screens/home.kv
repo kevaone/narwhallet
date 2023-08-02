@@ -18,7 +18,7 @@
                     pos: self.pos
                     size: self.size
             size_hint_y: None
-            height: dp(35)
+            height: dp(60)
             orientation: 'horizontal'
 
             Nwbutton:
@@ -36,10 +36,10 @@
                 on_press: root.manager.restore_screen.populate()
 
             Nwbutton:
-                text: 'Address Book'
+                text: 'Book'
                 icon: 'narwhallet/core/kui/assets/menuList_white.png'
                 icon_size: (dp(25), dp(25))
-                icon_padding: dp(30)
+                icon_padding: dp(15)
                 on_press: root.manager.addressbook_screen.populate()
 
         ScrollView:
@@ -66,7 +66,7 @@
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: dp(35)
+            height: dp(60)
 
             canvas:
                 Color:
