@@ -62,4 +62,4 @@ class NamespacesScreen(Screen):
                     'ns_name': _ns_name,
                     'favorite_source': _fav}
                     self.namespaces_list.data.append(_ns)
-            self.manager.current = 'namespaces_screen'
+        self.manager.current = 'namespaces_screen'

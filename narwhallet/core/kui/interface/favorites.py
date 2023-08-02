@@ -27,4 +27,4 @@ class FavoritesScreen(Screen):
                         'favorite_source': _fav}
                     self.favorites_list.data.append(_ns)
 
-            self.manager.current = 'favorites_screen'
+        self.manager.current = 'favorites_screen'
