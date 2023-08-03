@@ -178,6 +178,7 @@ class NarwhalletScreens(ScreenManager):
     def cache_IPFS(self, _item):
         _ipfs_images = re.findall(r'\{\{[^|image(|/png|/jpeg|/jpg|/gif)\}\}].*|image|image/png|image/jpeg|image/jpg|image/gif\}\}', _item)
         _data_peer = _peer('gateway.ipfs.io', 443, True, True)
+        _images = []
         # https://gateway.ipfs.io/ipfs/
         # https://ipfs.sloppyta.co/ipfs/
         for _image in _ipfs_images:
@@ -202,5 +203,6 @@ class NarwhalletScreens(ScreenManager):
 
                     if _tt != [b'']:
                         _ = _loader._save(os.path.join(self.ipfs_cache_path, _image[0] + '.' + _extension), _tt[1])
-
-        return True
+                _images.append(os.path.join(self.ipfs_cache_path,
+                                        _image[0] + '.' + _extension))
+        return _images

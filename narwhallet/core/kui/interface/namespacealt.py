@@ -6,6 +6,7 @@ from narwhallet.control.shared import MShared
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
+from narwhallet.core.kui.widgets.nwnsimage import Nwnsimage
 
 
 class NamespaceAltScreen(Screen):
@@ -50,8 +51,12 @@ class NamespaceAltScreen(Screen):
                 _ins.data = ''
             self.owner.text = ''
 
-            self.manager.cache_IPFS(_ins.data)
+            _ipfs_images = self.manager.cache_IPFS(_ins.data)
             self.namespace_key_list.add_widget(_ins)
+            for _i in _ipfs_images:
+                _im = Nwnsimage()
+                _im.image_path = _i
+                self.namespace_key_list.add_widget(_im)
 
         self.manager.current = 'namespacealt_screen'
 

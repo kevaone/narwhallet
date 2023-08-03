@@ -1,0 +1,18 @@
+<Nwnsimage>
+    image_path: ''
+    image: image
+    canvas:
+        Color:
+            rgba: 36/255, 36/255, 36/255, 1
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    orientation: 'horizontal'
+    size_hint_y: None
+    height: dp(300)
+
+    Image:
+        id: image
+        source: root.image_path
+        allow_strech: True

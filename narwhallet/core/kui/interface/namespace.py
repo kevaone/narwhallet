@@ -6,6 +6,7 @@ from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwnsimage import Nwnsimage
 
 
 class NamespaceScreen(Screen):
@@ -55,9 +56,13 @@ class NamespaceScreen(Screen):
                     self.namespace_name.text = ns[6]
             
             self.owner.text = ns[8]
-            self.manager.cache_IPFS(_xdns.data)
+            _ipfs_images = self.manager.cache_IPFS(_xdns.data)
             
             self.namespace_key_list.add_widget(_xdns)
+            for _i in _ipfs_images:
+                _im = Nwnsimage()
+                _im.image_path = _i
+                self.namespace_key_list.add_widget(_im)
             # self.namespace_key_list.data.append(_dns)
         self.manager.current = 'namespace_screen'
 
