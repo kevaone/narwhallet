@@ -44,7 +44,7 @@ requirements = python3,crcmod,pycryptodome==3.4.6,ecdsa,pynacl,scalecodec,qrcode
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-#presplash.filename = %(source.dir)s/data/presplash.png
+presplash.filename = %(source.dir)s/narwhallet/core/kui/assets/narwhal.png
 
 # (str) Icon of the application
 icon.filename = %(source.dir)s/narwhallet/core/kui/assets/narwhal.png
