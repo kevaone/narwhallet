@@ -5,8 +5,8 @@
     namespace_key_list: namespace_key_list
     owner: owner
     creator: creator
-    # transfer_button: transfer_button
     header: header
+    favorite: favorite
 
     GridLayout:
         size: root.width, root.height
@@ -54,6 +54,12 @@
                 height: dp(25)
                 width: dp(25)
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.shortcode.text)
+
+            Nwimage:
+                id: favorite
+                source: root.favorite_source
+                height: dp(35)
+                width: dp(35)
 
             Nwlabel:
                 id: shortcode
