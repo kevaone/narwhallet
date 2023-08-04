@@ -61,4 +61,4 @@ class NamespaceAltScreen(Screen):
         self.manager.current = 'namespacealt_screen'
 
     def bid_namespace(self):
-        pass
+        self.manager.bidnamespace_screen.populate(self.namespaceid, self.shortcode.text)
