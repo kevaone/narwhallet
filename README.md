@@ -29,7 +29,7 @@ git clone https://github.com/kevaone/narwhallet.git<br/>
 cd narwhallet<br/>
 pip install -r ./requirements.txt<br/>
 
-# Pango support
+### Pango support
 pip uninstall kivy<br/>
 mkdir kivy-deps-build && cd kivy-deps-build<br/>
 curl https://raw.githubusercontent.com/kivy/kivy/master/tools/build_linux_dependencies.sh -o build_kivy_deps.sh<br/>
