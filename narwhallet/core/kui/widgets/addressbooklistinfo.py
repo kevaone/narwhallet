@@ -1,6 +1,7 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager
 from kivy.properties import StringProperty
+from narwhallet.core.kui.widgets.nwimage import Nwimage
 
 
 class AddressBookListInfo(BoxLayout):
@@ -10,6 +11,7 @@ class AddressBookListInfo(BoxLayout):
     coin = StringProperty()
     sent = StringProperty()
     received = StringProperty()
+    trash_button = Nwimage()
     sm = ScreenManager()
 
     def __init__(self, **kwargs):
@@ -18,6 +20,10 @@ class AddressBookListInfo(BoxLayout):
         self.mode = 0
 
     def on_touch_down(self, touch):
+        if self.trash_button.collide_point(touch.x, touch.y):
+            self.remove_address(self.address)
+            return
+
         if self.collide_point(touch.x, touch.y):
             if self.mode == 0:
                 self.sm.addressbookentry_screen.populate(self.address)
@@ -32,3 +38,8 @@ class AddressBookListInfo(BoxLayout):
                 self.sm.current = 'auctionnamespace_screen'
             return
         return super(AddressBookListInfo, self).on_touch_down(touch)
+
+    def remove_address(self, address):
+        del self.sm.address_book.addresses[address]
+        self.sm.address_book.save_address_book()
+        self.sm.addressbook_screen.populate()

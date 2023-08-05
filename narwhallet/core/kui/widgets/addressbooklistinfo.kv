@@ -1,6 +1,7 @@
 <AddressBookListInfo>
     sm: None
     wallet_name: None
+    trash_button: trash_button
     address: 'address'
     address_label: 'address_label'
     address_name: 'address_name'
@@ -24,6 +25,10 @@
             spacing: dp(5)
             size_hint_y: None
             height: dp(25)
+
+            Nwimage:
+                id: trash_button
+                source: 'narwhallet/core/kui/assets/trashcan.png'
 
             Nwlabel:
                 text: root.address
