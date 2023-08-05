@@ -53,6 +53,7 @@ from narwhallet.core.kui.interface.utils import UtilsScreen
 from narwhallet.core.kcl.addr_book import MBookAddresses
 from narwhallet.core.kui.interface.favorites import FavoritesScreen
 from narwhallet.core.kui.interface.favorite import FavoriteScreen
+from narwhallet.core.kui.interface.about import AboutScreen
 
 
 class NarwhalletScreens(ScreenManager):

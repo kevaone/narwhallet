@@ -11,7 +11,10 @@ class Header(GridLayout):
 
     def on_touch_down(self, touch):
         if self.logo.collide_point(touch.x, touch.y) and touch.is_mouse_scrolling is False:
-            self.parent.parent.manager.home_screen.populate()
-            self.parent.parent.manager.current = 'home_screen'
+            if self.value == '':
+                self.parent.parent.manager.about_screen.populate()
+            else:
+                self.parent.parent.manager.home_screen.populate()
+                self.parent.parent.manager.current = 'home_screen'
             return
         return super(Header, self).on_touch_down(touch)

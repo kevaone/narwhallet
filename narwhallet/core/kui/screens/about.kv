@@ -1,0 +1,31 @@
+<AboutScreen>
+    header: header
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Header:
+            id: header
+
+        BoxLayout:
+            size_hint_y: None
+            height: dp(60)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: ''
+
+            Nwlabel:
+                text: ''
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(60)
+
+            Nwbutton:
+                text: 'Home'
+                icon: 'narwhallet/core/kui/assets/home_white.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
+                on_press: root.manager.current = 'home_screen'
