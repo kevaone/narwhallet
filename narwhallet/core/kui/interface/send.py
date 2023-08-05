@@ -14,6 +14,7 @@ from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwpopup import Nwpopup
 
 
 class SendScreen(Screen):
@@ -179,15 +180,12 @@ class SendScreen(Screen):
 
         msgType = int(_bc_result[0])
 
+        result_popup = Nwpopup()
+
         if msgType == 1:
-            popup = Popup(title='Send',
-            content=Nwlabel(text='Error:\n' + _result),
-            size_hint=(None, None), size=(200, 200))
-
+            result_popup.status.text = 'Error:\n' + _result
         elif msgType == 2:
-            popup = Popup(title='Send',
-            content=Nwlabel(text=_result),
-            size_hint=(None, None), size=(200, 200))
+            result_popup.status.text = 'Ok!'
 
-        popup.open()
+        result_popup.open()
         self.manager.current = 'wallet_screen'
