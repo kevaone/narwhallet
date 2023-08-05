@@ -272,6 +272,7 @@ class AuctionNamespaceScreen(Screen):
 
     def build_send(self):
         self.new_tx = MTransactionBuilder()
+        self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
         self.new_tx.set_fee(int(self.fee_rate.text))
 
         self.set_output()
