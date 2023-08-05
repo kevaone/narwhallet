@@ -1,3 +1,4 @@
+import json
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
@@ -12,6 +13,7 @@ from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwpopup import Nwpopup
 
 
 TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
@@ -223,4 +225,20 @@ class TransferNamespaceScreen(Screen):
             self.reset_transactions()
 
     def process_send(self):
-        pass
+        _bc_result = MShared.broadcast(self.raw_tx, self.manager.kex)
+        if isinstance(_bc_result[1], dict):
+            _result = json.dumps(_bc_result[1])
+        else:
+            _result = _bc_result[1]
+
+        msgType = int(_bc_result[0])
+
+        result_popup = Nwpopup()
+
+        if msgType == 1:
+            result_popup.status.text = 'Error:\n' + _result
+        elif msgType == 2:
+            result_popup.status.text = 'Ok!'
+
+        result_popup.open()
+        self.manager.current = 'wallet_screen'
