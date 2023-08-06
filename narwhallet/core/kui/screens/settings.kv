@@ -11,6 +11,8 @@
     iserver_verify_1: iserver_verify_1
     iserver_altssl_1: iserver_altssl_1
     iserver_altverify_1: iserver_altverify_1
+    ipfs_gateway: ipfs_gateway
+    ipfs_gateway_alt: ipfs_gateway_alt
     iserver_ipfs_0: iserver_ipfs_0
     iserver_ipfs_1: iserver_ipfs_1
     iserver_active_0: iserver_active_0
@@ -18,6 +20,12 @@
     header: header
     show_change: show_change
     connection_status: ''
+    content_provider_host: content_provider_host
+    content_provider_port: content_provider_port
+    content_provider_ssl_0: content_provider_ssl_0
+    content_provider_ssl_1: content_provider_ssl_1
+    content_provider_verify_0: content_provider_verify_0
+    content_provider_verify_1: content_provider_verify_1
 
     GridLayout:
         size_hint: None, None
@@ -43,13 +51,12 @@
                         pos: self.pos
                         size: self.size
                 size_hint_y: None
-                rows: 19
+                rows: 24
                 height: dp(35) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(35) * self.rows + (dp(10)*self.rows)
                 cols: 1
                 # row_default_height: 65 if root.width <= 650 else 65
                 spacing: dp(5)
                 padding: dp(5)
-                
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -144,8 +151,6 @@
                         text: 'kva.keva.one'
                         text_size: self.size
                         size_hint_x: None
-                        size_hint_y: None
-                        height: dp(30)
                         width: dp(250)
                         on_text: root.update_host()
 
@@ -169,8 +174,6 @@
                         text: '50002'
                         text_size: self.size
                         size_hint_x: None
-                        size_hint_y: None
-                        height: dp(30)
                         width: dp(250)
                         on_text: root.update_port()
 
@@ -302,8 +305,6 @@
                         text: 'kva.keva.one'
                         text_size: self.size
                         size_hint_x: None
-                        size_hint_y: None
-                        height: dp(30)
                         width: dp(250)
                         on_text: root.update_althost()
 
@@ -327,8 +328,6 @@
                         text: '50002'
                         text_size: self.size
                         size_hint_x: None
-                        size_hint_y: None
-                        height: dp(30)
                         width: dp(250)
                         on_text: root.update_altport()
 
@@ -467,12 +466,11 @@
                         width: dp(115)
 
                     TextInput:
+                        id: ipfs_gateway
                         text: 'ipfs.keva.one'
                         halign: 'left'
                         text_size: self.size
                         size_hint_x: None
-                        size_hint_y: None
-                        height: dp(30)
                         width: dp(250)
                         on_text: root.update_ipfs()
 
@@ -511,12 +509,11 @@
                         width: dp(115)
 
                     TextInput:
+                        id: ipfs_gateway_alt
                         text: 'ipfs.keva.one'
                         halign: 'left'
                         text_size: self.size
                         size_hint_x: None
-                        size_hint_y: None
-                        height: dp(30)
                         width: dp(250)
                         on_text: root.update_altipfs()
 
@@ -541,6 +538,151 @@
                         on_press: root.update_ipfs_active(1)
 
                 # Nwboxlayout: # Spacer
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: 'Content Provider'
+                        halign: 'left'
+                        font_size: dp(25)
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: 'Server:'
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(115)
+
+                    TextInput:
+                        id: content_provider_host
+                        halign: 'left'
+                        text: 'kva.keva.one'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(250)
+                        on_text: root.update_content_provider_host()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: 'Port:'
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(115)
+
+                    TextInput:
+                        id: content_provider_port
+                        halign: 'left'
+                        text: '50002'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(250)
+                        on_text: root.update_content_provider_port()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(45)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: 'SSL:'
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(115)
+
+                    ToggleButton:
+                        id: content_provider_ssl_0
+                        text_size: self.size
+                        font_size: dp(20)
+                        size_hint_x: None
+                        size_hint_y: None
+                        height: dp(40)
+                        width: dp(75)
+                        text: 'Yes'
+                        group: 'ssl'
+                        # state: 'down'
+                        halign: 'center'
+                        valign: 'center'
+                        on_press: root.update_content_provider_ssl_option(0, 3, True)
+
+                    ToggleButton:
+                        id: content_provider_ssl_1
+                        text_size: self.size
+                        font_size: dp(20)
+                        size_hint_x: None
+                        size_hint_y: None
+                        height: dp(40)
+                        width: dp(75)
+                        text: 'No'
+                        group: 'ssl'
+                        # state: 'down'
+                        halign: 'center'
+                        valign: 'center'
+                        on_press: root.update_content_provider_ssl_option(0, 3, False)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(45)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: 'Validate SSL:'
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(115)
+
+                    ToggleButton:
+                        id: content_provider_verify_0
+                        text_size: self.size
+                        font_size: dp(20)
+                        size_hint_x: None
+                        size_hint_y: None
+                        height: dp(40)
+                        width: dp(75)
+                        text: 'Yes'
+                        group: 'vssl'
+                        # state: 'down'
+                        halign: 'center'
+                        valign: 'center'
+                        on_press: root.update__content_providerssl_option(0, 4, True)
+
+                    ToggleButton:
+                        id: content_provider_verify_1
+                        text_size: self.size
+                        font_size: dp(20)
+                        size_hint_x: None
+                        size_hint_y: None
+                        height: dp(40)
+                        width: dp(75)
+                        text: 'No'
+                        group: 'vssl'
+                        # state: 'down'
+                        halign: 'center'
+                        valign: 'center'
+                        on_press: root.update_content_provider_ssl_option(0, 4, False)
 
         BoxLayout:
             canvas:

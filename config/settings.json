@@ -6,8 +6,16 @@
     },
     "electrumx_auto_connect": true,
     "primary_peer": 0,
+    "primary_ipfs_provider": 0,
+    "content_providers": [
+        ["KevaOne API", "kva.keva.one", "443", true, true]
+    ],
     "electrumx_peers": [
         ["Kevacoin", "kex.keva.one", "50002", true, true], ["Local", "127.0.0.1", "50001", false, false]
     ],
+    "ipfs_providers": [
+        "https://gateway.ipfs.io/ipfs/", "127.0.0.1"
+    ],
+
     "enabled_coins": ["KEVACOIN"]
 }

@@ -22,6 +22,8 @@ class SettingsScreen(Screen):
     iserver_verify_1 =ToggleButton()
     iserver_altssl_1 = ToggleButton()
     iserver_altverify_1 = ToggleButton()
+    ipfs_gateway = TextInput()
+    ipfs_gateway_alt = TextInput()
     iserver_ipfs_0 = TextInput()
     iserver_ipfs_1 = TextInput()
     iserver_active_0 = ToggleButton()
@@ -29,7 +31,13 @@ class SettingsScreen(Screen):
     header = Header()
     show_change = ToggleButton()
     connection_status = StringProperty()
-
+    content_provider_host = TextInput()
+    content_provider_port = TextInput()
+    content_provider_ssl_0 = ToggleButton()
+    content_provider_ssl_1 = ToggleButton()
+    content_provider_verify_0 = ToggleButton()
+    content_provider_verify_1 = ToggleButton()
+    
     def load_settings(self):
         # TODO Clean up
         self.settings: MNarwhalletSettings = MNarwhalletSettings()
@@ -88,6 +96,33 @@ class SettingsScreen(Screen):
         else:
             self.iserver_altverify_0.state = 'normal'
             self.iserver_altverify_1.state = 'down'
+
+        self.ipfs_gateway.text = self.settings.ipfs_providers[0]
+        self.ipfs_gateway_alt.text = self.settings.ipfs_providers[1]
+
+        if self.settings.primary_ipfs_provider == 0:
+            self.iserver_ipfs_0.state = 'down'
+            self.iserver_ipfs_1.state = 'normal'
+        else:
+            self.iserver_ipfs_0.state = 'normal'
+            self.iserver_ipfs_1.state = 'down'
+
+        self.content_provider_host.text = self.settings.content_providers[0][1]
+        self.content_provider_port.text = self.settings.content_providers[0][2]
+
+        if bool(self.settings.content_providers[0][3]) is True:
+            self.content_provider_ssl_0.state = 'down'
+            self.content_provider_ssl_1.state = 'normal'
+        else:
+            self.content_provider_ssl_0.state = 'normal'
+            self.content_provider_ssl_1.state = 'down'
+
+        if bool(self.settings.content_providers[0][4]) is True:
+            self.content_provider_verify_0.state = 'down'
+            self.content_provider_verify_1.state = 'normal'
+        else:
+            self.content_provider_verify_0.state = 'normal'
+            self.content_provider_verify_1.state = 'down'
         
         _special_keys = ConfigLoader(os.path.join(self.user_path,
                                                   'special_keys.json'))
@@ -110,10 +145,12 @@ class SettingsScreen(Screen):
         self.save_settings()
 
     def update_ipfs(self):
-        pass
+        self.settings.ipfs_providers[0] = self.ipfs_gateway.text
+        self.save_settings()
 
     def update_altipfs(self):
-        pass
+        self.settings.ipfs_providers[1] = self.ipfs_gateway_alt.text
+        self.save_settings()
 
     def update_active(self, value):
         self.settings.set_primary_peer(value)
@@ -121,7 +158,16 @@ class SettingsScreen(Screen):
         self.connection_status = self.manager.kex.peers[value].connect()
 
     def update_ipfs_active(self, value):
-        pass
+        self.settings.set_primary_ipfs_provider(value)
+        self.save_settings()
+
+    def update_content_provider_host(self):
+        self.settings.content_providers[0][1] = self.content_provider_host.text
+        self.save_settings()
+
+    def update_content_provider_port(self):
+        self.settings.content_providers[0][2] = self.content_provider_port.text
+        self.save_settings()
 
     def update_ssl_option(self, server, option, setting):
         if option not in (3, 4):
@@ -131,6 +177,16 @@ class SettingsScreen(Screen):
             return
 
         self.settings.electrumx_peers[server][option] = setting
+        self.save_settings()
+
+    def update_content_provider_ssl_option(self, server, option, setting):
+        if option not in (3, 4):
+            return
+
+        if isinstance(setting, bool) is False:
+            return
+
+        self.settings.content_providers[server][option] = setting
         self.save_settings()
 
     def update_show_change_option(self):
