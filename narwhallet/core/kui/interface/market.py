@@ -15,7 +15,8 @@ class MarketScreen(Screen):
         self.auction_list.scroll_y = 1
         self.auction_list.data = []
         # https://kva.keva.one/get_nft_auctions
-        _market_data_peer = _peer('kva.keva.one', 443, True, True)
+        _data_provider = self.manager.settings_screen.settings.content_providers[0]
+        _market_data_peer = _peer(_data_provider[1], _data_provider[2], _data_provider[3], _data_provider[4])
         try:
             _market_data_peer.connect()
             _data = json.loads(_market_data_peer.comm(_custom.get_nft_auctions(1)))
