@@ -54,8 +54,11 @@ class NamespaceScreen(Screen):
             if ns[5] == '\x01_KEVA_NS_' or ns[5] == '_KEVA_NS_':
                 if self.namespace_name.text == '':
                     self.namespace_name.text = ns[6]
-            
-            self.owner.text = ns[8]
+
+            # NOTE: Key list is newest to oldest; be aware of owner if sort changes
+            # Possible to set via ns cache last_address at expense of extra query.
+            if self.owner.text == '':
+                self.owner.text = ns[8]
             _ipfs_images = self.manager.cache_IPFS(_xdns.data)
             
             self.namespace_key_list.add_widget(_xdns)
@@ -71,3 +74,9 @@ class NamespaceScreen(Screen):
 
     def auction_namespace(self):
         self.manager.auctionnamespace_screen.populate()
+
+    def update_namespace_name(self):
+        self.manager.createnamespacekey_screen.populate()
+        self.manager.createnamespacekey_screen.namespace_key.text = '\x01_KEVA_NS_'
+        self.manager.createnamespacekey_screen.namespace_key.disabled = True
+        self.manager.createnamespacekey_screen.namespace_value.text = self.namespace_name.text
