@@ -1,6 +1,6 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, ListProperty
 
 class AddressListInfo(BoxLayout):
     address = StringProperty()
@@ -10,6 +10,7 @@ class AddressListInfo(BoxLayout):
     last_updated = StringProperty()
     wallet_name = StringProperty()
     sm = ScreenManager()
+    background_color = ListProperty()
 
     def on_touch_down(self, touch):
         if self.collide_point(touch.x, touch.y):

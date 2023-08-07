@@ -5,7 +5,6 @@ from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.header import Header
 
-
 class AddressesScreen(Screen):
     address_list = GridLayout()
     wallet_name = Nwlabel()
@@ -35,6 +34,7 @@ class AddressesScreen(Screen):
                     'balance': str(round(address.balance, 8)),
                     'transactions': str(len(address.history)),
                     'wallet_name': wallet_name,
+                    'background_color': [25/255, 27/255, 27/255, 1],
                     'sm': self.manager}
 
                     _addr.append(_a)
@@ -48,6 +48,7 @@ class AddressesScreen(Screen):
                         'balance': str(round(address.balance, 8)),
                         'transactions': str(len(address.history)),
                         'wallet_name': wallet_name,
+                        'background_color': [86/255, 86/255, 86/255, 1],
                         'sm': self.manager}
 
                         _addr.append(_a)
