@@ -5,6 +5,7 @@ from kivy.uix.image import Image
 from kivy.metrics import dp
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
+from narwhallet.core.kui.widgets.nwpopup import Nwpopup
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.control.shared import MShared
@@ -298,5 +299,27 @@ class AuctionNamespaceScreen(Screen):
         self.manager.addressbook_screen.populate(3)
         self.manager.current = 'addressbook_screen'
 
+    def get_address_from_wallet(self):
+        if self.wallet is not None:
+            _addr = self.wallet.get_unused_address()
+            self.payment_address.text = _addr
+            self.manager.wallets.save_wallet(self.wallet.name)
+
     def process_send(self):
-        pass
+        _bc_result = MShared.broadcast(self.raw_tx, self.manager.kex)
+        if isinstance(_bc_result[1], dict):
+            _result = json.dumps(_bc_result[1])
+        else:
+            _result = _bc_result[1]
+
+        msgType = int(_bc_result[0])
+
+        result_popup = Nwpopup()
+
+        if msgType == 1:
+            result_popup.status.text = 'Error:\n' + _result
+        elif msgType == 2:
+            result_popup.status.text = 'Ok!'
+
+        result_popup.open()
+        self.manager.current = 'wallet_screen'

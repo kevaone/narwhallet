@@ -125,6 +125,11 @@
 
             Nwimage:
                 id: address_book
+                source: 'narwhallet/core/kui/assets/plus_white.png'
+                on_touch_down: if self.collide_point(*args[1].pos): root.get_address_from_wallet()
+
+            Nwimage:
+                id: address_book
                 source: 'narwhallet/core/kui/assets/narwhal.png'
                 on_touch_down: if self.collide_point(*args[1].pos): root.select_from_address_book()
 
