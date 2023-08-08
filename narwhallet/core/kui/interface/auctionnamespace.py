@@ -228,7 +228,13 @@ class AuctionNamespaceScreen(Screen):
         _ns_address = self.namespace_address.text
         _ns = self.namespace_name.text
         _auc = {}
-        _auc['displayName'] = self.manager.namespace_screen.namespace_name.text
+
+        try:
+            _name = json.loads(self.manager.namespace_screen.namespace_name.text)['displayName']
+        except:
+            _name = self.manager.namespace_screen.namespace_name.text
+
+        _auc['displayName'] = _name
         _auc['price'] = str(self.price.text)
         _auc['desc'] = self.description.text
 
@@ -249,6 +255,7 @@ class AuctionNamespaceScreen(Screen):
         
         _auc['addr'] = _payment_addr
         _ns_value = json.dumps(_auc, separators=(',', ':'))
+        print('_ns_value', _ns_value)
 
         _sh = Scripts.KevaKeyValueUpdate(_ns, '\x01_KEVA_NS_', _ns_value,
                                             _ns_address)
