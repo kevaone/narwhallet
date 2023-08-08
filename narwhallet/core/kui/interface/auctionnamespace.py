@@ -255,7 +255,6 @@ class AuctionNamespaceScreen(Screen):
         
         _auc['addr'] = _payment_addr
         _ns_value = json.dumps(_auc, separators=(',', ':'))
-        print('_ns_value', _ns_value)
 
         _sh = Scripts.KevaKeyValueUpdate(_ns, '\x01_KEVA_NS_', _ns_value,
                                             _ns_address)
