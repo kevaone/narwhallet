@@ -9,6 +9,8 @@ import time
 from typing import List
 
 from narwhallet.core.kex import KEXclient
+from narwhallet.core.kex.peer import _peer
+from narwhallet.core.kex.cmd import _custom
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.cache import MCache
@@ -910,6 +912,20 @@ class MShared():
 
         for _t in _ns_test:
             MShared._test_for_namespace(_t, kex, cache)
+
+    @staticmethod
+    def get_namespace(_ns, provider) -> dict:
+        _data_provider = provider
+        _market_data_peer = _peer(_data_provider[1], _data_provider[2], _data_provider[3], _data_provider[4])
+        _market_data_peer.connect()
+        _ns_data = _market_data_peer.comm(_custom.get_namespace(_ns, 1))
+
+        if _ns_data != '':
+            _keys = json.loads(_ns_data)
+        else:
+            _keys = {}
+
+        return _keys
 
     @staticmethod
     def get_namespace_keys(_ns, kex: KEXclient) -> list:

@@ -1,6 +1,6 @@
 from narwhallet.core.kex.cmd import (_server, _mempool, _blockchain, _address,
                                      _block, _headers, _masternode,
-                                     _scripthash, _transaction, _keva)
+                                     _scripthash, _transaction, _keva, _custom)
 
 
 class _api():
@@ -14,3 +14,4 @@ class _api():
     blockchain_scripthash = _scripthash
     bc_tx = _transaction
     keva = _keva
+    custom = _custom
