@@ -146,28 +146,12 @@
             Nwlabel:
                 id: owner
                 valign: 'center'
-                text: 'Owner:'
+                text: ''
 
         Nwboxlayout:
             size_hint_y: None
             height: dp(10)
             orientation: 'horizontal'
-
-        # BoxLayout:
-        #     canvas:
-        #         Color:
-        #             rgba: 60/255, 61/255, 61/255, 1
-
-        #         Rectangle:
-        #             pos: self.pos
-        #             size: self.size
-        #     orientation: 'horizontal'
-        #     size_hint_y: None
-        #     height: 35
-
-        #     Nwbutton:
-        #         text: 'Create Key'
-        #         on_press: root.manager.createnamespacekey_screen.populate()
 
         ScrollView:
             do_scroll_y: True
@@ -202,10 +186,6 @@
             orientation: 'horizontal'
             size_hint_y: None
             height: dp(60)
-
-            # Nwbutton:
-            #     text: 'Wallet'
-            #     on_press: root.manager.current = 'wallet_screen'
 
             Nwbutton:
                 text: 'Market'

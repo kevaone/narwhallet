@@ -27,46 +27,35 @@ class NamespaceAltScreen(Screen):
         self.namespaceid = namespaceid
         self.shortcode.text = shortcode
         self.namespace_name.text = ''
-        _ns = MShared.get_namespace_keys(namespaceid, self.manager.kex)
+        # _ns = MShared.get_namespace_keys(namespaceid, self.manager.kex)
+        _provider = self.manager.settings_screen.settings.content_providers[0]
+        _ns = MShared.get_namespace(namespaceid, _provider)
+        _ns = _ns['result']
 
         if namespaceid in self.manager.favorites.favorites:
             self.favorite_source = 'narwhallet/core/kui/assets/star.png'
         else:
             self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
 
-        for ns in _ns:
+        self.namespace_name.text = _ns['name']
+        _dat = _ns['data']
+        _dat.reverse()
+        for _kv in _dat:
             _ins = NamespaceInfo()
-            if ns['type'] == 'REG':
-                self.creator.text = ''
+            if self.owner.text == '':
+                self.owner.text = _kv['addr']
 
-                if self.namespace_name.text == '':
-                    self.namespace_name.text = base64.b64decode(ns['key']).decode()
-            try:
-                _ins.key = base64.b64decode(ns['key']).decode()
+            if _kv['op'] == 'KEVA_NAMESPACE':
+                self.creator.text = _kv['addr']
 
-                if _ins.key == '\x01_KEVA_NS_':
-                    if self.namespace_name.text == '':
-                        try:
-                            _k = json.loads(base64.b64decode(ns['value']).decode())['displayName']
-                            self.namespace_name.text = _k
-                        except:
-                            self.namespace_name.text = base64.b64decode(ns['value']).decode()
-            except:
-                _ins.key = Ut.bytes_to_hex(base64.b64decode(ns['key']))
-                
-            if ns['type'] not in ('REG', 'DEL'):
-                _ins.data = base64.b64decode(ns['value']).decode()
-            else:
-                _ins.data = ''
-            self.owner.text = ''
-
+            _ins.key = str(_kv['dkey'])
+            _ins.data = str(_kv['dvalue'])
             _ipfs_images = self.manager.cache_IPFS(_ins.data)
             self.namespace_key_list.add_widget(_ins)
             for _i in _ipfs_images:
                 _im = Nwnsimage()
                 _im.image_path = _i
                 _im.image.texture_update()
-                print('_im', _im.size, _im.minimum_height)
                 self.namespace_key_list.add_widget(_im)
 
         self.manager.current = 'namespacealt_screen'
