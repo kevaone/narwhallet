@@ -397,7 +397,7 @@ class MShared():
         return _hist
 
     @staticmethod
-    def get_transactions(wallet: MWallet, kex: KEXclient, cache: MCache):
+    def get_transactions(wallet: MWallet, kex: KEXclient, cache: MCache, _provider):
         # _block_count = MShared.get_block_count(kex)
         # print('_block_count', _block_count)
         wallet.set_balance(0.0)
@@ -433,7 +433,7 @@ class MShared():
 
         for _t in _ns_test:
             # TODO: move this check to churn through unspents only
-            MShared._test_for_namespace(_t, kex, cache)
+            MShared._test_for_namespace(_t, kex, cache, _provider)
 
     @staticmethod
     def btx(_tx_h_batch: list, kex: KEXclient, cache: MCache):
@@ -606,6 +606,62 @@ class MShared():
 
     @staticmethod
     def _test_for_namespace(_out: MScriptPubKey, kex: KEXclient,
+                            cache: MCache, _provider):
+        _o = _out.asm.split(' ')
+        if _o[0].startswith('OP_KEVA_') is False:
+            return
+
+        nsid = cache.ns.convert_to_namespaceid(_o[1])
+        _ns = MShared.get_namespace(nsid, _provider)
+        _ns = _ns['result']
+        _dat = _ns['data']
+
+        for _kv in _dat:
+            if _kv['op'] == 'KEVA_NAMESPACE':
+                _ns_test = cache.ns.get_root_namespace_by_id(_kv['nsid'], True)
+                if len(_ns_test) != 0:
+                    return
+
+                _pos = _kv['key_shortcode'][7:]
+                _ = (cache.ns
+                    .from_raw(_kv['block'],
+                            _pos,
+                            _kv['txid'], _kv['nsid'], 'OP_' + _kv['op'],
+                            '5f4b4556415f4e535f', _kv['value'],
+                            _kv['addr']))
+            else:
+                if _kv['op'] == 'KEVA_DELETE':
+                    _ = (cache.ns
+                        .mark_key_deleted(_kv['block'], _kv['nsid'], _kv['key']))
+                else:
+                    _ns = cache.ns.convert_to_namespaceid(_kv['nsid'])
+                    _key = cache.ns._decode(_kv['key'])
+                    _k_test = cache.ns.get_namespace_by_key_value(_ns, _key)
+
+                    if len(_k_test) != 0:
+                        if _k_test[0][0] < _kv['block']:
+                            _pos = _kv['key_shortcode'][7:]
+                            _ = (cache.ns
+                                .update_key(_kv['block'],
+                                            _pos,
+                                            _kv['txid'], _kv['nsid'], _kv['key'], _kv['value'],
+                                            _kv['addr']))
+                    else:
+                        if _kv['key'][:4] == '0003':
+                            if isinstance(_kv['dvalue'], int):
+                                _kv['value'] = str(float(_kv['dvalue']))
+                            else:
+                                _kv['value'] = str(_kv['dvalue'])
+                        _pos = _kv['key_shortcode'][7:]
+                        _ = (cache.ns
+                            .from_raw(_kv['block'],
+                                    _pos,
+                                    _kv['txid'], _kv['nsid'], 'OP_' + _kv['op'],
+                                    _kv['key'], _kv['value'],
+                                    _kv['addr']))
+
+    @staticmethod
+    def __test_for_namespace(_out: MScriptPubKey, kex: KEXclient,
                             cache: MCache):
         _o = _out.asm.split(' ')
         if _o[0].startswith('OP_KEVA_') is False:
