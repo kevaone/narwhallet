@@ -2,6 +2,7 @@ from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from kivy.metrics import dp
+from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -25,9 +26,9 @@ class NamespaceScreen(Screen):
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.header.value = self.manager.wallet_screen.header.value
-        _ns = self.manager.cache.ns.get_namespace_by_id(namespaceid)
+        # _ns = self.manager.cache.ns.get_namespace_by_id(namespaceid)
         self.namespaceid.text = namespaceid
-        self.namespace_name.text = ''
+        
         _w = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         if _w is None:
             return
@@ -41,24 +42,26 @@ class NamespaceScreen(Screen):
             self.transfer_button.size = (0, 0)
             self.auction_button.size = (0, 0)
 
-        for ns in _ns:
+        _provider = self.manager.settings_screen.settings.content_providers[0]
+        _ns = MShared.get_namespace(namespaceid, _provider)
+        _ns = _ns['result']
+        self.namespace_name.text = _ns['name']
+        self.shortcode.text = _ns['root_shortcode']
+
+        _dat = _ns['data']
+        _dat.reverse()
+        for _kv in _dat:
             _xdns = NamespaceInfo()
-            _xdns.key = str(ns[5])
-            _xdns.data = str(ns[6])
+            _xdns.key = str(_kv['dkey'])
+            _xdns.data = str(_kv['dvalue'])
             _xdns.sm = self.manager
 
-            if ns[4] == 'OP_KEVA_NAMESPACE':
-                self.creator.text = ns[8]
-                self.shortcode.text = str(len(str(ns[0]))) + str(ns[0]) + str(ns[1])
-            # elif ns[4] == 'OP_KEVA_PUT':
-            if ns[5] == '\x01_KEVA_NS_' or ns[5] == '_KEVA_NS_':
-                if self.namespace_name.text == '':
-                    self.namespace_name.text = ns[6]
-
-            # NOTE: Key list is newest to oldest; be aware of owner if sort changes
-            # Possible to set via ns cache last_address at expense of extra query.
             if self.owner.text == '':
-                self.owner.text = ns[8]
+                self.owner.text = _kv['addr']
+
+            if _kv['op'] == 'KEVA_NAMESPACE':
+                self.creator.text = _kv['addr']
+
             _ipfs_images = self.manager.cache_IPFS(_xdns.data)
             
             self.namespace_key_list.add_widget(_xdns)
