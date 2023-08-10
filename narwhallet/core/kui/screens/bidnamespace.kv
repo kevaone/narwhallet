@@ -1,16 +1,20 @@
 <BidNamespaceScreen>
     wallet_name: wallet_name
     wallet_balance: wallet_balance
-    namespaceid: namespaceid
-    bidtx_reservation: bidtx_reservation
     bid_namespaceid: bid_namespaceid
-    bid_shortcode: bid_shortcode
-    bid_payment_address: bid_payment_address
+    bid_namespace_address: bid_namespace_address
     bid_amount: bid_amount
+    offer_namespaceid: offer_namespaceid
+    offer_shortcode: offer_shortcode
+    offer_tx: offer_tx
+    offer_name: offer_name
+    offer_namespace_address: offer_namespace_address
+    offer_payment_address: offer_payment_address
+    offer_asking_price: offer_asking_price
+    offer_description: offer_description
+    bidtx_reservation: bidtx_reservation
     valid_bid_amount: valid_bid_amount
     valid_send_to: valid_send_to
-    asking_price: asking_price
-    description: description
     fee: fee
     fee_rate: fee_rate
     txsize: txsize
@@ -25,362 +29,446 @@
         Header:
             id: header
 
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(10)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(35)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                text: 'Wallet:'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(75)
-                padding: [10, 0, 0, 0]
-
-            Spinner:
-                id: wallet_name
-                halign: 'center'
-                valign: 'center'
-                text: 'KEVACOIN'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(35)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                text: 'NS:'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(75)
-                padding: [10, 0, 0, 0]
-
-            Spinner:
-                id: namespaceid
-                halign: 'center'
-                valign: 'center'
-                text: 'KEVACOIN'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'Balance:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                id: wallet_balance
-                halign: 'left'
-                text: ''
-                text_size: self.size
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                text: 'NS Reservation:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(150)
-
-            Nwlabel:
-                id: bidtx_reservation
-                halign: 'left'
-                valign: 'center'
-                text: '0.01'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
-                # on_text: root.check_amount()
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(35)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                text: 'Bid Amount:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            TextInput:
-                id: bid_amount
-                halign: 'left'
-                text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
-                on_text: root.check_amount()
-
-            Nwimage:
-                id: valid_bid_amount
-                source: 'narwhallet/core/kui/assets/checkmark.png'
-                size: (0, 0)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(10)
-            orientation: 'horizontal'
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'NS:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                id: bid_namespaceid
-                halign: 'left'
-                text: ''
-                text_size: self.size
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'Shortcode:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                id: bid_shortcode
-                halign: 'left'
-                text: ''
-                text_size: self.size
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'Payment Address:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(175)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                text: ''
-                size_hint_x: None
-                width: dp(10)
-
-            Nwlabel:
-                id: bid_payment_address
-                halign: 'left'
-                text: ''
-                text_size: self.size
-
-            Nwlabel:
-                text: ''
-                size_hint_x: None
-                width: dp(5)
-
-            Nwimage:
-                id: valid_send_to
-                source: 'narwhallet/core/kui/assets/checkmark.png'
-                size: (0, 0)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                text: 'Asking Price:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                id: asking_price
-                halign: 'left'
-                text: ''
-                text_size: self.size
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'Description:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(35)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                text: ''
-                size_hint_x: None
-                width: dp(10)
-
-            Nwlabel:
-                id: description
-                halign: 'left'
-                text: ''
-                text_size: self.size
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(10)
-            orientation: 'horizontal'
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'Fee Rate:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                id: fee_rate
-                halign: 'left'
-                text: '0'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'Fee:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                id: fee
-                halign: 'left'
-                text: '0.0'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                text: 'TX Size:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                id: txsize
-                halign: 'left'
-                text: '0.0'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                text: 'TX Hex:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
         ScrollView:
             do_scroll_x: False
             do_scroll_y: True
             bar_width: dp(15)
             scroll_type: ['bars','content']
 
-            Nwboxlayout:
-                size_hint_y: None
-                height: dp(380)
-                orientation: 'horizontal'
+            GridLayout:
+                canvas:
+                    Color:
+                        rgba: 36/255, 36/255, 36/255, 1
 
-                Nwlabel:
-                    id: txhex
-                    halign: 'left'
-                    valign: 'top'
-                    text: ''
-                    text_size: self.size
-                    size_hint_x: None
+                    Rectangle:
+                        pos: self.pos
+                        size: self.size
+                size_hint_y: None
+                rows: 23
+                height: dp(45) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(45) * self.rows + (dp(10)*self.rows)
+                cols: 1
+                # row_default_height: 65 if root.width <= 650 else 65
+                spacing: dp(5)
+                padding: dp(5)
+
+                Nwboxlayout:
                     size_hint_y: None
-                    padding: [20, 0, 0, 0]
-                    width: root.width - dp(40)
-                    height: dp(380)
+                    height: dp(10)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        text: 'Wallet:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(75)
+                        padding: [10, 0, 0, 0]
+
+                    Spinner:
+                        id: wallet_name
+                        halign: 'center'
+                        valign: 'center'
+                        text: 'Select Wallet'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(175)
+                        on_text: root.wallet_changed()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        text: 'NS:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(75)
+                        padding: [10, 0, 0, 0]
+
+                    Spinner:
+                        id: bid_namespaceid
+                        halign: 'center'
+                        valign: 'center'
+                        text: 'Select NS'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(175)
+                        on_text: root.ns_changed()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'Bid NS Address:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                    Nwlabel:
+                        id: bid_namespace_address
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'Balance:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                    Nwlabel:
+                        id: wallet_balance
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        text: 'NS Reservation:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(150)
+
+                    Nwlabel:
+                        id: bidtx_reservation
+                        halign: 'left'
+                        valign: 'center'
+                        text: '0.01'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(175)
+                        # on_text: root.check_amount()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        text: 'Bid Amount:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                    TextInput:
+                        id: bid_amount
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(175)
+                        on_text: root.check_amount()
+
+                    Nwimage:
+                        id: valid_bid_amount
+                        source: 'narwhallet/core/kui/assets/checkmark.png'
+                        size: (0, 0)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(10)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'NS:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                    Nwlabel:
+                        id: offer_namespaceid
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'Shortcode:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                    Nwlabel:
+                        id: offer_shortcode
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+
+                    Nwlabel:
+                        id: offer_name
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'NS Address:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                    Nwlabel:
+                        id: offer_namespace_address
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'Payment Address:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(175)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                    Nwlabel:
+                        id: offer_payment_address
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: dp(5)
+
+                    Nwimage:
+                        id: valid_send_to
+                        source: 'narwhallet/core/kui/assets/checkmark.png'
+                        size: (0, 0)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                    Nwlabel:
+                        id: offer_tx
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        text: 'Asking Price:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                    Nwlabel:
+                        id: offer_asking_price
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'Description:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                    Nwlabel:
+                        id: offer_description
+                        halign: 'left'
+                        text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(10)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'Fee Rate:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                    Nwlabel:
+                        id: fee_rate
+                        halign: 'left'
+                        text: '0'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(175)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'Fee:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                    Nwlabel:
+                        id: fee
+                        halign: 'left'
+                        text: '0.0'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(175)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        text: 'TX Size:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                    Nwlabel:
+                        id: txsize
+                        halign: 'left'
+                        text: '0.0'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(175)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        text: 'TX Hex:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                ScrollView:
+                    do_scroll_x: False
+                    do_scroll_y: True
+                    bar_width: dp(15)
+                    scroll_type: ['bars','content']
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(380)
+                        orientation: 'horizontal'
+
+                        Nwlabel:
+                            id: txhex
+                            halign: 'left'
+                            valign: 'top'
+                            text: ''
+                            text_size: self.size
+                            size_hint_x: None
+                            size_hint_y: None
+                            padding: [20, 0, 0, 0]
+                            width: root.width - dp(40)
+                            height: dp(380)
 
         BoxLayout:
             canvas:

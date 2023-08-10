@@ -72,7 +72,7 @@ class NamespaceAltScreen(Screen):
         self.manager.current = 'namespacealt_screen'
 
     def bid_namespace(self):
-        self.manager.bidnamespace_screen.populate(self.namespaceid, self.shortcode.text)
+        self.manager.bidnamespace_screen.populate(self.namespaceid)
 
     def on_touch_down(self, touch):
         if self.favorite.collide_point(touch.x, touch.y) and touch.is_mouse_scrolling is False:
