@@ -5,14 +5,14 @@ from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
 
 
-class OffersScreen(Screen):
+class AuctionsScreen(Screen):
     auction_list = ObjectProperty(None)
     header = Header()
 
     def populate(self):
         self.auction_list.data = []
         self.header.value = 'My Offers'
-        self.manager.current = 'offers_screen'
+        self.manager.current = 'auctions_screen'
 
         _asa = self.manager.cache.ns.get_view()
 

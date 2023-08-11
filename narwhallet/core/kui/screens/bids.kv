@@ -1,5 +1,5 @@
-<OffersScreen>
-    auction_list: auction_list
+<BidsScreen>
+    bid_list: bid_list
     header: header
 
     GridLayout:
@@ -14,8 +14,8 @@
             height: dp(10)
 
         RecycleView:
-            id: auction_list
-            viewclass: 'AuctionListInfo'
+            id: bid_list
+            viewclass: 'BidListInfo'
             do_scroll_x: False
             do_scroll_y: True
             bar_width: dp(15)

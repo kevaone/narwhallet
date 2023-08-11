@@ -5,14 +5,14 @@ from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
 
 
-class PendingScreen(Screen):
+class BidsScreen(Screen):
     bid_list = ObjectProperty(None)
     header = Header()
 
     def populate(self):
         self.bid_list.data = []
         self.header.value = 'My Bids'
-        self.manager.current = 'pending_screen'
+        self.manager.current = 'bids_screen'
 
         _asa = self.manager.cache.ns.get_view()
 

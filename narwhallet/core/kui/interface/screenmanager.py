@@ -37,8 +37,8 @@ from narwhallet.core.kui.interface.bidnamespace import BidNamespaceScreen
 from narwhallet.core.kui.interface.namespace import NamespaceScreen
 from narwhallet.core.kui.interface.namespacealt import NamespaceAltScreen
 from narwhallet.core.kui.interface.namespaces import NamespacesScreen
-from narwhallet.core.kui.interface.offers import OffersScreen
-from narwhallet.core.kui.interface.pending import PendingScreen
+from narwhallet.core.kui.interface.auctions import AuctionsScreen
+from narwhallet.core.kui.interface.bids import BidsScreen
 from narwhallet.core.kui.interface.block import BlockScreen
 from narwhallet.core.kui.interface.home import HomeScreen
 from narwhallet.core.kui.interface.wallet import WalletScreen
@@ -74,8 +74,11 @@ class NarwhalletScreens(ScreenManager):
     namespacealt_screen = NamespaceAltScreen()
     namespaces_screen = NamespacesScreen()
     auctionnamespace_screen = AuctionNamespaceScreen()
-    offers_screen = OffersScreen()
-    pending_screen = PendingScreen()
+    auctiondetail_screen = AuctionDetailScreen()
+    biddetail_screen = BidDetailScreen()
+    auctions_screen = AuctionsScreen()
+    bids_screen = BidsScreen()
+    bidnamespace_screen = BidNamespaceScreen()
     scriptbuilder_screen = ScriptBuilderScreen()
     send_screen = SendScreen()
     receive_screen = ReceiveScreen()
@@ -92,6 +95,7 @@ class NarwhalletScreens(ScreenManager):
     utils_screen = UtilsScreen()
     favorites_screen = FavoritesScreen()
     favorite_screen = FavoriteScreen()
+    about_screen = AboutScreen()
     
     def __init__(self, **kwargs):
         super(NarwhalletScreens, self).__init__(**kwargs)
