@@ -1,0 +1,91 @@
+<AuctionInfo>
+    sm: None
+    shortcode: ''
+    nsname: ''
+    bid: ''
+    transaction: ''
+    orientation: 'vertical'
+    size_hint_y: None
+    height: dp(120) if root.width <= dp(650) else dp(90)
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(30)
+        orientation: 'horizontal'
+
+        Nwlabel:
+            text: 'From:'
+            halign: 'left'
+            padding: [5, 0, 0, 0]
+            text_size: self.size
+            size_hint_x: None
+            width: dp(50)
+
+        Nwlabel:
+            text: root.shortcode
+            halign: 'left'
+            padding: [5, 0, 0, 0]
+            text_size: self.size
+            size_hint_x: None
+            width: dp(75)
+
+        Nwlabel:
+            text: root.nsname
+            halign: 'left'
+            padding: [5, 0, 0, 0]
+            text_size: self.size
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(30)
+        orientation: 'horizontal'
+
+        Nwlabel:
+            text: 'Bid:'
+            halign: 'left'
+            padding: [5, 0, 0, 0]
+            text_size: self.size
+            size_hint_x: None
+            width: dp(35)
+
+        Nwlabel:
+            text: root.bid
+            halign: 'left'
+            padding: [5, 0, 0, 0]
+            text_size: self.size
+            size_hint_x: None
+            width: dp(100)
+
+        Nwimage:
+            source: 'narwhallet/core/kui/assets/trashcan.png'
+            height: dp(25)
+            width: dp(25)
+            on_touch_down: if self.collide_point(*args[1].pos): root.sm.auctiondetail_screen.decline_bid(root.transaction)
+
+        Nwimage:
+            source: 'narwhallet/core/kui/assets/checkmark.png'
+            height: dp(25)
+            width: dp(25)
+            on_touch_down: if self.collide_point(*args[1].pos): root.sm.auctiondetail_screen.accept_bid(root.transaction)
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(60) if root.width <= dp(650) else dp(30)
+        orientation: 'horizontal'
+
+        Nwlabel:
+            # id: transaction
+            text: root.transaction
+            text_size: self.size
+            padding: [5, 0, 0, 0]
+            font_size: dp(17)
+            size_hint_y: None
+            height: dp(60) if root.width <= dp(650) else dp(30)

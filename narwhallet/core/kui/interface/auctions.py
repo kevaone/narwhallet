@@ -11,7 +11,7 @@ class AuctionsScreen(Screen):
 
     def populate(self):
         self.auction_list.data = []
-        self.header.value = 'My Offers'
+        self.header.value = 'My Auctions'
         self.manager.current = 'auctions_screen'
 
         _asa = self.manager.cache.ns.get_view()
@@ -55,11 +55,17 @@ class AuctionsScreen(Screen):
                     'desc': str(_na['desc']),
                     'displayName': str(_na['displayName']),
                     'price': str(_na['price']),
-                    'bids': str("result['bids'][0]"),
-                    'high_bid': str("result['bids'][1]"),
+                    'bids': str(len(_k['replies'])),
                     'favorite_source': _fav,
                     'namespaceid': _ns['dnsid'],
                     'sm': self.manager
                 }
+
+                _hb = 0
+                for _r in _k['replies']:
+                    if _r['dvalue'] > _hb:
+                        _hb = _r['dvalue']
+
+                _auction['high_bid'] = str(_hb)
             return _auction
         return {}

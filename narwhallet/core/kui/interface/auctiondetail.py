@@ -4,6 +4,8 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, StringProperty
 from narwhallet.control.shared import MShared
 from narwhallet.core.ksc.utils import Ut
+from narwhallet.core.kui.widgets.auctioninfo import AuctionInfo
+from narwhallet.core.kui.widgets.auctionlistinfo import AuctionListInfo
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.nwimage import Nwimage
@@ -41,27 +43,28 @@ class AuctionDetailScreen(Screen):
         _dat = _ns['data']
         _dat.reverse()
         for _kv in _dat:
-            _ins = NamespaceInfo()
             if self.owner.text == '':
                 self.owner.text = _kv['addr']
 
             if _kv['op'] == 'KEVA_NAMESPACE':
                 self.creator.text = _kv['addr']
 
-            _ins.key = str(_kv['dkey'])
-            _ins.data = str(_kv['dvalue'])
-            _ipfs_images = self.manager.cache_IPFS(_ins.data)
-            self.namespace_key_list.add_widget(_ins)
-            for _i in _ipfs_images:
-                _im = Nwnsimage()
-                _im.image_path = _i
-                _im.image.texture_update()
-                self.namespace_key_list.add_widget(_im)
+            if _kv['dtype'] == 'nft_auction':
+                for _r in _kv['replies']:
+                    _ins = AuctionInfo()
+                    _ins.shortcode = str(_r['root_shortcode'])
+                    _ins.nsname = str(_r['name'])
+                    _ins.bid = str(_r['dvalue'])
+                    _ins.transaction = _r['txid']
+                    self.namespace_key_list.add_widget(_ins)
 
         self.manager.current = 'auctiondetail_screen'
 
-    def bid_namespace(self):
-        self.manager.bidnamespace_screen.populate(self.namespaceid)
+    def accept_bid(self, transaction):
+        pass
+
+    def decline_bid(self, transaction):
+        pass
 
     def on_touch_down(self, touch):
         if self.favorite.collide_point(touch.x, touch.y) and touch.is_mouse_scrolling is False:

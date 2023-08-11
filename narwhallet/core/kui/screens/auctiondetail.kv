@@ -75,11 +75,6 @@
                 padding: [10, 0, 0, 0]
                 width: dp(150)
 
-            Nwimage:
-                id: bid_button
-                source: 'narwhallet/core/kui/assets/plus_white.png'
-                on_touch_down: if self.collide_point(*args[1].pos): root.bid_namespace()
-
         Nwboxlayout:
             size_hint_y: None
             height: dp(30)
