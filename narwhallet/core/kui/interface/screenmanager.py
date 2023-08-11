@@ -18,6 +18,8 @@ from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
 from narwhallet.core.kui.widgets.namespacelistinfo import NamespaceListInfo
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.marketlistinfo import MarketListInfo
+from narwhallet.core.kui.widgets.auctionlistinfo import AuctionListInfo
+from narwhallet.core.kui.widgets.bidlistinfo import BidListInfo
 from narwhallet.core.kui.widgets.favoritelistinfo import FavoriteListInfo
 from narwhallet.core.kui.widgets.addressbooklistinfo import AddressBookListInfo
 from narwhallet.core.kui.interface.address import AddressScreen
@@ -54,6 +56,8 @@ from narwhallet.core.kcl.addr_book import MBookAddresses
 from narwhallet.core.kui.interface.favorites import FavoritesScreen
 from narwhallet.core.kui.interface.favorite import FavoriteScreen
 from narwhallet.core.kui.interface.about import AboutScreen
+from narwhallet.core.kui.interface.auctiondetail import AuctionDetailScreen
+from narwhallet.core.kui.interface.biddetail import BidDetailScreen
 
 
 class NarwhalletScreens(ScreenManager):

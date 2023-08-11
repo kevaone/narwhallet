@@ -1,0 +1,120 @@
+<AuctionListInfo>
+    sm: None
+    favorite: favorite
+    favorite_source: ''
+    namespaceid: ''
+    time: ''
+    root_shortcode: ''
+    desc: ''
+    displayName: ''
+    price: ''
+    bids: ''
+    high_bid: ''
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    GridLayout:
+        cols: 1
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(10)
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(25)
+
+            Nwlabel:
+                text: ''
+                size_hint_x: None
+                width: dp(5)
+
+            Nwimage:
+                id: favorite
+                source: root.favorite_source
+                height: dp(35)
+                width: dp(35)
+
+            Nwlabel:
+                text: root.root_shortcode
+                # height: 25
+                valign: 'center'
+                font_size: dp(20)
+                text_size: self.size
+                size_hint_x: None
+                width: dp(115)
+
+            Nwlabel:
+                text: root.displayName
+                height: dp(25)
+                font_size: dp(20)
+                text_size: self.size
+                padding: [5, 0, 0, 0]
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: root.desc
+                height: dp(20)
+                font_size: dp(15)
+                text_size: self.size
+                padding: [5, 0, 0, 0]
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Nwlabel:
+                text: 'Price:'
+                text_size: self.size
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                width: dp(45)
+                size_hint_x: None
+
+            Nwlabel:
+                text: root.price
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                text_size: self.size
+
+            Nwlabel:
+                text: 'Bids:'
+                text_size: self.size
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                width: dp(45)
+                size_hint_x: None
+
+            Nwlabel:
+                text: root.bids
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                text_size: self.size
+
+            Nwlabel:
+                text: 'High Bid:'
+                text_size: self.size
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                width: dp(45)
+                size_hint_x: None
+
+            Nwlabel:
+                text: root.high_bid
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                text_size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(10)
