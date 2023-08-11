@@ -984,6 +984,20 @@ class MShared():
         return _keys
 
     @staticmethod
+    def get_shortcode(_shortcode, provider) -> dict:
+        _data_provider = provider
+        _market_data_peer = _peer(_data_provider[1], _data_provider[2], _data_provider[3], _data_provider[4])
+        _market_data_peer.connect()
+        _ns_data = _market_data_peer.comm(_custom.get_shortcode(_shortcode, 1))
+
+        if _ns_data != '':
+            _keys = json.loads(_ns_data)
+        else:
+            _keys = {}
+
+        return _keys
+
+    @staticmethod
     def get_namespace_keys(_ns, kex: KEXclient) -> list:
         try:
             _ns = Ut.bytes_to_hex(Base58Decoder.CheckDecode(_ns))

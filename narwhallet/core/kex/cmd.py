@@ -161,6 +161,10 @@ class _custom(_cmd):
         return _cmd.build_command('get_namespace', [ns_id], eid)
 
     @staticmethod
+    def get_shortcode(shortcode, eid: int):
+        return _cmd.build_command('get_shortcode', [shortcode], eid)
+
+    @staticmethod
     def get_nft_auctions(eid: int):
         return _cmd.build_command('get_nft_auctions', [], eid)
 
