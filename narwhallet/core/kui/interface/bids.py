@@ -15,6 +15,7 @@ class BidsScreen(Screen):
         self.manager.current = 'bids_screen'
 
         _asa = self.manager.cache.ns.get_view()
+        _bids = {}
 
         for _a in _asa:
             _auctions = self.manager.cache.ns.get_namespace_bids(_a[0])
@@ -23,15 +24,16 @@ class BidsScreen(Screen):
                 for _w in self.manager.wallets.wallets:
                     for address in _w.addresses.addresses:
                         if _oa[0][0] == address.address:
-                            _auction = self.get_namespace(_a[0], _w)
-                            if _auction != {}:
-                                self.bid_list.data.append(_auction)
+                            _bids[_a[0]] = _w
 
                     for address in _w.change_addresses.addresses:
                         if _oa[0][0] == address.address:
-                            _auction = self.get_namespace(_a[0], _w)
-                            if _auction != {}:
-                                self.bid_list.data.append(_auction)
+                            _bids[_a[0]] = _w
+
+        for k, v in _bids.items():
+            _auction = self.get_namespace(k, v)
+            if _auction != {}:
+                self.bid_list.data.append(_auction)
 
     def get_namespace(self, namespaceid, wallet):
         _provider = self.manager.settings_screen.settings.content_providers[0]
@@ -46,35 +48,37 @@ class BidsScreen(Screen):
         _dat = _ns['data']
         _dat.reverse()
         _auction = {}
+
         for _k in _dat:
             if _k['dtype'] == 'nft_bid':
-                if _k['addr'] in wallet.addresses.addresses:
-                    _auction = {
-                        'time': _k['time'],
-                        'root_shortcode': str(_k['target'][0]),
-                        'desc': '', #str(_na['desc']),
-                        'displayName': str(_k['target'][1]),
-                        'price': str(_k['dvalue']),
-                        'bids': str("result['bids'][0]"),
-                        'high_bid': str("result['bids'][1]"),
-                        'favorite_source': _fav,
-                        'namespaceid': _ns['dnsid'],
-                        'sm': self.manager
-                    }
-                    return _auction
+                _auction = {
+                    'time': _k['time'],
+                    'root_shortcode': str(_k['target'][0]),
+                    'my_bid': str(_k['dvalue']),
+                    'favorite_source': _fav,
+                    # 'namespaceid': _ns['dnsid'],
+                    'sm': self.manager
+                }
 
-                if _k['addr'] in wallet.change_addresses.addresses:
-                    _auction = {
-                        'time': _k['time'],
-                        'root_shortcode': str(_k['target'][0]),
-                        'desc': '', #str(_na['desc']),
-                        'displayName': str(_k['target'][1]),
-                        'price': str(_k['dvalue']),
-                        'bids': str("result['bids'][0]"),
-                        'high_bid': str("result['bids'][1]"),
-                        'favorite_source': _fav,
-                        'namespaceid': _ns['dnsid'],
-                        'sm': self.manager
-                    }
-                    return _auction
+                _auction_ns = MShared.get_shortcode(_k['target'][0], _provider)['result']
+                _ans_dat = _auction_ns['data']
+                _ans_dat.reverse()
+
+                for _i in _ans_dat:
+                    if _i['dtype'] == 'nft_auction':
+                        _ad = json.loads(_i['dvalue'])
+                        _auction['displayName'] = _ad['displayName']
+                        _auction['price'] = _ad['price']
+                        _auction['desc'] = _ad['desc']
+                        _auction['bids'] = str(len(_i['replies']))
+                        _auction['namespaceid'] = _auction_ns['dnsid']
+                        _hb = 0
+
+                        for _b in _i['replies']:
+                            if _b['dvalue'] > _hb:
+                                _hb = _b['dvalue']
+
+                        _auction['high_bid'] = str(_hb)
+
+                return _auction
         return {}

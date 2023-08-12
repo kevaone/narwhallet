@@ -10,6 +10,7 @@
     price: ''
     bids: ''
     high_bid: ''
+    my_bid: ''
 
     canvas:
         Color:
@@ -105,11 +106,25 @@
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]
-                width: dp(45)
+                width: dp(75)
                 size_hint_x: None
 
             Nwlabel:
                 text: root.high_bid
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                text_size: self.size
+
+            Nwlabel:
+                text: 'My Bid:'
+                text_size: self.size
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                width: dp(75)
+                size_hint_x: None
+
+            Nwlabel:
+                text: root.my_bid
                 halign: 'left'
                 padding: [5, 0, 0, 0]
                 text_size: self.size
