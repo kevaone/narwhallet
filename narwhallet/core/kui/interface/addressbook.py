@@ -35,7 +35,6 @@ class AddressBookScreen(Screen):
         elif _mode == 1:
             self.nav0.text = 'Cancel'
             self.nav0.icon = ''
-            
             self.nav0.bind(on_press=self.set_current)
         elif _mode == 2:
             self.nav0.text = 'Cancel'

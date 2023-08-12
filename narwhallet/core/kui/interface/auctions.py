@@ -19,7 +19,6 @@ class AuctionsScreen(Screen):
         for _a in _asa:
             _auctions = self.manager.cache.ns.get_namespace_auctions(_a[0])
             for _ac in _auctions:
-                # _auc = json.loads(_ac[4])
                 _oa = self.manager.cache.ns.last_address(_a[0])
                 for _w in self.manager.wallets.wallets:
                     for address in _w.addresses.addresses:

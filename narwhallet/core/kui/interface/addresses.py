@@ -17,7 +17,6 @@ class AddressesScreen(Screen):
     def populate(self, wallet_name):
         self.header.value = wallet_name
         self.address_list.data = []
-        
         _w = self.manager.wallets.get_wallet_by_name(wallet_name)
         _addr = []
         if _w is not None:
