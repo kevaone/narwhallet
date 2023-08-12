@@ -71,7 +71,6 @@ class AuctionNamespaceScreen(Screen):
             # _result = locale.toDouble(amount)
             _amount = float(self.amount.text)
             _bal = float(self.wallet_balance.text)
-
             if _amount < 0.01:
                 self.valid_amount.size = (0, 0)
                 self.btn_send.disabled = True
@@ -106,7 +105,6 @@ class AuctionNamespaceScreen(Screen):
             # locale = QLocale()
             # _result = locale.toDouble(amount)
             _amount = float(self.price.text)
-
             if _amount < 0.00000001:
                 self.valid_price.size = (0, 0)
                 self.btn_send.disabled = True
@@ -157,7 +155,6 @@ class AuctionNamespaceScreen(Screen):
         try:
             _ = (Base58Decoder
                  .CheckDecode(self.namespace_address.text))
-
             _a, _b, _c, _d = True, True, True, True
             if cb is True:
                 _a = self.check_payment_address(False)
@@ -179,7 +176,6 @@ class AuctionNamespaceScreen(Screen):
         try:
             _ = (Base58Decoder
                  .CheckDecode(self.payment_address.text))
-
             self.valid_send_to.size = (dp(30), dp(30))
             _a, _b, _c, _d = True, True, True, True
             if cb is True:
@@ -250,17 +246,12 @@ class AuctionNamespaceScreen(Screen):
         # _tags = list(_tags.keys())
         # if len(_tags) > 0:
         #     _auc['hashtags'] = _tags
-        # _payment_addr = self.wallet.get_unused_change_address()
         _payment_addr = self.payment_address.text
-        
         _auc['addr'] = _payment_addr
         _ns_value = json.dumps(_auc, separators=(',', ':'))
-
         _sh = Scripts.KevaKeyValueUpdate(_ns, '\x01_KEVA_NS_', _ns_value,
                                             _ns_address)
         _sh = Scripts.compile(_sh, True)
-
-
         _ = self.new_tx.add_output(_amount, self.namespace_address.text)
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
@@ -281,7 +272,6 @@ class AuctionNamespaceScreen(Screen):
         self.new_tx = MTransactionBuilder()
         self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
         self.new_tx.set_fee(int(self.fee_rate.text))
-
         self.set_output()
         self.set_availible_usxo()
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
@@ -294,10 +284,8 @@ class AuctionNamespaceScreen(Screen):
                 _ = self.new_tx.add_output(_cv, _change_address)
 
             self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)
-
             _stx = self.new_tx.serialize_tx()
             self.set_ready(_stx, _est_fee)
-            # TODO Validate TX and Broadcast
         else:
             self.reset_transactions()
 
@@ -319,7 +307,6 @@ class AuctionNamespaceScreen(Screen):
             _result = _bc_result[1]
 
         msgType = int(_bc_result[0])
-
         result_popup = Nwpopup()
 
         if msgType == 1:
