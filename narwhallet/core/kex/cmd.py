@@ -158,11 +158,11 @@ class _blockchain(_cmd):
 class _custom(_cmd):
     @staticmethod
     def get_namespace(ns_id, eid: int):
-        return _cmd.build_command('get_namespace', [ns_id], eid)
+        return _cmd.build_command('get_namespace', [ns_id, False], eid)
 
     @staticmethod
     def get_shortcode(shortcode, eid: int):
-        return _cmd.build_command('get_shortcode', [shortcode], eid)
+        return _cmd.build_command('get_shortcode', [shortcode, False], eid)
 
     @staticmethod
     def get_nft_auctions(eid: int):
