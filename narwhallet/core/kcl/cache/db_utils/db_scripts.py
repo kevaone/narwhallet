@@ -66,7 +66,7 @@ class Scripts(Enum):
     SELECT_NS_BLOCK = 'SELECT block, n FROM ns_cache WHERE ns = ? \
         ORDER BY block;'
     SELECT_NS_ROOT_VALUE = 'SELECT value FROM ns_cache WHERE ns = ? AND \
-        (special = \'root_ns\' OR special = \'root_ns_update\') \
+        (special = \'root_ns\' OR special = \'root_ns_update\' OR special = \'nft_auction\') \
             ORDER BY block DESC;'
     SELECT_NS_LAST_ADDRESS = 'SELECT address FROM ns_cache WHERE ns = ? \
         ORDER BY block DESC;'

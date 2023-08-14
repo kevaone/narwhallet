@@ -1,3 +1,4 @@
+import json
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
@@ -33,6 +34,11 @@ class NamespacesScreen(Screen):
                 if _oa[0][0] == address.address:
                     _block = self.manager.cache.ns.ns_block(p[0])[0]
                     _ns_name = self.manager.cache.ns.ns_root_value(p[0])[0][0]
+                    try:
+                        _ns_name = json.loads(_ns_name)['displayName']
+                    except:
+                        pass
+
                     if p[0] in self.manager.favorites.favorites:
                         _fav = 'narwhallet/core/kui/assets/star.png'
                     else:
@@ -50,6 +56,11 @@ class NamespacesScreen(Screen):
                 if _oa[0][0] == address.address:
                     _block = self.manager.cache.ns.ns_block(p[0])[0]
                     _ns_name = self.manager.cache.ns.ns_root_value(p[0])[0][0]
+                    try:
+                        _ns_name = json.loads(_ns_name)['displayName']
+                    except:
+                        pass
+
                     if p[0] in self.manager.favorites.favorites:
                         _fav = 'narwhallet/core/kui/assets/star.png'
                     else:
