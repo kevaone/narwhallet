@@ -130,10 +130,10 @@ class BidNamespaceScreen(Screen):
             _amount = float(self.bid_amount.text)
             _bal = float(self.wallet_balance.text)
 
-            if _amount < 0.01:
-                self.valid_bid_amount.size = (0, 0)
-                self.btn_send.disabled = True
-                return False
+            # if _amount < 0.01:
+            #     self.valid_bid_amount.size = (0, 0)
+            #     self.btn_send.disabled = True
+            #     return False
 
             if _amount < _bal:
                 self.valid_bid_amount.size = (dp(30), dp(30))
@@ -220,7 +220,7 @@ class BidNamespaceScreen(Screen):
 
         # locale = QLocale()
         # _b_amount = locale.toDouble(self.amount_input.amount.text())
-        _bid_amount = (int(self.bid_amount.text) * 100000000)
+        _bid_amount = int(float(self.bid_amount.text) * 100000000)
 
         _auc = {}
         _auc['displayName'] = self.offer_name.text
@@ -268,7 +268,7 @@ class BidNamespaceScreen(Screen):
             if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
                 _used = False
                 for _vin in self.bid_tx.vin:
-                    if _vin.txid == _tx.txid:
+                    if _vin.txid == _tx.txid and _vin.vout == tx['tx_pos']:
                         _used = True
                 if _used == False:
                     _usxos.append(tx)
