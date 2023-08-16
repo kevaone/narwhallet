@@ -15,6 +15,7 @@ from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwpopup import Nwpopup
 
 
 TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
@@ -294,6 +295,7 @@ class BidNamespaceScreen(Screen):
 
         _ns_key = (Ut.hex_to_bytes('0001') + Ut.hex_to_bytes(self.offer_tx.text))
         _ns_value = self.bid_tx.to_psbt()
+        # _testing = self.bid_tx.fr
         _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
                                             _ns_address)
         _sh = Scripts.compile(_sh, True)
@@ -339,4 +341,22 @@ class BidNamespaceScreen(Screen):
             self.reset_transactions()
 
     def process_send(self):
-        pass
+        # pass
+        _bc_result = MShared.broadcast(self.raw_tx, self.manager.kex)
+        print('_bc_result', _bc_result)
+        if isinstance(_bc_result[1], dict):
+            _result = json.dumps(_bc_result[1])
+        else:
+            _result = _bc_result[1]
+
+        msgType = int(_bc_result[0])
+
+        result_popup = Nwpopup()
+
+        if msgType == 1:
+            result_popup.status.text = 'Error:\n' + _result
+        elif msgType == 2:
+            result_popup.status.text = 'Ok!'
+
+        result_popup.open()
+        self.manager.current = 'bids_screen'
