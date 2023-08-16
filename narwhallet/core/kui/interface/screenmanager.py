@@ -58,6 +58,7 @@ from narwhallet.core.kui.interface.favorite import FavoriteScreen
 from narwhallet.core.kui.interface.about import AboutScreen
 from narwhallet.core.kui.interface.auctiondetail import AuctionDetailScreen
 from narwhallet.core.kui.interface.biddetail import BidDetailScreen
+from narwhallet.core.kui.interface.acceptnamespacebid import AcceptNamespaceBidScreen
 
 
 class NarwhalletScreens(ScreenManager):
@@ -96,6 +97,7 @@ class NarwhalletScreens(ScreenManager):
     favorites_screen = FavoritesScreen()
     favorite_screen = FavoriteScreen()
     about_screen = AboutScreen()
+    acceptnamespacebid_screen = AcceptNamespaceBidScreen()
     
     def __init__(self, **kwargs):
         super(NarwhalletScreens, self).__init__(**kwargs)

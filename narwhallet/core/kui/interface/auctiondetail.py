@@ -45,10 +45,12 @@ class AuctionDetailScreen(Screen):
             if _kv['dtype'] == 'nft_auction':
                 for _r in _kv['replies']:
                     _ins = AuctionInfo()
+                    _ins.auction_namespace = namespaceid
                     _ins.shortcode = str(_r['root_shortcode'])
                     _ins.nsname = str(_r['name'])
                     _ins.bid = str(_r['dvalue'])
                     _ins.transaction = _r['txid']
+                    _ins.sm = self.manager
                     self.namespace_key_list.add_widget(_ins)
 
         self.manager.current = 'auctiondetail_screen'
