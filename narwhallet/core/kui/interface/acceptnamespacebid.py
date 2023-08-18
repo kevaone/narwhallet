@@ -27,18 +27,18 @@ NS_RESERVATION = 1000000
 class AcceptNamespaceBidScreen(Screen):
     wallet_name = Spinner()
     wallet_balance = Nwlabel()
-    bid_namespaceid = Spinner()
-    bid_namespace_address = Nwlabel()
+    namespaceid = Spinner()
+    namespace_address = Nwlabel()
     bid_amount = TextInput()
-    bidtx_reservation = Nwlabel()
-    offer_namespaceid = Nwlabel()
-    offer_tx = Nwlabel()
-    offer_shortcode = Nwlabel()
-    offer_name = Nwlabel()
-    offer_namespace_address = Nwlabel()
-    offer_payment_address = Nwlabel()
-    offer_asking_price = Nwlabel()
-    offer_description = Nwlabel()
+    # bidtx_reservation = Nwlabel()
+    bid_namespaceid = Nwlabel()
+    bid_tx = Nwlabel()
+    bid_shortcode = Nwlabel()
+    bid_name = Nwlabel()
+    bid_namespace_address = Nwlabel()
+    payment_address = Nwlabel()
+    asking_price = Nwlabel()
+    description = Nwlabel()
     valid_bid_amount = Image()
     valid_send_to = Image()
     fee = Nwlabel()
@@ -56,13 +56,15 @@ class AcceptNamespaceBidScreen(Screen):
         
     def populate(self, txid, namespaceid):
         self.header.value = 'Accept Bid'
+
+        self.bid_tx.text = txid
         
         # TODO Replace with wallet scan for auction NS
         # _wallets = []
         # for _w in self.manager.wallets.wallets:
         #     _wallets.append(_w.name)
         # self.wallet_name.text = _wallets
-        self.bidtx_reservation.text = str(NS_RESERVATION/100000000)
+        # self.bidtx_reservation.text = str(NS_RESERVATION/100000000)
         # self.bid_namespaceid.disabled = True
         self.bid_namespace_address.text = ''
         self.bid_amount.text = ''
@@ -70,7 +72,7 @@ class AcceptNamespaceBidScreen(Screen):
         _provider = self.manager.settings_screen.settings.content_providers[0]
         # _ns = MShared.get_namespace(namespaceid, _provider)
         # _ns = _ns['result']
-        self.offer_namespaceid.text = namespaceid
+        self.bid_namespaceid.text = namespaceid
         # self.offer_shortcode.text = str(_ns['root_shortcode'])
         # self.offer_name.text = _ns['name']
         # _dat = _ns['data']
