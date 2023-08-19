@@ -1,6 +1,7 @@
 <AuctionInfo>
     sm: None
     auction_namespace: ''
+    auction_namespace_addr: ''
     shortcode: ''
     nsname: ''
     bid: ''
@@ -75,7 +76,7 @@
             source: 'narwhallet/core/kui/assets/checkmark.png'
             height: dp(25)
             width: dp(25)
-            on_touch_down: if self.collide_point(*args[1].pos): root.sm.acceptnamespacebid_screen.populate(root.transaction, root.auction_namespace)
+            on_touch_down: if self.collide_point(*args[1].pos): root.sm.acceptnamespacebid_screen.populate(root.transaction, root.auction_namespace, root.auction_namespace_addr)
 
     BoxLayout:
         size_hint_y: None

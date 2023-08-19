@@ -4,6 +4,7 @@ from kivy.properties import ObjectProperty, StringProperty
 
 class AuctionInfo(BoxLayout):
     auction_namespace = StringProperty()
+    auction_namespace_addr = StringProperty()
     shortcode = StringProperty()
     nsname = StringProperty()
     bid = StringProperty()
