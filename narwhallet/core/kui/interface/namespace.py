@@ -7,6 +7,7 @@ from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.nwnsimage import Nwnsimage
 
 
@@ -16,7 +17,7 @@ class NamespaceScreen(Screen):
     namespace_key_list = ObjectProperty(None)
     creator = ObjectProperty(None)
     namespace_name = ObjectProperty(None)
-    # wallet_name = Nwlabel()
+    owner = Nwlabel()
     transfer_button = Image()
     auction_button = Image()
     btn_create = Nwbutton()
@@ -47,6 +48,8 @@ class NamespaceScreen(Screen):
         _ns = _ns['result']
         self.namespace_name.text = _ns['name']
         self.shortcode.text = _ns['root_shortcode']
+        self.owner.text = ''
+        self.creator.text = ''
 
         _dat = _ns['data']
         _dat.reverse()

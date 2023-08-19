@@ -620,7 +620,7 @@ class MShared():
             if _kv['op'] == 'KEVA_NAMESPACE':
                 _ns_test = cache.ns.get_root_namespace_by_id(_kv['nsid'], True)
                 if len(_ns_test) != 0:
-                    return
+                    continue
 
                 _pos = _kv['key_shortcode'][7:]
                 _ = (cache.ns
