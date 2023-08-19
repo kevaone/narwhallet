@@ -31,11 +31,11 @@ class AcceptNamespaceBidScreen(Screen):
     namespace_address = Nwlabel()
     bid_amount = TextInput()
     # bidtx_reservation = Nwlabel()
-    bid_namespaceid = Nwlabel()
+    # bid_namespaceid = Nwlabel()
     bid_tx = Nwlabel()
-    bid_shortcode = Nwlabel()
-    bid_name = Nwlabel()
-    bid_namespace_address = Nwlabel()
+    # bid_shortcode = Nwlabel()
+    # bid_name = Nwlabel()
+    # bid_namespace_address = Nwlabel()
     payment_address = Nwlabel()
     asking_price = Nwlabel()
     description = Nwlabel()
@@ -54,25 +54,54 @@ class AcceptNamespaceBidScreen(Screen):
         self.wallet: MWallet
         self.used_inputs = []
         
-    def populate(self, txid, namespaceid):
+    def populate(self, txid, namespaceid, namespace_address):
         self.header.value = 'Accept Bid'
 
         self.bid_tx.text = txid
+        # self.bid = MTransactionBuilder()
         
         # TODO Replace with wallet scan for auction NS
         # _wallets = []
-        # for _w in self.manager.wallets.wallets:
-        #     _wallets.append(_w.name)
+        for _w in self.manager.wallets.wallets:
+            for _a in _w.addresses.addresses:
+                # print('_a', _a.address, namespace_address)
+                if _a.address == namespace_address:
+                    
+                    self.wallet = _w
+                    self.wallet_name.text = _w.name
+                    break
+            for _a in _w.change_addresses.addresses:
+                if _a.address == namespace_address:
+                    self.wallet = _w
+                    self.wallet_name.text = _w.name
+                    break
+            # _wallets.append(_w.name)
+        self.wallet_balance.text = str(self.wallet.balance)
         # self.wallet_name.text = _wallets
         # self.bidtx_reservation.text = str(NS_RESERVATION/100000000)
         # self.bid_namespaceid.disabled = True
-        self.bid_namespace_address.text = ''
+        self.namespaceid.text = namespaceid
+        self.namespace_address.text = namespace_address
         self.bid_amount.text = ''
 
         _provider = self.manager.settings_screen.settings.content_providers[0]
-        # _ns = MShared.get_namespace(namespaceid, _provider)
+        _ns = MShared.get_namespace(namespaceid, _provider)
+        # print('_ns', _ns)
+        _dat = _ns['result']['data']
+        _dat.reverse()
+        for _kv in _dat:
+            # if self.owner.text == '':
+            #     self.owner.text = _kv['addr']
+            if _kv['dtype'] == 'nft_auction':
+                _auc = json.loads(_kv['dvalue'])
+                self.payment_address.text = _auc['addr']
+                self.asking_price.text = str(_auc['price'])
+                self.description.text = str(_auc['desc'])
+                break
+
         # _ns = _ns['result']
-        self.bid_namespaceid.text = namespaceid
+        # self.bid_namespaceid.text = namespaceid
+        self.check_tx_is_bid(txid)
         # self.offer_shortcode.text = str(_ns['root_shortcode'])
         # self.offer_name.text = _ns['name']
         # _dat = _ns['data']
@@ -93,21 +122,19 @@ class AcceptNamespaceBidScreen(Screen):
         self.txsize.text = ''
         self.txhex.text = ''
         self.btn_send.text = 'Create TX'
-        self.btn_send.disabled = True
+        self.btn_send.disabled = False
         self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'acceptnamespacebid_screen'
 
     def check_tx_is_bid(self, txid):
-        _nft_tx = MShared.check_tx_is_bid(txid, self.kex, self.cache)
-        print('nft')
+        _nft_tx = MShared.check_tx_is_bid(txid, self.manager.kex, self.manager.cache)
         if _nft_tx[0] is True:
             _bid_psbt = keva_psbt(_nft_tx[2])
             _sh = (Scripts.AddressScriptHash
-                   (self.auction_info.nft_address.text()))
+                   (self.payment_address.text))
             _sh = Scripts.compile(_sh, True)
             if _bid_psbt.tx.vout[1].scriptPubKey.hex == _sh:
-                (self.amount_input.amount
-                 .setText(str(_bid_psbt.tx.vout[1].value/100000000)))
+                self.bid_amount.text = str(_bid_psbt.tx.vout[1].value/100000000)
                 self.new_tx = _bid_psbt.tx
                 _idx = 0
                 for _, _r in enumerate(_bid_psbt.psbt_records):
@@ -124,8 +151,6 @@ class AcceptNamespaceBidScreen(Screen):
                         (self.new_tx.vin[_idx].scriptSig
                          .set_hex(Ut.bytes_to_hex(_r[2])))
                         _idx += 1
-
-            self.check_next()
 
     def check_amount(self, cb=True):
         try:
@@ -223,13 +248,13 @@ class AcceptNamespaceBidScreen(Screen):
 
             if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
                 _used = False
-                for _vin in self.bid_tx.vin:
-                    if _vin.txid == _tx.txid and _vin.vout == tx['tx_pos']:
-                        _used = True
+                # for _vin in self.bid.vin:
+                #     if _vin.txid == _tx.txid and _vin.vout == tx['tx_pos']:
+                #         _used = True
                 if _used == False:
                     _usxos.append(tx)
             elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
-                    and tx['a'] == self.bid_namespace_address.text):
+                    and tx['a'] == self.namespace_address.text):
                 _nsusxo = tx
 
         if _nsusxo is not None:
@@ -238,25 +263,26 @@ class AcceptNamespaceBidScreen(Screen):
 
         if bid is False:
             self.new_tx.inputs_to_spend = _usxos
-        else:
-            self.bid_tx.inputs_to_spend = _usxos
+        # else:
+        #     self.bid.inputs_to_spend = _usxos
 
     def set_output(self):
-        # Namespace Bid
-        _amount = NS_RESERVATION
-        _ns_address = self.bid_namespaceid.text
-        _ns = self.bid_namespaceid.text
-        self.build_bid()
+        pass
+        # # Namespace Bid
+        # _amount = NS_RESERVATION
+        # _ns_address = self.bid_namespaceid.text
+        # _ns = self.bid_namespaceid.text
+        # self.build_bid()
 
-        _ns_key = (Ut.hex_to_bytes('0001') + Ut.hex_to_bytes(self.offer_tx.text))
-        _ns_value = self.bid_tx.to_psbt()
-        # _testing = self.bid_tx.fr
-        _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
-                                            _ns_address)
-        _sh = Scripts.compile(_sh, True)
+        # _ns_key = (Ut.hex_to_bytes('0001') + Ut.hex_to_bytes(self.offer_tx.text))
+        # _ns_value = self.bid_tx.to_psbt()
+        # # _testing = self.bid_tx.fr
+        # _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
+        #                                     _ns_address)
+        # _sh = Scripts.compile(_sh, True)
 
-        _ = self.new_tx.add_output(_amount, self.bid_namespace_address.text)
-        self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
+        # _ = self.new_tx.add_output(_amount, self.bid_namespace_address.text)
+        # self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
     def reset_transactions(self):
         self.raw_tx = ''
@@ -272,22 +298,33 @@ class AcceptNamespaceBidScreen(Screen):
         self.btn_send.text = 'Send'
 
     def build_send(self):
-        self.new_tx = MTransactionBuilder()
+        # self.new_tx = MTransactionBuilder()
         self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
         self.new_tx.set_fee(int(self.fee_rate.text))
 
-        self.set_output()
+        # self.set_output()
         self.set_availible_usxo(False)
-        _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
+        # _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
+        if len(self.new_tx.inputs_to_spend) == 0:
+            _inp_sel = False
+        else:
+            tx = self.new_tx.inputs_to_spend[0]
+            self.new_tx.add_input(tx['value'],
+                                    str(tx['a_idx'])+':'+str(tx['ch']),
+                                    tx['tx_hash'], tx['tx_pos'])
+            _inp_sel = True
+            # _need_change = False
         
         if _inp_sel is True:
-            _, _, _fv = self.new_tx.get_current_values()
-            if _need_change is True:
-                _cv = _fv - _est_fee
-                _change_address = self.wallet.get_unused_change_address()
-                _ = self.new_tx.add_output(_cv, _change_address)
+            # _, _, _fv = self.new_tx.get_current_values()
+            # if _need_change is True:
+            #     _cv = _fv - _est_fee
+            #     _change_address = self.wallet.get_unused_change_address()
+            #     _ = self.new_tx.add_output(_cv, _change_address)
 
-            self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)
+            self.new_tx.txb_preimage(self.wallet,
+                                         SIGHASH_TYPE.ALL_ANYONECANPAY, True)
+            _, _, _est_fee = self.new_tx.get_current_values()
 
             _stx = self.new_tx.serialize_tx()
             self.set_ready(_stx, _est_fee)
@@ -296,22 +333,21 @@ class AcceptNamespaceBidScreen(Screen):
             self.reset_transactions()
 
     def process_send(self):
-        pass
-        # _bc_result = MShared.broadcast(self.raw_tx, self.manager.kex)
-        # print('_bc_result', _bc_result)
-        # if isinstance(_bc_result[1], dict):
-        #     _result = json.dumps(_bc_result[1])
-        # else:
-        #     _result = _bc_result[1]
+        # pass
+        _bc_result = MShared.broadcast(self.raw_tx, self.manager.kex)
+        if isinstance(_bc_result[1], dict):
+            _result = json.dumps(_bc_result[1])
+        else:
+            _result = _bc_result[1]
 
-        # msgType = int(_bc_result[0])
+        msgType = int(_bc_result[0])
 
-        # result_popup = Nwpopup()
+        result_popup = Nwpopup()
 
-        # if msgType == 1:
-        #     result_popup.status.text = 'Error:\n' + _result
-        # elif msgType == 2:
-        #     result_popup.status.text = 'Ok!'
+        if msgType == 1:
+            result_popup.status.text = 'Error:\n' + _result
+        elif msgType == 2:
+            result_popup.status.text = 'Ok!'
 
-        # result_popup.open()
-        # self.manager.current = 'bids_screen'
+        result_popup.open()
+        self.manager.current = 'auctiondetail_screen'

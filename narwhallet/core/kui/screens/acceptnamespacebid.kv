@@ -4,13 +4,13 @@
     namespaceid: namespaceid
     namespace_address: namespace_address
     bid_amount: bid_amount
-    bid_namespaceid: bid_namespaceid
-    bid_shortcode: bid_shortcode
+    # bid_namespaceid: bid_namespaceid
+    # bid_shortcode: bid_shortcode
     bid_tx: bid_tx
-    bid_name: bid_name
-    bid_namespace_address: bid_namespace_address
+    # bid_name: bid_name
+    # bid_namespace_address: bid_namespace_address
     payment_address: payment_address
-    # offer_asking_price: offer_asking_price
+    asking_price: asking_price
     description: description
     # bidtx_reservation: bidtx_reservation
     # valid_bid_amount: valid_bid_amount
@@ -57,7 +57,7 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: dp(35)
+                    height: dp(20)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -71,9 +71,9 @@
 
                     Nwlabel:
                         id: wallet_name
-                        halign: 'center'
+                        halign: 'left'
                         valign: 'center'
-                        text: 'Select Wallet'
+                        text: ''
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
@@ -81,7 +81,7 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: dp(35)
+                    height: dp(20)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -93,14 +93,19 @@
                         width: dp(75)
                         padding: [10, 0, 0, 0]
 
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
                     Nwlabel:
                         id: namespaceid
-                        halign: 'center'
+                        halign: 'left'
                         valign: 'center'
-                        text: 'Select NS'
+                        text: ''
                         text_size: self.size
                         size_hint_x: None
-                        width: dp(175)
+                        width: dp(325)
                         # on_text: root.ns_changed()
 
                 Nwboxlayout:
@@ -115,6 +120,11 @@
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
                         width: dp(100)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
 
                     Nwlabel:
                         id: namespace_address
@@ -133,7 +143,12 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: dp(100)
+                        width: dp(175)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
 
                     Nwlabel:
                         id: payment_address
@@ -167,7 +182,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        valign: 'center'
+                        # valign: 'center'
                         text: 'Asking Price:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
@@ -266,68 +281,68 @@
                 #     height: dp(10)
                 #     orientation: 'horizontal'
 
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(20)
-                    orientation: 'horizontal'
+                # Nwboxlayout:
+                #     size_hint_y: None
+                #     height: dp(20)
+                #     orientation: 'horizontal'
 
-                    Nwlabel:
-                        halign: 'left'
-                        text: 'Bid NS:'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(100)
+                #     Nwlabel:
+                #         halign: 'left'
+                #         text: 'Bid NS:'
+                #         text_size: self.size
+                #         padding: [10, 0, 0, 0]
+                #         size_hint_x: None
+                #         width: dp(100)
 
-                    Nwlabel:
-                        id: bid_namespaceid
-                        halign: 'left'
-                        text: ''
-                        text_size: self.size
+                #     Nwlabel:
+                #         id: bid_namespaceid
+                #         halign: 'left'
+                #         text: ''
+                #         text_size: self.size
 
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(20)
-                    orientation: 'horizontal'
+                # Nwboxlayout:
+                #     size_hint_y: None
+                #     height: dp(20)
+                #     orientation: 'horizontal'
 
-                    Nwlabel:
-                        halign: 'left'
-                        text: 'Bid Shortcode:'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(100)
+                #     Nwlabel:
+                #         halign: 'left'
+                #         text: 'Bid Shortcode:'
+                #         text_size: self.size
+                #         padding: [10, 0, 0, 0]
+                #         size_hint_x: None
+                #         width: dp(100)
 
-                    Nwlabel:
-                        id: bid_shortcode
-                        halign: 'left'
-                        text: ''
-                        text_size: self.size
+                #     Nwlabel:
+                #         id: bid_shortcode
+                #         halign: 'left'
+                #         text: ''
+                #         text_size: self.size
 
-                    Nwlabel:
-                        id: bid_name
-                        halign: 'left'
-                        text: ''
-                        text_size: self.size
+                #     Nwlabel:
+                #         id: bid_name
+                #         halign: 'left'
+                #         text: ''
+                #         text_size: self.size
 
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(20)
-                    orientation: 'horizontal'
+                # Nwboxlayout:
+                #     size_hint_y: None
+                #     height: dp(20)
+                #     orientation: 'horizontal'
 
-                    Nwlabel:
-                        halign: 'left'
-                        text: 'Bid NS Address:'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(175)
+                #     Nwlabel:
+                #         halign: 'left'
+                #         text: 'Bid NS Address:'
+                #         text_size: self.size
+                #         padding: [10, 0, 0, 0]
+                #         size_hint_x: None
+                #         width: dp(175)
 
-                    Nwlabel:
-                        id: bid_namespace_address
-                        halign: 'left'
-                        text: ''
-                        text_size: self.size
+                #     Nwlabel:
+                #         id: bid_namespace_address
+                #         halign: 'left'
+                #         text: ''
+                #         text_size: self.size
 
                 # Nwboxlayout:
                 #     size_hint_y: None
