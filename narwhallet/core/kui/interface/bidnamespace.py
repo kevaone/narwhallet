@@ -218,6 +218,7 @@ class BidNamespaceScreen(Screen):
     def build_bid(self):
         self.bid_tx = MTransactionBuilder()
         self.bid_tx.set_version(Ut.hex_to_bytes('00710000'))
+        self.bid_tx.set_fee(int(self.fee_rate.text))
 
         # locale = QLocale()
         # _b_amount = locale.toDouble(self.amount_input.amount.text())
@@ -225,10 +226,10 @@ class BidNamespaceScreen(Screen):
 
         _auc = {}
         _auc['displayName'] = self.offer_name.text
-        _ns = self.bid_namespaceid.text
+        _ns = self.offer_namespaceid.text
         _ns_key = '\x01_KEVA_NS_'
         _ns_value = json.dumps(_auc, separators=(',', ':'))
-
+        _trans_address = self.wallet.get_unused_address()
         _trans_address = self.wallet.get_unused_address()
         _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
                                          _trans_address)
@@ -254,7 +255,7 @@ class BidNamespaceScreen(Screen):
     def set_availible_usxo(self, bid):
         _tmp_usxo = self.wallet.get_usxos()
         _usxos = []
-        _nsusxo = []
+        _nsusxo = None
 
         for tx in _tmp_usxo:
             # TODO Check for usxo's used by bids
@@ -289,7 +290,7 @@ class BidNamespaceScreen(Screen):
     def set_output(self):
         # Namespace Bid
         _amount = NS_RESERVATION
-        _ns_address = self.bid_namespaceid.text
+        _ns_address = self.bid_namespace_address.text
         _ns = self.bid_namespaceid.text
         self.build_bid()
 
@@ -300,7 +301,7 @@ class BidNamespaceScreen(Screen):
                                             _ns_address)
         _sh = Scripts.compile(_sh, True)
 
-        _ = self.new_tx.add_output(_amount, self.bid_namespace_address.text)
+        _ = self.new_tx.add_output(_amount, _ns_address)
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
 
     def reset_transactions(self):
@@ -324,7 +325,7 @@ class BidNamespaceScreen(Screen):
         self.set_output()
         self.set_availible_usxo(False)
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
-        
+
         if _inp_sel is True:
             _, _, _fv = self.new_tx.get_current_values()
             if _need_change is True:
@@ -343,7 +344,6 @@ class BidNamespaceScreen(Screen):
     def process_send(self):
         # pass
         _bc_result = MShared.broadcast(self.raw_tx, self.manager.kex)
-        print('_bc_result', _bc_result)
         if isinstance(_bc_result[1], dict):
             _result = json.dumps(_bc_result[1])
         else:
