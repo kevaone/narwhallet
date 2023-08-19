@@ -46,6 +46,7 @@ class AuctionDetailScreen(Screen):
                 for _r in _kv['replies']:
                     _ins = AuctionInfo()
                     _ins.auction_namespace = namespaceid
+                    _ins.auction_namespace_addr = self.owner.text
                     _ins.shortcode = str(_r['root_shortcode'])
                     _ins.nsname = str(_r['name'])
                     _ins.bid = str(_r['dvalue'])
@@ -55,8 +56,8 @@ class AuctionDetailScreen(Screen):
 
         self.manager.current = 'auctiondetail_screen'
 
-    def accept_bid(self, transaction):
-        pass
+    # def accept_bid(self, transaction):
+    #     pass
 
     def decline_bid(self, transaction):
         pass
