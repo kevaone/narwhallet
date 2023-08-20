@@ -20,15 +20,16 @@ class BidsScreen(Screen):
         for _a in _asa:
             _auctions = self.manager.cache.ns.get_namespace_bids(_a[0])
             for _ac in _auctions:
-                _oa = self.manager.cache.ns.last_address(_a[0])
                 for _w in self.manager.wallets.wallets:
                     for address in _w.addresses.addresses:
-                        if _oa[0][0] == address.address:
-                            _bids[_a[0]] = _w
+                        for _us in address.unspent_tx:
+                            if _us['tx_hash'] == _ac[2] and _us['tx_pos'] == _ac[1]:
+                                _bids[_a[0]] = _w
 
                     for address in _w.change_addresses.addresses:
-                        if _oa[0][0] == address.address:
-                            _bids[_a[0]] = _w
+                        for _us in address.unspent_tx:
+                            if _us['tx_hash'] == _ac[2] and _us['tx_pos'] == _ac[1]:
+                                _bids[_a[0]] = _w
 
         for k, v in _bids.items():
             _auction = self.get_namespace(k, v)
