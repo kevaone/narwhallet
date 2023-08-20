@@ -12,8 +12,9 @@ class FavoriteScreen(Screen):
     header = Header()
 
     def populate(self, namespaceid):
+        self.header.value = 'Favorite'
         self.namespace_key_list.scroll_y = 1
-        self.header.value = self.manager.wallet_screen.header.value
+        # self.header.value = self.manager.wallet_screen.header.value
         self.namespace_key_list.data = []
         _ns = self.manager.cache.ns.get_namespace_by_id(namespaceid)
         self.namespaceid.text = namespaceid

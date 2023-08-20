@@ -19,6 +19,7 @@ class NamespaceAltScreen(Screen):
     favorite_source = StringProperty()
 
     def populate(self, namespaceid, shortcode):
+        self.header.value = 'Auction'
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.namespaceid = namespaceid
