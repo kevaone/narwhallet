@@ -23,6 +23,7 @@ from narwhallet.core.kui.widgets.bidlistinfo import BidListInfo
 from narwhallet.core.kui.widgets.favoritelistinfo import FavoriteListInfo
 from narwhallet.core.kui.widgets.addressbooklistinfo import AddressBookListInfo
 from narwhallet.core.kui.widgets.alllistinfo import AllListInfo
+from narwhallet.core.kui.widgets.nftlistinfo import NftListInfo
 from narwhallet.core.kui.interface.address import AddressScreen
 from narwhallet.core.kui.interface.addressbook import AddressBookScreen
 from narwhallet.core.kui.interface.addressbookentry import AddressBookEntryScreen
@@ -62,6 +63,8 @@ from narwhallet.core.kui.interface.biddetail import BidDetailScreen
 from narwhallet.core.kui.interface.acceptnamespacebid import AcceptNamespaceBidScreen
 from narwhallet.core.kui.interface.all import AllScreen
 from narwhallet.core.kui.interface.alldetail import AllDetailScreen
+from narwhallet.core.kui.interface.nft import NftScreen
+from narwhallet.core.kui.interface.nftdetail import NftDetailScreen
 
 
 class NarwhalletScreens(ScreenManager):
@@ -103,6 +106,8 @@ class NarwhalletScreens(ScreenManager):
     acceptnamespacebid_screen = AcceptNamespaceBidScreen()
     all_screen = AllScreen()
     alldetail_screen = AllDetailScreen()
+    nft_screen = NftScreen()
+    nftdetail_screen = NftDetailScreen()
     
     def __init__(self, **kwargs):
         super(NarwhalletScreens, self).__init__(**kwargs)
