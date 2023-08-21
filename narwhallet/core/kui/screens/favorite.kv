@@ -5,10 +5,7 @@
     namespace_key_list: namespace_key_list
     owner: owner
     creator: creator
-    # transfer_button: transfer_button
-    # auction_button: auction_button
     header: header
-    # btn_create: btn_create
 
     GridLayout:
         size: root.width, root.height
@@ -70,16 +67,6 @@
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
                 width: dp(150)
-
-            # Nwimage:
-            #     id: transfer_button
-            #     source: 'narwhallet/core/kui/assets/transfer_white.png'
-            #     on_touch_down: if self.collide_point(*args[1].pos): root.transfer_namespace()
-
-            # Nwimage:
-            #     id: auction_button
-            #     source: 'narwhallet/core/kui/assets/medal2.png'
-            #     on_touch_down: if self.collide_point(*args[1].pos): root.auction_namespace()
 
         Nwboxlayout:
             size_hint_y: None
@@ -154,32 +141,14 @@
             height: dp(10)
             orientation: 'horizontal'
 
-        # BoxLayout:
-        #     canvas:
-        #         Color:
-        #             rgba: 60/255, 61/255, 61/255, 1
-
-        #         Rectangle:
-        #             pos: self.pos
-        #             size: self.size
-        #     orientation: 'horizontal'
-        #     size_hint_y: None
-        #     height: 35
-
-        #     Nwbutton:
-        #         id: btn_create
-        #         text: 'Create Key'
-        #         on_press: root.manager.createnamespacekey_screen.populate()
-
-        RecycleView:
-            id: namespace_key_list
-            viewclass: 'NamespaceInfo'
+        ScrollView:
             do_scroll_y: True
             bar_width: dp(15)
             size_hint: 1, 1
             scroll_type: ['bars','content']
 
-            RecycleBoxLayout:
+            BoxLayout:
+                id: namespace_key_list
                 orientation: 'vertical'
                 canvas:
                     Color:
@@ -191,8 +160,6 @@
 
                 size_hint: 1, None
                 height: self.minimum_height
-                default_size: 0, 0
-                default_size_hint: 1, None
                 spacing: dp(5)
                 padding: dp(5)
 

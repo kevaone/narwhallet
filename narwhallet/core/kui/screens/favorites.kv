@@ -13,33 +13,6 @@
             size_hint_y: None
             height: dp(10)
 
-        # BoxLayout:
-        #     canvas:
-        #         Color:
-        #             rgba: 60/255, 61/255, 61/255, 1
-
-        #         Rectangle:
-        #             pos: self.pos
-        #             size: self.size
-        #     size_hint_y: None
-        #     height: 35
-        #     orientation: 'horizontal'
-
-        #     Nwbutton:
-        #         text: 'Market'
-        #         on_press: root.manager.current = 'market_screen'
-
-        #     Nwbutton:
-        #         text: 'My Offers'
-        #         on_press: root.manager.current = 'offers_screen'
-
-        #     Nwbutton:
-        #         text: 'Pending'
-        #         on_press: root.manager.current = 'pending_screen'
-
-        #     Nwbutton:
-        #         text: '!'
-
         RecycleView:
             id: favorites_list
             viewclass: 'FavoriteListInfo'
