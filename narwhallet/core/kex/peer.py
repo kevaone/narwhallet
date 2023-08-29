@@ -52,7 +52,7 @@ class _peer():
         try:
             self.socket.sendall(command)
             data = b''
-
+            self.socket.settimeout(45.0)
             while True:
                 _r = self.socket.recv(1024)
                 data = data + _r
@@ -68,17 +68,17 @@ class _peer():
                 #         or data.endswith(b']\n}\n')):
                 #     break
 
-            if data == b'':
-                # TODO Add socket state check before connect/command replay
-                self.connect()
-                data = self.comm(command)
+            # if data == b'':
+            #     # TODO Add socket state check before connect/command replay
+            #     self.connect()
+            #     data = self.comm(command)
         except Exception as ex:
             # TODO Better handle specific socket errors
-            if ex == 'The read operation timed out':
-                print('time out, reattempting', ex)
-                self.connect()
-                data = self.comm(command)
-            else:
-                data = b''
+            # if ex == 'The read operation timed out':
+            #     print('time out, reattempting', ex)
+            #     self.connect()
+            #     data = self.comm(command)
+            # else:
+            data = b''
         self.busy = False
         return data
