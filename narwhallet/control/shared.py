@@ -613,6 +613,10 @@ class MShared():
 
         nsid = cache.ns.convert_to_namespaceid(_o[1])
         _ns = MShared.get_namespace(nsid, _provider)
+        if 'result' not in _ns:
+            if 'data' not in _ns:
+                return
+
         _ns = _ns['result']
         _dat = _ns['data']
 
