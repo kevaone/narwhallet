@@ -980,7 +980,7 @@ class MShared():
         _market_data_peer.connect()
         _ns_data = _market_data_peer.comm(_custom.get_namespace(_ns, 1))
 
-        if _ns_data != '':
+        if _ns_data != b'':
             _keys = json.loads(_ns_data)
         else:
             _keys = {}
