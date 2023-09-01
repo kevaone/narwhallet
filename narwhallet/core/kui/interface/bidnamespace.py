@@ -69,7 +69,7 @@ class BidNamespaceScreen(Screen):
         _ns = _ns['result']
         self.offer_namespaceid.text = namespaceid
         self.offer_shortcode.text = str(_ns['root_shortcode'])
-        self.offer_name.text = _ns['name']
+        self.offer_name.text = str(_ns['name'])
         _dat = _ns['data']
         _dat.reverse()
         for _k in _dat:
@@ -81,7 +81,7 @@ class BidNamespaceScreen(Screen):
                 self.offer_asking_price.text = str(_na['price'])
                 self.offer_payment_address.text = str(_na['addr'])
                 self.offer_tx.text = _k['txid']
-                self.offer_description.text = _na['desc']
+                self.offer_description.text = str(_na['desc'])
                 break
         self.offer_namespace_address.text = _ns['data'][len(_ns['data'])-1]['addr']
         self.fee.text = ''

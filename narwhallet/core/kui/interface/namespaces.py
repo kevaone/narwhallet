@@ -48,7 +48,7 @@ class NamespacesScreen(Screen):
                     'shortcode': str(len(str(_block[0])))+str(_block[0])+str(_block[1]),
                     'keys': str(self.manager.cache.ns.key_count(p[0])[0][0]),
                     'sm': self.manager,
-                    'ns_name': _ns_name,
+                    'ns_name': str(_ns_name),
                     'favorite_source': _fav}
                     self.namespaces_list.data.append(_ns)
 
@@ -70,7 +70,7 @@ class NamespacesScreen(Screen):
                     'shortcode': str(len(str(_block[0])))+str(_block[0])+str(_block[1]),
                     'keys': str(self.manager.cache.ns.key_count(p[0])[0][0]),
                     'sm': self.manager,
-                    'ns_name': _ns_name,
+                    'ns_name': str(_ns_name),
                     'favorite_source': _fav}
                     self.namespaces_list.data.append(_ns)
         self.manager.current = 'namespaces_screen'

@@ -46,8 +46,8 @@ class NamespaceScreen(Screen):
         _provider = self.manager.settings_screen.settings.content_providers[0]
         _ns = MShared.get_namespace(namespaceid, _provider)
         _ns = _ns['result']
-        self.namespace_name.text = _ns['name']
-        self.shortcode.text = _ns['root_shortcode']
+        self.namespace_name.text = str(_ns['name'])
+        self.shortcode.text = str(_ns['root_shortcode'])
         self.owner.text = ''
         self.creator.text = ''
 

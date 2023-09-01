@@ -68,9 +68,9 @@ class BidsScreen(Screen):
                 for _i in _ans_dat:
                     if _i['dtype'] == 'nft_auction':
                         _ad = json.loads(_i['dvalue'])
-                        _auction['displayName'] = _ad['displayName']
-                        _auction['price'] = _ad['price']
-                        _auction['desc'] = _ad['desc']
+                        _auction['displayName'] = str(_ad['displayName'])
+                        _auction['price'] = str(_ad['price'])
+                        _auction['desc'] = str(_ad['desc'])
                         _auction['bids'] = str(len(_i['replies']))
                         _auction['namespaceid'] = _auction_ns['dnsid']
                         _hb = 0

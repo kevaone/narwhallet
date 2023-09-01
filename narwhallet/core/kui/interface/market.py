@@ -32,10 +32,10 @@ class MarketScreen(Screen):
 
             _auction = {
                 'time': result['time'],
-                'root_shortcode': result['root_shortcode'],
-                'desc': result['desc'],
-                'displayName': result['displayName'],
-                'price': result['price'],
+                'root_shortcode': str(result['root_shortcode']),
+                'desc': str(result['desc']),
+                'displayName': str(result['displayName']),
+                'price': str(result['price']),
                 'bids': str(result['bids'][0]),
                 'high_bid': str(result['bids'][1]),
                 'favorite_source': _fav,

@@ -33,7 +33,7 @@ class AuctionDetailScreen(Screen):
         else:
             self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
 
-        self.namespace_name.text = _ns['name']
+        self.namespace_name.text = str(_ns['name'])
         _dat = _ns['data']
         _dat.reverse()
         for _kv in _dat:
