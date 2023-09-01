@@ -49,9 +49,9 @@ class _peer():
 
     def comm(self, command) -> bytes:
         self.busy = True
+        data = b''
         try:
             self.socket.sendall(command)
-            data = b''
             self.socket.settimeout(45.0)
             while True:
                 _r = self.socket.recv(1024)
