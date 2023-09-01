@@ -68,7 +68,7 @@ class MShared():
                 _bd = _bd + b','
             _bd = _bd + i.replace(b'\n', b'')
             # NOTE 5 seems stable for verbose tx batch
-            if _batch_counter == 5:
+            if _batch_counter == 50:
                 _batch_counter = 0
                 _bd = _bd + b']\n'
                 _batches.append(_bd)
