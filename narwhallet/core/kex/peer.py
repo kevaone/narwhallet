@@ -45,7 +45,7 @@ class _peer():
 
     def reconnect(self):
         self.disconnect()
-        self.socket = self.connect()
+        self.connect()
 
     def comm(self, command) -> bytes:
         self.busy = True
