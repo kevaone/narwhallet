@@ -199,7 +199,9 @@ class NarwhalletScreens(ScreenManager):
 
     def cache_IPFS(self, _item):
         _ipfs_images = re.findall(r'\{\{[^|image(|/png|/jpeg|/jpg|/gif)\}\}].*|image|image/png|image/jpeg|image/jpg|image/gif\}\}', _item)
-        _data_peer = _peer('gateway.ipfs.io', 443, True, True)
+        _primary = self.settings_screen.settings.primary_ipfs_provider
+        _data_provider = self.settings_screen.settings.ipfs_providers[_primary]
+        _data_peer = _peer(_data_provider, 443, True, True)
         _images = []
         # https://gateway.ipfs.io/ipfs/
         # https://ipfs.sloppyta.co/ipfs/
@@ -207,6 +209,7 @@ class NarwhalletScreens(ScreenManager):
             _image = _image.replace('{{', '')
             _image = _image.replace('}}', '')
             _image = _image.split('|')
+            _extension = None
             if len(_image) == 2:
                 for _c in content_type:
                     if _image[1] == _c.value:
@@ -217,10 +220,13 @@ class NarwhalletScreens(ScreenManager):
                         _extension = 'jpg'
                         break
 
+                    if _extension is None:
+                        _extension = 'jpg'
+
                 if os.path.isfile(os.path.join(self.ipfs_cache_path,
                                         _image[0] + '.' + _extension)) is False:
-                    _data_peer.connect()
-                    _data_test = _data_peer.comm(_custom.get_web_content('gateway.ipfs.io', '/ipfs/' + _image[0], 1))
+                    _data_peer.reconnect()
+                    _data_test = _data_peer.comm(_custom.get_web_content(_data_provider, '/ipfs/' + _image[0], 1))
                     _tt = _data_test.split(b'\r\n\r\n')
 
                     if _tt != [b'']:
