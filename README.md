@@ -18,7 +18,7 @@ You will need Python and Git installed, can install both via apt with the comman
 sudo apt install python3 git<br/>
 
 ### venv example
-*recommended to use a virtual environment for separation and to ensure no dependency conflicts*
+*recommended to use a virtual environment for separation and to ensure no dependency conflicts*<br/>
 mkdir K1<br/>
 cd K1<br/>
 python3 -m venv ./venv<br/>
@@ -61,15 +61,17 @@ buildozer android release<br/>
 You will need Python installed, can download and install from https://www.python.org/downloads/windows/. You will also need Git which can be downloaded and installed from https://git-scm.com/download/win.<br/>
 
 You can test the instilation status by opening a command prompt and issuing the commands:<br/>
+<br/>
 python --version<br/>
 git --version<br/>
+<br/>
 If either of these commands fail check the instilation status of the program. If the program is installed it might not be added to PATH; consult the programs documentation on how to add.<br/>
 
 ### venv example
-*recommended to use a virtual environment for separation and to ensure no dependency conflicts*
+*recommended to use a virtual environment for separation and to ensure no dependency conflicts*<br/>
 mkdir K1<br/>
 cd K1<br/>
-python -m venv ./venv<br/>
+python -m venv .\venv<br/>
 .\venv\Scripts\activate<br/>
 
 ### Download repo & Install requirements
@@ -81,7 +83,7 @@ pip install -r ./requirements.txt<br/>
 python3 ./main.py<br/>
 
 ### (optional) Build
-pip install pyinstaller<br/>
+pip install pyinstaller pillow<br/>
 cd share<br/>
 pyinstaller linux_gui_with_deps.spec<br/>
 cd dist<br/>
