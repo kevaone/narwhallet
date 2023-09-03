@@ -83,7 +83,7 @@ pip install -r ./requirements.txt<br/>
 python3 ./main.py<br/>
 
 ### (optional) Build
-pip install pyinstaller pillow<br/>
+pip install pyinstaller==5.6.2 pillow<br/>
 cd share<br/>
 pyinstaller linux_gui_with_deps.spec<br/>
 cd dist<br/>
