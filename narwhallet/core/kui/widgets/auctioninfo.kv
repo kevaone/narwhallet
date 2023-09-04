@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <AuctionInfo>
     sm: None
     auction_namespace: ''
@@ -24,7 +26,7 @@
         orientation: 'horizontal'
 
         Nwlabel:
-            text: 'From:'
+            text: _tr.translate('From:')
             halign: 'left'
             padding: [5, 0, 0, 0]
             text_size: self.size
@@ -51,7 +53,7 @@
         orientation: 'horizontal'
 
         Nwlabel:
-            text: 'Bid:'
+            text: _tr.translate('Bid:')
             halign: 'left'
             padding: [5, 0, 0, 0]
             text_size: self.size

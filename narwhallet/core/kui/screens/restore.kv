@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <RestoreScreen>
     wallet_name: wallet_name
     coin: coin
@@ -11,7 +13,7 @@
 
         Header:
             id: header
-            value: 'Restore Wallet'
+            value: _tr.translate('Restore Wallet')
 
         Nwboxlayout:
             size_hint_y: None
@@ -25,7 +27,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: 'Name:'
+                text: _tr.translate('Name:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
@@ -54,7 +56,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: 'Coin:'
+                text: _tr.translate('Coin:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
@@ -76,7 +78,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'Data:'
+                text: _tr.translate('Data:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
@@ -119,10 +121,10 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: 'Cancel'
+                text: _tr.translate('Cancel')
                 on_press: root.return_home()
 
             Nwbutton:
                 id: btn_restore
-                text: 'Restore'
+                text: _tr.translate('Restore')
                 on_press: root.restore()

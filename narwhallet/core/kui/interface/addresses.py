@@ -4,6 +4,8 @@ from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui import _translate as _tr
+
 
 class AddressesScreen(Screen):
     address_list = GridLayout()
@@ -21,9 +23,9 @@ class AddressesScreen(Screen):
         _addr = []
         if _w is not None:
             if _w.kind == EWalletKind.NORMAL:
-                self.btn_add.text = 'Increase Pool'
+                self.btn_add.text = _tr.translate('Increase Pool')
             else:
-                self.btn_add.text = 'Add Address'
+                self.btn_add.text = _tr.translate('Add Address')
 
             for address in _w.addresses.addresses:
                 if address is not None:
@@ -67,7 +69,7 @@ class AddressesScreen(Screen):
         pass
 
     def btn_add_click(self):
-        if self.btn_add.text == 'Increase Pool':
+        if self.btn_add.text == _tr.translate('Increase Pool'):
             self.increase_address_pool()
         else:
             self.add_watch_address()

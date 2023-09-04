@@ -11,6 +11,7 @@ from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from kivy.clock import Clock
 import threading
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui import _translate as _tr
 
 
 class WalletScreen(Screen):
@@ -111,9 +112,9 @@ class WalletScreen(Screen):
         self.wallet_unconfirmed_balance.text = str(round(_unconfirmed, 8))
         self.wallet_sent.text = str(round(_sent, 8))
         self.wallet_received.text = str(round(_received, 8))
-        self.btn_transactions.text = 'Transactions (' + str(_ustx) + ' / ' + str(_transactions) + ')'
-        self.btn_addresses.text = 'Addresses (' + str(_count_addresses) + ')'
-        self.btn_namespaces.text = 'Namespaces (' + str(_count_namespaces) + ')'
+        self.btn_transactions.text = _tr.translate('Transactions') + ' (' + str(_ustx) + ' / ' + str(_transactions) + ')'
+        self.btn_addresses.text = _tr.translate('Addresses') + ' (' + str(_count_addresses) + ')'
+        self.btn_namespaces.text = _tr.translate('Namespaces') + ' (' + str(_count_namespaces) + ')'
         self.manager.current = 'wallet_screen'
 
         return True

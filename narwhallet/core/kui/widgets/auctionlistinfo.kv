@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <AuctionListInfo>
     sm: None
     favorite: favorite
@@ -73,7 +75,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Price:'
+                text: _tr.translate('Price:')
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]
@@ -87,7 +89,7 @@
                 text_size: self.size
 
             Nwlabel:
-                text: 'Bids:'
+                text: _tr.translate('Bids:')
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]
@@ -101,7 +103,7 @@
                 text_size: self.size
 
             Nwlabel:
-                text: 'High Bid:'
+                text: _tr.translate('High Bid:')
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]

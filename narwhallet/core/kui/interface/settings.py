@@ -3,6 +3,7 @@ import os
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.togglebutton import ToggleButton
+from kivy.uix.spinner import Spinner
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
 from narwhallet.core.kcl.file_utils import ConfigLoader
 from kivy.properties import StringProperty
@@ -37,6 +38,7 @@ class SettingsScreen(Screen):
     content_provider_ssl_1 = ToggleButton()
     content_provider_verify_0 = ToggleButton()
     content_provider_verify_1 = ToggleButton()
+    lang = Spinner()
     
     def load_settings(self):
         # TODO Clean up
@@ -46,11 +48,16 @@ class SettingsScreen(Screen):
                                                  'settings.json'))
         self.set_dat.load()
         self.settings.from_dict(self.set_dat.data)
+        self.lang_dat = ConfigLoader('narwhallet/core/kui/translations.json')
+        self.lang_dat.load()
 
         if self.settings.show_change:
             self.show_change.state = 'down'
         else:
             self.show_change.state = 'normal'
+
+        self.lang.values = self.lang_dat.data['available']
+        self.lang.text = self.lang_dat.data['available'][self.lang_dat.data['active']]
 
         self.manager.kex.active_peer = self.settings.primary_peer
 
@@ -199,3 +206,7 @@ class SettingsScreen(Screen):
 
     def save_settings(self):
         self.set_dat.save(json.dumps(self.settings.to_dict()))
+
+    def update_lang(self):
+        self.lang_dat.data['active'] = self.lang.values.index(self.lang.text)
+        self.lang_dat.save(json.dumps(self.lang_dat.data))

@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <AcceptNamespaceBidScreen>
     wallet_name: wallet_name
     wallet_balance: wallet_balance
@@ -63,7 +65,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'Wallet:'
+                        text: _tr.translate('Wallet:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(75)
@@ -87,7 +89,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'NS:'
+                        text: _tr.translate('NS:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(75)
@@ -115,7 +117,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'NS Address:'
+                        text: _tr.translate('NS Address:')
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -139,7 +141,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Payment Address:'
+                        text: _tr.translate('Payment Address:')
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -163,7 +165,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Balance:'
+                        text: _tr.translate('Balance:')
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -183,7 +185,7 @@
                     Nwlabel:
                         halign: 'left'
                         # valign: 'center'
-                        text: 'Asking Price:'
+                        text: _tr.translate('Asking Price:')
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -202,7 +204,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Description:'
+                        text: _tr.translate('Description:')
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -256,7 +258,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'Bid Amount:'
+                        text: _tr.translate('Bid Amount:')
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -395,7 +397,7 @@
                     Nwlabel:
                         # id: bid_tx
                         halign: 'left'
-                        text: 'Bid Tx:'
+                        text: _tr.translate('Bid Tx:')
                         text_size: self.size
 
                 Nwboxlayout:
@@ -421,7 +423,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Fee Rate:'
+                        text: _tr.translate('Fee Rate:')
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -442,7 +444,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Fee:'
+                        text: _tr.translate('Fee:')
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -463,7 +465,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'TX Size:'
+                        text: _tr.translate('TX Size:')
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -485,7 +487,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'TX Hex:'
+                        text: _tr.translate('TX Hex:')
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -527,10 +529,10 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: 'Cancel'
+                text: _tr.translate('Cancel')
                 on_press: root.manager.current = 'auctiondetail_screen'
 
             Nwbutton:
                 id: btn_send
-                text: 'Create TX'
+                text: _tr.translate('Create TX')
                 on_press: root.process_send() if self.text == 'Send' else root.build_send()

@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <ReceiveScreen>
     address: address
     # amount: amount
@@ -34,7 +36,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Label:'
+                text: _tr.translate('Label:')
                 valign: 'center'
                 font_size: dp(18)
                 size_hint_x: None
@@ -105,7 +107,7 @@
             height: dp(60)
 
             Nwbutton:
-                text: 'Done'
+                text: _tr.translate('Done')
                 on_press: root.save()
 
             # Nwbutton:

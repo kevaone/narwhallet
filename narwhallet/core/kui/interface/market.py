@@ -4,6 +4,7 @@ from kivy.properties import ObjectProperty
 from narwhallet.core.kex.peer import _peer
 from narwhallet.core.kex.cmd import _custom
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui import _translate as _tr
 
 
 class MarketScreen(Screen):
@@ -11,7 +12,7 @@ class MarketScreen(Screen):
     header = Header()
 
     def populate(self):
-        self.header.value = 'Market'
+        self.header.value = _tr.translate('Market')
         self.auction_list.scroll_y = 1
         self.auction_list.data = []
         # https://kva.keva.one/get_nft_auctions

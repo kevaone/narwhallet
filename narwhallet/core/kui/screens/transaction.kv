@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <TransactionScreen>
     txid: txid
     tx_hash: tx_hash
@@ -32,7 +34,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'TX ID:'
+                text: _tr.translate('TX ID:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(85)
@@ -56,7 +58,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'TX Hash:'
+                text: _tr.translate('TX Hash:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(85)
@@ -80,7 +82,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'Block Hash:'
+                text: _tr.translate('Block Hash:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(85)
@@ -104,7 +106,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'Block Time:'
+                text: _tr.translate('Block Time:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(85)
@@ -123,7 +125,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'TX Size:'
+                text: _tr.translate('TX Size:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(85)
@@ -139,7 +141,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'vsize:'
+                text: _tr.translate('vsize:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(65)
@@ -159,7 +161,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'time:'
+                text: _tr.translate('time:')
                 text_size: self.size
                 padding: [10, 0, 0, 0]
 
@@ -175,7 +177,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'version:'
+                text: _tr.translate('version:')
                 text_size: self.size
                 padding: [10, 0, 0, 0]
 
@@ -191,7 +193,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'confirmation:'
+                text: _tr.translate('confirmation:')
                 text_size: self.size
                 padding: [10, 0, 0, 0]
 
@@ -207,7 +209,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'lock time:'
+                text: _tr.translate('lock time:')
                 text_size: self.size
                 padding: [10, 0, 0, 0]
 
@@ -223,7 +225,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Inputs:'
+                text: _tr.translate('Inputs:')
                 halign: 'left'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
@@ -256,7 +258,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Outputs:'
+                text: _tr.translate('Outputs:')
                 halign: 'left'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
@@ -291,7 +293,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'hex:'
+                text: _tr.translate('hex:')
                 text_size: self.size
                 padding: [10, 0, 0, 0]
 
@@ -328,9 +330,9 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: 'Wallet'
+                text: _tr.translate('Wallet')
                 on_press: root.manager.current = 'wallet_screen'
 
             Nwbutton:
-                text: 'Transactions'
+                text: _tr.translate('Transactions')
                 on_press: root.manager.current = 'transactions_screen'

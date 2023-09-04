@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <NamespaceScreen>
     namespaceid: namespaceid
     namespace_name: namespace_name
@@ -40,7 +42,7 @@
             Nwlabel:
                 id: namespaceid
                 valign: 'center'
-                text: 'Namwspace Example'
+                text: _tr.translate('Namwspace Example')
                 font_size: dp(16)
                 text_size: self.size
                 padding: [10, 0, 0, 0]
@@ -116,7 +118,7 @@
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.creator.text)
 
             Nwlabel:
-                text: 'Creator:'
+                text: _tr.translate('Creator:')
                 valign: 'center'
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
@@ -144,7 +146,7 @@
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.owner.text)
 
             Nwlabel:
-                text: 'Owner:'
+                text: _tr.translate('Owner:')
                 valign: 'center'
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
@@ -174,7 +176,7 @@
 
             Nwbutton:
                 id: btn_create
-                text: 'Create Key'
+                text: _tr.translate('Create Key')
                 on_press: root.manager.createnamespacekey_screen.populate()
 
         ScrollView:
@@ -212,9 +214,9 @@
             height: dp(60)
 
             Nwbutton:
-                text: 'Wallet'
+                text: _tr.translate('Wallet')
                 on_press: root.manager.current = 'wallet_screen'
 
             Nwbutton:
-                text: 'Namespaces'
+                text: _tr.translate('Namespaces')
                 on_press: root.manager.current = 'namespaces_screen'

@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <WalletListInfo>
     sm: None
     wallet_name: wallet_name
@@ -39,7 +41,7 @@
             height: dp(20)
 
             Nwlabel:
-                text: 'Balance:'
+                text: _tr.translate('Balance:')
                 text_size: self.size
                 halign: 'right'
                 padding: [5, 0, 0, 0]
@@ -57,7 +59,7 @@
             height: dp(20)
 
             Nwlabel:
-                text: 'Last Updated:'
+                text: _tr.translate('Last Updated:')
                 halign: 'right'
                 padding: [5, 0, 0, 0]
                 text_size: self.size

@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <ContentScreen>
     content_list: content_list
     header: header
@@ -26,15 +28,15 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: 'Market'
+                text: _tr.translate('Market')
                 on_press: root.manager.market_screen.populate()
 
             Nwbutton:
-                text: 'My Auctions'
+                text: _tr.translate('My Auctions')
                 on_press: root.manager.auctions_screen.populate()
 
             Nwbutton:
-                text: 'My Bids'
+                text: _tr.translate('My Bids')
                 on_press: root.manager.bids_screen.populate()
 
             Nwbutton:
@@ -77,20 +79,20 @@
             height: dp(60)
 
             Nwbutton:
-                text: 'Home'
+                text: _tr.translate('Home')
                 icon: 'narwhallet/core/kui/assets/home_white.png'
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(20)
                 on_press: root.manager.current = 'home_screen'
 
             Nwbutton:
-                text: 'All'
+                text: _tr.translate('All')
                 on_press: root.manager.all_screen.populate()
 
             Nwbutton:
-                text: 'Favorites'
+                text: _tr.translate('Favorites')
                 on_press: root.manager.favorites_screen.populate()
 
             Nwbutton:
-                text: 'NFT''s'
+                text: _tr.translate('NFT''s')
                 on_press: root.manager.nft_screen.populate()

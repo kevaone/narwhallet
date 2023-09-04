@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui import _translate as _tr
 
 
 class AuctionsScreen(Screen):
@@ -11,7 +12,7 @@ class AuctionsScreen(Screen):
 
     def populate(self):
         self.auction_list.data = []
-        self.header.value = 'My Auctions'
+        self.header.value = _tr.translate('My Auctions')
         self.manager.current = 'auctions_screen'
 
         _asa = self.manager.cache.ns.get_view()

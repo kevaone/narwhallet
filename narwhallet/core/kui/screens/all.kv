@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <AllScreen>
     all_list: all_list
     header: header
@@ -50,5 +52,5 @@
             height: dp(60)
 
             Nwbutton:
-                text: 'Content'
+                text: _tr.translate('Content')
                 on_press: root.manager.current = 'content_screen'

@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <WalletInfoScreen>
     mnemonic_phrase: mnemonic_phrase
     seed: seed
@@ -52,7 +54,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Last Updated:'
+                        text: _tr.translate('Last Updated:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -69,7 +71,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Coin:'
+                        text: _tr.translate('Coin:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -103,7 +105,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Kind:'
+                        text: _tr.translate('Kind:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -120,7 +122,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Account Index:'
+                        text: _tr.translate('Account Index:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -137,7 +139,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Change Index:'
+                        text: _tr.translate('Change Index:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -154,7 +156,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Balance:'
+                        text: _tr.translate('Balance:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -171,7 +173,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Locked Balance:'
+                        text: _tr.translate('Locked Balance:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -275,7 +277,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'Seed:'
+                        text: _tr.translate('Seed:')
                         text_size: self.size
                         padding: [5, 0, 0, 0]
 
@@ -313,7 +315,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'Mnemonic Phrase:'
+                        text: _tr.translate('Mnemonic Phrase:')
                         text_size: self.size
                         padding: [5, 0, 0, 0]
 
@@ -343,5 +345,5 @@
             height: dp(60)
 
             Nwbutton:
-                text: 'Wallet'
+                text: _tr.translate('Wallet')
                 on_press: root.clear_screen()

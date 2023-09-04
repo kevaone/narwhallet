@@ -2,6 +2,7 @@ import json
 from kivy.uix.screenmanager import Screen
 from kivy.uix.recycleview import RecycleView
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui import _translate as _tr
 
 
 class FavoritesScreen(Screen):
@@ -9,7 +10,7 @@ class FavoritesScreen(Screen):
     header = Header()
 
     def populate(self):
-        self.header.value = 'Favorites'
+        self.header.value = _tr.translate('Favorites')
         self.favorites_list.data = []
         _asa = self.manager.cache.ns.get_view()
 

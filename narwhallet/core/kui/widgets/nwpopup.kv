@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <Nwpopup>
     status: status
     auto_dismiss: False
@@ -8,7 +10,7 @@
 
         Header:
             id: header
-            value: 'Send Status'
+            value: _tr.translate('Send Status')
 
         Nwboxlayout:
             size_hint_y: None
@@ -35,7 +37,7 @@
             height: dp(60)
 
             Nwbutton:
-                text: 'Ok'
+                text: _tr.translate('Ok')
                 # icon: 'narwhallet/core/kui/assets/.png'
                 # icon_size: (dp(25), dp(25))
                 # icon_padding: dp(20)

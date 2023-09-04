@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <MarketListInfo>
     sm: None
     favorite: favorite
@@ -73,11 +75,11 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Price:'
+                text: _tr.translate('Price:')
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]
-                width: dp(45)
+                width: dp(65)
                 size_hint_x: None
 
             Nwlabel:
@@ -87,11 +89,11 @@
                 text_size: self.size
 
             Nwlabel:
-                text: 'Bids:'
+                text: _tr.translate('Bids:')
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]
-                width: dp(45)
+                width: dp(65)
                 size_hint_x: None
 
             Nwlabel:
@@ -101,7 +103,7 @@
                 text_size: self.size
 
             Nwlabel:
-                text: 'High Bid:'
+                text: _tr.translate('High Bid:')
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]

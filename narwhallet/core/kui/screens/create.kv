@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <CreateScreen>
     wallet_name: wallet_name
     coin: coin
@@ -11,7 +13,7 @@
 
         Header:
             id: header
-            value: 'Create New Wallet'
+            value: _tr.translate('Create New Wallet')
 
         Nwboxlayout:
             size_hint_y: None
@@ -25,7 +27,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: 'Name:'
+                text: _tr.translate('Name:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
@@ -54,7 +56,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: 'Coin:'
+                text: _tr.translate('Coin:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
@@ -95,7 +97,7 @@
                 width: dp(10)
 
             Nwbutton:
-                text: 'Generate Mnemonic'
+                text: _tr.translate('Generate Mnemonic')
                 size_hint_x: None
                 width: dp(175)
                 on_press: root.generate_mnemonic()
@@ -107,7 +109,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: 'Mnemonic Phrase:'
+                text: _tr.translate('Mnemonic Phrase:')
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -151,10 +153,10 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: 'Cancel'
+                text: _tr.translate('Cancel')
                 on_press: root.return_home()
 
             Nwbutton:
                 id: btn_create
-                text: 'Create'
+                text: _tr.translate('Create')
                 on_press: root.create_wallet()

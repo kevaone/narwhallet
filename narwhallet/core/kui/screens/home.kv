@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <HomeScreen>
     wallet_list: wallet_list
     header: header
@@ -26,21 +28,21 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: 'Create'
+                text: _tr.translate('Create')
                 icon: 'narwhallet/core/kui/assets/plus_white.png'
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(17)
                 on_press: root.manager.create_screen.populate()
 
             Nwbutton:
-                text: 'Restore'
+                text: _tr.translate('Restore')
                 icon: 'narwhallet/core/kui/assets/wrench_white.png'
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(20)
                 on_press: root.manager.restore_screen.populate()
 
             Nwbutton:
-                text: 'Book'
+                text: _tr.translate('Book')
                 icon: 'narwhallet/core/kui/assets/menuList_white.png'
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(15)
@@ -81,15 +83,15 @@
                     size: self.size
 
             Nwbutton:
-                text: 'Content'
+                text: _tr.translate('Content')
                 on_press: root.manager.content_screen.populate()
 
             Nwbutton:
-                text: 'Utils'
+                text: _tr.translate('Utils')
                 on_press: root.manager.utils_screen.populate()
 
             Nwbutton:
-                text: 'Settings'
+                text: _tr.translate('Settings')
                 icon: 'narwhallet/core/kui/assets/gear_white.png'
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(20)

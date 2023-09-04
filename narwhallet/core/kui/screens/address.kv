@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <AddressScreen>
     address: address
     balance: balance
@@ -46,7 +48,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Label:'
+                text: _tr.translate('Label:')
                 font_size: dp(16)
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -72,7 +74,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Transactions:'
+                text: _tr.translate('Transactions:')
                 font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
@@ -89,7 +91,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Balance:'
+                text: _tr.translate('Balance:')
                 font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
@@ -141,9 +143,9 @@
             height: dp(60)
 
             Nwbutton:
-                text: 'Wallet'
+                text: _tr.translate('Wallet')
                 on_press: root.manager.current = 'wallet_screen'
 
             Nwbutton:
-                text: 'Addresses'
+                text: _tr.translate('Addresses')
                 on_press: root.manager.current = 'addresses_screen'

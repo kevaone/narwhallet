@@ -5,6 +5,7 @@ from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.nwnsimage import Nwnsimage
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
+from narwhallet.core.kui import _translate as _tr
 
 
 class FavoriteScreen(Screen):
@@ -17,7 +18,7 @@ class FavoriteScreen(Screen):
     header = Header()
 
     def populate(self, namespaceid):
-        self.header.value = 'Favorite'
+        self.header.value = _tr.translate('Favorite')
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.namespaceid.text = namespaceid

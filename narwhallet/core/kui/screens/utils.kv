@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <UtilsScreen>
     wallet_name: wallet_name
     address: address
@@ -17,7 +19,7 @@
 
         Header:
             id: header
-            value: 'Utils'
+            value: _tr.translate('Utils')
 
         Nwboxlayout:
             size_hint_y: None
@@ -53,7 +55,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'Wallet:'
+                        text: _tr.translate('Wallet:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(75)
@@ -89,7 +91,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'Address:'
+                        text: _tr.translate('Address:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(100)
@@ -130,7 +132,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'Public Key:'
+                        text: _tr.translate('Public Key:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -185,7 +187,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Message:'
+                        text: _tr.translate('Message:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
@@ -269,7 +271,7 @@
                         width: dp(10)
 
                     Nwbutton:
-                        text: 'Sign'
+                        text: _tr.translate('Sign')
                         size_hint_x: None
                         width: dp(150)
                         on_press: root.sign_message()
@@ -287,7 +289,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Signature:'
+                        text: _tr.translate('Signature:')
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
@@ -335,7 +337,7 @@
                         width: dp(10)
 
                     Nwbutton:
-                        text: 'Verify'
+                        text: _tr.translate('Verify')
                         size_hint_x: None
                         width: dp(150)
                         on_press: root.verify_message()
@@ -371,5 +373,5 @@
         orientation: 'horizontal'
 
         Nwbutton:
-            text: 'Home'
+            text: _tr.translate('Home')
             on_press: root.manager.current = 'home_screen'

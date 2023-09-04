@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <NamespaceAltScreen>
     namespaceid: ''
     namespace_name: namespace_name
@@ -109,7 +111,7 @@
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.creator.text)
 
             Nwlabel:
-                text: 'Creator:'
+                text: _tr.translate('Creator:')
                 valign: 'center'
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
@@ -137,7 +139,7 @@
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.owner.text)
 
             Nwlabel:
-                text: 'Owner:'
+                text: _tr.translate('Owner:')
                 valign: 'center'
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
@@ -188,5 +190,5 @@
             height: dp(60)
 
             Nwbutton:
-                text: 'Market'
+                text: _tr.translate('Market')
                 on_press: root.manager.current = 'market_screen'

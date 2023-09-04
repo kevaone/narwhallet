@@ -1,6 +1,7 @@
 from kivy.uix.screenmanager import Screen
 from kivy.uix.recycleview import RecycleView
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui import _translate as _tr
 
 
 class TransactionsScreen(Screen):
@@ -34,11 +35,11 @@ class TransactionsScreen(Screen):
                                 'block': str(_h['height']),
                                 'txvalue': str(round(self.tx_value(_h['tx_hash']), 8)),
                                 'sm': self.manager,
-                                'status': 'Spent'}
+                                'status': _tr.translate('Spent')}
                         _tx[_h['tx_hash']] = _d
                     for _u in address.unspent_tx:
                         if _u['tx_hash'] in list(_tx.keys()):
-                            _tx[_u['tx_hash']]['status'] = 'Partial Spend'
+                            _tx[_u['tx_hash']]['status'] = _tr.translate('Partial Spend')
                             # TODO Include in above correction
                             _tx[_u['tx_hash']]['txvalue'] = str(round(_u['value']/10000000, 8))
                         else:
@@ -47,7 +48,7 @@ class TransactionsScreen(Screen):
                                 'block': str(_h['height']),
                                 'txvalue': str(round(self.tx_value(_h['tx_hash']), 8)),
                                 'sm': self.manager,
-                                'status': 'Unspent'}
+                                'status': _tr.translate('Unspent')}
                             _tx[_u['tx_hash']] = _d
                         _ustx += 1
 
@@ -61,11 +62,11 @@ class TransactionsScreen(Screen):
                                 'block': str(_h['height']),
                                 'txvalue': str(round(self.tx_value(_h['tx_hash']), 8)),
                                 'sm': self.manager,
-                                'status': 'Spent'}
+                                'status': _tr.translate('Spent')}
                             _tx[_h['tx_hash']] = _d
                         for _u in address.unspent_tx:
                             if _u['tx_hash'] in list(_tx.keys()):
-                                _tx[_u['tx_hash']]['status'] = 'Partial Spend'
+                                _tx[_u['tx_hash']]['status'] = _tr.translate('Partial Spend')
                                 # TODO Include in above correction
                                 _tx[_u['tx_hash']]['txvalue'] = str(round(_u['value']/10000000, 8))
                             else:
@@ -74,7 +75,7 @@ class TransactionsScreen(Screen):
                                 'block': str(_h['height']),
                                 'txvalue': str(round(self.tx_value(_h['tx_hash']), 8)),
                                 'sm': self.manager,
-                                'status': 'Unspent'}
+                                'status': _tr.translate('Unspent')}
                                 _tx[_u['tx_hash']] = _d
                             _ustx += 1
 

@@ -2,6 +2,7 @@ import json
 from kivy.uix.screenmanager import Screen
 from kivy.uix.recycleview import RecycleView
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui import _translate as _tr
 
 
 class AllScreen(Screen):
@@ -9,7 +10,7 @@ class AllScreen(Screen):
     header = Header()
 
     def populate(self):
-        self.header.value = 'All'
+        self.header.value = _tr.translate('All')
         self.all_list.data = []
         _asa = self.manager.cache.ns.get_view()
 

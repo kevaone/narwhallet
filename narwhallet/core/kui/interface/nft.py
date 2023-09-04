@@ -2,6 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.recycleview import RecycleView
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui import _translate as _tr
 
 
 class NftScreen(Screen):
@@ -9,7 +10,7 @@ class NftScreen(Screen):
     header = Header()
 
     def populate(self):
-        self.header.value = 'Nft''s'
+        self.header.value = _tr.translate('Nft''s')
         self.nft_list.data = []
         _asa = self.manager.cache.ns.get_view()
 

@@ -16,6 +16,7 @@ from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwpopup import Nwpopup
+from narwhallet.core.kui import _translate as _tr
 
 
 TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
@@ -52,7 +53,7 @@ class BidNamespaceScreen(Screen):
         self.used_inputs = []
         
     def populate(self, namespaceid):
-        self.header.value = 'Create Bid'
+        self.header.value = _tr.translate('Create Bid')
         
         _wallets = []
         for _w in self.manager.wallets.wallets:
@@ -87,7 +88,7 @@ class BidNamespaceScreen(Screen):
         self.fee.text = ''
         self.txsize.text = ''
         self.txhex.text = ''
-        self.btn_send.text = 'Create TX'
+        self.btn_send.text = _tr.translate('Create TX')
         self.btn_send.disabled = True
         self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'bidnamespace_screen'
@@ -315,7 +316,7 @@ class BidNamespaceScreen(Screen):
         self.txsize.text = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex.text = Ut.bytes_to_hex(_stx)
-        self.btn_send.text = 'Send'
+        self.btn_send.text = _tr.translate('Send')
 
     def build_send(self):
         self.new_tx = MTransactionBuilder()
@@ -354,9 +355,9 @@ class BidNamespaceScreen(Screen):
         result_popup = Nwpopup()
 
         if msgType == 1:
-            result_popup.status.text = 'Error:\n' + _result
+            result_popup.status.text = _tr.translate('Error') + ':\n' + _result
         elif msgType == 2:
-            result_popup.status.text = 'Ok!'
+            result_popup.status.text = _tr.translate('Ok!')
 
         result_popup.open()
         self.manager.current = 'bids_screen'

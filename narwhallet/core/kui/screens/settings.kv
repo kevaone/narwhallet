@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <SettingsScreen>
     iserver_host: iserver_host
     iserver_port: iserver_port
@@ -26,6 +28,7 @@
     content_provider_ssl_1: content_provider_ssl_1
     content_provider_verify_0: content_provider_verify_0
     content_provider_verify_1: content_provider_verify_1
+    lang: lang
 
     GridLayout:
         size_hint: None, None
@@ -34,7 +37,7 @@
 
         Header:
             id: header
-            value: 'Settings'
+            value: _tr.translate('Settings')
 
         Nwboxlayout:
             size_hint_y: None
@@ -68,7 +71,8 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'General Settings'
+                        text: _tr.translate('General Settings')
+                        # text: _tr.translate(self._text)
                         halign: 'left'
                         font_size: dp(25)
                         text_size: self.size
@@ -80,7 +84,33 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Show Change Addresses:'
+                        text: _tr.translate('Language:')
+                        # text: _tr.translate(self._text)
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(200)
+
+                    Spinner:
+                        id: lang
+                        halign: 'center'
+                        valign: 'center'
+                        text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(200)
+                        on_text: root.update_lang()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(45)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        text: _tr.translate('Show Change Addresses:')
+                        # text: _tr.translate(self._text)
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -96,7 +126,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'Yes'
+                        text: _tr.translate('Yes')
                         group: 'change'
                         # state: 'down'
                         halign: 'center'
@@ -109,7 +139,8 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Connection Settings'
+                        text: _tr.translate('Connection Settings')
+                        # text: _tr.translate(self._text)
                         halign: 'left'
                         font_size: dp(25)
                         text_size: self.size
@@ -121,7 +152,8 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Status:'
+                        text: _tr.translate('Status:')
+                        # text: _tr.translate(self._text)
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -141,7 +173,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Server:'
+                        text: _tr.translate('Server:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -164,7 +196,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Port:'
+                        text: _tr.translate('Port:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -187,7 +219,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'SSL:'
+                        text: _tr.translate('SSL:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -203,7 +235,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'Yes'
+                        text: _tr.translate('Yes')
                         group: 'ssl'
                         # state: 'down'
                         halign: 'center'
@@ -218,7 +250,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'No'
+                        text: _tr.translate('No')
                         group: 'ssl'
                         # state: 'down'
                         halign: 'center'
@@ -231,7 +263,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Validate SSL:'
+                        text: _tr.translate('Validate SSL:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -247,7 +279,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'Yes'
+                        text: _tr.translate('Yes')
                         group: 'vssl'
                         # state: 'down'
                         halign: 'center'
@@ -262,7 +294,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'No'
+                        text: _tr.translate('No')
                         group: 'vssl'
                         # state: 'down'
                         halign: 'center'
@@ -282,7 +314,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(150)
-                        text: 'Active'
+                        text: _tr.translate('Active')
                         group: 'con'
                         # state: 'down'
                         halign: 'center'
@@ -295,7 +327,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Alt Server:'
+                        text: _tr.translate('Alt Server:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -318,7 +350,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Alt Port:'
+                        text: _tr.translate('Alt Port:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -341,7 +373,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'SSL:'
+                        text: _tr.translate('SSL:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -357,7 +389,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'Yes'
+                        text: _tr.translate('Yes')
                         group: 'assl'
                         # state: 'down'
                         halign: 'center'
@@ -372,7 +404,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'No'
+                        text: _tr.translate('No')
                         group: 'assl'
                         # state: 'down'
                         halign: 'center'
@@ -385,7 +417,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Validate SSL:'
+                        text: _tr.translate('Validate SSL:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -401,7 +433,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'Yes'
+                        text: _tr.translate('Yes')
                         group: 'avssl'
                         # state: 'down'
                         halign: 'center'
@@ -416,7 +448,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'No'
+                        text: _tr.translate('No')
                         group: 'avssl'
                         # state: 'down'
                         halign: 'center'
@@ -436,7 +468,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(150)
-                        text: 'Active'
+                        text: _tr.translate('Active')
                         group: 'con'
                         # state: 'down'
                         halign: 'center'
@@ -449,7 +481,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'IPFS Settings'
+                        text: _tr.translate('IPFS Settings')
                         halign: 'left'
                         font_size: dp(25)
                         text_size: self.size
@@ -461,7 +493,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Gateway:'
+                        text: _tr.translate('Gateway:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -491,7 +523,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(150)
-                        text: 'Active'
+                        text: _tr.translate('Active')
                         group: 'ipfs'
                         # state: 'down'
                         halign: 'center'
@@ -504,7 +536,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Alt Gateway:'
+                        text: _tr.translate('Alt Gateway:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -534,7 +566,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(150)
-                        text: 'Active'
+                        text: _tr.translate('Active')
                         group: 'ipfs'
                         # state: 'down'
                         halign: 'center'
@@ -548,7 +580,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Content Provider'
+                        text: _tr.translate('Content Provider')
                         halign: 'left'
                         font_size: dp(25)
                         text_size: self.size
@@ -560,7 +592,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Server:'
+                        text: _tr.translate('Server:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -583,7 +615,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Port:'
+                        text: _tr.translate('Port:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -606,7 +638,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'SSL:'
+                        text: _tr.translate('SSL:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -622,7 +654,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'Yes'
+                        text: _tr.translate('Yes')
                         group: 'ssl'
                         # state: 'down'
                         halign: 'center'
@@ -637,7 +669,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'No'
+                        text: _tr.translate('No')
                         group: 'ssl'
                         # state: 'down'
                         halign: 'center'
@@ -650,7 +682,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: 'Validate SSL:'
+                        text: _tr.translate('Validate SSL:')
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -666,7 +698,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'Yes'
+                        text: _tr.translate('Yes')
                         group: 'vssl'
                         # state: 'down'
                         halign: 'center'
@@ -681,7 +713,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: 'No'
+                        text: _tr.translate('No')
                         group: 'vssl'
                         # state: 'down'
                         halign: 'center'
@@ -701,8 +733,9 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: 'Home'
+                text: _tr.translate('Home')
                 icon: 'narwhallet/core/kui/assets/home_white.png'
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(20)
                 on_press: root.manager.current = 'home_screen'
+                # on_text: self.text = _tr.translate(self)

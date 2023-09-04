@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <AddressBookEntryScreen>
     address: address
     address_name: address_name
@@ -15,7 +17,7 @@
 
         Header:
             id: header
-            value: 'Address Book - Entry'
+            value: _tr.translate('Address Book - Entry')
 
         Nwboxlayout:
             size_hint_y: None
@@ -38,7 +40,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Coin:'
+                text: _tr.translate('Coin:')
                 font_size: dp(18)
                 padding: [10, 0, 0, 0]
 
@@ -54,7 +56,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Name:'
+                text: _tr.translate('Name:')
                 font_size: dp(18)
                 padding: [10, 0, 0, 0]
 
@@ -70,7 +72,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Label:'
+                text: _tr.translate('Label:')
                 font_size: dp(18)
                 padding: [10, 0, 0, 0]
 
@@ -92,7 +94,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Balance:'
+                text: _tr.translate('Balance:')
                 font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
@@ -109,7 +111,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Sent:'
+                text: _tr.translate('Sent:')
                 font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
@@ -126,7 +128,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Received:'
+                text: _tr.translate('Received:')
                 font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
@@ -159,5 +161,5 @@
             #     on_press: root.manager.current = 'home_screen'
 
             Nwbutton:
-                text: 'Address Book'
+                text: _tr.translate('Address Book')
                 on_press: root.manager.current = 'addressbook_screen'

@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <AddAddressBookEntryScreen>
     address: address
     address_name: address_name
@@ -10,7 +12,7 @@
 
         Header:
             id: header
-            value: 'Address Book - Add Entry'
+            value: _tr.translate('Address Book - Add Entry')
 
         Nwboxlayout:
             size_hint_y: None
@@ -23,7 +25,7 @@
 
             Nwlabel:
                 valign: 'center'
-                text: 'Address:'
+                text: _tr.translate('Address:')
                 font_size: dp(20)
                 text_size: self.size
                 padding: [10, 0, 0, 0]
@@ -61,7 +63,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Coin:'
+                text: _tr.translate('Coin:')
                 valign: 'center'
                 font_size: dp(20)
                 text_size: self.size
@@ -89,7 +91,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Name:'
+                text: _tr.translate('Name:')
                 valign: 'center'
                 font_size: dp(20)
                 text_size: self.size
@@ -117,7 +119,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Label:'
+                text: _tr.translate('Label:')
                 valign: 'center'
                 font_size: dp(20)
                 text_size: self.size
@@ -150,9 +152,9 @@
             height: dp(60)
 
             Nwbutton:
-                text: 'Cancel'
+                text: _tr.translate('Cancel')
                 on_press: root.cancel()
 
             Nwbutton:
-                text: 'Add'
+                text: _tr.translate('Add')
                 on_press: root.add_entry()

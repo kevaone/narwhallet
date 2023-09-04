@@ -1,3 +1,5 @@
+#:import _tr narwhallet.core.kui._translate
+
 <AddressesScreen>
     address_list: address_list
     header: header
@@ -20,7 +22,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: 'Addresses'
+                text: _tr.translate('Addresses')
                 halign: 'left'
                 font_size: dp(25)
                 text_size: self.size
@@ -40,7 +42,7 @@
 
             Nwbutton:
                 id: btn_add
-                text: 'Increase Pool'
+                text: _tr.translate('Increase Pool')
                 on_press: root.btn_add_click()
 
         RecycleView:
@@ -83,5 +85,5 @@
             #     on_press: root.manager.current = 'home_screen'
 
             Nwbutton:
-                text: 'Wallet'
+                text: _tr.translate('Wallet')
                 on_press: root.manager.current = 'wallet_screen'
