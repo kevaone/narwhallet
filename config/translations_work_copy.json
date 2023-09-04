@@ -1,6 +1,6 @@
 {
     "active": 0,
-    "available": ["en_US", "zh_CHS"],
+    "available": [["English - United States", "en_US"], ["Chinese (Simplified)", "zh_CHS"]],
     "strings": {
         "Account Index:": {"zh_CHS": "账户索引："},
         "Active": {"zh_CHS": "积极的"},

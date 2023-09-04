@@ -7,7 +7,7 @@ _dat = ConfigLoader('narwhallet/core/kui/translations.json')
 _dat.load()
 
 def translate(text):
-    _lang = _dat.data['available'][_dat.data['active']]
+    _lang = _dat.data['available'][_dat.data['active']][1]
 
     try:
         _t = _dat.data['strings'][text][_lang]

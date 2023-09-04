@@ -56,8 +56,12 @@ class SettingsScreen(Screen):
         else:
             self.show_change.state = 'normal'
 
-        self.lang.values = self.lang_dat.data['available']
-        self.lang.text = self.lang_dat.data['available'][self.lang_dat.data['active']]
+        _alang = []
+        for _lang in self.lang_dat.data['available']:
+            _alang.append(_lang[0])
+
+        self.lang.values = _alang
+        self.lang.text = self.lang_dat.data['available'][self.lang_dat.data['active']][0]
 
         self.manager.kex.active_peer = self.settings.primary_peer
 
