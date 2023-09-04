@@ -165,6 +165,12 @@ class NarwhalletScreens(ScreenManager):
                                      'config/special_keys.json'),
                         _narwhallet_path)
 
+        if os.path.isfile(os.path.join(_narwhallet_path,
+                                       'translations.json')) is False:
+            print('settings.json created.')
+            shutil.copy(os.path.join(self.program_path,
+                                     'config/translations.json'), _narwhallet_path)
+
         return _narwhallet_path
 
     def load_wallets(self):

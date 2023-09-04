@@ -39,7 +39,7 @@ class SettingsScreen(Screen):
     content_provider_verify_0 = ToggleButton()
     content_provider_verify_1 = ToggleButton()
     lang = Spinner()
-    
+
     def load_settings(self):
         # TODO Clean up
         self.settings: MNarwhalletSettings = MNarwhalletSettings()
@@ -48,7 +48,7 @@ class SettingsScreen(Screen):
                                                  'settings.json'))
         self.set_dat.load()
         self.settings.from_dict(self.set_dat.data)
-        self.lang_dat = ConfigLoader('narwhallet/core/kui/translations.json')
+        self.lang_dat = ConfigLoader(os.path.join(self.user_path, 'translations.json'))
         self.lang_dat.load()
 
         if self.settings.show_change:
