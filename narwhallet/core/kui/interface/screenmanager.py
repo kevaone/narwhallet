@@ -167,7 +167,7 @@ class NarwhalletScreens(ScreenManager):
 
         if os.path.isfile(os.path.join(_narwhallet_path,
                                        'translations.json')) is False:
-            print('settings.json created.')
+            print('translations.json created.')
             shutil.copy(os.path.join(self.program_path,
                                      'config/translations.json'), _narwhallet_path)
 
