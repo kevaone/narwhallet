@@ -1,14 +1,17 @@
 from kivy.uix.screenmanager import Screen
+from narwhallet.core.kcl.bip_utils.bip39.bip39_mnemonic import Bip39Languages
 from narwhallet.core.kcl.wallet import MWallet
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
+from narwhallet.core.kui import _translate as _tr
 
 
 class CreateScreen(Screen):
     wallet_name = TextInput()
     coin = Spinner()
+    mnemonic_lang = Spinner()
     # type = ObjectProperty(None)
     mnemonic = TextInput()
     _w = MWallet()
@@ -18,8 +21,31 @@ class CreateScreen(Screen):
     def __init__(self, **kwargs):
         super(CreateScreen, self).__init__(**kwargs)
 
+    def get_mnemonic_lang(self):
+        _lang = self.mnemonic_lang.text
+        if _lang == _tr.translate('ENGLISH'):
+            return Bip39Languages.ENGLISH
+        elif _lang == _tr.translate('ITALIAN'):
+            return Bip39Languages.ITALIAN
+        elif _lang == _tr.translate('FRENCH'):
+            return Bip39Languages.FRENCH
+        elif _lang == _tr.translate('SPANISH'):
+            return Bip39Languages.SPANISH
+        elif _lang == _tr.translate('PORTUGUESE'):
+            return Bip39Languages.PORTUGUESE
+        elif _lang == _tr.translate('CZECH'):
+            return Bip39Languages.CZECH
+        elif _lang == _tr.translate('CHINESE_SIMPLIFIED'):
+            return Bip39Languages.CHINESE_SIMPLIFIED
+        elif _lang == _tr.translate('CHINESE_TRADITIONAL'):
+            return Bip39Languages.CHINESE_TRADITIONAL
+        elif _lang == _tr.translate('KOREAN'):
+            return Bip39Languages.KOREAN
+
+        return Bip39Languages.ENGLISH
+
     def generate_mnemonic(self):
-        self._w.generate_mnemonic()
+        self._w.generate_mnemonic(self.get_mnemonic_lang())
         self.mnemonic.text = self._w.mnemonic
 
     def create_wallet(self):
@@ -52,6 +78,15 @@ class CreateScreen(Screen):
 
     def populate(self):
         self.reset_screen()
+        self.mnemonic_lang.values = [_tr.translate('ENGLISH'),
+            _tr.translate('ITALIAN'),
+            _tr.translate('FRENCH'),
+            _tr.translate('SPANISH'),
+            _tr.translate('PORTUGUESE'),
+            _tr.translate('CZECH'),
+            _tr.translate('CHINESE_SIMPLIFIED'),
+            _tr.translate('CHINESE_TRADITIONAL'),
+            _tr.translate('KOREAN')]
         self.manager.current = 'create_screen'
 
     def return_home(self):

@@ -4,6 +4,7 @@
     wallet_name: wallet_name
     coin: coin
     mnemonic: mnemonic
+    mnemonic_lang: mnemonic_lang
     header: header
     btn_create: btn_create
 
@@ -76,6 +77,34 @@
             height: dp(10)
             orientation: 'horizontal'
 
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(35)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                text: _tr.translate('Mnemonic Language:')
+                text_size: self.size
+                size_hint_x: None
+                width: dp(175)
+                padding: [10, 0, 0, 0]
+
+            Spinner:
+                id: mnemonic_lang
+                halign: 'center'
+                valign: 'center'
+                text: 'ENGLISH'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(175)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+            orientation: 'horizontal'
+
         BoxLayout:
             canvas:
                 Color:
@@ -117,7 +146,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(125)
+            height: dp(200)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -133,8 +162,10 @@
                 text: ''
                 text_size: self.size
                 size_hint_x: None
-                width: dp(250)
-                padding: [10, 0, 0, 0]
+                size_hint_y: None
+                height: self.parent.height
+                width: dp(350)
+                padding: [10, 5, 10, 5]
                 on_text: root.validate_mnemonic()
 
         Nwboxlayout:

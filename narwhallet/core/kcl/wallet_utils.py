@@ -9,6 +9,7 @@ from narwhallet.core.kcl.bip_utils import (Bip39MnemonicGenerator,
                                            Bip39SeedGenerator,
                                            Bip32Secp256k1, Bip44Changes,
                                            Bip44Coins, Bip44, Bip49)
+from narwhallet.core.kcl.bip_utils.bip39.bip39_mnemonic import Bip39Languages
 from narwhallet.core.kcl.bip_utils.conf import Bip49KevacoinMainNet
 from narwhallet.core.kcl.bip_utils.addr.P2SH_addr import P2SHAddr
 from narwhallet.core.ksc.utils import Ut
@@ -160,9 +161,9 @@ class _wallet_utils():
         return _master.PrivateKey().Raw().ToBytes()
 
     @staticmethod
-    def generate_mnemonic():
+    def generate_mnemonic(lang: Bip39Languages):
         _word_num = Bip39WordsNum.WORDS_NUM_24
-        return Bip39MnemonicGenerator().FromWordsNumber(_word_num)
+        return Bip39MnemonicGenerator(lang).FromWordsNumber(_word_num)
 
     @staticmethod
     def generate_entropy(mnemonic: str):

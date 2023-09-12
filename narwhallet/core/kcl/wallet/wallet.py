@@ -1,3 +1,4 @@
+from narwhallet.core.kcl.bip_utils.bip39.bip39_mnemonic import Bip39Languages
 from narwhallet.core.kcl.wallet.addresses import MAddresses
 from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kcl.wallet_utils import _wallet_utils as WalletUtils
@@ -190,9 +191,9 @@ class MWallet():
     def incriment_change_index(self) -> None:
         self._change_index = self.change_index + 1
 
-    def generate_mnemonic(self) -> None:
+    def generate_mnemonic(self, lang: Bip39Languages) -> None:
         if self.seed == '':
-            self.set_mnemonic(WalletUtils.generate_mnemonic())
+            self.set_mnemonic(WalletUtils.generate_mnemonic(lang))
         else:
             raise Exception
 
