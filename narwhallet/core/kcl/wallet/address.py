@@ -11,7 +11,7 @@ class MAddress():
         self._history: list = []
         self._input_tx: list = []
         self._output_tx: list = []
-        self._unspent_tx: list = []
+        self._namespaces: list = []
 
     @property
     def address(self) -> str:
@@ -55,7 +55,16 @@ class MAddress():
 
     @property
     def unspent_tx(self) -> list:
-        return self._unspent_tx
+        _unspent_tx = []
+        for _tx in self.history:
+            if 'received' not in _tx and 'spent' not in _tx:
+                _unspent_tx.append(_tx)
+
+        return _unspent_tx
+
+    @property
+    def namespaces(self) -> list:
+        return self._namespaces
 
     def set_address(self, address: str) -> None:
         self._address = address
@@ -78,8 +87,8 @@ class MAddress():
     def set_history(self, history: list) -> None:
         self._history = history
 
-    def set_unspent_tx(self, unpsent_tx: list) -> None:
-        self._unspent_tx = unpsent_tx
+    def set_namespaces(self, namespaces) -> None:
+        self._namespaces = namespaces
 
     def add_input_tx(self, tx) -> None:
         self._input_tx.append(tx)
@@ -96,4 +105,4 @@ class MAddress():
                 'received': self.received, 'balance': self.balance,
                 'unconfirmed_balance': self.unconfirmed_balance,
                 'label': self.label, 'history': self.history,
-                'unspent_tx': self.unspent_tx}
+                'unspent_tx': self.unspent_tx, 'namespaces': self.namespaces}

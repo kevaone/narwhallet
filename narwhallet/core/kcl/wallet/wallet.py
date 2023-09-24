@@ -19,12 +19,12 @@ class MWallet():
         self._bip: str = ''
         self._kind: EWalletKind = EWalletKind.NORMAL
         self._k: bytes = b''
-        self._balance: float = 0.0
         self._bid_balance: float = 0.0
         self._bid_tx: list = []
         self._locked: bool = False
         self._updating: bool = False
         self._last_updated: float = 0.0
+        self._last_updated_block: int = 0
         self._account_index: int = 0
         self._change_index: int = 0
         self._addresses = MAddresses()
@@ -73,7 +73,43 @@ class MWallet():
 
     @property
     def balance(self) -> float:
-        return self._balance
+        _balance = 0.0
+        for _a in self.addresses.addresses:
+            _balance = _balance + _a.balance
+
+        for _a in self.change_addresses.addresses:
+            _balance = _balance + _a.balance
+        return _balance
+
+    @property
+    def sent(self) -> float:
+        _sent = 0.0
+        for _a in self.addresses.addresses:
+            _sent = _sent + _a.sent
+
+        for _a in self.change_addresses.addresses:
+            _sent = _sent + _a.sent
+        return _sent
+
+    @property
+    def received(self) -> float:
+        _received = 0.0
+        for _a in self.addresses.addresses:
+            _received = _received + _a.received
+
+        for _a in self.change_addresses.addresses:
+            _received = _received + _a.received
+        return _received
+
+    @property
+    def unconfirmed_balance(self) -> float:
+        _unconfirmed_balance = 0.0
+        for _a in self.addresses.addresses:
+            _unconfirmed_balance = _unconfirmed_balance + _a.unconfirmed_balance
+
+        for _a in self.change_addresses.addresses:
+            _unconfirmed_balance = _unconfirmed_balance + _a.unconfirmed_balance
+        return _unconfirmed_balance
 
     @property
     def bid_balance(self) -> float:
@@ -96,6 +132,10 @@ class MWallet():
         return self._last_updated
 
     @property
+    def last_updated_block(self) -> int:
+        return self._last_updated_block
+
+    @property
     def addresses(self) -> MAddresses:
         return self._addresses
 
@@ -110,6 +150,36 @@ class MWallet():
     @property
     def change_index(self) -> int:
         return self._change_index
+
+    @property
+    def history(self) -> list:
+        _history: list = []
+        for _a in self.addresses.addresses:
+            _history = _history + _a.history
+
+        for _a in self.change_addresses.addresses:
+            _history = _history + _a.history
+        return _history
+
+    @property
+    def unspent_tx(self) -> list:
+        _unspent_tx: list = []
+        for _a in self.addresses.addresses:
+            _unspent_tx = _unspent_tx + _a.unspent_tx
+
+        for _a in self.change_addresses.addresses:
+            _unspent_tx = _unspent_tx + _a.unspent_tx
+        return _unspent_tx
+
+    @property
+    def namespaces(self) -> list:
+        _namespaces: list = []
+        for _a in self.addresses.addresses:
+            _namespaces = _namespaces + _a.namespaces
+
+        for _a in self.change_addresses.addresses:
+            _namespaces = _namespaces + _a.namespaces
+        return _namespaces
 
     def set_name(self, name: str) -> None:
         self._name = name
@@ -158,9 +228,6 @@ class MWallet():
     def set_k(self, k: str):
         self._k = Ut.sha256(Ut.reverse_bytes(Ut.sha256(k)))
 
-    def set_balance(self, balance: float) -> None:
-        self._balance = balance
-
     def set_bid_tx(self, bid_tx: list) -> None:
         self._bid_tx = bid_tx
 
@@ -178,6 +245,9 @@ class MWallet():
 
     def set_last_updated(self, last_updated: float) -> None:
         self._last_updated = last_updated
+
+    def set_last_updated_block(self, last_updated_block: int) -> None:
+        self._last_updated_block = last_updated_block
 
     def set_account_index(self, account_index: int) -> None:
         self._account_index = account_index
@@ -368,6 +438,7 @@ class MWallet():
                 'bid_balance': self.bid_balance, 'locked': self.locked,
                 'state_lock': self.state_lock,
                 'last_updated': self.last_updated,
+                'last_updated_block': self.last_updated_block,
                 'account_index': self.account_index,
                 'change_index': self.change_index,
                 'addresses': self.addresses.to_dict_list(),

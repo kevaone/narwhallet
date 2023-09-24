@@ -40,8 +40,8 @@ class MAddresses():
         _address.set_label(address['label'])
         if 'history' in address:
             _address.set_history(address['history'])
-        if 'unspent_tx' in address:
-            _address.set_unspent_tx(address['unspent_tx'])
+        if 'namespaces' in address:
+            _address.set_namespaces(address['namespaces'])
 
         self._addresses.append(_address)
         self._names[_address.address] = len(self._addresses) - 1

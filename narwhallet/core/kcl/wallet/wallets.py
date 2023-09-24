@@ -62,11 +62,12 @@ class MWallets():
         _wallet.set_extended_prv(_wm_dat['extended_prv'])
         _wallet.set_extended_pub(_wm_dat['extended_pub'])
         _wallet.set_kind(_wm_dat['kind'])
-        _wallet.set_balance(_wm_dat['balance'])
         if 'bid_balance' in _wm_dat:
             _wallet.set_bid_balance(_wm_dat['bid_balance'])
         _wallet.set_locked(_wm_dat['locked'])
         _wallet.set_last_updated(_wm_dat['last_updated'])
+        if 'last_updated_block' in _wm_dat:
+            _wallet.set_last_updated_block(_wm_dat['last_updated_block'])
         if 'state_lock' in _wm_dat:
             _wallet.set_state_lock(_wm_dat['state_lock'])
 
