@@ -284,6 +284,130 @@ class MShared():
         return _bal
 
     @staticmethod
+    def get_addresses(wallet: MWallet, kex: KEXclient):
+        _th: list = []
+        _tid: dict = {}
+        _th, _tid = MShared._get_addresses_cmds(wallet, 1, _th, _tid, kex)
+        _th, _tid = MShared._get_addresses_cmds(wallet, 0, _th, _tid, kex)
+        _batches = MShared.batch_cmds(_th)
+        MShared._get_addresses(wallet, _batches, _tid, kex)
+
+    @staticmethod
+    def _get_addresses_cmds(wallet: MWallet, chain: int, _th: list,
+                            _tid: dict, kex: KEXclient):
+        if chain == 0:
+            _addresses = wallet.change_addresses
+        elif chain == 1:
+            _addresses = wallet.addresses
+
+        for _a in _addresses.addresses:
+            # _script_hash = Scripts.AddressScriptHash(_a.address)
+            # _script_hash = Scripts.compileToScriptHash(_script_hash, True)
+            _th.append(kex.api.custom.get_address
+                       (_a.address, kex.id))
+            _tid[str(kex.id)] = {}
+            _tid[str(kex.id)]['address'] = _a.address
+            _tid[str(kex.id)]['chain'] = chain
+            kex.id = kex.id + 1
+
+        # NOTE Padding to detect used addresses out of wallets current index's
+        if len(_addresses.addresses) == 0:
+            _scan_pad = 100
+        else:
+            _scan_pad = 10
+
+        if wallet.kind != 3:
+            for _pad in range(0, _scan_pad):
+                if chain == 0:
+                    _pad_value = len(wallet.change_addresses.addresses) + _pad
+                    _addr = wallet.get_change_address_by_index(_pad_value,
+                                                               False)
+                elif chain == 1:
+                    _pad_value = len(wallet.addresses.addresses) + _pad
+                    _addr = wallet.get_address_by_index(_pad_value, False)
+
+                # _script_hash = Scripts.AddressScriptHash(_addr)
+                # _script_hash = Scripts.compileToScriptHash(_script_hash, True)
+                _th.append(kex.api.custom.get_address
+                           (_addr, kex.id))
+                _tid[str(kex.id)] = {}
+                _tid[str(kex.id)]['address'] = _addr
+                _tid[str(kex.id)]['chain'] = chain
+                _tid[str(kex.id)]['pad'] = _pad_value
+                kex.id = kex.id + 1
+
+        return _th, _tid
+
+    @staticmethod
+    def _process_addresses(wallet: MWallet, _tid: dict, i: dict):
+        _chain = _tid[str(i['id'])]['chain']
+        if _chain == 0:
+            _addresses = wallet.change_addresses
+        else:
+            _addresses = wallet.addresses
+
+        # i {'jsonrpc': '2.0', 'result': [{'address': 'VCr5vsD8ga5ua1bj7kWTtzRdVwJPfDFJgL', 'received': 1506.5406293, 'sent': 1504.0406293, 'balance': 2.5}, {'total_results': 39, 'page_results': [{'block
+        _a = _tid[str(i['id'])]['address']
+        _ax = _addresses.get_address_index_by_name(_a)
+        if _ax == -1:
+            if len(i['result']) <= 0:
+                return
+
+            _p = _tid[str(i['id'])]['pad']
+            while _addresses.count < _p:
+                if _chain == 0:
+                    wallet.get_unused_change_address()
+                else:
+                    wallet.get_unused_address()
+
+            if _p == _addresses.count:
+                if _chain == 0:
+                    wallet.get_change_address_by_index(_p, True)
+                else:
+                    wallet.get_address_by_index(_p, True)
+
+                _ax = _addresses.get_address_index_by_name(_a)
+                _addresses.addresses[_ax].set_history(i['result'][1]['page_results'])
+        else:
+            _addresses.addresses[_ax].set_history(i['result'][1]['page_results'])
+
+        _addresses.addresses[_ax].set_namespaces(i['result'][2])
+        _addresses.addresses[_ax].set_sent(i['result'][0]['sent'])
+        _addresses.addresses[_ax].set_received(i['result'][0]['received'])
+        _addresses.addresses[_ax].set_balance(i['result'][0]['balance'])
+
+    @staticmethod
+    def _get_addresses(wallet: MWallet, batches: list, _tid: dict,
+                       kex: KEXclient):
+        for batch in batches:
+            _h = []
+            if batch != b'[]\n':
+                _h = MShared.__get_batch(batch, kex)
+
+            if not isinstance(_h, list):
+                continue
+
+            for i in _h:
+                if str(i['id']) not in _tid:
+                    continue
+
+                MShared._process_addresses(wallet, _tid, i)
+
+    @staticmethod
+    def _get_address(address: str, kex: KEXclient) -> dict:
+        # _script_hash = Scripts.AddressScriptHash(address)
+        # _script_hash = Scripts.compileToScriptHash(_script_hash, True)
+        _hist = kex.call(kex.api.custom.get_address
+                         (address, kex.id))
+        kex.id += 1
+        if _hist != '':
+            _hist = json.loads(_hist)['result']
+        else:
+            _hist = []
+
+        return _hist
+
+    @staticmethod
     def get_histories(wallet: MWallet, kex: KEXclient):
         _th: list = []
         _tid: dict = {}
