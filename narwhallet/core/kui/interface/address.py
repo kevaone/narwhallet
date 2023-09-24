@@ -4,6 +4,7 @@ from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.qrcode import QR_Code
 import qrcode
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui import _translate as _tr
 
 
 class AddressScreen(Screen):
@@ -33,9 +34,16 @@ class AddressScreen(Screen):
             self.transactions.text = str(len(_addr.history))
 
             for _h in _addr.history:
+                _s = ''
+                if 'received' in _h:
+                    _s = 'Spend'
+                else:
+                    _s = 'Receive'
                 _t = {
-                'transaction': _h['tx_hash'],
-                'block': str(_h['height']),
+                'transaction': _h['txid'],
+                'block': str(_h['block']),
+                'txvalue': str(_h['value']),
+                'status': _tr.translate(_s),
                 'sm': self.manager}
                 _addrs.append(_t)
                 

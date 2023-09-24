@@ -157,6 +157,10 @@ class _blockchain(_cmd):
 
 class _custom(_cmd):
     @staticmethod
+    def get_address(address, eid: int):
+        return _cmd.build_command('get_address', [address], eid)
+
+    @staticmethod
     def get_namespace(ns_id, eid: int):
         return _cmd.build_command('get_namespace', [ns_id, False], eid)
 
