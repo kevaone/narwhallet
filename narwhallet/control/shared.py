@@ -291,6 +291,33 @@ class MShared():
         _th, _tid = MShared._get_addresses_cmds(wallet, 0, _th, _tid, kex)
         _batches = MShared.batch_cmds(_th)
         MShared._get_addresses(wallet, _batches, _tid, kex)
+        # NOTE Clip off unused addresses
+        MShared._clip_unused_addresses(wallet, 1)
+        MShared._clip_unused_addresses(wallet, 0)
+
+    @staticmethod
+    def _clip_unused_addresses(wallet: MWallet, chain: int):
+        if chain == 1:
+            _addrs = wallet.addresses
+        elif chain == 0:
+            _addrs = wallet.change_addresses
+
+        while True:
+            _t = _addrs._addresses[-1].history
+            if _t == []:
+                del _addrs._addresses[-1]
+            else:
+                break
+
+        _len = len(_addrs._addresses)
+        _addrs._names = {}
+        for _idx, _a in enumerate(_addrs._addresses):
+            _addrs._names[_a.address] = _idx
+        
+        if chain == 0:
+            wallet.set_change_index(_len)
+        elif chain == 1:
+            wallet.set_account_index(_len)
 
     @staticmethod
     def _get_addresses_cmds(wallet: MWallet, chain: int, _th: list,
@@ -368,13 +395,16 @@ class MShared():
 
                 _ax = _addresses.get_address_index_by_name(_a)
                 _addresses.addresses[_ax].set_history(i['result'][1]['page_results'])
+                _addresses.addresses[_ax].set_namespaces(i['result'][2])
+                _addresses.addresses[_ax].set_sent(i['result'][0]['sent'])
+                _addresses.addresses[_ax].set_received(i['result'][0]['received'])
+                _addresses.addresses[_ax].set_balance(i['result'][0]['balance'])
         else:
             _addresses.addresses[_ax].set_history(i['result'][1]['page_results'])
-
-        _addresses.addresses[_ax].set_namespaces(i['result'][2])
-        _addresses.addresses[_ax].set_sent(i['result'][0]['sent'])
-        _addresses.addresses[_ax].set_received(i['result'][0]['received'])
-        _addresses.addresses[_ax].set_balance(i['result'][0]['balance'])
+            _addresses.addresses[_ax].set_namespaces(i['result'][2])
+            _addresses.addresses[_ax].set_sent(i['result'][0]['sent'])
+            _addresses.addresses[_ax].set_received(i['result'][0]['received'])
+            _addresses.addresses[_ax].set_balance(i['result'][0]['balance'])
 
     @staticmethod
     def _get_addresses(wallet: MWallet, batches: list, _tid: dict,
