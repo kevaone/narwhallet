@@ -309,6 +309,9 @@ class MShared():
             else:
                 break
 
+            if len(_addrs._addresses) == 0:
+                break
+
         _len = len(_addrs._addresses)
         _addrs._names = {}
         for _idx, _a in enumerate(_addrs._addresses):
