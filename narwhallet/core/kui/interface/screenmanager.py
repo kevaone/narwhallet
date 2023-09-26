@@ -8,7 +8,7 @@ from narwhallet.core.kcl.enums.mediatypes import content_type
 from narwhallet.core.kcl.favorites.favorites import MFavorites
 from narwhallet.core.kcl.file_utils.io import _loader
 from narwhallet.core.kex import KEXclient
-from narwhallet.core.kcl.cache import MCache
+# from narwhallet.core.kcl.cache import MCache
 from narwhallet.core.kcl.wallet import MWallets
 from narwhallet.core.kex.cmd import _custom
 from narwhallet.core.kex.peer import _peer
@@ -185,9 +185,9 @@ class NarwhalletScreens(ScreenManager):
         self.user_path = self.set_paths()
         self.cache_path = os.path.join(self.user_path, 'narwhallet_cache.db')
         self.ipfs_cache_path = os.path.join(self.user_path, 'tmp_ipfs')
-        self.cache = MCache(self.cache_path)
+        # self.cache = MCache(self.cache_path)
         self.kex = KEXclient()
-        self.cache.interface.setup_tables()
+        # self.cache.interface.setup_tables()
         self.settings_screen.load_settings()
         self.address_book.load_address_book(self.user_path)
         self.favorites.load_favorites(self.user_path)
