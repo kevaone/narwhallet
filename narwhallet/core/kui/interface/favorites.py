@@ -1,6 +1,7 @@
 import json
 from kivy.uix.screenmanager import Screen
 from kivy.uix.recycleview import RecycleView
+from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui import _translate as _tr
 
@@ -12,27 +13,25 @@ class FavoritesScreen(Screen):
     def populate(self):
         self.header.value = _tr.translate('Favorites')
         self.favorites_list.data = []
-        _asa = self.manager.cache.ns.get_view()
 
-        for p in _asa:
-            for favorite in self.manager.favorites.favorites:
-                if p[0] == favorite:
-                    _block = self.manager.cache.ns.ns_block(p[0])[0]
-                    _ns_name = self.manager.cache.ns.ns_root_value(p[0])[0][0]
+        for favorite in self.manager.favorites.favorites:
+            _provider = self.manager.settings_screen.settings.content_providers[0]
+            _ns = MShared.get_namespace(favorite, _provider)
+            _ns = _ns['result']
 
-                    try:
-                        _name = json.loads(_ns_name)['displayName']
-                    except:
-                        _name = _ns_name
+            try:
+                _name = json.loads(_ns['name'])['displayName']
+            except:
+                _name = _ns['name']
 
-                    _fav = 'narwhallet/core/kui/assets/star.png'
-                    _ns = {
-                        'address': p[0],
-                        'shortcode': str(len(str(_block[0])))+str(_block[0])+str(_block[1]),
-                        'ns_name': str(_name),
-                        'keys': str(self.manager.cache.ns.key_count(p[0])[0][0]),
-                        'sm': self.manager,
-                        'favorite_source': _fav}
-                    self.favorites_list.data.append(_ns)
+            _fav = 'narwhallet/core/kui/assets/star.png'
+            _ns = {
+                'address': favorite,
+                'shortcode': _ns['root_shortcode'],
+                'ns_name': str(_name),
+                'keys': str(len(_ns['data'])),
+                'sm': self.manager,
+                'favorite_source': _fav}
+            self.favorites_list.data.append(_ns)
 
         self.manager.current = 'favorites_screen'
