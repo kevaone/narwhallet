@@ -59,3 +59,11 @@ class Ut():
     @staticmethod
     def sha256(data: Union[str, bytes]) -> bytes:
         return CryptoUtils.Sha256(data)
+
+    @staticmethod
+    def to_sats(value: float) -> int:
+        return int(value * 100000000)
+
+    @staticmethod
+    def from_sats(value: int) -> float:
+        return float(value / 100000000)
