@@ -15,8 +15,7 @@ class FavoritesScreen(Screen):
         self.favorites_list.data = []
 
         for favorite in self.manager.favorites.favorites:
-            _provider = self.manager.settings_screen.settings.content_providers[0]
-            _ns = MShared.get_namespace(favorite, _provider)
+            _ns = MShared.get_namespace(favorite, self.manager.kex)
             _ns = _ns['result']
 
             try:

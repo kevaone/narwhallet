@@ -85,8 +85,7 @@ class AcceptNamespaceBidScreen(Screen):
         self.namespace_address.text = namespace_address
         self.bid_amount.text = ''
 
-        _provider = self.manager.settings_screen.settings.content_providers[0]
-        _ns = MShared.get_namespace(namespaceid, _provider)
+        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
         # print('_ns', _ns)
         _dat = _ns['result']['data']
         _dat.reverse()

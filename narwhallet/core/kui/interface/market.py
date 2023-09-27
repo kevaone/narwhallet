@@ -1,7 +1,6 @@
 import json
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
-from narwhallet.core.kex.peer import _peer
 from narwhallet.core.kex.cmd import _custom
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui import _translate as _tr
@@ -16,11 +15,11 @@ class MarketScreen(Screen):
         self.auction_list.scroll_y = 1
         self.auction_list.data = []
         # https://kva.keva.one/get_nft_auctions
-        _data_provider = self.manager.settings_screen.settings.content_providers[0]
-        _market_data_peer = _peer(_data_provider[1], _data_provider[2], _data_provider[3], _data_provider[4])
+        
         try:
-            _market_data_peer.connect()
-            _data = json.loads(_market_data_peer.comm(_custom.get_nft_auctions(1)))
+            _ = self.manager.kex.peers[self.manager.kex.active_peer].connect()
+            _data = json.loads(self.manager.kex.call(_custom.get_nft_auctions(1)))
+            _ = self.manager.kex.peers[self.manager.kex.active_peer].disconnect()
         except:
             # TODO: Handle failure in aquiring market data
             return

@@ -85,12 +85,12 @@ class WalletScreen(Screen):
 
         wallet.set_bid_balance(0.0)
         wallet.set_bid_tx([])
+        _ = self.manager.kex.peers[self.manager.kex.active_peer].connect()
         MShared.get_addresses(wallet, self.manager.kex)
+        _ = self.manager.kex.peers[self.manager.kex.active_peer].disconnect()
         # MShared.get_histories(wallet, self.manager.kex)
         # MShared.get_balances(wallet, self.manager.kex)
         # MShared.list_unspents(wallet, self.manager.kex)
-        # _provider = self.manager.settings_screen.settings.content_providers[0]
-        # MShared.get_transactions(wallet, self.manager.kex, cache, _provider)
         _update_time = MShared.get_timestamp()
         wallet.set_last_updated(_update_time[0])
         self.manager.wallets.save_wallet(wallet.name)

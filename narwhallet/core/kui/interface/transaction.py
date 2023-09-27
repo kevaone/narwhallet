@@ -26,8 +26,7 @@ class TransactionScreen(Screen):
     def populate(self, txid):
         self.header.value = self.manager.wallet_screen.header.value
         self.txid.text = txid
-        _provider = self.manager.settings_screen.settings.content_providers[0]
-        _asa = MShared.get_transaction(txid, _provider)
+        _asa = MShared.get_transaction(txid, self.manager.kex)
         self.vin.clear_widgets()
         self.vout.clear_widgets()
         if _asa is not None:

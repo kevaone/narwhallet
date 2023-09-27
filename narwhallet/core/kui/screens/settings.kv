@@ -22,12 +22,12 @@
     header: header
     show_change: show_change
     connection_status: ''
-    content_provider_host: content_provider_host
-    content_provider_port: content_provider_port
-    content_provider_ssl_0: content_provider_ssl_0
-    content_provider_ssl_1: content_provider_ssl_1
-    content_provider_verify_0: content_provider_verify_0
-    content_provider_verify_1: content_provider_verify_1
+    # content_provider_host: content_provider_host
+    # content_provider_port: content_provider_port
+    # content_provider_ssl_0: content_provider_ssl_0
+    # content_provider_ssl_1: content_provider_ssl_1
+    # content_provider_verify_0: content_provider_verify_0
+    # content_provider_verify_1: content_provider_verify_1
     lang: lang
 
     GridLayout:
@@ -58,7 +58,7 @@
                         pos: self.pos
                         size: self.size
                 size_hint_y: None
-                rows: 25
+                rows: 21
                 height: dp(35) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(35) * self.rows + (dp(10)*self.rows)
                 cols: 1
                 # row_default_height: 65 if root.width <= 650 else 65
@@ -574,151 +574,151 @@
                         on_press: root.update_ipfs_active(1)
 
                 # Nwboxlayout: # Spacer
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(35)
-                    orientation: 'horizontal'
+                # Nwboxlayout:
+                #     size_hint_y: None
+                #     height: dp(35)
+                #     orientation: 'horizontal'
 
-                    Nwlabel:
-                        text: _tr.translate('Content Provider')
-                        halign: 'left'
-                        font_size: dp(25)
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
+                #     Nwlabel:
+                #         text: _tr.translate('Content Provider')
+                #         halign: 'left'
+                #         font_size: dp(25)
+                #         text_size: self.size
+                #         padding: [10, 0, 0, 0]
 
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(35)
-                    orientation: 'horizontal'
+                # Nwboxlayout:
+                #     size_hint_y: None
+                #     height: dp(35)
+                #     orientation: 'horizontal'
 
-                    Nwlabel:
-                        text: _tr.translate('Server:')
-                        halign: 'left'
-                        valign: 'center'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(115)
+                #     Nwlabel:
+                #         text: _tr.translate('Server:')
+                #         halign: 'left'
+                #         valign: 'center'
+                #         text_size: self.size
+                #         padding: [10, 0, 0, 0]
+                #         size_hint_x: None
+                #         width: dp(115)
 
-                    TextInput:
-                        id: content_provider_host
-                        halign: 'left'
-                        text: 'kva.keva.one'
-                        text_size: self.size
-                        size_hint_x: None
-                        width: dp(250)
-                        on_text: root.update_content_provider_host()
+                #     TextInput:
+                #         id: content_provider_host
+                #         halign: 'left'
+                #         text: 'kva.keva.one'
+                #         text_size: self.size
+                #         size_hint_x: None
+                #         width: dp(250)
+                #         on_text: root.update_content_provider_host()
 
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(35)
-                    orientation: 'horizontal'
+                # Nwboxlayout:
+                #     size_hint_y: None
+                #     height: dp(35)
+                #     orientation: 'horizontal'
 
-                    Nwlabel:
-                        text: _tr.translate('Port:')
-                        halign: 'left'
-                        valign: 'center'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(115)
+                #     Nwlabel:
+                #         text: _tr.translate('Port:')
+                #         halign: 'left'
+                #         valign: 'center'
+                #         text_size: self.size
+                #         padding: [10, 0, 0, 0]
+                #         size_hint_x: None
+                #         width: dp(115)
 
-                    TextInput:
-                        id: content_provider_port
-                        halign: 'left'
-                        text: '50002'
-                        text_size: self.size
-                        size_hint_x: None
-                        width: dp(250)
-                        on_text: root.update_content_provider_port()
+                #     TextInput:
+                #         id: content_provider_port
+                #         halign: 'left'
+                #         text: '50002'
+                #         text_size: self.size
+                #         size_hint_x: None
+                #         width: dp(250)
+                #         on_text: root.update_content_provider_port()
 
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(45)
-                    orientation: 'horizontal'
+                # Nwboxlayout:
+                #     size_hint_y: None
+                #     height: dp(45)
+                #     orientation: 'horizontal'
 
-                    Nwlabel:
-                        text: _tr.translate('SSL:')
-                        halign: 'left'
-                        valign: 'center'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(115)
+                #     Nwlabel:
+                #         text: _tr.translate('SSL:')
+                #         halign: 'left'
+                #         valign: 'center'
+                #         text_size: self.size
+                #         padding: [10, 0, 0, 0]
+                #         size_hint_x: None
+                #         width: dp(115)
 
-                    ToggleButton:
-                        id: content_provider_ssl_0
-                        text_size: self.size
-                        font_size: dp(20)
-                        size_hint_x: None
-                        size_hint_y: None
-                        height: dp(40)
-                        width: dp(75)
-                        text: _tr.translate('Yes')
-                        group: 'ssl'
-                        # state: 'down'
-                        halign: 'center'
-                        valign: 'center'
-                        on_press: root.update_content_provider_ssl_option(0, 3, True)
+                #     ToggleButton:
+                #         id: content_provider_ssl_0
+                #         text_size: self.size
+                #         font_size: dp(20)
+                #         size_hint_x: None
+                #         size_hint_y: None
+                #         height: dp(40)
+                #         width: dp(75)
+                #         text: _tr.translate('Yes')
+                #         group: 'ssl'
+                #         # state: 'down'
+                #         halign: 'center'
+                #         valign: 'center'
+                #         on_press: root.update_content_provider_ssl_option(0, 3, True)
 
-                    ToggleButton:
-                        id: content_provider_ssl_1
-                        text_size: self.size
-                        font_size: dp(20)
-                        size_hint_x: None
-                        size_hint_y: None
-                        height: dp(40)
-                        width: dp(75)
-                        text: _tr.translate('No')
-                        group: 'ssl'
-                        # state: 'down'
-                        halign: 'center'
-                        valign: 'center'
-                        on_press: root.update_content_provider_ssl_option(0, 3, False)
+                #     ToggleButton:
+                #         id: content_provider_ssl_1
+                #         text_size: self.size
+                #         font_size: dp(20)
+                #         size_hint_x: None
+                #         size_hint_y: None
+                #         height: dp(40)
+                #         width: dp(75)
+                #         text: _tr.translate('No')
+                #         group: 'ssl'
+                #         # state: 'down'
+                #         halign: 'center'
+                #         valign: 'center'
+                #         on_press: root.update_content_provider_ssl_option(0, 3, False)
 
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(45)
-                    orientation: 'horizontal'
+                # Nwboxlayout:
+                #     size_hint_y: None
+                #     height: dp(45)
+                #     orientation: 'horizontal'
 
-                    Nwlabel:
-                        text: _tr.translate('Validate SSL:')
-                        halign: 'left'
-                        valign: 'center'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(115)
+                #     Nwlabel:
+                #         text: _tr.translate('Validate SSL:')
+                #         halign: 'left'
+                #         valign: 'center'
+                #         text_size: self.size
+                #         padding: [10, 0, 0, 0]
+                #         size_hint_x: None
+                #         width: dp(115)
 
-                    ToggleButton:
-                        id: content_provider_verify_0
-                        text_size: self.size
-                        font_size: dp(20)
-                        size_hint_x: None
-                        size_hint_y: None
-                        height: dp(40)
-                        width: dp(75)
-                        text: _tr.translate('Yes')
-                        group: 'vssl'
-                        # state: 'down'
-                        halign: 'center'
-                        valign: 'center'
-                        on_press: root.update_content_provider_ssl_option(0, 4, True)
+                #     ToggleButton:
+                #         id: content_provider_verify_0
+                #         text_size: self.size
+                #         font_size: dp(20)
+                #         size_hint_x: None
+                #         size_hint_y: None
+                #         height: dp(40)
+                #         width: dp(75)
+                #         text: _tr.translate('Yes')
+                #         group: 'vssl'
+                #         # state: 'down'
+                #         halign: 'center'
+                #         valign: 'center'
+                #         on_press: root.update_content_provider_ssl_option(0, 4, True)
 
-                    ToggleButton:
-                        id: content_provider_verify_1
-                        text_size: self.size
-                        font_size: dp(20)
-                        size_hint_x: None
-                        size_hint_y: None
-                        height: dp(40)
-                        width: dp(75)
-                        text: _tr.translate('No')
-                        group: 'vssl'
-                        # state: 'down'
-                        halign: 'center'
-                        valign: 'center'
-                        on_press: root.update_content_provider_ssl_option(0, 4, False)
+                #     ToggleButton:
+                #         id: content_provider_verify_1
+                #         text_size: self.size
+                #         font_size: dp(20)
+                #         size_hint_x: None
+                #         size_hint_y: None
+                #         height: dp(40)
+                #         width: dp(75)
+                #         text: _tr.translate('No')
+                #         group: 'vssl'
+                #         # state: 'down'
+                #         halign: 'center'
+                #         valign: 'center'
+                #         on_press: root.update_content_provider_ssl_option(0, 4, False)
 
         BoxLayout:
             canvas:

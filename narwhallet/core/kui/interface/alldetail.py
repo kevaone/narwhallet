@@ -22,8 +22,7 @@ class AllDetailScreen(Screen):
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.namespaceid.text = namespaceid
-        _provider = self.manager.settings_screen.settings.content_providers[0]
-        _ns = MShared.get_namespace(namespaceid, _provider)
+        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
         _ns = _ns['result']
         self.namespace_name.text = str(_ns['name'])
         self.shortcode.text = str(_ns['root_shortcode'])

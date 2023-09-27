@@ -65,8 +65,7 @@ class BidNamespaceScreen(Screen):
         self.bid_namespace_address.text = ''
         self.bid_amount.text = ''
 
-        _provider = self.manager.settings_screen.settings.content_providers[0]
-        _ns = MShared.get_namespace(namespaceid, _provider)
+        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
         _ns = _ns['result']
         self.offer_namespaceid.text = namespaceid
         self.offer_shortcode.text = str(_ns['root_shortcode'])

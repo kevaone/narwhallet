@@ -30,8 +30,7 @@ class BidDetailScreen(Screen):
         self.shortcode.text = shortcode
         self.namespace_name.text = ''
         # _ns = MShared.get_namespace_keys(namespaceid, self.manager.kex)
-        _provider = self.manager.settings_screen.settings.content_providers[0]
-        _ns = MShared.get_shortcode(shortcode, _provider)
+        _ns = MShared.get_shortcode(shortcode, self.manager.kex)
         _ns = _ns['result']
 
         if namespaceid in self.manager.favorites.favorites:

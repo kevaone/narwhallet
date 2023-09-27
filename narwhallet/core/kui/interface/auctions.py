@@ -15,28 +15,25 @@ class AuctionsScreen(Screen):
         self.header.value = _tr.translate('My Auctions')
         self.manager.current = 'auctions_screen'
 
-        _asa = self.manager.cache.ns.get_view()
-
-        for _a in _asa:
-            _auctions = self.manager.cache.ns.get_namespace_auctions(_a[0])
-            for _ac in _auctions:
-                _oa = self.manager.cache.ns.last_address(_a[0])
-                for _w in self.manager.wallets.wallets:
-                    for address in _w.addresses.addresses:
-                        if _oa[0][0] == address.address:
-                            _auction = self.get_namespace(_a[0])
+        for _w in self.manager.wallets.wallets:
+            for address in _w.addresses.addresses:
+                for _ns in address.namespaces:
+                    if 'active_auction' in _ns:
+                        if _ns['active_auction'][0] is True:
+                            _auction = self.get_namespace(_ns['namespaceid'])
                             if _auction != {}:
                                 self.auction_list.data.append(_auction)
 
-                    for address in _w.change_addresses.addresses:
-                        if _oa[0][0] == address.address:
-                            _auction = self.get_namespace(_a[0])
+            for address in _w.change_addresses.addresses:
+                for _ns in address.namespaces:
+                    if 'active_auction' in _ns:
+                        if _ns['active_auction'][0] is True:
+                            _auction = self.get_namespace(_ns['namespaceid'])
                             if _auction != {}:
                                 self.auction_list.data.append(_auction)
 
     def get_namespace(self, namespaceid):
-        _provider = self.manager.settings_screen.settings.content_providers[0]
-        _ns = MShared.get_namespace(namespaceid, _provider)
+        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
         _ns = _ns['result']
 
         if namespaceid in self.manager.favorites.favorites:
@@ -47,6 +44,7 @@ class AuctionsScreen(Screen):
         _dat = _ns['data']
         _dat.reverse()
         for _k in _dat:
+            _auction = {}
             if _k['dtype'] == 'nft_auction':
                 _na = json.loads(_k['dvalue'])
                 _auction = {
