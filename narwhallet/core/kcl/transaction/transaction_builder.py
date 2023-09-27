@@ -97,7 +97,6 @@ class MTransactionBuilder(MTransaction):
         _change_flag = False
         for tx in self.inputs_to_spend:
             _, _, fv = self.get_current_values()
-            # print('iv', iv, 'ov', ov, 'fv', fv)
             _size, _vsize = self.get_size(len(self.vin) + 1, len(self.vout))
             _est_fee = self.fee * _vsize
             # print('est_fee', _est_fee)
@@ -105,14 +104,14 @@ class MTransactionBuilder(MTransaction):
                 # print('Worlds align, no change')
                 self.add_input(tx['value'],
                                str(tx['a_idx'])+':'+str(tx['ch']),
-                               tx['tx_hash'], tx['tx_pos'])
+                               tx['txid'], tx['n'])
                 _enough_inputs = True
             elif (tx['value'] + fv) < _est_fee:
                 # print('Need more inputs')
                 self.add_input(tx['value'],
                                str(tx['a_idx'])+':'+str(tx['ch']),
-                               tx['tx_hash'], tx['tx_pos'])
-            elif (tx['value'] + fv) > (_est_fee + 500000):
+                               tx['txid'], tx['n'])
+            elif (tx['value'] + fv) > _est_fee:
                 _size, _vsize = (self.get_size(
                     len(self.vin) + 1, len(self.vout) + 1))
                 _est_fee = self.fee * _vsize
@@ -121,13 +120,13 @@ class MTransactionBuilder(MTransaction):
                     # print('Need chage')
                     self.add_input(tx['value'],
                                    str(tx['a_idx'])+':'+str(tx['ch']),
-                                   tx['tx_hash'], tx['tx_pos'])
+                                   tx['txid'], tx['n'])
                     _enough_inputs = True
                     _change_flag = True
                 else:
                     self.add_input(tx['value'],
                                    str(tx['a_idx'])+':'+str(tx['ch']),
-                                   tx['tx_hash'], tx['tx_pos'])
+                                   tx['txid'], tx['n'])
                     # print('Need more inputs, cant do change')
             if _enough_inputs is True:
                 break
