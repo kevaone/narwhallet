@@ -56,9 +56,23 @@ class MAddress():
     @property
     def unspent_tx(self) -> list:
         _unspent_tx = []
+        _bid_test = []
+        for _ns in self.namespaces:
+            if len(_ns['namespace_bids']) == 0:
+                continue
+
+            for _bid in _ns['namespace_bids']:
+                for _input in _bid['inputs']:
+                    _bid_test.append((_input['txid'], _input['n']))
+
         for _tx in self.history:
-            if 'received' not in _tx and 'spent' not in _tx:
-                _unspent_tx.append(_tx)
+            if 'received'in _tx or 'spent' in _tx:
+                continue
+
+            if (_tx['txid'], _tx['n']) in _bid_test:
+                continue
+
+            _unspent_tx.append(_tx)
 
         return _unspent_tx
 
