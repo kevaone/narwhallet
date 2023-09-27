@@ -104,7 +104,9 @@ class MShared():
 
     @staticmethod
     def get_block_count(kex: KEXclient):
+        _ = kex.peers[kex.active_peer].connect()
         _block_count = kex.call(kex.api.blockchain_block.count(kex.id))
+        kex.peers[kex.active_peer].disconnect()
         kex.id += 1
         if _block_count != '':
             _block_count = json.loads(_block_count)['result']
@@ -112,9 +114,12 @@ class MShared():
 
     @staticmethod
     def get_fee_rate(kex: KEXclient) -> int:
+        _ = kex.peers[kex.active_peer].connect()
         _fee = kex.call(kex.api.blockchain.estimatefee(2, kex.id))
+        kex.peers[kex.active_peer].disconnect()
         kex.id += 1
         if _fee != '':
+            print('_fee', _fee)
             _fee = json.loads(_fee)['result']
             _fee = math.ceil((_fee*100000000)/1024)
         else:
@@ -124,7 +129,9 @@ class MShared():
 
     @staticmethod
     def broadcast(tx: str, kex: KEXclient) -> tuple:
+        _ = kex.peers[kex.active_peer].connect()
         _result = kex.call(kex.api.bc_tx.broadcast(tx, kex.id))
+        kex.peers[kex.active_peer].disconnect()
         kex.id += 1
         if _result != '':
             _result = json.loads(_result)
@@ -430,8 +437,10 @@ class MShared():
     def _get_address(address: str, kex: KEXclient) -> dict:
         # _script_hash = Scripts.AddressScriptHash(address)
         # _script_hash = Scripts.compileToScriptHash(_script_hash, True)
+        _ = kex.peers[kex.active_peer].connect()
         _hist = kex.call(kex.api.custom.get_address
                          (address, kex.id))
+        kex.peers[kex.active_peer].disconnect()
         kex.id += 1
         if _hist != '':
             _hist = json.loads(_hist)['result']
@@ -718,30 +727,30 @@ class MShared():
     #                 address.set_sent(address.sent + _out.value)
     #                 wallet.set_balance(wallet.balance - _out.value)
 
-    @staticmethod
-    def _process_tx_vout(wallet: MWallet, vout: List[MTransactionOutput],
-                         address: MAddress):
+    # @staticmethod
+    # def _process_tx_vout(wallet: MWallet, vout: List[MTransactionOutput],
+    #                      address: MAddress):
 
-        for _out in vout:
-            if address.address in _out.scriptPubKey.addresses:
-                address.set_received(address.received + _out.value)
-                wallet.set_balance(wallet.balance + _out.value)
+    #     for _out in vout:
+    #         if address.address in _out.scriptPubKey.addresses:
+    #             address.set_received(address.received + _out.value)
+    #             wallet.set_balance(wallet.balance + _out.value)
 
-    @staticmethod
-    def get_merkle(txid: str, height: int, kex: KEXclient) -> str:
-        _merkle = kex.call(kex.api.bc_tx.get_merkle(txid, height, kex.id))
-        kex.id += 1
-        try:
-            _merkle = json.loads(_merkle)
-        except Exception:
-            _merkle = ''
+    # @staticmethod
+    # def get_merkle(txid: str, height: int, kex: KEXclient) -> str:
+    #     _merkle = kex.call(kex.api.bc_tx.get_merkle(txid, height, kex.id))
+    #     kex.id += 1
+    #     try:
+    #         _merkle = json.loads(_merkle)
+    #     except Exception:
+    #         _merkle = ''
 
-        if 'result' not in _merkle:
-            _merkle = ''
-        else:
-            _merkle = _merkle['result']
+    #     if 'result' not in _merkle:
+    #         _merkle = ''
+    #     else:
+    #         _merkle = _merkle['result']
 
-        return _merkle
+    #     return _merkle
 
     # @staticmethod
     # def process_ns_key_reactions(txid: str, kex: KEXclient, cache: MCache):
@@ -1065,7 +1074,9 @@ class MShared():
     def get_tx(tx_hash: str, kex: KEXclient, verbose=False):
         _tx = None
         ret = b''
+        _ = kex.peers[kex.active_peer].connect()
         ret = kex.call(kex.api.bc_tx.get(tx_hash, verbose, kex.id))
+        kex.peers[kex.active_peer].disconnect()
         kex.id += 1
         if ret != '':
             _tx = json.loads(ret)['result']
@@ -1136,11 +1147,10 @@ class MShared():
     #         MShared._test_for_namespace(_t, kex, cache)
 
     @staticmethod
-    def get_namespace(_ns, provider) -> dict:
-        _data_provider = provider
-        _market_data_peer = _peer(_data_provider[1], _data_provider[2], _data_provider[3], _data_provider[4])
-        _market_data_peer.connect()
-        _ns_data = _market_data_peer.comm(_custom.get_namespace(_ns, 1))
+    def get_namespace(_ns, kex: KEXclient) -> dict:
+        _ = kex.peers[kex.active_peer].connect()
+        _ns_data = kex.call(_custom.get_namespace(_ns, 1))
+        kex.peers[kex.active_peer].disconnect()
 
         if _ns_data != b'':
             _keys = json.loads(_ns_data)
@@ -1150,10 +1160,10 @@ class MShared():
         return _keys
 
     @staticmethod
-    def get_transaction(_tx, _provider) -> dict:
-        _data_peer = _peer(_provider[1], _provider[2], _provider[3], _provider[4])
-        _data_peer.connect()
-        _tx_data = _data_peer.comm(_transaction.get(_tx, True, 1))
+    def get_transaction(_tx, kex: KEXclient) -> dict:
+        _ = kex.peers[kex.active_peer].connect()
+        _tx_data = kex.call(_transaction.get(_tx, True, 1))
+        kex.peers[kex.active_peer].disconnect()
 
         if _tx_data != b'':
             return json.loads(_tx_data)['result']
@@ -1161,11 +1171,10 @@ class MShared():
         return {}
 
     @staticmethod
-    def get_shortcode(_shortcode, provider) -> dict:
-        _data_provider = provider
-        _market_data_peer = _peer(_data_provider[1], _data_provider[2], _data_provider[3], _data_provider[4])
-        _market_data_peer.connect()
-        _ns_data = _market_data_peer.comm(_custom.get_shortcode(_shortcode, 1))
+    def get_shortcode(_shortcode, kex: KEXclient) -> dict:
+        _ = kex.peers[kex.active_peer].connect()
+        _ns_data = kex.call(_custom.get_shortcode(_shortcode, 1))
+        kex.peers[kex.active_peer].disconnect()
 
         if _ns_data != '':
             _keys = json.loads(_ns_data)
@@ -1183,8 +1192,10 @@ class MShared():
 
         k_script_hash = Scripts.KevaNamespaceScriptHash(_ns, b'')
         k_script_hash = Scripts.compileToScriptHash(k_script_hash, True)
+        _ = kex.peers[kex.active_peer].connect()
         k_hist = kex.call(kex.api.keva.get_keyvalues(k_script_hash,
                                                      -1, kex.id))
+        kex.peers[kex.active_peer].disconnect()
         kex.id += 1
 
         if k_hist != '':
@@ -1204,8 +1215,10 @@ class MShared():
 
         k_script_hash = Scripts.KevaNamespaceScriptHash(_ns, b'')
         k_script_hash = Scripts.compileToScriptHash(k_script_hash, True)
+        _ = kex.peers[kex.active_peer].connect()
         k_hist = kex.call(kex.api.keva.get_keyvalues(k_script_hash,
                                                      -1, kex.id))
+        kex.peers[kex.active_peer].disconnect()
         kex.id += 1
 
         if k_hist == '':
@@ -1240,8 +1253,10 @@ class MShared():
 
     @staticmethod
     def get_ns_key_reactions(txid: str, kex: KEXclient):
+        _ = kex.peers[kex.active_peer].connect()
         _responses = kex.call(kex.api.keva.get_keyvalue_reactions(txid, -1,
                                                                   kex.id))
+        kex.peers[kex.active_peer].disconnect()
         kex.id += 1
         if _responses == '':
             return []

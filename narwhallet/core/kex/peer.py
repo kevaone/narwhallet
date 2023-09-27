@@ -14,6 +14,8 @@ class _peer():
         self.busy = False
 
     def connect(self):
+        if self.socket is not None:
+            self.disconnect()
         try:
             _sock = socket.create_connection((self.host, self.port), 15)
             if self.tls:
@@ -42,6 +44,7 @@ class _peer():
         if self.socket is not None:
             self.socket.shutdown(socket.SHUT_RDWR)
             self.socket.close()
+        self.socket = None
 
     def reconnect(self):
         self.disconnect()
