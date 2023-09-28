@@ -58,6 +58,9 @@ class MAddress():
         _unspent_tx = []
         _bid_test = []
         for _ns in self.namespaces:
+            if 'namespace_bids' not in _ns:
+                continue
+
             if len(_ns['namespace_bids']) == 0:
                 continue
 
