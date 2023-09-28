@@ -12,14 +12,6 @@ class TransactionsScreen(Screen):
     def sort_dict(item):
         return int(item['block'])
 
-    def tx_value(self, txid):
-        _asa = self.manager.cache.tx.get_tx_by_txid(txid)
-        _value = 0.0
-        if _asa is not None:
-            for o in _asa.vout:
-                _value += o.value
-        return _value
-
     def populate(self, wallet_name):
         self.transaction_list.children[0].rows = 0
         self.transaction_list.data = []

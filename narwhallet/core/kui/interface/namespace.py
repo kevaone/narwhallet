@@ -27,7 +27,6 @@ class NamespaceScreen(Screen):
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.header.value = self.manager.wallet_screen.header.value
-        # _ns = self.manager.cache.ns.get_namespace_by_id(namespaceid)
         self.namespaceid.text = namespaceid
         
         _w = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)

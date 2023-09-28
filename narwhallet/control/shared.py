@@ -119,7 +119,6 @@ class MShared():
         kex.peers[kex.active_peer].disconnect()
         kex.id += 1
         if _fee != '':
-            print('_fee', _fee)
             _fee = json.loads(_fee)['result']
             _fee = math.ceil((_fee*100000000)/1024)
         else:

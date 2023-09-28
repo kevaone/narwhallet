@@ -213,18 +213,18 @@ class BidNamespaceScreen(Screen):
             return False
         return True
 
-    def check_tx_is_auction(self):
-        _nft_tx = self.namespace_key_input.key.text()
+    # def check_tx_is_auction(self):
+    #     _nft_tx = self.namespace_key_input.key.text()
 
-        _nft_tx = MShared.check_tx_is_auction(_nft_tx, self.kex, self.cache)
-        if _nft_tx[0] is True:
-            self.auction_info.nft_name.setText(_nft_tx[2]['displayName'])
-            self.auction_info.nft_desc.setText(_nft_tx[2]['desc'])
-            if 'hashtags' in _nft_tx[1]:
-                self.auction_info.nft_hashtags.setText(_nft_tx[1]['hashtags'])
-            self.auction_info.nft_price.setText(_nft_tx[2]['price'])
-            self.auction_info.nft_ns.setText(_nft_tx[1])
-            self.auction_info.nft_address.setText(_nft_tx[2]['addr'])
+    #     _nft_tx = MShared.check_tx_is_auction(_nft_tx, self.kex, self.cache)
+    #     if _nft_tx[0] is True:
+    #         self.auction_info.nft_name.setText(_nft_tx[2]['displayName'])
+    #         self.auction_info.nft_desc.setText(_nft_tx[2]['desc'])
+    #         if 'hashtags' in _nft_tx[1]:
+    #             self.auction_info.nft_hashtags.setText(_nft_tx[1]['hashtags'])
+    #         self.auction_info.nft_price.setText(_nft_tx[2]['price'])
+    #         self.auction_info.nft_ns.setText(_nft_tx[1])
+    #         self.auction_info.nft_address.setText(_nft_tx[2]['addr'])
 
     def build_bid(self):
         self.bid_tx = MTransactionBuilder()
