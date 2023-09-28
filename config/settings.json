@@ -11,7 +11,7 @@
         ["KevaOne API", "kva.keva.one", "443", true, true]
     ],
     "electrumx_peers": [
-        ["Kevacoin", "kex.keva.one", "50002", true, true], ["Local", "127.0.0.1", "50001", false, false]
+        ["Kevacoin", "kva.keva.one", "443", true, true], ["Local", "127.0.0.1", "50001", false, false]
     ],
     "ipfs_providers": [
         "gateway.ipfs.io", "127.0.0.1"
