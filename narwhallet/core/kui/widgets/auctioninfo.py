@@ -8,6 +8,7 @@ class AuctionInfo(BoxLayout):
     shortcode = StringProperty()
     nsname = StringProperty()
     bid = StringProperty()
+    time = StringProperty()
     transaction = StringProperty()
     sm = ObjectProperty(None)
 

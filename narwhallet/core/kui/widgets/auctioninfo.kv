@@ -10,7 +10,8 @@
     transaction: ''
     orientation: 'vertical'
     size_hint_y: None
-    height: dp(120) if root.width <= dp(650) else dp(90)
+    height: dp(150) if root.width <= dp(650) else dp(120)
+    time: ''
 
     canvas:
         Color:
@@ -19,6 +20,17 @@
         Rectangle:
             pos: self.pos
             size: self.size
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(30)
+        orientation: 'horizontal'
+
+        Nwlabel:
+            text: root.time
+            halign: 'left'
+            padding: [5, 0, 0, 0]
+            text_size: self.size
 
     BoxLayout:
         size_hint_y: None

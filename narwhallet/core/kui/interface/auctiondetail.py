@@ -48,12 +48,14 @@ class AuctionDetailScreen(Screen):
                     _ins = AuctionInfo()
                     _ins.auction_namespace = namespaceid
                     _ins.auction_namespace_addr = self.owner.text
+                    _ins.time = _r['time']
                     _ins.shortcode = str(_r['root_shortcode'])
                     _ins.nsname = str(_r['name'])
                     _ins.bid = str(_r['dvalue'])
                     _ins.transaction = _r['txid']
                     _ins.sm = self.manager
                     self.namespace_key_list.add_widget(_ins)
+                break
 
         self.manager.current = 'auctiondetail_screen'
 
