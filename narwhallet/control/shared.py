@@ -6,10 +6,10 @@ import math
 import sys
 import time
 
-from typing import List
+from typing import List, Optional
+from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Encoder
 
 from narwhallet.core.kex import KEXclient
-from narwhallet.core.kex.peer import _peer
 from narwhallet.core.kex.cmd import _custom, _transaction
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
@@ -134,9 +134,9 @@ class MShared():
         kex.peers[kex.active_peer].disconnect()
         kex.id += 1
         if _result != '':
-            _result = json.loads(_result)
-
-            if 'error' in _result.keys():
+            _result = json.loads(_result)['result']
+            if 'error' in _result:
+                # {error:{code, message}}
                 _msg = _result['error']
                 _msg_t = 1
             else:
@@ -1339,33 +1339,77 @@ class MShared():
 
     #     return (True, _ns, json.loads(_value))
 
-    # @staticmethod
-    # def check_tx_is_bid(tx: str, kex: KEXclient, cache: MCache) -> tuple:
-    #     if len(tx) != 64:
-    #         return (False, '', '')
+    # TODO Move types to own class; stubbing as strings here for now
+    @staticmethod
+    def get_key_type(key, value) -> Optional[str]:
+        _type = None
+        if key == '_KEVA_NS_':
+            _type = 'root_ns'
+        elif key == '\x01_KEVA_NS_':
+            if 'displayName' in value and 'price' in value and 'addr' in value:
+                _type = 'nft_auction'
+            else:
+                _type = 'root_ns_update'
+        elif key[:4] == '0001' and len(key) == 68:
+            if value[:10] == '70736274ff':
+                _type = 'nft_bid'
+            else:
+                _type = 'reply'
+        elif key[:4] == '0002' and len(key) == 68:
+            _type = 'repost'
+        elif key[:4] == '0003' and len(key) == 68:
+            _type = 'reward'
+        elif key[:4] == '0004' and len(key) == 68:
+            _type = 'nft_auction'
+        elif key[:4] == '0005' and len(key) == 68:
+            _type = 'nft_confirm_sell'
+        # elif key in self.special_keys:
+        #     _type = self.special_keys[key]['tooltip']
 
-    #     _tx = cache.tx.get_tx_by_txid(tx)
+        return _type
 
-    #     if _tx is None:
-    #         _tx = MShared.get_tx(tx, kex, True)
+    @staticmethod
+    def convert_to_namespaceid(nsid: str):
+        try:
+            _id = Base58Encoder.CheckEncode(Ut.hex_to_bytes(nsid))
+            return _id
+        except Exception:
+            return Exception('Invailid Namespaceid')
+            
+    @staticmethod
+    def _decode(value):
+        try:
+            _d2 = Ut.int_to_bytes(int(value), None, 'little').decode()
+        except Exception:
+            try:
+                _d2 = Ut.hex_to_bytes(value).decode()
+            except Exception:
+                _d2 = value
+                # print('error', _d2, value)
+        return _d2
 
-    #     if _tx is not None and isinstance(_tx, dict):
-    #         _tx = cache.tx.add_from_json(_tx)
-    #     elif _tx is None:
-    #         return (False, '', '')
+    @staticmethod
+    def check_tx_is_bid(tx: str, kex: KEXclient) -> tuple:
+        if len(tx) != 64:
+            return (False, '', '')
 
-    #     _asm = _tx.vout[0].scriptPubKey.asm.split(' ')
-    #     if _asm[0] != 'OP_KEVA_PUT':
-    #         return (False, '', '')
+        _tx = MShared.get_tx(tx, kex, True)
 
-    #     _key = cache.ns._decode(_asm[2])
-    #     _value = cache.ns._decode(_asm[3])
-    #     if cache.ns.get_key_type(_key, _value) != 'nft_bid':
-    #         return (False, '', '')
+        if _tx is None:
+            return (False, '', '')
 
-    #     _ns = cache.ns.convert_to_namespaceid(_asm[1])
+        _asm = _tx['vout'][0]['scriptPubKey']['asm'].split(' ')
+        if _asm[0] != 'OP_KEVA_PUT':
+            return (False, '', '')
 
-    #     return (True, _ns, _value)
+        _key = MShared._decode(_asm[2])
+        _value = MShared._decode(_asm[3])
+        if MShared.get_key_type(_key, _value) != 'nft_bid':
+            return (False, '', '')
+
+        _ns = MShared.convert_to_namespaceid(_asm[1])
+
+        return (True, _ns, _value)
 
     # @staticmethod
     # def check_tx_is_ns_key(tx: str, kex: KEXclient, cache: MCache) -> tuple:

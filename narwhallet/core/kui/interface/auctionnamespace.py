@@ -196,26 +196,18 @@ class AuctionNamespaceScreen(Screen):
     def set_availible_usxo(self):
         _tmp_usxo = self.wallet.get_usxos()
         _usxos = []
-        _nsusxo = []
 
         for tx in _tmp_usxo:
-            # TODO Check for usxo's used by bids
-            _tx = self.manager.cache.tx.get_tx_by_txid(tx['tx_hash'])
-
-            if _tx is None:
-                _tx = MShared.get_tx(tx['tx_hash'], self.manager.kex, True)
-
-            if _tx is not None and isinstance(_tx, dict):
-                _tx = self.manager.cache.tx.add_from_json(_tx)
-
-            if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
+            # NOTE Filtering out tx with extra data, mostly namespaces
+            if 'extra' not in tx:
                 _usxos.append(tx)
-            elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
-                    and tx['a'] == self.namespace_address.text):
-                _nsusxo = tx
+                continue
 
-        if _nsusxo is not None:
-            _usxos.insert(0, _nsusxo)
+            if self.namespace_address.text != tx['a']:
+                continue
+
+            if self.namespace_name.text == tx['extra']:
+                _usxos.insert(0, tx)
 
         self.new_tx.inputs_to_spend = _usxos
 

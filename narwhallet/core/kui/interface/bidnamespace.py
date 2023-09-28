@@ -98,29 +98,40 @@ class BidNamespaceScreen(Screen):
             return
 
         self.wallet_balance.text = str(self.wallet.balance)
-
-        _asa = self.manager.cache.ns.get_view()
         _ns_list = []
 
-        for p in _asa:
-            _oa = self.manager.cache.ns.last_address(p[0])
-            for address in self.wallet.addresses.addresses:
-                if _oa[0][0] == address.address:
-                    _ns_list.append(p[0])
-                    # _block = self.manager.cache.ns.ns_block(p[0])[0]
-                    # 'shortcode': str(len(str(_block[0])))+str(_block[0])+str(_block[1]),
+        for address in self.wallet.addresses.addresses:
+            for ns in address.namespaces:
+                _ns_list.append(ns['namespaceid'])
 
-            for address in self.wallet.change_addresses.addresses:
-                if _oa[0][0] == address.address:
-                    _ns_list.append(p[0])
-                    # _block = self.manager.cache.ns.ns_block(p[0])[0]
-                    # 'shortcode': str(len(str(_block[0])))+str(_block[0])+str(_block[1]),
-            self.bid_namespaceid.values = _ns_list
-            self.bid_namespaceid.disabled = False
+        for address in self.wallet.change_addresses.addresses:
+            for ns in address.namespaces:
+                _ns_list.append(ns['namespaceid'])
+
+        self.bid_namespaceid.values = _ns_list
+        self.bid_namespaceid.disabled = False
 
     def ns_changed(self):
-        _address = self.manager.cache.ns.last_address(self.bid_namespaceid.text)
-        self.bid_namespace_address.text = _address[0][0]
+        _set = False
+        for address in self.wallet.addresses.addresses:
+            for ns in address.namespaces:
+                if ns['namespaceid'] == self.bid_namespaceid.text:
+                    self.bid_namespace_address.text = address.address
+                    _set = True
+                    break
+            if _set is True:
+                break
+
+        if _set is False:
+            for address in self.wallet.change_addresses.addresses:
+                for ns in address.namespaces:
+                    if ns['namespaceid'] == self.bid_namespaceid.text:
+                        self.bid_namespace_address.text = address.address
+                        _set = True
+                        break
+                if _set is True:
+                    break
+
         self.check_address()
 
     def check_amount(self, cb=True):
@@ -222,7 +233,7 @@ class BidNamespaceScreen(Screen):
 
         # locale = QLocale()
         # _b_amount = locale.toDouble(self.amount_input.amount.text())
-        _bid_amount = int(float(self.bid_amount.text) * 100000000)
+        _bid_amount = Ut.to_sats(float(self.bid_amount.text)) # int(float(self.bid_amount.text) * 100000000)
 
         _auc = {}
         _auc['displayName'] = self.offer_name.text
@@ -255,32 +266,24 @@ class BidNamespaceScreen(Screen):
     def set_availible_usxo(self, bid):
         _tmp_usxo = self.wallet.get_usxos()
         _usxos = []
-        _nsusxo = None
 
         for tx in _tmp_usxo:
-            # TODO Check for usxo's used by bids
-            _tx = self.manager.cache.tx.get_tx_by_txid(tx['tx_hash'])
-
-            if _tx is None:
-                _tx = MShared.get_tx(tx['tx_hash'], self.manager.kex, True)
-
-            if _tx is not None and isinstance(_tx, dict):
-                _tx = self.manager.cache.tx.add_from_json(_tx)
-
-            if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
+            # NOTE Filtering out tx with extra data, mostly namespaces
+            if 'extra' not in tx:
                 _used = False
                 for _vin in self.bid_tx.vin:
-                    if _vin.txid == _tx.txid and _vin.vout == tx['tx_pos']:
+                    if _vin.txid == tx['txid'] and _vin.vout == tx['n']:
                         _used = True
                 if _used == False:
                     _usxos.append(tx)
-            elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
-                    and tx['a'] == self.bid_namespace_address.text):
-                _nsusxo = tx
+                    continue
 
-        if _nsusxo is not None:
-            if bid is False:
-                _usxos.insert(0, _nsusxo)
+            if self.bid_namespace_address.text != tx['a']:
+                continue
+
+            if self.bid_namespaceid.text == tx['extra']:
+                if bid is False:
+                    _usxos.insert(0, tx)
 
         if bid is False:
             self.new_tx.inputs_to_spend = _usxos

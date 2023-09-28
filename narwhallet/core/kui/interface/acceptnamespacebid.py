@@ -127,7 +127,7 @@ class AcceptNamespaceBidScreen(Screen):
         self.manager.current = 'acceptnamespacebid_screen'
 
     def check_tx_is_bid(self, txid):
-        _nft_tx = MShared.check_tx_is_bid(txid, self.manager.kex, self.manager.cache)
+        _nft_tx = MShared.check_tx_is_bid(txid, self.manager.kex)
         if _nft_tx[0] is True:
             _bid_psbt = keva_psbt(_nft_tx[2])
             _sh = (Scripts.AddressScriptHash
@@ -234,32 +234,19 @@ class AcceptNamespaceBidScreen(Screen):
     def set_availible_usxo(self, bid):
         _tmp_usxo = self.wallet.get_usxos()
         _usxos = []
-        _nsusxo = []
 
         for tx in _tmp_usxo:
-            # TODO Check for usxo's used by bids
-            _tx = self.manager.cache.tx.get_tx_by_txid(tx['tx_hash'])
+            # NOTE Filtering out tx with extra data, mostly namespaces
+            if 'extra' not in tx:
+                _usxos.append(tx)
+                continue
 
-            if _tx is None:
-                _tx = MShared.get_tx(tx['tx_hash'], self.manager.kex, True)
+            if self.namespace_address.text != tx['a']:
+                continue
 
-            if _tx is not None and isinstance(_tx, dict):
-                _tx = self.manager.cache.tx.add_from_json(_tx)
-
-            if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
-                _used = False
-                # for _vin in self.bid.vin:
-                #     if _vin.txid == _tx.txid and _vin.vout == tx['tx_pos']:
-                #         _used = True
-                if _used == False:
-                    _usxos.append(tx)
-            elif ('OP_KEVA' in _tx.vout[tx['tx_pos']].scriptPubKey.asm
-                    and tx['a'] == self.namespace_address.text):
-                _nsusxo = tx
-
-        if _nsusxo is not None:
-            if bid is False:
-                _usxos.insert(0, _nsusxo)
+            if self.namespaceid.text == tx['extra']:
+                if bid is False:
+                    _usxos.insert(0, tx)
 
         if bid is False:
             self.new_tx.inputs_to_spend = _usxos
@@ -311,7 +298,7 @@ class AcceptNamespaceBidScreen(Screen):
             tx = self.new_tx.inputs_to_spend[0]
             self.new_tx.add_input(tx['value'],
                                     str(tx['a_idx'])+':'+str(tx['ch']),
-                                    tx['tx_hash'], tx['tx_pos'])
+                                    tx['txid'], tx['n'])
             _inp_sel = True
             # _need_change = False
         

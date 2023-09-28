@@ -106,16 +106,8 @@ class SendScreen(Screen):
         _usxos = []
 
         for tx in _tmp_usxo:
-            # TODO Check for usxo's used by bids
-            _tx = self.manager.cache.tx.get_tx_by_txid(tx['tx_hash'])
-
-            if _tx is None:
-                _tx = MShared.get_tx(tx['tx_hash'], self.manager.kex, True)
-
-            if _tx is not None and isinstance(_tx, dict):
-                _tx = self.manager.cache.tx.add_from_json(_tx)
-
-            if 'OP_KEVA' not in _tx.vout[tx['tx_pos']].scriptPubKey.asm:
+            # NOTE Filtering out tx with extra data, mostly namespaces
+            if 'extra' not in tx:
                 _usxos.append(tx)
 
         self.new_tx.inputs_to_spend = _usxos
@@ -126,7 +118,7 @@ class SendScreen(Screen):
         # Simple Send
         # TODO Test conversion across locals, check for Kivy based solution
         _result = float(self.amount.text) # _locale.toDouble(self.amount_input.amount.text())
-        _amount = int(_result * 100000000)
+        _amount = Ut.to_sats(_result) #int(_result * 100000000)
 
         _ = self.new_tx.add_output(_amount, _address)
 
@@ -137,7 +129,7 @@ class SendScreen(Screen):
         self.new_tx.input_signatures = []
 
     def set_ready(self, _stx, _est_fee):
-        self.fee.text = str(_est_fee/100000000)
+        self.fee.text = str(Ut.from_sats(_est_fee))
         self.txsize.text = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex.text = Ut.bytes_to_hex(_stx)
@@ -167,8 +159,8 @@ class SendScreen(Screen):
             self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)
 
             _stx = self.new_tx.serialize_tx()
+            # TODO Validate TX
             self.set_ready(_stx, _est_fee)
-            # TODO Validate TX and Broadcast
         else:
             self.reset_transactions()
 
