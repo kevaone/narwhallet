@@ -15,39 +15,34 @@ class BidsScreen(Screen):
         self.header.value = _tr.translate('My Bids')
         self.manager.current = 'bids_screen'
 
-        # _asa = self.manager.cache.ns.get_view()
         _bids = {}
+        _b = []
 
-        # for _a in _asa:
-        # _auctions = self.manager.cache.ns.get_namespace_bids(_a[0])
-        # for _ac in _auctions:
         for _w in self.manager.wallets.wallets:
             for address in _w.addresses.addresses:
                 for _us in address.namespaces:
                     if 'namespace_bids' not in _us: continue
                     for _ns in _us['namespace_bids']:
-                        print('_ns', _ns)
-                        # if _us['tx_hash'] == _ac[2] and _us['tx_pos'] == _ac[1]:
-                        _bids[_ns['nsid']] = _w
+                        _b.append([_ns['nsid'], _ns['shortcode'], _us['namespaceid'], _ns['txid']])
 
             for address in _w.change_addresses.addresses:
                 for _us in address.namespaces:
                     if 'namespace_bids' not in _us: continue
                     for _ns in _us['namespace_bids']:
-                        print('_ns', _ns)
-                        # if _us['tx_hash'] == _ac[2] and _us['tx_pos'] == _ac[1]:
-                        _bids[_ns['nsid']] = _w
+                        _b.append([_ns['nsid'], _ns['shortcode'], _us['namespaceid'], _ns['txid']])
 
-        for k, v in _bids.items():
-            _auction = self.get_namespace(k, v)
+        for k, n, v, c in _b: 
+            print('k', k)
+            _auction = self.get_namespace(k, n, v, c)
             if _auction != {}:
                 self.bid_list.data.append(_auction)
 
-    def get_namespace(self, namespaceid, wallet):
-        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
+    def get_namespace(self, bid_nsid, bid_shortcode, namespaceid, bid_tx):
+        _ns = MShared.get_namespace(bid_nsid, self.manager.kex)
         _ns = _ns['result']
+        # print('_ns result', _ns)
 
-        if namespaceid in self.manager.favorites.favorites:
+        if bid_nsid in self.manager.favorites.favorites:
             _fav = 'narwhallet/core/kui/assets/star.png'
         else:
             _fav = 'narwhallet/core/kui/assets/star_dark.png'
@@ -57,35 +52,35 @@ class BidsScreen(Screen):
         _auction = {}
 
         for _k in _dat:
-            if _k['dtype'] == 'nft_bid':
+            if _k['dtype'] == 'nft_auction':
+                _ad = json.loads(_k['dvalue'])
                 _auction = {
                     'time': _k['time'],
-                    'root_shortcode': str(_k['target'][0]),
-                    'my_bid': str(_k['dvalue']),
+                    'namespaceid': bid_nsid,
+                    'root_shortcode': str(bid_shortcode),
+                    'displayName': str(_ad['displayName']),
+                    'price': str(_ad['price']),
+                    'desc': str(_ad['desc']),
                     'favorite_source': _fav,
-                    # 'namespaceid': _ns['dnsid'],
                     'sm': self.manager
                 }
 
-                _auction_ns = MShared.get_shortcode(_k['target'][0], self.manager.kex)['result']
-                _ans_dat = _auction_ns['data']
-                _ans_dat.reverse()
+                _bid_count = 0
+                _high_bid = 0.0
 
-                for _i in _ans_dat:
-                    if _i['dtype'] == 'nft_auction':
-                        _ad = json.loads(_i['dvalue'])
-                        _auction['displayName'] = str(_ad['displayName'])
-                        _auction['price'] = str(_ad['price'])
-                        _auction['desc'] = str(_ad['desc'])
-                        _auction['bids'] = str(len(_i['replies']))
-                        _auction['namespaceid'] = _auction_ns['dnsid']
-                        _hb = 0
+                for _r in _k['replies']:
+                    if _r['dtype'] != 'nft_bid':
+                        continue
+                    
+                    if _r['dvalue'] > _high_bid:
+                        _high_bid = _r['dvalue']
+                        _auction['high_bid'] = str(_high_bid)
 
-                        for _b in _i['replies']:
-                            if _b['dvalue'] > _hb:
-                                _hb = _b['dvalue']
+                    if _r['dnsid'] == namespaceid and _r['dkey'][4:] == bid_tx:
+                        _auction['my_bid'] = str(_r['dvalue'])
+                    _bid_count = _bid_count + 1
+                _auction['bids'] = str(_bid_count)
 
-                        _auction['high_bid'] = str(_hb)
-
-                return _auction
+                if 'my_bid' in _auction:
+                    return _auction
         return {}
