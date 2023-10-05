@@ -1,9 +1,7 @@
 import os
 import re
-import shutil
 from kivy.uix.screenmanager import ScreenManager
 from kivy.core.clipboard import Clipboard
-from kivy.utils import platform
 from narwhallet.core.kcl.enums.mediatypes import content_type
 from narwhallet.core.kcl.favorites.favorites import MFavorites
 from narwhallet.core.kcl.file_utils.io import _loader
@@ -115,60 +113,6 @@ class NarwhalletScreens(ScreenManager):
         self.address_book: MBookAddresses = MBookAddresses()
         self.favorites: MFavorites = MFavorites()
         self.program_path = ''
-        # self.user_path = '' #self.set_paths()
-        # self.kex = KEXclient()
-
-    def set_paths(self) -> str:
-        if platform != 'android':
-            _user_home = os.path.expanduser('~')
-        else:
-            _user_home = '/data/user/0/one.keva.narwhallet/files/'
-
-        _narwhallet_path = os.path.join(_user_home, '.narwhallet')
-
-        if os.path.isdir(_narwhallet_path) is False:
-            # TODO Add error handling
-            os.mkdir(_narwhallet_path)
-            os.mkdir(os.path.join(_narwhallet_path, 'wallets'))
-
-        if os.path.isdir(os.path.join(_narwhallet_path, 'tmp_ipfs')) is False:
-            # TODO Add error handling
-            os.mkdir(os.path.join(_narwhallet_path, 'tmp_ipfs'))
-
-        if os.path.isfile(os.path.join(_narwhallet_path,
-                                       'settings.json')) is False:
-            print('settings.json created.')
-            shutil.copy(os.path.join(self.program_path,
-                                     'config/settings.json'), _narwhallet_path)
-
-        if os.path.isfile(os.path.join(_narwhallet_path,
-                                       'narwhallet.addressbook')) is False:
-            print('narwhallet.addressbook created.')
-            shutil.copy(os.path.join(self.program_path,
-                                     'config/narwhallet.addressbook'),
-                        _narwhallet_path)
-
-        if os.path.isfile(os.path.join(_narwhallet_path,
-                                       'narwhallet.favorites')) is False:
-            print('narwhallet.favorites created.')
-            shutil.copy(os.path.join(self.program_path,
-                                     'config/narwhallet.favorites'),
-                        _narwhallet_path)
-
-        if os.path.isfile(os.path.join(_narwhallet_path,
-                                       'special_keys.json')) is False:
-            print('special_keys.json created.')
-            shutil.copy(os.path.join(self.program_path,
-                                     'config/special_keys.json'),
-                        _narwhallet_path)
-
-        if os.path.isfile(os.path.join(_narwhallet_path,
-                                       'translations.json')) is False:
-            print('translations.json created.')
-            shutil.copy(os.path.join(self.program_path,
-                                     'config/translations.json'), _narwhallet_path)
-
-        return _narwhallet_path
 
     def load_wallets(self):
         self.wallets.set_root_path(os.path.join(self.user_path, 'wallets'))
@@ -178,8 +122,8 @@ class NarwhalletScreens(ScreenManager):
             if _tf is False:
                 self.wallets.load_wallet(file)
 
-    def setup(self):
-        self.user_path = self.set_paths()
+    def setup(self, _user_path):
+        self.user_path = _user_path
         self.ipfs_cache_path = os.path.join(self.user_path, 'tmp_ipfs')
         self.kex = KEXclient()
         self.settings_screen.load_settings()
