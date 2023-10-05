@@ -52,6 +52,9 @@ class BidsScreen(Screen):
         _auction = {}
 
         for _k in _dat:
+            if _k['dtype'] == 'name_update':
+                return {}
+
             if _k['dtype'] == 'nft_auction':
                 _ad = json.loads(_k['dvalue'])
                 _auction = {
@@ -71,7 +74,7 @@ class BidsScreen(Screen):
                 for _r in _k['replies']:
                     if _r['dtype'] != 'nft_bid':
                         continue
-                    
+
                     if _r['dvalue'] > _high_bid:
                         _high_bid = _r['dvalue']
                         _auction['high_bid'] = str(_high_bid)

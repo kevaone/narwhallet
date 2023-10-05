@@ -43,8 +43,11 @@ class AuctionsScreen(Screen):
 
         _dat = _ns['data']
         _dat.reverse()
+        _auction = {}
         for _k in _dat:
-            _auction = {}
+            if _k['dtype'] == 'name_update':
+                break
+
             if _k['dtype'] == 'nft_auction':
                 _na = json.loads(_k['dvalue'])
                 _auction = {
@@ -65,5 +68,6 @@ class AuctionsScreen(Screen):
                         _hb = _r['dvalue']
 
                 _auction['high_bid'] = str(_hb)
-            return _auction
-        return {}
+                break
+        return _auction
+        # return {}
