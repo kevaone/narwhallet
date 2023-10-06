@@ -5,10 +5,11 @@
     orientation: 'vertical'
     size_hint: 1, None
     height: dp(0)
+    background_color: (25/255, 27/255, 27/255, 1)
 
     canvas:
         Color:
-            rgba: (25/255, 27/255, 27/255, 1)
+            rgba: self.background_color
 
         Rectangle:
             pos: self.pos
