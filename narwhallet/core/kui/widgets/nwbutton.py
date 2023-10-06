@@ -18,8 +18,10 @@ class Nwbutton(Button):
         if self.collide_point(pos[0], pos[1]):
             if self.hover is False and self.disabled is False:
                 self.background_color = [146/255, 149/255, 149/255, 1]
+                Window.set_system_cursor('hand')
                 self.hover = True
         else:
             if self.hover is True:
                 self.background_color = [54/255, 58/255, 59/255, 1]
+                Window.set_system_cursor('arrow')
                 self.hover = False
