@@ -10,7 +10,7 @@ if platform != 'android':
 
 
 class _loader():
-    if platform == 'android':
+    if platform != 'android':
         @staticmethod
         def generate_host_key(path):
             _key = AESGCM.generate_key(256)
@@ -24,7 +24,7 @@ class _loader():
         if isinstance(data, str):
             data = data.encode()
 
-        if platform == 'android':
+        if platform != 'android':
             if k is not None:
                 _nonce = os.urandom(12)  # GCM mode needs 12 fresh bytes every time
                 data = _nonce + AESGCM(k).encrypt(_nonce, data, b'')
@@ -37,7 +37,7 @@ class _loader():
     def _load(file_path: str, k=None):
         with open(file_path, mode='rb') as _file:
             _data = _file.read()
-        if platform == 'android':
+        if platform != 'android':
             if k is not None:
                 _data = _data[4:]
                 try:
