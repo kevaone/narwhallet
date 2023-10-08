@@ -135,9 +135,13 @@ class MShared():
         if _result != '':
             _result = json.loads(_result)['result']
             if 'error' in _result:
-                # {error:{code, message}}
-                _msg = _result['error']
-                _msg_t = 1
+                if _result['error'] != None:
+                    # {error:{code, message}}
+                    _msg = _result['error']
+                    _msg_t = 1
+                else:
+                    _msg = 'TX Sent!'
+                    _msg_t = 2
             else:
                 _msg = 'TX Sent!'
                 _msg_t = 2
