@@ -1,6 +1,6 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, BooleanProperty, ListProperty
 from narwhallet.core.kui.widgets.nwimage import Nwimage
 
 
@@ -12,6 +12,9 @@ class AddressBookListInfo(BoxLayout):
     sent = StringProperty()
     received = StringProperty()
     trash_button = Nwimage()
+    mouse_hover = BooleanProperty(False)
+    background_color = ListProperty([25/255, 27/255, 27/255, 1])
+    hover_color = ListProperty([136/255, 136/255, 136/255, 1])
     sm = ScreenManager()
 
     def __init__(self, **kwargs):

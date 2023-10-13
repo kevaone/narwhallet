@@ -25,28 +25,9 @@
                 text: _tr.translate('Add')
                 on_press: root.add_address()
 
-        RecycleView:
+        Nwgrid:
             id: address_list
             viewclass: 'AddressBookListInfo'
-            do_scroll_y: True
-            bar_width: dp(15)
-            scroll_type: ['bars','content']
-
-            RecycleGridLayout:
-                canvas:
-                    Color:
-                        rgba: 60/255, 61/255, 61/255, 1
-
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-                size_hint_y: None
-                height: self.minimum_height
-                default_size: None, dp(120)
-                default_size_hint: 1, None
-                cols: 1
-                spacing: dp(5)
-                padding: dp(5)
 
         BoxLayout:
             canvas:

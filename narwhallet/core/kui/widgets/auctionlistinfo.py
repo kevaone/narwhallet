@@ -1,7 +1,6 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, ListProperty, BooleanProperty
 from kivy.uix.screenmanager import ScreenManager
-
 from narwhallet.core.kcl.favorites.favorite import MFavorite
 from narwhallet.core.kui.widgets.nwimage import Nwimage
 
@@ -17,7 +16,9 @@ class AuctionListInfo(BoxLayout):
     high_bid = StringProperty()
     favorite = Nwimage()
     favorite_source = StringProperty()
-    
+    mouse_hover = BooleanProperty(False)
+    background_color = ListProperty([25/255, 27/255, 27/255, 1])
+    hover_color = ListProperty([136/255, 136/255, 136/255, 1])
     sm = ScreenManager()
 
     def on_touch_down(self, touch):

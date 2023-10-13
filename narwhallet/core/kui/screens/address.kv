@@ -107,28 +107,9 @@
             height: dp(10)
             orientation: 'horizontal'
 
-        RecycleView:
+        Nwgrid:
             id: transaction_list
             viewclass: 'TransactionListInfo'
-            do_scroll_y: True
-            bar_width: dp(15)
-            scroll_type: ['bars','content']
-
-            RecycleGridLayout:
-                canvas:
-                    Color:
-                        rgba: 60/255, 61/255, 61/255, 1
-
-                    Rectangle:
-                        pos: self.pos
-                        size: self.size
-                size_hint_y: None
-                height: self.minimum_height
-                default_size: None, dp(85) if root.width <= dp(650) else dp(60)
-                default_size_hint: 1, None
-                cols: 1
-                spacing: dp(5)
-                padding: dp(5)
 
         BoxLayout:
             canvas:

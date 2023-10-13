@@ -1,22 +1,24 @@
 #:import _tr narwhallet.core.kui._translate
 
 <WalletListInfo>
+    size_hint_y: None
+    height: dp(75)
     sm: None
-    wallet_name: wallet_name
+    # wallet_name: wallet_name
     ticker: ticker
-    balance: balance
-    last_updated: last_updated
-    background_color: [25/255, 27/255, 27/255, 1]
+    # balance: balance
+    # last_updated: last_updated
+    # background_color: [25/255, 27/255, 27/255, 1]
     canvas:
         Color:
-            rgba: self.background_color
+            rgba: self.hover_color if self.mouse_hover else self.background_color
 
         Rectangle:
             pos: self.pos
             size: self.size
 
-    GridLayout:
-        cols: 1
+    BoxLayout:
+        orientation: 'vertical'
 
         BoxLayout:
             orientation: 'horizontal'
@@ -30,8 +32,8 @@
                 width: dp(45)
 
             Nwlabel:
-                id: wallet_name
-                text: ''
+                # id: wallet_name
+                text: root.wallet_name
                 height: dp(35)
                 font_size: dp(25)
 
@@ -47,8 +49,8 @@
                 padding: [5, 0, 0, 0]
 
             Nwlabel:
-                id: balance
-                text: ''
+                # id: balance
+                text: root.balance
                 halign: 'right'
                 padding: [5, 0, 20, 0]
                 text_size: self.size
@@ -65,8 +67,8 @@
                 text_size: self.size
 
             Nwlabel:
-                id: last_updated
-                text: ''
+                # id: last_updated
+                text: root.last_updated
                 halign: 'right'
                 padding: [5, 0, 20, 0]
                 text_size: self.size

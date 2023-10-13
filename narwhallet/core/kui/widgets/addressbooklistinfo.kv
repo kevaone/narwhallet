@@ -10,17 +10,19 @@
     coin: 'coin'
     sent: 'sent'
     received: 'received'
+    size_hint_y: None
+    height: dp(120)
 
     canvas:
         Color:
-            rgba: (25/255, 27/255, 27/255, 1)
+            rgba: self.hover_color if self.mouse_hover else self.background_color
 
         Rectangle:
             pos: self.pos
             size: self.size
 
-    GridLayout:
-        cols: 1
+    BoxLayout:
+        orientation: 'vertical'
 
         BoxLayout:
             orientation: 'horizontal'

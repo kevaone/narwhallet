@@ -1,11 +1,11 @@
 from kivy.uix.screenmanager import Screen
-from kivy.uix.recycleview import RecycleView
+from narwhallet.core.kui.widgets.nwgrid import Nwgrid
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui import _translate as _tr
 
 
 class AllScreen(Screen):
-    all_list = RecycleView()
+    all_list = Nwgrid()
     header = Header()
 
     def populate(self):

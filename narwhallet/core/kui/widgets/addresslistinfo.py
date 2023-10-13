@@ -1,6 +1,7 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager
-from kivy.properties import StringProperty, ListProperty
+from kivy.properties import StringProperty, ListProperty, BooleanProperty
+
 
 class AddressListInfo(BoxLayout):
     address = StringProperty()
@@ -10,7 +11,9 @@ class AddressListInfo(BoxLayout):
     last_updated = StringProperty()
     wallet_name = StringProperty()
     sm = ScreenManager()
-    background_color = ListProperty()
+    mouse_hover = BooleanProperty(False)
+    background_color = ListProperty([25/255, 27/255, 27/255, 1])
+    hover_color = ListProperty([136/255, 136/255, 136/255, 1])
 
     def on_touch_down(self, touch):
         if self.collide_point(touch.x, touch.y):

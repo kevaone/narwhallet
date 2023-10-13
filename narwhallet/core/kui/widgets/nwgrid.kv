@@ -1,0 +1,20 @@
+<Nwgrid>
+    do_scroll_y: True
+    bar_width: dp(15)
+    scroll_type: ['bars','content']
+
+    RecycleBoxLayout:
+        canvas:
+            Color:
+                rgba: 60/255, 61/255, 61/255, 1
+
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        default_size: None, None
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        spacing: dp(5)
+        padding: dp(5)
+        orientation: 'vertical'

@@ -1,12 +1,12 @@
 from kivy.uix.screenmanager import Screen
-from kivy.uix.recycleview import RecycleView
+from narwhallet.core.kui.widgets.nwgrid import Nwgrid
 # from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui import _translate as _tr
 
 
 class NftScreen(Screen):
-    nft_list = RecycleView()
+    nft_list = Nwgrid()
     header = Header()
 
     def populate(self):

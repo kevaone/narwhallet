@@ -1,6 +1,6 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.screenmanager import ScreenManager
-from kivy.properties import StringProperty
+from kivy.properties import StringProperty, ListProperty, BooleanProperty
 
 
 class TransactionListInfo(BoxLayout):
@@ -9,6 +9,9 @@ class TransactionListInfo(BoxLayout):
     sm = ScreenManager()
     status = StringProperty()
     txvalue = StringProperty()
+    mouse_hover = BooleanProperty(False)
+    background_color = ListProperty([25/255, 27/255, 27/255, 1])
+    hover_color = ListProperty([136/255, 136/255, 136/255, 1])
 
     def on_touch_down(self, touch):
         if self.collide_point(touch.x, touch.y):

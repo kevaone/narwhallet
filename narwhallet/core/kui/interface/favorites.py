@@ -1,13 +1,13 @@
 import json
 from kivy.uix.screenmanager import Screen
-from kivy.uix.recycleview import RecycleView
+from narwhallet.core.kui.widgets.nwgrid import Nwgrid
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui import _translate as _tr
 
 
 class FavoritesScreen(Screen):
-    favorites_list = RecycleView()
+    favorites_list = Nwgrid()
     header = Header()
 
     def populate(self):
