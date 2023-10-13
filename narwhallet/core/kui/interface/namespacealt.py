@@ -6,7 +6,6 @@ from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.nwimage import Nwimage
 from narwhallet.core.kui.widgets.nwnsimage import Nwnsimage
 from narwhallet.core.kcl.favorites.favorite import MFavorite
-from narwhallet.core.kui import _translate as _tr
 
 
 class NamespaceAltScreen(Screen):
@@ -20,7 +19,7 @@ class NamespaceAltScreen(Screen):
     favorite_source = StringProperty()
 
     def populate(self, namespaceid, shortcode):
-        self.header.value = _tr.translate('Auction')
+        self.header.value = 'Auction'
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.namespaceid = namespaceid

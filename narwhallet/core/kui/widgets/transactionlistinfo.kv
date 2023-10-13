@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <TransactionListInfo>
     sm: None
     block: 'block'
@@ -29,7 +27,7 @@
 
             Nwlabel:
                 # id: transaction
-                text: root.transaction
+                _text: root.transaction
                 text_size: self.size
                 padding: [5, 0, 0, 0]
                 font_size: dp(17)
@@ -43,22 +41,22 @@
 
             Nwlabel:
                 # id: block
-                text: root.block
+                _text: root.block
                 text_size: self.size
                 padding: [5, 0, 0, 0]
             Nwlabel:
                 # id: status
-                text: root.status
+                _text: root.status
                 padding: [5, 0, 0, 0]
                 text_size: self.size
             Nwlabel:
-                text: _tr.translate('Value:')
+                _text: 'Value:'
                 text_size: self.size
                 halign: 'right'
                 padding: [5, 0, 0, 0]
             Nwlabel:
                 # id: txvalue
-                text: root.txvalue
+                _text: root.txvalue
                 halign: 'right'
                 padding: [5, 0, 0, 0]
                 text_size: self.size

@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <SendScreen>
     wallet_balance: wallet_balance
     send_to: send_to
@@ -32,7 +30,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('Balance:')
+                _text: 'Balance:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -41,7 +39,7 @@
             Nwlabel:
                 id: wallet_balance
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
 
         Nwboxlayout:
@@ -51,7 +49,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('Send To:')
+                _text: 'Send To:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -63,7 +61,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: ''
+                _text: ''
                 size_hint_x: None
                 width: dp(10)
 
@@ -71,14 +69,14 @@
                 id: send_to
                 halign: 'left'
                 valign: 'center'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(325)
                 on_text: root.check_address()
 
             Nwlabel:
-                text: ''
+                _text: ''
                 size_hint_x: None
                 width: dp(5)
 
@@ -105,7 +103,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('Amount:')
+                _text: 'Amount:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -115,7 +113,7 @@
                 id: amount
                 halign: 'center'
                 valign: 'center'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(155)
@@ -139,7 +137,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('Fee Rate:')
+                _text: 'Fee Rate:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -149,7 +147,7 @@
                 id: fee_rate
                 halign: 'left'
                 valign: 'center'
-                text: '0'
+                _text: '0'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -162,7 +160,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('Fee:')
+                _text: 'Fee:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -172,7 +170,7 @@
                 id: fee
                 halign: 'left'
                 valign: 'center'
-                text: '0.0'
+                _text: '0.0'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -185,7 +183,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('TX Size:')
+                _text: 'TX Size:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -195,7 +193,7 @@
                 id: txsize
                 halign: 'left'
                 valign: 'center'
-                text: '0.0'
+                _text: '0.0'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -208,7 +206,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('TX Hex:')
+                _text: 'TX Hex:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -229,7 +227,7 @@
                     id: txhex
                     halign: 'left'
                     valign: 'top'
-                    text: '0.0'
+                    _text: '0.0'
                     text_size: self.size
                     size_hint_x: None
                     size_hint_y: None
@@ -253,11 +251,11 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: _tr.translate('Cancel')
+                _text: 'Cancel'
                 on_press: root.manager.current = 'wallet_screen'
 
             Nwbutton:
                 id: btn_send
-                text: _tr.translate('Create TX')
+                _text: 'Create TX'
                 disabled: True
-                on_press: root.process_send() if self.text == _tr.translate('Send') else root.build_send()
+                on_press: root.process_send() if self._text == 'Send' else root.build_send()

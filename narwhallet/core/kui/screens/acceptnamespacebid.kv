@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <AcceptNamespaceBidScreen>
     wallet_name: wallet_name
     wallet_balance: wallet_balance
@@ -65,7 +63,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: _tr.translate('Wallet:')
+                        _text: 'Wallet:'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(75)
@@ -75,7 +73,7 @@
                         id: wallet_name
                         halign: 'left'
                         valign: 'center'
-                        text: ''
+                        _text: ''
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
@@ -89,7 +87,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: _tr.translate('NS:')
+                        _text: 'NS:'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(75)
@@ -104,7 +102,7 @@
                         id: namespaceid
                         halign: 'left'
                         valign: 'center'
-                        text: ''
+                        _text: ''
                         text_size: self.size
                         size_hint_x: None
                         width: dp(325)
@@ -117,7 +115,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('NS Address:')
+                        _text: 'NS Address:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -131,7 +129,7 @@
                     Nwlabel:
                         id: namespace_address
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -141,7 +139,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Payment Address:')
+                        _text: 'Payment Address:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -155,7 +153,7 @@
                     Nwlabel:
                         id: payment_address
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -165,7 +163,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Balance:')
+                        _text: 'Balance:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -174,7 +172,7 @@
                     Nwlabel:
                         id: wallet_balance
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -185,7 +183,7 @@
                     Nwlabel:
                         halign: 'left'
                         # valign: 'center'
-                        text: _tr.translate('Asking Price:')
+                        _text: 'Asking Price:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -194,7 +192,7 @@
                     Nwlabel:
                         id: asking_price
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -204,7 +202,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Description:')
+                        _text: 'Description:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -216,14 +214,14 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(10)
 
                     Nwlabel:
                         id: description
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 # Nwboxlayout:
@@ -234,7 +232,7 @@
                 #     Nwlabel:
                 #         halign: 'left'
                 #         valign: 'center'
-                #         text: 'NS Reservation:'
+                #         _text: 'NS Reservation:'
                 #         text_size: self.size
                 #         padding: [10, 0, 0, 0]
                 #         size_hint_x: None
@@ -244,7 +242,7 @@
                 #         id: bidtx_reservation
                 #         halign: 'left'
                 #         valign: 'center'
-                #         text: '0.01'
+                #         _text: '0.01'
                 #         text_size: self.size
                 #         size_hint_x: None
                 #         width: dp(175)
@@ -258,7 +256,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: _tr.translate('Bid Amount:')
+                        _text: 'Bid Amount:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -267,7 +265,7 @@
                     Nwlabel:
                         id: bid_amount
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
@@ -290,7 +288,7 @@
 
                 #     Nwlabel:
                 #         halign: 'left'
-                #         text: 'Bid NS:'
+                #         _text: 'Bid NS:'
                 #         text_size: self.size
                 #         padding: [10, 0, 0, 0]
                 #         size_hint_x: None
@@ -299,7 +297,7 @@
                 #     Nwlabel:
                 #         id: bid_namespaceid
                 #         halign: 'left'
-                #         text: ''
+                #         _text: ''
                 #         text_size: self.size
 
                 # Nwboxlayout:
@@ -309,7 +307,7 @@
 
                 #     Nwlabel:
                 #         halign: 'left'
-                #         text: 'Bid Shortcode:'
+                #         _text: 'Bid Shortcode:'
                 #         text_size: self.size
                 #         padding: [10, 0, 0, 0]
                 #         size_hint_x: None
@@ -318,13 +316,13 @@
                 #     Nwlabel:
                 #         id: bid_shortcode
                 #         halign: 'left'
-                #         text: ''
+                #         _text: ''
                 #         text_size: self.size
 
                 #     Nwlabel:
                 #         id: bid_name
                 #         halign: 'left'
-                #         text: ''
+                #         _text: ''
                 #         text_size: self.size
 
                 # Nwboxlayout:
@@ -334,7 +332,7 @@
 
                 #     Nwlabel:
                 #         halign: 'left'
-                #         text: 'Bid NS Address:'
+                #         _text: 'Bid NS Address:'
                 #         text_size: self.size
                 #         padding: [10, 0, 0, 0]
                 #         size_hint_x: None
@@ -343,7 +341,7 @@
                 #     Nwlabel:
                 #         id: bid_namespace_address
                 #         halign: 'left'
-                #         text: ''
+                #         _text: ''
                 #         text_size: self.size
 
                 # Nwboxlayout:
@@ -353,7 +351,7 @@
 
                 #     Nwlabel:
                 #         halign: 'left'
-                #         text: 'Payment Address:'
+                #         _text: 'Payment Address:'
                 #         text_size: self.size
                 #         padding: [10, 0, 0, 0]
                 #         size_hint_x: None
@@ -365,18 +363,18 @@
                 #     orientation: 'horizontal'
 
                 #     Nwlabel:
-                #         text: ''
+                #         _text: ''
                 #         size_hint_x: None
                 #         width: dp(10)
 
                 #     Nwlabel:
                 #         id: offer_payment_address
                 #         halign: 'left'
-                #         text: ''
+                #         _text: ''
                 #         text_size: self.size
 
                 #     Nwlabel:
-                #         text: ''
+                #         _text: ''
                 #         size_hint_x: None
                 #         width: dp(5)
 
@@ -390,14 +388,14 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(10)
 
                     Nwlabel:
                         # id: bid_tx
                         halign: 'left'
-                        text: _tr.translate('Bid Tx:')
+                        _text: 'Bid Tx:'
                         text_size: self.size
 
                 Nwboxlayout:
@@ -406,14 +404,14 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(10)
 
                     Nwlabel:
                         id: bid_tx
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -423,7 +421,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Fee Rate:')
+                        _text: 'Fee Rate:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -432,7 +430,7 @@
                     Nwlabel:
                         id: fee_rate
                         halign: 'left'
-                        text: '0'
+                        _text: '0'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
@@ -444,7 +442,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Fee:')
+                        _text: 'Fee:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -453,7 +451,7 @@
                     Nwlabel:
                         id: fee
                         halign: 'left'
-                        text: '0.0'
+                        _text: '0.0'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
@@ -465,7 +463,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('TX Size:')
+                        _text: 'TX Size:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -474,7 +472,7 @@
                     Nwlabel:
                         id: txsize
                         halign: 'left'
-                        text: '0.0'
+                        _text: '0.0'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
@@ -487,7 +485,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: _tr.translate('TX Hex:')
+                        _text: 'TX Hex:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
@@ -508,7 +506,7 @@
                             id: txhex
                             halign: 'left'
                             valign: 'top'
-                            text: ''
+                            _text: ''
                             text_size: self.size
                             size_hint_x: None
                             size_hint_y: None
@@ -529,10 +527,10 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: _tr.translate('Cancel')
+                _text: 'Cancel'
                 on_press: root.manager.current = 'auctiondetail_screen'
 
             Nwbutton:
                 id: btn_send
-                text: _tr.translate('Create TX')
+                _text: 'Create TX'
                 on_press: root.process_send() if self.text == 'Send' else root.build_send()

@@ -5,7 +5,9 @@ import kivy
 from kivy.app import App
 from kivy.config import Config
 from kivy.utils import platform
+from kivy.properties import NumericProperty
 from narwhallet import _version
+from narwhallet.core.kcl.file_utils.io import ConfigLoader
 # NOTE NarwhalletScreens import moved after set_paths called
 # from narwhallet.core.kui.interface.screenmanager import NarwhalletScreens
 # Config.set('graphics', 'width', '500')
@@ -76,14 +78,38 @@ def set_paths(program_path) -> str:
 
 _program_path = os.path.dirname(__file__)
 _user_path = set_paths(_program_path)
+
+
+
 from narwhallet.core.kui.interface.screenmanager import NarwhalletScreens
 
 class MainApp(App):
+    lang = NumericProperty(0)
+    # lang_dat = _lang_dat
     icon = 'narwhallet/core/kui/assets/narwhal.png'
     title = 'Narwhallet v.' + str(_version.__version__)
 
-    def build(self):
+    def __init__(self, **kwargs):
+        super(MainApp, self).__init__(**kwargs)
+
+        _translations = os.path.join(_user_path, 'translations.json')
+        # _lang_dat = ConfigLoader(_translations)
+        self.lang_dat = ConfigLoader(_translations)
+        self.lang_dat.load()
+        self.lang = self.lang_dat.data['active']
+
+    def translate_text(self, text):
+        _lang = self.lang_dat.data['available'][self.lang][1]
+
+        try:
+            _t = self.lang_dat.data['strings'][text][_lang]
+        except:
+            _t = text
         
+        return _t
+
+
+    def build(self):
         self.sm = NarwhalletScreens()
         self.sm.program_path = _program_path
         self.sm.setup(_user_path)

@@ -1,14 +1,15 @@
 from kivy.app import App
 from kivy.clock import Clock
+from kivy.uix.togglebutton import ToggleButton
 from kivy.properties import StringProperty
 from kivy.uix.label import Label
 
 
-class Nwlabel(Label):
+class Nwtogglebutton(ToggleButton):
     _text = StringProperty('')
 
     def __init__(self, **kwargs):
-        super(Nwlabel, self).__init__(**kwargs)
+        super(Nwtogglebutton, self).__init__(**kwargs)
 
         Clock.schedule_once(self._bind)
 

@@ -2,7 +2,6 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.header import Header
-from narwhallet.core.kui import _translate as _tr
 
 
 class AddressBookScreen(Screen):
@@ -30,19 +29,19 @@ class AddressBookScreen(Screen):
         self.mode = _mode
         self.address_list.data = []
         if _mode == 0:
-            self.nav0.text = _tr.translate('Home')
+            self.nav0._text = 'Home'
             self.nav0.icon = 'narwhallet/core/kui/assets/home_white.png'
             self.nav0.bind(on_press=self.set_current)
         elif _mode == 1:
-            self.nav0.text = _tr.translate('Cancel')
+            self.nav0._text = 'Cancel'
             self.nav0.icon = ''
             self.nav0.bind(on_press=self.set_current)
         elif _mode == 2:
-            self.nav0.text = _tr.translate('Cancel')
+            self.nav0._text = 'Cancel'
             self.nav0.icon = ''
             self.nav0.bind(on_press=self.set_current)
         elif _mode == 3:
-            self.nav0.text = _tr.translate('Cancel')
+            self.nav0._text = 'Cancel'
             self.nav0.icon = ''
             self.nav0.bind(on_press=self.set_current)
         

@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <WalletInfoScreen>
     mnemonic_phrase: mnemonic_phrase
     seed: seed
@@ -54,7 +52,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Last Updated:')
+                        _text: 'Last Updated:'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -62,7 +60,7 @@
                     Nwlabel:
                         id: last_updated
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -71,7 +69,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Coin:')
+                        _text: 'Coin:'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -79,7 +77,7 @@
                     Nwlabel:
                         id: coin
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -88,7 +86,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: 'Bip:'
+                        _text: 'Bip:'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -96,7 +94,7 @@
                     Nwlabel:
                         id: bip
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -105,7 +103,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Kind:')
+                        _text: 'Kind:'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -113,7 +111,7 @@
                     Nwlabel:
                         id: kind
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -122,7 +120,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Account Index:')
+                        _text: 'Account Index:'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -130,7 +128,7 @@
                     Nwlabel:
                         id: account_index
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -139,7 +137,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Change Index:')
+                        _text: 'Change Index:'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -147,7 +145,7 @@
                     Nwlabel:
                         id: change_index
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -156,7 +154,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Balance:')
+                        _text: 'Balance:'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -164,7 +162,7 @@
                     Nwlabel:
                         id: balance
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -173,7 +171,7 @@
 
                     Nwlabel:
                         halign: 'left'
-                        text: _tr.translate('Locked Balance:')
+                        _text: 'Locked Balance:'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(150)
@@ -181,7 +179,7 @@
                     Nwlabel:
                         id: locked_balance
                         halign: 'left'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                 Nwboxlayout:
@@ -201,7 +199,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'ypub:'
+                        _text: 'ypub:'
                         text_size: self.size
                         padding: [5, 0, 0, 0]
 
@@ -210,7 +208,7 @@
                     height: dp(80)
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(15)
 
@@ -218,11 +216,11 @@
                         id: ypub
                         halign: 'left'
                         valign: 'top'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(10)
 
@@ -239,7 +237,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: 'xpriv:'
+                        _text: 'xpriv:'
                         text_size: self.size
                         padding: [5, 0, 0, 0]
 
@@ -248,7 +246,7 @@
                     height: dp(80)
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(15)
 
@@ -256,11 +254,11 @@
                         id: xpriv
                         halign: 'left'
                         valign: 'top'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(10)
 
@@ -277,7 +275,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: _tr.translate('Seed:')
+                        _text: 'Seed:'
                         text_size: self.size
                         padding: [5, 0, 0, 0]
 
@@ -286,7 +284,7 @@
                     height: dp(80)
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(15)
 
@@ -294,11 +292,11 @@
                         id: seed
                         halign: 'left'
                         valign: 'top'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(10)
 
@@ -315,7 +313,7 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        text: _tr.translate('Mnemonic Phrase:')
+                        _text: 'Mnemonic Phrase:'
                         text_size: self.size
                         padding: [5, 0, 0, 0]
 
@@ -324,7 +322,7 @@
                     height: dp(80)
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(15)
 
@@ -332,11 +330,11 @@
                         id: mnemonic_phrase
                         halign: 'left'
                         valign: 'top'
-                        text: ''
+                        _text: ''
                         text_size: self.size
 
                     Nwlabel:
-                        text: ''
+                        _text: ''
                         size_hint_x: None
                         width: dp(10)
 
@@ -345,5 +343,5 @@
             height: dp(60)
 
             Nwbutton:
-                text: _tr.translate('Wallet')
+                _text: 'Wallet'
                 on_press: root.clear_screen()

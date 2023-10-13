@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <SettingsScreen>
     iserver_host: iserver_host
     iserver_port: iserver_port
@@ -37,7 +35,7 @@
 
         Header:
             id: header
-            value: _tr.translate('Settings')
+            value: 'Settings'
 
         Nwboxlayout:
             size_hint_y: None
@@ -71,8 +69,9 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('General Settings')
-                        # text: _tr.translate(self._text)
+                        # text: 'General Settings')
+                        _text: 'General Settings'
+                        # text: self._text)
                         halign: 'left'
                         font_size: dp(25)
                         text_size: self.size
@@ -84,8 +83,9 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Language:')
-                        # text: _tr.translate(self._text)
+                        # text: 'Language:')
+                        _text: 'Language:'
+                        # text: self._text)
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -97,7 +97,7 @@
                         id: lang
                         halign: 'center'
                         valign: 'center'
-                        text: ''
+                        _text: ''
                         text_size: self.size
                         size_hint_x: None
                         width: dp(200)
@@ -109,8 +109,8 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Show Change Addresses:')
-                        # text: _tr.translate(self._text)
+                        _text: 'Show Change Addresses:'
+                        # text: self._text)
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -118,7 +118,7 @@
                         size_hint_x: None
                         width: dp(200)
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: show_change
                         text_size: self.size
                         font_size: dp(20)
@@ -126,7 +126,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: _tr.translate('Yes')
+                        _text: 'Yes'
                         group: 'change'
                         # state: 'down'
                         halign: 'center'
@@ -139,8 +139,8 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Connection Settings')
-                        # text: _tr.translate(self._text)
+                        _text: 'Connection Settings'
+                        # text: self._text)
                         halign: 'left'
                         font_size: dp(25)
                         text_size: self.size
@@ -152,8 +152,8 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Status:')
-                        # text: _tr.translate(self._text)
+                        _text: 'Status:'
+                        # text: self._text)
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -162,7 +162,7 @@
                         width: dp(115)
 
                     Nwlabel:
-                        text: root.connection_status
+                        _text: root.connection_status
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -173,7 +173,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Server:')
+                        _text: 'Server:'
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -184,7 +184,7 @@
                     TextInput:
                         id: iserver_host
                         halign: 'left'
-                        text: 'kva.keva.one'
+                        _text: 'kva.keva.one'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(250)
@@ -196,7 +196,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Port:')
+                        _text: 'Port:'
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -207,7 +207,7 @@
                     TextInput:
                         id: iserver_port
                         halign: 'left'
-                        text: '50002'
+                        _text: '50002'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(250)
@@ -219,7 +219,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('SSL:')
+                        _text: 'SSL:'
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -227,7 +227,7 @@
                         size_hint_x: None
                         width: dp(115)
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_ssl_0
                         text_size: self.size
                         font_size: dp(20)
@@ -235,14 +235,14 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: _tr.translate('Yes')
+                        _text: 'Yes'
                         group: 'ssl'
                         # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(0, 3, True)
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_ssl_1
                         text_size: self.size
                         font_size: dp(20)
@@ -250,7 +250,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: _tr.translate('No')
+                        _text: 'No'
                         group: 'ssl'
                         # state: 'down'
                         halign: 'center'
@@ -263,7 +263,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Validate SSL:')
+                        _text: 'Validate SSL:'
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -271,7 +271,7 @@
                         size_hint_x: None
                         width: dp(115)
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_verify_0
                         text_size: self.size
                         font_size: dp(20)
@@ -279,14 +279,14 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: _tr.translate('Yes')
+                        _text: 'Yes'
                         group: 'vssl'
                         # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(0, 4, True)
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_verify_1
                         text_size: self.size
                         font_size: dp(20)
@@ -294,7 +294,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: _tr.translate('No')
+                        _text: 'No'
                         group: 'vssl'
                         # state: 'down'
                         halign: 'center'
@@ -306,7 +306,7 @@
                     height: dp(45)
                     orientation: 'horizontal'
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_active_0
                         text_size: self.size
                         font_size: dp(20)
@@ -314,7 +314,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(150)
-                        text: _tr.translate('Active')
+                        _text: 'Active'
                         group: 'con'
                         # state: 'down'
                         halign: 'center'
@@ -327,7 +327,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Alt Server:')
+                        _text: 'Alt Server:'
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -338,7 +338,7 @@
                     TextInput:
                         id: iserver_althost
                         halign: 'left'
-                        text: 'kva.keva.one'
+                        _text: 'kva.keva.one'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(250)
@@ -350,7 +350,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Alt Port:')
+                        _text: 'Alt Port:'
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -361,7 +361,7 @@
                     TextInput:
                         id: iserver_altport
                         halign: 'left'
-                        text: '50002'
+                        _text: '50002'
                         text_size: self.size
                         size_hint_x: None
                         width: dp(250)
@@ -373,7 +373,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('SSL:')
+                        _text: 'SSL:'
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -381,7 +381,7 @@
                         size_hint_x: None
                         width: dp(115)
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_altssl_0
                         text_size: self.size
                         font_size: dp(20)
@@ -389,14 +389,14 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: _tr.translate('Yes')
+                        _text: 'Yes'
                         group: 'assl'
                         # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(1, 3, True)
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_altssl_1
                         text_size: self.size
                         font_size: dp(20)
@@ -404,7 +404,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: _tr.translate('No')
+                        _text: 'No'
                         group: 'assl'
                         # state: 'down'
                         halign: 'center'
@@ -417,7 +417,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Validate SSL:')
+                        _text: 'Validate SSL:'
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -425,7 +425,7 @@
                         size_hint_x: None
                         width: dp(115)
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_altverify_0
                         text_size: self.size
                         font_size: dp(20)
@@ -433,14 +433,14 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: _tr.translate('Yes')
+                        _text: 'Yes'
                         group: 'avssl'
                         # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(1, 4, True)
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_altverify_1
                         text_size: self.size
                         font_size: dp(20)
@@ -448,7 +448,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(75)
-                        text: _tr.translate('No')
+                        _text: 'No'
                         group: 'avssl'
                         # state: 'down'
                         halign: 'center'
@@ -460,7 +460,7 @@
                     height: dp(45)
                     orientation: 'horizontal'
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_active_1
                         text_size: self.size
                         font_size: dp(20)
@@ -468,7 +468,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(150)
-                        text: _tr.translate('Active')
+                        _text: 'Active'
                         group: 'con'
                         # state: 'down'
                         halign: 'center'
@@ -481,7 +481,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('IPFS Settings')
+                        _text: 'IPFS Settings'
                         halign: 'left'
                         font_size: dp(25)
                         text_size: self.size
@@ -493,7 +493,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Gateway:')
+                        _text: 'Gateway:'
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -503,7 +503,7 @@
 
                     TextInput:
                         id: ipfs_gateway
-                        text: 'ipfs.keva.one'
+                        _text: 'ipfs.keva.one'
                         halign: 'left'
                         text_size: self.size
                         size_hint_x: None
@@ -515,7 +515,7 @@
                     height: dp(45)
                     orientation: 'horizontal'
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_ipfs_0
                         text_size: self.size
                         font_size: dp(20)
@@ -523,7 +523,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(150)
-                        text: _tr.translate('Active')
+                        _text: 'Active'
                         group: 'ipfs'
                         # state: 'down'
                         halign: 'center'
@@ -536,7 +536,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        text: _tr.translate('Alt Gateway:')
+                        _text: 'Alt Gateway:'
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -546,7 +546,7 @@
 
                     TextInput:
                         id: ipfs_gateway_alt
-                        text: 'ipfs.keva.one'
+                        _text: 'ipfs.keva.one'
                         halign: 'left'
                         text_size: self.size
                         size_hint_x: None
@@ -558,7 +558,7 @@
                     height: dp(45)
                     orientation: 'horizontal'
 
-                    ToggleButton:
+                    Nwtogglebutton:
                         id: iserver_ipfs_1
                         text_size: self.size
                         font_size: dp(20)
@@ -566,7 +566,7 @@
                         size_hint_y: None
                         height: dp(40)
                         width: dp(150)
-                        text: _tr.translate('Active')
+                        _text: 'Active'
                         group: 'ipfs'
                         # state: 'down'
                         halign: 'center'
@@ -580,7 +580,7 @@
                 #     orientation: 'horizontal'
 
                 #     Nwlabel:
-                #         text: _tr.translate('Content Provider')
+                #         _text: 'Content Provider')
                 #         halign: 'left'
                 #         font_size: dp(25)
                 #         text_size: self.size
@@ -592,7 +592,7 @@
                 #     orientation: 'horizontal'
 
                 #     Nwlabel:
-                #         text: _tr.translate('Server:')
+                #         _text: 'Server:')
                 #         halign: 'left'
                 #         valign: 'center'
                 #         text_size: self.size
@@ -603,7 +603,7 @@
                 #     TextInput:
                 #         id: content_provider_host
                 #         halign: 'left'
-                #         text: 'kva.keva.one'
+                #         _text: 'kva.keva.one'
                 #         text_size: self.size
                 #         size_hint_x: None
                 #         width: dp(250)
@@ -615,7 +615,7 @@
                 #     orientation: 'horizontal'
 
                 #     Nwlabel:
-                #         text: _tr.translate('Port:')
+                #         _text: 'Port:')
                 #         halign: 'left'
                 #         valign: 'center'
                 #         text_size: self.size
@@ -626,7 +626,7 @@
                 #     TextInput:
                 #         id: content_provider_port
                 #         halign: 'left'
-                #         text: '50002'
+                #         _text: '50002'
                 #         text_size: self.size
                 #         size_hint_x: None
                 #         width: dp(250)
@@ -638,7 +638,7 @@
                 #     orientation: 'horizontal'
 
                 #     Nwlabel:
-                #         text: _tr.translate('SSL:')
+                #         _text: 'SSL:')
                 #         halign: 'left'
                 #         valign: 'center'
                 #         text_size: self.size
@@ -646,7 +646,7 @@
                 #         size_hint_x: None
                 #         width: dp(115)
 
-                #     ToggleButton:
+                #     Nwtogglebutton:
                 #         id: content_provider_ssl_0
                 #         text_size: self.size
                 #         font_size: dp(20)
@@ -654,14 +654,14 @@
                 #         size_hint_y: None
                 #         height: dp(40)
                 #         width: dp(75)
-                #         text: _tr.translate('Yes')
+                #         _text: 'Yes')
                 #         group: 'ssl'
                 #         # state: 'down'
                 #         halign: 'center'
                 #         valign: 'center'
                 #         on_press: root.update_content_provider_ssl_option(0, 3, True)
 
-                #     ToggleButton:
+                #     Nwtogglebutton:
                 #         id: content_provider_ssl_1
                 #         text_size: self.size
                 #         font_size: dp(20)
@@ -669,7 +669,7 @@
                 #         size_hint_y: None
                 #         height: dp(40)
                 #         width: dp(75)
-                #         text: _tr.translate('No')
+                #         _text: 'No')
                 #         group: 'ssl'
                 #         # state: 'down'
                 #         halign: 'center'
@@ -682,7 +682,7 @@
                 #     orientation: 'horizontal'
 
                 #     Nwlabel:
-                #         text: _tr.translate('Validate SSL:')
+                #         _text: 'Validate SSL:')
                 #         halign: 'left'
                 #         valign: 'center'
                 #         text_size: self.size
@@ -690,7 +690,7 @@
                 #         size_hint_x: None
                 #         width: dp(115)
 
-                #     ToggleButton:
+                #     Nwtogglebutton:
                 #         id: content_provider_verify_0
                 #         text_size: self.size
                 #         font_size: dp(20)
@@ -698,14 +698,14 @@
                 #         size_hint_y: None
                 #         height: dp(40)
                 #         width: dp(75)
-                #         text: _tr.translate('Yes')
+                #         _text: 'Yes')
                 #         group: 'vssl'
                 #         # state: 'down'
                 #         halign: 'center'
                 #         valign: 'center'
                 #         on_press: root.update_content_provider_ssl_option(0, 4, True)
 
-                #     ToggleButton:
+                #     Nwtogglebutton:
                 #         id: content_provider_verify_1
                 #         text_size: self.size
                 #         font_size: dp(20)
@@ -713,7 +713,7 @@
                 #         size_hint_y: None
                 #         height: dp(40)
                 #         width: dp(75)
-                #         text: _tr.translate('No')
+                #         _text: 'No')
                 #         group: 'vssl'
                 #         # state: 'down'
                 #         halign: 'center'
@@ -733,9 +733,9 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: _tr.translate('Home')
+                _text: 'Home'
                 icon: 'narwhallet/core/kui/assets/home_white.png'
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(20)
                 on_press: root.manager.current = 'home_screen'
-                # on_text: self.text = _tr.translate(self)
+                # on_text: self.text = self)

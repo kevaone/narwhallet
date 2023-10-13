@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <AddressBookListInfo>
     sm: None
     wallet_name: None
@@ -35,7 +33,7 @@
                 source: 'narwhallet/core/kui/assets/trashcan.png'
 
             Nwlabel:
-                text: root.address
+                _text: root.address
                 height: dp(20)
                 font_size: dp(18)
                 padding: [5, 0, 0, 0]
@@ -47,7 +45,7 @@
             height: dp(30)
 
             Nwlabel:
-                text: root.address_name
+                _text: root.address_name
                 height: dp(20)
                 font_size: dp(18)
                 padding: [5, 0, 0, 0]
@@ -59,7 +57,7 @@
             height: dp(25)
 
             Nwlabel:
-                text: root.address_label
+                _text: root.address_label
                 height: dp(20)
                 font_size: dp(18)
                 padding: [5, 0, 0, 0]
@@ -88,7 +86,7 @@
             #     width: 30
 
             Nwlabel:
-                text: ''
+                _text: ''
                 size_hint_x: None
                 width: dp(5)
 
@@ -98,7 +96,7 @@
                 width: dp(30)
 
             Nwlabel:
-                text: _tr.translate('Coin:')
+                _text: 'Coin:'
                 halign: 'left'
                 valign: 'center'
                 padding: [5, 0, 0, 0]
@@ -108,7 +106,7 @@
 
             Nwlabel:
                 # id: coin
-                text: root.coin
+                _text: root.coin
                 halign: 'left'
                 valign: 'center'
                 text_size: self.size
@@ -116,7 +114,7 @@
                 width: dp(100)
 
             Nwlabel:
-                text: _tr.translate('Sent:')
+                _text: 'Sent:'
                 text_size: self.size
                 halign: 'left'
                 valign: 'center'
@@ -125,7 +123,7 @@
 
             Nwlabel:
                 # id: sent
-                text: root.sent
+                _text: root.sent
                 halign: 'left'
                 valign: 'center'
                 text_size: self.size
@@ -133,7 +131,7 @@
                 width: dp(100)
 
             Nwlabel:
-                text: _tr.translate('Received:')
+                _text: 'Received:'
                 text_size: self.size
                 halign: 'left'
                 valign: 'center'
@@ -141,7 +139,7 @@
                 width: dp(75)
 
             Nwlabel:
-                text: root.received
+                _text: root.received
                 halign: 'left'
                 valign: 'center'
                 text_size: self.size

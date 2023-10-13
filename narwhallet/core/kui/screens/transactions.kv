@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <TransactionsScreen>
     transaction_list: transaction_list
     header: header
@@ -21,7 +19,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: _tr.translate('History')
+                _text: 'History'
                 halign: 'left'
                 font_size: dp(25)
                 text_size: self.size
@@ -36,9 +34,9 @@
             height: dp(60)
 
             # Nwbutton:
-            #     text: 'Home'
+            #     _text: 'Home'
             #     on_press: root.manager.current = 'home_screen'
 
             Nwbutton:
-                text: _tr.translate('Wallet')
+                _text: 'Wallet'
                 on_press: root.manager.current = 'wallet_screen'

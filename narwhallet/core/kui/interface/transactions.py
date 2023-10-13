@@ -1,7 +1,6 @@
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kui.widgets.nwgrid import Nwgrid
 from narwhallet.core.kui.widgets.header import Header
-from narwhallet.core.kui import _translate as _tr
 
 
 class TransactionsScreen(Screen):
@@ -35,7 +34,7 @@ class TransactionsScreen(Screen):
                                 # 'txvalue': str(round(_h['value'], 8)),
                                 'txvalue': str(_h['value']),
                                 'sm': self.manager,
-                                'status': _tr.translate(_s)}
+                                'status': _s}
                         self.transaction_list.children[0].rows += 1
                         _txd.append(_d)
                         _transactions += 1
@@ -56,7 +55,7 @@ class TransactionsScreen(Screen):
                                 # 'txvalue': str(round(_h['value'], 8)),
                                 'txvalue': str(_h['value']),
                                 'sm': self.manager,
-                                'status': _tr.translate(_s)}
+                                'status': _s}
                             self.transaction_list.children[0].rows += 1
                             _txd.append(_d)
                             _transactions += 1

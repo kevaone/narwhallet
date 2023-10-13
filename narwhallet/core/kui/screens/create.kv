@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <CreateScreen>
     wallet_name: wallet_name
     coin: coin
@@ -14,7 +12,7 @@
 
         Header:
             id: header
-            value: _tr.translate('Create New Wallet')
+            value: 'Create New Wallet'
 
         Nwboxlayout:
             size_hint_y: None
@@ -28,7 +26,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('Name:')
+                _text: 'Name:'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
@@ -38,7 +36,7 @@
                 id: wallet_name
                 halign: 'center'
                 valign: 'center'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -57,7 +55,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('Coin:')
+                _text: 'Coin:'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
@@ -67,7 +65,7 @@
                 id: coin
                 halign: 'center'
                 valign: 'center'
-                text: 'KEVACOIN'
+                _text: 'KEVACOIN'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -85,7 +83,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('Mnemonic Language:')
+                _text: 'Mnemonic Language:'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -95,7 +93,7 @@
                 id: mnemonic_lang
                 halign: 'center'
                 valign: 'center'
-                text: 'ENGLISH'
+                _text: 'ENGLISH'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -120,13 +118,13 @@
 
             Nwlabel:
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(10)
 
             Nwbutton:
-                text: _tr.translate('Generate Mnemonic')
+                _text: 'Generate Mnemonic'
                 size_hint_x: None
                 width: dp(175)
                 on_press: root.generate_mnemonic()
@@ -138,7 +136,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('Mnemonic Phrase:')
+                _text: 'Mnemonic Phrase:'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -151,7 +149,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(10)
@@ -159,7 +157,7 @@
             TextInput:
                 id: mnemonic
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 size_hint_y: None
@@ -184,10 +182,10 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: _tr.translate('Cancel')
+                _text: 'Cancel'
                 on_press: root.return_home()
 
             Nwbutton:
                 id: btn_create
-                text: _tr.translate('Create')
+                _text: 'Create'
                 on_press: root.create_wallet()

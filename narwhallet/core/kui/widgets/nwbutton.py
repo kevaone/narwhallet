@@ -1,6 +1,8 @@
+from kivy.app import App
+from kivy.clock import Clock
 from kivy.core.window import Window
 from kivy.uix.button import Button
-from kivy.properties import ObjectProperty, NumericProperty, BooleanProperty
+from kivy.properties import ObjectProperty, NumericProperty, BooleanProperty, StringProperty
 
 
 class Nwbutton(Button):
@@ -8,11 +10,13 @@ class Nwbutton(Button):
     icon_size = (0,0)
     icon_padding = NumericProperty(0)
     hover = BooleanProperty(False)
+    _text = StringProperty('')
 
     def __init__(self, **kwargs):
         super(Nwbutton, self).__init__(**kwargs)
 
         Window.bind(mouse_pos=self.on_mouse_pos)
+        Clock.schedule_once(self._bind)
 
     def on_mouse_pos(self, window, pos):
         if self.collide_point(pos[0], pos[1]):
@@ -25,3 +29,17 @@ class Nwbutton(Button):
                 self.background_color = [54/255, 58/255, 59/255, 1]
                 Window.set_system_cursor('arrow')
                 self.hover = False
+
+    def _bind(self, dt):
+        app = App.get_running_app()
+        app.bind(lang=self.translate_text)
+        self.translate_text()
+
+    def translate_text(self, *args):
+        app = App.get_running_app()
+        self.text = app.translate_text(self._text)
+
+    def on__text(self, *args):
+        # print('args', *args)
+        self.translate_text()
+

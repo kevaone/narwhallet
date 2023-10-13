@@ -30,7 +30,7 @@ class ScriptBuilderScreen(Screen):
 
                 #     Nwlabel:
                 #         halign: 'left'
-                #         text: 'Wallet Name:'
+                #         _text: 'Wallet Name:'
                 #         text_size: self.size
                 #         size_hint_x: None
                 #         width: 150
@@ -38,7 +38,7 @@ class ScriptBuilderScreen(Screen):
                 #     Nwlabel:
                 #         id: wallet_name
                 #         halign: 'left'
-                #         text: ''
+                #         _text: ''
                 #         text_size: self.size
 
     def populate(self, script):

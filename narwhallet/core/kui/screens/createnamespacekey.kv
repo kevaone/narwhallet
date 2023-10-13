@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <CreateNamespaceKeyScreen>
     wallet_balance: wallet_balance
     amount: amount
@@ -33,7 +31,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('Balance:')
+                _text: 'Balance:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -42,7 +40,7 @@
             Nwlabel:
                 id: wallet_balance
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
 
         Nwboxlayout:
@@ -58,7 +56,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('Amount:')
+                _text: 'Amount:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -67,7 +65,7 @@
             TextInput:
                 id: amount
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -90,7 +88,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('Key:')
+                _text: 'Key:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -102,14 +100,14 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: ''
+                _text: ''
                 size_hint_x: None
                 width: dp(10)
 
             TextInput:
                 id: namespace_key
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(255)
@@ -127,7 +125,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('Value:')
+                _text: 'Value:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -139,14 +137,14 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: ''
+                _text: ''
                 size_hint_x: None
                 width: dp(10)
 
             TextInput:
                 id: namespace_value
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(255)
@@ -164,7 +162,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('NS:')
+                _text: 'NS:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -173,7 +171,7 @@
             Nwlabel:
                 id: namespace_name
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
 
         Nwboxlayout:
@@ -183,7 +181,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('NS Address:')
+                _text: 'NS Address:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -192,7 +190,7 @@
             Nwlabel:
                 id: namespace_address
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
 
         Nwboxlayout:
@@ -202,7 +200,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('Fee Rate:')
+                _text: 'Fee Rate:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -211,7 +209,7 @@
             Nwlabel:
                 id: fee_rate
                 halign: 'left'
-                text: '0'
+                _text: '0'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -223,7 +221,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('Fee:')
+                _text: 'Fee:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -232,7 +230,7 @@
             Nwlabel:
                 id: fee
                 halign: 'left'
-                text: '0.0'
+                _text: '0.0'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -244,7 +242,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('TX Size:')
+                _text: 'TX Size:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -253,7 +251,7 @@
             Nwlabel:
                 id: txsize
                 halign: 'left'
-                text: '0.0'
+                _text: '0.0'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -266,7 +264,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('TX Hex:')
+                _text: 'TX Hex:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -287,7 +285,7 @@
                     id: txhex
                     halign: 'left'
                     valign: 'top'
-                    text: '0.0'
+                    _text: '0.0'
                     text_size: self.size
                     size_hint_x: None
                     size_hint_y: None
@@ -308,10 +306,10 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: _tr.translate('Cancel')
+                _text: 'Cancel'
                 on_press: root.manager.current = 'namespace_screen'
 
             Nwbutton:
                 id: btn_send
-                text: _tr.translate('Create TX')
-                on_press: root.process_send() if self.text == _tr.translate('Send') else root.build_send()
+                _text: 'Create TX'
+                on_press: root.process_send() if self._text == 'Send' else root.build_send()

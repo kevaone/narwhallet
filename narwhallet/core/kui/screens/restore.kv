@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <RestoreScreen>
     wallet_name: wallet_name
     coin: coin
@@ -13,7 +11,7 @@
 
         Header:
             id: header
-            value: _tr.translate('Restore Wallet')
+            value: 'Restore Wallet'
 
         Nwboxlayout:
             size_hint_y: None
@@ -27,7 +25,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('Name:')
+                _text: 'Name:'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
@@ -37,7 +35,7 @@
                 id: wallet_name
                 halign: 'center'
                 valign:'center'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -56,7 +54,7 @@
             Nwlabel:
                 halign: 'left'
                 valign: 'center'
-                text: _tr.translate('Coin:')
+                _text: 'Coin:'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
@@ -66,7 +64,7 @@
                 id: coin
                 halign: 'center'
                 valign: 'center'
-                text: 'KEVACOIN'
+                _text: 'KEVACOIN'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
@@ -78,7 +76,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: _tr.translate('Data:')
+                _text: 'Data:'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
@@ -91,7 +89,7 @@
 
             Nwlabel:
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(10)
@@ -99,7 +97,7 @@
             TextInput:
                 id: data
                 halign: 'left'
-                text: ''
+                _text: ''
                 text_size: self.size
                 size_hint_x: None
                 width: dp(250)
@@ -121,10 +119,10 @@
             orientation: 'horizontal'
 
             Nwbutton:
-                text: _tr.translate('Cancel')
+                _text: 'Cancel'
                 on_press: root.return_home()
 
             Nwbutton:
                 id: btn_restore
-                text: _tr.translate('Restore')
+                _text: 'Restore'
                 on_press: root.restore()

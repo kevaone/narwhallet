@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <AddressBookScreen>
     address_list: address_list
     nav0: nav0
@@ -11,7 +9,7 @@
 
         Header:
             id: header
-            value: _tr.translate('Address Book')
+            value: 'Address Book'
 
         Nwboxlayout:
             size_hint_y: None
@@ -22,7 +20,7 @@
             height: dp(50)
 
             Nwbutton:
-                text: _tr.translate('Add')
+                _text: 'Add'
                 on_press: root.add_address()
 
         Nwgrid:
@@ -46,4 +44,4 @@
                 # icon: 'narwhallet/core/kui/assets/home_white.png'
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(20)
-                text: _tr.translate('Home')
+                _text: 'Home'

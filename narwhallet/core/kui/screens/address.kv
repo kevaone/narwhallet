@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <AddressScreen>
     address: address
     balance: balance
@@ -26,7 +24,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: ''
+                _text: ''
                 size_hint_x: None
                 width: dp(10)
 
@@ -38,7 +36,7 @@
 
             Nwlabel:
                 id: address
-                text: ''
+                _text: ''
                 font_size: dp(16)
                 padding: [5, 0, 0, 0]
 
@@ -48,7 +46,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: _tr.translate('Label:')
+                _text: 'Label:'
                 font_size: dp(16)
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -57,7 +55,7 @@
             Nwlabel:
                 id: label
                 halign: 'left'
-                text: ''
+                _text: ''
                 font_size: dp(16)
 
         Nwboxlayout:
@@ -74,7 +72,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: _tr.translate('Transactions:')
+                _text: 'Transactions:'
                 font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
@@ -82,7 +80,7 @@
 
             Nwlabel:
                 id: transactions
-                text: '0'
+                _text: '0'
                 font_size: dp(15)
 
         Nwboxlayout:
@@ -91,7 +89,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: _tr.translate('Balance:')
+                _text: 'Balance:'
                 font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
@@ -99,7 +97,7 @@
 
             Nwlabel:
                 id: balance
-                text: '0.0'
+                _text: '0.0'
                 font_size: dp(15)
 
         Nwboxlayout:
@@ -124,9 +122,9 @@
             height: dp(60)
 
             Nwbutton:
-                text: _tr.translate('Wallet')
+                _text: 'Wallet'
                 on_press: root.manager.current = 'wallet_screen'
 
             Nwbutton:
-                text: _tr.translate('Addresses')
+                _text: 'Addresses'
                 on_press: root.manager.current = 'addresses_screen'

@@ -2,7 +2,6 @@ from kivy.uix.screenmanager import Screen
 from narwhallet.core.kui.widgets.nwgrid import Nwgrid
 # from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
-from narwhallet.core.kui import _translate as _tr
 
 
 class NftScreen(Screen):
@@ -10,7 +9,7 @@ class NftScreen(Screen):
     header = Header()
 
     def populate(self):
-        self.header.value = _tr.translate('Nft''s')
+        self.header.value = 'Nft''s'
         self.nft_list.data = []
 
         for _w in self.manager.wallets.wallets:

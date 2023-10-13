@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <WalletScreen>
     header: header
     wallet_balance: wallet_balance
@@ -37,7 +35,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: _tr.translate('Last Updated:')
+                _text: 'Last Updated:'
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
                 width: dp(175)
@@ -47,7 +45,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: ''
+                _text: ''
                 size_hint_x: None
                 width: dp(190)
 
@@ -62,7 +60,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: _tr.translate('Balance:')
+                _text: 'Balance:'
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
                 width: dp(175)
@@ -72,7 +70,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: ''
+                _text: ''
 
         Nwboxlayout:
             size_hint_y: None
@@ -82,7 +80,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: _tr.translate('Unconfirmed:')
+                _text: 'Unconfirmed:'
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
                 width: dp(175)
@@ -92,7 +90,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: ''
+                _text: ''
 
         Nwboxlayout:
             size_hint_y: None
@@ -102,7 +100,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: _tr.translate('Locked:')
+                _text: 'Locked:'
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
                 width: dp(175)
@@ -112,7 +110,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: ''
+                _text: ''
 
         Nwboxlayout:
             size_hint_y: None
@@ -122,7 +120,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: _tr.translate('Total Sent:')
+                _text: 'Total Sent:'
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
                 width: dp(175)
@@ -132,7 +130,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: ''
+                _text: ''
 
         Nwboxlayout:
             size_hint_y: None
@@ -142,7 +140,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: _tr.translate('Total Recevied:')
+                _text: 'Total Recevied:'
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
                 width: dp(175)
@@ -152,7 +150,7 @@
                 halign: 'left'
                 font_size: dp(20)
                 text_size: self.size
-                text: ''
+                _text: ''
 
         Nwboxlayout:
             size_hint_y: None
@@ -164,7 +162,7 @@
 
             Nwbutton:
                 font_size: dp(20)
-                text: _tr.translate('Information')
+                _text: 'Information'
                 on_press: root.manager.walletinfo_screen.populate(header.value)
 
         Nwboxlayout:
@@ -174,7 +172,7 @@
             Nwbutton:
                 id: btn_addresses
                 font_size: dp(20)
-                text: _tr.translate('Addresses')
+                _text: 'Addresses'
                 on_press: root.manager.addresses_screen.populate(header.value)
 
         Nwboxlayout:
@@ -184,7 +182,7 @@
             Nwbutton:
                 id: btn_namespaces
                 font_size: dp(20)
-                text: _tr.translate('Namespaces')
+                _text: 'Namespaces'
                 on_press: root.manager.namespaces_screen.populate()
 
         Nwboxlayout:
@@ -194,7 +192,7 @@
             Nwbutton:
                 id: btn_transactions
                 font_size: dp(20)
-                text: _tr.translate('History')
+                _text: 'History'
                 on_press: root.manager.transactions_screen.populate(header.value)
 
         Nwboxlayout:
@@ -208,7 +206,7 @@
             Nwbutton:
                 id: btn_send
                 font_size: dp(25)
-                text: _tr.translate('Send')
+                _text: 'Send'
                 on_press: root.manager.send_screen.populate(header.value)
 
         Nwboxlayout:
@@ -218,7 +216,7 @@
             Nwbutton:
                 id: btn_receive
                 font_size: dp(25)
-                text: _tr.translate('Receive')
+                _text: 'Receive'
                 on_press: root.manager.receive_screen.populate(header.value) #= 'receive_screen'
 
         Nwboxlayout:
@@ -230,7 +228,7 @@
             height: dp(60)
 
             Nwbutton:
-                text: _tr.translate('Home')
+                _text: 'Home'
                 icon: 'narwhallet/core/kui/assets/home_white.png'
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(20)

@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <NamespacesScreen>
     namespaces_list: namespaces_list
     btn_create: btn_create
@@ -22,7 +20,7 @@
             orientation: 'horizontal'
 
             Nwlabel:
-                text: _tr.translate('Namespaces')
+                _text: 'Namespaces'
                 halign: 'left'
                 font_size: dp(25)
                 text_size: self.size
@@ -42,7 +40,7 @@
 
             Nwbutton:
                 id: btn_create
-                text: _tr.translate('Create')
+                _text: 'Create'
                 on_press: root.manager.createnamespace_screen.populate()
 
         Nwgrid:
@@ -62,9 +60,9 @@
             height: dp(60)
 
             # Nwbutton:
-            #     text: 'Home'
+            #     _text: 'Home'
             #     on_press: root.manager.current = 'home_screen'
 
             Nwbutton:
-                text: _tr.translate('Wallet')
+                _text: 'Wallet'
                 on_press: root.manager.current = 'wallet_screen'

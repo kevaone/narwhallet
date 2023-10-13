@@ -1,13 +1,14 @@
 import json
 import os
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
-from kivy.uix.togglebutton import ToggleButton
 from kivy.uix.spinner import Spinner
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
 from narwhallet.core.kcl.file_utils import ConfigLoader
 from kivy.properties import StringProperty
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwtogglebutton import Nwtogglebutton
 
 
 class SettingsScreen(Screen):
@@ -15,32 +16,33 @@ class SettingsScreen(Screen):
     iserver_port = TextInput()
     iserver_althost = TextInput()
     iserver_altport = TextInput()
-    iserver_ssl_0 = ToggleButton()
-    iserver_verify_0 = ToggleButton()
-    iserver_altssl_0 = ToggleButton()
-    iserver_altverify_0 = ToggleButton()
-    iserver_ssl_1 = ToggleButton()
-    iserver_verify_1 =ToggleButton()
-    iserver_altssl_1 = ToggleButton()
-    iserver_altverify_1 = ToggleButton()
+    iserver_ssl_0 = Nwtogglebutton()
+    iserver_verify_0 = Nwtogglebutton()
+    iserver_altssl_0 = Nwtogglebutton()
+    iserver_altverify_0 = Nwtogglebutton()
+    iserver_ssl_1 = Nwtogglebutton()
+    iserver_verify_1 =Nwtogglebutton()
+    iserver_altssl_1 = Nwtogglebutton()
+    iserver_altverify_1 = Nwtogglebutton()
     ipfs_gateway = TextInput()
     ipfs_gateway_alt = TextInput()
     iserver_ipfs_0 = TextInput()
     iserver_ipfs_1 = TextInput()
-    iserver_active_0 = ToggleButton()
-    iserver_active_1 = ToggleButton()
+    iserver_active_0 = Nwtogglebutton()
+    iserver_active_1 = Nwtogglebutton()
     header = Header()
-    show_change = ToggleButton()
+    show_change = Nwtogglebutton()
     connection_status = StringProperty()
     # content_provider_host = TextInput()
     # content_provider_port = TextInput()
-    # content_provider_ssl_0 = ToggleButton()
-    # content_provider_ssl_1 = ToggleButton()
-    # content_provider_verify_0 = ToggleButton()
-    # content_provider_verify_1 = ToggleButton()
+    # content_provider_ssl_0 = Nwtogglebutton()
+    # content_provider_ssl_1 = Nwtogglebutton()
+    # content_provider_verify_0 = Nwtogglebutton()
+    # content_provider_verify_1 = Nwtogglebutton()
     lang = Spinner()
 
     def load_settings(self):
+        app = App.get_running_app()
         # TODO Clean up
         self.settings: MNarwhalletSettings = MNarwhalletSettings()
         self.user_path = self.manager.user_path
@@ -48,8 +50,8 @@ class SettingsScreen(Screen):
                                                  'settings.json'))
         self.set_dat.load()
         self.settings.from_dict(self.set_dat.data)
-        self.lang_dat = ConfigLoader(os.path.join(self.user_path, 'translations.json'))
-        self.lang_dat.load()
+        # self.lang_dat = ConfigLoader(os.path.join(self.user_path, 'translations.json'))
+        # self.lang_dat.load()
 
         if self.settings.show_change:
             self.show_change.state = 'down'
@@ -57,11 +59,11 @@ class SettingsScreen(Screen):
             self.show_change.state = 'normal'
 
         _alang = []
-        for _lang in self.lang_dat.data['available']:
+        for _lang in app.lang_dat.data['available']:
             _alang.append(_lang[0])
 
         self.lang.values = _alang
-        self.lang.text = self.lang_dat.data['available'][self.lang_dat.data['active']][0]
+        self.lang.text = app.lang_dat.data['available'][app.lang_dat.data['active']][0]
 
         self.manager.kex.active_peer = self.settings.primary_peer
 
@@ -212,5 +214,7 @@ class SettingsScreen(Screen):
         self.set_dat.save(json.dumps(self.settings.to_dict()))
 
     def update_lang(self):
-        self.lang_dat.data['active'] = self.lang.values.index(self.lang.text)
-        self.lang_dat.save(json.dumps(self.lang_dat.data))
+        app = App.get_running_app()
+        app.lang_dat.data['active'] = self.lang.values.index(self.lang.text)
+        app.lang_dat.save(json.dumps(app.lang_dat.data))
+        app.lang = app.lang_dat.data['active']

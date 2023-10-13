@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.animation import Animation
 from narwhallet.control.shared import MShared
@@ -9,7 +10,6 @@ from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from kivy.clock import Clock
 import threading
 from narwhallet.core.kui.widgets.header import Header
-from narwhallet.core.kui import _translate as _tr
 
 
 class WalletScreen(Screen):
@@ -50,18 +50,19 @@ class WalletScreen(Screen):
                 self.btn_receive.disabled = True
 
             self.header.value = _w.name
-            self.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
-            self.wallet_balance.text = str(round(_w.balance, 8))
+            self.last_updated._text = MShared.get_timestamp(_w.last_updated)[1]
+            self.wallet_balance._text = str(round(_w.balance, 8))
 
             # self.wallet_unconfirmed_balance.text = str(round(_w.unconfirmed, 8))
             # self.wallet_sent.text = str(round(_w.sent, 8))
             # self.wallet_received.text = str(round(_w.received, 8))
-            self.wallet_unconfirmed_balance.text = str(_w.unconfirmed_balance)
-            self.wallet_sent.text = str(_w.sent)
-            self.wallet_received.text = str(_w.received)
-            self.btn_transactions.text = _tr.translate('History') + ' (' + str(len(_w.unspent_tx)) + ' / ' + str(len(_w.history)) + ')'
-            self.btn_addresses.text = _tr.translate('Addresses') + ' (' + str(len(_w.addresses.addresses) + len(_w.change_addresses.addresses)) + ')'
-            self.btn_namespaces.text = _tr.translate('Namespaces') + ' (' + str(len(_w.namespaces)) + ')'
+            self.wallet_unconfirmed_balance._text = str(_w.unconfirmed_balance)
+            self.wallet_sent._text = str(_w.sent)
+            self.wallet_received._text = str(_w.received)
+            app = App.get_running_app()
+            self.btn_transactions._text = app.translate_text('History') + ' (' + str(len(_w.unspent_tx)) + ' / ' + str(len(_w.history)) + ')'
+            self.btn_addresses._text = app.translate_text('Addresses') + ' (' + str(len(_w.addresses.addresses) + len(_w.change_addresses.addresses)) + ')'
+            self.btn_namespaces._text = app.translate_text('Namespaces') + ' (' + str(len(_w.namespaces)) + ')'
             self.manager.current = 'wallet_screen'
 
 

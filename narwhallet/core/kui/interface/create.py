@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kcl.bip_utils.bip39.bip39_mnemonic import Bip39Languages
 from narwhallet.core.kcl.wallet import MWallet
@@ -5,7 +6,6 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
-from narwhallet.core.kui import _translate as _tr
 
 
 class CreateScreen(Screen):
@@ -22,24 +22,25 @@ class CreateScreen(Screen):
         super(CreateScreen, self).__init__(**kwargs)
 
     def get_mnemonic_lang(self):
+        app = App.get_running_app()
         _lang = self.mnemonic_lang.text
-        if _lang == _tr.translate('ENGLISH'):
+        if _lang == app.translate_text('ENGLISH'):
             return Bip39Languages.ENGLISH
-        elif _lang == _tr.translate('ITALIAN'):
+        elif _lang == app.translate_text('ITALIAN'):
             return Bip39Languages.ITALIAN
-        elif _lang == _tr.translate('FRENCH'):
+        elif _lang == app.translate_text('FRENCH'):
             return Bip39Languages.FRENCH
-        elif _lang == _tr.translate('SPANISH'):
+        elif _lang == app.translate_text('SPANISH'):
             return Bip39Languages.SPANISH
-        elif _lang == _tr.translate('PORTUGUESE'):
+        elif _lang == app.translate_text('PORTUGUESE'):
             return Bip39Languages.PORTUGUESE
-        elif _lang == _tr.translate('CZECH'):
+        elif _lang == app.translate_text('CZECH'):
             return Bip39Languages.CZECH
-        elif _lang == _tr.translate('CHINESE_SIMPLIFIED'):
+        elif _lang == app.translate_text('CHINESE_SIMPLIFIED'):
             return Bip39Languages.CHINESE_SIMPLIFIED
-        elif _lang == _tr.translate('CHINESE_TRADITIONAL'):
+        elif _lang == app.translate_text('CHINESE_TRADITIONAL'):
             return Bip39Languages.CHINESE_TRADITIONAL
-        elif _lang == _tr.translate('KOREAN'):
+        elif _lang == app.translate_text('KOREAN'):
             return Bip39Languages.KOREAN
 
         return Bip39Languages.ENGLISH
@@ -78,15 +79,17 @@ class CreateScreen(Screen):
 
     def populate(self):
         self.reset_screen()
-        self.mnemonic_lang.values = [_tr.translate('ENGLISH'),
-            _tr.translate('ITALIAN'),
-            _tr.translate('FRENCH'),
-            _tr.translate('SPANISH'),
-            _tr.translate('PORTUGUESE'),
-            _tr.translate('CZECH'),
-            _tr.translate('CHINESE_SIMPLIFIED'),
-            _tr.translate('CHINESE_TRADITIONAL'),
-            _tr.translate('KOREAN')]
+        app = App.get_running_app()
+
+        self.mnemonic_lang.values = [app.translate_text('ENGLISH'),
+            app.translate_text('ITALIAN'),
+            app.translate_text('FRENCH'),
+            app.translate_text('SPANISH'),
+            app.translate_text('PORTUGUESE'),
+            app.translate_text('CZECH'),
+            app.translate_text('CHINESE_SIMPLIFIED'),
+            app.translate_text('CHINESE_TRADITIONAL'),
+            app.translate_text('KOREAN')]
         self.manager.current = 'create_screen'
 
     def return_home(self):

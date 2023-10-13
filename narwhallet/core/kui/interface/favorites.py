@@ -3,7 +3,6 @@ from kivy.uix.screenmanager import Screen
 from narwhallet.core.kui.widgets.nwgrid import Nwgrid
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
-from narwhallet.core.kui import _translate as _tr
 
 
 class FavoritesScreen(Screen):
@@ -11,7 +10,7 @@ class FavoritesScreen(Screen):
     header = Header()
 
     def populate(self):
-        self.header.value = _tr.translate('Favorites')
+        self.header.value = 'Favorites'
         self.favorites_list.data = []
 
         for favorite in self.manager.favorites.favorites:

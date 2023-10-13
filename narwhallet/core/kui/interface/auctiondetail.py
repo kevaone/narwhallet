@@ -5,7 +5,6 @@ from narwhallet.core.kui.widgets.auctioninfo import AuctionInfo
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwimage import Nwimage
 from narwhallet.core.kcl.favorites.favorite import MFavorite
-from narwhallet.core.kui import _translate as _tr
 
 
 class AuctionDetailScreen(Screen):
@@ -19,7 +18,7 @@ class AuctionDetailScreen(Screen):
     favorite_source = StringProperty()
 
     def populate(self, namespaceid, shortcode):
-        self.header.value = _tr.translate('Auction')
+        self.header.value = 'Auction'
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.namespaceid = namespaceid

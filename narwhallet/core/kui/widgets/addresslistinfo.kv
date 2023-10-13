@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <AddressListInfo>
     size_hint_y: None
     sm: None
@@ -28,7 +26,7 @@
             # height: 20
 
             Nwlabel:
-                text: root.address
+                _text: root.address
                 font_size: dp(16)
                 padding: [5, 0, 0, 0]
 
@@ -38,7 +36,7 @@
             # height: 20
 
             Nwlabel:
-                text: root.address_label
+                _text: root.address_label
                 font_size: dp(16)
                 padding: [5, 0, 0, 0]
 
@@ -65,7 +63,7 @@
             #     width: 30
 
             Nwlabel:
-                text: _tr.translate('TX:')
+                _text: 'TX:'
                 halign: 'left'
                 padding: [5, 0, 0, 0]
                 text_size: self.size
@@ -73,7 +71,7 @@
                 width: dp(65)
 
             Nwlabel:
-                text: root.transactions
+                _text: root.transactions
                 halign: 'left'
                 padding: [5, 0, 0, 0]
                 text_size: self.size
@@ -81,7 +79,7 @@
                 width: dp(50)
 
             Nwlabel:
-                text: _tr.translate('Balance:')
+                _text: 'Balance:'
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]
@@ -89,7 +87,7 @@
                 width: dp(75)
 
             Nwlabel:
-                text: root.balance
+                _text: root.balance
                 halign: 'left'
                 padding: [5, 0, 0, 0]
                 text_size: self.size

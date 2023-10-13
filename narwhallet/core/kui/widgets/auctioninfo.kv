@@ -1,5 +1,3 @@
-#:import _tr narwhallet.core.kui._translate
-
 <AuctionInfo>
     sm: None
     auction_namespace: ''
@@ -27,7 +25,7 @@
         orientation: 'horizontal'
 
         Nwlabel:
-            text: root.time
+            _text: root.time
             halign: 'left'
             padding: [5, 0, 0, 0]
             text_size: self.size
@@ -38,7 +36,7 @@
         orientation: 'horizontal'
 
         Nwlabel:
-            text: _tr.translate('From:')
+            _text: 'From:'
             halign: 'left'
             padding: [5, 0, 0, 0]
             text_size: self.size
@@ -46,7 +44,7 @@
             width: dp(50)
 
         Nwlabel:
-            text: root.shortcode
+            _text: root.shortcode
             halign: 'left'
             padding: [5, 0, 0, 0]
             text_size: self.size
@@ -54,7 +52,7 @@
             width: dp(75)
 
         Nwlabel:
-            text: root.nsname
+            _text: root.nsname
             halign: 'left'
             padding: [5, 0, 0, 0]
             text_size: self.size
@@ -65,7 +63,7 @@
         orientation: 'horizontal'
 
         Nwlabel:
-            text: _tr.translate('Bid:')
+            _text: 'Bid:'
             halign: 'left'
             padding: [5, 0, 0, 0]
             text_size: self.size
@@ -73,7 +71,7 @@
             width: dp(35)
 
         Nwlabel:
-            text: root.bid
+            _text: root.bid
             halign: 'left'
             padding: [5, 0, 0, 0]
             text_size: self.size
@@ -99,7 +97,7 @@
 
         Nwlabel:
             # id: transaction
-            text: root.transaction
+            _text: root.transaction
             text_size: self.size
             padding: [5, 0, 0, 0]
             font_size: dp(17)

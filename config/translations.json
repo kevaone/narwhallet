@@ -148,6 +148,7 @@
         "Send Status": {"zh_CHS": "发送状态"},
         "Spent": {"zh_CHS": "花费"},
         "Language:": {"zh_CHS": "语言："},
-        "About": {"zh_CHS": "关于"}
+        "About": {"zh_CHS": "关于"},
+        "History": {"zh_CHS": "历史"}
     }
 }

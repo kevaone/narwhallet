@@ -16,8 +16,8 @@ class UtilsScreen(Screen):
     message = TextInput()
     signature = TextInput()
     valid_sig = Nwlabel()
-    # s_msg = ToggleButton()
-    # s_file = ToggleButton()
+    # s_msg = Nwtogglebutton()
+    # s_file = Nwtogglebutton()
     _w = MWallet()
     header = Header()
 
