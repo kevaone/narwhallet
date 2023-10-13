@@ -18,3 +18,9 @@ class Nwgrid(RecycleView):
                 child.mouse_hover = True
             else:
                 child.mouse_hover = False
+
+    def on_touch_down(self, touch):
+        if touch.is_mouse_scrolling is True:
+            for child in self.layout_manager.children:
+                child.mouse_hover = False
+        return super(Nwgrid, self).on_touch_down(touch)
