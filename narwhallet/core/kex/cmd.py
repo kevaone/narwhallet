@@ -175,3 +175,11 @@ class _custom(_cmd):
     @staticmethod
     def get_web_content(host, path, eid:int):
         return _cmd.build_web_command('GET', [host, path], eid)
+
+    @staticmethod
+    def ipfs_upload(file, data, eid:int):
+        return _cmd.build_command('ipfs_upload', [file, data], eid)
+
+    @staticmethod
+    def ipfs_payment(file_cid, payment_tx, eid:int):
+        return _cmd.build_command('ipfs_payment', [file_cid, payment_tx], eid)
