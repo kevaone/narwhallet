@@ -1,3 +1,4 @@
+import base64
 import struct
 from typing import Optional, Union
 from narwhallet.core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
@@ -67,3 +68,11 @@ class Ut():
     @staticmethod
     def from_sats(value: int) -> float:
         return float(value / 100000000)
+
+    @staticmethod
+    def base64_decode(data: str) -> bytes:
+        return base64.b64decode(data)
+
+    @staticmethod
+    def base64_encode(data: bytes) -> bytes:
+        return base64.b64encode(data)
