@@ -42,7 +42,10 @@ class _peer():
 
     def disconnect(self):
         if self.socket is not None:
-            self.socket.shutdown(socket.SHUT_RDWR)
+            try:
+                self.socket.shutdown(socket.SHUT_RDWR)
+            except:
+                pass
             self.socket.close()
         self.socket = None
 
