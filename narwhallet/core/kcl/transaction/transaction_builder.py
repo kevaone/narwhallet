@@ -188,7 +188,7 @@ class MTransactionBuilder(MTransaction):
 
         return _hash_cache
 
-    def serialize_tx(self, for_psbt: bool = False) -> str:
+    def serialize_tx(self, for_psbt: bool = False) -> bytes:
         _lock_time = 0
 
         _pre = []
@@ -214,17 +214,17 @@ class MTransactionBuilder(MTransaction):
 
         _pre.append(Ut.to_cuint(len(self.vout)))
 
-        for i in self.vout:
-            _pre.append(Ut.int_to_bytes(i.value, 8, 'little'))
-            _pre.append(Ut.to_cuint(len(Ut.hex_to_bytes(i.scriptPubKey.hex))))
-            _pre.append(Ut.hex_to_bytes(i.scriptPubKey.hex))
+        for o in self.vout:
+            _pre.append(Ut.int_to_bytes(o.value, 8, 'little'))
+            _pre.append(Ut.to_cuint(len(Ut.hex_to_bytes(o.scriptPubKey.hex))))
+            _pre.append(Ut.hex_to_bytes(o.scriptPubKey.hex))
 
-        for i in self.input_signatures:
+        for sg in self.input_signatures:
             if for_psbt is True:
                 break
 
-            _pre.append(Ut.to_cuint(len(i)))
-            for s in i:
+            _pre.append(Ut.to_cuint(len(sg)))
+            for s in sg:
                 _x = Ut.hex_to_bytes(s)
                 _pre.append(Ut.to_cuint(len(_x)))
                 _pre.append(_x)
