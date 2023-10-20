@@ -1439,7 +1439,7 @@ class MShared():
     #     return (True, _ns, _key, _value, _address[0][0])
 
     @staticmethod
-    def ipfs_upload(file: str, data: str, kex: KEXclient) -> int:
+    def ipfs_upload(file: str, data: str, kex: KEXclient) -> dict:
         _ = kex.peers[kex.active_peer].connect()
         _file_hash = kex.call(kex.api.custom.ipfs_upload(file, data, kex.id))
         kex.peers[kex.active_peer].disconnect()
@@ -1447,12 +1447,12 @@ class MShared():
         if _file_hash != '':
             _file_hash = json.loads(_file_hash)['result']
         else:
-            _file_hash = 'file_hash error'
+            _file_hash = {'error': 'file_hash error'}
 
         return _file_hash
 
     @staticmethod
-    def ipfs_payment(file_cid: str, payment_tx: str, kex: KEXclient) -> int:
+    def ipfs_payment(file_cid: str, payment_tx: str, kex: KEXclient) -> dict:
         _ = kex.peers[kex.active_peer].connect()
         _payment_status = kex.call(kex.api.custom.ipfs_payment(file_cid, payment_tx, kex.id))
         kex.peers[kex.active_peer].disconnect()
@@ -1460,6 +1460,6 @@ class MShared():
         if _payment_status != '':
             _payment_status = json.loads(_payment_status)['result']
         else:
-            _payment_status = '_payment_status error'
+            _payment_status = {'error': '_payment_status error'}
 
         return _payment_status
