@@ -1,0 +1,207 @@
+<Nwsendpopup>
+    auto_dismiss: False
+    size_hint: 0.7, 0.7
+
+    GridLayout:
+        cols: 1
+
+        Header:
+            id: header
+            value: 'Confirm Send'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+
+        Nwboxlayout:
+            orientation: 'vertical'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: 'Input:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(100)
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: root.in_value
+                text_size: self.size
+                size_hint_x: None
+                width: dp(175)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: 'Output:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(100)
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: root.out_value
+                text_size: self.size
+                size_hint_x: None
+                width: dp(175)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: 'Change:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(100)
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: root.change_value
+                text_size: self.size
+                size_hint_x: None
+                width: dp(175)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: 'Fee Rate:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(100)
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: root.fee_rate
+                text_size: self.size
+                size_hint_x: None
+                width: dp(175)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: 'Fee:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(100)
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: root.fee
+                text_size: self.size
+                size_hint_x: None
+                width: dp(175)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: 'TX Size:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(100)
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: root.txsize
+                text_size: self.size
+                size_hint_x: None
+                width: dp(175)
+
+        # Nwboxlayout:
+        #     size_hint_y: None
+        #     height: dp(20)
+        #     orientation: 'horizontal'
+
+        #     Nwlabel:
+        #         halign: 'left'
+        #         valign: 'center'
+        #         _text: 'TX Hex:'
+        #         text_size: self.size
+        #         padding: [10, 0, 0, 0]
+        #         size_hint_x: None
+        #         width: dp(100)
+
+        # ScrollView:
+        #     do_scroll_x: False
+        #     do_scroll_y: True
+        #     bar_width: dp(15)
+        #     scroll_type: ['bars','content']
+
+        #     Nwboxlayout:
+        #         size_hint_y: None
+        #         height: dp(380)
+        #         orientation: 'horizontal'
+
+        #         Nwlabel:
+        #             id: txhex
+        #             halign: 'left'
+        #             valign: 'top'
+        #             _text: '0.0'
+        #             text_size: self.size
+        #             size_hint_x: None
+        #             size_hint_y: None
+        #             padding: [20, 0, 0, 0]
+        #             width: root.width - dp(40)
+        #             height: dp(380)
+
+        Nwboxlayout:
+            orientation: 'vertical'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(60)
+
+            Nwbutton:
+                _text: 'Cancel'
+                # icon: 'narwhallet/core/kui/assets/.png'
+                # icon_size: (dp(25), dp(25))
+                # icon_padding: dp(20)
+                on_release: root.dismiss()
+
+            Nwbutton:
+                _text: 'Send'
+                # icon: 'narwhallet/core/kui/assets/.png'
+                # icon_size: (dp(25), dp(25))
+                # icon_padding: dp(20)
+                on_release: root.process_send()
