@@ -1,6 +1,7 @@
 <MediaBrowseScreen>
     file_chooser: file_chooser
     header: header
+    btn_load: btn_load
 
     BoxLayout:
         orientation: 'vertical'
@@ -31,5 +32,6 @@
                 on_release: root.manager.current = 'createnamespacekey_screen'
 
             Nwbutton:
+                id: btn_load
                 _text: 'Load'
                 on_release: root.load(file_chooser.path, file_chooser.selection)

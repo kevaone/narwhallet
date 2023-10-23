@@ -12,6 +12,7 @@
     txhex: txhex
     header: header
     btn_send: btn_send
+    btn_ipfs_upload: btn_ipfs_upload
     # ipfs_cid: ipfs_cid
     # ipfs_payment_addr: ipfs_payment_addr
     # ipfs_fee: ipfs_fee
@@ -413,6 +414,6 @@
                 on_press: root.process_send()
 
             Nwbutton:
-                # id: btn_send
+                id: btn_ipfs_upload
                 _text: 'IPFS Upload'
                 on_press: root.ipfs_upload()

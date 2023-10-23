@@ -11,6 +11,7 @@ from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwpopup import Nwpopup
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
 
@@ -25,6 +26,7 @@ class MediaBrowseScreen(Screen):
     fee_rate = StringProperty()
     txsize = StringProperty()
     txhex = StringProperty()
+    btn_load = Nwbutton()
 
     def populate(self, wallet, ret_screen):
         self.wallet: MWallet = wallet
@@ -41,6 +43,8 @@ class MediaBrowseScreen(Screen):
         self.change_value = 0
         self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
         self.ret_screen = ret_screen
+        if self.wallet.balance < 10.0:
+            self.btn_load.disabled = True
 
         self.manager.current = 'mediabrowse_screen'
 

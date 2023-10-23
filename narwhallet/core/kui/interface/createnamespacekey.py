@@ -33,6 +33,7 @@ class CreateNamespaceKeyScreen(Screen):
     txhex = Nwlabel()
     header = Header()
     btn_send = Nwbutton()
+    btn_ipfs_upload = Nwbutton()
 
     def __init__(self, **kwargs):
         super(CreateNamespaceKeyScreen, self).__init__(**kwargs)
@@ -56,6 +57,8 @@ class CreateNamespaceKeyScreen(Screen):
         self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
+        if self.wallet.balance < 10.0:
+            self.btn_ipfs_upload.disabled = True
         self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'createnamespacekey_screen'
 
