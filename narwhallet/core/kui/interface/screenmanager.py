@@ -5,6 +5,7 @@ from kivy.core.clipboard import Clipboard
 from narwhallet.core.kcl.enums.mediatypes import content_type
 from narwhallet.core.kcl.favorites.favorites import MFavorites
 from narwhallet.core.kcl.file_utils.io import _loader
+from narwhallet.core.kcl.mymedia.mymedia import MMyMedia
 from narwhallet.core.kex import KEXclient
 from narwhallet.core.kcl.wallet import MWallets
 from narwhallet.core.kex.cmd import _custom
@@ -12,6 +13,7 @@ from narwhallet.core.kex.peer import _peer
 from narwhallet.core.kui.widgets.walletlistinfo import WalletListInfo
 from narwhallet.core.kui.widgets.addresslistinfo import AddressListInfo
 from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
+from narwhallet.core.kui.widgets.medialistinfo import MediaListInfo
 from narwhallet.core.kui.widgets.namespacelistinfo import NamespaceListInfo
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.marketlistinfo import MarketListInfo
@@ -62,6 +64,8 @@ from narwhallet.core.kui.interface.all import AllScreen
 from narwhallet.core.kui.interface.alldetail import AllDetailScreen
 from narwhallet.core.kui.interface.nft import NftScreen
 from narwhallet.core.kui.interface.nftdetail import NftDetailScreen
+from narwhallet.core.kui.interface.mediamanage import MediaManageScreen
+from narwhallet.core.kui.interface.mediabrowse import MediaBrowseScreen
 
 
 class NarwhalletScreens(ScreenManager):
@@ -105,6 +109,8 @@ class NarwhalletScreens(ScreenManager):
     alldetail_screen = AllDetailScreen()
     nft_screen = NftScreen()
     nftdetail_screen = NftDetailScreen()
+    mediabrowse_screen = MediaBrowseScreen()
+    mediamanage_screen = MediaManageScreen()
     
     def __init__(self, **kwargs):
         super(NarwhalletScreens, self).__init__(**kwargs)
@@ -112,6 +118,7 @@ class NarwhalletScreens(ScreenManager):
         self.wallets = MWallets()
         self.address_book: MBookAddresses = MBookAddresses()
         self.favorites: MFavorites = MFavorites()
+        self.mymedia: MMyMedia = MMyMedia()
         self.program_path = ''
 
     def load_wallets(self):
@@ -129,6 +136,7 @@ class NarwhalletScreens(ScreenManager):
         self.settings_screen.load_settings()
         self.address_book.load_address_book(self.user_path)
         self.favorites.load_favorites(self.user_path)
+        self.mymedia.load_mymedia(self.user_path)
         _connection_status = self.kex.peers[self.kex.active_peer].connect()
         self.settings_screen.connection_status = _connection_status
         

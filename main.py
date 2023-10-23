@@ -62,6 +62,13 @@ def set_paths(program_path) -> str:
                     _narwhallet_path)
 
     if os.path.isfile(os.path.join(_narwhallet_path,
+                                    'narwhallet.mymedia')) is False:
+        print('narwhallet.mymedia created.')
+        shutil.copy(os.path.join(program_path,
+                                    'config/narwhallet.mymedia'),
+                    _narwhallet_path)
+
+    if os.path.isfile(os.path.join(_narwhallet_path,
                                     'special_keys.json')) is False:
         print('special_keys.json created.')
         shutil.copy(os.path.join(program_path,
@@ -80,8 +87,8 @@ _program_path = os.path.dirname(__file__)
 _user_path = set_paths(_program_path)
 
 
-
 from narwhallet.core.kui.interface.screenmanager import NarwhalletScreens
+
 
 class MainApp(App):
     lang = NumericProperty(0)
@@ -107,7 +114,6 @@ class MainApp(App):
             _t = text
         
         return _t
-
 
     def build(self):
         self.sm = NarwhalletScreens()

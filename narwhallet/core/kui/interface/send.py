@@ -1,10 +1,7 @@
-import json
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.metrics import dp
-from kivy.uix.popup import Popup
-from kivy.factory import Factory
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -14,7 +11,7 @@ from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kui.widgets.header import Header
-from narwhallet.core.kui.widgets.nwpopup import Nwpopup
+from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
 
 class SendScreen(Screen):
@@ -25,10 +22,10 @@ class SendScreen(Screen):
     address_book = Image()
     valid_send_to = Nwlabel()
     valid_amount = Nwlabel()
-    fee = Nwlabel()
-    fee_rate = Nwlabel()
-    txsize = Nwlabel()
-    txhex = Nwlabel()
+    # fee = Nwlabel()
+    # fee_rate = Nwlabel()
+    # txsize = Nwlabel()
+    # txhex = Nwlabel()
     header = Header()
     btn_send = Nwbutton()
 
@@ -36,6 +33,10 @@ class SendScreen(Screen):
         super(SendScreen, self).__init__(**kwargs)
 
         self.wallet: MWallet
+        self.fee = ''
+        self.fee_rate = ''
+        self.txsize = ''
+        self.txhex = ''
         
     def populate(self, wallet_name):
         self.wallet = self.manager.wallets.get_wallet_by_name(wallet_name)
@@ -45,12 +46,15 @@ class SendScreen(Screen):
         self.amount.text = ''
         self.valid_amount.size = (0, 0)
         self.valid_send_to.size = (0, 0)
-        self.fee.text = ''
-        self.txsize.text = ''
-        self.txhex.text = ''
+        self.fee = ''
+        self.txsize = ''
+        self.txhex = ''
+        self.input_value = 0
+        self.output_value = 0
+        self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
-        self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
+        self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'send_screen'
 
     def select_from_address_book(self):
@@ -128,11 +132,12 @@ class SendScreen(Screen):
         self.new_tx.input_signatures = []
 
     def set_ready(self, _stx, _est_fee):
-        self.fee.text = str(Ut.from_sats(_est_fee))
-        self.txsize.text = str(len(_stx))
+        self.fee = str(Ut.from_sats(_est_fee))
+        self.txsize = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
-        self.txhex.text = Ut.bytes_to_hex(_stx)
-        self.btn_send._text = 'Send'
+        self.txhex = Ut.bytes_to_hex(_stx)
+        # self.btn_send._text = 'Send'
+        self.process_send()
 
     def build_send(self):
         if self.amount.text == '':
@@ -142,42 +147,40 @@ class SendScreen(Screen):
             return
 
         self.new_tx = MTransactionBuilder()
-        self.new_tx.set_fee(int(self.fee_rate.text))
+        self.new_tx.set_fee(int(self.fee_rate))
 
         self.set_output()
         self.set_availible_usxo()
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         
         if _inp_sel is True:
-            _, _, _fv = self.new_tx.get_current_values()
+            _iv, _ov, _fv = self.new_tx.get_current_values()
             if _need_change is True:
                 _cv = _fv - _est_fee
                 _change_address = self.wallet.get_unused_change_address()
                 _ = self.new_tx.add_output(_cv, _change_address)
+                self.change_value = _cv
 
             self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)
 
             _stx = self.new_tx.serialize_tx()
             # TODO Validate TX
+            self.input_value = _iv
+            self.output_value = _ov
+
             self.set_ready(_stx, _est_fee)
         else:
             self.reset_transactions()
 
     def process_send(self):
-        _bc_result = MShared.broadcast(self.raw_tx, self.manager.kex)
-        if isinstance(_bc_result[1], dict):
-            _result = json.dumps(_bc_result[1])
-        else:
-            _result = _bc_result[1]
-
-        msgType = int(_bc_result[0])
-
-        result_popup = Nwpopup()
-
-        if msgType == 1:
-            result_popup.status._text = 'Error' + ':\n' + _result
-        elif msgType == 2:
-            result_popup.status._text = 'Ok!'
-
-        result_popup.open()
+        send_popup = Nwsendpopup()
+        send_popup.provider = self.manager.kex
+        send_popup.in_value = str(Ut.from_sats(self.input_value))
+        send_popup.out_value = str(Ut.from_sats(self.output_value))
+        send_popup.change_value = str(Ut.from_sats(self.change_value))
+        send_popup.fee_rate = self.fee_rate
+        send_popup.fee = self.fee
+        send_popup.txhex = self.raw_tx
+        send_popup.txsize = self.txsize
+        send_popup.open()
         self.manager.current = 'wallet_screen'

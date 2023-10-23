@@ -1,0 +1,86 @@
+<MediaListInfo>
+    sm: None
+    name: ''
+    cid: ''
+    pin_date: ''
+    pin_status: ''
+    thumbnail: thumbnail
+    thumbnail_source: ''
+
+    canvas:
+        Color:
+            rgba: self.hover_color if self.mouse_hover else self.background_color
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'vertical'
+        size_hint_y: None
+        height: dp(200)
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(10)
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(140)
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: dp(5)
+
+            Nwimage:
+                id: thumbnail
+                source: root.thumbnail_source
+                height: dp(60)
+                width: dp(60)
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: dp(5)
+
+            BoxLayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: dp(100)
+
+                Nwlabel:
+                    _text: root.name
+                    valign: 'center'
+                    font_size: dp(20)
+                    text_size: self.size
+                    # size_hint_x: None
+                    # width: dp(115)
+
+                Nwlabel:
+                    _text: root.cid
+                    font_size: dp(20)
+                    text_size: self.size
+                    # padding: [5, 0, 0, 0]
+
+                Nwlabel:
+                    _text: root.pin_date
+                    font_size: dp(15)
+                    text_size: self.size
+                    # padding: [5, 0, 0, 0]
+
+                Nwlabel:
+                    _text: root.pin_status
+                    font_size: dp(15)
+                    text_size: self.size
+                    halign: 'left'
+                    # padding: [5, 0, 0, 0]
+                    # width: dp(65)
+                    # size_hint_x: None
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(10)

@@ -1,0 +1,35 @@
+<MediaBrowseScreen>
+    file_chooser: file_chooser
+    header: header
+
+    BoxLayout:
+        orientation: 'vertical'
+
+        Header:
+            id: header
+
+        FileChooserListView:
+            id: file_chooser
+            multiselect: False
+            filters: ['*.png', '*.gif', '*.jpg', '*.jpeg', '*.mp4']
+            path: root.home_directory
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(60)
+
+            Nwbutton:
+                _text: 'Cancel'
+                on_release: root.manager.current = 'createnamespacekey_screen'
+
+            Nwbutton:
+                _text: 'Load'
+                on_release: root.load(file_chooser.path, file_chooser.selection)

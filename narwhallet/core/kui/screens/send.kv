@@ -5,10 +5,10 @@
     address_book: address_book
     valid_send_to: valid_send_to
     valid_amount: valid_amount
-    fee: fee
-    fee_rate: fee_rate
-    txsize: txsize
-    txhex: txhex
+    # fee: fee
+    # fee_rate: fee_rate
+    # txsize: txsize
+    # txhex: txhex
     header: header
     btn_send: btn_send
 
@@ -129,111 +129,111 @@
             height: dp(10)
             orientation: 'horizontal'
 
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
+        # Nwboxlayout:
+        #     size_hint_y: None
+        #     height: dp(20)
+        #     orientation: 'horizontal'
 
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                _text: 'Fee Rate:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
+        #     Nwlabel:
+        #         halign: 'left'
+        #         valign: 'center'
+        #         _text: 'Fee Rate:'
+        #         text_size: self.size
+        #         padding: [10, 0, 0, 0]
+        #         size_hint_x: None
+        #         width: dp(100)
 
-            Nwlabel:
-                id: fee_rate
-                halign: 'left'
-                valign: 'center'
-                _text: '0'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
+        #     Nwlabel:
+        #         id: fee_rate
+        #         halign: 'left'
+        #         valign: 'center'
+        #         _text: '0'
+        #         text_size: self.size
+        #         size_hint_x: None
+        #         width: dp(175)
 
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
+        # Nwboxlayout:
+        #     size_hint_y: None
+        #     height: dp(20)
+        #     orientation: 'horizontal'
 
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                _text: 'Fee:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
+        #     Nwlabel:
+        #         halign: 'left'
+        #         valign: 'center'
+        #         _text: 'Fee:'
+        #         text_size: self.size
+        #         padding: [10, 0, 0, 0]
+        #         size_hint_x: None
+        #         width: dp(100)
 
-            Nwlabel:
-                id: fee
-                halign: 'left'
-                valign: 'center'
-                _text: '0.0'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
+        #     Nwlabel:
+        #         id: fee
+        #         halign: 'left'
+        #         valign: 'center'
+        #         _text: '0.0'
+        #         text_size: self.size
+        #         size_hint_x: None
+        #         width: dp(175)
 
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
+        # Nwboxlayout:
+        #     size_hint_y: None
+        #     height: dp(20)
+        #     orientation: 'horizontal'
 
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                _text: 'TX Size:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
+        #     Nwlabel:
+        #         halign: 'left'
+        #         valign: 'center'
+        #         _text: 'TX Size:'
+        #         text_size: self.size
+        #         padding: [10, 0, 0, 0]
+        #         size_hint_x: None
+        #         width: dp(100)
 
-            Nwlabel:
-                id: txsize
-                halign: 'left'
-                valign: 'center'
-                _text: '0.0'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
+        #     Nwlabel:
+        #         id: txsize
+        #         halign: 'left'
+        #         valign: 'center'
+        #         _text: '0.0'
+        #         text_size: self.size
+        #         size_hint_x: None
+        #         width: dp(175)
 
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
+        # Nwboxlayout:
+        #     size_hint_y: None
+        #     height: dp(20)
+        #     orientation: 'horizontal'
 
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                _text: 'TX Hex:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
+        #     Nwlabel:
+        #         halign: 'left'
+        #         valign: 'center'
+        #         _text: 'TX Hex:'
+        #         text_size: self.size
+        #         padding: [10, 0, 0, 0]
+        #         size_hint_x: None
+        #         width: dp(100)
 
-        ScrollView:
-            do_scroll_x: False
-            do_scroll_y: True
-            bar_width: dp(15)
-            scroll_type: ['bars','content']
+        # ScrollView:
+        #     do_scroll_x: False
+        #     do_scroll_y: True
+        #     bar_width: dp(15)
+        #     scroll_type: ['bars','content']
 
-            Nwboxlayout:
-                size_hint_y: None
-                height: dp(380)
-                orientation: 'horizontal'
+        #     Nwboxlayout:
+        #         size_hint_y: None
+        #         height: dp(380)
+        #         orientation: 'horizontal'
 
-                Nwlabel:
-                    id: txhex
-                    halign: 'left'
-                    valign: 'top'
-                    _text: '0.0'
-                    text_size: self.size
-                    size_hint_x: None
-                    size_hint_y: None
-                    padding: [20, 0, 0, 0]
-                    width: root.width - dp(40)
-                    height: dp(380)
+        #         Nwlabel:
+        #             id: txhex
+        #             halign: 'left'
+        #             valign: 'top'
+        #             _text: '0.0'
+        #             text_size: self.size
+        #             size_hint_x: None
+        #             size_hint_y: None
+        #             padding: [20, 0, 0, 0]
+        #             width: root.width - dp(40)
+        #             height: dp(380)
 
         Nwboxlayout:
             orientation: 'horizontal'
@@ -258,4 +258,5 @@
                 id: btn_send
                 _text: 'Create TX'
                 disabled: True
-                on_press: root.process_send() if self._text == 'Send' else root.build_send()
+                # on_press: root.process_send() if self._text == 'Send' else root.build_send()
+                on_press: root.build_send()

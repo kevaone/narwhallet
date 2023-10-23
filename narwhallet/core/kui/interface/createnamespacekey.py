@@ -12,7 +12,7 @@ from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.kui.widgets.header import Header
-from narwhallet.core.kui.widgets.nwpopup import Nwpopup
+from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
 
 TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
@@ -51,6 +51,9 @@ class CreateNamespaceKeyScreen(Screen):
         self.fee.text = ''
         self.txsize.text = ''
         self.txhex.text = ''
+        self.input_value = 0
+        self.output_value = 0
+        self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
         self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
@@ -123,7 +126,6 @@ class CreateNamespaceKeyScreen(Screen):
     def set_availible_usxo(self):
         _tmp_usxo = self.wallet.get_usxos()
         _usxos = []
-        _nsusxo = []
 
         for tx in _tmp_usxo:
             # NOTE Filtering out tx with extra data, mostly namespaces
@@ -160,9 +162,8 @@ class CreateNamespaceKeyScreen(Screen):
         self.txsize.text = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex.text = Ut.bytes_to_hex(_stx)
-        self.btn_send._text = 'Send'
-        # print(self.raw_tx)
-        # self.send_info.tx.setPlainText(self.raw_tx)
+        # self.btn_send._text = 'Send'
+        self.process_send()
 
     def build_send(self):
         self.new_tx = MTransactionBuilder()
@@ -174,35 +175,35 @@ class CreateNamespaceKeyScreen(Screen):
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         
         if _inp_sel is True:
-            _, _, _fv = self.new_tx.get_current_values()
+            _iv, _ov, _fv = self.new_tx.get_current_values()
             if _need_change is True:
                 _cv = _fv - _est_fee
                 _change_address = self.wallet.get_unused_change_address()
                 _ = self.new_tx.add_output(_cv, _change_address)
+                self.change_value = _cv
 
             self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)
 
             _stx = self.new_tx.serialize_tx()
+            self.input_value = _iv
+            self.output_value = _ov
             self.set_ready(_stx, _est_fee)
             # TODO Validate TX and Broadcast
         else:
             self.reset_transactions()
 
+    def ipfs_upload(self):
+        self.manager.mediabrowse_screen.populate(self.wallet, 'createnamespacekey_screen')
+
     def process_send(self):
-        _bc_result = MShared.broadcast(self.raw_tx, self.manager.kex)
-        if isinstance(_bc_result[1], dict):
-            _result = json.dumps(_bc_result[1])
-        else:
-            _result = _bc_result[1]
-
-        msgType = int(_bc_result[0])
-
-        result_popup = Nwpopup()
-
-        if msgType == 1:
-            result_popup.status._text = 'Error' + ':\n' + _result
-        elif msgType == 2:
-            result_popup.status._text = 'Ok!'
-
-        result_popup.open()
-        self.manager.current = 'wallet_screen'
+        send_popup = Nwsendpopup()
+        send_popup.provider = self.manager.kex
+        send_popup.in_value = str(Ut.from_sats(self.input_value))
+        send_popup.out_value = str(Ut.from_sats(self.output_value))
+        send_popup.change_value = str(Ut.from_sats(self.change_value))
+        send_popup.fee_rate = self.fee_rate
+        send_popup.fee = self.fee
+        send_popup.txhex = self.raw_tx
+        send_popup.txsize = self.txsize
+        send_popup.open()
+        self.manager.current = 'namespaces_screen'
