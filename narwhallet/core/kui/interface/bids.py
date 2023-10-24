@@ -31,7 +31,6 @@ class BidsScreen(Screen):
                         _b.append([_ns['nsid'], _ns['shortcode'], _us['namespaceid'], _ns['txid']])
 
         for k, n, v, c in _b: 
-            print('k', k)
             _auction = self.get_namespace(k, n, v, c)
             if _auction != {}:
                 self.bid_list.data.append(_auction)

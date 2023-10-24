@@ -413,7 +413,6 @@ class MShared():
                 _addresses.addresses[_ax].set_received(i['result'][0]['received'])
                 _addresses.addresses[_ax].set_balance(i['result'][0]['balance'])
         else:
-            print('i', i)
             _addresses.addresses[_ax].set_history(i['result'][1]['page_results'])
             _addresses.addresses[_ax].set_namespaces(i['result'][2])
             _addresses.addresses[_ax].set_sent(i['result'][0]['sent'])
