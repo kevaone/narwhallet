@@ -187,9 +187,9 @@ class CreateNamespaceScreen(Screen):
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
         send_popup.change_value = str(Ut.from_sats(self.change_value))
-        send_popup.fee_rate = self.fee_rate
-        send_popup.fee = self.fee
+        send_popup.fee_rate = self.fee_rate.text
+        send_popup.fee = self.fee.text
         send_popup.txhex = self.raw_tx
-        send_popup.txsize = self.txsize
+        send_popup.txsize = self.txsize.text
         send_popup.open()
         self.manager.current = 'namespaces_screen'
