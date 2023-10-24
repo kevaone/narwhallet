@@ -1452,14 +1452,27 @@ class MShared():
         return _file_hash
 
     @staticmethod
-    def ipfs_payment(file_cid: str, payment_tx: str, kex: KEXclient) -> dict:
+    def ipfs_payment(file_cid: str, payment_tx: str, kex: KEXclient) -> tuple:
         _ = kex.peers[kex.active_peer].connect()
         _payment_status = kex.call(kex.api.custom.ipfs_payment(file_cid, payment_tx, kex.id))
         kex.peers[kex.active_peer].disconnect()
         kex.id += 1
         if _payment_status != '':
             _payment_status = json.loads(_payment_status)['result']
+            if 'error' in _payment_status:
+                if _payment_status['error'] != None:
+                    # {error:{code, message}}
+                    _msg = _payment_status['error']
+                    _msg_t = 1
+                else:
+                    _msg = 'Payment Sent!'
+                    _msg_t = 2
+            else:
+                _msg = 'Payment Sent!'
+                _msg_t = 2
         else:
-            _payment_status = {'error': '_payment_status error'}
+            _msg = 'Payment Error'
+            _msg_t = 1
+            
 
-        return _payment_status
+        return (_msg_t, _msg) #_payment_status
