@@ -175,14 +175,15 @@ class NarwhalletScreens(ScreenManager):
                     if _extension is None:
                         _extension = 'jpg'
 
-                if os.path.isfile(os.path.join(self.ipfs_cache_path,
-                                        _image[0] + '.' + _extension)) is False:
-                    _data_peer.reconnect()
-                    _data_test = _data_peer.comm(_custom.get_web_content(_data_provider, '/ipfs/' + _image[0], 1))
-                    _tt = _data_test.split(b'\r\n\r\n')
+                _images.append('https://ipfs.keva.one/ipfs/' + _image[0])
+                # if os.path.isfile(os.path.join(self.ipfs_cache_path,
+                #                         _image[0] + '.' + _extension)) is False:
+                #     _data_peer.reconnect()
+                #     _data_test = _data_peer.comm(_custom.get_web_content(_data_provider, '/ipfs/' + _image[0], 1))
+                #     _tt = _data_test.split(b'\r\n\r\n')
 
-                    if _tt != [b'']:
-                        _ = _loader._save(os.path.join(self.ipfs_cache_path, _image[0] + '.' + _extension), _tt[1])
-                _images.append(os.path.join(self.ipfs_cache_path,
-                                        _image[0] + '.' + _extension))
+                #     if _tt != [b'']:
+                #         _ = _loader._save(os.path.join(self.ipfs_cache_path, _image[0] + '.' + _extension), _tt[1])
+                # _images.append(os.path.join(self.ipfs_cache_path,
+                #                         _image[0] + '.' + _extension))
         return _images
