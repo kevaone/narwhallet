@@ -61,6 +61,9 @@ class MediaBrowseScreen(Screen):
             self.send_to = self.up_result['payment_address']
 
             self.build_send()
+        elif 'CID' in self.up_result and 'status' in self.up_result:
+            if self.up_result['status'] == 'paid':
+                self.finish()
         else:
             result_popup = Nwpopup()
             result_popup.status._text = 'Error' + ':\n' + json.dumps(self.up_result)
@@ -136,6 +139,7 @@ class MediaBrowseScreen(Screen):
 
     def process_send(self):
         send_popup = Nwsendpopup()
+        send_popup.isIPFS = self.up_result['CID']
         send_popup.provider = self.manager.kex
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
@@ -148,7 +152,7 @@ class MediaBrowseScreen(Screen):
         send_popup.open()
         # self.manager.current = self.ret_screen
 
-    def finish(self):
+    def finish(self, *args):
         _v = self.manager.createnamespacekey_screen.namespace_value.text
         _c = '{{' + self.up_result['CID'] + '|' + self.up_result['media_type'] + '}}'
         if _v == '':

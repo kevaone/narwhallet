@@ -16,13 +16,18 @@ class Nwsendpopup(ModalView):
     txsize = StringProperty()
     txhex = StringProperty()
     return_screen = StringProperty()
+    isIPFS = StringProperty()
     msgType = NumericProperty()
 
     def __init__(self, **kwargs):
         super(Nwsendpopup, self).__init__(**kwargs)
 
     def process_send(self):
-        _bc_result = MShared.broadcast(self.txhex, self.provider)
+        if self.isIPFS is not '':
+            _bc_result = MShared.ipfs_payment(self.isIPFS, self.txhex, self.provider)
+        else:
+            _bc_result = MShared.broadcast(self.txhex, self.provider)
+
         if isinstance(_bc_result[1], dict):
             _result = json.dumps(_bc_result[1])
         else:
