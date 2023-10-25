@@ -9,6 +9,9 @@ class TransactionsScreen(Screen):
 
     @staticmethod
     def sort_dict(item):
+        if item['block'] == 'unconfirmed':
+            return 10000000
+
         return int(item['block'])
 
     def populate(self, wallet_name):
