@@ -198,6 +198,15 @@ class CreateNamespaceKeyScreen(Screen):
     def ipfs_upload(self):
         self.manager.mediabrowse_screen.populate(self.wallet, 'createnamespacekey_screen')
 
+    def ipfs_added(self):
+        self.manager.current = 'createnamespacekey_screen'
+        _ = self.manager.kex.peers[self.manager.kex.active_peer].connect()
+        MShared.get_addresses(self.wallet, self.manager.kex)
+        _ = self.manager.kex.peers[self.manager.kex.active_peer].disconnect()
+        _update_time = MShared.get_timestamp()
+        self.wallet.set_last_updated(_update_time[0])
+        self.manager.wallets.save_wallet(self.wallet.name)
+
     def process_send(self):
         send_popup = Nwsendpopup()
         send_popup.provider = self.manager.kex

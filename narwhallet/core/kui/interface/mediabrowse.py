@@ -160,4 +160,7 @@ class MediaBrowseScreen(Screen):
         else:
             _v = _c + '\n\n' + _v
         self.manager.createnamespacekey_screen.namespace_value.text = _v
-        self.manager.current = self.ret_screen
+        if self.ret_screen == 'createnamespacekey_screen':
+            self.manager.createnamespacekey_screen.ipfs_added()
+        else:
+            self.manager.current = self.ret_screen
