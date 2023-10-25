@@ -14,7 +14,7 @@
         ["Kevacoin", "kva.keva.one", "443", true, true], ["Local", "127.0.0.1", "50001", false, false]
     ],
     "ipfs_providers": [
-        "gateway.ipfs.io", "127.0.0.1"
+        "ipfs.keva.one", "127.0.0.1"
     ],
 
     "enabled_coins": ["KEVACOIN"]
