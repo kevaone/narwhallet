@@ -29,6 +29,7 @@ class MediaBrowseScreen(Screen):
     btn_load = Nwbutton()
 
     def populate(self, wallet, ret_screen):
+        self.file_chooser.layout.children[0].children[0].bar_width = '15dp'
         self.wallet: MWallet = wallet
         self.header.value = 'Media Browse'
         self.wallet_balance = str(self.wallet.balance)
@@ -47,7 +48,6 @@ class MediaBrowseScreen(Screen):
             self.btn_load.disabled = True
 
         self.manager.current = 'mediabrowse_screen'
-
 
     def load(self, path, selection):
         with open(selection[0], 'rb') as f:
