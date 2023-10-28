@@ -1,12 +1,8 @@
 <NamespaceAltScreen>
-    namespaceid: ''
-    namespace_name: namespace_name
-    shortcode: shortcode
     namespace_key_list: namespace_key_list
-    owner: owner
-    creator: creator
     header: header
     favorite: favorite
+    info_button: info_button
 
     GridLayout:
         size: root.width, root.height
@@ -19,134 +15,38 @@
             size_hint_y: None
             height: dp(10)
 
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(35)
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
             orientation: 'horizontal'
-
-            Nwlabel:
-                _text: ''
-                size_hint_x: None
-                width: dp(5)
-
-            Nwimage:
-                source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: dp(25)
-                width: dp(25)
-                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.namespaceid)
-
-            Nwlabel:
-                # id: namespaceid
-                valign: 'center'
-                _text: root.namespaceid
-                font_size: dp(16)
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-
-        Nwboxlayout:
             size_hint_y: None
-            height: dp(30)
-            orientation: 'horizontal'
+            height: dp(50)
 
-            Nwlabel:
-                _text: ''
-                size_hint_x: None
-                width: dp(5)
-
-            Nwimage:
-                source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: dp(25)
-                width: dp(25)
-                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.shortcode.text)
-
-            Nwimage:
+            Nwbutton:
                 id: favorite
-                source: root.favorite_source
-                height: dp(35)
-                width: dp(35)
+                _text: 'Favorite'
+                icon: root.favorite_source
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
+                on_press: root.set_favorite()
 
-            Nwlabel:
-                id: shortcode
-                valign: 'center'
-                font_size: dp(20)
-                text_size: self.size
-                _text: 'Shortcode'
-                size_hint_x: None
-                padding: [10, 0, 0, 0]
-                width: dp(150)
-
-            Nwimage:
+            Nwbutton:
                 id: bid_button
-                source: 'narwhallet/core/kui/assets/plus_white.png'
-                on_touch_down: if self.collide_point(*args[1].pos): root.bid_namespace()
+                _text: 'Bid'
+                icon: 'narwhallet/core/kui/assets/plus_white.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
+                on_press: root.bid_namespace()
 
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(30)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                id: namespace_name
-                font_size: dp(25)
-                text_size: self.size
-                _text: 'Name'
-                padding: [10, 0, 0, 0]
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(25)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                _text: ''
-                size_hint_x: None
-                width: dp(5)
-
-            Nwimage:
-                source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: dp(20)
-                width: dp(20)
-                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.creator.text)
-
-            Nwlabel:
-                _text: 'Creator:'
-                valign: 'center'
-                padding: [5, 0, 0, 0]
-                size_hint_x: None
-                width: dp(75)
-
-            Nwlabel:
-                id: creator
-                valign: 'center'
-                _text: ''
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(25)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                _text: ''
-                size_hint_x: None
-                width: dp(5)
-
-            Nwimage:
-                source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: dp(20)
-                width: dp(20)
-                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.owner.text)
-
-            Nwlabel:
-                _text: 'Owner:'
-                valign: 'center'
-                padding: [5, 0, 0, 0]
-                size_hint_x: None
-                width: dp(75)
-
-            Nwlabel:
-                id: owner
-                valign: 'center'
-                _text: ''
+            Nwbutton:
+                id: info_button
+                _text: 'Info'
+                on_press: root.info_popup()
 
         Nwboxlayout:
             size_hint_y: None

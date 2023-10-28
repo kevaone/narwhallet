@@ -1,0 +1,163 @@
+<NamespaceInfoPopup>
+    namespaceid: namespaceid
+    namespace_name: namespace_name
+    shortcode: shortcode
+    owner: owner
+    creator: creator
+    header: header
+    auto_dismiss: False
+    size_hint: 0.7, 0.7
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Header:
+            id: header
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(35)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: dp(5)
+
+            Nwimage:
+                source: 'narwhallet/core/kui/assets/clipboard_white.png'
+                height: dp(25)
+                width: dp(25)
+                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.namespaceid.text)
+
+            Nwlabel:
+                id: namespaceid
+                valign: 'center'
+                _text: 'Namwspace Example'
+                font_size: dp(16)
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(30)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: dp(5)
+
+            Nwimage:
+                source: 'narwhallet/core/kui/assets/clipboard_white.png'
+                height: dp(25)
+                width: dp(25)
+                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.shortcode.text)
+
+            Nwlabel:
+                id: shortcode
+                valign: 'center'
+                font_size: dp(20)
+                text_size: self.size
+                _text: 'Shortcode'
+                size_hint_x: None
+                padding: [10, 0, 0, 0]
+                width: dp(150)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(30)
+            orientation: 'horizontal'
+
+            Nwimage:
+                source: 'narwhallet/core/kui/assets/wrench_white.png'
+                height: dp(25)
+                width: dp(25)
+                on_touch_down: if self.collide_point(*args[1].pos): root.update_namespace_name()
+
+            Nwlabel:
+                id: namespace_name
+                font_size: dp(25)
+                text_size: self.size
+                _text: 'Name'
+                padding: [10, 0, 0, 0]
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(25)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: dp(5)
+
+            Nwimage:
+                source: 'narwhallet/core/kui/assets/clipboard_white.png'
+                height: dp(20)
+                width: dp(20)
+                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.creator.text)
+
+            Nwlabel:
+                _text: 'Creator:'
+                valign: 'center'
+                padding: [5, 0, 0, 0]
+                size_hint_x: None
+                width: dp(75)
+
+            Nwlabel:
+                id: creator
+                valign: 'center'
+                _text: ''
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(25)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: dp(5)
+
+            Nwimage:
+                source: 'narwhallet/core/kui/assets/clipboard_white.png'
+                height: dp(20)
+                width: dp(20)
+                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.owner.text)
+
+            Nwlabel:
+                _text: 'Owner:'
+                valign: 'center'
+                padding: [5, 0, 0, 0]
+                size_hint_x: None
+                width: dp(75)
+
+            Nwlabel:
+                id: owner
+                valign: 'center'
+                _text: ''
+
+        Nwboxlayout:
+            orientation: 'horizontal'
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(60)
+
+            Nwbutton:
+                _text: 'Ok'
+                on_press: root.dismiss()

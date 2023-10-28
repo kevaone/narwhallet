@@ -1,14 +1,10 @@
 <NamespaceScreen>
-    namespaceid: namespaceid
-    namespace_name: namespace_name
-    shortcode: shortcode
     namespace_key_list: namespace_key_list
-    owner: owner
-    creator: creator
     transfer_button: transfer_button
     auction_button: auction_button
     header: header
     btn_create: btn_create
+    info_button: info_button
 
     GridLayout:
         size: root.width, root.height
@@ -20,145 +16,6 @@
         Nwboxlayout:
             size_hint_y: None
             height: dp(10)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(35)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                _text: ''
-                size_hint_x: None
-                width: dp(5)
-
-            Nwimage:
-                source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: dp(25)
-                width: dp(25)
-                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.namespaceid.text)
-
-            Nwlabel:
-                id: namespaceid
-                valign: 'center'
-                _text: 'Namwspace Example'
-                font_size: dp(16)
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(30)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                _text: ''
-                size_hint_x: None
-                width: dp(5)
-
-            Nwimage:
-                source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: dp(25)
-                width: dp(25)
-                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.shortcode.text)
-
-            Nwlabel:
-                id: shortcode
-                valign: 'center'
-                font_size: dp(20)
-                text_size: self.size
-                _text: 'Shortcode'
-                size_hint_x: None
-                padding: [10, 0, 0, 0]
-                width: dp(150)
-
-            Nwimage:
-                id: transfer_button
-                source: 'narwhallet/core/kui/assets/transfer_white.png'
-                on_touch_down: if self.collide_point(*args[1].pos): root.transfer_namespace()
-
-            Nwimage:
-                id: auction_button
-                source: 'narwhallet/core/kui/assets/medal2.png'
-                on_touch_down: if self.collide_point(*args[1].pos): root.auction_namespace()
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(30)
-            orientation: 'horizontal'
-
-            Nwimage:
-                source: 'narwhallet/core/kui/assets/wrench_white.png'
-                height: dp(25)
-                width: dp(25)
-                on_touch_down: if self.collide_point(*args[1].pos): root.update_namespace_name()
-
-            Nwlabel:
-                id: namespace_name
-                font_size: dp(25)
-                text_size: self.size
-                _text: 'Name'
-                padding: [10, 0, 0, 0]
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(25)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                _text: ''
-                size_hint_x: None
-                width: dp(5)
-
-            Nwimage:
-                source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: dp(20)
-                width: dp(20)
-                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.creator.text)
-
-            Nwlabel:
-                _text: 'Creator:'
-                valign: 'center'
-                padding: [5, 0, 0, 0]
-                size_hint_x: None
-                width: dp(75)
-
-            Nwlabel:
-                id: creator
-                valign: 'center'
-                _text: ''
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(25)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                _text: ''
-                size_hint_x: None
-                width: dp(5)
-
-            Nwimage:
-                source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: dp(20)
-                width: dp(20)
-                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.owner.text)
-
-            Nwlabel:
-                _text: 'Owner:'
-                valign: 'center'
-                padding: [5, 0, 0, 0]
-                size_hint_x: None
-                width: dp(75)
-
-            Nwlabel:
-                id: owner
-                valign: 'center'
-                _text: ''
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(10)
-            orientation: 'horizontal'
 
         BoxLayout:
             canvas:
@@ -173,9 +30,50 @@
             height: dp(50)
 
             Nwbutton:
+                id: favorite
+                _text: 'Favorite'
+                icon: root.favorite_source
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
+                on_press: root.set_favorite()
+
+            Nwbutton:
                 id: btn_create
                 _text: 'Create Key'
                 on_press: root.manager.createnamespacekey_screen.populate()
+        
+            Nwbutton:
+                _text: 'Update Name'
+                icon: 'narwhallet/core/kui/assets/wrench_white.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
+                on_press: root.update_namespace_name()
+
+            Nwbutton:
+                id: transfer_button
+                _text: 'Transfer'
+                icon: 'narwhallet/core/kui/assets/transfer_white.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
+                on_press: root.transfer_namespace()
+
+            Nwbutton:
+                id: auction_button
+                _text: 'Auction'
+                icon: 'narwhallet/core/kui/assets/medal2.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
+                on_press: root.auction_namespace()
+
+            Nwbutton:
+                id: info_button
+                _text: 'Info'
+                on_press: root.info_popup()
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+            orientation: 'horizontal'
 
         ScrollView:
             do_scroll_y: True

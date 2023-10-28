@@ -8,3 +8,9 @@ class Nwnsimage(BoxLayout):
 
     def __init__(self, **kwargs):
         super(Nwnsimage, self).__init__(**kwargs)
+
+    def on_size(self, *args):
+        if args[1][0] < 512:
+            self.height = args[1][0]
+        else:
+            self.height = 512

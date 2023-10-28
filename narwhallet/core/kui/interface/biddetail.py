@@ -55,6 +55,7 @@ class BidDetailScreen(Screen):
             for _i in _ipfs_images:
                 _im = Nwnsimage()
                 _im.image_path = _i
+                _im.image.bind(size=_im.on_size)
                 _im.image.texture_update()
                 self.namespace_key_list.add_widget(_im)
 

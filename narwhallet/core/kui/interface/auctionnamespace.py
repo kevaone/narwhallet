@@ -51,11 +51,11 @@ class AuctionNamespaceScreen(Screen):
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)
         # TODO: Refactor ids for namespace; they clash with others
-        self.namespace_name.text = self.manager.namespace_screen.namespaceid.text
+        self.namespace_name.text = self.manager.namespace_screen.namespaceid
         self.price.text = ''
         self.description.text = ''
         self.payment_address.text = ''
-        self.namespace_address.text = self.manager.namespace_screen.owner.text
+        self.namespace_address.text = self.manager.namespace_screen.owner
         self.fee.text = ''
         self.txsize.text = ''
         self.txhex.text = ''
@@ -221,9 +221,9 @@ class AuctionNamespaceScreen(Screen):
         _auc = {}
 
         try:
-            _name = json.loads(self.manager.namespace_screen.namespace_name.text)['displayName']
+            _name = json.loads(self.manager.namespace_screen.namespace_name)['displayName']
         except:
-            _name = self.manager.namespace_screen.namespace_name.text
+            _name = self.manager.namespace_screen.namespace_name
 
         _auc['displayName'] = _name
         _auc['price'] = str(self.price.text)

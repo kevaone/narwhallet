@@ -46,10 +46,10 @@ class TransferNamespaceScreen(Screen):
         self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)
-        self.namespace_name.text = self.manager.namespace_screen.namespaceid.text
+        self.namespace_name.text = self.manager.namespace_screen.namespaceid
         self.namespace_key.text = 'Transfer'
         self.namespace_value.text = ''
-        self.namespace_address.text = self.manager.namespace_screen.owner.text
+        self.namespace_address.text = self.manager.namespace_screen.owner
         self.new_namespace_address.text = ''
         self.fee.text = ''
         self.txsize.text = ''

@@ -3,6 +3,8 @@ from kivy.properties import ObjectProperty, StringProperty
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
+from narwhallet.core.kui.widgets.namespaceinfopopup import NamespaceInfoPopup
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwimage import Nwimage
 from narwhallet.core.kui.widgets.nwnsimage import Nwnsimage
 from narwhallet.core.kcl.favorites.favorite import MFavorite
@@ -10,21 +12,21 @@ from narwhallet.core.kcl.favorites.favorite import MFavorite
 
 class NamespaceAltScreen(Screen):
     namespaceid = StringProperty()
-    shortcode = ObjectProperty(None)
+    shortcode = StringProperty(None)
     namespace_key_list = ObjectProperty(None)
-    creator = ObjectProperty(None)
-    namespace_name = ObjectProperty(None)
+    creator = StringProperty(None)
+    owner = StringProperty(None)
+    namespace_name = StringProperty(None)
     header = Header()
     favorite = Nwimage()
     favorite_source = StringProperty()
+    info_button = Nwbutton()
 
     def populate(self, namespaceid, shortcode):
-        self.header.value = 'Auction'
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.namespaceid = namespaceid
-        self.shortcode.text = shortcode
-        self.namespace_name.text = ''
+        self.shortcode = shortcode
         _ns = MShared.get_namespace(namespaceid, self.manager.kex)
         _ns = _ns['result']
 
@@ -33,16 +35,18 @@ class NamespaceAltScreen(Screen):
         else:
             self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
 
-        self.namespace_name.text = str(_ns['name'])
+        self.namespace_name = str(_ns['name'])
+        self.header.value = shortcode + ' ' + self.namespace_name
         _dat = _ns['data']
         _dat.reverse()
+        self.owner = ''
         for _kv in _dat:
             _ins = NamespaceInfo()
-            if self.owner.text == '':
-                self.owner.text = _kv['addr']
+            if self.owner == '':
+                self.owner = _kv['addr']
 
             if _kv['op'] == 'KEVA_NAMESPACE':
-                self.creator.text = _kv['addr']
+                self.creator = _kv['addr']
 
             _ins.key = str(_kv['dkey'])
             _ins.data = str(_kv['dvalue'])
@@ -51,19 +55,30 @@ class NamespaceAltScreen(Screen):
             for _i in _ipfs_images:
                 _im = Nwnsimage()
                 _im.image_path = _i
+                _im.image.bind(size=_im.on_size)
                 _im.image.texture_update()
                 self.namespace_key_list.add_widget(_im)
 
         self.manager.current = 'namespacealt_screen'
 
+    def info_popup(self):
+        _nsi = NamespaceInfoPopup()
+        _nsi.namespaceid._text = self.namespaceid
+        _nsi.header.value = self.header.value
+        _nsi.namespace_name._text = self.namespace_name
+        _nsi.shortcode._text = self.shortcode
+        _nsi.owner._text = self.owner
+        _nsi.creator._text = self.creator
+        _nsi.open()
+
     def bid_namespace(self):
         self.manager.bidnamespace_screen.populate(self.namespaceid)
 
-    def on_touch_down(self, touch):
-        if self.favorite.collide_point(touch.x, touch.y) and touch.is_mouse_scrolling is False:
-            self.set_favorite()
-            return
-        return super(NamespaceAltScreen, self).on_touch_down(touch)
+    # def on_touch_down(self, touch):
+    #     if self.favorite.collide_point(touch.x, touch.y) and touch.is_mouse_scrolling is False:
+    #         self.set_favorite()
+    #         return
+    #     return super(NamespaceAltScreen, self).on_touch_down(touch)
 
     def set_favorite(self):
         _add_fav = False
