@@ -18,15 +18,10 @@
     BoxLayout:
         orientation: 'vertical'
 
-        # BoxLayout:
-        #     orientation: 'horizontal'
-        #     size_hint_y: None
-        #     height: 10
         BoxLayout:
             orientation: 'horizontal'
 
             Nwlabel:
-                # id: transaction
                 _text: root.transaction
                 text_size: self.size
                 padding: [5, 0, 0, 0]
@@ -40,12 +35,10 @@
             height: dp(30)
 
             Nwlabel:
-                # id: block
                 _text: root.block
                 text_size: self.size
                 padding: [5, 0, 0, 0]
             Nwlabel:
-                # id: status
                 _text: root.status
                 padding: [5, 0, 0, 0]
                 text_size: self.size
@@ -55,13 +48,7 @@
                 halign: 'right'
                 padding: [5, 0, 0, 0]
             Nwlabel:
-                # id: txvalue
                 _text: root.txvalue
                 halign: 'right'
                 padding: [5, 0, 0, 0]
                 text_size: self.size
-
-        # BoxLayout:
-        #     orientation: 'horizontal'
-        #     size_hint_y: None
-        #     height: 10

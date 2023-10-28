@@ -2,11 +2,7 @@
     size_hint_y: None
     height: dp(75)
     sm: None
-    # wallet_name: wallet_name
     ticker: ticker
-    # balance: balance
-    # last_updated: last_updated
-    # background_color: [25/255, 27/255, 27/255, 1]
     canvas:
         Color:
             rgba: self.hover_color if self.mouse_hover else self.background_color
@@ -30,7 +26,6 @@
                 width: dp(45)
 
             Nwlabel:
-                # id: wallet_name
                 _text: root.wallet_name
                 height: dp(35)
                 font_size: dp(25)
@@ -47,7 +42,6 @@
                 padding: [5, 0, 0, 0]
 
             Nwlabel:
-                # id: balance
                 _text: root.balance
                 halign: 'right'
                 padding: [5, 0, 20, 0]
@@ -65,7 +59,6 @@
                 text_size: self.size
 
             Nwlabel:
-                # id: last_updated
                 _text: root.last_updated
                 halign: 'right'
                 padding: [5, 0, 20, 0]

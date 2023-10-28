@@ -13,27 +13,6 @@
             size_hint_y: None
             height: dp(10)
 
-        # BoxLayout:
-        #     canvas:
-        #         Color:
-        #             rgba: 60/255, 61/255, 61/255, 1
-
-        #         Rectangle:
-        #             pos: self.pos
-        #             size: self.size
-        #     size_hint_y: None
-        #     height: 35
-        #     orientation: 'horizontal'
-
-        #     Nwbutton:
-        #         _text: 'New'
-        #         # on_press: root.manager.current =
-        #     Nwbutton:
-        #         _text: 'btn'
-        #         # on_press: root.manager.current =
-        #     Nwbutton:
-        #         _text: '!'
-
         Nwgrid:
             id: auction_list
             viewclass: 'MarketListInfo'
@@ -53,7 +32,3 @@
             Nwbutton:
                 _text: 'Content'
                 on_press: root.manager.current = 'content_screen'
-
-            # Nwbutton:
-            #     _text: 'Settings'
-            #     on_press: root.manager.current = 'settings_screen'

@@ -1,6 +1,5 @@
 <ReceiveScreen>
     address: address
-    # amount: amount
     label: label
     qr_code: qr_code
     header: header
@@ -54,34 +53,12 @@
             height: dp(10)
             orientation: 'horizontal'
 
-        # BoxLayout:
-        #     size_hint_y: None
-        #     height: 35
-        #     orientation: 'horizontal'
-
-        #     Nwlabel:
-        #         _text: 'Amount:'
-        #         font_size: 18
-        #         size_hint_x: None
-        #         padding: [10, 0, 0, 0]
-        #         width: 120
-
-        #     TextInput:
-        #         id: amount
-        #         _text: '0.0'
-        #         font_size: 18
-        #         size_hint_x: None
-        #         padding: [10, 0, 0, 0]
-        #         width: 250
-
         Nwboxlayout:
             size_hint_y: None
             height: dp(10)
             orientation: 'horizontal'
 
         Nwboxlayout:
-            # size_hint_y: None
-            # height: 65
             orientation: 'horizontal'
 
             QR_Code:
@@ -107,7 +84,3 @@
             Nwbutton:
                 _text: 'Done'
                 on_press: root.save()
-
-            # Nwbutton:
-            #     _text: 'Addresses'
-            #     on_press: root.manager.current = 'addresses_screen'

@@ -29,7 +29,7 @@
                 source: 'narwhallet/core/kui/assets/clipboard_white.png'
                 height: dp(20)
                 width: dp(20)
-                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.namespaceid.text)
+                on_touch_down: if self.collide_point(*args[1].pos):root.manager.copy_to_clipboard(root.namespaceid.text)
 
             Nwlabel:
                 _text: 'Namespace Id:'

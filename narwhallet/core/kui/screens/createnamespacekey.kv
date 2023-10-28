@@ -13,9 +13,6 @@
     header: header
     btn_send: btn_send
     btn_ipfs_upload: btn_ipfs_upload
-    # ipfs_cid: ipfs_cid
-    # ipfs_payment_addr: ipfs_payment_addr
-    # ipfs_fee: ipfs_fee
 
     GridLayout:
         size: root.width, root.height
@@ -101,11 +98,6 @@
                 text_size: self.size
                 size_hint_x: None
                 width: dp(175)
-
-        # Nwboxlayout:
-        #     size_hint_y: None
-        #     height: dp(10)
-        #     orientation: 'horizontal'
 
         Nwboxlayout:
             size_hint_y: None
@@ -208,7 +200,7 @@
                 text_size: self.size
                 size_hint_x: None
                 size_hint_y: None
-                width: root.width - dp(20) #dp(255)
+                width: root.width - dp(20)
                 height: dp(150)
                 on_text: root.check_value()
 
@@ -254,105 +246,6 @@
                 halign: 'left'
                 _text: ''
                 text_size: self.size
-
-        # Nwboxlayout:
-        #     size_hint_y: None
-        #     height: dp(20)
-        #     orientation: 'horizontal'
-
-        #     Nwlabel:
-        #         halign: 'left'
-        #         _text: 'Fee:'
-        #         text_size: self.size
-        #         padding: [10, 0, 0, 0]
-        #         size_hint_x: None
-        #         width: dp(100)
-
-        #     Nwlabel:
-        #         id: fee
-        #         halign: 'left'
-        #         _text: '0.0'
-        #         text_size: self.size
-        #         size_hint_x: None
-        #         width: dp(175)
-
-        # Nwboxlayout:
-        #     size_hint_y: None
-        #     height: dp(20)
-        #     orientation: 'horizontal'
-
-        #     Nwlabel:
-        #         halign: 'left'
-        #         _text: 'CID:'
-        #         text_size: self.size
-        #         padding: [10, 0, 0, 0]
-        #         size_hint_x: None
-        #         width: dp(50)
-
-        #     Nwlabel:
-        #         id: ipfs_cid
-        #         halign: 'left'
-        #         _text: ''
-        #         text_size: self.size
-
-        # Nwboxlayout:
-        #     size_hint_y: None
-        #     height: dp(20)
-        #     orientation: 'horizontal'
-
-        #     Nwlabel:
-        #         halign: 'left'
-        #         _text: 'Payment Address:'
-        #         text_size: self.size
-        #         padding: [10, 0, 0, 0]
-        #         size_hint_x: None
-        #         width: dp(175)
-
-        #     Nwlabel:
-        #         id: ipfs_payment_addr
-        #         halign: 'left'
-        #         _text: ''
-        #         text_size: self.size
-
-        # Nwboxlayout:
-        #     size_hint_y: None
-        #     height: dp(20)
-        #     orientation: 'horizontal'
-
-        #     Nwlabel:
-        #         halign: 'left'
-        #         _text: 'IPFS Fee:'
-        #         text_size: self.size
-        #         padding: [10, 0, 0, 0]
-        #         size_hint_x: None
-        #         width: dp(100)
-
-        #     Nwlabel:
-        #         id: ipfs_fee
-        #         halign: 'left'
-        #         _text: ''
-        #         text_size: self.size
-
-        # Nwboxlayout:
-        #     size_hint_y: None
-        #     height: dp(20)
-        #     orientation: 'horizontal'
-
-        #     Nwlabel:
-        #         halign: 'left'
-        #         _text: 'TX Size:'
-        #         text_size: self.size
-        #         padding: [10, 0, 0, 0]
-        #         size_hint_x: None
-        #         width: dp(100)
-
-        #     Nwlabel:
-        #         id: txsize
-        #         halign: 'left'
-        #         _text: '0.0'
-        #         text_size: self.size
-        #         size_hint_x: None
-        #         width: dp(175)
 
         Nwboxlayout:
             size_hint_y: None
@@ -410,7 +303,6 @@
             Nwbutton:
                 id: btn_send
                 _text: 'Create TX'
-                # on_press: root.process_send() if self._text == 'Send' else root.build_send()
                 on_press: root.build_send()
 
             Nwbutton:

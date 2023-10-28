@@ -15,18 +15,7 @@
             pos: self.pos
             size: self.size
 
-    # GridLayout:
-    #     size_hint_y: None
-    #     height: self.minimum_height
-    #     cols: 1
-
-    # BoxLayout:
-    #     height: 0
-    #     size_hint_y: None
-    #     orientation: 'horizontal'
-
     Nwlabel:
-        # id: key
         _text: root.key
         padding: [5, 5, 5, 5]
         size_hint: 1, None
@@ -34,13 +23,7 @@
         height: self.texture_size[1]
         on_texture_size: root.sizer()
 
-    # BoxLayout:
-    #     orientation: 'horizontal'
-    #     size_hint_y: None
-    #     height: 0
-
     Nwlabel:
-        # id: data
         _text: root.data
         padding: [5, 5, 5, 5]
         size_hint: 1, None

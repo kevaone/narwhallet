@@ -5,9 +5,6 @@
     wallet_locked_balance: wallet_locked_balance
     wallet_sent: wallet_sent
     wallet_received: wallet_received
-    # wallet_recent_transactions: wallet_recent_transactions
-    # wallet_transaction_count: wallet_transaction_count
-    # wallet_unspenttransaction_count: wallet_unspenttransaction_count
     btn_addresses: btn_addresses
     btn_namespaces: btn_namespaces
     btn_transactions: btn_transactions
@@ -217,11 +214,9 @@
                 id: btn_receive
                 font_size: dp(25)
                 _text: 'Receive'
-                on_press: root.manager.receive_screen.populate(header.value) #= 'receive_screen'
+                on_press: root.manager.receive_screen.populate(header.value)
 
         Nwboxlayout:
-            # size_hint_y: None
-            # height: 10
 
         Nwboxlayout:
             size_hint_y: None

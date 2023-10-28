@@ -20,12 +20,6 @@
     header: header
     show_change: show_change
     connection_status: ''
-    # content_provider_host: content_provider_host
-    # content_provider_port: content_provider_port
-    # content_provider_ssl_0: content_provider_ssl_0
-    # content_provider_ssl_1: content_provider_ssl_1
-    # content_provider_verify_0: content_provider_verify_0
-    # content_provider_verify_1: content_provider_verify_1
     lang: lang
 
     GridLayout:
@@ -59,7 +53,6 @@
                 rows: 21
                 height: dp(35) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(35) * self.rows + (dp(10)*self.rows)
                 cols: 1
-                # row_default_height: 65 if root.width <= 650 else 65
                 spacing: dp(5)
                 padding: dp(5)
 
@@ -69,9 +62,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        # text: 'General Settings')
                         _text: 'General Settings'
-                        # text: self._text)
                         halign: 'left'
                         font_size: dp(25)
                         text_size: self.size
@@ -83,9 +74,7 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        # text: 'Language:')
                         _text: 'Language:'
-                        # text: self._text)
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -110,7 +99,6 @@
 
                     Nwlabel:
                         _text: 'Show Change Addresses:'
-                        # text: self._text)
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -128,7 +116,6 @@
                         width: dp(75)
                         _text: 'Yes'
                         group: 'change'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_show_change_option()
@@ -140,7 +127,6 @@
 
                     Nwlabel:
                         _text: 'Connection Settings'
-                        # text: self._text)
                         halign: 'left'
                         font_size: dp(25)
                         text_size: self.size
@@ -153,7 +139,6 @@
 
                     Nwlabel:
                         _text: 'Status:'
-                        # text: self._text)
                         halign: 'left'
                         valign: 'center'
                         text_size: self.size
@@ -237,7 +222,6 @@
                         width: dp(75)
                         _text: 'Yes'
                         group: 'ssl'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(0, 3, True)
@@ -252,7 +236,6 @@
                         width: dp(75)
                         _text: 'No'
                         group: 'ssl'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(0, 3, False)
@@ -281,7 +264,6 @@
                         width: dp(75)
                         _text: 'Yes'
                         group: 'vssl'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(0, 4, True)
@@ -296,7 +278,6 @@
                         width: dp(75)
                         _text: 'No'
                         group: 'vssl'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(0, 4, False)
@@ -316,7 +297,6 @@
                         width: dp(150)
                         _text: 'Active'
                         group: 'con'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_active(0)
@@ -391,7 +371,6 @@
                         width: dp(75)
                         _text: 'Yes'
                         group: 'assl'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(1, 3, True)
@@ -406,7 +385,6 @@
                         width: dp(75)
                         _text: 'No'
                         group: 'assl'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(1, 3, False)
@@ -435,7 +413,6 @@
                         width: dp(75)
                         _text: 'Yes'
                         group: 'avssl'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(1, 4, True)
@@ -450,7 +427,6 @@
                         width: dp(75)
                         _text: 'No'
                         group: 'avssl'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ssl_option(1, 4, False)
@@ -470,7 +446,6 @@
                         width: dp(150)
                         _text: 'Active'
                         group: 'con'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_active(1)
@@ -525,7 +500,6 @@
                         width: dp(150)
                         _text: 'Active'
                         group: 'ipfs'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ipfs_active(0)
@@ -568,157 +542,9 @@
                         width: dp(150)
                         _text: 'Active'
                         group: 'ipfs'
-                        # state: 'down'
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_ipfs_active(1)
-
-                # Nwboxlayout: # Spacer
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(35)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         _text: 'Content Provider')
-                #         halign: 'left'
-                #         font_size: dp(25)
-                #         text_size: self.size
-                #         padding: [10, 0, 0, 0]
-
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(35)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         _text: 'Server:')
-                #         halign: 'left'
-                #         valign: 'center'
-                #         text_size: self.size
-                #         padding: [10, 0, 0, 0]
-                #         size_hint_x: None
-                #         width: dp(115)
-
-                #     TextInput:
-                #         id: content_provider_host
-                #         halign: 'left'
-                #         _text: 'kva.keva.one'
-                #         text_size: self.size
-                #         size_hint_x: None
-                #         width: dp(250)
-                #         on_text: root.update_content_provider_host()
-
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(35)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         _text: 'Port:')
-                #         halign: 'left'
-                #         valign: 'center'
-                #         text_size: self.size
-                #         padding: [10, 0, 0, 0]
-                #         size_hint_x: None
-                #         width: dp(115)
-
-                #     TextInput:
-                #         id: content_provider_port
-                #         halign: 'left'
-                #         _text: '50002'
-                #         text_size: self.size
-                #         size_hint_x: None
-                #         width: dp(250)
-                #         on_text: root.update_content_provider_port()
-
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(45)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         _text: 'SSL:')
-                #         halign: 'left'
-                #         valign: 'center'
-                #         text_size: self.size
-                #         padding: [10, 0, 0, 0]
-                #         size_hint_x: None
-                #         width: dp(115)
-
-                #     Nwtogglebutton:
-                #         id: content_provider_ssl_0
-                #         text_size: self.size
-                #         font_size: dp(20)
-                #         size_hint_x: None
-                #         size_hint_y: None
-                #         height: dp(40)
-                #         width: dp(75)
-                #         _text: 'Yes')
-                #         group: 'ssl'
-                #         # state: 'down'
-                #         halign: 'center'
-                #         valign: 'center'
-                #         on_press: root.update_content_provider_ssl_option(0, 3, True)
-
-                #     Nwtogglebutton:
-                #         id: content_provider_ssl_1
-                #         text_size: self.size
-                #         font_size: dp(20)
-                #         size_hint_x: None
-                #         size_hint_y: None
-                #         height: dp(40)
-                #         width: dp(75)
-                #         _text: 'No')
-                #         group: 'ssl'
-                #         # state: 'down'
-                #         halign: 'center'
-                #         valign: 'center'
-                #         on_press: root.update_content_provider_ssl_option(0, 3, False)
-
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(45)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         _text: 'Validate SSL:')
-                #         halign: 'left'
-                #         valign: 'center'
-                #         text_size: self.size
-                #         padding: [10, 0, 0, 0]
-                #         size_hint_x: None
-                #         width: dp(115)
-
-                #     Nwtogglebutton:
-                #         id: content_provider_verify_0
-                #         text_size: self.size
-                #         font_size: dp(20)
-                #         size_hint_x: None
-                #         size_hint_y: None
-                #         height: dp(40)
-                #         width: dp(75)
-                #         _text: 'Yes')
-                #         group: 'vssl'
-                #         # state: 'down'
-                #         halign: 'center'
-                #         valign: 'center'
-                #         on_press: root.update_content_provider_ssl_option(0, 4, True)
-
-                #     Nwtogglebutton:
-                #         id: content_provider_verify_1
-                #         text_size: self.size
-                #         font_size: dp(20)
-                #         size_hint_x: None
-                #         size_hint_y: None
-                #         height: dp(40)
-                #         width: dp(75)
-                #         _text: 'No')
-                #         group: 'vssl'
-                #         # state: 'down'
-                #         halign: 'center'
-                #         valign: 'center'
-                #         on_press: root.update_content_provider_ssl_option(0, 4, False)
 
         BoxLayout:
             canvas:
@@ -738,4 +564,3 @@
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(20)
                 on_press: root.manager.current = 'home_screen'
-                # on_text: self.text = self)

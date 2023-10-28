@@ -47,7 +47,6 @@
                 rows: 23
                 height: dp(45) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(45) * self.rows + (dp(10)*self.rows)
                 cols: 1
-                # row_default_height: 65 if root.width <= 650 else 65
                 spacing: dp(5)
                 padding: dp(5)
 
@@ -163,7 +162,6 @@
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
-                        # on_text: root.check_amount()
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -489,5 +487,4 @@
             Nwbutton:
                 id: btn_send
                 _text: 'Create TX'
-                # on_press: root.process_send() if self._text == 'Send' else root.build_send()
                 on_press: root.build_send()

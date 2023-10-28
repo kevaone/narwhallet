@@ -4,17 +4,10 @@
     namespaceid: namespaceid
     namespace_address: namespace_address
     bid_amount: bid_amount
-    # bid_namespaceid: bid_namespaceid
-    # bid_shortcode: bid_shortcode
     bid_tx: bid_tx
-    # bid_name: bid_name
-    # bid_namespace_address: bid_namespace_address
     payment_address: payment_address
     asking_price: asking_price
     description: description
-    # bidtx_reservation: bidtx_reservation
-    # valid_bid_amount: valid_bid_amount
-    # valid_send_to: valid_send_to
     fee: fee
     fee_rate: fee_rate
     txsize: txsize
@@ -47,7 +40,6 @@
                 rows: 23
                 height: dp(45) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(45) * self.rows + (dp(10)*self.rows)
                 cols: 1
-                # row_default_height: 65 if root.width <= 650 else 65
                 spacing: dp(5)
                 padding: dp(5)
 
@@ -77,7 +69,6 @@
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
-                        # on_text: root.wallet_changed()
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -106,7 +97,6 @@
                         text_size: self.size
                         size_hint_x: None
                         width: dp(325)
-                        # on_text: root.ns_changed()
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -182,7 +172,6 @@
 
                     Nwlabel:
                         halign: 'left'
-                        # valign: 'center'
                         _text: 'Asking Price:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
@@ -224,30 +213,6 @@
                         _text: ''
                         text_size: self.size
 
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(20)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         halign: 'left'
-                #         valign: 'center'
-                #         _text: 'NS Reservation:'
-                #         text_size: self.size
-                #         padding: [10, 0, 0, 0]
-                #         size_hint_x: None
-                #         width: dp(150)
-
-                #     Nwlabel:
-                #         id: bidtx_reservation
-                #         halign: 'left'
-                #         valign: 'center'
-                #         _text: '0.01'
-                #         text_size: self.size
-                #         size_hint_x: None
-                #         width: dp(175)
-                #         # on_text: root.check_amount()
-
                 Nwboxlayout:
                     size_hint_y: None
                     height: dp(20)
@@ -269,119 +234,12 @@
                         text_size: self.size
                         size_hint_x: None
                         width: dp(175)
-                        # on_text: root.check_amount()
 
                     Nwimage:
                         id: valid_bid_amount
                         source: 'narwhallet/core/kui/assets/checkmark.png'
                         size: (0, 0)
 
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(10)
-                #     orientation: 'horizontal'
-
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(20)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         halign: 'left'
-                #         _text: 'Bid NS:'
-                #         text_size: self.size
-                #         padding: [10, 0, 0, 0]
-                #         size_hint_x: None
-                #         width: dp(100)
-
-                #     Nwlabel:
-                #         id: bid_namespaceid
-                #         halign: 'left'
-                #         _text: ''
-                #         text_size: self.size
-
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(20)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         halign: 'left'
-                #         _text: 'Bid Shortcode:'
-                #         text_size: self.size
-                #         padding: [10, 0, 0, 0]
-                #         size_hint_x: None
-                #         width: dp(100)
-
-                #     Nwlabel:
-                #         id: bid_shortcode
-                #         halign: 'left'
-                #         _text: ''
-                #         text_size: self.size
-
-                #     Nwlabel:
-                #         id: bid_name
-                #         halign: 'left'
-                #         _text: ''
-                #         text_size: self.size
-
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(20)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         halign: 'left'
-                #         _text: 'Bid NS Address:'
-                #         text_size: self.size
-                #         padding: [10, 0, 0, 0]
-                #         size_hint_x: None
-                #         width: dp(175)
-
-                #     Nwlabel:
-                #         id: bid_namespace_address
-                #         halign: 'left'
-                #         _text: ''
-                #         text_size: self.size
-
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(20)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         halign: 'left'
-                #         _text: 'Payment Address:'
-                #         text_size: self.size
-                #         padding: [10, 0, 0, 0]
-                #         size_hint_x: None
-                #         width: dp(175)
-
-                # Nwboxlayout:
-                #     size_hint_y: None
-                #     height: dp(20)
-                #     orientation: 'horizontal'
-
-                #     Nwlabel:
-                #         _text: ''
-                #         size_hint_x: None
-                #         width: dp(10)
-
-                #     Nwlabel:
-                #         id: offer_payment_address
-                #         halign: 'left'
-                #         _text: ''
-                #         text_size: self.size
-
-                #     Nwlabel:
-                #         _text: ''
-                #         size_hint_x: None
-                #         width: dp(5)
-
-                #     Nwimage:
-                #         id: valid_send_to
-                #         source: 'narwhallet/core/kui/assets/checkmark.png'
-                #         size: (0, 0)
                 Nwboxlayout:
                     size_hint_y: None
                     height: dp(20)
@@ -533,5 +391,4 @@
             Nwbutton:
                 id: btn_send
                 _text: 'Create TX'
-                # on_press: root.process_send() if self.text == 'Send' else root.build_send()
                 on_press: root.build_send()

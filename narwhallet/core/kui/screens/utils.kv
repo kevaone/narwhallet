@@ -3,11 +3,8 @@
     address: address
     pubk: pubk
     message: message
-    # file: file
     signature: signature
     valid_sig: valid_sig
-    # s_msg: s_msg
-    # s_file: s_file
     header: header
 
     GridLayout:
@@ -41,7 +38,6 @@
                 rows: 17
                 height: dp(45) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(45) * self.rows + (dp(10)*self.rows)
                 cols: 1
-                # row_default_height: 65 if root.width <= 650 else 65
                 spacing: dp(5)
                 padding: dp(5)
 
@@ -167,22 +163,6 @@
                     height: dp(20)
                     orientation: 'horizontal'
 
-                    # Nwtogglebutton:
-                    #     id: s_msg
-                    #     text_size: self.size
-                    #     font_size: 20
-                    #     padding: [10, 0, 0, 0]
-                    #     size_hint_x: None
-                    #     size_hint_y: None
-                    #     height: 30
-                    #     width: 75
-                    #     _text: ''
-                    #     group: 'sign_target'
-                    #     state: 'down'
-                    #     halign: 'center'
-                    #     valign: 'center'
-                    #     # on_press: root.update_show_change_option()
-
                     Nwlabel:
                         halign: 'left'
                         _text: 'Message:'
@@ -212,42 +192,6 @@
                         width: dp(250)
                         padding: [10, 0, 0, 0]
 
-                # BoxLayout:
-                #     size_hint_y: None
-                #     height: 35
-                #     orientation: 'horizontal'
-
-                #     # Nwtogglebutton:
-                #     #     id: s_file
-                #     #     text_size: self.size
-                #     #     font_size: 20
-                #     #     padding: [10, 0, 0, 0]
-                #     #     size_hint_x: None
-                #     #     size_hint_y: None
-                #     #     height: 30
-                #     #     width: 75
-                #     #     _text: ''
-                #     #     group: 'sign_target'
-                #     #     state: 'normal'
-                #     #     halign: 'center'
-                #     #     valign: 'center'
-                #     #     # on_press: root.update_show_change_option()
-
-                #     Nwlabel:
-                #         halign: 'left'
-                #         _text: 'File:'
-                #         text_size: self.size
-                #         size_hint_x: None
-                #         width: 50
-                #         padding: [10, 0, 0, 0]
-
-                #     Nwlabel:
-                #         id: file
-                #         _text: ''
-
-                #     Nwbutton:
-                #         _text: '...'
-
                 Nwboxlayout:
                     canvas:
                         Color:
@@ -273,12 +217,6 @@
                         size_hint_x: None
                         width: dp(150)
                         on_press: root.sign_message()
-
-                    # Nwbutton:
-                    #     _text: 'Verify'
-                    #     size_hint_x: None
-                    #     width: 150
-                    #     on_press: root.verify_message()
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -354,9 +292,6 @@
                         size_hint_x: None
                         width: dp(250)
                         padding: [10, 0, 0, 0]
-
-    # Nwboxlayout:
-    #     orientation: 'horizontal'
 
     BoxLayout:
         canvas:
