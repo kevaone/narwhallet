@@ -171,7 +171,6 @@ class TransferNamespaceScreen(Screen):
         self.new_tx.inputs_to_spend = _usxos
 
     def set_output(self):
-        # Namespace Key Create, Update
         _amount = NS_RESERVATION
         _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.namespace_key.text,
                                              self.namespace_value.text, self.new_namespace_address.text)
@@ -191,9 +190,6 @@ class TransferNamespaceScreen(Screen):
         self.txsize.text = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex.text = Ut.bytes_to_hex(_stx)
-        # self.btn_send._text = 'Send'
-        # print(self.raw_tx)
-        # self.send_info.tx.setPlainText(self.raw_tx)
         self.process_send()
 
     def build_send(self):
@@ -202,7 +198,7 @@ class TransferNamespaceScreen(Screen):
         self.new_tx.set_fee(int(self.fee_rate.text))
 
         self.set_output()
-        self.set_availible_usxo() #True, False, self.namespace_address.text)
+        self.set_availible_usxo()
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         
         if _inp_sel is True:

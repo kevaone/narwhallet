@@ -1,6 +1,5 @@
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kui.widgets.nwgrid import Nwgrid
-# from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
 
 

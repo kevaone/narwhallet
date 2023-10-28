@@ -8,7 +8,6 @@ from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.namespaceinfopopup import NamespaceInfoPopup
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwnsimage import Nwnsimage
-from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 
 
 class FavoriteScreen(Screen):

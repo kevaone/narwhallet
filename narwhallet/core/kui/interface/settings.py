@@ -33,12 +33,6 @@ class SettingsScreen(Screen):
     header = Header()
     show_change = Nwtogglebutton()
     connection_status = StringProperty()
-    # content_provider_host = TextInput()
-    # content_provider_port = TextInput()
-    # content_provider_ssl_0 = Nwtogglebutton()
-    # content_provider_ssl_1 = Nwtogglebutton()
-    # content_provider_verify_0 = Nwtogglebutton()
-    # content_provider_verify_1 = Nwtogglebutton()
     lang = Spinner()
 
     def load_settings(self):
@@ -50,8 +44,6 @@ class SettingsScreen(Screen):
                                                  'settings.json'))
         self.set_dat.load()
         self.settings.from_dict(self.set_dat.data)
-        # self.lang_dat = ConfigLoader(os.path.join(self.user_path, 'translations.json'))
-        # self.lang_dat.load()
 
         if self.settings.show_change:
             self.show_change.state = 'down'
@@ -120,23 +112,6 @@ class SettingsScreen(Screen):
             self.iserver_ipfs_0.state = 'normal'
             self.iserver_ipfs_1.state = 'down'
 
-        # self.content_provider_host.text = self.settings.content_providers[0][1]
-        # self.content_provider_port.text = self.settings.content_providers[0][2]
-
-        # if bool(self.settings.content_providers[0][3]) is True:
-        #     self.content_provider_ssl_0.state = 'down'
-        #     self.content_provider_ssl_1.state = 'normal'
-        # else:
-        #     self.content_provider_ssl_0.state = 'normal'
-        #     self.content_provider_ssl_1.state = 'down'
-
-        # if bool(self.settings.content_providers[0][4]) is True:
-        #     self.content_provider_verify_0.state = 'down'
-        #     self.content_provider_verify_1.state = 'normal'
-        # else:
-        #     self.content_provider_verify_0.state = 'normal'
-        #     self.content_provider_verify_1.state = 'down'
-        
         _special_keys = ConfigLoader(os.path.join(self.user_path,
                                                   'special_keys.json'))
         _special_keys.load()
@@ -174,14 +149,6 @@ class SettingsScreen(Screen):
         self.settings.set_primary_ipfs_provider(value)
         self.save_settings()
 
-    # def update_content_provider_host(self):
-    #     self.settings.content_providers[0][1] = self.content_provider_host.text
-    #     self.save_settings()
-
-    # def update_content_provider_port(self):
-    #     self.settings.content_providers[0][2] = self.content_provider_port.text
-    #     self.save_settings()
-
     def update_ssl_option(self, server, option, setting):
         if option not in (3, 4):
             return
@@ -191,16 +158,6 @@ class SettingsScreen(Screen):
 
         self.settings.electrumx_peers[server][option] = setting
         self.save_settings()
-
-    # def update_content_provider_ssl_option(self, server, option, setting):
-    #     if option not in (3, 4):
-    #         return
-
-    #     if isinstance(setting, bool) is False:
-    #         return
-
-    #     self.settings.content_providers[server][option] = setting
-    #     self.save_settings()
 
     def update_show_change_option(self):
         if self.show_change.state == 'down':

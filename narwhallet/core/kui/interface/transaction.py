@@ -22,7 +22,6 @@ class TransactionScreen(Screen):
     blocktime = ObjectProperty(None)
     header = Header()
 
-
     def populate(self, txid):
         self.header.value = self.manager.wallet_screen.header.value
         self.txid.text = txid
@@ -31,12 +30,12 @@ class TransactionScreen(Screen):
         self.vout.clear_widgets()
         if _asa is not None:
             # TODO Interface cache for rest of tx data
-            self.tx_hash.text = _asa['hash'] # 'tx_hash'
-            self.version.text = str(_asa['version']) # 'version'
-            self.tx_size.text = str(_asa['size']) # 'tx_size'
-            self.vsize.text = str(_asa['vsize']) # 'vsize'
-            self.locktime.text = str(_asa['locktime']) # 'locktime'
-            self.blockhash.text = _asa['blockhash'] # 'blockhash'
+            self.tx_hash.text = _asa['hash']
+            self.version.text = str(_asa['version'])
+            self.tx_size.text = str(_asa['size'])
+            self.vsize.text = str(_asa['vsize'])
+            self.locktime.text = str(_asa['locktime'])
+            self.blockhash.text = _asa['blockhash']
             for v in _asa['vin']:
                 _i = TXInputListInfo()
                 _i.txid.text = v['txid']
@@ -46,12 +45,12 @@ class TransactionScreen(Screen):
             for o in _asa['vout']:
                 _o = TXOutputListInfo()
                 _o.n.text = str(o['n'])
-                _o.value.text = str(round(o['value'], 8)) #str(o.value)
+                _o.value.text = str(round(o['value'], 8))
                 _o.scriptpubkey_asm.text = o['scriptPubKey']['asm']
                 self.vout.add_widget(_o)
-            self.hex.text = _asa['hex'] # 'hex'
-            self.confirmations.text = str(_asa['confirmations']) # 'confirmations'
-            self.time.text = str(_asa['time']) # 'time'
-            self.blocktime.text = str(_asa['blocktime']) # 'blocktime'
+            self.hex.text = _asa['hex']
+            self.confirmations.text = str(_asa['confirmations'])
+            self.time.text = str(_asa['time'])
+            self.blocktime.text = str(_asa['blocktime'])
 
         self.manager.current = 'transaction_screen'

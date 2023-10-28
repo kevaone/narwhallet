@@ -12,7 +12,6 @@ class CreateScreen(Screen):
     wallet_name = TextInput()
     coin = Spinner()
     mnemonic_lang = Spinner()
-    # type = ObjectProperty(None)
     mnemonic = TextInput()
     _w = MWallet()
     header = Header()
@@ -54,7 +53,6 @@ class CreateScreen(Screen):
             return
 
         self._w.set_coin(self.coin.text)
-        # self._w.set_bip(self.wallet_type.text)
         self._w.set_bip('bip49')
 
         _filters = ['\\', '/', '\'', '"', ',', '*',

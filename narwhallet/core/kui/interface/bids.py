@@ -38,7 +38,6 @@ class BidsScreen(Screen):
     def get_namespace(self, bid_nsid, bid_shortcode, namespaceid, bid_tx):
         _ns = MShared.get_namespace(bid_nsid, self.manager.kex)
         _ns = _ns['result']
-        # print('_ns result', _ns)
 
         if bid_nsid in self.manager.favorites.favorites:
             _fav = 'narwhallet/core/kui/assets/star.png'

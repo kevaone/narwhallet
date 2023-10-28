@@ -85,8 +85,8 @@ class MediaBrowseScreen(Screen):
 
         # Simple Send
         # TODO Test conversion across locals, check for Kivy based solution
-        _result = float(self.amount) # _locale.toDouble(self.amount_input.amount.text())
-        _amount = Ut.to_sats(_result) #int(_result * 100000000)
+        _result = float(self.amount)
+        _amount = Ut.to_sats(_result)
 
         _ = self.new_tx.add_output(_amount, _address)
 
@@ -101,7 +101,6 @@ class MediaBrowseScreen(Screen):
         self.txsize = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex = Ut.bytes_to_hex(_stx)
-        # self.btn_send._text = 'Send'
         self.process_send()
 
     def build_send(self):
@@ -150,7 +149,6 @@ class MediaBrowseScreen(Screen):
         send_popup.txsize = self.txsize
         send_popup.bind(msgType=self.finish)
         send_popup.open()
-        # self.manager.current = self.ret_screen
 
     def finish(self, *args):
         _v = self.manager.createnamespacekey_screen.namespace_value.text

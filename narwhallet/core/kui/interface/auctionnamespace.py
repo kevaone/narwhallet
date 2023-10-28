@@ -20,7 +20,6 @@ TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
 NS_RESERVATION = 1000000
 
 class AuctionNamespaceScreen(Screen):
-    # wallet_name = Nwlabel()
     wallet_balance = Nwlabel()
     amount = TextInput()
     namespace_name = Nwlabel()
@@ -214,7 +213,6 @@ class AuctionNamespaceScreen(Screen):
         self.new_tx.inputs_to_spend = _usxos
 
     def set_output(self):
-        # Namespace Auction
         _amount = NS_RESERVATION
         _ns_address = self.namespace_address.text
         _ns = self.namespace_name.text
@@ -261,7 +259,6 @@ class AuctionNamespaceScreen(Screen):
         self.txsize.text = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex.text = Ut.bytes_to_hex(_stx)
-        # self.btn_send._text = 'Send'
         self.process_send()
 
     def build_send(self):

@@ -1,5 +1,4 @@
 from kivy.uix.floatlayout import FloatLayout
-# from kivy.animation import Animation
 from kivy.properties import NumericProperty, BooleanProperty
 
 

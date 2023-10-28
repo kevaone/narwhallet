@@ -58,9 +58,6 @@ class AuctionDetailScreen(Screen):
 
         self.manager.current = 'auctiondetail_screen'
 
-    # def accept_bid(self, transaction):
-    #     pass
-
     def decline_bid(self, transaction):
         pass
 

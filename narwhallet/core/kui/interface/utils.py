@@ -12,12 +12,9 @@ class UtilsScreen(Screen):
     wallet_name = Spinner()
     address = Spinner()
     pubk = TextInput()
-    # file = Nwlabel()
     message = TextInput()
     signature = TextInput()
     valid_sig = Nwlabel()
-    # s_msg = Nwtogglebutton()
-    # s_file = Nwtogglebutton()
     _w = MWallet()
     header = Header()
 
@@ -43,11 +40,8 @@ class UtilsScreen(Screen):
         self.pubk.text = ''
         self.address.values = []
         self.message.text = ''
-        # self.file.text = ''
         self.address.text = ''
         self.wallet_name.text = ''
-        # self.s_msg.state = 'down'
-        # self.s_file.state = 'normal'
 
     def sign_wallet_changed(self):
         self.signature.text = ''
@@ -95,20 +89,9 @@ class UtilsScreen(Screen):
         if _idx == -1:
             return False
 
-        # if _w.kind == 2:
-        #     _ul = self.dialogs.lockbox_dialog(0)
-        #     # TODO Test selected address can be derived using pass
-        #     return False
-
-        # if self.s_msg.state == 'down':
-
         _signature = self._w.sign_message(_idx,
                                      self.message.text,
                                      _ch)
-        # elif self.s_file.state == 'down':
-        #     _data = self.file.text
-        #     _dat = Ut.sha256(MShared.load_message_file(_data)).decode()
-        #     _signature = self._w.sign_message(_idx, _dat, _ch)
 
         self.signature.text = _signature
 
@@ -117,15 +100,8 @@ class UtilsScreen(Screen):
     def verify_message(self):
         self.valid_sig.text = ''
         _v = ''
-        # if self.s_msg.state == 'down':
         _v = WalletUtils.verify_message(self.signature.text,
                                         self.pubk.text,
                                             self.message.text)
-        # elif self.s_file.state == 'down':
-        #     _data = self.file.text
-        #     _dat = Ut.sha256(MShared.load_message_file(_data))
-        #     _v = WalletUtils.verify_message(self.signature.text,
-        #                                     self.pubk.text,
-        #                                     _dat)
 
         self.valid_sig.text = _v

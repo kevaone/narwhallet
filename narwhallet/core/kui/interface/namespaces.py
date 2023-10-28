@@ -7,7 +7,6 @@ from narwhallet.core.kui.widgets.header import Header
 
 class NamespacesScreen(Screen):
     namespaces_list = ObjectProperty(None)
-    # wallet_name = Nwlabel()
     btn_create = Nwbutton()
     header = Header()
 

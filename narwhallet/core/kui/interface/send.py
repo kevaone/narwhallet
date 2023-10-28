@@ -15,17 +15,12 @@ from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
 
 class SendScreen(Screen):
-    # wallet_name = Nwlabel()
     wallet_balance = Nwlabel()
     send_to = TextInput()
     amount = TextInput()
     address_book = Image()
     valid_send_to = Nwlabel()
     valid_amount = Nwlabel()
-    # fee = Nwlabel()
-    # fee_rate = Nwlabel()
-    # txsize = Nwlabel()
-    # txhex = Nwlabel()
     header = Header()
     btn_send = Nwbutton()
 
@@ -118,10 +113,9 @@ class SendScreen(Screen):
     def set_output(self):
         _address = self.send_to.text
 
-        # Simple Send
         # TODO Test conversion across locals, check for Kivy based solution
-        _result = float(self.amount.text) # _locale.toDouble(self.amount_input.amount.text())
-        _amount = Ut.to_sats(_result) #int(_result * 100000000)
+        _result = float(self.amount.text)
+        _amount = Ut.to_sats(_result)
 
         _ = self.new_tx.add_output(_amount, _address)
 
@@ -136,7 +130,6 @@ class SendScreen(Screen):
         self.txsize = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex = Ut.bytes_to_hex(_stx)
-        # self.btn_send._text = 'Send'
         self.process_send()
 
     def build_send(self):

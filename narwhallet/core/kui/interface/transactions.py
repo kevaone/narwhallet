@@ -34,7 +34,6 @@ class TransactionsScreen(Screen):
                         _d = {
                                 'transaction': _h['txid'],
                                 'block': str(_h['block']),
-                                # 'txvalue': str(round(_h['value'], 8)),
                                 'txvalue': str(_h['value']),
                                 'sm': self.manager,
                                 'status': _s}
@@ -55,7 +54,6 @@ class TransactionsScreen(Screen):
                             _d = {
                                 'transaction': _h['txid'],
                                 'block': str(_h['block']),
-                                # 'txvalue': str(round(_h['value'], 8)),
                                 'txvalue': str(_h['value']),
                                 'sm': self.manager,
                                 'status': _s}

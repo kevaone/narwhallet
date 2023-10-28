@@ -9,7 +9,6 @@ from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 class RestoreScreen(Screen):
     wallet_name = TextInput()
     coin = Spinner()
-    # type = ObjectProperty(None)
     data = TextInput()
     header = Header()
     btn_restore = Nwbutton()

@@ -18,7 +18,6 @@ TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
 NS_RESERVATION = 1000000
 
 class CreateNamespaceScreen(Screen):
-    # wallet_name = Nwlabel()
     wallet_balance = Nwlabel()
     amount = TextInput()
     namespace_name = TextInput()
@@ -119,7 +118,6 @@ class CreateNamespaceScreen(Screen):
         self.new_tx.inputs_to_spend = _usxos
 
     def set_output(self):
-        # Namespace Create
         _amount = NS_RESERVATION
         _temp_ns = self.tx_to_ns(TEMP_TX, 0)
         _ns_value = self.namespace_name.text
@@ -141,8 +139,6 @@ class CreateNamespaceScreen(Screen):
         self.txsize.text = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex.text = Ut.bytes_to_hex(_stx)
-        # self.btn_send._text = 'Send'
-        # self.send_info.tx.setPlainText(self.raw_tx)
         self.process_send()
 
     def build_send(self):

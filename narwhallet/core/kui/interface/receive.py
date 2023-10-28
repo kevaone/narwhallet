@@ -8,16 +8,12 @@ from narwhallet.core.kui.widgets.header import Header
 
 class ReceiveScreen(Screen):
     address = Nwlabel()
-    # amount = ObjectProperty(None)
     label = TextInput()
     qr_code = QR_Code()
     header = Header()
 
     def populate(self, wallet_name):
         self.address.text = ''
-        # self.amount.text = ''
-        # self.address.text = ''
-        # self.qr_code = QR_Code()
         _w: MWallet = self.manager.wallets.get_wallet_by_name(wallet_name)
         self.header.value = wallet_name
         

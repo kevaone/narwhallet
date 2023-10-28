@@ -1,4 +1,3 @@
-import json
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
@@ -19,7 +18,6 @@ TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
 NS_RESERVATION = 1000000
 
 class CreateNamespaceKeyScreen(Screen):
-    # wallet_name = Nwlabel()
     wallet_balance = Nwlabel()
     amount = TextInput()
     namespace_name = Nwlabel()
@@ -76,7 +74,6 @@ class CreateNamespaceKeyScreen(Screen):
                 return False
 
             if _amount < _bal:
-                # _ca = True
                 _a, _b = True, True
                 self.valid_amount.size = (dp(30), dp(30))
                 if cb is True:
@@ -145,7 +142,6 @@ class CreateNamespaceKeyScreen(Screen):
         self.new_tx.inputs_to_spend = _usxos
 
     def set_output(self):
-        # Namespace Key Create, Update
         _amount = NS_RESERVATION
         _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.namespace_key.text,
                                              self.namespace_value.text, self.namespace_address.text)
@@ -165,7 +161,6 @@ class CreateNamespaceKeyScreen(Screen):
         self.txsize.text = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex.text = Ut.bytes_to_hex(_stx)
-        # self.btn_send._text = 'Send'
         self.process_send()
 
     def build_send(self):
@@ -174,7 +169,7 @@ class CreateNamespaceKeyScreen(Screen):
         self.new_tx.set_fee(int(self.fee_rate.text))
 
         self.set_output()
-        self.set_availible_usxo() #True, False, self.namespace_address.text)
+        self.set_availible_usxo()
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         
         if _inp_sel is True:

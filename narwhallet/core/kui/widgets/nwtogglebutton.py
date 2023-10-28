@@ -23,5 +23,4 @@ class Nwtogglebutton(ToggleButton):
         self.text = app.translate_text(self._text)
 
     def on__text(self, *args):
-        # print('args', *args)
         self.translate_text()

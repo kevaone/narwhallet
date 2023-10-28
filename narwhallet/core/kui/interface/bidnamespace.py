@@ -143,19 +143,12 @@ class BidNamespaceScreen(Screen):
             _amount = float(self.bid_amount.text)
             _bal = float(self.wallet_balance.text)
 
-            # if _amount < 0.01:
-            #     self.valid_bid_amount.size = (0, 0)
-            #     self.btn_send.disabled = True
-            #     return False
-
             if _amount < _bal:
                 self.valid_bid_amount.size = (dp(30), dp(30))
                 _a, _b, _c, _d = True, True, True, True
                 if cb is True:
                     _a = self.check_payment_address(False)
                     _b = self.check_address(False)
-                    # _c = self.check_price(False)
-                    # _d = self.check_desc(False)
 
                 if _a and _b and _c and _d is True:
                     self.btn_send.disabled = False
@@ -180,8 +173,6 @@ class BidNamespaceScreen(Screen):
             if cb is True:
                 _a = self.check_payment_address(False)
                 _b = self.check_amount(False)
-                # _c = self.check_price(False)
-                # _d = self.check_desc(False)
 
             if _a and _b and _c and _d is True:
                 self.btn_send.disabled = False
@@ -203,8 +194,6 @@ class BidNamespaceScreen(Screen):
             if cb is True:
                 _a = self.check_amount(False)
                 _b = self.check_address(False)
-                # _c = self.check_price(False)
-                # _d = self.check_desc(False)
 
             if _a and _b and _c and _d is True:
                 self.btn_send.disabled = False
@@ -214,27 +203,12 @@ class BidNamespaceScreen(Screen):
             return False
         return True
 
-    # def check_tx_is_auction(self):
-    #     _nft_tx = self.namespace_key_input.key.text()
-
-    #     _nft_tx = MShared.check_tx_is_auction(_nft_tx, self.kex, self.cache)
-    #     if _nft_tx[0] is True:
-    #         self.auction_info.nft_name.setText(_nft_tx[2]['displayName'])
-    #         self.auction_info.nft_desc.setText(_nft_tx[2]['desc'])
-    #         if 'hashtags' in _nft_tx[1]:
-    #             self.auction_info.nft_hashtags.setText(_nft_tx[1]['hashtags'])
-    #         self.auction_info.nft_price.setText(_nft_tx[2]['price'])
-    #         self.auction_info.nft_ns.setText(_nft_tx[1])
-    #         self.auction_info.nft_address.setText(_nft_tx[2]['addr'])
-
     def build_bid(self):
         self.bid_tx = MTransactionBuilder()
         self.bid_tx.set_version(Ut.hex_to_bytes('00710000'))
         self.bid_tx.set_fee(int(self.fee_rate.text))
 
-        # locale = QLocale()
-        # _b_amount = locale.toDouble(self.amount_input.amount.text())
-        _bid_amount = Ut.to_sats(float(self.bid_amount.text)) # int(float(self.bid_amount.text) * 100000000)
+        _bid_amount = Ut.to_sats(float(self.bid_amount.text))
 
         _auc = {}
         _auc['displayName'] = self.offer_name.text
@@ -292,7 +266,6 @@ class BidNamespaceScreen(Screen):
             self.bid_tx.inputs_to_spend = _usxos
 
     def set_output(self):
-        # Namespace Bid
         _amount = NS_RESERVATION
         _ns_address = self.bid_namespace_address.text
         _ns = self.bid_namespaceid.text
@@ -300,7 +273,6 @@ class BidNamespaceScreen(Screen):
 
         _ns_key = (Ut.hex_to_bytes('0001') + Ut.hex_to_bytes(self.offer_tx.text))
         _ns_value = self.bid_tx.to_psbt()
-        # _testing = self.bid_tx.fr
         _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
                                             _ns_address)
         _sh = Scripts.compile(_sh, True)
@@ -319,7 +291,6 @@ class BidNamespaceScreen(Screen):
         self.txsize.text = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex.text = Ut.bytes_to_hex(_stx)
-        # self.btn_send._text = 'Send'
         self.process_send()
 
     def build_send(self):

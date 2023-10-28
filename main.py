@@ -9,7 +9,6 @@ from kivy.properties import NumericProperty
 from narwhallet import _version
 from narwhallet.core.kcl.file_utils.io import ConfigLoader
 # NOTE NarwhalletScreens import moved after set_paths called
-# from narwhallet.core.kui.interface.screenmanager import NarwhalletScreens
 # Config.set('graphics', 'width', '500')
 # Config.set('graphics', 'height', '700')
 from kivy.clock import Clock
@@ -92,7 +91,6 @@ from narwhallet.core.kui.interface.screenmanager import NarwhalletScreens
 
 class MainApp(App):
     lang = NumericProperty(0)
-    # lang_dat = _lang_dat
     icon = 'narwhallet/core/kui/assets/narwhal.png'
     title = 'Narwhallet v.' + str(_version.__version__)
 
@@ -100,7 +98,6 @@ class MainApp(App):
         super(MainApp, self).__init__(**kwargs)
 
         _translations = os.path.join(_user_path, 'translations.json')
-        # _lang_dat = ConfigLoader(_translations)
         self.lang_dat = ConfigLoader(_translations)
         self.lang_dat.load()
         self.lang = self.lang_dat.data['active']

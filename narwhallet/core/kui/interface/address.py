@@ -2,7 +2,6 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.qrcode import QR_Code
-import qrcode
 from narwhallet.core.kui.widgets.header import Header
 
 
@@ -28,7 +27,7 @@ class AddressScreen(Screen):
                 _addr = _w.change_addresses.get_address_by_name(address)
 
             self.address.text = address
-            self.balance.text = str(round(_addr.balance, 8)) #str(_addr.balance)
+            self.balance.text = str(round(_addr.balance, 8))
             self.label.text = _addr.label
             self.transactions.text = str(len(_addr.history))
 

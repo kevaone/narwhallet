@@ -69,4 +69,3 @@ class AuctionsScreen(Screen):
                 _auction['high_bid'] = str(_hb)
                 break
         return _auction
-        # return {}

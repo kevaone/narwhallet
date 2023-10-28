@@ -1,7 +1,6 @@
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import StringProperty, ListProperty, BooleanProperty
 from kivy.uix.screenmanager import ScreenManager
-from narwhallet.core.kcl.favorites.favorite import MFavorite
 from narwhallet.core.kui.widgets.nwimage import Nwimage
 
 

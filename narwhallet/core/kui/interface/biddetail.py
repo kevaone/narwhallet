@@ -1,9 +1,6 @@
-import base64
-import json
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, StringProperty
 from narwhallet.control.shared import MShared
-from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
 from narwhallet.core.kui.widgets.nwimage import Nwimage
@@ -28,7 +25,6 @@ class BidDetailScreen(Screen):
         self.namespaceid = namespaceid
         self.shortcode.text = shortcode
         self.namespace_name.text = ''
-        # _ns = MShared.get_namespace_keys(namespaceid, self.manager.kex)
         _ns = MShared.get_shortcode(shortcode, self.manager.kex)
         _ns = _ns['result']
 

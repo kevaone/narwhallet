@@ -13,7 +13,6 @@ from narwhallet.core.kui.widgets.header import Header
 
 
 class WalletScreen(Screen):
-    # wallet_name = ObjectProperty(None)
     header = Header()
     wallet_balance = Nwlabel()
     wallet_unconfirmed_balance = Nwlabel()
@@ -53,9 +52,6 @@ class WalletScreen(Screen):
             self.last_updated._text = MShared.get_timestamp(_w.last_updated)[1]
             self.wallet_balance._text = str(round(_w.balance, 8))
 
-            # self.wallet_unconfirmed_balance.text = str(round(_w.unconfirmed, 8))
-            # self.wallet_sent.text = str(round(_w.sent, 8))
-            # self.wallet_received.text = str(round(_w.received, 8))
             self.wallet_unconfirmed_balance._text = str(_w.unconfirmed_balance)
             self.wallet_sent._text = str(_w.sent)
             self.wallet_received._text = str(_w.received)
@@ -89,9 +85,6 @@ class WalletScreen(Screen):
         _ = self.manager.kex.peers[self.manager.kex.active_peer].connect()
         MShared.get_addresses(wallet, self.manager.kex)
         _ = self.manager.kex.peers[self.manager.kex.active_peer].disconnect()
-        # MShared.get_histories(wallet, self.manager.kex)
-        # MShared.get_balances(wallet, self.manager.kex)
-        # MShared.list_unspents(wallet, self.manager.kex)
         _update_time = MShared.get_timestamp()
         wallet.set_last_updated(_update_time[0])
         self.manager.wallets.save_wallet(wallet.name)

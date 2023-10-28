@@ -74,12 +74,6 @@ class NamespaceAltScreen(Screen):
     def bid_namespace(self):
         self.manager.bidnamespace_screen.populate(self.namespaceid)
 
-    # def on_touch_down(self, touch):
-    #     if self.favorite.collide_point(touch.x, touch.y) and touch.is_mouse_scrolling is False:
-    #         self.set_favorite()
-    #         return
-    #     return super(NamespaceAltScreen, self).on_touch_down(touch)
-
     def set_favorite(self):
         _add_fav = False
         if self.favorite_source == 'narwhallet/core/kui/assets/star_dark.png':
