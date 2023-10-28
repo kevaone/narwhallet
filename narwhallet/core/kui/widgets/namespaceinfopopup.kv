@@ -17,7 +17,46 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(10)
+            height: dp(35)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: dp(5)
+
+            Nwimage:
+                source: 'narwhallet/core/kui/assets/clipboard_white.png'
+                height: dp(20)
+                width: dp(20)
+                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.namespaceid.text)
+
+            Nwlabel:
+                _text: 'Namespace Id:'
+                valign: 'center'
+                font_size: dp(16)
+                text_size: self.size
+                padding: [5, 0, 0, 0]
+                size_hint_x: None
+                width: dp(125)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(35)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: dp(5)
+
+            Nwlabel:
+                id: namespaceid
+                valign: 'center'
+                _text: ''
+                font_size: dp(16)
+                text_size: self.size
+                padding: [10, 0, 0, 0]
 
         Nwboxlayout:
             size_hint_y: None
@@ -31,21 +70,32 @@
 
             Nwimage:
                 source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: dp(25)
-                width: dp(25)
-                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.namespaceid.text)
+                height: dp(20)
+                width: dp(20)
+                on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.shortcode.text)
 
             Nwlabel:
-                id: namespaceid
+                _text: 'Shortcode:'
                 valign: 'center'
-                _text: 'Namwspace Example'
                 font_size: dp(16)
                 text_size: self.size
+                padding: [5, 0, 0, 0]
+                size_hint_x: None
+                width: dp(100)
+
+            Nwlabel:
+                id: shortcode
+                valign: 'center'
+                font_size: dp(16)
+                text_size: self.size
+                _text: ''
+                size_hint_x: None
                 padding: [10, 0, 0, 0]
+                width: dp(150)
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(30)
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -55,41 +105,30 @@
 
             Nwimage:
                 source: 'narwhallet/core/kui/assets/clipboard_white.png'
-                height: dp(25)
-                width: dp(25)
+                height: dp(20)
+                width: dp(20)
                 on_touch_down: if self.collide_point(*args[1].pos): root.manager.copy_to_clipboard(root.shortcode.text)
 
             Nwlabel:
-                id: shortcode
+                _text: 'Name:'
                 valign: 'center'
-                font_size: dp(20)
+                font_size: dp(16)
                 text_size: self.size
-                _text: 'Shortcode'
+                padding: [5, 0, 0, 0]
                 size_hint_x: None
-                padding: [10, 0, 0, 0]
-                width: dp(150)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(30)
-            orientation: 'horizontal'
-
-            Nwimage:
-                source: 'narwhallet/core/kui/assets/wrench_white.png'
-                height: dp(25)
-                width: dp(25)
-                on_touch_down: if self.collide_point(*args[1].pos): root.update_namespace_name()
+                width: dp(75)
 
             Nwlabel:
                 id: namespace_name
-                font_size: dp(25)
+                valign: 'center'
+                font_size: dp(16)
                 text_size: self.size
-                _text: 'Name'
+                _text: ''
                 padding: [10, 0, 0, 0]
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(25)
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -106,18 +145,33 @@
             Nwlabel:
                 _text: 'Creator:'
                 valign: 'center'
+                font_size: dp(16)
+                text_size: self.size
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
                 width: dp(75)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(35)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: dp(5)
 
             Nwlabel:
                 id: creator
                 valign: 'center'
                 _text: ''
+                font_size: dp(16)
+                text_size: self.size
+                padding: [10, 0, 0, 0]
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(25)
+            height: dp(35)
             orientation: 'horizontal'
 
             Nwlabel:
@@ -134,14 +188,29 @@
             Nwlabel:
                 _text: 'Owner:'
                 valign: 'center'
+                font_size: dp(16)
+                text_size: self.size
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
                 width: dp(75)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(35)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: dp(5)
 
             Nwlabel:
                 id: owner
                 valign: 'center'
                 _text: ''
+                font_size: dp(16)
+                text_size: self.size
+                padding: [10, 0, 0, 0]
 
         Nwboxlayout:
             orientation: 'horizontal'
