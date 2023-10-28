@@ -75,10 +75,10 @@ python -m venv .\venv<br/>
 ### Download repo & Install requirements
 git clone https://github.com/kevaone/narwhallet.git<br/>
 cd narwhallet<br/>
-pip install -r ./requirements.txt<br/>
+pip install -r .\requirements.txt<br/>
 
 ### Launch
-python3 ./main.py<br/>
+python3 .\main.py<br/>
 
 ### (optional) Build
 pip install pyinstaller==5.6.2 pillow<br/>
@@ -96,11 +96,6 @@ buildozer android release<br/>
 
 **Upon launch Narwhallet will create the directory .narwhalllet within you're home directory. You're wallets, address book, settings and cache are saved here.**
 
-It is also highly recommended you run your own instance of ElectrumX. If you have large wallets or large number of wallets you will probably be throttled updating against public peers; Running your own ElectrumX you can adjust for your needs.
-
-Can download ElectrumX here: https://github.com/kevacoin-team/electrumx
-
-
 ## Wallets Supported
 
 ### Normal Wallets
@@ -111,6 +106,3 @@ Restore an ypub or track wallet addresses
 
 ### Watch Wallet
 Track individual addresses
-
-**Important Notes**
-While experimenting with alpha perform initial sych with the default peer unless running your own. Initial tx/ns cache building will be getting refined further to reduce calls and load to allow faster synch.
