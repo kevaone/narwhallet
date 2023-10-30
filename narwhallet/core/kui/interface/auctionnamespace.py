@@ -30,10 +30,6 @@ class AuctionNamespaceScreen(Screen):
     payment_address = TextInput()
     valid_amount = Image()
     valid_price = Image()
-    fee = Nwlabel()
-    fee_rate = Nwlabel()
-    txsize = Nwlabel()
-    txhex = Nwlabel()
     header = Header()
     btn_send = Nwbutton()
     address_book = Image()
@@ -44,6 +40,10 @@ class AuctionNamespaceScreen(Screen):
     def __init__(self, **kwargs):
         super(AuctionNamespaceScreen, self).__init__(**kwargs)
 
+        self.fee = ''
+        self.fee_rate = ''
+        self.txsize = ''
+        self.txhex = ''
         self.wallet: MWallet
         
     def populate(self):
@@ -57,15 +57,12 @@ class AuctionNamespaceScreen(Screen):
         self.description.text = ''
         self.payment_address.text = ''
         self.namespace_address.text = self.manager.namespace_screen.owner
-        self.fee.text = ''
-        self.txsize.text = ''
-        self.txhex.text = ''
         self.input_value = 0
         self.output_value = 0
         self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
-        self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
+        self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'auctionnamespace_screen'
 
     def check_amount(self, cb=True):
@@ -275,16 +272,16 @@ class AuctionNamespaceScreen(Screen):
         self.new_tx.input_signatures = []
 
     def set_ready(self, _stx, _est_fee):
-        self.fee.text = str(_est_fee/100000000)
-        self.txsize.text = str(len(_stx))
+        self.fee = str(_est_fee/100000000)
+        self.txsize = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
-        self.txhex.text = Ut.bytes_to_hex(_stx)
+        self.txhex = Ut.bytes_to_hex(_stx)
         self.process_send()
 
     def build_send(self):
         self.new_tx = MTransactionBuilder()
         self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
-        self.new_tx.set_fee(int(self.fee_rate.text))
+        self.new_tx.set_fee(int(self.fee_rate))
         self.set_output()
         self.set_availible_usxo()
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
@@ -321,9 +318,9 @@ class AuctionNamespaceScreen(Screen):
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
         send_popup.change_value = str(Ut.from_sats(self.change_value))
-        send_popup.fee_rate = self.fee_rate.text
-        send_popup.fee = self.fee.text
+        send_popup.fee_rate = self.fee_rate
+        send_popup.fee = self.fee
         send_popup.txhex = self.raw_tx
-        send_popup.txsize = self.txsize.text
+        send_popup.txsize = self.txsize
         send_popup.open()
         self.manager.current = 'namespace_screen'

@@ -6,10 +6,6 @@
     namespace_key: namespace_key
     namespace_value: namespace_value
     valid_amount: valid_amount
-    fee: fee
-    fee_rate: fee_rate
-    txsize: txsize
-    txhex: txhex
     header: header
     btn_send: btn_send
     btn_ipfs_upload: btn_ipfs_upload
@@ -32,43 +28,6 @@
 
             Nwlabel:
                 halign: 'left'
-                _text: 'TX Fee Rate:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                id: fee_rate
-                halign: 'left'
-                _text: '0'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                halign: 'left'
-                _text: 'TX Size:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                id: txsize
-                halign: 'left'
-                _text: '0.0'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(100)
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
                 _text: 'Balance:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
@@ -82,22 +41,6 @@
                 text_size: self.size
                 size_hint_x: None
                 width: dp(120)
-
-            Nwlabel:
-                halign: 'left'
-                _text: 'Fee:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-            Nwlabel:
-                id: fee
-                halign: 'left'
-                _text: '0.0'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(175)
 
         Nwboxlayout:
             size_hint_y: None
@@ -248,41 +191,7 @@
                 text_size: self.size
 
         Nwboxlayout:
-            size_hint_y: None
-            height: dp(20)
             orientation: 'horizontal'
-
-            Nwlabel:
-                halign: 'left'
-                valign: 'center'
-                _text: 'TX Hex:'
-                text_size: self.size
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(100)
-
-        ScrollView:
-            do_scroll_x: False
-            do_scroll_y: True
-            bar_width: dp(15)
-            scroll_type: ['bars','content']
-
-            Nwboxlayout:
-                size_hint_y: None
-                height: dp(380)
-                orientation: 'horizontal'
-
-                Nwlabel:
-                    id: txhex
-                    halign: 'left'
-                    valign: 'top'
-                    _text: '0.0'
-                    text_size: self.size
-                    size_hint_x: None
-                    size_hint_y: None
-                    padding: [20, 0, 0, 0]
-                    width: root.width - dp(40)
-                    height: dp(380)
 
         BoxLayout:
             canvas:

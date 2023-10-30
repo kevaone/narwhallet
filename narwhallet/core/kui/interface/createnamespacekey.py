@@ -26,10 +26,6 @@ class CreateNamespaceKeyScreen(Screen):
     namespace_key = TextInput()
     namespace_value = TextInput()
     valid_amount = Image()
-    fee = Nwlabel()
-    fee_rate = Nwlabel()
-    txsize = Nwlabel()
-    txhex = Nwlabel()
     header = Header()
     btn_send = Nwbutton()
     btn_ipfs_upload = Nwbutton()
@@ -39,6 +35,10 @@ class CreateNamespaceKeyScreen(Screen):
     def __init__(self, **kwargs):
         super(CreateNamespaceKeyScreen, self).__init__(**kwargs)
 
+        self.fee = ''
+        self.fee_rate = ''
+        self.txsize = ''
+        self.txhex = ''
         self.wallet: MWallet
         
     def populate(self):
@@ -50,9 +50,6 @@ class CreateNamespaceKeyScreen(Screen):
         self.namespace_key.text = ''
         self.namespace_value.text = ''
         self.namespace_address.text = self.manager.namespace_screen.owner
-        self.fee.text = ''
-        self.txsize.text = ''
-        self.txhex.text = ''
         self.input_value = 0
         self.output_value = 0
         self.change_value = 0
@@ -60,7 +57,9 @@ class CreateNamespaceKeyScreen(Screen):
         self.btn_send.disabled = True
         if self.wallet.balance < 10.0:
             self.btn_ipfs_upload.disabled = True
-        self.fee_rate.text = str(MShared.get_fee_rate(self.manager.kex))
+        self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
+
+        self.namespace_key.disabled = False
         self.manager.current = 'createnamespacekey_screen'
 
     def check_amount(self, cb=True):
@@ -170,16 +169,16 @@ class CreateNamespaceKeyScreen(Screen):
         self.new_tx.input_signatures = []
 
     def set_ready(self, _stx, _est_fee):
-        self.fee.text = str(_est_fee/100000000)
-        self.txsize.text = str(len(_stx))
+        self.fee = str(_est_fee/100000000)
+        self.txsize = str(len(_stx))
         self.raw_tx = Ut.bytes_to_hex(_stx)
-        self.txhex.text = Ut.bytes_to_hex(_stx)
+        self.txhex = Ut.bytes_to_hex(_stx)
         self.process_send()
 
     def build_send(self):
         self.new_tx = MTransactionBuilder()
         self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
-        self.new_tx.set_fee(int(self.fee_rate.text))
+        self.new_tx.set_fee(int(self.fee_rate))
 
         self.set_output()
         self.set_availible_usxo()
@@ -221,9 +220,9 @@ class CreateNamespaceKeyScreen(Screen):
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
         send_popup.change_value = str(Ut.from_sats(self.change_value))
-        send_popup.fee_rate = self.fee_rate.text
-        send_popup.fee = self.fee.text
+        send_popup.fee_rate = self.fee_rate
+        send_popup.fee = self.fee
         send_popup.txhex = self.raw_tx
-        send_popup.txsize = self.txsize.text
+        send_popup.txsize = self.txsize
         send_popup.open()
         self.manager.current = 'namespaces_screen'
