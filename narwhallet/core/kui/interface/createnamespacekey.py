@@ -2,6 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.metrics import dp
+from kivy.properties import NumericProperty
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
@@ -32,6 +33,8 @@ class CreateNamespaceKeyScreen(Screen):
     header = Header()
     btn_send = Nwbutton()
     btn_ipfs_upload = Nwbutton()
+    key_size = NumericProperty(0)
+    value_size = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super(CreateNamespaceKeyScreen, self).__init__(**kwargs)
@@ -94,6 +97,11 @@ class CreateNamespaceKeyScreen(Screen):
         return False
 
     def check_key(self, cb=True):
+        self.key_size = len(self.namespace_key.text.encode())
+        if self.key_size > 255:
+            self.btn_send.disabled = True
+            return False
+
         if self.namespace_key.text != '':
             _a, _b = True, True
             if cb is True:
@@ -109,6 +117,11 @@ class CreateNamespaceKeyScreen(Screen):
         return False
 
     def check_value(self, cb=True):
+        self.value_size = len(self.namespace_value.text.encode())
+        if self.value_size > 3072:
+            self.btn_send.disabled = True
+            return False
+
         if self.namespace_value.text != '':
             _a, _b = True, True
             if cb is True:
@@ -149,7 +162,7 @@ class CreateNamespaceKeyScreen(Screen):
 
         _ = self.new_tx.add_output(_amount, self.namespace_address.text)
         self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
-
+ 
     def reset_transactions(self):
         self.raw_tx = ''
         self.new_tx.set_vin([])

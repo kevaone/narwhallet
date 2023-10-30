@@ -2,6 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.metrics import dp
+from kivy.properties import NumericProperty
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -35,6 +36,8 @@ class TransferNamespaceScreen(Screen):
     txhex = Nwlabel()
     header = Header()
     btn_send = Nwbutton()
+    key_size = NumericProperty(0)
+    value_size = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super(TransferNamespaceScreen, self).__init__(**kwargs)
@@ -120,6 +123,11 @@ class TransferNamespaceScreen(Screen):
         return True
 
     def check_key(self, cb=True):
+        self.key_size = len(self.namespace_key.text.encode())
+        if self.key_size > 255:
+            self.btn_send.disabled = True
+            return False
+
         if self.namespace_key.text != '':
             _a, _b, _c = True, True, True
             if cb is True:
@@ -136,6 +144,11 @@ class TransferNamespaceScreen(Screen):
         return False
 
     def check_value(self, cb=True):
+        self.value_size = len(self.namespace_value.text.encode())
+        if self.value_size > 3072:
+            self.btn_send.disabled = True
+            return False
+
         if self.namespace_value.text != '':
             _a, _b, _c = True, True, True
             if cb is True:

@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.metrics import dp
+from kivy.properties import NumericProperty
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -38,6 +39,7 @@ class AuctionNamespaceScreen(Screen):
     address_book = Image()
     valid_send_to = Image()
     valid_description = Image()
+    value_size = NumericProperty(0)
 
     def __init__(self, **kwargs):
         super(AuctionNamespaceScreen, self).__init__(**kwargs)
@@ -132,6 +134,24 @@ class AuctionNamespaceScreen(Screen):
         return False
 
     def check_desc(self, cb=True):
+        try:
+            _name = json.loads(self.manager.namespace_screen.namespace_name)['displayName']
+        except:
+            _name = self.manager.namespace_screen.namespace_name
+        _sd = {}
+        _sd['displayName'] = _name
+        _sd['addr'] = self.payment_address.text
+        if self.price.text == '':
+            _sd['price'] = 0.0
+        else:
+            _sd['price'] = float(self.price.text)
+        _sd['desc'] = self.description.text
+        _sdj = json.dumps(_sd, separators=(',', ':'))
+        self.value_size = len(_sdj)
+        if self.value_size > 3072:
+            self.btn_send.disabled = True
+            return False
+
         if self.description.text != '':
             self.valid_description.size = (dp(30), dp(30))
             _a, _b, _c, _d = True, True, True, True

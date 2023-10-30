@@ -137,11 +137,11 @@
 
             Nwlabel:
                 halign: 'left'
-                _text: 'Key:'
+                _text: 'Key (' + str(root.key_size) + '/255):'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: dp(100)
+                width: dp(125)
 
         Nwboxlayout:
             size_hint_y: None
@@ -174,11 +174,11 @@
 
             Nwlabel:
                 halign: 'left'
-                _text: 'Value:'
+                _text: 'Value (' + str(root.value_size) + '/3072):'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: dp(100)
+                width: dp(150)
 
         Nwboxlayout:
             size_hint_y: None
