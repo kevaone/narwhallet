@@ -27,23 +27,23 @@
 
             Nwbutton:
                 _text: 'Create'
-                icon: 'narwhallet/core/kui/assets/plus_white.png'
-                icon_size: (dp(25), dp(25))
-                icon_padding: dp(17)
+                icon: 'narwhallet/core/kui/assets/create.png'
+                icon_size: (dp(23), dp(20))
+                icon_padding: dp(19)
                 on_press: root.manager.create_screen.populate()
 
             Nwbutton:
                 _text: 'Restore'
-                icon: 'narwhallet/core/kui/assets/wrench_white.png'
-                icon_size: (dp(25), dp(25))
-                icon_padding: dp(20)
+                icon: 'narwhallet/core/kui/assets/restore.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(21)
                 on_press: root.manager.restore_screen.populate()
 
             Nwbutton:
                 _text: 'Book'
-                icon: 'narwhallet/core/kui/assets/menuList_white.png'
-                icon_size: (dp(25), dp(25))
-                icon_padding: dp(15)
+                icon: 'narwhallet/core/kui/assets/address-book.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(17)
                 on_press: root.manager.addressbook_screen.populate()
 
         Nwgrid:
@@ -65,15 +65,21 @@
 
             Nwbutton:
                 _text: 'Content'
+                icon: 'narwhallet/core/kui/assets/content_globe.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(22)
                 on_press: root.manager.content_screen.populate()
 
             Nwbutton:
                 _text: 'Utils'
+                icon: 'narwhallet/core/kui/assets/toolbox.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(16)
                 on_press: root.manager.utils_screen.populate()
 
             Nwbutton:
                 _text: 'Settings'
-                icon: 'narwhallet/core/kui/assets/gear_white.png'
-                icon_size: (dp(25), dp(25))
-                icon_padding: dp(20)
+                icon: 'narwhallet/core/kui/assets/screwdriver-wrench.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(22)
                 on_press: root.manager.current = 'settings_screen'
