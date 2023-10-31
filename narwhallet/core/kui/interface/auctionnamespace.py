@@ -241,7 +241,7 @@ class AuctionNamespaceScreen(Screen):
             _name = self.manager.namespace_screen.namespace_name
 
         _auc['displayName'] = _name
-        _auc['price'] = str(self.price.text)
+        _auc['price'] = float(self.price.text)
         _auc['desc'] = self.description.text
 
         # TODO: Add ui widgets for hashtags then reenable.
