@@ -1,0 +1,109 @@
+<NamespaceSelectPopup>
+    auto_dismiss: False
+    size_hint: 0.5, 0.5
+    wallets: wallets
+    namespaces: namespaces
+    btn_next: btn_next
+
+    GridLayout:
+        cols: 1
+
+        Header:
+            id: header
+            value: 'Select Namespace'
+
+        Nwboxlayout:
+            orientation: 'vertical'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(35)
+            orientation: 'horizontal'
+
+            Nwboxlayout:
+                orientation: 'vertical'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: 'Wallet:'
+                text_size: self.size
+                # padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(100)
+
+            Spinner:
+                id: wallets
+                halign: 'left'
+                valign: 'center'
+                _text: 'root.in_value'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(250)
+                on_text: root.wallet_changed()
+
+            Nwboxlayout:
+                orientation: 'vertical'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwboxlayout:
+                orientation: 'vertical'
+
+            Nwlabel:
+                halign: 'left'
+                valign: 'center'
+                _text: 'Namespace:'
+                text_size: self.size
+                # padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(350)
+
+            Nwboxlayout:
+                orientation: 'vertical'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(35)
+            orientation: 'horizontal'
+
+            Nwboxlayout:
+                orientation: 'vertical'
+
+            Spinner:
+                id: namespaces
+                halign: 'left'
+                valign: 'center'
+                _text: 'root.out_value'
+                text_size: self.size
+                size_hint_x: None
+                width: dp(350)
+                on_text: root.ns_changed()
+
+            Nwboxlayout:
+                orientation: 'vertical'
+
+        Nwboxlayout:
+            orientation: 'vertical'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(60)
+
+            Nwbutton:
+                _text: 'Cancel'
+                # icon: 'narwhallet/core/kui/assets/.png'
+                # icon_size: (dp(25), dp(25))
+                # icon_padding: dp(20)
+                on_release: root.dismiss()
+
+            Nwbutton:
+                id: btn_next
+                _text: 'Next'
+                # icon: 'narwhallet/core/kui/assets/.png'
+                # icon_size: (dp(25), dp(25))
+                # icon_padding: dp(20)
+                on_release: root.process_send()

@@ -62,6 +62,11 @@ class NamespaceScreen(Screen):
             _xdns = NamespaceInfo()
             _xdns.key = str(_kv['dkey'])
             _xdns.data = str(_kv['dvalue'])
+            _xdns.txid = str(_kv['txid'])
+            # NOTE Currently using the address assosiated with the
+            # specific key output. This may differ from current
+            # namespace owner address.
+            _xdns.addr = str(_kv['addr'])
             _xdns.sm = self.manager
 
             if self.owner == '':

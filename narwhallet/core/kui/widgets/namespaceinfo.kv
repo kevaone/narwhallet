@@ -23,6 +23,53 @@
         height: self.texture_size[1]
         on_texture_size: root.sizer()
 
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(25)
+
+        Nwlabel:
+            _text: ''
+            size_hint_x: None
+            width: dp(10)
+
+        Nwbutton:
+            _text: ' '
+            size_hint_x: None
+            width: dp(30)
+            icon: 'narwhallet/core/kui/assets/arrow-rotate-left.png'
+            icon_size: (dp(20), dp(20))
+            icon_padding: dp(0)
+            on_press: root.namespace_select_popup(2)
+
+        Nwlabel:
+            _text: ''
+            size_hint_x: None
+            width: dp(10)
+
+        Nwbutton:
+            _text: ' '
+            size_hint_x: None
+            width: dp(30)
+            icon: 'narwhallet/core/kui/assets/comment.png'
+            icon_size: (dp(20), dp(20))
+            icon_padding: dp(0)
+            on_press: root.namespace_select_popup(1)
+
+        Nwlabel:
+            _text: ''
+            size_hint_x: None
+            width: dp(10)
+
+        Nwbutton:
+            _text: ' '
+            size_hint_x: None
+            width: dp(30)
+            icon: 'narwhallet/core/kui/assets/heart.png'
+            icon_size: (dp(20), dp(20))
+            icon_padding: dp(0)
+            on_press: root.namespace_select_popup(3)
+
     Nwlabel:
         _text: root.data
         padding: [5, 5, 5, 5]

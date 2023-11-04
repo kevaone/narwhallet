@@ -40,16 +40,27 @@ class CreateNamespaceKeyScreen(Screen):
         self.txsize = ''
         self.txhex = ''
         self.wallet: MWallet
+        self.isReward: bool = False
+        self.ns_key: bytes = b''
         
-    def populate(self):
-        self.wallet = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+    def populate(self, wallet=None, reward_address=None):
+        if wallet is None:
+            self.wallet = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+            self.namespace_name.text = self.manager.namespace_screen.namespaceid
+            self.namespace_address.text = self.manager.namespace_screen.owner
+        else:
+            self.wallet = self.manager.wallets.get_wallet_by_name(wallet)
         self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)
-        self.namespace_name.text = self.manager.namespace_screen.namespaceid
+        
         self.namespace_key.text = ''
         self.namespace_value.text = ''
-        self.namespace_address.text = self.manager.namespace_screen.owner
+
+        if reward_address is not None:
+            self.isReward = True
+            self.reward_address = reward_address
+        
         self.input_value = 0
         self.output_value = 0
         self.change_value = 0
@@ -128,6 +139,12 @@ class CreateNamespaceKeyScreen(Screen):
                 _b = self.check_key(False)
 
             if _a and _b is True:
+                if self.isReward == True:
+                    try:
+                        _ = float(self.namespace_value.text)
+                    except:
+                        self.btn_send.disabled = True
+                        return False                
                 self.btn_send.disabled = False
                 return True
 
@@ -155,12 +172,27 @@ class CreateNamespaceKeyScreen(Screen):
 
     def set_output(self):
         _amount = NS_RESERVATION
-        _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.namespace_key.text,
-                                             self.namespace_value.text, self.namespace_address.text)
-        _sh = Scripts.compile(_sh, True)
+        if self.isReward is False:
+            if self.ns_key != b'':
+                _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.ns_key,
+                                                    self.namespace_value.text, self.namespace_address.text)
+                _sh = Scripts.compile(_sh, True)
+            else:
+                _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.namespace_key.text,
+                                                    self.namespace_value.text, self.namespace_address.text)
+                _sh = Scripts.compile(_sh, True)
 
-        _ = self.new_tx.add_output(_amount, self.namespace_address.text)
-        self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
+            _ = self.new_tx.add_output(_amount, self.namespace_address.text)
+            self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
+        else:
+            _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.ns_key,
+                                                '', self.namespace_address.text)
+            _sh = Scripts.compile(_sh, True)
+
+            _ = self.new_tx.add_output(_amount, self.namespace_address.text)
+            self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
+            _reward_amount = Ut.to_sats(float(self.namespace_value.text))
+            _ = self.new_tx.add_output(_reward_amount, self.reward_address)
  
     def reset_transactions(self):
         self.raw_tx = ''
