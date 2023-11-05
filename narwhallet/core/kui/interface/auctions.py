@@ -36,9 +36,9 @@ class AuctionsScreen(Screen):
         _ns = _ns['result']
 
         if namespaceid in self.manager.favorites.favorites:
-            _fav = 'narwhallet/core/kui/assets/star.png'
-        else:
             _fav = 'narwhallet/core/kui/assets/star_dark.png'
+        else:
+            _fav = 'narwhallet/core/kui/assets/star.png'
 
         _dat = _ns['data']
         _dat.reverse()

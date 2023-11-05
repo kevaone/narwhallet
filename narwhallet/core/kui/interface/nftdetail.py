@@ -32,9 +32,9 @@ class NftDetailScreen(Screen):
         self.header.value = self.shortcode + ' ' + self.namespace_name
         self.owner = ''
         if namespaceid in self.manager.favorites.favorites:
-            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
-        else:
             self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
+        else:
+            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
         _dat = _ns['data']
         _dat.reverse()
@@ -76,11 +76,11 @@ class NftDetailScreen(Screen):
 
     def set_favorite(self):
         _add_fav = False
-        if self.favorite_source == 'narwhallet/core/kui/assets/star_dark.png':
-            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
+        if self.favorite_source == 'narwhallet/core/kui/assets/star.png':
+            self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
             _add_fav = True
         else:
-            self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
+            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
         if _add_fav:
             # TODO Validate inputs

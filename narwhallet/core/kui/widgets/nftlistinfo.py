@@ -31,11 +31,11 @@ class NftListInfo(BoxLayout):
 
     def set_favorite(self):
         _add_fav = False
-        if self.favorite_source == 'narwhallet/core/kui/assets/star_dark.png':
-            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
+        if self.favorite_source == 'narwhallet/core/kui/assets/star.png':
+            self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
             _add_fav = True
         else:
-            self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
+            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
         if _add_fav:
             # TODO Validate inputs

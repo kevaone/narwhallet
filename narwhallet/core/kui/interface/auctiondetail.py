@@ -28,9 +28,9 @@ class AuctionDetailScreen(Screen):
         _ns = _ns['result']
 
         if namespaceid in self.manager.favorites.favorites:
-            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
-        else:
             self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
+        else:
+            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
         self.namespace_name.text = str(_ns['name'])
         _dat = _ns['data']
@@ -69,11 +69,11 @@ class AuctionDetailScreen(Screen):
 
     def set_favorite(self):
         _add_fav = False
-        if self.favorite_source == 'narwhallet/core/kui/assets/star_dark.png':
-            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
+        if self.favorite_source == 'narwhallet/core/kui/assets/star.png':
+            self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
             _add_fav = True
         else:
-            self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
+            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
         if _add_fav:
             # TODO Validate inputs

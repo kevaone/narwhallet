@@ -45,9 +45,9 @@ class NamespaceScreen(Screen):
             self.auction_button.size = (0, 0)
 
         if namespaceid in self.manager.favorites.favorites:
-            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
-        else:
             self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
+        else:
+            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
         _ns = MShared.get_namespace(namespaceid, self.manager.kex)
         _ns = _ns['result']

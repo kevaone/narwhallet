@@ -26,9 +26,9 @@ class NamespacesScreen(Screen):
 
         for _n in _w.namespaces:
             if _n['namespaceid'] in self.manager.favorites.favorites:
-                _fav = 'narwhallet/core/kui/assets/star.png'
-            else:
                 _fav = 'narwhallet/core/kui/assets/star_dark.png'
+            else:
+                _fav = 'narwhallet/core/kui/assets/star.png'
             _ns = {
             'address': _n['namespaceid'],
             'shortcode': str(_n['shortcode']),

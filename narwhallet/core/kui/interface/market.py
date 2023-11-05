@@ -25,9 +25,9 @@ class MarketScreen(Screen):
 
         for result in _data['result']['data']:
             if result['nsid'] in self.manager.favorites.favorites:
-                _fav = 'narwhallet/core/kui/assets/star.png'
-            else:
                 _fav = 'narwhallet/core/kui/assets/star_dark.png'
+            else:
+                _fav = 'narwhallet/core/kui/assets/star.png'
 
             _auction = {
                 'time': result['time'],

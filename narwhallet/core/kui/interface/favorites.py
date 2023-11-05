@@ -22,7 +22,7 @@ class FavoritesScreen(Screen):
             except:
                 _name = _ns['name']
 
-            _fav = 'narwhallet/core/kui/assets/star.png'
+            _fav = 'narwhallet/core/kui/assets/star_dark.png'
             _ns = {
                 'address': favorite,
                 'shortcode': _ns['root_shortcode'],

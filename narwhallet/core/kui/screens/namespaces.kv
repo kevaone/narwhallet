@@ -40,7 +40,10 @@
 
             Nwbutton:
                 id: btn_create
-                _text: 'Create'
+                _text: 'Create Namespace'
+                icon: 'narwhallet/core/kui/assets/create.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(43)
                 on_press: root.manager.createnamespace_screen.populate()
 
         Nwgrid:
@@ -61,4 +64,7 @@
 
             Nwbutton:
                 _text: 'Wallet'
+                icon: 'narwhallet/core/kui/assets/wallet.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(24)
                 on_press: root.manager.current = 'wallet_screen'

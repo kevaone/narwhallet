@@ -31,43 +31,55 @@
 
             Nwbutton:
                 id: favorite
-                _text: 'Favorite'
+                _text: ' '
+                size_hint_x: None
+                width: dp(50)
                 icon: root.favorite_source
                 icon_size: (dp(25), dp(25))
-                icon_padding: dp(20)
+                icon_padding: dp(0)
                 on_press: root.set_favorite()
 
             Nwbutton:
                 id: btn_create
                 _text: 'Create Key'
+                icon: 'narwhallet/core/kui/assets/create.png'
+                icon_size: (dp(23), dp(20))
+                icon_padding: dp(29)
                 on_press: root.manager.createnamespacekey_screen.populate()
-
-            Nwbutton:
-                _text: 'Update Name'
-                icon: 'narwhallet/core/kui/assets/wrench_white.png'
-                icon_size: (dp(25), dp(25))
-                icon_padding: dp(20)
-                on_press: root.update_namespace_name()
 
             Nwbutton:
                 id: transfer_button
                 _text: 'Transfer'
-                icon: 'narwhallet/core/kui/assets/transfer_white.png'
+                icon: 'narwhallet/core/kui/assets/money-bill-transfer.png'
                 icon_size: (dp(25), dp(25))
-                icon_padding: dp(20)
+                icon_padding: dp(25)
                 on_press: root.transfer_namespace()
 
             Nwbutton:
                 id: auction_button
                 _text: 'Auction'
-                icon: 'narwhallet/core/kui/assets/medal2.png'
+                icon: 'narwhallet/core/kui/assets/gavel.png'
                 icon_size: (dp(25), dp(25))
-                icon_padding: dp(20)
+                icon_padding: dp(25)
                 on_press: root.auction_namespace()
 
             Nwbutton:
+                _text: ' '
+                size_hint_x: None
+                width: dp(50)
+                icon: 'narwhallet/core/kui/assets/wrench.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(0)
+                on_press: root.update_namespace_name()
+
+            Nwbutton:
                 id: info_button
-                _text: 'Info'
+                _text: ' '
+                size_hint_x: None
+                width: dp(50)
+                icon: 'narwhallet/core/kui/assets/circle-info.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(0)
                 on_press: root.info_popup()
 
         Nwboxlayout:
@@ -111,8 +123,14 @@
 
             Nwbutton:
                 _text: 'Wallet'
+                icon: 'narwhallet/core/kui/assets/wallet.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(24)
                 on_press: root.manager.current = 'wallet_screen'
 
             Nwbutton:
                 _text: 'Namespaces'
+                icon: 'narwhallet/core/kui/assets/database.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(35)
                 on_press: root.manager.current = 'namespaces_screen'

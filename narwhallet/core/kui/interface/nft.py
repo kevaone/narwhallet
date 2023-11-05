@@ -14,10 +14,10 @@ class NftScreen(Screen):
         for _w in self.manager.wallets.wallets:
             for address in _w.addresses.addresses:
                 for _us in address.namespaces:
-                    _fav = 'narwhallet/core/kui/assets/star_dark.png'
+                    _fav = 'narwhallet/core/kui/assets/star.png'
                     for favorite in self.manager.favorites.favorites:
                         if favorite == _us['namespaceid']:
-                            _fav = 'narwhallet/core/kui/assets/star.png'
+                            _fav = 'narwhallet/core/kui/assets/star_dark.png'
                             break
                     _ns = {
                         'namespaceid': _us['namespaceid'],
@@ -30,10 +30,10 @@ class NftScreen(Screen):
 
             for address in _w.change_addresses.addresses:
                 for _us in address.namespaces:
-                    _fav = 'narwhallet/core/kui/assets/star_dark.png'
+                    _fav = 'narwhallet/core/kui/assets/star.png'
                     for favorite in self.manager.favorites.favorites:
                         if favorite == _us['namespaceid']:
-                            _fav = 'narwhallet/core/kui/assets/star.png'
+                            _fav = 'narwhallet/core/kui/assets/star_dark.png'
                             break
                     _ns = {
                         'namespaceid': _us['namespaceid'],

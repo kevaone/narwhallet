@@ -31,9 +31,9 @@ class NamespaceAltScreen(Screen):
         _ns = _ns['result']
 
         if namespaceid in self.manager.favorites.favorites:
-            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
-        else:
             self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
+        else:
+            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
         self.namespace_name = str(_ns['name'])
         self.header.value = shortcode + ' ' + self.namespace_name
@@ -76,11 +76,11 @@ class NamespaceAltScreen(Screen):
 
     def set_favorite(self):
         _add_fav = False
-        if self.favorite_source == 'narwhallet/core/kui/assets/star_dark.png':
-            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
+        if self.favorite_source == 'narwhallet/core/kui/assets/star.png':
+            self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
             _add_fav = True
         else:
-            self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
+            self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
         if _add_fav:
             # TODO Validate inputs
