@@ -123,7 +123,13 @@ class SettingsScreen(Screen):
             _wallets.append(_w.name)
 
         self.wallets.values = _wallets
-        self.namespaces.disabled = True
+        self.wallets.text = self.settings.default_wallet
+
+        if self.wallets.text == '':
+            self.namespaces.disabled = True
+        else:
+            self.namespaces.text = self.settings.default_namespace[0]
+            self.namespaces.disabled = False
 
     def wallet_changed(self):
         self.owners = {}
@@ -145,6 +151,16 @@ class SettingsScreen(Screen):
 
         self.namespaces.values = _ns_list
         self.namespaces.disabled = False
+        self.namespaces.text = ''
+        self.settings.set_default_wallet(self.wallets.text)
+        self._save_settings()
+
+    def ns_changed(self):
+        if self.namespaces.text != '':
+            self.settings.set_default_namespace([self.namespaces.text, self.owners[self.namespaces.text]])
+        else:
+            self.settings.set_default_namespace(['', ''])
+        self._save_settings()
 
     def update_host(self):
         self.settings.electrumx_peers[0][1] = self.iserver_host.text
@@ -211,7 +227,7 @@ class SettingsScreen(Screen):
     def save_settings(self):
         self.app.ctrl.set_dat.save(json.dumps(self.settings.to_dict()))
         self.app.ctrl.set_dat.load()
-        self.app.ctrl.settings.from_dict(self.set_dat.data)
+        self.app.ctrl.settings.from_dict(self.app.ctrl.set_dat.data)
 
         self.app.ctrl.lang_dat.data['active'] = self.lang.values.index(self.lang.text)
         self.app.ctrl.lang_dat.save(json.dumps(self.app.ctrl.lang_dat.data))
