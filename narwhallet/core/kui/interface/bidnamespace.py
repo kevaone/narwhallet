@@ -4,6 +4,7 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
 from kivy.uix.image import Image
 from kivy.metrics import dp
+from kivy.app import App
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -52,9 +53,9 @@ class BidNamespaceScreen(Screen):
         
     def populate(self, namespaceid):
         self.header.value = 'Create Bid'
-        
+        self.app = App.get_running_app()
         _wallets = []
-        for _w in self.manager.wallets.wallets:
+        for _w in self.app.ctrl.wallets.wallets:
             _wallets.append(_w.name)
 
         self.wallet_name.values = _wallets
@@ -91,7 +92,7 @@ class BidNamespaceScreen(Screen):
         self.manager.current = 'bidnamespace_screen'
 
     def wallet_changed(self):
-        self.wallet = self.manager.wallets.get_wallet_by_name(self.wallet_name.text)
+        self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.wallet_name.text)
         if self.wallet is None:
             return
 

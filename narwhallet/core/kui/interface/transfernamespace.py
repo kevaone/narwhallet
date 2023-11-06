@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
@@ -45,7 +46,8 @@ class TransferNamespaceScreen(Screen):
         self.wallet: MWallet
         
     def populate(self):
-        self.wallet = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+        app = App.get_running_app()
+        self.wallet = app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)

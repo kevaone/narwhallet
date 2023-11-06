@@ -3,6 +3,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.metrics import dp
+from kivy.app import App
 from kivy.properties import NumericProperty
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
@@ -47,7 +48,8 @@ class AuctionNamespaceScreen(Screen):
         self.wallet: MWallet
         
     def populate(self):
-        self.wallet = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+        self.app = App.get_running_app()
+        self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)
@@ -310,7 +312,7 @@ class AuctionNamespaceScreen(Screen):
         if self.wallet is not None:
             _addr = self.wallet.get_unused_address()
             self.payment_address.text = _addr
-            self.manager.wallets.save_wallet(self.wallet.name)
+            self.app.ctrl.wallets.save_wallet(self.wallet.name)
 
     def process_send(self):
         send_popup = Nwsendpopup()

@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kcl.wallet import MWallet
 from kivy.uix.textinput import TextInput
@@ -26,7 +27,8 @@ class UtilsScreen(Screen):
     def populate(self):
         self.reset_screen()
         self.wallet_name.values = []
-        for _w in self.manager.wallets.wallets:
+        self.app = App.get_running_app()
+        for _w in self.app.ctrl.wallets.wallets:
             if _w.kind == EWalletKind.NORMAL:
                 self.wallet_name.values.append(_w.name)
         self.manager.current = 'utils_screen'
@@ -51,7 +53,7 @@ class UtilsScreen(Screen):
         _v = []
         
         if self.wallet_name.text != '-':
-            self._w = self.manager.wallets.get_wallet_by_name(self.wallet_name.text)
+            self._w = self.app.ctrl.wallets.get_wallet_by_name(self.wallet_name.text)
             if self._w is not None:
                 for index in range(0, self._w.addresses.count):
                     _addr = self._w.addresses.get_address_by_index(index)

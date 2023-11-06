@@ -2,6 +2,7 @@
     address_list: address_list
     header: header
     btn_add: btn_add
+    # spn_sort: spn_sort
 
     GridLayout:
         size: root.width, root.height
@@ -42,6 +43,10 @@
                 id: btn_add
                 _text: 'Increase Pool'
                 on_press: root.btn_add_click()
+
+            # Nwspinner:
+            #     id: spn_sort
+            #     # _text: 'hi'
 
         Nwgrid:
             id: address_list

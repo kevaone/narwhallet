@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kcl.wallet import MWallet
 from kivy.uix.textinput import TextInput
@@ -50,9 +51,9 @@ class RestoreScreen(Screen):
         if self._w.bip == 'bip49' and self._w.mnemonic != '':
             # TODO Pass password if advanced enabled
             self._w.generate_seed('')
-        
-        self.manager.wallets.from_mwallet(self._w)
-        self.manager.wallets.save_wallet(self._w.name)
+        app = App.get_running_app()
+        app.ctrl.wallets.from_mwallet(self._w)
+        app.ctrl.wallets.save_wallet(self._w.name)
 
         self.manager.home_screen.populate()
         self.manager.wallet_screen.populate(self._w.name)

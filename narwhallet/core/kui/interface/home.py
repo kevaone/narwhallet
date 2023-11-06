@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kui.widgets.nwgrid import Nwgrid
 from narwhallet.control.shared import MShared
@@ -9,9 +10,10 @@ class HomeScreen(Screen):
     header = Header()
 
     def populate(self):
+        app = App.get_running_app()
         self.wallet_list.data = []
         
-        for _w in self.manager.wallets.wallets:
+        for _w in app.ctrl.wallets.wallets:
             if _w is not None:
                 _t = {}
                 _t['wallet_name'] = _w.name

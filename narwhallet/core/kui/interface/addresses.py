@@ -5,6 +5,7 @@ from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.header import Header
+# from narwhallet.core.kui.widgets.nwspinner import Nwspinner
 
 
 class AddressesScreen(Screen):
@@ -12,6 +13,7 @@ class AddressesScreen(Screen):
     wallet_name = Nwlabel()
     header = Header()
     btn_add = Nwbutton()
+    # spn_sort = Nwspinner()
 
     def __init__(self, **kwargs):
         super(AddressesScreen, self).__init__(**kwargs)
@@ -19,8 +21,10 @@ class AddressesScreen(Screen):
     def populate(self, wallet_name):
         self.header.value = wallet_name
         self.address_list.data = []
-        _w = self.manager.wallets.get_wallet_by_name(wallet_name)
+        self.app = App.get_running_app()
+        _w = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
         _addr = []
+        # self.spn_sort.values = [['', 'narwhallet/core/kui/assets/balance-sort-up.png'],['', 'narwhallet/core/kui/assets/balance-sort-down.png']]
         if _w is not None:
             if _w.kind == EWalletKind.NORMAL:
                 self.btn_add._text = 'Increase Pool'
@@ -58,11 +62,11 @@ class AddressesScreen(Screen):
         self.manager.current = 'addresses_screen'
 
     def increase_address_pool(self):
-        _w = self.manager.wallets.get_wallet_by_name(self.header.value)
+        _w = self.app.ctrl.wallets.get_wallet_by_name(self.header.value)
         _ = _w.get_unused_address()
-        self.manager.wallets.save_wallet(_w.name)
-        app = App.get_running_app()
-        self.manager.wallet_screen.btn_addresses.text = app.translate_text('Addresses') + ' (' + str(_w.account_index + _w.change_index) + ')'
+        self.app.ctrl.wallets.save_wallet(_w.name)
+        # app = App.get_running_app()
+        self.manager.wallet_screen.btn_addresses.text = self.app.translate_text('Addresses') + ' (' + str(_w.account_index + _w.change_index) + ')'
         self.populate(self.header.value)
 
     def add_watch_address(self):

@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.modalview import ModalView
 from kivy.uix.spinner import Spinner
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -27,16 +28,17 @@ class NamespaceSelectPopup(ModalView):
         self.namespaces.values = []
         self.namespaces.disabled = True
         self.btn_next.disabled = True
+        self.app = App.get_running_app()
         
         _wallets = []
-        for _w in self.manager.wallets.wallets:
+        for _w in self.app.ctrl.wallets.wallets:
             _wallets.append(_w.name)
 
         self.wallets.values = _wallets
 
 
     def wallet_changed(self):
-        self.wallet = self.manager.wallets.get_wallet_by_name(self.wallets.text)
+        self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.wallets.text)
         if self.wallet is None:
             return
 

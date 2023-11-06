@@ -2,6 +2,7 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.metrics import dp
+from kivy.app import App
 from kivy.properties import NumericProperty
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -44,12 +45,13 @@ class CreateNamespaceKeyScreen(Screen):
         self.ns_key: bytes = b''
         
     def populate(self, wallet=None, reward_address=None):
+        self.app = App.get_running_app()
         if wallet is None:
-            self.wallet = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+            self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
             self.namespace_name.text = self.manager.namespace_screen.namespaceid
             self.namespace_address.text = self.manager.namespace_screen.owner
         else:
-            self.wallet = self.manager.wallets.get_wallet_by_name(wallet)
+            self.wallet = self.app.ctrl.wallets.get_wallet_by_name(wallet)
         self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)
@@ -244,7 +246,7 @@ class CreateNamespaceKeyScreen(Screen):
         _ = self.manager.kex.peers[self.manager.kex.active_peer].disconnect()
         _update_time = MShared.get_timestamp()
         self.wallet.set_last_updated(_update_time[0])
-        self.manager.wallets.save_wallet(self.wallet.name)
+        self.app.ctrl.wallets.save_wallet(self.wallet.name)
 
     def process_send(self):
         send_popup = Nwsendpopup()

@@ -32,10 +32,13 @@ class SettingsScreen(Screen):
     show_change = Nwtogglebutton()
     connection_status = StringProperty()
     lang = Spinner()
+    wallets = Spinner()
+    namespaces = Spinner()
 
     def load_settings(self):
         self.app = App.get_running_app()
         self.settings = self.app.ctrl.settings
+        self.owners = {}
 
         if self.settings.show_change:
             self.show_change.state = 'down'
@@ -107,6 +110,34 @@ class SettingsScreen(Screen):
         # _special_keys = ConfigLoader(os.path.join(self.user_path,
         #                                           'special_keys.json'))
         # _special_keys.load()
+
+        _wallets = []
+        for _w in self.app.ctrl.wallets.wallets:
+            _wallets.append(_w.name)
+
+        self.wallets.values = _wallets
+        self.namespaces.disabled = True
+
+    def wallet_changed(self):
+        self.owners = {}
+        self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.wallets.text)
+        if self.wallet is None:
+            return
+
+        _ns_list = []
+
+        for address in self.wallet.addresses.addresses:
+            for ns in address.namespaces:
+                _ns_list.append(ns['namespaceid'])
+                self.owners[ns['namespaceid']] = address.address
+
+        for address in self.wallet.change_addresses.addresses:
+            for ns in address.namespaces:
+                _ns_list.append(ns['namespaceid'])
+                self.owners[ns['namespaceid']] = address.address
+
+        self.namespaces.values = _ns_list
+        self.namespaces.disabled = False
 
     def update_host(self):
         self.settings.electrumx_peers[0][1] = self.iserver_host.text

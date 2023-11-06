@@ -2,6 +2,7 @@ from kivy.uix.image import Image
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, StringProperty
 from kivy.metrics import dp
+from kivy.app import App
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.favorites.favorite import MFavorite
 from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
@@ -30,8 +31,8 @@ class NamespaceScreen(Screen):
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.namespaceid = namespaceid
-        
-        _w = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+        app = App.get_running_app()
+        _w = app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         if _w is None:
             return
 

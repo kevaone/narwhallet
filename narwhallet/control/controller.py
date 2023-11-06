@@ -3,6 +3,7 @@ import shutil
 from kivy.utils import platform
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
 from narwhallet.core.kcl.file_utils.io import ConfigLoader
+from narwhallet.core.kcl.wallet.wallets import MWallets
 
 
 class Controller():
@@ -17,6 +18,9 @@ class Controller():
                                                  'settings.json'))
         self.set_dat.load()
         self.settings.from_dict(self.set_dat.data)
+
+        self.wallets = MWallets()
+        self.load_wallets()
 
     def set_paths(self, program_path) -> str:
         if platform != 'android':
@@ -76,3 +80,11 @@ class Controller():
                                         'config/translations.json'), _narwhallet_path)
 
         return _narwhallet_path
+
+    def load_wallets(self):
+        self.wallets.set_root_path(os.path.join(self.user_path, 'wallets'))
+
+        for file in os.listdir(self.wallets.root_path):
+            _tf = os.path.isdir(os.path.join(self.wallets.root_path, file))
+            if _tf is False:
+                self.wallets.load_wallet(file)

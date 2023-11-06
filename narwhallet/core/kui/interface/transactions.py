@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kui.widgets.nwgrid import Nwgrid
 from narwhallet.core.kui.widgets.header import Header
@@ -18,7 +19,8 @@ class TransactionsScreen(Screen):
         self.transaction_list.children[0].rows = 0
         self.transaction_list.data = []
         self.transaction_list.scroll_y = 1
-        _w = self.manager.wallets.get_wallet_by_name(wallet_name)
+        app = App.get_running_app()
+        _w = app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self.header.value = wallet_name
         _transactions = 0
         _txd = []

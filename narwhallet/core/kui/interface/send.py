@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
@@ -34,7 +35,8 @@ class SendScreen(Screen):
         self.txhex = ''
         
     def populate(self, wallet_name):
-        self.wallet = self.manager.wallets.get_wallet_by_name(wallet_name)
+        app = App.get_running_app()
+        self.wallet = app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.send_to.text = ''

@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
@@ -14,8 +15,8 @@ class NamespacesScreen(Screen):
         self.header.value = self.manager.wallet_screen.header.value
         self.namespaces_list.scroll_y = 1
         self.namespaces_list.data = []
-        
-        _w = self.manager.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+        app = App.get_running_app()
+        _w = app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         if _w is None:
             return
 

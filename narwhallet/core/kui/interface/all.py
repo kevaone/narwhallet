@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kui.widgets.nwgrid import Nwgrid
 from narwhallet.core.kui.widgets.header import Header
@@ -10,8 +11,9 @@ class AllScreen(Screen):
     def populate(self):
         self.header.value = 'All'
         self.all_list.data = []
+        app = App.get_running_app()
 
-        for _w in self.manager.wallets.wallets:
+        for _w in self.app.ctrl.wallets.wallets:
             for address in _w.addresses.addresses:
                 for _us in address.namespaces:
                     _fav = 'narwhallet/core/kui/assets/star.png'

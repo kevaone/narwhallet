@@ -38,7 +38,8 @@ class WalletScreen(Screen):
         self.anim.repeat = True
 
     def populate(self, wallet_name):
-        _w = self.manager.wallets.get_wallet_by_name(wallet_name)
+        self.app = App.get_running_app()
+        _w = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
 
         if _w is not None:
             if _w.kind == EWalletKind.NORMAL:
@@ -75,7 +76,7 @@ class WalletScreen(Screen):
         threading.Thread(target=self._update_wallet).start()
 
     def _update_wallet(self, dt=None):
-        wallet: MWallet = self.manager.wallets.get_wallet_by_name(self.header.value)
+        wallet: MWallet = self.app.ctrl.wallets.get_wallet_by_name(self.header.value)
 
         if wallet is None:
             return False
@@ -87,7 +88,7 @@ class WalletScreen(Screen):
         _ = self.manager.kex.peers[self.manager.kex.active_peer].disconnect()
         _update_time = MShared.get_timestamp()
         wallet.set_last_updated(_update_time[0])
-        self.manager.wallets.save_wallet(wallet.name)
+        self.app.ctrl.wallets.save_wallet(wallet.name)
         
         self.populate(wallet.name)
         Clock.schedule_once(self._animate_loading_stop, 0)

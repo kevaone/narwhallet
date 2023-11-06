@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
@@ -13,8 +14,9 @@ class ReceiveScreen(Screen):
     header = Header()
 
     def populate(self, wallet_name):
+        self.app = App.get_running_app()
         self.address.text = ''
-        _w: MWallet = self.manager.wallets.get_wallet_by_name(wallet_name)
+        _w: MWallet = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self.header.value = wallet_name
         
         if _w is not None:
@@ -26,9 +28,9 @@ class ReceiveScreen(Screen):
         self.manager.current = 'receive_screen'
 
     def save(self):
-        _w: MWallet = self.manager.wallets.get_wallet_by_name(self.header.value)
+        _w: MWallet = self.app.ctrl.wallets.get_wallet_by_name(self.header.value)
         _addr = _w.addresses.get_address_by_name(self.address.text)
         _addr.set_label(self.label.text)
-        self.manager.wallets.save_wallet(_w.name)
+        self.app.ctrl.wallets.save_wallet(_w.name)
 
         self.manager.current = 'wallet_screen'

@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kcl.wallet import MWallet
 from narwhallet.control.shared import MShared
@@ -22,7 +23,8 @@ class WalletInfoScreen(Screen):
     header = Header()
 
     def populate(self, name):
-        _w: MWallet = self.manager.wallets.get_wallet_by_name(name)
+        app = App.get_running_app()
+        _w: MWallet = app.ctrl.wallets.get_wallet_by_name(name)
 
         if _w is not None:
             self.header.value = _w.name

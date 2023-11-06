@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.uix.gridlayout import GridLayout
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
@@ -16,7 +17,8 @@ class AddressScreen(Screen):
 
     def populate(self, wallet_name, address):
         self.transaction_list.data = []
-        _w = self.manager.wallets.get_wallet_by_name(wallet_name)
+        app = App.get_running_app()
+        _w = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self.header.value = wallet_name
         
         _addrs = []

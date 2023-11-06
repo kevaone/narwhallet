@@ -1,4 +1,5 @@
 import json
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
@@ -50,8 +51,9 @@ class AcceptNamespaceBidScreen(Screen):
     def populate(self, txid, namespaceid, namespace_address):
         self.header.value = 'Accept Bid'
         self.bid_tx.text = txid
+        app = App.get_running_app()
         
-        for _w in self.manager.wallets.wallets:
+        for _w in self.app.ctrl.wallets.wallets:
             for _a in _w.addresses.addresses:
                 if _a.address == namespace_address:
                     

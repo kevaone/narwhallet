@@ -21,6 +21,8 @@
     show_change: show_change
     connection_status: ''
     lang: lang
+    wallets: wallets
+    namespaces: namespaces
 
     GridLayout:
         size_hint: None, None
@@ -119,6 +121,64 @@
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_show_change_option()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        _text: 'Default Wallet:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(150)
+
+                    Spinner:
+                        id: wallets
+                        halign: 'left'
+                        valign: 'center'
+                        _text: 'root.in_value'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(250)
+                        on_text: root.wallet_changed()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        _text: 'Default Namespace:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(350)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        _text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                    Spinner:
+                        id: namespaces
+                        halign: 'left'
+                        valign: 'center'
+                        _text: 'root.out_value'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(350)
+                        # on_text: root.ns_changed()
 
                 Nwboxlayout:
                     size_hint_y: None

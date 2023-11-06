@@ -1,4 +1,5 @@
 import json
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from narwhallet.control.shared import MShared
@@ -13,8 +14,9 @@ class AuctionsScreen(Screen):
         self.auction_list.data = []
         self.header.value = 'My Auctions'
         self.manager.current = 'auctions_screen'
+        app = App.get_running_app()
 
-        for _w in self.manager.wallets.wallets:
+        for _w in app.ctrl.wallets.wallets:
             for address in _w.addresses.addresses:
                 for _ns in address.namespaces:
                     if 'active_auction' in _ns:

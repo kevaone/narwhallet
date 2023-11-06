@@ -4,10 +4,8 @@ from kivy.uix.screenmanager import ScreenManager
 from kivy.core.clipboard import Clipboard
 from narwhallet.core.kcl.enums.mediatypes import content_type
 from narwhallet.core.kcl.favorites.favorites import MFavorites
-from narwhallet.core.kcl.file_utils.io import _loader
 from narwhallet.core.kcl.mymedia.mymedia import MMyMedia
 from narwhallet.core.kex import KEXclient
-from narwhallet.core.kcl.wallet import MWallets
 from narwhallet.core.kex.cmd import _custom
 from narwhallet.core.kex.peer import _peer
 from narwhallet.core.kui.widgets.walletlistinfo import WalletListInfo
@@ -115,19 +113,10 @@ class NarwhalletScreens(ScreenManager):
     def __init__(self, **kwargs):
         super(NarwhalletScreens, self).__init__(**kwargs)
 
-        self.wallets = MWallets()
         self.address_book: MBookAddresses = MBookAddresses()
         self.favorites: MFavorites = MFavorites()
         self.mymedia: MMyMedia = MMyMedia()
         self.program_path = ''
-
-    def load_wallets(self):
-        self.wallets.set_root_path(os.path.join(self.user_path, 'wallets'))
-
-        for file in os.listdir(self.wallets.root_path):
-            _tf = os.path.isdir(os.path.join(self.wallets.root_path, file))
-            if _tf is False:
-                self.wallets.load_wallet(file)
 
     def setup(self, _user_path):
         self.user_path = _user_path
@@ -140,7 +129,6 @@ class NarwhalletScreens(ScreenManager):
         _connection_status = self.kex.peers[self.kex.active_peer].connect()
         self.settings_screen.connection_status = _connection_status
         
-        self.load_wallets()
         self.home_screen.populate()
 
     def copy_to_clipboard(self, data):
