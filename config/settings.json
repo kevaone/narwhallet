@@ -10,6 +10,8 @@
     "content_providers": [
         ["KevaOne API", "kva.keva.one", "443", true, true]
     ],
+    "defualt_wallet": "",
+    "default_namespace": ["", ""],
     "electrumx_peers": [
         ["Kevacoin", "kva.keva.one", "443", true, true], ["Local", "127.0.0.1", "50001", false, false]
     ],

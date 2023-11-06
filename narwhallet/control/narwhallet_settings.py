@@ -4,15 +4,17 @@ from typing import List
 class MNarwhalletSettings():
     def __init__(self):
         self._auto_lock_timer: int = 60
+        self._content_providers: List[list] = []
+        self._default_wallet: str = ''
+        self._default_namespace: List[str] = ['', '']
         self._electrumx_auto_connect: bool = False
         self._electrumx_peers: List[list] = []
         self._enabled_coins: list = ['KEVACOIN']
+        self._ipfs_providers: List[str] = []
+        self._primary_ipfs_provider: int = -1
         self._primary_peer: int = -1
         self._show_change: bool = False
         self._sync: dict = {}
-        self._ipfs_providers: List[str] = []
-        self._primary_ipfs_provider: int = -1
-        self._content_providers: List[list] = []
 
     @property
     def auto_lock_timer(self) -> int:
@@ -21,6 +23,14 @@ class MNarwhalletSettings():
     @property
     def content_providers(self) -> List[list]:
         return self._content_providers
+
+    @property
+    def default_wallet(self) -> str:
+        return self._default_wallet
+
+    @property
+    def default_namespace(self) -> List[str]:
+        return self._default_namespace
 
     @property
     def electrumx_auto_connect(self) -> bool:
@@ -76,6 +86,12 @@ class MNarwhalletSettings():
     def set_content_providers(self, providers: List[list]) -> None:
         self._content_providers = providers
     
+    def set_default_wallet(self, wallet: str) -> None:
+        self._default_wallet = wallet
+
+    def set_default_namespace(self, namespace: str, owner: str) -> None:
+        self._default_namespace = [namespace, owner]
+
     def set_electrumx_peers(self, peers: List[list]) -> None:
         self._electrumx_peers = peers
 
@@ -103,6 +119,7 @@ class MNarwhalletSettings():
     def from_dict(self, _d: dict) -> None:
         if 'auto_lock_timer' in _d:
             self.set_auto_lock_timer(_d['auto_lock_timer'])
+
         if 'content_providers' in _d:
             if len(_d['content_providers']) == 0:
                 self.set_content_providers([['', '', '', False, False]])
@@ -110,8 +127,16 @@ class MNarwhalletSettings():
                 self.set_content_providers(_d['content_providers'])
         else:
             self.set_content_providers([['', '', '', False, False]])
+
+        if 'default_wallet' in _d:
+            self.set_default_wallet(_d['default_wallet'])
+
+        if 'default_namespace' in _d:
+            self.set_default_namespace(_d['default_namespace'])
+
         self.set_electrumx_auto_connect(_d['electrumx_auto_connect'])
         self.set_electrumx_peers(_d['electrumx_peers'])
+
         if 'ipfs_providers' in _d:
             if len(_d['ipfs_providers']) == 0:
                 self.set_ipfs_providers(['', ''])
@@ -119,9 +144,10 @@ class MNarwhalletSettings():
                 self.set_ipfs_providers(_d['ipfs_providers'])
         else:
             self.set_ipfs_providers(['', ''])
+
         if 'enabled_coins' in _d:
             self.set_enabled_coins(_d['enabled_coins'])
-        # TEMP Check to prevent error, remove after participients have update
+
         if 'primary_peer' in _d:
             self.set_primary_peer(_d['primary_peer'])
         else:
@@ -134,12 +160,15 @@ class MNarwhalletSettings():
 
         if 'show_change' in _d:
             self.set_show_change(_d['show_change'])
+
         self.set_sync(_d['sync'])
 
     def to_dict(self) -> dict:
         _d = {}
         _d['auto_lock_timer'] = self.auto_lock_timer
         _d['content_providers'] = self.content_providers
+        _d['default_wallet'] = self.default_wallet
+        _d['default_namespace'] = self.default_namespace
         _d['electrumx_auto_connect'] = self.electrumx_auto_connect
         _d['electrumx_peers'] = self.electrumx_peers
         _d['ipfs_providers'] = self.ipfs_providers
