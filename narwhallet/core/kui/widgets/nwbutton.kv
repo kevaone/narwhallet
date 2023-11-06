@@ -10,7 +10,8 @@
             border: self.border
             pos: self.pos
             size: self.size
-            source: self.disabled_image if self.disabled else self.state_image
+            source: self.state_image
+            # source: self.disabled_image if self.disabled else self.state_image
 
         Color:
             rgba: (1, 1, 1, 1) if root.icon != None and root.icon != '' else (1,1,1,0)

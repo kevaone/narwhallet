@@ -45,4 +45,3 @@ class Nwbutton(Button):
 
     def on__text(self, *args):
         self.translate_text()
-
