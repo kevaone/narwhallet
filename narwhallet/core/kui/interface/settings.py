@@ -1,11 +1,9 @@
 import json
-import os
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
-from narwhallet.control.narwhallet_settings import MNarwhalletSettings
-from narwhallet.core.kcl.file_utils import ConfigLoader
+# from narwhallet.core.kcl.file_utils import ConfigLoader
 from kivy.properties import StringProperty
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwtogglebutton import Nwtogglebutton
@@ -36,14 +34,8 @@ class SettingsScreen(Screen):
     lang = Spinner()
 
     def load_settings(self):
-        app = App.get_running_app()
-        # TODO Clean up
-        self.settings: MNarwhalletSettings = MNarwhalletSettings()
-        self.user_path = self.manager.user_path
-        self.set_dat = ConfigLoader(os.path.join(self.user_path,
-                                                 'settings.json'))
-        self.set_dat.load()
-        self.settings.from_dict(self.set_dat.data)
+        self.app = App.get_running_app()
+        self.settings = self.app.ctrl.settings
 
         if self.settings.show_change:
             self.show_change.state = 'down'
@@ -51,11 +43,11 @@ class SettingsScreen(Screen):
             self.show_change.state = 'normal'
 
         _alang = []
-        for _lang in app.lang_dat.data['available']:
+        for _lang in self.app.ctrl.lang_dat.data['available']:
             _alang.append(_lang[0])
 
         self.lang.values = _alang
-        self.lang.text = app.lang_dat.data['available'][app.lang_dat.data['active']][0]
+        self.lang.text = self.app.ctrl.lang_dat.data['available'][self.app.ctrl.lang_dat.data['active']][0]
 
         self.manager.kex.active_peer = self.settings.primary_peer
 
@@ -112,9 +104,9 @@ class SettingsScreen(Screen):
             self.iserver_ipfs_0.state = 'normal'
             self.iserver_ipfs_1.state = 'down'
 
-        _special_keys = ConfigLoader(os.path.join(self.user_path,
-                                                  'special_keys.json'))
-        _special_keys.load()
+        # _special_keys = ConfigLoader(os.path.join(self.user_path,
+        #                                           'special_keys.json'))
+        # _special_keys.load()
 
     def update_host(self):
         self.settings.electrumx_peers[0][1] = self.iserver_host.text
@@ -168,10 +160,9 @@ class SettingsScreen(Screen):
         self.save_settings()
 
     def save_settings(self):
-        self.set_dat.save(json.dumps(self.settings.to_dict()))
+        self.app.ctrl.set_dat.save(json.dumps(self.settings.to_dict()))
 
     def update_lang(self):
-        app = App.get_running_app()
-        app.lang_dat.data['active'] = self.lang.values.index(self.lang.text)
-        app.lang_dat.save(json.dumps(app.lang_dat.data))
-        app.lang = app.lang_dat.data['active']
+        self.app.ctrl.lang_dat.data['active'] = self.lang.values.index(self.lang.text)
+        self.app.ctrl.lang_dat.save(json.dumps(self.app.ctrl.lang_dat.data))
+        self.app.lang = self.app.ctrl.lang_dat.data['active']
