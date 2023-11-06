@@ -1,3 +1,4 @@
+from copy import deepcopy
 import json
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
@@ -6,6 +7,7 @@ from kivy.uix.spinner import Spinner
 # from narwhallet.core.kcl.file_utils import ConfigLoader
 from kivy.properties import StringProperty
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwtogglebutton import Nwtogglebutton
 
 
@@ -34,11 +36,16 @@ class SettingsScreen(Screen):
     lang = Spinner()
     wallets = Spinner()
     namespaces = Spinner()
+    btn_save = Nwbutton()
+    btn_home = Nwbutton()
 
     def load_settings(self):
         self.app = App.get_running_app()
-        self.settings = self.app.ctrl.settings
+        self.settings = deepcopy(self.app.ctrl.settings)
         self.owners = {}
+        self.btn_save.disabled = True
+        self.btn_save.icon = 'narwhallet/core/kui/assets/disabled_save.png'
+        self.btn_home._text = 'Home'
 
         if self.settings.show_change:
             self.show_change.state = 'down'
@@ -141,36 +148,36 @@ class SettingsScreen(Screen):
 
     def update_host(self):
         self.settings.electrumx_peers[0][1] = self.iserver_host.text
-        self.save_settings()
+        self._save_settings()
 
     def update_port(self):
         self.settings.electrumx_peers[0][2] = self.iserver_port.text
-        self.save_settings()
+        self._save_settings()
 
     def update_althost(self):
         self.settings.electrumx_peers[1][1] = self.iserver_althost.text
-        self.save_settings()
+        self._save_settings()
 
     def update_altport(self):
         self.settings.electrumx_peers[1][2] = self.iserver_altport.text
-        self.save_settings()
+        self._save_settings()
 
     def update_ipfs(self):
         self.settings.ipfs_providers[0] = self.ipfs_gateway.text
-        self.save_settings()
+        self._save_settings()
 
     def update_altipfs(self):
         self.settings.ipfs_providers[1] = self.ipfs_gateway_alt.text
-        self.save_settings()
+        self._save_settings()
 
     def update_active(self, value):
         self.settings.set_primary_peer(value)
-        self.save_settings()
+        self._save_settings()
         self.connection_status = self.manager.kex.peers[value].connect()
 
     def update_ipfs_active(self, value):
         self.settings.set_primary_ipfs_provider(value)
-        self.save_settings()
+        self._save_settings()
 
     def update_ssl_option(self, server, option, setting):
         if option not in (3, 4):
@@ -180,7 +187,7 @@ class SettingsScreen(Screen):
             return
 
         self.settings.electrumx_peers[server][option] = setting
-        self.save_settings()
+        self._save_settings()
 
     def update_show_change_option(self):
         if self.show_change.state == 'down':
@@ -188,12 +195,32 @@ class SettingsScreen(Screen):
         else:
             self.settings.set_show_change(False)
         
-        self.save_settings()
+        self._save_settings()
+
+    def _save_settings(self):
+        if self.settings.to_dict() == self.app.ctrl.settings.to_dict() and self.app.ctrl.lang_dat.data['active'] == self.lang.values.index(self.lang.text):
+            self.btn_home._text = 'Home'
+            self.btn_save.disabled = True
+            self.btn_save.icon = 'narwhallet/core/kui/assets/disabled_save.png'
+            return
+        
+        self.btn_home._text = 'Cancel'
+        self.btn_save.disabled = False
+        self.btn_save.icon = 'narwhallet/core/kui/assets/save.png'
 
     def save_settings(self):
         self.app.ctrl.set_dat.save(json.dumps(self.settings.to_dict()))
+        self.app.ctrl.set_dat.load()
+        self.app.ctrl.settings.from_dict(self.set_dat.data)
 
-    def update_lang(self):
         self.app.ctrl.lang_dat.data['active'] = self.lang.values.index(self.lang.text)
         self.app.ctrl.lang_dat.save(json.dumps(self.app.ctrl.lang_dat.data))
+
+    def update_lang(self):
+        self.app.lang = self.lang.values.index(self.lang.text)
+        self._save_settings()
+
+    def cancel(self):
         self.app.lang = self.app.ctrl.lang_dat.data['active']
+        self.lang.text = self.app.ctrl.lang_dat.data['available'][self.app.ctrl.lang_dat.data['active']][0]
+        self.manager.current = 'home_screen'

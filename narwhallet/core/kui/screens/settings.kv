@@ -23,6 +23,8 @@
     lang: lang
     wallets: wallets
     namespaces: namespaces
+    btn_save: btn_save
+    btn_home: btn_home
 
     GridLayout:
         size_hint: None, None
@@ -52,7 +54,7 @@
                         pos: self.pos
                         size: self.size
                 size_hint_y: None
-                rows: 21
+                rows: 23
                 height: dp(35) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(35) * self.rows + (dp(10)*self.rows)
                 cols: 1
                 spacing: dp(5)
@@ -619,8 +621,17 @@
             orientation: 'horizontal'
 
             Nwbutton:
+                id: btn_home
                 _text: 'Home'
                 icon: 'narwhallet/core/kui/assets/home_white.png'
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(20)
-                on_press: root.manager.current = 'home_screen'
+                on_press: root.cancel()
+
+            Nwbutton:
+                id: btn_save
+                _text: 'Save'
+                icon: 'narwhallet/core/kui/assets/save.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(20)
+                on_press: root.save_settings()
