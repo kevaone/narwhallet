@@ -89,8 +89,8 @@ class MNarwhalletSettings():
     def set_default_wallet(self, wallet: str) -> None:
         self._default_wallet = wallet
 
-    def set_default_namespace(self, namespace: str, owner: str) -> None:
-        self._default_namespace = [namespace, owner]
+    def set_default_namespace(self, namespace: List[str]) -> None:
+        self._default_namespace = namespace
 
     def set_electrumx_peers(self, peers: List[list]) -> None:
         self._electrumx_peers = peers
