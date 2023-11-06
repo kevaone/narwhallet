@@ -25,6 +25,7 @@
     namespaces: namespaces
     btn_save: btn_save
     btn_home: btn_home
+    lock_timeout: lock_timeout
 
     GridLayout:
         size_hint: None, None
@@ -123,6 +124,29 @@
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_show_change_option()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        _text: 'Auto Lock Tmeout:'
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(150)
+
+                    TextInput:
+                        id: lock_timeout
+                        halign: 'center'
+                        _text: '300'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(50)
+                        on_text: root.update_lock_timeout()
 
                 Nwboxlayout:
                     size_hint_y: None

@@ -38,6 +38,7 @@ class SettingsScreen(Screen):
     namespaces = Spinner()
     btn_save = Nwbutton()
     btn_home = Nwbutton()
+    lock_timeout = TextInput()
 
     def load_settings(self):
         self.app = App.get_running_app()
@@ -59,6 +60,7 @@ class SettingsScreen(Screen):
         self.lang.values = _alang
         self.lang.text = self.app.ctrl.lang_dat.data['available'][self.app.ctrl.lang_dat.data['active']][0]
 
+        self.lock_timeout.text = str(self.settings.auto_lock_timer)
         self.manager.kex.active_peer = self.settings.primary_peer
 
         for _p in self.settings.electrumx_peers:
@@ -193,6 +195,10 @@ class SettingsScreen(Screen):
 
     def update_ipfs_active(self, value):
         self.settings.set_primary_ipfs_provider(value)
+        self._save_settings()
+
+    def update_lock_timeout(self):
+        self.settings.set_auto_lock_timer(int(self.lock_timeout.text))
         self._save_settings()
 
     def update_ssl_option(self, server, option, setting):
