@@ -137,7 +137,7 @@ class SettingsScreen(Screen):
         if self.wallet is None:
             return
 
-        _ns_list = []
+        _ns_list = ['']
 
         for address in self.wallet.addresses.addresses:
             for ns in address.namespaces:
