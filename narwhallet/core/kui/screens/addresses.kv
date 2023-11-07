@@ -2,7 +2,7 @@
     address_list: address_list
     header: header
     btn_add: btn_add
-    # spn_sort: spn_sort
+    spn_sort: spn_sort
 
     GridLayout:
         size: root.width, root.height
@@ -44,9 +44,20 @@
                 _text: 'Increase Pool'
                 on_press: root.btn_add_click()
 
-            # Nwspinner:
-            #     id: spn_sort
-            #     # _text: 'hi'
+            Nwbutton:
+                _text: ' '
+                icon: 'narwhallet/core/kui/assets/ban.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(0)
+                size_hint_x: None
+                width: dp(50)
+                on_press: root.filter_zero_balance()
+
+            Nwspinner:
+                id: spn_sort
+                size_hint_x: None
+                width: dp(75)
+                on__sort: root.sort(self._sort)
 
         Nwgrid:
             id: address_list
