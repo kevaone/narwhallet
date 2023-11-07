@@ -21,4 +21,9 @@ class HomeScreen(Screen):
                 _t['balance'] = str(round(_w.balance, 8))
                 _t['last_updated'] = MShared.get_timestamp(_w.last_updated)[1]
                 _t['sm'] = self.manager
+
+                if _w.locked == True:
+                    _t['lock_icon'] = 'narwhallet/core/kui/assets/lock.png'
+                else:
+                    _t['lock_icon'] = 'narwhallet/core/kui/assets/lock-open.png'
                 self.wallet_list.data.append(_t)

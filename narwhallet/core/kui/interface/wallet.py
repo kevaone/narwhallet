@@ -80,7 +80,7 @@ class WalletScreen(Screen):
 
         if wallet is None:
             return False
-
+        wallet.set_updating(True)
         wallet.set_bid_balance(0.0)
         wallet.set_bid_tx([])
         _ = self.manager.kex.peers[self.manager.kex.active_peer].connect()
@@ -89,7 +89,8 @@ class WalletScreen(Screen):
         _update_time = MShared.get_timestamp()
         wallet.set_last_updated(_update_time[0])
         self.app.ctrl.wallets.save_wallet(wallet.name)
-        
+        wallet.set_updating(False)
+
         self.populate(wallet.name)
         Clock.schedule_once(self._animate_loading_stop, 0)
 

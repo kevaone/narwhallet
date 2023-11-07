@@ -1,0 +1,52 @@
+<Nwwarnpopup>
+    msg: msg
+    auto_dismiss: False
+    size_hint: 0.7, 0.7
+
+    GridLayout:
+        cols: 1
+
+        Header:
+            id: header
+            value: 'Warning'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+
+        Nwboxlayout:
+            orientation: 'vertical'
+
+            Nwlabel:
+                id: msg
+                halign: 'center'
+                valign: 'center'
+                font_size: dp(20)
+                # text_size: self.size
+                _text: ''
+                # size_hint_y: None
+                # height: self.texture_size[1]
+                size_hint: 1, None
+                text_size: self.width, None
+                height: self.texture_size[1]
+
+        Nwboxlayout:
+            orientation: 'vertical'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(60)
+
+            Nwbutton:
+                _text: 'Cancel'
+                # icon: 'narwhallet/core/kui/assets/.png'
+                # icon_size: (dp(25), dp(25))
+                # icon_padding: dp(20)
+                on_release: root.dismiss()
+
+            Nwbutton:
+                _text: 'Next'
+                # icon: 'narwhallet/core/kui/assets/.png'
+                # icon_size: (dp(25), dp(25))
+                # icon_padding: dp(20)
+                on_release: root.next = True

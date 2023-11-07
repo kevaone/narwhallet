@@ -22,6 +22,7 @@ class MWallet():
         self._bid_balance: float = 0.0
         self._bid_tx: list = []
         self._locked: bool = False
+        self._unlocked: float = 0.0
         self._updating: bool = False
         self._last_updated: float = 0.0
         self._last_updated_block: int = 0
@@ -122,6 +123,10 @@ class MWallet():
     @property
     def locked(self) -> bool:
         return self._locked
+
+    @property
+    def unlocked(self) -> float:
+        return self._unlocked
 
     @property
     def updating(self) -> bool:
@@ -239,6 +244,9 @@ class MWallet():
 
     def set_locked(self, locked: bool) -> None:
         self._locked = locked
+
+    def set_unlocked(self, unlocked: float) -> None:
+        self._unlocked = unlocked
 
     def set_updating(self, updating: bool) -> None:
         self._updating = updating

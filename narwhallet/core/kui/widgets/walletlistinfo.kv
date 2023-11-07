@@ -3,6 +3,7 @@
     height: dp(75)
     sm: None
     ticker: ticker
+    lock_state: lock_state
     canvas:
         Color:
             rgba: self.hover_color if self.mouse_hover else self.background_color
@@ -25,9 +26,16 @@
                 height: dp(30)
                 width: dp(45)
 
+            Nwimage:
+                id: lock_state
+                source: root.lock_icon
+                height: dp(25)
+                width: dp(25)
+
             Nwlabel:
                 _text: root.wallet_name
                 height: dp(35)
+                padding: [10, 0, 0, 0]
                 font_size: dp(25)
 
         BoxLayout:

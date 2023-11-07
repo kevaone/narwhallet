@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.core.window import Window
 from kivy.uix.boxlayout import BoxLayout
 from kivy.properties import ObjectProperty, ListProperty, BooleanProperty, StringProperty
@@ -7,6 +8,8 @@ from kivy.graphics import Color
 class WalletListInfo(BoxLayout):
     wallet_name = StringProperty('')
     ticker = ObjectProperty(None)
+    lock_state = ObjectProperty(None)
+    lock_icon = StringProperty('')
     transactions = ObjectProperty(None)
     addresses = ObjectProperty(None)
     namespaces = ObjectProperty(None)
@@ -21,6 +24,11 @@ class WalletListInfo(BoxLayout):
         super(WalletListInfo, self).__init__(**kwargs)
 
     def on_touch_down(self, touch):
+        if self.lock_state.collide_point(touch.x, touch.y):
+            app = App.get_running_app()
+            app.wallet_lock(self.wallet_name, self)
+            return
+
         if self.collide_point(touch.x, touch.y):
             self.sm.wallet_screen._animate_loading_stop()
             self.sm.wallet_screen.populate(self.wallet_name)
