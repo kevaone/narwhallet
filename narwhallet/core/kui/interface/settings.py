@@ -9,6 +9,7 @@ from kivy.properties import StringProperty
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwtogglebutton import Nwtogglebutton
+from narwhallet.core.kui.widgets.nwseparator import Nwseparator
 
 
 class SettingsScreen(Screen):

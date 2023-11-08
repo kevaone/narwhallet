@@ -55,7 +55,7 @@
                         pos: self.pos
                         size: self.size
                 size_hint_y: None
-                rows: 24
+                rows: 26
                 height: dp(35) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(35) * self.rows + (dp(10)*self.rows)
                 cols: 1
                 spacing: dp(5)
@@ -206,6 +206,8 @@
                         size_hint_x: None
                         width: dp(350)
                         on_text: root.ns_changed()
+
+                Nwseparator:
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -540,6 +542,8 @@
                         halign: 'center'
                         valign: 'center'
                         on_press: root.update_active(1)
+
+                Nwseparator:
 
                 Nwboxlayout:
                     size_hint_y: None
