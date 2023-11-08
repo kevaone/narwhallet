@@ -158,7 +158,7 @@ class SettingsScreen(Screen):
         self._save_settings()
 
     def ns_changed(self):
-        if self.namespaces.text != '':
+        if self.namespaces.text != '' and self.owners != {}:
             self.settings.set_default_namespace([self.namespaces.text, self.owners[self.namespaces.text]])
         else:
             self.settings.set_default_namespace(['', ''])
