@@ -198,10 +198,12 @@ class SettingsScreen(Screen):
         self._save_settings()
 
     def update_lock_timeout(self):
-        if self.lock_timeout.text == '':
-            return
-        self.settings.set_auto_lock_timer(int(self.lock_timeout.text))
-        self._save_settings()
+        try:
+            self.settings.set_auto_lock_timer(int(self.lock_timeout.text))
+            self._save_settings()
+        except ValueError as Ex:
+            # TODO Set font color to red
+            pass
 
     def update_ssl_option(self, server, option, setting):
         if option not in (3, 4):
