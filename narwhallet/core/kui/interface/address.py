@@ -17,7 +17,7 @@ class AddressScreen(Screen):
 
     def populate(self, wallet_name, address):
         self.transaction_list.data = []
-        app = App.get_running_app()
+        self.app = App.get_running_app()
         _w = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self.header.value = wallet_name
         

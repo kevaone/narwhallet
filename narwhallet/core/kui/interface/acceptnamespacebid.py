@@ -51,7 +51,7 @@ class AcceptNamespaceBidScreen(Screen):
     def populate(self, txid, namespaceid, namespace_address):
         self.header.value = 'Accept Bid'
         self.bid_tx.text = txid
-        app = App.get_running_app()
+        self.app = App.get_running_app()
         
         for _w in self.app.ctrl.wallets.wallets:
             for _a in _w.addresses.addresses:
