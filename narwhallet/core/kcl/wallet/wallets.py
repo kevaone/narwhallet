@@ -125,6 +125,8 @@ class MWallets():
                 if _dat != b'InvalidTag':
                     _wm_dat = json.loads(_dat)
                     _wallet = self._load_wallet(_wm_dat, _wallet)
+                else:
+                    raise Exception('InvalidTag')
         else:
             _wallet = MWallet()
             _dat = WalletUtils.load_wallet(name, self.root_path)

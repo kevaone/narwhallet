@@ -117,10 +117,14 @@ class MainApp(App):
 
     def _unlock_wallet(self, wallet, ref_instance, instance, next):
         wallet.set_k(instance.kpas.text)
-        self.ctrl.wallets.load_wallet(wallet.name, wallet)
-        ref_instance.lock_icon = 'narwhallet/core/kui/assets/lock-open.png'
-        _wallet = self.ctrl.wallets.get_wallet_by_name(wallet.name)
-        _wallet.set_unlocked(time.time())
+        try:
+            self.ctrl.wallets.load_wallet(wallet.name, wallet)
+            ref_instance.lock_icon = 'narwhallet/core/kui/assets/lock-open.png'
+            _wallet = self.ctrl.wallets.get_wallet_by_name(wallet.name)
+            _wallet.set_unlocked(time.time())
+        except:
+            # TODO Add Error Dialog
+            pass
 
     def set_wallet_lock(self, wallet, ref_instance, instance, next):
         pass_popup = Nwsetpasswordpopup()
