@@ -130,6 +130,7 @@ class SettingsScreen(Screen):
         if self.wallets.text == '':
             self.namespaces.disabled = True
         else:
+            self.owners[self.settings.default_namespace[0]] = self.settings.default_namespace[1]
             self.namespaces.text = self.settings.default_namespace[0]
             self.namespaces.disabled = False
 
@@ -158,7 +159,7 @@ class SettingsScreen(Screen):
         self._save_settings()
 
     def ns_changed(self):
-        if self.namespaces.text != '' and self.owners != {}:
+        if self.namespaces.text != '':
             self.settings.set_default_namespace([self.namespaces.text, self.owners[self.namespaces.text]])
         else:
             self.settings.set_default_namespace(['', ''])
