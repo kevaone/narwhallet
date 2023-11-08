@@ -47,7 +47,7 @@ class MainApp(App):
         self.exiting = False
         self.auto_lock_thread = threading.Thread(target=self.auto_lock_wallets)
 
-    def on_request_close(self, *args):
+    def on_request_close(self, *args, **kwargs):
         self.exiting = True
 
     def translate_text(self, text):
