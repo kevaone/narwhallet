@@ -1,3 +1,4 @@
+from functools import partial
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.animation import Animation
@@ -37,11 +38,15 @@ class WalletScreen(Screen):
         self.anim += Animation(angle = 0, duration=0.01)
         self.anim.repeat = True
 
-    def populate(self, wallet_name):
+    def populate(self, wallet_name, instance=None):
         self.app = App.get_running_app()
         _w = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
 
         if _w is not None:
+            if _w.locked == True:
+                self.unlock(wallet_name, instance)
+                return
+
             if _w.kind == EWalletKind.NORMAL:
                 self.btn_send.disabled = False
                 self.btn_receive.disabled = False
@@ -62,6 +67,8 @@ class WalletScreen(Screen):
             self.btn_namespaces._text = app.translate_text('Namespaces') + ' (' + str(len(_w.namespaces)) + ')'
             self.manager.current = 'wallet_screen'
 
+    def unlock(self, wallet_name, instance):
+        self.app.wallet_lock(wallet_name, instance, True)
 
     def _animate_loading_start(self, dt=None):
         self.anim.start(self.btn_update_wallet)

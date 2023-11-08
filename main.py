@@ -57,7 +57,7 @@ class MainApp(App):
             _t = self.ctrl.lang_dat.data['strings'][text][_lang]
         except:
             _t = text
-        
+
         return _t
 
     def auto_lock_wallets(self):
@@ -85,9 +85,9 @@ class MainApp(App):
                                     
             time.sleep(1)
 
-    def wallet_lock(self, wallet, instance):
+    def wallet_lock(self, wallet, instance, for_wallet=False):
         wallet = self.ctrl.wallets.get_wallet_by_name(wallet)
-        if wallet.state_lock == 0:
+        if wallet.state_lock == 0 and for_wallet is False:
             _msg = 'Wallet is not encrypted. Do you wish to encrypt?'
             warn_popup = Nwwarnpopup()
             warn_popup.msg._text = _msg
@@ -96,9 +96,9 @@ class MainApp(App):
         elif wallet.state_lock == 1:
             if wallet.locked is True:
                 pass_popup = Nwpasswordpopup()
-                pass_popup.bind(next=partial(self._unlock_wallet, wallet, instance))
+                pass_popup.bind(next=partial(self._unlock_wallet, wallet, instance, for_wallet))
                 pass_popup.open()
-            else:
+            elif wallet.locked is False and for_wallet is False:
                 self._lock_wallet(wallet, instance)
 
     def _lock_wallet(self, wallet, instance=None):
@@ -115,13 +115,16 @@ class MainApp(App):
                         _i['lock_icon'] = 'narwhallet/core/kui/assets/lock.png'
                 self.sm.home_screen.wallet_list.refresh_from_data()
 
-    def _unlock_wallet(self, wallet, ref_instance, instance, next):
+    def _unlock_wallet(self, wallet, ref_instance, for_wallet, instance, next):
         wallet.set_k(instance.kpas.text)
         try:
             self.ctrl.wallets.load_wallet(wallet.name, wallet)
             ref_instance.lock_icon = 'narwhallet/core/kui/assets/lock-open.png'
             _wallet = self.ctrl.wallets.get_wallet_by_name(wallet.name)
             _wallet.set_unlocked(time.time())
+            if for_wallet is True:
+                self.sm.wallet_screen._animate_loading_stop()
+                self.sm.wallet_screen.populate(wallet.name, self)
         except:
             # TODO Add Error Dialog
             pass
