@@ -27,18 +27,30 @@
 
             Nwbutton:
                 _text: 'Market'
+                icon: 'narwhallet/core/kui/assets/cart-shopping.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(22)
                 on_press: root.manager.market_screen.populate()
 
             Nwbutton:
                 _text: 'My Auctions'
+                icon: 'narwhallet/core/kui/assets/gavel.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(30)
                 on_press: root.manager.auctions_screen.populate()
 
             Nwbutton:
                 _text: 'My Bids'
+                icon: 'narwhallet/core/kui/assets/comment-dollar.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(22)
                 on_press: root.manager.bids_screen.populate()
 
             Nwbutton:
                 _text: 'My Media'
+                icon: 'narwhallet/core/kui/assets/photo-film.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(25)
                 on_press: root.manager.mediamanage_screen.populate()
 
         Nwgrid:
@@ -60,7 +72,7 @@
             Nwbutton:
                 _text: 'Home'
                 icon: 'narwhallet/core/kui/assets/home_white.png'
-                icon_size: (dp(25), dp(25))
+                icon_size: (dp(20), dp(20))
                 icon_padding: dp(20)
                 on_press: root.manager.current = 'home_screen'
 
@@ -70,6 +82,9 @@
 
             Nwbutton:
                 _text: 'Favorites'
+                icon: 'narwhallet/core/kui/assets/favorites-book.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(25)
                 on_press: root.manager.favorites_screen.populate()
 
             Nwbutton:
