@@ -90,6 +90,9 @@ class CreateScreen(Screen):
             app.translate_text('KOREAN')]
         self.manager.current = 'create_screen'
 
+    def on_enter(self, *args):
+        self.wallet_name.focus = True
+
     def return_home(self):
         self.reset_screen()
         self.manager.current = 'home_screen'

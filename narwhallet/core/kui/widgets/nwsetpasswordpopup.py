@@ -16,6 +16,9 @@ class Nwsetpasswordpopup(ModalView):
     def on_next(self, *args):
         self.dismiss()
 
+    def on_open(self, *args):
+        self.kpas.focus = True
+
     def verify(self):
         if self.kpas.text != '':
             if self.kpas.text == self.ckpas.text:

@@ -75,6 +75,12 @@ class CreateNamespaceKeyScreen(Screen):
         self.namespace_key.disabled = False
         self.manager.current = 'createnamespacekey_screen'
 
+    def on_enter(self, *args):
+        if self.namespace_key.text == '':
+            self.namespace_key.focus = True
+        else:
+            self.namespace_value.focus = True
+
     def check_amount(self, cb=True):
         try:
             # TODO: Account for locale!!!

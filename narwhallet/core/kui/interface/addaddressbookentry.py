@@ -16,6 +16,9 @@ class AddAddressBookEntryScreen(Screen):
         self.reset_screen()
         self.manager.current = 'addaddressbookentry_screen'
 
+    def on_enter(self, *args):
+        self.address.focus = True
+
     def reset_screen(self):
         self.address.text = ''
         self.address_name.text = ''

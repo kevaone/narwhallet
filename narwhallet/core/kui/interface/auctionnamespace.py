@@ -67,6 +67,9 @@ class AuctionNamespaceScreen(Screen):
         self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'auctionnamespace_screen'
 
+    def on_enter(self, *args):
+        self.payment_address.focus = True
+
     def check_amount(self, cb=True):
         try:
             # TODO: Account for locale!!!

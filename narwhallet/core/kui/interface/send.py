@@ -54,6 +54,9 @@ class SendScreen(Screen):
         self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'send_screen'
 
+    def on_enter(self, *args):
+        self.send_to.focus = True
+
     def select_from_address_book(self):
         self.manager.addressbook_screen.populate(1)
         self.manager.current = 'addressbook_screen'

@@ -64,6 +64,9 @@ class TransferNamespaceScreen(Screen):
         self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
         self.manager.current = 'transfernamespace_screen'
 
+    def on_enter(self, *args):
+        self.new_namespace_address.focus = True
+
     def select_from_address_book(self):
         self.manager.addressbook_screen.populate(2)
         self.manager.current = 'addressbook_screen'

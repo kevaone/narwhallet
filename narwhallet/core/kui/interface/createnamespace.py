@@ -20,7 +20,7 @@ NS_RESERVATION = 1000000
 
 class CreateNamespaceScreen(Screen):
     wallet_balance = Nwlabel()
-    amount = TextInput()
+    amount = Nwlabel()
     namespace_name = TextInput()
     namespace_address = Nwlabel()
     valid_amount = Image()
@@ -53,6 +53,9 @@ class CreateNamespaceScreen(Screen):
         _address = self.wallet.get_unused_address()
         self.namespace_address.text = _address
         self.manager.current = 'createnamespace_screen'
+
+    def on_enter(self, *args):
+        self.namespace_name.focus = True
 
     def check_amount(self, cb=True):
         try:

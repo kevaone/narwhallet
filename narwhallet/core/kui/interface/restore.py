@@ -64,6 +64,9 @@ class RestoreScreen(Screen):
         self.reset_screen()
         self.manager.current = 'restore_screen'
 
+    def on_enter(self, *args):
+        self.wallet_name.focus = True
+
     def return_home(self):
         self.reset_screen()
         self.manager.current = 'home_screen'
