@@ -11,7 +11,7 @@ class AllScreen(Screen):
     def populate(self):
         self.header.value = 'All'
         self.all_list.data = []
-        app = App.get_running_app()
+        self.app = App.get_running_app()
 
         for _w in self.app.ctrl.wallets.wallets:
             for address in _w.addresses.addresses:
