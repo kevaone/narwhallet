@@ -83,7 +83,7 @@
 
             Nwlabel:
                 halign: 'left'
-                _text: 'Key (' + str(root.key_size) + '/255):'
+                _text: app.translate_text('Key') + ' (' + str(root.key_size) + '/255)' + app.translate_text(':')
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
@@ -121,7 +121,7 @@
 
             Nwlabel:
                 halign: 'left'
-                _text: 'Value (' + str(root.value_size) + '/3072):'
+                _text: app.translate_text('Value') + ' (' + str(root.value_size) + '/3072)' + app.translate_text(':')
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
