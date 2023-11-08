@@ -131,7 +131,7 @@ class MainApp(App):
         wallet.set_state_lock(1)
         wallet.set_locked(False)
         self.ctrl.wallets.save_wallet(wallet.name)
-        self._lock_wallet(wallet.name, ref_instance)
+        self._lock_wallet(wallet, ref_instance)
 
     def build(self):
         self.sm = NarwhalletScreens()
