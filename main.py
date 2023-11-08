@@ -62,25 +62,26 @@ class MainApp(App):
 
     def auto_lock_wallets(self):
         while self.exiting is False:
-            for _w in self.ctrl.wallets.wallets:
-                if _w.state_lock != 1:
-                    continue
+            if self.ctrl.settings.auto_lock_timer != 0:
+                for _w in self.ctrl.wallets.wallets:
+                    if _w.state_lock != 1:
+                        continue
 
-                if _w.locked is True:
-                    continue
+                    if _w.locked is True:
+                        continue
 
-                if _w.updating is True:
-                    continue
+                    if _w.updating is True:
+                        continue
 
-                if time.time() - _w.unlocked <= self.ctrl.settings.auto_lock_timer:
-                    continue
+                    if time.time() - _w.unlocked <= self.ctrl.settings.auto_lock_timer:
+                        continue
 
-                self._lock_wallet(_w, None)
+                    self._lock_wallet(_w, None)
 
-                if self.sm.current_screen.header.value == _w.name:
-                    def go_home(*args):
-                        self.sm.current = 'home_screen'
-                    Clock.schedule_once(go_home, 0)
+                    if self.sm.current_screen.header.value == _w.name:
+                        def go_home(*args):
+                            self.sm.current = 'home_screen'
+                        Clock.schedule_once(go_home, 0)
                                     
             time.sleep(1)
 

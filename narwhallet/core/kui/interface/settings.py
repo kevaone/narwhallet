@@ -198,6 +198,8 @@ class SettingsScreen(Screen):
         self._save_settings()
 
     def update_lock_timeout(self):
+        if self.lock_timeout.text == '':
+            return
         self.settings.set_auto_lock_timer(int(self.lock_timeout.text))
         self._save_settings()
 
@@ -237,6 +239,8 @@ class SettingsScreen(Screen):
 
         self.app.ctrl.lang_dat.data['active'] = self.lang.values.index(self.lang.text)
         self.app.ctrl.lang_dat.save(json.dumps(self.app.ctrl.lang_dat.data))
+        self.btn_home._text = 'Home'
+        self.btn_save.disabled = True
 
     def update_lang(self):
         self.app.lang = self.lang.values.index(self.lang.text)
