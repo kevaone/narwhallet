@@ -55,7 +55,7 @@
                         pos: self.pos
                         size: self.size
                 size_hint_y: None
-                rows: 26
+                rows: 25
                 height: dp(35) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(35) * self.rows + (dp(10)*self.rows)
                 cols: 1
                 spacing: dp(5)
@@ -189,25 +189,39 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: dp(45)
-                    orientation: 'horizontal'
+                    height: dp(75)
+                    orientation: 'vertical'
 
-                    Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(20)
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(45)
+                        orientation: 'horizontal'
 
-                    Spinner:
-                        id: namespaces
-                        halign: 'center'
-                        valign: 'center'
-                        _text: 'root.out_value'
-                        text_size: self.size
-                        size_hint_x: None
-                        width: dp(350)
-                        on_text: root.ns_changed()
+                        Nwlabel:
+                            _text: ''
+                            size_hint_x: None
+                            width: dp(20)
 
-                Nwseparator:
+                        Spinner:
+                            id: namespaces
+                            halign: 'center'
+                            valign: 'center'
+                            _text: 'root.out_value'
+                            text_size: self.size
+                            size_hint_x: None
+                            width: dp(350)
+                            on_text: root.ns_changed()
+
+                    Nwboxlayout:
+                        orientation: 'vertical'
+
+                    Nwseparator:
+
+                    Nwseparator:
+                        color: [54/255, 58/255, 59/255, 1]
+
+                    Nwboxlayout:
+                        orientation: 'vertical'
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -526,8 +540,8 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: dp(45)
-                    orientation: 'horizontal'
+                    height: dp(70)
+                    orientation: 'vertical'
 
                     Nwtogglebutton:
                         id: iserver_active_1
@@ -543,7 +557,16 @@
                         valign: 'center'
                         on_press: root.update_active(1)
 
-                Nwseparator:
+                    Nwboxlayout:
+                        orientation: 'vertical'
+
+                    Nwseparator:
+
+                    Nwseparator:
+                        color: [54/255, 58/255, 59/255, 1]
+
+                    Nwboxlayout:
+                        orientation: 'vertical'
 
                 Nwboxlayout:
                     size_hint_y: None
