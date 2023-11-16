@@ -4,6 +4,7 @@ from kivy.uix.gridlayout import GridLayout
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.qrcode import QR_Code
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.ksc.utils import Ut
 
 
 class AddressScreen(Screen):
@@ -42,7 +43,7 @@ class AddressScreen(Screen):
                 _t = {
                 'transaction': _h['txid'],
                 'block': str(_h['block']),
-                'txvalue': str(_h['value']),
+                'txvalue': str(Ut.from_sats(_h['value'])),
                 'status': _s,
                 'sm': self.manager}
                 _addrs.append(_t)
