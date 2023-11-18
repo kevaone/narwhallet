@@ -24,3 +24,7 @@ class Nwpasswordpopup(ModalView):
             self.btn_next.disabled = False
             return
         self.btn_next.disabled = True
+
+    def on_enter(self, *args):
+        if self.kpas.text != '':
+            self.next = True
