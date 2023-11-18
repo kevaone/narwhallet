@@ -105,6 +105,17 @@ class AuctionNamespaceScreen(Screen):
             
         return False
 
+    def price_input_filter(self, string, from_undo):
+        if string in ('.', ''):
+            if str(self.price.text).count('.') > 0:
+                return ''
+            return string
+        try:
+            float(string)
+            return string
+        except ValueError:
+            return ''
+
     def check_price(self, cb=True):
         try:
             # TODO: Account for locale!!!

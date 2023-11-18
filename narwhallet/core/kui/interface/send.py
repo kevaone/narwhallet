@@ -61,6 +61,17 @@ class SendScreen(Screen):
         self.manager.addressbook_screen.populate(1)
         self.manager.current = 'addressbook_screen'
 
+    def amount_input_filter(self, string, from_undo):
+        if string in ('.', ''):
+            if str(self.amount.text).count('.') > 0:
+                return ''
+            return string
+        try:
+            float(string)
+            return string
+        except ValueError:
+            return ''
+
     def check_amount(self, cb=True):
         try:
             # TODO: Account for locale!!!

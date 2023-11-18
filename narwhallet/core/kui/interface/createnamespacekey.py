@@ -45,6 +45,7 @@ class CreateNamespaceKeyScreen(Screen):
         self.ns_key: bytes = b''
         
     def populate(self, wallet=None, reward_address=None):
+        self.isReward = False
         self.app = App.get_running_app()
         if wallet is None:
             self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
@@ -134,6 +135,20 @@ class CreateNamespaceKeyScreen(Screen):
         
         return False
 
+    def ns_value_input_filter(self, string, from_undo):
+        if self.isReward == False:
+            return string
+
+        if string in ('.', ''):
+            if str(self.namespace_value.text).count('.') > 0:
+                return ''
+            return string
+        try:
+            float(string)
+            return string
+        except ValueError:
+            return ''
+
     def check_value(self, cb=True):
         self.value_size = len(self.namespace_value.text.encode())
         if self.value_size > 3072:
@@ -152,7 +167,7 @@ class CreateNamespaceKeyScreen(Screen):
                         _ = float(self.namespace_value.text)
                     except:
                         self.btn_send.disabled = True
-                        return False                
+                        return False
                 self.btn_send.disabled = False
                 return True
 

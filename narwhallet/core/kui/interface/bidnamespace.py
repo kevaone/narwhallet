@@ -133,6 +133,17 @@ class BidNamespaceScreen(Screen):
 
         self.check_address()
 
+    def bid_amount_input_filter(self, string, from_undo):
+        if string in ('.', ''):
+            if str(self.bid_amount.text).count('.') > 0:
+                return ''
+            return string
+        try:
+            float(string)
+            return string
+        except ValueError:
+            return ''
+
     def check_amount(self, cb=True):
         try:
             # TODO: Account for locale!!!
