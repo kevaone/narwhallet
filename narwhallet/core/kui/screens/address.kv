@@ -4,6 +4,7 @@
     label: label
     qr_code: qr_code
     transactions: transactions
+    index: index
     transaction_list: transaction_list
     header: header
 
@@ -63,6 +64,27 @@
 
             QR_Code:
                 id: qr_code
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                _text: 'Index:'
+                font_size: dp(15)
+                size_hint_x: None
+                padding: [10, 0, 0, 0]
+                width: dp(55)
+
+            Nwlabel:
+                id: index
+                _text: '0'
+                size_hint_x: None
+                font_size: dp(15)
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                width: dp(50)
 
         Nwboxlayout:
             size_hint_y: None

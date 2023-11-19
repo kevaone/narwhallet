@@ -4,6 +4,7 @@ from kivy.properties import StringProperty, ListProperty, BooleanProperty
 
 
 class AddressListInfo(BoxLayout):
+    index = StringProperty()
     address = StringProperty()
     address_label = StringProperty()
     transactions = StringProperty()

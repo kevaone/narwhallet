@@ -12,6 +12,7 @@ class AddressScreen(Screen):
     balance = Nwlabel()
     label = Nwlabel()
     transactions = Nwlabel()
+    index = Nwlabel()
     transaction_list = GridLayout()
     qr_code = QR_Code()
     header = Header()
@@ -29,10 +30,16 @@ class AddressScreen(Screen):
             except:
                 _addr = _w.change_addresses.get_address_by_name(address)
 
+            _idx = _w.addresses.get_address_index_by_name(address)
+
+            if _idx == -1:
+                _idx = _w.change_addresses.get_address_index_by_name(address)
+
             self.address.text = address
             self.balance.text = str(round(_addr.balance, 8))
             self.label.text = _addr.label
             self.transactions.text = str(len(_addr.history))
+            self.index.text = str(_idx)
 
             for _h in _addr.history:
                 _s = ''

@@ -33,9 +33,11 @@ class AddressesScreen(Screen):
             else:
                 self.btn_add._text = 'Add Address'
 
+            _idx = 0
             for address in _w.addresses.addresses:
                 if address is not None:
                     _a = {
+                    'index': str(_idx),
                     'address': address.address,
                     'address_label': address.label,
                     'balance': str(round(address.balance, 8)),
@@ -45,11 +47,14 @@ class AddressesScreen(Screen):
                     'sm': self.manager}
 
                     self._addr.append(_a)
+                    _idx = _idx + 1
 
             if self.manager.settings_screen.settings.show_change:
+                _idx = 0
                 for address in _w.change_addresses.addresses:
                     if address is not None:
                         _a = {
+                        'index': str(_idx),
                         'address': address.address,
                         'address_label': address.label,
                         'balance': str(round(address.balance, 8)),
@@ -59,6 +64,7 @@ class AddressesScreen(Screen):
                         'sm': self.manager}
 
                         self._addr.append(_a)
+                        _idx = _idx + 1
         self.spn_sort._sort = 'bal_dsc'
         self.spn_sort.icon = 'narwhallet/core/kui/assets/balance-sort-down.png'
         self.spn_sort._text = ''

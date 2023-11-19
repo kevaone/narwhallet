@@ -1,6 +1,7 @@
 <AddressListInfo>
     size_hint_y: None
     sm: None
+    index: ''
     wallet_name: 'None'
     address: 'address'
     address_label: 'address_label'
@@ -42,12 +43,28 @@
             orientation: 'horizontal'
 
             Nwlabel:
+                _text: 'Index:'
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                text_size: self.size
+                size_hint_x: None
+                width: dp(50)
+
+            Nwlabel:
+                _text: root.index
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                text_size: self.size
+                size_hint_x: None
+                width: dp(50)
+
+            Nwlabel:
                 _text: 'TX:'
                 halign: 'left'
                 padding: [5, 0, 0, 0]
                 text_size: self.size
                 size_hint_x: None
-                width: dp(65)
+                width: dp(33)
 
             Nwlabel:
                 _text: root.transactions
@@ -63,7 +80,7 @@
                 halign: 'left'
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
-                width: dp(75)
+                width: dp(71)
 
             Nwlabel:
                 _text: root.balance
