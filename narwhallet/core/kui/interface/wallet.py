@@ -98,7 +98,9 @@ class WalletScreen(Screen):
         self.app.ctrl.wallets.save_wallet(wallet.name)
         wallet.set_updating(False)
 
-        self.populate(wallet.name)
-        Clock.schedule_once(self._animate_loading_stop, 0)
+        if self.header.value == wallet.name:
+            if self.manager.current == 'wallet_screen':
+                self.populate(wallet.name)
+            Clock.schedule_once(self._animate_loading_stop, 0)
 
         return True
