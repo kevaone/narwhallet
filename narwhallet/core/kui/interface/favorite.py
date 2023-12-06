@@ -74,7 +74,7 @@ class FavoriteScreen(Screen):
         _nsi.shortcode._text = self.shortcode
         _nsi.owner._text = self.owner
         _nsi.creator._text = self.creator
-        _nsi.manager - self.manager
+        _nsi.manager = self.manager
         _nsi.open()
 
     def set_favorite(self):
