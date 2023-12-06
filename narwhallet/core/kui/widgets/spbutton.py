@@ -31,11 +31,11 @@ class Spbutton(Button):
                 self.background_color = [54/255, 58/255, 59/255, 1]
                 self.hover = False
 
-    def on_hover(self, *args):
-        if self.hover is True:
-            Window.set_system_cursor('hand')
-        else:
-            Window.set_system_cursor('arrow')
+    # def on_hover(self, *args):
+    #     if self.hover is True:
+    #         Window.set_system_cursor('hand')
+    #     else:
+    #         Window.set_system_cursor('arrow')
 
     def _bind(self, dt):
         app = App.get_running_app()
