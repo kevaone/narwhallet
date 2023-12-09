@@ -1,7 +1,7 @@
 import json
 import time
 from typing import List
-from narwhallet.core.kex.peer import _peer
+from narwhallet.core.kex.peer import Peer
 from narwhallet.core.kex.api import _api
 from narwhallet.core.kex.cmd_base import _cmd
 
@@ -9,12 +9,12 @@ from narwhallet.core.kex.cmd_base import _cmd
 class KEXclient():
     def __init__(self):
         self.api: _api = _api()
-        self.peers: List[_peer] = []
+        self.peers: List[Peer] = []
         self.active_peer: int = -1
         self.id: int = 0
 
     def add_peer(self, host: str, port: int, tls: bool, validate_cert: bool):
-        peer = _peer(host, port, tls, validate_cert)
+        peer = Peer(host, port, tls, validate_cert)
         self.peers.append(peer)
         return len(self.peers)-1
 

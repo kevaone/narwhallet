@@ -7,7 +7,7 @@ from narwhallet.core.kcl.favorites.favorites import MFavorites
 from narwhallet.core.kcl.mymedia.mymedia import MMyMedia
 from narwhallet.core.kex import KEXclient
 from narwhallet.core.kex.cmd import _custom
-from narwhallet.core.kex.peer import _peer
+from narwhallet.core.kex.peer import Peer
 from narwhallet.core.kui.widgets.walletlistinfo import WalletListInfo
 from narwhallet.core.kui.widgets.addresslistinfo import AddressListInfo
 from narwhallet.core.kui.widgets.transactionlistinfo import TransactionListInfo
@@ -141,7 +141,7 @@ class NarwhalletScreens(ScreenManager):
         _ipfs_images = re.findall(r'\{\{[^|image(|/png|/jpeg|/jpg|/gif)\}\}].*|image|image/png|image/jpeg|image/jpg|image/gif\}\}', _item)
         _primary = self.settings_screen.settings.primary_ipfs_provider
         _data_provider = self.settings_screen.settings.ipfs_providers[_primary]
-        _data_peer = _peer(_data_provider, 443, True, True)
+        _data_peer = Peer(_data_provider, 443, True, True)
         _images = []
         # https://gateway.ipfs.io/ipfs/
         # https://ipfs.sloppyta.co/ipfs/

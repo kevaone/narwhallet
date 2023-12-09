@@ -1,90 +1,71 @@
-
 import socket
 import ssl
+import logging
 
 
-class _peer():
-    def __init__(self, host: str, port: int, tls: bool, validate_cert: bool):
+class PeerError(Exception):
+    pass
+
+class Peer:
+    def __init__(self, host: str, port: int, tls: bool,
+                 validate_cert: bool, timeout=45.0, buffer_size=1024):
         self.host = host
         self.port = port
         self.tls = tls
-        self.last = 0
-        self.socket: socket.socket = None
         self.validate_cert = validate_cert
+        self.timeout = timeout
+        self.buffer_size = buffer_size
+        self.socket = None
         self.busy = False
 
+    def _create_socket(self):
+        _sock = socket.create_connection((self.host, self.port), self.timeout)
+        if self.tls:
+            _t_ctx = ssl.create_default_context()
+            if not self.validate_cert:
+                _t_ctx.check_hostname = False
+                _t_ctx.verify_mode = ssl.CERT_NONE
+            return _t_ctx.wrap_socket(_sock, server_hostname=self.host)
+        return _sock
+
     def connect(self):
-        if self.socket is not None:
-            self.disconnect()
         try:
-            _sock = socket.create_connection((self.host, self.port), 15)
-            if self.tls:
-                _t_ctx = ssl.create_default_context()
-
-                if self.validate_cert is False:
-                    _t_ctx.check_hostname = False
-                    _t_ctx.verify_mode = ssl.CERT_NONE
-
-                _t_sock = _t_ctx.wrap_socket(_sock, server_hostname=self.host)
-
-                self.socket = _t_sock
-            else:
-                self.socket = _sock
-            return 'connected'
-        except socket.timeout as ex:
-            return str(ex)
-        except socket.gaierror as ex:
-            return str(ex)
+            self.disconnect()
+            self.socket = self._create_socket()
+            logging.info('Connection established')
+            return 'Connection established'
         except socket.error as ex:
-            return str(ex)
-        except socket.herror as ex:
-            return str(ex)
+            self.socket = None
+            logging.error(f'Socket creation failed: {ex}')
+            return f'Socket creation failed: {ex}'
 
     def disconnect(self):
-        if self.socket is not None:
+        if self.socket:
             try:
                 self.socket.shutdown(socket.SHUT_RDWR)
-            except:
-                pass
-            self.socket.close()
-        self.socket = None
+                self.socket.close()
+            except socket.error as ex:
+                logging.warning(f'Error during disconnection: {ex}')
+            finally:
+                self.socket = None
+            logging.info('Disconnected')
 
-    def reconnect(self):
-        self.disconnect()
-        self.connect()
-
-    def comm(self, command) -> bytes:
+    def comm(self, command: bytes) -> bytes:
+        if not self.socket:
+            raise PeerError('Not connected')
         self.busy = True
         data = b''
         try:
             self.socket.sendall(command)
-            self.socket.settimeout(45.0)
+            self.socket.settimeout(self.timeout)
             while True:
-                _r = self.socket.recv(1024)
-                data = data + _r
-
-                if len(_r) < 1024:
+                _r = self.socket.recv(self.buffer_size)
+                data += _r
+                if len(_r) < self.buffer_size:
                     break
-
-                # if data == b'':
-                #     break
-
-                # if (data.endswith(b'"}\n')
-                #         or data.endswith(b'}]\n')
-                #         or data.endswith(b']\n}\n')):
-                #     break
-
-            # if data == b'':
-            #     # TODO Add socket state check before connect/command replay
-            #     self.connect()
-            #     data = self.comm(command)
-        except Exception as ex:
-            # TODO Better handle specific socket errors
-            # if ex == 'The read operation timed out':
-            #     print('time out, reattempting', ex)
-            #     self.connect()
-            #     data = self.comm(command)
-            # else:
-            data = b''
-        self.busy = False
+        except socket.error as ex:
+            logging.error(f'Communication error: {ex}')
+            raise
+        finally:
+            self.busy = False
         return data
