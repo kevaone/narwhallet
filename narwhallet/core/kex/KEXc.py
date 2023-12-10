@@ -18,7 +18,7 @@ class KEXclient():
         self.peers.append(peer)
         return len(self.peers)-1
 
-    def call(self, command: _cmd):
+    def call(self, command: bytes):
         try:
             while self.peers[self.active_peer].busy is True:
                 # print('peer busy, retry in 1 seconds...')
@@ -35,7 +35,7 @@ class KEXclient():
 
         return data.decode()
 
-    def call_batch(self, commands: list, json_test: bool = True):
+    def call_batch(self, commands: bytes, json_test: bool = True):
         try:
             while self.peers[self.active_peer].busy is True:
                 # print('peer busy, sleeping 1sec...')

@@ -121,10 +121,11 @@ class MainApp(App):
             self.ctrl.wallets.load_wallet(wallet.name, wallet)
             ref_instance.lock_icon = 'narwhallet/core/kui/assets/lock-open.png'
             _wallet = self.ctrl.wallets.get_wallet_by_name(wallet.name)
-            _wallet.set_unlocked(time.time())
-            if for_wallet is True:
-                self.sm.wallet_screen._animate_loading_stop()
-                self.sm.wallet_screen.populate(wallet.name, self)
+            if _wallet is not None:
+                _wallet.set_unlocked(time.time())
+                if for_wallet is True:
+                    self.sm.wallet_screen._animate_loading_stop()
+                    self.sm.wallet_screen.populate(wallet.name, self)
         except:
             # TODO Add Error Dialog
             pass

@@ -80,7 +80,7 @@ class MShared():
         return _batches
 
     @staticmethod
-    def __get_batch(batch: list, kex: KEXclient):
+    def __get_batch(batch: bytes, kex: KEXclient):
         _results = kex.call_batch(batch)
         _results = json.loads(_results)
         _results = MShared.__test_batch_for_error(batch, _results, kex)

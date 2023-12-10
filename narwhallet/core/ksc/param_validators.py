@@ -61,12 +61,12 @@ class ParamValidators():
             _address_hash = Ut.to_cuint(len(_address_hash)) + _address_hash
 
         except Exception:
-            return Exception('supplied address failed base58 decode check')
+            raise Exception('supplied address failed base58 decode check')
 
         return _address_hash
 
     @staticmethod
-    def rootNamespaceSciptHash(namespace: str):
+    def rootNamespaceSciptHash(namespace: str) -> bytes:
         try:
             _namespace = Base58Decoder.CheckDecode(namespace)
             _namespace = _namespace + keva_const.KEVA_NS_BUF.value
@@ -78,12 +78,12 @@ class ParamValidators():
                 _namespace = _namespace + keva_const.KEVA_NS_BUF.value
                 _namespace = Ut.to_cuint(len(_namespace)) + _namespace
             except Exception:
-                return Exception('supplied namespace invailid')
+                raise Exception('supplied namespace invailid')
 
         return _namespace
 
     @staticmethod
-    def namespaceSciptHash(namespace: str):
+    def namespaceSciptHash(namespace: str) -> bytes:
         try:
             _namespace = Base58Decoder.CheckDecode(namespace)
             _namespace = Ut.to_cuint(len(_namespace)) + _namespace
@@ -93,12 +93,12 @@ class ParamValidators():
                 _ = Base58Encoder.CheckEncode(_namespace)
                 _namespace = Ut.to_cuint(len(_namespace)) + _namespace
             except Exception:
-                return Exception('supplied namespace invailid')
+                raise Exception('supplied namespace invailid')
 
         return _namespace
 
     @staticmethod
-    def namespaceKeySciptHash(nskey: list):
+    def namespaceKeySciptHash(nskey: list) -> bytes:
         if isinstance(nskey[1], str):
             nskey[1] = nskey[1].encode()
 
@@ -113,17 +113,17 @@ class ParamValidators():
                 _ns_key = _ns_key + nskey[1]
                 _ns_key = Ut.to_cuint(len(_ns_key)) + _ns_key
             except Exception:
-                return Exception('supplied namespace invailid')
+                raise Exception('supplied namespace invailid')
 
         return _ns_key
 
     @staticmethod
-    def hashtagSciptHash(hashtag: str):
+    def hashtagSciptHash(hashtag: str) -> bytes:
         try:
             if hashtag.lower().startswith('#'):
                 _hashtag = hashtag[1:].encode()
             _hashtag = Ut.to_cuint(len(_hashtag)) + _hashtag
         except Exception:
-            return Exception('hashtag script error')
+            raise Exception('hashtag script error')
 
         return _hashtag
