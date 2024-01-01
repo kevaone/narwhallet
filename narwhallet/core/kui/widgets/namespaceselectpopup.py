@@ -71,7 +71,7 @@ class NamespaceSelectPopup(ModalView):
             self.manager.createnamespacekey_screen.namespace_key.text = Ut.bytes_to_hex(self.key)
             self.manager.createnamespacekey_screen.ns_key = self.key
             self.manager.createnamespacekey_screen.namespace_key.disabled = True
-            self.manager.createnamespacekey_screen.namespace_name.text = self.namespaces.text
+            self.manager.createnamespacekey_screen.namespace_id.text = self.namespaces.text
             self.manager.createnamespacekey_screen.namespace_address.text = self.owners[self.namespaces.text]
 
         self.manager.current = self.target_screen
