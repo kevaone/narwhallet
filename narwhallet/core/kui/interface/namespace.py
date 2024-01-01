@@ -20,8 +20,9 @@ class NamespaceScreen(Screen):
     owner = StringProperty(None)
     creator = StringProperty(None)
     shortcode = StringProperty(None)
-    transfer_button = Image()
-    auction_button = Image()
+    transfer_button = Nwbutton()
+    auction_button = Nwbutton()
+    name_update_button = Nwbutton()
     btn_create = Nwbutton()
     info_button = Nwbutton()
     header = Header()
@@ -38,10 +39,16 @@ class NamespaceScreen(Screen):
 
         if _w.kind == EWalletKind.NORMAL:
             self.btn_create.disabled = False
+            self.transfer_button.disabled = False
+            self.auction_button.disabled = False
+            self.name_update_button.disabled = False
             self.transfer_button.size = (dp(30), dp(30))
             self.auction_button.size = (dp(30), dp(30))
         else:
             self.btn_create.disabled = True
+            self.transfer_button.disabled = True
+            self.auction_button.disabled = True
+            self.name_update_button.disabled = True
             self.transfer_button.size = (0, 0)
             self.auction_button.size = (0, 0)
 
