@@ -1,10 +1,11 @@
 <AuctionNamespaceScreen>
+    wallet_name: wallet_name
     wallet_balance: wallet_balance
     amount: amount
     payment_address: payment_address
     price: price
     description: description
-    namespace_name: namespace_name
+    namespace_id: namespace_id
     namespace_address: namespace_address
     address_book: address_book
     valid_send_to: valid_send_to
@@ -32,11 +33,32 @@
 
             Nwlabel:
                 halign: 'left'
+                _text: 'Wallet:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(80)
+
+            Nwlabel:
+                id: wallet_name
+                halign: 'left'
+                _text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: dp(120)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
                 _text: 'Balance:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: dp(100)
+                width: dp(80)
 
             Nwlabel:
                 id: wallet_balance
@@ -56,7 +78,7 @@
                 text_size: self.size
                 padding: [10, 0, 0, 0]
                 size_hint_x: None
-                width: dp(100)
+                width: dp(80)
 
             Nwlabel:
                 id: amount
@@ -239,7 +261,7 @@
                 width: dp(100)
 
             Nwlabel:
-                id: namespace_name
+                id: namespace_id
                 halign: 'left'
                 _text: ''
                 text_size: self.size

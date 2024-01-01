@@ -1,7 +1,8 @@
 <CreateNamespaceKeyScreen>
+    wallet_name: wallet_name
     wallet_balance: wallet_balance
     amount: amount
-    namespace_name: namespace_name
+    namespace_id: namespace_id
     namespace_address: namespace_address
     namespace_key: namespace_key
     namespace_value: namespace_value
@@ -20,6 +21,27 @@
         Nwboxlayout:
             size_hint_y: None
             height: dp(10)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                halign: 'left'
+                _text: 'Wallet:'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(80)
+
+            Nwlabel:
+                id: wallet_name
+                halign: 'left'
+                _text: ''
+                text_size: self.size
+                size_hint_x: None
+                width: dp(120)
 
         Nwboxlayout:
             size_hint_y: None
@@ -169,7 +191,7 @@
                 width: dp(100)
 
             Nwlabel:
-                id: namespace_name
+                id: namespace_id
                 halign: 'left'
                 _text: ''
                 text_size: self.size

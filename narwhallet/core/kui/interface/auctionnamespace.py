@@ -22,9 +22,10 @@ TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
 NS_RESERVATION = 1000000
 
 class AuctionNamespaceScreen(Screen):
+    wallet_name = Nwlabel()
     wallet_balance = Nwlabel()
     amount = TextInput()
-    namespace_name = Nwlabel()
+    namespace_id = Nwlabel()
     namespace_address = Nwlabel()
     price = TextInput()
     description = TextInput()
@@ -50,11 +51,12 @@ class AuctionNamespaceScreen(Screen):
     def populate(self):
         self.app = App.get_running_app()
         self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
-        self.header.value = self.wallet.name
+        self.header.value = self.manager.namespace_screen.header.value
+        self.wallet_name._text = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)
         # TODO: Refactor ids for namespace; they clash with others
-        self.namespace_name.text = self.manager.namespace_screen.namespaceid
+        self.namespace_id.text = self.manager.namespace_screen.namespaceid
         self.price.text = ''
         self.description.text = ''
         self.payment_address.text = ''
@@ -240,7 +242,7 @@ class AuctionNamespaceScreen(Screen):
             if self.namespace_address.text != tx['a']:
                 continue
 
-            if self.namespace_name.text == tx['extra']:
+            if self.namespace_id.text == tx['extra']:
                 _usxos.insert(0, tx)
 
         self.new_tx.inputs_to_spend = _usxos
@@ -248,7 +250,7 @@ class AuctionNamespaceScreen(Screen):
     def set_output(self):
         _amount = NS_RESERVATION
         _ns_address = self.namespace_address.text
-        _ns = self.namespace_name.text
+        _ns = self.namespace_id.text
         _auc = {}
 
         try:

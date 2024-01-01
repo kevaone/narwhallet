@@ -20,9 +20,10 @@ TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
 NS_RESERVATION = 1000000
 
 class CreateNamespaceKeyScreen(Screen):
+    wallet_name = Nwlabel()
     wallet_balance = Nwlabel()
     amount = TextInput()
-    namespace_name = Nwlabel()
+    namespace_id = Nwlabel()
     namespace_address = Nwlabel()
     namespace_key = TextInput()
     namespace_value = TextInput()
@@ -49,11 +50,12 @@ class CreateNamespaceKeyScreen(Screen):
         self.app = App.get_running_app()
         if wallet is None:
             self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
-            self.namespace_name.text = self.manager.namespace_screen.namespaceid
+            self.namespace_id.text = self.manager.namespace_screen.namespaceid
             self.namespace_address.text = self.manager.namespace_screen.owner
         else:
             self.wallet = self.app.ctrl.wallets.get_wallet_by_name(wallet)
-        self.header.value = self.wallet.name
+        self.header.value = self.manager.namespace_screen.header.value
+        self.wallet_name._text = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)
         
@@ -188,7 +190,7 @@ class CreateNamespaceKeyScreen(Screen):
             if self.namespace_address.text != tx['a']:
                 continue
 
-            if self.namespace_name.text == tx['extra']:
+            if self.namespace_id.text == tx['extra']:
                 _usxos.insert(0, tx)
 
         self.new_tx.inputs_to_spend = _usxos
@@ -197,18 +199,18 @@ class CreateNamespaceKeyScreen(Screen):
         _amount = NS_RESERVATION
         if self.isReward is False:
             if self.ns_key != b'':
-                _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.ns_key,
+                _sh = Scripts.KevaKeyValueUpdate(self.namespace_id.text, self.ns_key,
                                                     self.namespace_value.text, self.namespace_address.text)
                 _sh = Scripts.compile(_sh, True)
             else:
-                _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.namespace_key.text,
+                _sh = Scripts.KevaKeyValueUpdate(self.namespace_id.text, self.namespace_key.text,
                                                     self.namespace_value.text, self.namespace_address.text)
                 _sh = Scripts.compile(_sh, True)
 
             _ = self.new_tx.add_output(_amount, self.namespace_address.text)
             self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
         else:
-            _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.ns_key,
+            _sh = Scripts.KevaKeyValueUpdate(self.namespace_id.text, self.ns_key,
                                                 '', self.namespace_address.text)
             _sh = Scripts.compile(_sh, True)
 

@@ -21,10 +21,10 @@ TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
 NS_RESERVATION = 1000000
 
 class TransferNamespaceScreen(Screen):
-    # wallet_name = Nwlabel()
+    wallet_name = Nwlabel()
     wallet_balance = Nwlabel()
     amount = TextInput()
-    namespace_name = Nwlabel()
+    namespace_id = Nwlabel()
     namespace_address = Nwlabel()
     new_namespace_address = TextInput()
     namespace_key = TextInput()
@@ -48,10 +48,11 @@ class TransferNamespaceScreen(Screen):
     def populate(self):
         app = App.get_running_app()
         self.wallet = app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
-        self.header.value = self.wallet.name
+        self.header.value = self.manager.namespace_screen.header.value
+        self.wallet_name._text = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)
-        self.namespace_name.text = self.manager.namespace_screen.namespaceid
+        self.namespace_id.text = self.manager.namespace_screen.namespaceid
         self.namespace_key.text = 'Transfer'
         self.namespace_value.text = ''
         self.namespace_address.text = self.manager.namespace_screen.owner
@@ -180,14 +181,14 @@ class TransferNamespaceScreen(Screen):
             if self.namespace_address.text != tx['a']:
                 continue
 
-            if self.namespace_name.text == tx['extra']:
+            if self.namespace_id.text == tx['extra']:
                 _usxos.insert(0, tx)
 
         self.new_tx.inputs_to_spend = _usxos
 
     def set_output(self):
         _amount = NS_RESERVATION
-        _sh = Scripts.KevaKeyValueUpdate(self.namespace_name.text, self.namespace_key.text,
+        _sh = Scripts.KevaKeyValueUpdate(self.namespace_id.text, self.namespace_key.text,
                                              self.namespace_value.text, self.new_namespace_address.text)
         _sh = Scripts.compile(_sh, True)
 
