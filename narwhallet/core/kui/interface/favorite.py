@@ -70,6 +70,7 @@ class FavoriteScreen(Screen):
         _nsi = NamespaceInfoPopup()
         _nsi.namespaceid._text = self.namespaceid
         _nsi.header.value = self.header.value
+        _nsi.header.is_popup = True
         _nsi.namespace_name._text = self.namespace_name
         _nsi.shortcode._text = self.shortcode
         _nsi.owner._text = self.owner
