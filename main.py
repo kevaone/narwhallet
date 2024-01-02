@@ -95,7 +95,7 @@ class MainApp(App):
             warn_popup.open()
         elif wallet.state_lock == 1:
             if wallet.locked is True:
-                pass_popup = Nwpasswordpopup()
+                pass_popup = Nwpasswordpopup(wallet=wallet)
                 pass_popup.bind(next=partial(self._unlock_wallet, wallet, instance, for_wallet))
                 pass_popup.open()
             elif wallet.locked is False and for_wallet is False:
@@ -116,13 +116,13 @@ class MainApp(App):
                 self.sm.home_screen.wallet_list.refresh_from_data()
 
     def _unlock_wallet(self, wallet, ref_instance, for_wallet, instance, next):
-        wallet.set_k(instance.kpas.text)
+        # wallet.set_k(instance.kpas.text)
         try:
-            self.ctrl.wallets.load_wallet(wallet.name, wallet)
+            # self.ctrl.wallets.load_wallet(wallet.name, wallet)
             ref_instance.lock_icon = 'narwhallet/core/kui/assets/lock-open.png'
             _wallet = self.ctrl.wallets.get_wallet_by_name(wallet.name)
             if _wallet is not None:
-                _wallet.set_unlocked(time.time())
+                # _wallet.set_unlocked(time.time())
                 if for_wallet is True:
                     self.sm.wallet_screen._animate_loading_stop()
                     self.sm.wallet_screen.populate(wallet.name, self)
@@ -131,15 +131,15 @@ class MainApp(App):
             pass
 
     def set_wallet_lock(self, wallet, ref_instance, instance, next):
-        pass_popup = Nwsetpasswordpopup()
+        pass_popup = Nwsetpasswordpopup(wallet=wallet)
         pass_popup.bind(next=partial(self._set_wallet_lock, wallet, ref_instance))
         pass_popup.open()
 
     def _set_wallet_lock(self, wallet, ref_instance, instance, next):
-        wallet.set_k(instance.kpas.text)
-        wallet.set_state_lock(1)
-        wallet.set_locked(False)
-        self.ctrl.wallets.save_wallet(wallet.name)
+        # wallet.set_k(instance.kpas.text)
+        # wallet.set_state_lock(1)
+        # wallet.set_locked(False)
+        # self.ctrl.wallets.save_wallet(wallet.name)
         self._lock_wallet(wallet, ref_instance)
 
     def build(self):

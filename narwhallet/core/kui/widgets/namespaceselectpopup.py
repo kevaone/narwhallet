@@ -1,9 +1,11 @@
+from functools import partial
 from kivy.app import App
 from kivy.uix.modalview import ModalView
 from kivy.uix.spinner import Spinner
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from kivy.properties import StringProperty, NumericProperty, ObjectProperty
 from narwhallet.core.ksc.utils import Ut
+from narwhallet.core.kui.widgets.nwpasswordpopup import Nwpasswordpopup
 
 
 class NamespaceSelectPopup(ModalView):
@@ -19,6 +21,7 @@ class NamespaceSelectPopup(ModalView):
         self.owners = {}
         self.reward_address = None
         self.key: bytes = b''
+        self.default_ovr = False
 
     def populate(self, manager, key, target_screen, reward_address=None):
         self.manager = manager
@@ -36,12 +39,27 @@ class NamespaceSelectPopup(ModalView):
 
         self.wallets.values = _wallets
 
+        if self.app.ctrl.settings.default_wallet != '':
+            self.wallets.text = self.app.ctrl.settings.default_wallet
 
     def wallet_changed(self):
         self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.wallets.text)
+
         if self.wallet is None:
             return
 
+        if self.wallet.state_lock == 1:
+            if self.wallet.locked is True:
+                pass_popup = Nwpasswordpopup(wallet=self.wallet)
+                pass_popup.bind(next=partial(self._wallet_changed))
+                pass_popup.open()
+                return
+        
+        self._wallet_changed()
+
+    def _wallet_changed(self, *args):
+        # TODO Add flag to only reload on unlock
+        self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.wallets.text)
         _ns_list = []
 
         for address in self.wallet.addresses.addresses:
@@ -57,9 +75,17 @@ class NamespaceSelectPopup(ModalView):
         self.namespaces.values = _ns_list
         self.namespaces.disabled = False
 
+        if self.app.ctrl.settings.default_namespace[0] != '':
+            self.default_ovr = True
+            self.owners[self.app.ctrl.settings.default_namespace[0]] = self.app.ctrl.settings.default_namespace[1]
+            self.namespaces.text = self.app.ctrl.settings.default_namespace[0]
+
     def ns_changed(self):
         if self.namespaces.text != '':
             self.btn_next.disabled = False
+
+            # if self.default_ovr == True:
+            #     self.process_send()
 
     def process_send(self):
         if self.target_screen == 'createnamespacekey_screen':

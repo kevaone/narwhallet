@@ -1,4 +1,5 @@
 from copy import deepcopy
+from functools import partial
 import json
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
@@ -8,6 +9,7 @@ from kivy.uix.spinner import Spinner
 from kivy.properties import StringProperty
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
+from narwhallet.core.kui.widgets.nwpasswordpopup import Nwpasswordpopup
 from narwhallet.core.kui.widgets.nwtogglebutton import Nwtogglebutton
 from narwhallet.core.kui.widgets.nwseparator import Nwseparator
 
@@ -136,6 +138,21 @@ class SettingsScreen(Screen):
             self.namespaces.disabled = False
 
     def wallet_changed(self):
+        self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.wallets.text)
+
+        if self.wallet is None:
+            return
+
+        if self.wallet.state_lock == 1:
+            if self.wallet.locked is True:
+                pass_popup = Nwpasswordpopup(wallet=self.wallet)
+                pass_popup.bind(next=partial(self._wallet_changed))
+                pass_popup.open()
+                return
+        
+        self._wallet_changed()
+
+    def _wallet_changed(self, *args):
         self.owners = {}
         self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.wallets.text)
         if self.wallet is None:

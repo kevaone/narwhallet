@@ -49,18 +49,9 @@ class NamespaceInfo(BoxLayout):
             # NOTE Bad action, just return for now
             return
         
+        _nsi.open()
+
         if action == 3:
             _nsi.populate(self.sm, _key, 'createnamespacekey_screen', self.addr)
         else:    
             _nsi.populate(self.sm, _key, 'createnamespacekey_screen')
-
-        app = App.get_running_app()
-        if app.ctrl.settings.default_wallet != '':
-            _nsi.wallets.text = app.ctrl.settings.default_wallet
-
-        if app.ctrl.settings.default_namespace[0] != '':
-            _nsi.namespaces.text = app.ctrl.settings.default_namespace[0]
-            _nsi.owners[app.ctrl.settings.default_namespace[0]] = app.ctrl.settings.default_namespace[1]
-            _nsi.process_send()
-        else:
-            _nsi.open()
