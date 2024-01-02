@@ -67,7 +67,6 @@ class NamespaceScreen(Screen):
         _dat.reverse()
         self.owner = ''
         for _kv in _dat:
-            print('kv...', _kv)
             _xdns = NamespaceInfo()
             _xdns.key = str(_kv['dkey'])
             _xdns.data = str(_kv['dvalue'])
