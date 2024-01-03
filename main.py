@@ -153,4 +153,8 @@ class MainApp(App):
 
 if __name__ == '__main__':
     kivy.resources.resource_add_path(resourcePath())
-    MainApp().run()
+    _main = MainApp()
+    try:
+        _main.run()
+    finally:
+        _main.exiting = True
