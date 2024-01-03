@@ -5,7 +5,9 @@ from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.favorites.favorite import MFavorite
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
+from narwhallet.core.kui.widgets.namespaceinfoactionbar import NamespaceInfoActionBar
 from narwhallet.core.kui.widgets.namespaceinfopopup import NamespaceInfoPopup
+from narwhallet.core.kui.widgets.namespacereplyinfo import NamespaceReplyInfo
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwnsimage import Nwnsimage
 
@@ -45,6 +47,11 @@ class NftDetailScreen(Screen):
             _dns.data = str(_kv['dvalue'])
             _dns.sm = self.manager
 
+            _ns_action_bar = NamespaceInfoActionBar()
+            _ns_action_bar.txid = str(_kv['txid'])
+            _ns_action_bar.addr = str(_kv['addr'])
+            _ns_action_bar.sm = self.manager
+
             if self.owner == '':
                 self.owner = _kv['addr']
 
@@ -52,16 +59,40 @@ class NftDetailScreen(Screen):
                 self.creator = _kv['addr']
 
             _ipfs_images = self.manager.cache_IPFS(_dns.data)
-            
-            self.namespace_key_list.add_widget(_dns)
+
             for _i in _ipfs_images:
                 _im = Nwnsimage()
-                _im.image_path = _i
+                _dns.data =_dns.data.replace(_i[0], '')
+                _im.image_path = _i[2]
                 _im.image.bind(size=_im.on_size)
-                self.namespace_key_list.add_widget(_im)
+                _dns.add_widget(_im)
 
-            _ipfs_images = self.manager.cache_IPFS(_dns.data)
-            
+            _dns.add_widget(_ns_action_bar)
+
+            for rep in _kv['replies']:
+                _nsi = NamespaceReplyInfo()
+                _nsi.key = '@' + str(rep['root_shortcode']) + ' - ' + str(rep['name'])
+                _nsi.data = str(rep['dvalue'])
+                _nsi.txid = str(rep['txid'])
+                # NOTE Currently using the address assosiated with the
+                # specific key output. This may differ from current
+                # namespace owner address.
+                _nsi.addr = str(rep['addr'])
+                _nsi.sm = self.manager
+
+                _ipfs_images = self.manager.cache_IPFS(_nsi.data)
+
+                for _i in _ipfs_images:
+                    _im = Nwnsimage()
+                    _nsi.data =_nsi.data.replace(_i[0], '')
+                    _im.image_path = _i[2]
+                    _im.image.bind(size=_im.on_size)
+                    _nsi.add_widget(_im)
+
+                _dns.add_widget(_nsi)
+
+            self.namespace_key_list.add_widget(_dns)
+
         self.manager.current = 'nftdetail_screen'
 
     def info_popup(self):
