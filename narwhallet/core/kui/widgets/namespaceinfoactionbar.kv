@@ -1,0 +1,61 @@
+<NamespaceInfoActionBar>
+    sm: None
+    orientation: 'vertical'
+    size_hint: 1, None
+    height: dp(30)
+    background_color: (25/255, 27/255, 27/255, 1)
+
+    canvas:
+        Color:
+            rgba: self.background_color
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(25)
+
+        Nwlabel:
+            _text: ''
+            size_hint_x: None
+            width: dp(10)
+
+        Nwbutton:
+            _text: ' '
+            size_hint_x: None
+            width: dp(30)
+            icon: 'narwhallet/core/kui/assets/arrow-rotate-left.png'
+            icon_size: (dp(20), dp(20))
+            icon_padding: dp(0)
+            on_press: root.namespace_select_popup(2)
+
+        Nwlabel:
+            _text: ''
+            size_hint_x: None
+            width: dp(10)
+
+        Nwbutton:
+            _text: ' '
+            size_hint_x: None
+            width: dp(30)
+            icon: 'narwhallet/core/kui/assets/comment.png'
+            icon_size: (dp(20), dp(20))
+            icon_padding: dp(0)
+            on_press: root.namespace_select_popup(1)
+
+        Nwlabel:
+            _text: ''
+            size_hint_x: None
+            width: dp(10)
+
+        Nwbutton:
+            _text: ' '
+            size_hint_x: None
+            width: dp(30)
+            icon: 'narwhallet/core/kui/assets/heart.png'
+            icon_size: (dp(20), dp(20))
+            icon_padding: dp(0)
+            on_press: root.namespace_select_popup(3)

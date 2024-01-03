@@ -146,6 +146,7 @@ class NarwhalletScreens(ScreenManager):
         # https://gateway.ipfs.io/ipfs/
         # https://ipfs.sloppyta.co/ipfs/
         for _image in _ipfs_images:
+            _img = _image
             _image = _image.replace('{{', '')
             _image = _image.replace('}}', '')
             _image = _image.split('|')
@@ -163,7 +164,7 @@ class NarwhalletScreens(ScreenManager):
                     if _extension is None:
                         _extension = 'jpg'
 
-                _images.append('https://ipfs.keva.one/ipfs/' + _image[0])
+                _images.append([_img, _image[0], 'https://ipfs.keva.one/ipfs/' + _image[0]])
                 # if os.path.isfile(os.path.join(self.ipfs_cache_path,
                 #                         _image[0] + '.' + _extension)) is False:
                 #     _data_peer.reconnect()

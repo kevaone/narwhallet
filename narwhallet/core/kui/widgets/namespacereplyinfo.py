@@ -1,15 +1,15 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import StringProperty, ListProperty, BooleanProperty
+from kivy.properties import ObjectProperty, StringProperty, ListProperty, BooleanProperty
 
 
-class NamespaceInfo(BoxLayout):
+class NamespaceReplyInfo(BoxLayout):
     key = StringProperty()
     data = StringProperty()
     background_color = ListProperty()
     hover = BooleanProperty(False)
 
     def __init__(self, **kwargs):
-        super(NamespaceInfo, self).__init__(**kwargs)
+        super(NamespaceReplyInfo, self).__init__(**kwargs)
 
         # Window.bind(mouse_pos=self.on_mouse_pos)
 

@@ -7,6 +7,8 @@ from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.favorites.favorite import MFavorite
 from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
 from narwhallet.core.kui.widgets.namespaceinfo import NamespaceInfo
+from narwhallet.core.kui.widgets.namespaceinfoactionbar import NamespaceInfoActionBar
+from narwhallet.core.kui.widgets.namespacereplyinfo import NamespaceReplyInfo
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwnsimage import Nwnsimage
@@ -68,14 +70,18 @@ class NamespaceScreen(Screen):
         self.owner = ''
         for _kv in _dat:
             _xdns = NamespaceInfo()
+            _ns_action_bar = NamespaceInfoActionBar()
             _xdns.key = str(_kv['dkey'])
             _xdns.data = str(_kv['dvalue'])
             _xdns.txid = str(_kv['txid'])
+            _ns_action_bar.txid = str(_kv['txid'])
             # NOTE Currently using the address assosiated with the
             # specific key output. This may differ from current
             # namespace owner address.
             _xdns.addr = str(_kv['addr'])
+            _ns_action_bar.addr = str(_kv['addr'])
             _xdns.sm = self.manager
+            _ns_action_bar.sm = self.manager
 
             if self.owner == '':
                 self.owner = _kv['addr']
@@ -84,13 +90,39 @@ class NamespaceScreen(Screen):
                 self.creator = _kv['addr']
 
             _ipfs_images = self.manager.cache_IPFS(_xdns.data)
-            
-            self.namespace_key_list.add_widget(_xdns)
+
             for _i in _ipfs_images:
+                _xdns.data =_xdns.data.replace(_i[0], '')
                 _im = Nwnsimage()
-                _im.image_path = _i
+                _im.image_path = _i[2]
                 _im.image.bind(size=_im.on_size)
-                self.namespace_key_list.add_widget(_im)
+                _xdns.add_widget(_im)
+
+            _xdns.add_widget(_ns_action_bar)
+
+            for rep in _kv['replies']:
+                _nsi = NamespaceReplyInfo()
+                _nsi.key = '@' + str(rep['root_shortcode']) + ' - ' + str(rep['name'])
+                _nsi.data = str(rep['dvalue'])
+                _nsi.txid = str(rep['txid'])
+                # NOTE Currently using the address assosiated with the
+                # specific key output. This may differ from current
+                # namespace owner address.
+                _nsi.addr = str(rep['addr'])
+                _nsi.sm = self.manager
+
+                _ipfs_images = self.manager.cache_IPFS(_nsi.data)
+
+                for _i in _ipfs_images:
+                    _im = Nwnsimage()
+                    _nsi.data =_nsi.data.replace(_i[0], '')
+                    _im.image_path = _i[2]
+                    _im.image.bind(size=_im.on_size)
+                    _nsi.add_widget(_im)
+
+                _xdns.add_widget(_nsi)
+
+            self.namespace_key_list.add_widget(_xdns)
 
         self.manager.current = 'namespace_screen'
 
