@@ -141,7 +141,7 @@ class NarwhalletScreens(ScreenManager):
         _ipfs_images = re.findall(r'\{\{[^|image(|/png|/jpeg|/jpg|/gif)\}\}].*|image|image/png|image/jpeg|image/jpg|image/gif\}\}', _item)
         _primary = self.settings_screen.settings.primary_ipfs_provider
         _data_provider = self.settings_screen.settings.ipfs_providers[_primary]
-        _data_peer = Peer(_data_provider, 443, True, True)
+        # _data_peer = Peer(_data_provider, 443, True, True)
         _images = []
         # https://gateway.ipfs.io/ipfs/
         # https://ipfs.sloppyta.co/ipfs/
@@ -164,7 +164,7 @@ class NarwhalletScreens(ScreenManager):
                     if _extension is None:
                         _extension = 'jpg'
 
-                _images.append([_img, _image[0], 'https://ipfs.keva.one/ipfs/' + _image[0]])
+                _images.append([_img, _image[0], _data_provider + _image[0]])
                 # if os.path.isfile(os.path.join(self.ipfs_cache_path,
                 #                         _image[0] + '.' + _extension)) is False:
                 #     _data_peer.reconnect()
