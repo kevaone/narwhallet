@@ -1,7 +1,9 @@
 <TXInputListInfo>
+    orientation: 'vertical'
     sm: None
     txid: txid
     vout: vout
+    height: dp(90) if root.width < dp(550) else dp(65)
 
     canvas:
         Color:
@@ -11,33 +13,46 @@
             pos: self.pos
             size: self.size
 
-    GridLayout:
-        cols: 1
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(20)
 
-        BoxLayout:
-            orientation: 'horizontal'
+        Nwlabel:
+            _text: 'txid'
+            text_size: self.size
+            padding: [5, 0, 0, 0]
+            size_hint_x: None
+            width: dp(50)
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(50) if root.width < dp(550) else dp(25)
+
+        Nwlabel:
+            id: txid
+            _text: 'txid'
+            valign: 'center'
+            text_size: self.size
+            padding: [5, 0, 0, 0]
             size_hint_y: None
-            height: dp(40) if root.width <= dp(650) else dp(20)
+            height: dp(50) if root.width < dp(550) else dp(25)
 
-            Nwlabel:
-                id: txid
-                _text: 'txid'
-                text_size: self.size
-                padding: [5, 0, 0, 0]
+    BoxLayout:
+        size_hint_y: None
+        height: dp(20)
+        orientation: 'horizontal'
 
-        BoxLayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
+        Nwlabel:
+            _text: 'vout:'
+            text_size: self.size
+            halign: 'left'
+            padding: [5, 0, 0, 0]
+            size_hint_x: None
+            width: dp(50)
 
-            Nwlabel:
-                _text: 'vout:'
-                text_size: self.size
-                halign: 'left'
-                padding: [5, 0, 0, 0]
-            Nwlabel:
-                id: vout
-                _text: 'vout'
-                halign: 'right'
-                padding: [5, 0, 0, 0]
-                text_size: self.size
+        Nwlabel:
+            id: vout
+            _text: 'vout'
+            text_size: self.size
