@@ -35,20 +35,32 @@
             height: dp(30)
 
             Nwlabel:
+                _text: 'Block:'
+                text_size: self.size
+                padding: [5, 0, 0, 0]
+                size_hint_x: None
+                width: dp(60)
+
+            Nwlabel:
                 _text: root.block
                 text_size: self.size
-                padding: [5, 0, 0, 0]
+                size_hint_x: None
+                width: dp(75)
+
             Nwlabel:
                 _text: root.status
-                padding: [5, 0, 0, 0]
                 text_size: self.size
+                size_hint_x: None
+                width: dp(75)
+
             Nwlabel:
                 _text: 'Value:'
                 text_size: self.size
-                halign: 'right'
-                padding: [5, 0, 0, 0]
+                size_hint_x: None
+                width: dp(60)
+
             Nwlabel:
                 _text: root.txvalue
-                halign: 'right'
-                padding: [5, 0, 0, 0]
                 text_size: self.size
+                size_hint_x: None
+                width: dp(125)
