@@ -16,17 +16,17 @@ class MFavorites():
     def count(self) -> int:
         return len(self.favorites)
 
-    def get_favorite_by_value(self, value: str) -> MFavorite:
-        return self._favorites[value]
+    def get_favorite_by_id(self, id: str) -> MFavorite:
+        return self._favorites[id]
 
-    def is_favorite_by_value(self, value: str) -> bool:
-        if value in self._favorites:
+    def is_favorite_by_id(self, id: str) -> bool:
+        if id in self._favorites:
             return True
         return False
 
-    def remove_favorite(self, value: str) -> bool:
-        if value in self.favorites:
-            del self._favorites[value]
+    def remove_favorite(self, id: str) -> bool:
+        if id in self.favorites:
+            del self._favorites[id]
             _return = True
         else:
             _return = False
@@ -35,13 +35,16 @@ class MFavorites():
     def from_json(self, favorite: dict):
         _favorite = MFavorite()
 
+        try:
+            _favorite.set_id(favorite['id'])
+        except:
+            _favorite.set_id(favorite['value'])
         _favorite.set_coin(favorite['coin'])
         _favorite.set_kind(favorite['kind'])
         _favorite.set_value(favorite['value'])
         _favorite.set_filter(favorite['filter'])
         
-
-        self._favorites[_favorite.value] = _favorite
+        self._favorites[_favorite.id] = _favorite
 
     def to_list(self) -> list:
         _l = []

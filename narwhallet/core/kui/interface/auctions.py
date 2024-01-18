@@ -43,6 +43,7 @@ class AuctionsScreen(Screen):
             _fav = 'narwhallet/core/kui/assets/star.png'
 
         _dat = _ns['data']
+        _keys = len(_ns['data'])
         _dat.reverse()
         _auction = {}
         for _k in _dat:
@@ -54,6 +55,7 @@ class AuctionsScreen(Screen):
                 _auction = {
                     'time': _k['time'],
                     'root_shortcode': str(_ns['root_shortcode']),
+                    'keys': str(_keys),
                     'desc': str(_na['desc']),
                     'displayName': str(_na['displayName']),
                     'price': str(_na['price']),

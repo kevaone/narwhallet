@@ -15,6 +15,7 @@ from narwhallet.core.kcl.favorites.favorite import MFavorite
 class NamespaceAltScreen(Screen):
     namespaceid = StringProperty()
     shortcode = StringProperty(None)
+    keys = StringProperty(None)
     namespace_key_list = ObjectProperty(None)
     creator = StringProperty(None)
     owner = StringProperty(None)
@@ -40,6 +41,7 @@ class NamespaceAltScreen(Screen):
         self.namespace_name = str(_ns['name'])
         self.header.value = shortcode + ' ' + self.namespace_name
         _dat = _ns['data']
+        self.keys = len(_dat)
         _dat.reverse()
         self.owner = ''
         for _kv in _dat:
@@ -122,12 +124,13 @@ class NamespaceAltScreen(Screen):
             # TODO Validate inputs
             _a = MFavorite()
             # TODO Make more dynamic once more favorite types come into play
+            _a.set_id(self.namespaceid)
             _a.set_coin('KEVACOIN')
             _a.set_kind('Namespace')
-            _a.set_value(self.namespaceid)
+            _a.set_value([self.namespaceid, self.shortcode, self.namespace_name, self.keys])
             _a.set_filter([])
 
-            self.manager.favorites.favorites[_a.value] = _a
+            self.manager.favorites.favorites[_a.id] = _a
         else:
             self.manager.favorites.remove_favorite(self.namespaceid)
 

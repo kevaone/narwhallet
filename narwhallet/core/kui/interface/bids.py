@@ -46,6 +46,7 @@ class BidsScreen(Screen):
             _fav = 'narwhallet/core/kui/assets/star.png'
 
         _dat = _ns['data']
+        _keys = len(_ns['data'])
         _dat.reverse()
         _auction = {}
 
@@ -59,6 +60,7 @@ class BidsScreen(Screen):
                     'time': _k['time'],
                     'namespaceid': bid_nsid,
                     'root_shortcode': str(bid_shortcode),
+                    'keys': str(_keys),
                     'displayName': str(_ad['displayName']),
                     'price': str(_ad['price']),
                     'desc': str(_ad['desc']),

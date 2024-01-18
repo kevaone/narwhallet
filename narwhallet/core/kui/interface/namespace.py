@@ -66,6 +66,7 @@ class NamespaceScreen(Screen):
         self.shortcode = str(_ns['root_shortcode'])
 
         _dat = _ns['data']
+        self.keys = len(_dat)
         _dat.reverse()
         self.owner = ''
         for _kv in _dat:
@@ -162,12 +163,13 @@ class NamespaceScreen(Screen):
             # TODO Validate inputs
             _a = MFavorite()
             # TODO Make more dynamic once more favorite types come into play
+            _a.set_id(self.namespaceid)
             _a.set_coin('KEVACOIN')
             _a.set_kind('Namespace')
-            _a.set_value(self.namespaceid)
+            _a.set_value([self.namespaceid, self.shortcode, self.namespace_name, self.keys])
             _a.set_filter([])
 
-            self.manager.favorites.favorites[_a.value] = _a
+            self.manager.favorites.favorites[_a.id] = _a
         else:
             self.manager.favorites.remove_favorite(self.namespaceid)
 

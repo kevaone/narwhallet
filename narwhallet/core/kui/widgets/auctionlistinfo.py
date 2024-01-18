@@ -8,6 +8,7 @@ from narwhallet.core.kui.widgets.nwimage import Nwimage
 class AuctionListInfo(BoxLayout):
     time = StringProperty()
     root_shortcode = StringProperty()
+    keys = StringProperty(None)
     desc = StringProperty()
     displayName = StringProperty()
     price = StringProperty()
@@ -43,12 +44,13 @@ class AuctionListInfo(BoxLayout):
             # TODO Validate inputs
             _a = MFavorite()
             # TODO Make more dynamic once more favorite types come into play
+            _a.set_id(self.namespaceid)
             _a.set_coin('KEVACOIN')
             _a.set_kind('Namespace')
-            _a.set_value(self.namespaceid)
+            _a.set_value([self.namespaceid, self.shortcode, self.namespace_name, self.keys])
             _a.set_filter([])
 
-            self.sm.favorites.favorites[_a.value] = _a
+            self.sm.favorites.favorites[_a.id] = _a
         else:
             self.sm.favorites.remove_favorite(self.namespaceid)
 
