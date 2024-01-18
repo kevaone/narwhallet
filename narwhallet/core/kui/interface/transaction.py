@@ -63,7 +63,7 @@ class TransactionScreen(Screen):
                 self.pvout.vout.add_widget(_o)
             self.phex.status._text = _asa['hex']
             self.phex.header.value = 'HEX'
-            self.pjson.status._text = json.dumps(_asa)
+            self.pjson.status._text = json.dumps(_asa, indent=4)
             self.pjson.header.value = 'JSON'
             self.confirmations.text = str(_asa['confirmations'])
             self.time.text = str(_asa['time'])
