@@ -15,22 +15,24 @@
             size_hint_y: None
             height: dp(10)
 
-        Nwboxlayout:
-            orientation: 'vertical'
-            # size_hint_y: None
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: dp(15)
+            scroll_type: ['bars','content']
 
             Nwlabel:
                 id: status
-                halign: 'center'
                 valign: 'center'
-                # font_size: dp(20)
-                text_size: self.size
                 _text: ''
-                # size_hint_y: None
-                # height: self.texture_size[1]
+                size_hint: 1, None
+                text_size: self.width, None
+                height: self.texture_size[1]
+                padding: [10, 0, 15, 0]
 
-        # Nwboxlayout:
-        #     orientation: 'vertical'
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
 
         Nwboxlayout:
             size_hint_y: None
