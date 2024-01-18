@@ -41,7 +41,7 @@ class NamespaceAltScreen(Screen):
         self.namespace_name = str(_ns['name'])
         self.header.value = shortcode + ' ' + self.namespace_name
         _dat = _ns['data']
-        self.keys = len(_dat)
+        self.keys = str(len(_dat))
         _dat.reverse()
         self.owner = ''
         for _kv in _dat:

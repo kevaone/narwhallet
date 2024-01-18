@@ -40,7 +40,7 @@ class NftDetailScreen(Screen):
             self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
         _dat = _ns['data']
-        self.keys = len(_dat)
+        self.keys = str(len(_dat))
         _dat.reverse()
 
         for _kv in _dat:
