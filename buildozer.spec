@@ -37,7 +37,7 @@ version.filename = %(source.dir)s/narwhallet/_version.py
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,crcmod,pycryptodome==3.4.6,ecdsa,pynacl,scalecodec,qrcode~=6.1,kivy,base58
+requirements = python3,crcmod,pycryptodome==3.4.6,ecdsa,pynacl,scalecodec,qrcode~=6.1,kivy,base58,certifi
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes

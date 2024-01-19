@@ -8,3 +8,4 @@ scalecodec~=1.0
 qrcode~=6.1
 cryptography~=3.0
 kivy~=2.2.0
+certifi

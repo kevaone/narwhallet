@@ -1,5 +1,6 @@
 from functools import partial
 import os
+import certifi
 import sys
 import threading
 import time
@@ -20,6 +21,7 @@ from narwhallet.control.controller import Controller
 from kivy.clock import Clock
 
 
+os.environ['SSL_CERT_FILE'] = certifi.where()
 Clock.max_iteration = 20
 
 def resourcePath():
