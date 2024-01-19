@@ -13,6 +13,14 @@
             size_hint_y: None
             height: dp(10)
 
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(50)
+
+            Nwbutton:
+                _text: 'Add'
+                on_press: root.add_favorite()
+
         Nwgrid:
             id: favorites_list
             viewclass: 'FavoriteListInfo'

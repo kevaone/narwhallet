@@ -1,5 +1,7 @@
+from functools import partial
 import json
 from kivy.uix.screenmanager import Screen
+from narwhallet.core.kui.widgets.nwaddfavorite import Nwaddfavorite
 from narwhallet.core.kui.widgets.nwgrid import Nwgrid
 from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
@@ -9,7 +11,7 @@ class FavoritesScreen(Screen):
     favorites_list = Nwgrid()
     header = Header()
 
-    def populate(self):
+    def populate(self, *args):
         self.header.value = 'Favorites'
         self.favorites_list.data = []
 
@@ -45,3 +47,10 @@ class FavoritesScreen(Screen):
             self.favorites_list.data.append(_ns)
 
         self.manager.current = 'favorites_screen'
+
+    def add_favorite(self):
+        addfav_popup = Nwaddfavorite()
+        addfav_popup.sm = self.manager
+        addfav_popup.namespace.text = ''
+        addfav_popup.bind(next=partial(self.populate))
+        addfav_popup.open()
