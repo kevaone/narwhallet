@@ -40,14 +40,26 @@
                 padding: [10, 0, 0, 0]
                 width: 75
 
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(35)
+            orientation: 'horizontal'
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: 10
+
             TextInput:
                 id: label
                 valign: 'center'
                 font_size: dp(18)
-                size_hint_x: None
-                padding: [10, 0, 0, 0]
-                width: dp(300)
                 write_tab: False
+
+            Nwlabel:
+                _text: ''
+                size_hint_x: None
+                width: 10
 
         Nwboxlayout:
             size_hint_y: None
