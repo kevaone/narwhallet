@@ -41,14 +41,6 @@
                 on_press: root.set_favorite()
 
             Nwbutton:
-                id: btn_create
-                _text: 'Create Key'
-                icon: 'narwhallet/core/kui/assets/create.png'
-                icon_size: (dp(23), dp(20))
-                icon_padding: dp(29)
-                on_press: root.manager.createnamespacekey_screen.populate()
-
-            Nwbutton:
                 id: transfer_button
                 _text: 'Transfer'
                 icon: 'narwhallet/core/kui/assets/money-bill-transfer.png'
@@ -83,6 +75,26 @@
                 icon_size: (dp(25), dp(25))
                 icon_padding: dp(0)
                 on_press: root.info_popup()
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(50)
+
+            Nwbutton:
+                id: btn_create
+                _text: 'Create Key'
+                icon: 'narwhallet/core/kui/assets/create.png'
+                icon_size: (dp(23), dp(20))
+                icon_padding: dp(29)
+                on_press: root.manager.createnamespacekey_screen.populate()
 
         Nwboxlayout:
             size_hint_y: None
