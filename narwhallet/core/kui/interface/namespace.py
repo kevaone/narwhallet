@@ -146,10 +146,7 @@ class NamespaceScreen(Screen):
         self.manager.auctionnamespace_screen.populate()
 
     def update_namespace_name(self):
-        self.manager.createnamespacekey_screen.populate()
-        self.manager.createnamespacekey_screen.namespace_key.text = '\x01_KEVA_NS_'
-        self.manager.createnamespacekey_screen.namespace_key.disabled = True
-        self.manager.createnamespacekey_screen.namespace_value.text = self.namespace_name
+        self.manager.editnamespace_screen.populate()
 
     def set_favorite(self):
         _add_fav = False

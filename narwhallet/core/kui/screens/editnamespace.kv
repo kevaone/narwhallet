@@ -1,0 +1,422 @@
+<EditNamespaceScreen>
+    wallet_name: wallet_name
+    wallet_balance: wallet_balance
+    amount: amount
+    namespace_key: namespace_key
+    ns_value: ns_value
+    ns_displayName: ns_displayName
+    preview: preview
+    namespace_id: namespace_id
+    namespace_address: namespace_address
+    valid_amount: valid_amount
+    valid_ns_value: valid_ns_value
+    header: header
+    btn_send: btn_send
+    is_social: is_social
+    root_data: root_data
+    social_data: social_data
+    display_box: display_box
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Header:
+            id: header
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: dp(15)
+            scroll_type: ['bars','content']
+
+            Nwboxlayout:
+                id: display_box
+                orientation: 'vertical'
+                size_hint_y: None
+                height: dp(525)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'Wallet:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(80)
+
+                    Nwlabel:
+                        id: wallet_name
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(120)
+
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'NS:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        id: namespace_id
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        padding: [15, 0, 0, 0]
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'NS Address:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        id: namespace_address
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        padding: [15, 0, 0, 0]
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'Balance:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(80)
+
+                    Nwlabel:
+                        id: wallet_balance
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        _text: 'Amount:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(80)
+
+                    Nwlabel:
+                        id: amount
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(175)
+                        on_text: root.check_amount()
+
+                    Nwimage:
+                        id: valid_amount
+                        source: 'narwhallet/core/kui/assets/checkmark.png'
+                        size: (0, 0)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(10)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        _text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                    Nwlabel:
+                        _text: 'Social:'
+                        valign: 'center'
+                        size_hint_x: None
+                        width: dp(50)
+
+                    CheckBox:
+                        id: is_social
+                        size_hint_x: None
+                        width: dp(25)
+                        on_active: root.on_is_social_active()
+
+                    Nwlabel:
+                        _text: ''
+                        size_hint_x: None
+                        width: dp(5)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(10)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: app.translate_text('Key') + ' (' + str(root.key_size) + '/255)' + app.translate_text(':')
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(125)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        _text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                    TextInput:
+                        id: namespace_key
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: root.width - dp(20)
+                        write_tab: False
+                        on_text: root.check_key()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(10)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    id: root_data
+                    size_hint_y: None
+                    height: dp(170)
+                    orientation: 'vertical'
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(20)
+                        orientation: 'horizontal'
+
+                        Nwlabel:
+                            halign: 'left'
+                            _text: app.translate_text('Value') + ' (' + str(root.value_size) + '/3072)' + app.translate_text(':')
+                            text_size: self.size
+                            padding: [10, 0, 0, 0]
+                            size_hint_x: None
+                            width: dp(225)
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(150)
+                        orientation: 'horizontal'
+
+                        Nwlabel:
+                            _text: ''
+                            size_hint_x: None
+                            width: dp(10)
+
+                        TextInput:
+                            id: ns_value
+                            halign: 'left'
+                            _text: ''
+                            text_size: self.size
+                            size_hint_x: None
+                            width: root.width - dp(20)
+                            write_tab: False
+                            on_text: root.check_ns_value()
+
+                        Nwlabel:
+                            _text: ''
+                            size_hint_x: None
+                            width: dp(5)
+
+                        Nwimage:
+                            id: valid_ns_value
+                            source: 'narwhallet/core/kui/assets/checkmark.png'
+                            size: (0, 0)
+
+                Nwboxlayout:
+                    id: social_data
+                    size_hint_y: None
+                    height: dp(75)
+                    orientation: 'vertical'
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(20)
+                        orientation: 'horizontal'
+
+                        Nwlabel:
+                            halign: 'left'
+                            _text: app.translate_text('Total value size') + ' (' + str(root.value_size) + '/3072)'
+                            text_size: self.size
+                            padding: [10, 0, 0, 0]
+                            size_hint_x: None
+                            width: dp(225)
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(10)
+                        orientation: 'horizontal'
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(20)
+                        orientation: 'horizontal'
+
+                        Nwlabel:
+                            halign: 'left'
+                            _text: app.translate_text('displayName') + app.translate_text(':')
+                            text_size: self.size
+                            padding: [10, 0, 0, 0]
+                            size_hint_x: None
+                            width: dp(225)
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(35)
+                        orientation: 'horizontal'
+
+                        Nwlabel:
+                            _text: ''
+                            size_hint_x: None
+                            width: dp(10)
+
+                        TextInput:
+                            id: ns_displayName
+                            halign: 'left'
+                            _text: ''
+                            text_size: self.size
+                            size_hint_x: None
+                            width: root.width - dp(20)
+                            write_tab: False
+                            on_text: root.check_ns_value()
+
+                        Nwlabel:
+                            _text: ''
+                            size_hint_x: None
+                            width: dp(5)
+
+                        Nwimage:
+                            id: valid_ns_value
+                            source: 'narwhallet/core/kui/assets/checkmark.png'
+                            size: (0, 0)
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(10)
+                        orientation: 'horizontal'
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(20)
+                        orientation: 'horizontal'
+
+                        Nwlabel:
+                            halign: 'left'
+                            _text: app.translate_text('Preview') + app.translate_text(':')
+                            text_size: self.size
+                            padding: [10, 0, 0, 0]
+                            size_hint_x: None
+                            width: dp(225)
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(150)
+                        orientation: 'horizontal'
+
+                        Nwlabel:
+                            _text: ''
+                            size_hint_x: None
+                            width: dp(10)
+
+                        TextInput:
+                            id: preview
+                            disabled: True
+                            halign: 'left'
+                            _text: ''
+                            text_size: self.size
+                            size_hint_x: None
+                            size_hint_y: None
+                            width: root.width - dp(20)
+                            write_tab: False
+                            height: dp(150)
+
+                        Nwlabel:
+                            _text: ''
+                            size_hint_x: None
+                            width: dp(5)
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+            orientation: 'horizontal'
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: dp(60)
+            orientation: 'horizontal'
+
+            Nwbutton:
+                _text: 'Cancel'
+                on_press: root.manager.current = 'namespace_screen'
+
+            Nwbutton:
+                id: btn_send
+                _text: 'Create TX'
+                on_press: root.build_send()
