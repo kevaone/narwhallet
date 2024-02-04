@@ -302,7 +302,7 @@ class EditNamespaceScreen(Screen):
         _ns_address = self.namespace_address.text
         _ns = self.namespace_id.text
 
-        if self.is_social is True:
+        if self.is_social.active is True:
             _key = '\x01_KEVA_NS_'
             _value = json.dumps(self.value, separators=(',', ':'))
         else:
