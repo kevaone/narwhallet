@@ -26,15 +26,26 @@
                 halign: 'left'
                 valign: 'center'
                 font_size: dp(20)
-                padding: [10, 0, 0, 0]
+                padding: [0, 0, 0, 0]
                 _text: 'Namespace:'
                 size_hint_x: None
-                width: dp(125)
+                width: dp(305)
+
+            Nwboxlayout:
+                orientation: 'horizontal'
+
+        Nwboxlayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(35)
+
+            Nwboxlayout:
+                orientation: 'horizontal'
 
             TextInput:
                 id: namespace
                 size_hint_x: None
-                width: dp(250)
+                width: dp(305)
                 multiline: False
                 write_tab: False
                 on_text: root.verify()
