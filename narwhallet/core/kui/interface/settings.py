@@ -47,10 +47,10 @@ class SettingsScreen(Screen):
         super(SettingsScreen, self).__init__(**kwargs)
 
         self.pre = False
+        self.app = App.get_running_app()
 
     def load_settings(self):
         self.pre = True
-        self.app = App.get_running_app()
         self.settings = deepcopy(self.app.ctrl.settings)
         self.owners = {}
         self.btn_save.disabled = True
@@ -70,10 +70,10 @@ class SettingsScreen(Screen):
         self.lang.text = self.app.ctrl.lang_dat.data['available'][self.app.ctrl.lang_dat.data['active']][0]
 
         self.lock_timeout.text = str(self.settings.auto_lock_timer)
-        self.manager.kex.active_peer = self.settings.primary_peer
+        self.app.ctrl.kex.active_peer = self.settings.primary_peer
 
         for _p in self.settings.electrumx_peers:
-            self.manager.kex.add_peer(_p[1], _p[2], _p[3], _p[4])
+            self.app.ctrl.kex.add_peer(_p[1], _p[2], _p[3], _p[4])
 
         self.iserver_host.text = self.settings.electrumx_peers[0][1]
         self.iserver_port.text = self.settings.electrumx_peers[0][2]
@@ -221,7 +221,7 @@ class SettingsScreen(Screen):
     def update_active(self, value):
         self.settings.set_primary_peer(value)
         self._save_settings()
-        self.connection_status = self.manager.kex.peers[value].connect()
+        self.connection_status = self.app.ctrl.kex.peers[value].connect()
 
     def update_ipfs_active(self, value):
         self.settings.set_primary_ipfs_provider(value)

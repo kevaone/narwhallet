@@ -47,11 +47,11 @@ class AcceptNamespaceBidScreen(Screen):
         self.txhex = ''
         self.wallet: MWallet
         self.used_inputs = []
+        self.app = App.get_running_app()
         
     def populate(self, txid, namespaceid, namespace_address):
         self.header.value = 'Accept Bid'
         self.bid_tx.text = txid
-        self.app = App.get_running_app()
         
         for _w in self.app.ctrl.wallets.wallets:
             for _a in _w.addresses.addresses:
@@ -71,7 +71,7 @@ class AcceptNamespaceBidScreen(Screen):
         self.namespace_address.text = namespace_address
         self.bid_amount.text = ''
 
-        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
+        _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
         _dat = _ns['result']['data']
         _dat.reverse()
         for _kv in _dat:
@@ -88,11 +88,11 @@ class AcceptNamespaceBidScreen(Screen):
         self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = False
-        self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
+        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
         self.manager.current = 'acceptnamespacebid_screen'
 
     def check_tx_is_bid(self, txid):
-        _nft_tx = MShared.check_tx_is_bid(txid, self.manager.kex)
+        _nft_tx = MShared.check_tx_is_bid(txid, self.app.ctrl.kex)
         if _nft_tx[0] is True:
             _bid_psbt = keva_psbt(_nft_tx[2])
             _sh = (Scripts.AddressScriptHash
@@ -248,7 +248,7 @@ class AcceptNamespaceBidScreen(Screen):
 
     def process_send(self):
         send_popup = Nwsendpopup()
-        send_popup.provider = self.manager.kex
+        send_popup.provider = self.app.ctrl.kex
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
         send_popup.change_value = str(Ut.from_sats(self.change_value))

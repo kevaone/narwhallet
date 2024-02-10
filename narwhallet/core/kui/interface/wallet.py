@@ -37,9 +37,9 @@ class WalletScreen(Screen):
         self.anim = Animation(angle = 360, duration=2) 
         self.anim += Animation(angle = 0, duration=0.01)
         self.anim.repeat = True
+        self.app = App.get_running_app()
 
     def populate(self, wallet_name, instance=None):
-        self.app = App.get_running_app()
         _w = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
 
         if _w is not None:
@@ -90,9 +90,9 @@ class WalletScreen(Screen):
         wallet.set_updating(True)
         wallet.set_bid_balance(0.0)
         wallet.set_bid_tx([])
-        _ = self.manager.kex.peers[self.manager.kex.active_peer].connect()
-        MShared.get_addresses(wallet, self.manager.kex)
-        _ = self.manager.kex.peers[self.manager.kex.active_peer].disconnect()
+        _ = self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].connect()
+        MShared.get_addresses(wallet, self.app.ctrl.kex)
+        _ = self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].disconnect()
         _update_time = MShared.get_timestamp()
         wallet.set_last_updated(_update_time[0])
         self.app.ctrl.wallets.save_wallet(wallet.name)

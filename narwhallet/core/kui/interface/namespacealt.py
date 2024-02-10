@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty, StringProperty
 from narwhallet.control.shared import MShared
@@ -25,12 +26,17 @@ class NamespaceAltScreen(Screen):
     favorite_source = StringProperty()
     info_button = Nwbutton()
 
+    def __init__(self, **kwargs):
+        super(NamespaceAltScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self, namespaceid, shortcode):
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.namespaceid = namespaceid
         self.shortcode = shortcode
-        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
+        _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
         _ns = _ns['result']
 
         if namespaceid in self.manager.favorites.favorites:

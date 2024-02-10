@@ -8,10 +8,14 @@ class AllScreen(Screen):
     all_list = Nwgrid()
     header = Header()
 
+    def __init__(self, **kwargs):
+        super(AllScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self):
         self.header.value = 'All'
         self.all_list.data = []
-        self.app = App.get_running_app()
 
         for _w in self.app.ctrl.wallets.wallets:
             for address in _w.addresses.addresses:

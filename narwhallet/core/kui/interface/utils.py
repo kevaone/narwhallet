@@ -22,12 +22,11 @@ class UtilsScreen(Screen):
     def __init__(self, **kwargs):
         super(UtilsScreen, self).__init__(**kwargs)
 
-        pass
+        self.app = App.get_running_app()
 
     def populate(self):
         self.reset_screen()
         self.wallet_name.values = []
-        self.app = App.get_running_app()
         for _w in self.app.ctrl.wallets.wallets:
             if _w.kind == EWalletKind.NORMAL:
                 self.wallet_name.values.append(_w.name)

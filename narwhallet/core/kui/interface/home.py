@@ -9,11 +9,15 @@ class HomeScreen(Screen):
     wallet_list = Nwgrid()
     header = Header()
 
+    def __init__(self, **kwargs):
+        super(HomeScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self):
-        app = App.get_running_app()
         self.wallet_list.data = []
         
-        for _w in app.ctrl.wallets.wallets:
+        for _w in self.app.ctrl.wallets.wallets:
             if _w is not None:
                 _t = {}
                 _t['wallet_name'] = _w.name

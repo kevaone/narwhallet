@@ -1,5 +1,6 @@
 import os
 import re
+from kivy.app import App
 from kivy.uix.screenmanager import ScreenManager
 from kivy.core.clipboard import Clipboard
 from narwhallet.core.kcl.enums.mediatypes import content_type
@@ -119,16 +120,16 @@ class NarwhalletScreens(ScreenManager):
         self.favorites: MFavorites = MFavorites()
         self.mymedia: MMyMedia = MMyMedia()
         self.program_path = ''
+        self.app = App.get_running_app()
 
     def setup(self, _user_path):
         self.user_path = _user_path
         self.ipfs_cache_path = os.path.join(self.user_path, 'tmp_ipfs')
-        self.kex = KEXclient()
         self.settings_screen.load_settings()
         self.address_book.load_address_book(self.user_path)
         self.favorites.load_favorites(self.user_path)
         self.mymedia.load_mymedia(self.user_path)
-        _connection_status = self.kex.peers[self.kex.active_peer].connect()
+        _connection_status = self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].connect()
         self.settings_screen.connection_status = _connection_status
         
         self.home_screen.populate()

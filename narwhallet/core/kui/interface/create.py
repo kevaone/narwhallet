@@ -20,26 +20,27 @@ class CreateScreen(Screen):
     def __init__(self, **kwargs):
         super(CreateScreen, self).__init__(**kwargs)
 
+        self.app = App.get_running_app()
+
     def get_mnemonic_lang(self):
-        app = App.get_running_app()
         _lang = self.mnemonic_lang.text
-        if _lang == app.translate_text('ENGLISH'):
+        if _lang == self.app.translate_text('ENGLISH'):
             return Bip39Languages.ENGLISH
-        elif _lang == app.translate_text('ITALIAN'):
+        elif _lang == self.app.translate_text('ITALIAN'):
             return Bip39Languages.ITALIAN
-        elif _lang == app.translate_text('FRENCH'):
+        elif _lang == self.app.translate_text('FRENCH'):
             return Bip39Languages.FRENCH
-        elif _lang == app.translate_text('SPANISH'):
+        elif _lang == self.app.translate_text('SPANISH'):
             return Bip39Languages.SPANISH
-        elif _lang == app.translate_text('PORTUGUESE'):
+        elif _lang == self.app.translate_text('PORTUGUESE'):
             return Bip39Languages.PORTUGUESE
-        elif _lang == app.translate_text('CZECH'):
+        elif _lang == self.app.translate_text('CZECH'):
             return Bip39Languages.CZECH
-        elif _lang == app.translate_text('CHINESE_SIMPLIFIED'):
+        elif _lang == self.app.translate_text('CHINESE_SIMPLIFIED'):
             return Bip39Languages.CHINESE_SIMPLIFIED
-        elif _lang == app.translate_text('CHINESE_TRADITIONAL'):
+        elif _lang == self.app.translate_text('CHINESE_TRADITIONAL'):
             return Bip39Languages.CHINESE_TRADITIONAL
-        elif _lang == app.translate_text('KOREAN'):
+        elif _lang == self.app.translate_text('KOREAN'):
             return Bip39Languages.KOREAN
 
         return Bip39Languages.ENGLISH
@@ -66,9 +67,9 @@ class CreateScreen(Screen):
         if self._w.bip == 'bip49' and self._w.mnemonic != '':
             # TODO Pass password if advanced enabled
             self._w.generate_seed('')
-        app = App.get_running_app()
-        app.ctrl.wallets.from_mwallet(self._w)
-        app.ctrl.wallets.save_wallet(self._w.name)
+
+        self.app.ctrl.wallets.from_mwallet(self._w)
+        self.app.ctrl.wallets.save_wallet(self._w.name)
 
         self.manager.home_screen.populate()
         self.manager.wallet_screen.populate(self._w.name)
@@ -77,17 +78,16 @@ class CreateScreen(Screen):
 
     def populate(self):
         self.reset_screen()
-        app = App.get_running_app()
 
-        self.mnemonic_lang.values = [app.translate_text('ENGLISH'),
-            app.translate_text('ITALIAN'),
-            app.translate_text('FRENCH'),
-            app.translate_text('SPANISH'),
-            app.translate_text('PORTUGUESE'),
-            app.translate_text('CZECH'),
-            app.translate_text('CHINESE_SIMPLIFIED'),
-            app.translate_text('CHINESE_TRADITIONAL'),
-            app.translate_text('KOREAN')]
+        self.mnemonic_lang.values = [self.app.translate_text('ENGLISH'),
+            self.app.translate_text('ITALIAN'),
+            self.app.translate_text('FRENCH'),
+            self.app.translate_text('SPANISH'),
+            self.app.translate_text('PORTUGUESE'),
+            self.app.translate_text('CZECH'),
+            self.app.translate_text('CHINESE_SIMPLIFIED'),
+            self.app.translate_text('CHINESE_TRADITIONAL'),
+            self.app.translate_text('KOREAN')]
         self.manager.current = 'create_screen'
 
     def on_enter(self, *args):

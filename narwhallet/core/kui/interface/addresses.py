@@ -19,10 +19,11 @@ class AddressesScreen(Screen):
     def __init__(self, **kwargs):
         super(AddressesScreen, self).__init__(**kwargs)
 
+        self.app = App.get_running_app()
+
     def populate(self, wallet_name):
         self.header.value = wallet_name
         self.address_list.data = []
-        self.app = App.get_running_app()
         _w = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self._addr = []
         self._original = None

@@ -33,10 +33,10 @@ class SendScreen(Screen):
         self.fee_rate = ''
         self.txsize = ''
         self.txhex = ''
+        self.app = App.get_running_app()
         
     def populate(self, wallet_name):
-        app = App.get_running_app()
-        self.wallet = app.ctrl.wallets.get_wallet_by_name(wallet_name)
+        self.wallet = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.send_to.text = ''
@@ -51,7 +51,7 @@ class SendScreen(Screen):
         self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
-        self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
+        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
         self.manager.current = 'send_screen'
 
     def on_enter(self, *args):
@@ -183,7 +183,7 @@ class SendScreen(Screen):
 
     def process_send(self):
         send_popup = Nwsendpopup()
-        send_popup.provider = self.manager.kex
+        send_popup.provider = self.app.ctrl.kex
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
         send_popup.change_value = str(Ut.from_sats(self.change_value))

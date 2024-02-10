@@ -11,6 +11,11 @@ class NamespacesScreen(Screen):
     btn_create = Nwbutton()
     header = Header()
 
+    def __init__(self, **kwargs):
+        super(NamespacesScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     @staticmethod
     def _sort(item):
         return item['shortcode']
@@ -19,8 +24,7 @@ class NamespacesScreen(Screen):
         self.header.value = self.manager.wallet_screen.header.value
         self.namespaces_list.scroll_y = 1
         self.namespaces_list.data = []
-        app = App.get_running_app()
-        _w = app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+        _w = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         if _w is None:
             return
 

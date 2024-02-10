@@ -35,10 +35,10 @@ class CreateNamespaceScreen(Screen):
         self.txsize = ''
         self.txhex = ''
         self.wallet: MWallet
+        self.app = App.get_running_app()
         
     def populate(self):
-        app = App.get_running_app()
-        self.wallet = app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+        self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.amount.text = str(NS_RESERVATION/100000000)
@@ -49,7 +49,7 @@ class CreateNamespaceScreen(Screen):
         self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
-        self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
+        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
         _address = self.wallet.get_unused_address()
         self.namespace_address.text = _address
         self.manager.current = 'createnamespace_screen'
@@ -181,7 +181,7 @@ class CreateNamespaceScreen(Screen):
 
     def process_send(self):
         send_popup = Nwsendpopup()
-        send_popup.provider = self.manager.kex
+        send_popup.provider = self.app.ctrl.kex
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
         send_popup.change_value = str(Ut.from_sats(self.change_value))

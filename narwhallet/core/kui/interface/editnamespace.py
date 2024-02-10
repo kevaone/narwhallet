@@ -55,9 +55,9 @@ class EditNamespaceScreen(Screen):
         self.txhex = ''
         self.wallet: MWallet
         self.value = None
+        self.app = App.get_running_app()
         
     def populate(self):
-        self.app = App.get_running_app()
         self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         self.header.value = self.manager.namespace_screen.header.value
         self.wallet_name._text = self.wallet.name
@@ -66,7 +66,7 @@ class EditNamespaceScreen(Screen):
         self.namespace_id.text = self.manager.namespace_screen.namespaceid
         self.namespace_key.disabled = True
 
-        _ns = MShared.get_namespace(self.namespace_id.text, self.manager.kex)
+        _ns = MShared.get_namespace(self.namespace_id.text, self.app.ctrl.kex)
         _ns = _ns['result']
         _dat = _ns['data']
         _dat.reverse()
@@ -94,7 +94,7 @@ class EditNamespaceScreen(Screen):
         self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
-        self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
+        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
         self.manager.current = 'editnamespace_screen'
 
     def on_enter(self, *args):
@@ -354,7 +354,7 @@ class EditNamespaceScreen(Screen):
 
     def process_send(self):
         send_popup = Nwsendpopup()
-        send_popup.provider = self.manager.kex
+        send_popup.provider = self.app.ctrl.kex
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
         send_popup.change_value = str(Ut.from_sats(self.change_value))

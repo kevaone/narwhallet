@@ -1,5 +1,6 @@
 import json
 import os
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.uix.filechooser import FileChooserListView
 from kivy.metrics import dp
@@ -28,6 +29,11 @@ class MediaBrowseScreen(Screen):
     txhex = StringProperty()
     btn_load = Nwbutton()
 
+    def __init__(self, **kwargs):
+        super(MediaBrowseScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self, wallet, ret_screen):
         self.file_chooser.layout.children[0].children[0].bar_width = '15dp'
         self.wallet: MWallet = wallet
@@ -42,7 +48,7 @@ class MediaBrowseScreen(Screen):
         self.input_value = 0
         self.output_value = 0
         self.change_value = 0
-        self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
+        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
         self.ret_screen = ret_screen
         if self.wallet.balance < 10.0:
             self.btn_load.disabled = True
@@ -54,7 +60,7 @@ class MediaBrowseScreen(Screen):
             data = f.read()
         _file = os.path.basename(selection[0])
 
-        self.up_result = MShared.ipfs_upload(_file, Ut.base64_encode(data).decode(), self.manager.kex)
+        self.up_result = MShared.ipfs_upload(_file, Ut.base64_encode(data).decode(), self.app.ctrl.kex)
 
         if 'CID' in self.up_result and 'payment_required' in self.up_result and 'payment_address' in self.up_result:
             self.amount =  str(self.up_result['payment_required'])
@@ -139,7 +145,7 @@ class MediaBrowseScreen(Screen):
     def process_send(self):
         send_popup = Nwsendpopup()
         send_popup.isIPFS = self.up_result['CID']
-        send_popup.provider = self.manager.kex
+        send_popup.provider = self.app.ctrl.kex
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
         send_popup.change_value = str(Ut.from_sats(self.change_value))

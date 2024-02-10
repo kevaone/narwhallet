@@ -2,8 +2,11 @@ import os
 import shutil
 from kivy.utils import platform
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
+from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.file_utils.io import ConfigLoader
+from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kcl.wallet.wallets import MWallets
+from narwhallet.core.kex.KEXc import KEXclient
 
 
 class Controller():
@@ -18,7 +21,7 @@ class Controller():
                                                  'settings.json'))
         self.set_dat.load()
         self.settings.from_dict(self.set_dat.data)
-
+        self.kex = KEXclient()
         self.wallets = MWallets()
         self.load_wallets()
 

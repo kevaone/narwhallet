@@ -1,4 +1,5 @@
 import json
+from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from narwhallet.control.shared import MShared
@@ -32,11 +33,12 @@ class TransactionScreen(Screen):
         self.pvout = Txoutputlistpopup()
         self.phex = Nwpopup()
         self.pjson = Nwpopup()
+        self.app = App.get_running_app()
 
     def populate(self, txid):
         self.header.value = self.manager.wallet_screen.header.value
         self.txid.text = txid
-        _asa = MShared.get_transaction(txid, self.manager.kex)
+        _asa = MShared.get_transaction(txid, self.app.ctrl.kex)
         self.pvin.vin.clear_widgets()
         self.pvout.vout.clear_widgets()
         if _asa is not None:

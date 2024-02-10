@@ -22,9 +22,13 @@ class WalletInfoScreen(Screen):
     last_updated = Nwlabel()
     header = Header()
 
+    def __init__(self, **kwargs):
+        super(WalletInfoScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self, name):
-        app = App.get_running_app()
-        _w: MWallet = app.ctrl.wallets.get_wallet_by_name(name)
+        _w: MWallet = self.app.ctrl.wallets.get_wallet_by_name(name)
 
         if _w is not None:
             self.header.value = _w.name

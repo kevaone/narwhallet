@@ -30,12 +30,17 @@ class NamespaceScreen(Screen):
     header = Header()
     favorite_source = StringProperty()
 
+    def __init__(self, **kwargs):
+        super(NamespaceScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self, namespaceid):
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.namespaceid = namespaceid
-        app = App.get_running_app()
-        _w = app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+
+        _w = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         if _w is None:
             return
 
@@ -59,7 +64,7 @@ class NamespaceScreen(Screen):
         else:
             self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
-        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
+        _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
         _ns = _ns['result']
         self.namespace_name = str(_ns['name'])
         self.header.value = str(_ns['root_shortcode']) + ' ' + self.namespace_name

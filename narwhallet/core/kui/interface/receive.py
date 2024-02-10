@@ -13,8 +13,12 @@ class ReceiveScreen(Screen):
     qr_code = QR_Code()
     header = Header()
 
-    def populate(self, wallet_name):
+    def __init__(self, **kwargs):
+        super(ReceiveScreen, self).__init__(**kwargs)
+
         self.app = App.get_running_app()
+
+    def populate(self, wallet_name):
         self.address.text = ''
         _w: MWallet = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self.header.value = wallet_name

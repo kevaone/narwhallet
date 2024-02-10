@@ -1,3 +1,4 @@
+from kivy.app import App
 from functools import partial
 import json
 from kivy.uix.screenmanager import Screen
@@ -11,6 +12,11 @@ class FavoritesScreen(Screen):
     favorites_list = Nwgrid()
     header = Header()
 
+    def __init__(self, **kwargs):
+        super(FavoritesScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self, *args):
         self.header.value = 'Favorites'
         self.favorites_list.data = []
@@ -19,7 +25,7 @@ class FavoritesScreen(Screen):
             _f = self.manager.favorites.get_favorite_by_id(favorite)
 
             if isinstance(_f.value, str):
-                _ns = MShared.get_namespace(favorite, self.manager.kex)
+                _ns = MShared.get_namespace(favorite, self.app.ctrl.kex)
                 _ns = _ns['result']
 
                 try:

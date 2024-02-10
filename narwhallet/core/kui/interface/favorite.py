@@ -1,3 +1,4 @@
+from kivy.app import App
 from kivy.properties import StringProperty
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
@@ -23,12 +24,17 @@ class FavoriteScreen(Screen):
     favorite_source = StringProperty()
     info_button = Nwbutton()
 
+    def __init__(self, **kwargs):
+        super(FavoriteScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self, namespaceid):
         self.header.value = 'Favorite'
         self.namespace_key_list.parent.scroll_y = 1
         self.namespace_key_list.clear_widgets()
         self.namespaceid = namespaceid
-        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
+        _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
         _ns = _ns['result']
         self.namespace_name = str(_ns['name'])
         self.shortcode = str(_ns['root_shortcode'])

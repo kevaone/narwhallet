@@ -8,12 +8,16 @@ class NftScreen(Screen):
     nft_list = Nwgrid()
     header = Header()
 
+    def __init__(self, **kwargs):
+        super(NftScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self):
         self.header.value = 'Nft''s'
         self.nft_list.data = []
-        app = App.get_running_app()
 
-        for _w in app.ctrl.wallets.wallets:
+        for _w in self.app.ctrl.wallets.wallets:
             for address in _w.addresses.addresses:
                 for _us in address.namespaces:
                     _fav = 'narwhallet/core/kui/assets/star.png'

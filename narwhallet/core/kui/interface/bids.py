@@ -10,15 +10,19 @@ class BidsScreen(Screen):
     bid_list = ObjectProperty(None)
     header = Header()
 
+    def __init__(self, **kwargs):
+        super(BidsScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self):
         self.bid_list.data = []
         self.header.value = 'My Bids'
         self.manager.current = 'bids_screen'
-        app = App.get_running_app()
         _bids = {}
-        _b = []
+        _b = [] 
 
-        for _w in app.ctrl.wallets.wallets:
+        for _w in self.app.ctrl.wallets.wallets:
             for address in _w.addresses.addresses:
                 for _us in address.namespaces:
                     if 'namespace_bids' not in _us: continue
@@ -37,7 +41,7 @@ class BidsScreen(Screen):
                 self.bid_list.data.append(_auction)
 
     def get_namespace(self, bid_nsid, bid_shortcode, namespaceid, bid_tx):
-        _ns = MShared.get_namespace(bid_nsid, self.manager.kex)
+        _ns = MShared.get_namespace(bid_nsid, self.app.ctrl.kex)
         _ns = _ns['result']
 
         if bid_nsid in self.manager.favorites.favorites:

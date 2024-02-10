@@ -50,10 +50,10 @@ class BidNamespaceScreen(Screen):
         self.txhex = ''
         self.wallet: MWallet
         self.used_inputs = []
+        self.app = App.get_running_app()
         
     def populate(self, namespaceid):
         self.header.value = 'Create Bid'
-        self.app = App.get_running_app()
         _wallets = []
         for _w in self.app.ctrl.wallets.wallets:
             _wallets.append(_w.name)
@@ -64,7 +64,7 @@ class BidNamespaceScreen(Screen):
         self.bid_namespace_address.text = ''
         self.bid_amount.text = ''
 
-        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
+        _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
         _ns = _ns['result']
         self.offer_namespaceid.text = namespaceid
         self.offer_shortcode.text = str(_ns['root_shortcode'])
@@ -88,7 +88,7 @@ class BidNamespaceScreen(Screen):
         self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
-        self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
+        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
         self.manager.current = 'bidnamespace_screen'
 
     def wallet_changed(self):
@@ -331,7 +331,7 @@ class BidNamespaceScreen(Screen):
 
     def process_send(self):
         send_popup = Nwsendpopup()
-        send_popup.provider = self.manager.kex
+        send_popup.provider = self.app.ctrl.kex
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
         send_popup.change_value = str(Ut.from_sats(self.change_value))

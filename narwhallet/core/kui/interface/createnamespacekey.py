@@ -44,10 +44,10 @@ class CreateNamespaceKeyScreen(Screen):
         self.wallet: MWallet
         self.isReward: bool = False
         self.ns_key: bytes = b''
+        self.app = App.get_running_app()
         
     def populate(self, wallet=None, reward_address=None):
         self.isReward = False
-        self.app = App.get_running_app()
         if wallet is None:
             self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
             self.namespace_id.text = self.manager.namespace_screen.namespaceid
@@ -73,7 +73,7 @@ class CreateNamespaceKeyScreen(Screen):
         self.btn_send.disabled = True
         if self.wallet.balance < 10.0:
             self.btn_ipfs_upload.disabled = True
-        self.fee_rate = str(MShared.get_fee_rate(self.manager.kex))
+        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
 
         self.namespace_key.disabled = False
         self.manager.current = 'createnamespacekey_screen'
@@ -264,16 +264,16 @@ class CreateNamespaceKeyScreen(Screen):
 
     def ipfs_added(self):
         self.manager.current = 'createnamespacekey_screen'
-        _ = self.manager.kex.peers[self.manager.kex.active_peer].connect()
-        MShared.get_addresses(self.wallet, self.manager.kex)
-        _ = self.manager.kex.peers[self.manager.kex.active_peer].disconnect()
+        _ = self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].connect()
+        MShared.get_addresses(self.wallet, self.app.ctrl.kex)
+        _ = self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].disconnect()
         _update_time = MShared.get_timestamp()
         self.wallet.set_last_updated(_update_time[0])
         self.app.ctrl.wallets.save_wallet(self.wallet.name)
 
     def process_send(self):
         send_popup = Nwsendpopup()
-        send_popup.provider = self.manager.kex
+        send_popup.provider = self.app.ctrl.kex
         send_popup.in_value = str(Ut.from_sats(self.input_value))
         send_popup.out_value = str(Ut.from_sats(self.output_value))
         send_popup.change_value = str(Ut.from_sats(self.change_value))

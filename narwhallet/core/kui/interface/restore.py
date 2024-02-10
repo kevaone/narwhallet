@@ -18,6 +18,7 @@ class RestoreScreen(Screen):
         super(RestoreScreen, self).__init__(**kwargs)
 
         self._w = MWallet()
+        self.app = App.get_running_app()
 
     def set_kind(self):
         if self.data.text.startswith('xprv'):
@@ -51,9 +52,9 @@ class RestoreScreen(Screen):
         if self._w.bip == 'bip49' and self._w.mnemonic != '':
             # TODO Pass password if advanced enabled
             self._w.generate_seed('')
-        app = App.get_running_app()
-        app.ctrl.wallets.from_mwallet(self._w)
-        app.ctrl.wallets.save_wallet(self._w.name)
+
+        self.app.ctrl.wallets.from_mwallet(self._w)
+        self.app.ctrl.wallets.save_wallet(self._w.name)
 
         self.manager.home_screen.populate()
         self.manager.wallet_screen.populate(self._w.name)

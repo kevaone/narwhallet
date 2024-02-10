@@ -9,6 +9,11 @@ class TransactionsScreen(Screen):
     transaction_list = Nwgrid()
     header = Header()
 
+    def __init__(self, **kwargs):
+        super(TransactionsScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     @staticmethod
     def sort_dict(item):
         if item['block'] == 'unconfirmed':
@@ -20,8 +25,7 @@ class TransactionsScreen(Screen):
         self.transaction_list.children[0].rows = 0
         self.transaction_list.data = []
         self.transaction_list.scroll_y = 1
-        app = App.get_running_app()
-        _w = app.ctrl.wallets.get_wallet_by_name(wallet_name)
+        _w = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self.header.value = wallet_name
         _transactions = 0
         _txd = []

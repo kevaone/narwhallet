@@ -10,13 +10,17 @@ class AuctionsScreen(Screen):
     auction_list = ObjectProperty(None)
     header = Header()
 
+    def __init__(self, **kwargs):
+        super(AuctionsScreen, self).__init__(**kwargs)
+
+        self.app = App.get_running_app()
+
     def populate(self):
         self.auction_list.data = []
         self.header.value = 'My Auctions'
         self.manager.current = 'auctions_screen'
-        app = App.get_running_app()
 
-        for _w in app.ctrl.wallets.wallets:
+        for _w in self.app.ctrl.wallets.wallets:
             for address in _w.addresses.addresses:
                 for _ns in address.namespaces:
                     if 'active_auction' in _ns:
@@ -34,7 +38,7 @@ class AuctionsScreen(Screen):
                                 self.auction_list.data.append(_auction)
 
     def get_namespace(self, namespaceid):
-        _ns = MShared.get_namespace(namespaceid, self.manager.kex)
+        _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
         _ns = _ns['result']
 
         if namespaceid in self.manager.favorites.favorites:
