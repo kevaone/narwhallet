@@ -11,6 +11,10 @@ class NamespacesScreen(Screen):
     btn_create = Nwbutton()
     header = Header()
 
+    @staticmethod
+    def _sort(item):
+        return item['shortcode']
+
     def populate(self):
         self.header.value = self.manager.wallet_screen.header.value
         self.namespaces_list.scroll_y = 1
@@ -25,6 +29,7 @@ class NamespacesScreen(Screen):
         else:
             self.btn_create.disabled = True
 
+        _nsl = []
         for _n in _w.namespaces:
             if _n['namespaceid'] in self.manager.favorites.favorites:
                 _fav = 'narwhallet/core/kui/assets/star_dark.png'
@@ -37,6 +42,8 @@ class NamespacesScreen(Screen):
             'sm': self.manager,
             'ns_name': str(_n['name']),
             'favorite_source': _fav}
-            self.namespaces_list.data.append(_ns)
+            _nsl.append(_ns)
 
+        _nsl.sort(reverse=True, key=self._sort)        
+        self.namespaces_list.data = _nsl
         self.manager.current = 'namespaces_screen'
