@@ -89,7 +89,7 @@ class MShared():
     @staticmethod
     def __test_batch_for_error(batch, results, kex: KEXclient):
         if not isinstance(results, list):
-            print('type error', results)
+            # print('type error', results)
             time.sleep(5)
             results = MShared.__get_batch(batch, kex)
         else:

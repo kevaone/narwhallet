@@ -44,41 +44,41 @@ class Controller():
 
         if os.path.isfile(os.path.join(_narwhallet_path,
                                         'settings.json')) is False:
-            print('settings.json created.')
+            # print('settings.json created.')
             shutil.copy(os.path.join(program_path,
                                         'config/settings.json'), _narwhallet_path)
 
         if os.path.isfile(os.path.join(_narwhallet_path,
                                         'narwhallet.addressbook')) is False:
-            print('narwhallet.addressbook created.')
+            # print('narwhallet.addressbook created.')
             shutil.copy(os.path.join(program_path,
                                         'config/narwhallet.addressbook'),
                         _narwhallet_path)
 
         if os.path.isfile(os.path.join(_narwhallet_path,
                                         'narwhallet.favorites')) is False:
-            print('narwhallet.favorites created.')
+            # print('narwhallet.favorites created.')
             shutil.copy(os.path.join(program_path,
                                         'config/narwhallet.favorites'),
                         _narwhallet_path)
 
         if os.path.isfile(os.path.join(_narwhallet_path,
                                         'narwhallet.mymedia')) is False:
-            print('narwhallet.mymedia created.')
+            # print('narwhallet.mymedia created.')
             shutil.copy(os.path.join(program_path,
                                         'config/narwhallet.mymedia'),
                         _narwhallet_path)
 
         if os.path.isfile(os.path.join(_narwhallet_path,
                                         'special_keys.json')) is False:
-            print('special_keys.json created.')
+            # print('special_keys.json created.')
             shutil.copy(os.path.join(program_path,
                                         'config/special_keys.json'),
                         _narwhallet_path)
 
         if os.path.isfile(os.path.join(_narwhallet_path,
                                         'translations.json')) is False:
-            print('translations.json created.')
+            # print('translations.json created.')
             shutil.copy(os.path.join(program_path,
                                         'config/translations.json'), _narwhallet_path)
 

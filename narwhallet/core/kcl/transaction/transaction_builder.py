@@ -74,7 +74,7 @@ class MTransactionBuilder(MTransaction):
             _vout.scriptPubKey.set_hex(_sh)
             self.add_vout(_vout)
         except Exception as ex:
-            print('ex', ex)
+            # print('ex', ex)
             _sh = None
         return _sh
 
