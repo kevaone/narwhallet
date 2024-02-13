@@ -41,7 +41,7 @@ class SendScreen(Screen):
         self.wallet = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self._refresh = Nwrefreshpopup()
         self.header.value = self.wallet.name
-        self.wallet_balance.text = str(self.wallet.balance)
+        self.wallet_balance.text = str(round(self.wallet.balance, 8))
         self.send_to.text = ''
         self.amount.text = ''
         self.valid_amount.size = (0, 0)
@@ -60,7 +60,7 @@ class SendScreen(Screen):
 
     def _populate(self, *args):
         self.app.ctrl.wallet_get_addresses(self.wallet)
-        self.wallet_balance.text = str(self.wallet.balance)
+        self.wallet_balance.text = str(round(self.wallet.balance, 8))
         self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
         self._refresh.dismiss()
 

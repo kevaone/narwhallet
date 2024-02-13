@@ -43,7 +43,7 @@ class CreateNamespaceScreen(Screen):
         self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
         self._refresh = Nwrefreshpopup()
         self.header.value = self.wallet.name
-        self.wallet_balance.text = str(self.wallet.balance)
+        self.wallet_balance.text = str(round(self.wallet.balance, 8))
         self.amount.text = str(NS_RESERVATION/100000000)
         self.namespace_name.text = ''
         self.namespace_address.text = ''
@@ -61,7 +61,7 @@ class CreateNamespaceScreen(Screen):
 
     def _populate(self, *args):
         self.app.ctrl.wallet_get_addresses(self.wallet)
-        self.wallet_balance.text = str(self.wallet.balance)
+        self.wallet_balance.text = str(round(self.wallet.balance, 8))
         _address = self.wallet.get_unused_address()
         self.namespace_address.text = _address
         self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))

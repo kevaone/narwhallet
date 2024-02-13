@@ -104,7 +104,7 @@ class BidNamespaceScreen(Screen):
 
     def _wallet_changed(self, *args):
         self.app.ctrl.wallet_get_addresses(self.wallet)
-        self.wallet_balance.text = str(self.wallet.balance)
+        self.wallet_balance.text = str(round(self.wallet.balance, 8))
         _ns_list = []
 
         for address in self.wallet.addresses.addresses:

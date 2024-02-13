@@ -53,7 +53,7 @@ class TransferNamespaceScreen(Screen):
         self._refresh = Nwrefreshpopup()
         self.header.value = self.manager.namespace_screen.header.value
         self.wallet_name._text = self.wallet.name
-        self.wallet_balance.text = str(self.wallet.balance)
+        self.wallet_balance.text = str(round(self.wallet.balance, 8))
         self.amount.text = str(NS_RESERVATION/100000000)
         self.namespace_id.text = self.manager.namespace_screen.namespaceid
         self.namespace_key.text = 'Transfer'
@@ -71,7 +71,7 @@ class TransferNamespaceScreen(Screen):
 
     def _populate(self, *args):
         self.app.ctrl.wallet_get_addresses(self.wallet)
-        self.wallet_balance.text = str(self.wallet.balance)
+        self.wallet_balance.text = str(round(self.wallet.balance, 8))
         self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
         self._refresh.dismiss()
 
