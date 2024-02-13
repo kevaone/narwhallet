@@ -198,9 +198,14 @@ class MShared():
         elif chain == 1:
             _addresses = wallet.addresses
 
+        _idx = -1
         for _a in _addresses.addresses:
             # _script_hash = Scripts.AddressScriptHash(_a.address)
             # _script_hash = Scripts.compileToScriptHash(_script_hash, True)
+            _idx = _idx + 1
+            # NOTE Filter out spent change addresses
+            if chain == 0 and _a.balance == 0 and _idx < wallet.change_index - 5:
+                continue
             _th.append(kex.api.custom.get_address
                        (_a.address, kex.id))
             _tid[str(kex.id)] = {}
