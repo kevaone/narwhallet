@@ -1,4 +1,5 @@
 import json
+from kivy.clock import Clock
 from kivy.uix.screenmanager import Screen
 from kivy.uix.checkbox import CheckBox
 from kivy.uix.textinput import TextInput
@@ -16,6 +17,7 @@ from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwrefreshpopup import Nwrefreshpopup
 from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 from narwhallet.core.kui.widgets.nwboxlayout import Nwboxlayout
 
@@ -59,6 +61,7 @@ class EditNamespaceScreen(Screen):
         
     def populate(self):
         self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
+        self._refresh = Nwrefreshpopup()
         self.header.value = self.manager.namespace_screen.header.value
         self.wallet_name._text = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
@@ -66,6 +69,20 @@ class EditNamespaceScreen(Screen):
         self.namespace_id.text = self.manager.namespace_screen.namespaceid
         self.namespace_key.disabled = True
 
+        self.namespace_address.text = self.manager.namespace_screen.owner
+        self.is_social.active = True
+        self.input_value = 0
+        self.output_value = 0
+        self.change_value = 0
+        self.btn_send._text = 'Create TX'
+        self.btn_send.disabled = True
+        self.manager.current = 'editnamespace_screen'
+        Clock.schedule_once(self._refresh.open, 0.1)
+        Clock.schedule_once(self._populate, 0.5)
+
+    def _populate(self, *args):
+        self.app.ctrl.wallet_get_addresses(self.wallet)
+        self.wallet_balance.text = str(self.wallet.balance)
         _ns = MShared.get_namespace(self.namespace_id.text, self.app.ctrl.kex)
         _ns = _ns['result']
         _dat = _ns['data']
@@ -87,15 +104,8 @@ class EditNamespaceScreen(Screen):
                     self.ns_value.text = str(_kv['dvalue'])
                     _rs = True
 
-        self.namespace_address.text = self.manager.namespace_screen.owner
-        self.is_social.active = True
-        self.input_value = 0
-        self.output_value = 0
-        self.change_value = 0
-        self.btn_send._text = 'Create TX'
-        self.btn_send.disabled = True
         self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
-        self.manager.current = 'editnamespace_screen'
+        self._refresh.dismiss()
 
     def on_enter(self, *args):
         if self.is_social.active:

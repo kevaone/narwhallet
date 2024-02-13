@@ -1,4 +1,5 @@
 from kivy.app import App
+from kivy.clock import Clock
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
@@ -12,6 +13,7 @@ from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwrefreshpopup import Nwrefreshpopup
 from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
 
@@ -37,6 +39,7 @@ class SendScreen(Screen):
         
     def populate(self, wallet_name):
         self.wallet = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
+        self._refresh = Nwrefreshpopup()
         self.header.value = self.wallet.name
         self.wallet_balance.text = str(self.wallet.balance)
         self.send_to.text = ''
@@ -51,8 +54,15 @@ class SendScreen(Screen):
         self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
-        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
         self.manager.current = 'send_screen'
+        Clock.schedule_once(self._refresh.open, 0.1)
+        Clock.schedule_once(self._populate, 0.5)
+
+    def _populate(self, *args):
+        self.app.ctrl.wallet_get_addresses(self.wallet)
+        self.wallet_balance.text = str(self.wallet.balance)
+        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
+        self._refresh.dismiss()
 
     def on_enter(self, *args):
         self.send_to.focus = True

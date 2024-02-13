@@ -91,3 +91,11 @@ class Controller():
             _tf = os.path.isdir(os.path.join(self.wallets.root_path, file))
             if _tf is False:
                 self.wallets.load_wallet(file)
+
+    def wallet_get_addresses(self, wallet: MWallet, *args):
+        _ = self.kex.peers[self.kex.active_peer].connect()
+        MShared.get_addresses(wallet, self.kex)
+        _ = self.kex.peers[self.kex.active_peer].disconnect()
+        _update_time = MShared.get_timestamp()
+        wallet.set_last_updated(_update_time[0])
+        self.wallets.save_wallet(wallet.name)

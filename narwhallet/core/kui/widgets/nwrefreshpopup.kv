@@ -1,0 +1,31 @@
+<Nwrefreshpopup>
+    msg: msg
+    auto_dismiss: False
+    size_hint: .5, .5
+
+    GridLayout:
+        cols: 1
+
+        Header:
+            id: header
+            value: ''
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+
+        Nwboxlayout:
+            orientation: 'vertical'
+
+            Nwlabel:
+                id: msg
+                halign: 'center'
+                valign: 'center'
+                font_size: dp(20)
+                _text: 'Refreshing balances...'
+                size_hint: 1, None
+                text_size: self.width, None
+                height: self.texture_size[1]
+
+        Nwboxlayout:
+            orientation: 'vertical'

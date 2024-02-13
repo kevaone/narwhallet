@@ -1,4 +1,5 @@
 import json
+from kivy.clock import Clock
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.spinner import Spinner
@@ -15,6 +16,7 @@ from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwrefreshpopup import Nwrefreshpopup
 from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
 
@@ -54,6 +56,7 @@ class BidNamespaceScreen(Screen):
         
     def populate(self, namespaceid):
         self.header.value = 'Create Bid'
+        self._refresh = Nwrefreshpopup()
         _wallets = []
         for _w in self.app.ctrl.wallets.wallets:
             _wallets.append(_w.name)
@@ -96,6 +99,11 @@ class BidNamespaceScreen(Screen):
         if self.wallet is None:
             return
 
+        Clock.schedule_once(self._refresh.open, 0.1)
+        Clock.schedule_once(self._wallet_changed, 0.5)
+
+    def _wallet_changed(self, *args):
+        self.app.ctrl.wallet_get_addresses(self.wallet)
         self.wallet_balance.text = str(self.wallet.balance)
         _ns_list = []
 
@@ -109,6 +117,7 @@ class BidNamespaceScreen(Screen):
 
         self.bid_namespaceid.values = _ns_list
         self.bid_namespaceid.disabled = False
+        self._refresh.dismiss()
 
     def ns_changed(self):
         _set = False

@@ -1,3 +1,4 @@
+from kivy.clock import Clock
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
@@ -13,6 +14,7 @@ from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwrefreshpopup import Nwrefreshpopup
 from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
 
@@ -47,6 +49,7 @@ class CreateNamespaceKeyScreen(Screen):
         self.app = App.get_running_app()
         
     def populate(self, wallet=None, reward_address=None):
+        self._refresh = Nwrefreshpopup()
         self.isReward = False
         if wallet is None:
             self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.manager.wallet_screen.header.value)
@@ -73,10 +76,17 @@ class CreateNamespaceKeyScreen(Screen):
         self.btn_send.disabled = True
         if self.wallet.balance < 10.0:
             self.btn_ipfs_upload.disabled = True
-        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
 
         self.namespace_key.disabled = False
         self.manager.current = 'createnamespacekey_screen'
+        Clock.schedule_once(self._refresh.open, 0.1)
+        Clock.schedule_once(self._populate, 0.5)
+
+    def _populate(self, *args):
+        self.app.ctrl.wallet_get_addresses(self.wallet)
+        self.wallet_balance.text = str(self.wallet.balance)
+        self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
+        self._refresh.dismiss()
 
     def on_enter(self, *args):
         if self.namespace_key.text == '':
