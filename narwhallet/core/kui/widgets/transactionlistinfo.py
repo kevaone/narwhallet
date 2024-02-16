@@ -5,6 +5,7 @@ from kivy.properties import StringProperty, ListProperty, BooleanProperty
 
 class TransactionListInfo(BoxLayout):
     transaction = StringProperty()
+    time = StringProperty()
     block = StringProperty()
     sm = ScreenManager()
     status = StringProperty()

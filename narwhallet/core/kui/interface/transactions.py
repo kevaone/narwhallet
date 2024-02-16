@@ -39,6 +39,7 @@ class TransactionsScreen(Screen):
                         else:
                             _s = 'Receive'
                         _d = {
+                                'time': _h['time'],
                                 'transaction': _h['txid'],
                                 'block': str(_h['block']),
                                 'txvalue': str(Ut.from_sats(_h['value'])),
@@ -59,11 +60,12 @@ class TransactionsScreen(Screen):
                             else:
                                 _s = 'Receive'
                             _d = {
-                                'transaction': _h['txid'],
-                                'block': str(_h['block']),
-                                'txvalue': str(Ut.from_sats(_h['value'])),
-                                'sm': self.manager,
-                                'status': _s}
+                                    'time': _h['time'],
+                                    'transaction': _h['txid'],
+                                    'block': str(_h['block']),
+                                    'txvalue': str(Ut.from_sats(_h['value'])),
+                                    'sm': self.manager,
+                                    'status': _s}
                             self.transaction_list.children[0].rows += 1
                             _txd.append(_d)
                             _transactions += 1

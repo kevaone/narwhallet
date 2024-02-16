@@ -1,11 +1,12 @@
 <TransactionListInfo>
     sm: None
     block: 'block'
+    time: ''
     transaction: 'transaction'
     txvalue: 'txvalue'
     status: 'status'
     size_hint_y: None
-    height: dp(85) if root.width <= dp(650) else dp(60)
+    height: dp(115) if root.width <= dp(650) else dp(90)
 
     canvas:
         Color:
@@ -28,6 +29,24 @@
                 font_size: dp(17)
                 size_hint_y: None
                 height: dp(60) if root.width <= dp(650) else dp(30)
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(30)
+
+            Nwlabel:
+                _text: 'Date:'
+                text_size: self.size
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                width: dp(55)
+                size_hint_x: None
+
+            Nwlabel:
+                _text: root.time
+                halign: 'left'
+                text_size: self.size
 
         BoxLayout:
             orientation: 'horizontal'

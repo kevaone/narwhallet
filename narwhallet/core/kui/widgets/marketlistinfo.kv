@@ -11,7 +11,7 @@
     bids: ''
     high_bid: ''
     size_hint_y: None
-    height: dp(90)
+    height: dp(120)
 
     canvas:
         Color:
@@ -75,46 +75,63 @@
             orientation: 'horizontal'
 
             Nwlabel:
+                _text: 'Date:'
+                text_size: self.size
+                halign: 'left'
+                padding: [5, 0, 0, 0]
+                width: dp(55)
+                size_hint_x: None
+
+            Nwlabel:
+                _text: root.time
+                halign: 'left'
+                text_size: self.size
+
+        BoxLayout:
+            orientation: 'horizontal'
+
+            Nwlabel:
                 _text: 'Price:'
                 text_size: self.size
                 halign: 'left'
                 padding: [5, 0, 0, 0]
-                width: dp(65)
+                width: dp(55)
                 size_hint_x: None
 
             Nwlabel:
                 _text: root.price
                 halign: 'left'
-                padding: [5, 0, 0, 0]
                 text_size: self.size
+                width: dp(65)
+                size_hint_x: None
 
             Nwlabel:
                 _text: 'Bids:'
                 text_size: self.size
                 halign: 'left'
-                padding: [5, 0, 0, 0]
-                width: dp(65)
+                width: dp(55)
                 size_hint_x: None
 
             Nwlabel:
                 _text: root.bids
                 halign: 'left'
-                padding: [5, 0, 0, 0]
                 text_size: self.size
+                size_hint_x: None
+                width: dp(65)
 
             Nwlabel:
                 _text: 'High Bid:'
                 text_size: self.size
                 halign: 'left'
-                padding: [5, 0, 0, 0]
                 width: dp(75)
                 size_hint_x: None
 
             Nwlabel:
                 _text: root.high_bid
                 halign: 'left'
-                padding: [5, 0, 0, 0]
                 text_size: self.size
+                width: dp(65)
+                size_hint_x: None
 
         BoxLayout:
             orientation: 'horizontal'
