@@ -1,3 +1,4 @@
+import json
 import os
 import shutil
 from kivy.utils import platform
@@ -15,7 +16,7 @@ class Controller():
         _translations = os.path.join(self.user_path, 'translations.json')
         self.lang_dat = ConfigLoader(_translations)
         self.lang_dat.load()
-
+        self.test_updated_translations(self.lang_dat, _program_path, _translations)
         self.settings: MNarwhalletSettings = MNarwhalletSettings()
         self.set_dat = ConfigLoader(os.path.join(self.user_path,
                                                  'settings.json'))
@@ -83,6 +84,21 @@ class Controller():
                                         'config/translations.json'), _narwhallet_path)
 
         return _narwhallet_path
+
+    def test_updated_translations(self, lang_dat, program_path: str,
+                                  user_translation_path: str) -> None:
+        _package = os.path.join(program_path, 'config/translations.json')
+        _test = ConfigLoader(_package)
+        _test.load()
+
+        if lang_dat != _test:
+            _active = self.lang_dat.data['active']
+            shutil.copy2(os.path.join(program_path,
+                                     'config/translations.json'), self.user_path)
+            self.lang_dat = ConfigLoader(user_translation_path)
+            self.lang_dat.load()
+            self.lang_dat.data['active'] = _active
+            self.lang_dat.save(json.dumps(self.lang_dat.data, ensure_ascii=False))
 
     def load_wallets(self):
         self.wallets.set_root_path(os.path.join(self.user_path, 'wallets'))

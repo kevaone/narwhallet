@@ -270,7 +270,7 @@ class SettingsScreen(Screen):
         self.app.ctrl.settings.from_dict(self.app.ctrl.set_dat.data)
 
         self.app.ctrl.lang_dat.data['active'] = self.lang.values.index(self.lang.text)
-        self.app.ctrl.lang_dat.save(json.dumps(self.app.ctrl.lang_dat.data))
+        self.app.ctrl.lang_dat.save(json.dumps(self.app.ctrl.lang_dat.data, ensure_ascii=False))
         self.btn_home._text = 'Home'
         self.btn_save.disabled = True
 
