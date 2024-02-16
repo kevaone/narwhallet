@@ -52,11 +52,12 @@ class AddressScreen(Screen):
                 else:
                     _s = 'Receive'
                 _t = {
-                'transaction': _h['txid'],
-                'block': str(_h['block']),
-                'txvalue': str(Ut.from_sats(_h['value'])),
-                'status': _s,
-                'sm': self.manager}
+                    'time': _h['time'],
+                    'transaction': _h['txid'],
+                    'block': str(_h['block']),
+                    'txvalue': str(Ut.from_sats(_h['value'])),
+                    'status': _s,
+                    'sm': self.manager}
                 _addrs.append(_t)
                 
         self.transaction_list.data = _addrs
