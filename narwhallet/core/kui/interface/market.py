@@ -24,7 +24,7 @@ class MarketScreen(Screen):
         try:
             _ = self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].connect()
             _data = json.loads(self.app.ctrl.kex.call(_custom.get_nft_auctions(1)))
-            _ = self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].disconnect()
+            self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].disconnect()
         except:
             # TODO: Handle failure in aquiring market data
             return
