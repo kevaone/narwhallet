@@ -46,11 +46,9 @@ class SettingsScreen(Screen):
     def __init__(self, **kwargs):
         super(SettingsScreen, self).__init__(**kwargs)
 
-        self.pre = False
         self.app = App.get_running_app()
 
     def load_settings(self):
-        self.pre = True
         self.settings = deepcopy(self.app.ctrl.settings)
         self.owners = {}
         self.btn_save.disabled = True
@@ -129,7 +127,7 @@ class SettingsScreen(Screen):
         #                                           'special_keys.json'))
         # _special_keys.load()
 
-        _wallets = []
+        _wallets = ['']
         for _w in self.app.ctrl.wallets.wallets:
             _wallets.append(_w.name)
 
@@ -143,10 +141,14 @@ class SettingsScreen(Screen):
             self.namespaces.text = self.settings.default_namespace[0]
             self.namespaces.disabled = False
 
-        self.pre = False
-
     def wallet_changed(self):
-        if self.pre == True:
+        if self.wallets.text == '':
+            self.settings.set_default_wallet(self.wallets.text)
+            self.namespaces.values = ['']
+            self.namespaces.disabled = True
+            self.namespaces.text = ''
+            self.settings.set_default_namespace(['', ''])
+            self._save_settings()
             return
 
         self.wallet = self.app.ctrl.wallets.get_wallet_by_name(self.wallets.text)
