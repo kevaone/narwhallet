@@ -29,7 +29,6 @@ class BidNamespaceScreen(Screen):
     bid_namespaceid = Spinner()
     bid_namespace_address = Nwlabel()
     bid_amount = TextInput()
-    bidtx_reservation = Nwlabel()
     offer_namespaceid = Nwlabel()
     offer_tx = Nwlabel()
     offer_shortcode = Nwlabel()
@@ -39,7 +38,6 @@ class BidNamespaceScreen(Screen):
     offer_asking_price = Nwlabel()
     offer_description = Nwlabel()
     valid_bid_amount = Image()
-    valid_send_to = Image()
     header = Header()
     btn_send = Nwbutton()
 
@@ -62,8 +60,9 @@ class BidNamespaceScreen(Screen):
             _wallets.append(_w.name)
 
         self.wallet_name.values = _wallets
-        self.bidtx_reservation.text = str(NS_RESERVATION/100000000)
+        self.wallet_name.text = ''
         self.bid_namespaceid.disabled = True
+        self.bid_namespaceid.text = ''
         self.bid_namespace_address.text = ''
         self.bid_amount.text = ''
 
@@ -92,6 +91,8 @@ class BidNamespaceScreen(Screen):
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
         self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
+        if self.app.ctrl.settings.default_wallet != '':
+            self.wallet_name.text = self.app.ctrl.settings.default_wallet
         self.manager.current = 'bidnamespace_screen'
 
     def wallet_changed(self):
@@ -117,6 +118,8 @@ class BidNamespaceScreen(Screen):
 
         self.bid_namespaceid.values = _ns_list
         self.bid_namespaceid.disabled = False
+        if self.app.ctrl.settings.default_namespace[0] != '':
+            self.bid_namespaceid.text = self.app.ctrl.settings.default_namespace[0]
         self._refresh.dismiss()
 
     def ns_changed(self):
@@ -207,7 +210,6 @@ class BidNamespaceScreen(Screen):
             _ = (Base58Decoder
                  .CheckDecode(self.offer_payment_address.text))
 
-            self.valid_send_to.size = (dp(30), dp(30))
             _a, _b, _c, _d = True, True, True, True
             if cb is True:
                 _a = self.check_amount(False)
@@ -216,7 +218,6 @@ class BidNamespaceScreen(Screen):
             if _a and _b and _c and _d is True:
                 self.btn_send.disabled = False
         except Exception:
-            self.valid_send_to.size = (0, 0)
             self.btn_send.disabled = True
             return False
         return True

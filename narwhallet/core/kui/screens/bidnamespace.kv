@@ -12,9 +12,7 @@
     offer_payment_address: offer_payment_address
     offer_asking_price: offer_asking_price
     offer_description: offer_description
-    bidtx_reservation: bidtx_reservation
     valid_bid_amount: valid_bid_amount
-    valid_send_to: valid_send_to
     header: header
     btn_send: btn_send
 
@@ -31,7 +29,10 @@
             bar_width: dp(15)
             scroll_type: ['bars','content']
 
-            GridLayout:
+            Nwboxlayout:
+                orientation: 'vertical'
+                size_hint_y: None
+                height: dp(535)
                 canvas:
                     Color:
                         rgba: 36/255, 36/255, 36/255, 1
@@ -39,12 +40,6 @@
                     Rectangle:
                         pos: self.pos
                         size: self.size
-                size_hint_y: None
-                rows: 23
-                height: dp(45) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(45) * self.rows + (dp(10)*self.rows)
-                cols: 1
-                spacing: dp(5)
-                padding: dp(5)
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -82,11 +77,23 @@
                     Nwlabel:
                         halign: 'left'
                         valign: 'center'
-                        _text: 'NS:'
+                        _text: 'Namespace:'
                         text_size: self.size
                         size_hint_x: None
-                        width: dp(75)
+                        width: dp(125)
                         padding: [10, 0, 0, 0]
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(10)
 
                     Spinner:
                         id: bid_namespaceid
@@ -95,12 +102,12 @@
                         _text: 'Select NS'
                         text_size: self.size
                         size_hint_x: None
-                        width: dp(175)
+                        width: dp(350)
                         on_text: root.ns_changed()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: dp(20)
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
@@ -111,11 +118,17 @@
                         size_hint_x: None
                         width: dp(125)
 
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
                     Nwlabel:
                         id: bid_namespace_address
                         halign: 'left'
                         _text: ''
                         text_size: self.size
+                        padding: [15, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -128,7 +141,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: dp(100)
+                        width: dp(125)
 
                     Nwlabel:
                         id: wallet_balance
@@ -138,26 +151,24 @@
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: dp(20)
+                    height: dp(35)
                     orientation: 'horizontal'
 
                     Nwlabel:
                         halign: 'left'
-                        valign: 'center'
-                        _text: 'NS Reservation:'
+                        valign: 'top'
+                        _text: 'Asking Price:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: dp(150)
+                        width: dp(125)
 
                     Nwlabel:
-                        id: bidtx_reservation
+                        id: offer_asking_price
                         halign: 'left'
-                        valign: 'center'
-                        _text: '0.01'
+                        valign: 'top'
+                        _text: ''
                         text_size: self.size
-                        size_hint_x: None
-                        width: dp(175)
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -171,7 +182,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: dp(100)
+                        width: dp(125)
 
                     TextInput:
                         id: bid_amount
@@ -201,14 +212,14 @@
 
                     Nwlabel:
                         halign: 'left'
-                        _text: 'NS:'
+                        _text: 'Shortcode:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: dp(100)
+                        width: dp(125)
 
                     Nwlabel:
-                        id: offer_namespaceid
+                        id: offer_shortcode
                         halign: 'left'
                         _text: ''
                         text_size: self.size
@@ -220,17 +231,11 @@
 
                     Nwlabel:
                         halign: 'left'
-                        _text: 'Shortcode:'
+                        _text: 'Name:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: dp(100)
-
-                    Nwlabel:
-                        id: offer_shortcode
-                        halign: 'left'
-                        _text: ''
-                        text_size: self.size
+                        width: dp(125)
 
                     Nwlabel:
                         id: offer_name
@@ -245,17 +250,88 @@
 
                     Nwlabel:
                         halign: 'left'
+                        _text: 'Description:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        id: offer_description
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        padding: [15, 0, 0, 0]
+
+                Nwboxlayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(5)
+
+                Nwseparator:
+
+                Nwseparator:
+                    color: [54/255, 58/255, 59/255, 1]
+
+                Nwboxlayout:
+                    orientation: 'vertical'
+                    size_hint_y: None
+                    height: dp(5)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'NS:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(100)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        id: offer_namespaceid
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        padding: [15, 0, 0, 0]
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
                         _text: 'NS Address:'
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
                         width: dp(100)
 
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
                     Nwlabel:
                         id: offer_namespace_address
                         halign: 'left'
                         _text: ''
                         text_size: self.size
+                        padding: [15, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -276,74 +352,11 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(10)
-
-                    Nwlabel:
                         id: offer_payment_address
                         halign: 'left'
                         _text: ''
                         text_size: self.size
-
-                    Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(5)
-
-                    Nwimage:
-                        id: valid_send_to
-                        source: 'narwhallet/core/kui/assets/checkmark.png'
-                        size: (0, 0)
-
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(20)
-                    orientation: 'horizontal'
-
-                    Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(10)
-
-                    Nwlabel:
-                        id: offer_tx
-                        halign: 'left'
-                        _text: ''
-                        text_size: self.size
-
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(20)
-                    orientation: 'horizontal'
-
-                    Nwlabel:
-                        halign: 'left'
-                        valign: 'center'
-                        _text: 'Asking Price:'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(100)
-
-                    Nwlabel:
-                        id: offer_asking_price
-                        halign: 'left'
-                        _text: ''
-                        text_size: self.size
-
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(20)
-                    orientation: 'horizontal'
-
-                    Nwlabel:
-                        halign: 'left'
-                        _text: 'Description:'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(100)
+                        padding: [15, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -351,15 +364,11 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(10)
-
-                    Nwlabel:
-                        id: offer_description
+                        id: offer_tx
                         halign: 'left'
                         _text: ''
                         text_size: self.size
+                        padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
