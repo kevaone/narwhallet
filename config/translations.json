@@ -186,6 +186,7 @@
         "Confirm:": {"zh_CHS": "确认："},
         "Create Namespace": {"zh_CHS": "创建命名空间"},
         "Select Namespace": {"zh_CHS": "选择命名空间"},
-        "My Media": {"zh_CHS": "我的媒体"}
+        "My Media": {"zh_CHS": "我的媒体"},
+        "Media": {"zh_CHS": "媒体"}
     }
 }
