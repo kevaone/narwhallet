@@ -58,7 +58,7 @@ class WalletScreen(Screen):
             self.last_updated._text = MShared.get_timestamp(_w.last_updated)[1]
             self.wallet_balance._text = str(round(_w.balance, 8))
 
-            self.wallet_unconfirmed_balance._text = str(round(_w.unconfirmed_balance, 8))
+            self.wallet_unconfirmed_balance._text = 'r' + str(round(_w.unconfirmed_balance[0], 8)) + ', s' + str(round(_w.unconfirmed_balance[1], 8))
             self.wallet_sent._text = str(round(_w.sent, 8))
             self.wallet_received._text = str(round(_w.received, 8))
             app = App.get_running_app()

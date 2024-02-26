@@ -274,12 +274,28 @@ class MShared():
                 _addresses.addresses[_ax].set_sent(i['result'][0]['sent'])
                 _addresses.addresses[_ax].set_received(i['result'][0]['received'])
                 _addresses.addresses[_ax].set_balance(i['result'][0]['balance'])
+                _addresses.addresses[_ax]._unconfirmed_receive_balance = 0.0
+                _addresses.addresses[_ax]._unconfirmed_send_balance = 0.0
+                for _r in i['result'][1]['page_results']:
+                    if _r['block'] == 'unconfirmed':
+                        if 'received' in _r:
+                            _addresses.addresses[_ax]._unconfirmed_send_balance = _addresses.addresses[_ax]._unconfirmed_send_balance + Ut.from_sats(_r['value'])
+                        else:
+                            _addresses.addresses[_ax]._unconfirmed_receive_balance = _addresses.addresses[_ax]._unconfirmed_receive_balance + Ut.from_sats(_r['value'])
         else:
             _addresses.addresses[_ax].set_history(i['result'][1]['page_results'])
             _addresses.addresses[_ax].set_namespaces(i['result'][2])
             _addresses.addresses[_ax].set_sent(i['result'][0]['sent'])
             _addresses.addresses[_ax].set_received(i['result'][0]['received'])
             _addresses.addresses[_ax].set_balance(i['result'][0]['balance'])
+            _addresses.addresses[_ax]._unconfirmed_receive_balance = 0.0
+            _addresses.addresses[_ax]._unconfirmed_send_balance = 0.0
+            for _r in i['result'][1]['page_results']:
+                if _r['block'] == 'unconfirmed':
+                    if 'received' in _r:
+                        _addresses.addresses[_ax]._unconfirmed_send_balance = _addresses.addresses[_ax]._unconfirmed_send_balance + Ut.from_sats(_r['value'])
+                    else:
+                        _addresses.addresses[_ax]._unconfirmed_receive_balance = _addresses.addresses[_ax]._unconfirmed_receive_balance + Ut.from_sats(_r['value'])
 
     @staticmethod
     def _get_addresses(wallet: MWallet, batches: list, _tid: dict,

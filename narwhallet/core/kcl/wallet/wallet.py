@@ -103,14 +103,17 @@ class MWallet():
         return _received
 
     @property
-    def unconfirmed_balance(self) -> float:
-        _unconfirmed_balance = 0.0
+    def unconfirmed_balance(self) -> tuple:
+        _unconfirmed_receive_balance = 0.0
+        _unconfirmed_send_balance = 0.0
         for _a in self.addresses.addresses:
-            _unconfirmed_balance = _unconfirmed_balance + _a.unconfirmed_balance
+            _unconfirmed_receive_balance = _unconfirmed_receive_balance + _a.unconfirmed_receive_balance
+            _unconfirmed_send_balance = _unconfirmed_send_balance + _a.unconfirmed_send_balance
 
         for _a in self.change_addresses.addresses:
-            _unconfirmed_balance = _unconfirmed_balance + _a.unconfirmed_balance
-        return _unconfirmed_balance
+            _unconfirmed_receive_balance = _unconfirmed_receive_balance + _a.unconfirmed_receive_balance
+            _unconfirmed_send_balance = _unconfirmed_send_balance + _a.unconfirmed_send_balance
+        return (_unconfirmed_receive_balance, _unconfirmed_send_balance)
 
     @property
     def bid_balance(self) -> float:

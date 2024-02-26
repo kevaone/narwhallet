@@ -35,8 +35,10 @@ class MAddresses():
         _address.set_sent(address['sent'])
         _address.set_received(address['received'])
         _address.set_balance(address['balance'])
-        if 'unconfirmed_balance' in address:
-            _address.set_unconfirmed_balance(address['unconfirmed_balance'])
+        if 'unconfirmed_receive_balance' in address:
+            _address.set_unconfirmed_receive_balance(address['unconfirmed_receive_balance'])
+        if 'unconfirmed_send_balance' in address:
+            _address.set_unconfirmed_send_balance(address['unconfirmed_send_balance'])
         _address.set_label(address['label'])
         if 'history' in address:
             _address.set_history(address['history'])

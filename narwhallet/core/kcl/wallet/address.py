@@ -6,7 +6,8 @@ class MAddress():
         self._sent: float = 0.0
         self._received: float = 0.0
         self._balance: float = 0.0
-        self._unconfirmed_balance: float = 0.0
+        self._unconfirmed_receive_balance: float = 0.0
+        self._unconfirmed_send_balance: float = 0.0
         self._label: str = ''
         self._history: list = []
         self._input_tx: list = []
@@ -30,12 +31,12 @@ class MAddress():
         return self._balance
 
     @property
-    def unconfirmed_balance(self) -> float:
-        return self._unconfirmed_balance
+    def unconfirmed_receive_balance(self) -> float:
+        return self._unconfirmed_receive_balance
 
     @property
-    def total_balance(self) -> float:
-        return self.balance + self.unconfirmed_balance
+    def unconfirmed_send_balance(self) -> float:
+        return self._unconfirmed_send_balance
 
     @property
     def label(self) -> str:
@@ -95,8 +96,11 @@ class MAddress():
     def set_balance(self, balance: float) -> None:
         self._balance = balance
 
-    def set_unconfirmed_balance(self, balance: float) -> None:
-        self._unconfirmed_balance = balance
+    def set_unconfirmed_receive_balance(self, balance: float) -> None:
+        self._unconfirmed_receive_balance = balance
+
+    def set_unconfirmed_send_balance(self, balance: float) -> None:
+        self._unconfirmed_send_balance = balance
 
     def set_label(self, label: str) -> None:
         self._label = label
@@ -120,6 +124,7 @@ class MAddress():
     def to_dict(self) -> dict:
         return {'address': self.address, 'sent': self.sent,
                 'received': self.received, 'balance': self.balance,
-                'unconfirmed_balance': self.unconfirmed_balance,
+                'unconfirmed_receive_balance': self.unconfirmed_receive_balance,
+                'unconfirmed_send_balance': self.unconfirmed_send_balance,
                 'label': self.label, 'history': self.history,
                 'unspent_tx': self.unspent_tx, 'namespaces': self.namespaces}
