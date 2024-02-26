@@ -1,19 +1,26 @@
+import copy
 import json
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from kivy.properties import ObjectProperty
 from narwhallet.core.kex.cmd import _custom
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwgrid import Nwgrid
+from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 
 
 class MarketScreen(Screen):
-    auction_list = ObjectProperty(None)
+    auction_list = Nwgrid()
     header = Header()
+    btn_filter_all = Nwbutton()
+    btn_filter_media = Nwbutton()
+    btn_filter_content = Nwbutton()
 
     def __init__(self, **kwargs):
         super(MarketScreen, self).__init__(**kwargs)
 
         self.app = App.get_running_app()
+        self._original = []
 
     def populate(self):
         self.header.value = 'Market'
@@ -57,3 +64,31 @@ class MarketScreen(Screen):
             self.auction_list.data.append(_auction)
 
         self.manager.current = 'market_screen'
+
+    def filter_media(self, type):
+        if self._original == []:
+            self._original = self.auction_list.data
+
+        _tmp = []
+
+        if type == 'media':    
+            for _i in self._original:
+                if _i['image_path'] != '':
+                    _tmp.append(_i)
+            self.auction_list.data = _tmp
+            self.btn_filter_all.background_color = [54/255, 58/255, 59/255, 1]
+            self.btn_filter_media.background_color = [86/255, 86/255, 86/255, 1]
+            self.btn_filter_content.background_color = [54/255, 58/255, 59/255, 1]
+        elif type == 'content':
+            for _i in self._original:
+                if _i['image_path'] == '':
+                    _tmp.append(_i)
+            self.auction_list.data = _tmp
+            self.btn_filter_all.background_color = [54/255, 58/255, 59/255, 1]
+            self.btn_filter_media.background_color = [54/255, 58/255, 59/255, 1]
+            self.btn_filter_content.background_color = [86/255, 86/255, 86/255, 1]
+        elif type == 'all':
+            self.auction_list.data = self._original
+            self.btn_filter_all.background_color = [86/255, 86/255, 86/255, 1]
+            self.btn_filter_media.background_color = [54/255, 58/255, 59/255, 1]
+            self.btn_filter_content.background_color = [54/255, 58/255, 59/255, 1]

@@ -13,6 +13,33 @@
             size_hint_y: None
             height: dp(10)
 
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(50)
+
+            Nwbutton:
+                id: btn_filter_all
+                _text: 'All'
+                on_press: root.filter_media('all')
+
+            Nwbutton:
+                id: btn_filter_media
+                _text: 'Media'
+                on_press: root.filter_media('media')
+
+            Nwbutton:
+                id: btn_filter_content
+                _text: 'Content'
+                on_press: root.filter_media('content')
+
         Nwgrid:
             id: auction_list
             viewclass: 'MarketListInfo'
