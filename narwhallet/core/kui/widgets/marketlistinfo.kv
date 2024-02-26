@@ -10,6 +10,7 @@
     price: ''
     bids: ''
     high_bid: ''
+    image_path: ''
     size_hint_y: None
     height: dp(120)
 
@@ -132,6 +133,20 @@
                 text_size: self.size
                 width: dp(65)
                 size_hint_x: None
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: root.media_size
+
+            Nwmarketimage:
+                source: root.image_path
+                size_hint: None, None
+                width: dp(150)
+                height: root.media_size
+
+            BoxLayout:
+                orientation: 'horizontal'
 
         BoxLayout:
             orientation: 'horizontal'

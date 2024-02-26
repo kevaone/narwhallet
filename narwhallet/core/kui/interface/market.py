@@ -46,8 +46,14 @@ class MarketScreen(Screen):
                 'high_bid': str(result['bids'][1]),
                 'favorite_source': _fav,
                 'namespaceid': result['nsid'],
-                'sm': self.manager
+                'sm': self.manager,
+                'image_path': ''
             }
+
+            if 'media' in result:
+                if 'video' not in result['media']:
+                    _auction['image_path'] = result['media']
+
             self.auction_list.data.append(_auction)
 
         self.manager.current = 'market_screen'

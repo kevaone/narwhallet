@@ -1,8 +1,10 @@
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import StringProperty, ListProperty, BooleanProperty
+from kivy.metrics import dp
+from kivy.properties import StringProperty, ListProperty, BooleanProperty, NumericProperty
 from kivy.uix.screenmanager import ScreenManager
 from narwhallet.core.kcl.favorites.favorite import MFavorite
 from narwhallet.core.kui.widgets.nwimage import Nwimage
+from narwhallet.core.kui.widgets.nwmarketimage import Nwmarketimage
 
 
 class MarketListInfo(BoxLayout):
@@ -20,7 +22,17 @@ class MarketListInfo(BoxLayout):
     mouse_hover = BooleanProperty(False)
     background_color = ListProperty([25/255, 27/255, 27/255, 1])
     hover_color = ListProperty([136/255, 136/255, 136/255, 1])
+    image_path = StringProperty()
+    media_size = NumericProperty()
     sm = ScreenManager()
+
+    def on_image_path(self, *args):
+        if self.image_path != '':
+            self.height = dp(270)
+            self.media_size = dp(150)
+        else:
+            self.height = dp(120)
+            self.media_size = dp(0)
 
     def on_touch_down(self, touch):
         if self.favorite.collide_point(touch.x, touch.y) and touch.is_mouse_scrolling is False:
