@@ -200,6 +200,13 @@ class MShared():
 
         _idx = -1
         for _a in _addresses.addresses:
+            _a._unconfirmed_receive_balance = 0.0
+            _a._unconfirmed_send_balance = 0.0
+            _ah = []
+            for _h in _a.history:
+                if _h['block'] != 'unconfirmed':
+                    _ah.append(_h)
+            _a.set_history(_ah)
             # _script_hash = Scripts.AddressScriptHash(_a.address)
             # _script_hash = Scripts.compileToScriptHash(_script_hash, True)
             _idx = _idx + 1
@@ -274,8 +281,6 @@ class MShared():
                 _addresses.addresses[_ax].set_sent(i['result'][0]['sent'])
                 _addresses.addresses[_ax].set_received(i['result'][0]['received'])
                 _addresses.addresses[_ax].set_balance(i['result'][0]['balance'])
-                _addresses.addresses[_ax]._unconfirmed_receive_balance = 0.0
-                _addresses.addresses[_ax]._unconfirmed_send_balance = 0.0
                 for _r in i['result'][1]['page_results']:
                     if _r['block'] == 'unconfirmed':
                         if 'received' in _r:
@@ -288,8 +293,6 @@ class MShared():
             _addresses.addresses[_ax].set_sent(i['result'][0]['sent'])
             _addresses.addresses[_ax].set_received(i['result'][0]['received'])
             _addresses.addresses[_ax].set_balance(i['result'][0]['balance'])
-            _addresses.addresses[_ax]._unconfirmed_receive_balance = 0.0
-            _addresses.addresses[_ax]._unconfirmed_send_balance = 0.0
             for _r in i['result'][1]['page_results']:
                 if _r['block'] == 'unconfirmed':
                     if 'received' in _r:
