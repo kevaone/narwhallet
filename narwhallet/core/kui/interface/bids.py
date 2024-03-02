@@ -42,26 +42,26 @@ class BidsScreen(Screen):
 
     def get_namespace(self, bid_nsid, bid_shortcode, namespaceid, bid_tx):
         _ns = MShared.get_namespace(bid_nsid, self.app.ctrl.kex)
-        _ns = _ns['result']
+        if _ns is None:
+            return
 
         if bid_nsid in self.manager.favorites.favorites:
             _fav = 'narwhallet/core/kui/assets/star_dark.png'
         else:
             _fav = 'narwhallet/core/kui/assets/star.png'
 
-        _dat = _ns['data']
-        _keys = len(_ns['data'])
-        _dat.reverse()
+        _keys = len(_ns.keys.keys)
+        _ns.keys.keys.reverse()
         _auction = {}
 
-        for _k in _dat:
-            if _k['dtype'] == 'name_update':
+        for _k in _ns.keys.keys:
+            if _k.dtype == 'name_update':
                 return {}
 
-            if _k['dtype'] == 'nft_auction':
-                _ad = json.loads(_k['dvalue'])
+            if _k.dtype == 'nft_auction':
+                _ad = json.loads(_k.dvalue)
                 _auction = {
-                    'time': _k['time'],
+                    'time': _k.date[0],
                     'namespaceid': bid_nsid,
                     'root_shortcode': str(bid_shortcode),
                     'keys': str(_keys),
@@ -75,16 +75,16 @@ class BidsScreen(Screen):
                 _bid_count = 0
                 _high_bid = 0.0
 
-                for _r in _k['replies']:
-                    if _r['dtype'] != 'nft_bid':
+                for _r in _k.replies:
+                    if _r.dtype != 'nft_bid':
                         continue
 
-                    if _r['dvalue'] > _high_bid:
-                        _high_bid = _r['dvalue']
+                    if _r.dvalue > _high_bid:
+                        _high_bid = _r.dvalue
                         _auction['high_bid'] = str(_high_bid)
 
-                    if _r['dnsid'] == namespaceid and _r['dkey'][4:] == bid_tx:
-                        _auction['my_bid'] = str(_r['dvalue'])
+                    if _r.namespaceid == namespaceid and _r.dkey[4:] == bid_tx:
+                        _auction['my_bid'] = str(_r.dvalue)
                     _bid_count = _bid_count + 1
                 _auction['bids'] = str(_bid_count)
 

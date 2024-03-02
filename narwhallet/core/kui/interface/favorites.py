@@ -26,16 +26,17 @@ class FavoritesScreen(Screen):
 
             if isinstance(_f.value, str):
                 _ns = MShared.get_namespace(favorite, self.app.ctrl.kex)
-                _ns = _ns['result']
+                if _ns is None:
+                    return
 
-                try:
-                    _name = json.loads(_ns['name'])['displayName']
-                except:
-                    _name = _ns['name']
+                if _ns.social_name != '':
+                    _name = str(_ns.social_name)
+                else:
+                    _name = str(_ns.name)
 
                 _favorite = favorite
-                _shortcode = _ns['root_shortcode']
-                _keys = len(_ns['data'])
+                _shortcode = _ns.shortcode
+                _keys = len(_ns.keys.keys)
             else:
                 _favorite = _f.value[0]
                 _shortcode = _f.value[1]
@@ -43,14 +44,14 @@ class FavoritesScreen(Screen):
                 _keys = _f.value[3]
 
             _fav = 'narwhallet/core/kui/assets/star_dark.png'
-            _ns = {
+            _nsd = {
                 'address': _favorite,
                 'shortcode': _shortcode,
                 'ns_name': str(_name),
                 'keys': str(_keys),
                 'sm': self.manager,
                 'favorite_source': _fav}
-            self.favorites_list.data.append(_ns)
+            self.favorites_list.data.append(_nsd)
 
         self.manager.current = 'favorites_screen'
 

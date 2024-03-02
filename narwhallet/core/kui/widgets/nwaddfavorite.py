@@ -1,4 +1,5 @@
 import json
+from kivy.app import App
 from kivy.uix.modalview import ModalView
 from kivy.properties import BooleanProperty, ObjectProperty
 from kivy.uix.textinput import TextInput
@@ -17,30 +18,28 @@ class Nwaddfavorite(ModalView):
     def __init__(self, **kwargs):
         super(Nwaddfavorite, self).__init__(**kwargs)
 
+        self.app = App.get_running_app()
         self.kind: int = -1
 
     def on_next_click(self, *args):
         if self.kind == 0:
-            _ns = MShared.get_shortcode(self.namespace.text, self.sm.kex)
+            _ns = MShared.get_shortcode(self.namespace.text, self.app.ctrl.kex)
         elif self.kind == 1:
-            _ns = MShared.get_namespace(self.namespace.text, self.sm.kex)
+            _ns = MShared.get_namespace(self.namespace.text, self.app.ctrl.kex)
 
-        _ns = _ns['result']
-        
-        if 'error' in _ns:
-            if 'error' is not None:
-                self.btn_next.disabled = True
-                self.kind = 0
-                return
+        if _ns is None:
+            self.btn_next.disabled = True
+            self.kind = 0
+            return
 
-        try:
-            _name = json.loads(_ns['name'])['displayName']
-        except:
-            _name = _ns['name']
+        if _ns.social_name != '':
+            _name = str(_ns.social_name)
+        else:
+            _name = str(_ns.name)
 
-        _favorite = _ns['dnsid']
-        _shortcode = _ns['root_shortcode']
-        _keys = len(_ns['data'])
+        _favorite = _ns.namespaceid
+        _shortcode = _ns.shortcode
+        _keys = len(_ns.keys.keys)
 
         _a = MFavorite()
         _a.set_id(_favorite)

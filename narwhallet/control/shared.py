@@ -8,6 +8,7 @@ import time
 
 from typing import List, Optional
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Encoder
+from narwhallet.core.kcl.kevacoin.namespace import MNamespace
 
 from narwhallet.core.kex import KEXclient
 from narwhallet.core.kex.cmd import _custom, _transaction
@@ -347,17 +348,17 @@ class MShared():
         return _tx
 
     @staticmethod
-    def get_namespace(_ns, kex: KEXclient) -> dict:
+    def get_namespace(_ns, kex: KEXclient) -> MNamespace | None:
         _ = kex.peers[kex.active_peer].connect()
         _ns_data = kex.call(_custom.get_namespace(_ns, 1))
         kex.peers[kex.active_peer].disconnect()
 
         if _ns_data != b'':
             _keys = json.loads(_ns_data)
-        else:
-            _keys = {}
+            if 'error' not in _keys:
+                return MNamespace(_keys['result'])
 
-        return _keys
+        return None
 
     @staticmethod
     def get_transaction(_tx, kex: KEXclient) -> dict:
@@ -371,17 +372,17 @@ class MShared():
         return {}
 
     @staticmethod
-    def get_shortcode(_shortcode, kex: KEXclient) -> dict:
+    def get_shortcode(_shortcode, kex: KEXclient) -> MNamespace | None:
         _ = kex.peers[kex.active_peer].connect()
         _ns_data = kex.call(_custom.get_shortcode(_shortcode, 1))
         kex.peers[kex.active_peer].disconnect()
 
         if _ns_data != '':
             _keys = json.loads(_ns_data)
-        else:
-            _keys = {}
+            if 'error' not in _keys:
+                return MNamespace(_keys['result'])
 
-        return _keys
+        return None
 
     @staticmethod
     def get_namespace_keys(_ns, kex: KEXclient) -> list:

@@ -39,40 +39,40 @@ class AuctionsScreen(Screen):
 
     def get_namespace(self, namespaceid):
         _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
-        _ns = _ns['result']
+        if _ns is None:
+            return
 
         if namespaceid in self.manager.favorites.favorites:
             _fav = 'narwhallet/core/kui/assets/star_dark.png'
         else:
             _fav = 'narwhallet/core/kui/assets/star.png'
 
-        _dat = _ns['data']
-        _keys = len(_ns['data'])
-        _dat.reverse()
+        _keys = len(_ns.keys.keys)
+        _ns.keys.keys.reverse()
         _auction = {}
-        for _k in _dat:
-            if _k['dtype'] == 'name_update':
+        for _k in _ns.keys.keys:
+            if _k.dtype == 'name_update':
                 break
 
-            if _k['dtype'] == 'nft_auction':
-                _na = json.loads(_k['dvalue'])
+            if _k.dtype == 'nft_auction':
+                _na = json.loads(_k.dvalue)
                 _auction = {
-                    'time': _k['time'],
-                    'root_shortcode': str(_ns['root_shortcode']),
+                    'time': _k.date[0],
+                    'root_shortcode': str(_ns.shortcode),
                     'keys': str(_keys),
                     'desc': str(_na['desc']),
                     'displayName': str(_na['displayName']),
                     'price': str(_na['price']),
-                    'bids': str(len(_k['replies'])),
+                    'bids': str(len(_k.replies)),
                     'favorite_source': _fav,
-                    'namespaceid': _ns['dnsid'],
+                    'namespaceid': _ns.namespaceid,
                     'sm': self.manager
                 }
 
                 _hb = 0
-                for _r in _k['replies']:
-                    if _r['dvalue'] > _hb:
-                        _hb = _r['dvalue']
+                for _r in _k.replies:
+                    if _r.dvalue > _hb:
+                        _hb = _r.dvalue
 
                 _auction['high_bid'] = str(_hb)
                 break

@@ -72,11 +72,13 @@ class AcceptNamespaceBidScreen(Screen):
         self.bid_amount.text = ''
 
         _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
-        _dat = _ns['result']['data']
-        _dat.reverse()
-        for _kv in _dat:
-            if _kv['dtype'] == 'nft_auction':
-                _auc = json.loads(_kv['dvalue'])
+        if _ns is None:
+            return
+
+        _ns.keys.keys.reverse()
+        for _kv in _ns.keys.keys:
+            if _kv.dtype == 'nft_auction':
+                _auc = json.loads(_kv.dvalue)
                 self.payment_address.text = _auc['addr']
                 self.asking_price.text = str(_auc['price'])
                 self.description.text = str(_auc['desc'])

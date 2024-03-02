@@ -35,9 +35,15 @@ class NftDetailScreen(Screen):
         self.namespace_key_list.clear_widgets()
         self.namespaceid = namespaceid
         _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
-        _ns = _ns['result']
-        self.namespace_name = str(_ns['name'])
-        self.shortcode = str(_ns['root_shortcode'])
+        if _ns is None:
+            return
+
+        if _ns.social_name != '':
+            self.namespace_name = str(_ns.social_name)
+        else:
+            self.namespace_name = str(_ns.name)
+
+        self.shortcode = str(_ns.shortcode)
         self.header.value = self.shortcode + ' ' + self.namespace_name
         self.owner = ''
         if namespaceid in self.manager.favorites.favorites:
@@ -45,27 +51,21 @@ class NftDetailScreen(Screen):
         else:
             self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
-        _dat = _ns['data']
-        self.keys = str(len(_dat))
-        _dat.reverse()
+        self.keys = str(len(_ns.keys.keys))
+        _ns.keys.keys.reverse()
+        self.owner = _ns.address
+        self.creator = _ns.creator
 
-        for _kv in _dat:
+        for _kv in _ns.keys.keys:
             _dns = NamespaceInfo()
-            _dns.key = str(_kv['dkey'])
-            _dns.data = str(_kv['dvalue'])
+            _dns.key = str(_kv.dkey)
+            _dns.data = str(_kv.dvalue)
             _dns.sm = self.manager
 
             _ns_action_bar = NamespaceInfoActionBar()
-            _ns_action_bar.txid = str(_kv['txid'])
-            _ns_action_bar.addr = str(_kv['addr'])
+            _ns_action_bar.txid = str(_kv.txid)
+            _ns_action_bar.addr = str(_kv.address)
             _ns_action_bar.sm = self.manager
-
-            if self.owner == '':
-                self.owner = _kv['addr']
-
-            if _kv['op'] == 'KEVA_NAMESPACE':
-                self.creator = _kv['addr']
-
             _ipfs_images = self.manager.cache_IPFS(_dns.data)
 
             for _i in _ipfs_images:
@@ -77,15 +77,15 @@ class NftDetailScreen(Screen):
 
             _dns.add_widget(_ns_action_bar)
 
-            for rep in _kv['replies']:
+            for rep in _kv.replies:
                 _nsi = NamespaceReplyInfo()
-                _nsi.key = '@' + str(rep['root_shortcode']) + ' - ' + str(rep['name'])
-                _nsi.data = str(rep['dvalue'])
-                _nsi.txid = str(rep['txid'])
+                _nsi.key = '@' + str(rep.root_shortcode) + ' - ' + str(rep.name)
+                _nsi.data = str(rep.dvalue)
+                _nsi.txid = str(rep.txid)
                 # NOTE Currently using the address assosiated with the
                 # specific key output. This may differ from current
                 # namespace owner address.
-                _nsi.addr = str(rep['addr'])
+                _nsi.addr = str(rep.address)
                 _nsi.sm = self.manager
 
                 _ipfs_images = self.manager.cache_IPFS(_nsi.data)

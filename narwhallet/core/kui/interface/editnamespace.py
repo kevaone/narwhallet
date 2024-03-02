@@ -68,7 +68,7 @@ class EditNamespaceScreen(Screen):
         self.amount.text = str(NS_RESERVATION/100000000)
         self.namespace_id.text = self.manager.namespace_screen.namespaceid
         self.namespace_key.disabled = True
-
+        self.ns_displayName.text = ''
         self.namespace_address.text = self.manager.namespace_screen.owner
         self.is_social.active = True
         self.input_value = 0
@@ -84,24 +84,25 @@ class EditNamespaceScreen(Screen):
         self.app.ctrl.wallet_get_addresses(self.wallet)
         self.wallet_balance.text = str(round(self.wallet.balance, 8))
         _ns = MShared.get_namespace(self.namespace_id.text, self.app.ctrl.kex)
-        _ns = _ns['result']
-        _dat = _ns['data']
-        _dat.reverse()
+        if _ns is None:
+            return
+
+        _ns.keys.keys.reverse()
         _ss = False
         _rs = False
 
-        for _kv in _dat:
-            if _kv['dkey'] == '\x01_KEVA_NS_':
+        for _kv in _ns.keys.keys:
+            if _kv.dkey == '\x01_KEVA_NS_':
                 if _ss is False:
                     try:
-                        self.ns_displayName.text = str(json.loads(_kv['dvalue'])['displayName'])
-                        self.value = json.loads(_kv['dvalue'])
+                        self.ns_displayName.text = str(json.loads(_kv.dvalue)['displayName'])
+                        self.value = json.loads(_kv.dvalue)
                     except:
                         self.ns_displayName.text = ''
                     _ss = True
-            elif _kv['dkey'] == '_KEVA_NS_':
+            elif _kv.dkey == '_KEVA_NS_':
                 if _rs is False:
-                    self.ns_value.text = str(_kv['dvalue'])
+                    self.ns_value.text = str(_kv.dvalue)
                     _rs = True
 
         self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))

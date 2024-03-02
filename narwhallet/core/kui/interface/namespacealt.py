@@ -37,35 +37,34 @@ class NamespaceAltScreen(Screen):
         self.namespaceid = namespaceid
         self.shortcode = shortcode
         _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
-        _ns = _ns['result']
+        if _ns is None:
+            return
 
         if namespaceid in self.manager.favorites.favorites:
             self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
         else:
             self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
-        self.namespace_name = str(_ns['name'])
+        if _ns.social_name != '':
+            self.namespace_name = str(_ns.social_name)
+        else:
+            self.namespace_name = str(_ns.name)
+
         self.header.value = shortcode + ' ' + self.namespace_name
-        _dat = _ns['data']
-        self.keys = str(len(_dat))
-        _dat.reverse()
-        self.owner = ''
-        for _kv in _dat:
+        self.keys = str(len(_ns.keys.keys))
+        _ns.keys.keys.reverse()
+        self.owner = _ns.address
+        self.creator = _ns.creator
+        for _kv in _ns.keys.keys:
             _ins = NamespaceInfo()
 
             _ns_action_bar = NamespaceInfoActionBar()
-            _ns_action_bar.txid = str(_kv['txid'])
-            _ns_action_bar.addr = str(_kv['addr'])
+            _ns_action_bar.txid = str(_kv.txid)
+            _ns_action_bar.addr = str(_kv.address)
             _ns_action_bar.sm = self.manager
-            
-            if self.owner == '':
-                self.owner = _kv['addr']
 
-            if _kv['op'] == 'KEVA_NAMESPACE':
-                self.creator = _kv['addr']
-
-            _ins.key = str(_kv['dkey'])
-            _ins.data = str(_kv['dvalue'])
+            _ins.key = str(_kv.dkey)
+            _ins.data = str(_kv.dvalue)
             _ipfs_images = self.manager.cache_IPFS(_ins.data)
 
             for _i in _ipfs_images:
@@ -78,15 +77,15 @@ class NamespaceAltScreen(Screen):
 
             _ins.add_widget(_ns_action_bar)
 
-            for rep in _kv['replies']:
+            for rep in _kv.replies:
                 _nsi = NamespaceReplyInfo()
-                _nsi.key = '@' + str(rep['root_shortcode']) + ' - ' + str(rep['name'])
-                _nsi.data = str(rep['dvalue'])
-                _nsi.txid = str(rep['txid'])
+                _nsi.key = '@' + str(rep.root_shortcode) + ' - ' + str(rep.name)
+                _nsi.data = str(rep.dvalue)
+                _nsi.txid = str(rep.txid)
                 # NOTE Currently using the address assosiated with the
                 # specific key output. This may differ from current
                 # namespace owner address.
-                _nsi.addr = str(rep['addr'])
+                _nsi.addr = str(rep.address)
                 _nsi.sm = self.manager
 
                 _ipfs_images = self.manager.cache_IPFS(_nsi.data)

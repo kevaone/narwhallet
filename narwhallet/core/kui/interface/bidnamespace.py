@@ -67,24 +67,28 @@ class BidNamespaceScreen(Screen):
         self.bid_amount.text = ''
 
         _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
-        _ns = _ns['result']
+        if _ns is None:
+            return
         self.offer_namespaceid.text = namespaceid
-        self.offer_shortcode.text = str(_ns['root_shortcode'])
-        self.offer_name.text = str(_ns['name'])
-        _dat = _ns['data']
-        _dat.reverse()
-        for _k in _dat:
-            if _k['dtype'] == 'name_update':
+        self.offer_shortcode.text = str(_ns.shortcode)
+        if _ns.social_name != '':
+            self.offer_name.text = str(_ns.social_name)
+        else:
+            self.offer_name.text = str(_ns.name)
+
+        _ns.keys.keys.reverse()
+        for _k in _ns.keys.keys:
+            if _k.dtype == 'name_update':
                 self.reset()
                 return
-            elif _k['dtype'] == 'nft_auction':
-                _na = json.loads(_k['dvalue'])
+            elif _k.dtype == 'nft_auction':
+                _na = json.loads(_k.dvalue)
                 self.offer_asking_price.text = str(_na['price'])
                 self.offer_payment_address.text = str(_na['addr'])
-                self.offer_tx.text = _k['txid']
+                self.offer_tx.text = _k.txid
                 self.offer_description.text = str(_na['desc'])
                 break
-        self.offer_namespace_address.text = _ns['data'][len(_ns['data'])-1]['addr']
+        self.offer_namespace_address.text = _ns.address
         self.input_value = 0
         self.output_value = 0
         self.change_value = 0

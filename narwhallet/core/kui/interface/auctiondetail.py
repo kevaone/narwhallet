@@ -13,6 +13,7 @@ class AuctionDetailScreen(Screen):
     shortcode = ObjectProperty(None)
     namespace_key_list = ObjectProperty(None)
     creator = ObjectProperty(None)
+    owner = ObjectProperty(None)
     namespace_name = ObjectProperty(None)
     header = Header()
     favorite = Nwimage()
@@ -31,34 +32,34 @@ class AuctionDetailScreen(Screen):
         self.shortcode.text = shortcode
         self.namespace_name.text = ''
         _ns = MShared.get_namespace(namespaceid, self.app.ctrl.kex)
-        _ns = _ns['result']
+        if _ns is None:
+            return
 
         if namespaceid in self.manager.favorites.favorites:
             self.favorite_source = 'narwhallet/core/kui/assets/star_dark.png'
         else:
             self.favorite_source = 'narwhallet/core/kui/assets/star.png'
 
-        self.namespace_name.text = str(_ns['name'])
-        _dat = _ns['data']
-        self.keys = len(_dat)
-        _dat.reverse()
-        for _kv in _dat:
-            if self.owner.text == '':
-                self.owner.text = _kv['addr']
+        if _ns.social_name != '':
+            self.namespace_name.text = str(_ns.social_name)
+        else:
+            self.namespace_name.text = str(_ns.name)
 
-            if _kv['op'] == 'KEVA_NAMESPACE':
-                self.creator.text = _kv['addr']
-
-            if _kv['dtype'] == 'nft_auction':
-                for _r in _kv['replies']:
+        self.keys = len(_ns.keys.keys)
+        _ns.keys.keys.reverse()
+        self.owner.text = _ns.address
+        self.creator.text = _ns.creator
+        for _kv in _ns.keys.keys:
+            if _kv.dtype == 'nft_auction':
+                for _r in _kv.replies:
                     _ins = AuctionInfo()
                     _ins.auction_namespace = namespaceid
                     _ins.auction_namespace_addr = self.owner.text
-                    _ins.time = _r['time']
-                    _ins.shortcode = str(_r['root_shortcode'])
-                    _ins.nsname = str(_r['name'])
-                    _ins.bid = str(_r['dvalue'])
-                    _ins.transaction = _r['txid']
+                    _ins.time = _r.date[0]
+                    _ins.shortcode = str(_r.root_shortcode)
+                    _ins.nsname = str(_r.name)
+                    _ins.bid = str(_r.dvalue)
+                    _ins.transaction = _r.txid
                     _ins.sm = self.manager
                     self.namespace_key_list.add_widget(_ins)
                 break
