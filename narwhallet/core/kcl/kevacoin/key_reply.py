@@ -1,7 +1,4 @@
-from narwhallet.core.kcl.kevacoin.key_reply import MNSKeyReply
-
-
-class MNSKey():
+class MNSKeyReply():
     def __init__(self, data):
         self._address: str = ''
         self._block: int = -1
@@ -12,7 +9,10 @@ class MNSKey():
         self._key: str = ''
         self._key_shortcode: int = -1
         self._op: str = ''
-        self._replies: list = []
+        self._name: str = ''
+        self._namespaceid: str = ''
+        self._root_shortcode: int = -1
+        # self._replies: list = []
         self._timestamp: int = -1
         self._txid: str = ''
         self._value: str = ''
@@ -25,8 +25,11 @@ class MNSKey():
         self.set_dtype(data['dtype'])
         self.set_key(data['key'])
         self.set_key_shortcode(data['key_shortcode'])
-        self.set_op(data['op'])
-        self.set_replies(data['replies'])
+        self.set_name(data['name'])
+        self.set_namespaceid(data['dnsid'])
+        self.set_op(data['type'])
+        # self.set_replies(data['replies'])
+        self.set_root_shortcode(data['root_shortcode'])
         self.set_txid(data['txid'])
         self.set_value(data['value'])
 
@@ -63,12 +66,24 @@ class MNSKey():
         return self._key_shortcode
 
     @property
+    def name(self) -> str:
+        return self._name
+
+    @property
+    def namespaceid(self) -> str:
+        return self._namespaceid
+
+    @property
     def op(self) -> str:
         return self._op
 
+    # @property
+    # def replies(self) -> list:
+    #     return self._replies
+
     @property
-    def replies(self) -> list:
-        return self._replies
+    def root_shortcode(self) -> int:
+        return self._root_shortcode
 
     @property
     def txid(self) -> str:
@@ -103,13 +118,22 @@ class MNSKey():
     def set_key_shortcode(self, key_shortcode: int) -> None:
         self._key_shortcode = key_shortcode
 
-    def set_replies(self, replies: list) -> None:
-        for _reply in replies:
-            self._replies.append(MNSKeyReply(_reply))
+    # def set_replies(self, replies: list) -> None:
+    #     for _reply in replies:
+    #         self._replies.append(MNSKeyReply(_reply))
+
+    def set_name(self, name: str) -> None:
+        self._name = name
+
+    def set_namespaceid(self, namespaceid: str) -> None:
+        self._namespaceid = namespaceid
 
     def set_op(self, op: str) -> None:
         self._op = op
     
+    def set_root_shortcode(self, root_shortcode: int) -> None:
+        self._root_shortcode = root_shortcode
+
     def set_txid(self, txid: str) -> None:
         self._txid = txid
 

@@ -4,9 +4,12 @@ from narwhallet.core.kcl.kevacoin.namespace_key import MNSKey
 
 
 class MNSKeys():
-    def __init__(self):
+    def __init__(self, data):
         self._keys: List[MNSKey] = []
         self._names: Dict[str, int] = {}
+
+        for _key in data:
+            self.add_key(_key)
 
     @property
     def keys(self) -> List[MNSKey]:
@@ -22,7 +25,7 @@ class MNSKeys():
 
     @staticmethod
     def sort_dict(item):
-        return item['date']
+        return item['timestamp']
 
     def clear(self) -> None:
         self._keys = []
@@ -69,24 +72,8 @@ class MNSKeys():
 
         return _d2
 
-    def from_raw(self, time, key, value):
-        _key = MNSKey()
-
-        _key.set_date(time)
-        _key.set_key(self.decode(key))
-        _key.set_value(self.decode(value))
-
-        self._keys.append(_key)
-        self._names[_key.key] = len(self._keys) - 1
-
-        return len(self._keys)
-
-    def from_json(self, key: dict) -> int:
-        _key = MNSKey()
-
-        _key.set_date(key['date'])
-        _key.set_key(key['key'])
-        _key.set_value(key['value'])
+    def add_key(self, key: dict) -> int:
+        _key = MNSKey(key)
 
         self._keys.append(_key)
         self._names[_key.key] = len(self._keys) - 1
