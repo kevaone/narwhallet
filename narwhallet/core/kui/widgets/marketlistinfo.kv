@@ -11,8 +11,9 @@
     bids: ''
     high_bid: ''
     image_path: ''
-    size_hint_y: None
-    height: dp(120)
+    # size_hint_y: None
+    # height: dp(120)
+    orientation: 'vertical'
 
     canvas:
         Color:
@@ -23,132 +24,138 @@
             size: self.size
 
     BoxLayout:
-        orientation: 'vertical'
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(30)
 
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: dp(10)
+        Nwlabel:
+            _text: ''
+            size_hint_x: None
+            width: dp(5)
 
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
+        Nwimage:
+            id: favorite
+            source: root.favorite_source
             height: dp(25)
+            width: dp(25)
 
-            Nwlabel:
-                _text: ''
-                size_hint_x: None
-                width: dp(5)
+        Nwlabel:
+            _text: root.root_shortcode
+            valign: 'center'
+            font_size: dp(20)
+            text_size: self.size
+            padding: [5, 0, 0, 0]
+            size_hint_x: None
+            width: dp(115)
 
-            Nwimage:
-                id: favorite
-                source: root.favorite_source
-                height: dp(25)
-                width: dp(25)
+        Nwlabel:
+            _text: root.displayName
+            height: dp(25)
+            font_size: dp(20)
+            text_size: self.size
+            padding: [5, 0, 0, 0]
 
-            Nwlabel:
-                _text: root.root_shortcode
-                valign: 'center'
-                font_size: dp(20)
-                text_size: self.size
-                padding: [5, 0, 0, 0]
-                size_hint_x: None
-                width: dp(115)
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(20)
 
-            Nwlabel:
-                _text: root.displayName
-                height: dp(25)
-                font_size: dp(20)
-                text_size: self.size
-                padding: [5, 0, 0, 0]
+        Nwlabel:
+            _text: 'Date:'
+            text_size: self.size
+            halign: 'left'
+            padding: [5, 0, 0, 0]
+            width: dp(55)
+            size_hint_x: None
 
-        BoxLayout:
-            orientation: 'horizontal'
+        Nwlabel:
+            _text: root.time
+            halign: 'left'
+            text_size: self.size
 
-            Nwlabel:
-                _text: root.desc
-                height: dp(20)
-                font_size: dp(15)
-                text_size: self.size
-                padding: [5, 0, 0, 0]
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(20)
 
-        BoxLayout:
-            orientation: 'horizontal'
+        Nwlabel:
+            _text: 'Price:'
+            text_size: self.size
+            halign: 'left'
+            padding: [5, 0, 0, 0]
+            width: dp(55)
+            size_hint_x: None
 
-            Nwlabel:
-                _text: 'Date:'
-                text_size: self.size
-                halign: 'left'
-                padding: [5, 0, 0, 0]
-                width: dp(55)
-                size_hint_x: None
+        Nwlabel:
+            _text: root.price
+            halign: 'left'
+            text_size: self.size
+            width: dp(65)
+            size_hint_x: None
 
-            Nwlabel:
-                _text: root.time
-                halign: 'left'
-                text_size: self.size
+        Nwlabel:
+            _text: 'Bids:'
+            text_size: self.size
+            halign: 'left'
+            width: dp(55)
+            size_hint_x: None
 
-        BoxLayout:
-            orientation: 'horizontal'
+        Nwlabel:
+            _text: root.bids
+            halign: 'left'
+            text_size: self.size
+            size_hint_x: None
+            width: dp(65)
 
-            Nwlabel:
-                _text: 'Price:'
-                text_size: self.size
-                halign: 'left'
-                padding: [5, 0, 0, 0]
-                width: dp(55)
-                size_hint_x: None
+        Nwlabel:
+            _text: 'High Bid:'
+            text_size: self.size
+            halign: 'left'
+            width: dp(75)
+            size_hint_x: None
 
-            Nwlabel:
-                _text: root.price
-                halign: 'left'
-                text_size: self.size
-                width: dp(65)
-                size_hint_x: None
+        Nwlabel:
+            _text: root.high_bid
+            halign: 'left'
+            text_size: self.size
+            width: dp(65)
+            size_hint_x: None
 
-            Nwlabel:
-                _text: 'Bids:'
-                text_size: self.size
-                halign: 'left'
-                width: dp(55)
-                size_hint_x: None
+    BoxLayout:
+        orientation: 'vertical'
+        # size_hint: 1, None
 
-            Nwlabel:
-                _text: root.bids
-                halign: 'left'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(65)
+        Nwlabel:
+            _text: root.desc
+            font_size: dp(15)
+            text_size: self.width, None
+            padding: [5, 0, 0, 0]
+            size_hint: 1, None
+            height: self.texture_size[1]
+            on_text: root.get_text_height(self.text, self.font_size, self.width)
 
-            Nwlabel:
-                _text: 'High Bid:'
-                text_size: self.size
-                halign: 'left'
-                width: dp(75)
-                size_hint_x: None
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(5)
 
-            Nwlabel:
-                _text: root.high_bid
-                halign: 'left'
-                text_size: self.size
-                width: dp(65)
-                size_hint_x: None
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: root.media_size
 
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
+        Nwlabel:
+            _text: ''
+            size_hint_x: None
+            width: dp(5)
+
+        Nwmarketimage:
+            source: root.image_path
+            size_hint: None, None
+            width: dp(150)
             height: root.media_size
 
-            Nwmarketimage:
-                source: root.image_path
-                size_hint: None, None
-                width: dp(150)
-                height: root.media_size
-
-            BoxLayout:
-                orientation: 'horizontal'
-
-        BoxLayout:
-            orientation: 'horizontal'
-            size_hint_y: None
-            height: dp(10)
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(5)

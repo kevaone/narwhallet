@@ -1,3 +1,4 @@
+from kivy.core.text import Label as CoreLabel
 from kivy.uix.boxlayout import BoxLayout
 from kivy.metrics import dp
 from kivy.properties import StringProperty, ListProperty, BooleanProperty, NumericProperty
@@ -24,15 +25,23 @@ class MarketListInfo(BoxLayout):
     hover_color = ListProperty([136/255, 136/255, 136/255, 1])
     image_path = StringProperty()
     media_size = NumericProperty()
+    y_size = NumericProperty()
     sm = ScreenManager()
 
     def on_image_path(self, *args):
         if self.image_path != '':
-            self.height = dp(270)
+            self.height = self.y_size + dp(170)
             self.media_size = dp(150)
         else:
-            self.height = dp(120)
+            self.height = self.y_size
             self.media_size = dp(0)
+
+    def get_text_height(self, text, font_size, text_width):
+        label = CoreLabel(text=text, font_size=font_size, width=text_width)
+        label.refresh()
+        text_height = label.texture.size[1]
+        self.height = dp(90) + dp(text_height)
+        self.y_size = self.height
 
     def on_touch_down(self, touch):
         if self.favorite.collide_point(touch.x, touch.y) and touch.is_mouse_scrolling is False:
