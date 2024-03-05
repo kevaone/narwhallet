@@ -5,6 +5,41 @@ class OpCodes(IntEnum):
     def get(self) -> bytes:
         return bytes([self.value])
 
+    @classmethod
+    def NumberOp(cls, number):
+        if number == 2:
+            _op = cls.OP_2
+        elif number == 3:
+            _op = cls.OP_3
+        elif number == 4:
+            _op = cls.OP_4
+        elif number == 5:
+            _op = cls.OP_5
+        elif number == 6:
+            _op = cls.OP_6
+        elif number == 7:
+            _op = cls.OP_7
+        elif number == 8:
+            _op = cls.OP_8
+        elif number == 9:
+            _op = cls.OP_9
+        elif number == 10:
+            _op = cls.OP_10
+        elif number == 11:
+            _op = cls.OP_11
+        elif number == 12:
+            _op = cls.OP_12
+        elif number == 13:
+            _op = cls.OP_13
+        elif number == 14:
+            _op = cls.OP_14
+        elif number == 15:
+            _op = cls.OP_15
+        elif number == 16:
+            _op = cls.OP_16
+
+        return _op
+
     OP_FALSE = 0
     OP_0 = 0
     OP_PUSHDATA1 = 76

@@ -102,6 +102,27 @@ class Scripts(_factory):
         return _script
 
     @staticmethod
+    def P2SHMultisigScriptHash(required_sigs, public_keys):
+        if required_sigs > len(public_keys):
+            raise Exception('supplied public keys less than required signatres')
+
+        if required_sigs <= 0:
+            raise Exception('supplied required signatres must be greater than 0')
+
+        _req_sigs = _o.NumberOp(required_sigs)
+        _count_pub_keys = _o.NumberOp(len(public_keys))
+        _pub_keys = b''
+        for _pub in public_keys:
+            _pub_keys = _pub_keys + Param.public_key(_pub)
+
+        _script_multisig = [_req_sigs, _pub_keys, _count_pub_keys, _o.OP_CHECKMULTISIG]
+        _redeem_script = Scripts.compile(_script_multisig, True)
+        _hashed_multisig = Param.public_key_hash(_redeem_script)
+        _script = [Scripts.P2SHAddressScriptHash(Ut.bytes_to_hex(_hashed_multisig))]
+
+        return _script, _redeem_script
+
+    @staticmethod
     def P2PKHAddressScriptHash(address):
         _script = [_o.OP_DUP, _o.OP_HASH160, Param.base58Checkhash(address),
                    _o.OP_EQUALVERIFY, _o.OP_CHECKSIG]
