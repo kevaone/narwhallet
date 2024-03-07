@@ -1,5 +1,6 @@
 from enum import Enum
-
+from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Encoder
+from narwhallet.core.kcl.bip_utils.conf.bip49_coin_conf import Bip49KevacoinMainNet
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.ksc.op_codes import OpCodes as _o
 from narwhallet.core.ksc.param_validators import ParamValidators as Param
@@ -117,10 +118,11 @@ class Scripts(_factory):
 
         _script_multisig = [_req_sigs, _pub_keys, _count_pub_keys, _o.OP_CHECKMULTISIG]
         _redeem_script = Scripts.compile(_script_multisig, True)
-        _hashed_multisig = Param.public_key_hash(_redeem_script)
-        _script = [Scripts.P2SHAddressScriptHash(Ut.bytes_to_hex(_hashed_multisig))]
+        _hashed_multisig = Ut.hash160(Ut.hex_to_bytes(_redeem_script))
+        _address = Base58Encoder.CheckEncode(Bip49KevacoinMainNet.AddrConfKey('net_ver') + _hashed_multisig)
+        _script = Scripts.P2SHAddressScriptHash(_address)
 
-        return _script, _redeem_script
+        return _script, _redeem_script, _address
 
     @staticmethod
     def P2PKHAddressScriptHash(address):

@@ -7,7 +7,9 @@ class OpCodes(IntEnum):
 
     @classmethod
     def NumberOp(cls, number):
-        if number == 2:
+        if number == 1:
+            _op = cls.OP_1
+        elif number == 2:
             _op = cls.OP_2
         elif number == 3:
             _op = cls.OP_3
