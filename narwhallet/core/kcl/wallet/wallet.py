@@ -29,6 +29,7 @@ class MWallet():
         self._account_index: int = 0
         self._change_index: int = 0
         self._addresses = MAddresses()
+        self._multi_sig_addresses = MAddresses()
         self._change_addresses = MAddresses()
         self._active_bids: list = []
 
@@ -146,6 +147,10 @@ class MWallet():
     @property
     def addresses(self) -> MAddresses:
         return self._addresses
+
+    @property
+    def multi_sig_addresses(self) -> MAddresses:
+        return self._multi_sig_addresses
 
     @property
     def change_addresses(self) -> MAddresses:
@@ -330,6 +335,12 @@ class MWallet():
         self.incriment_account_index()
         return _a
 
+    def get_account_address_index(self, public_key: str):
+        _i = WalletUtils.get_account_address_index(self.seed, self.coin,
+                                                   self.bip,
+                                                   public_key)
+        return _i
+
     def get_unused_change_address(self) -> str:
         if self.bip == 'bip32':
             _a = WalletUtils.gen_bip32_change_from_extended(self.extended_prv,
@@ -439,7 +450,8 @@ class MWallet():
     def to_list(self) -> list:
         return [self.name, self.mnemonic, self.seed, self.coin, self.bip,
                 self.kind, self.balance, self.locked, self.last_updated,
-                self.addresses.to_list(), self.change_addresses.to_list()]
+                self.addresses.to_list(), self.multi_sig_addresses.to_list(),
+                self.change_addresses.to_list()]
 
     def to_dict(self) -> dict:
         return {'name': self.name, 'mnemonic': self.mnemonic,
@@ -453,4 +465,5 @@ class MWallet():
                 'account_index': self.account_index,
                 'change_index': self.change_index,
                 'addresses': self.addresses.to_dict_list(),
+                'multi_sig_addresses': self.multi_sig_addresses.to_dict_list(),
                 'change_addresses': self.change_addresses.to_dict_list()}

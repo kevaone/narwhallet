@@ -74,6 +74,10 @@ class MWallets():
         for addr in _wm_dat['addresses']:
             _wallet.addresses.from_json(addr)
 
+        if 'multi_sig_addresses' in _wm_dat:
+            for addr in _wm_dat['multi_sig_addresses']:
+                _wallet.multi_sig_addresses.from_json(addr)
+
         for addr in _wm_dat['change_addresses']:
             _wallet.change_addresses.from_json(addr)
 

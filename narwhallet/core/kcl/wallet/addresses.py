@@ -44,6 +44,12 @@ class MAddresses():
             _address.set_history(address['history'])
         if 'namespaces' in address:
             _address.set_namespaces(address['namespaces'])
+        if 'is_multi_sig' in address:
+            _address.set_is_multi_sig(address['is_multi_sig'])
+        if 'multi_sig_redeem_script' in address:
+            _address.set_multi_sig_redeem_script(address['multi_sig_redeem_script'])
+        if 'multi_sig_address_indexes' in address:
+            _address.set_multi_sig_address_indexes(address['multi_sig_address_indexes'])
 
         self._addresses.append(_address)
         self._names[_address.address] = len(self._addresses) - 1

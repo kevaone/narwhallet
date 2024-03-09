@@ -13,6 +13,9 @@ class MAddress():
         self._input_tx: list = []
         self._output_tx: list = []
         self._namespaces: list = []
+        self._is_multi_sig: bool = False
+        self._multi_sig_redeem_script: str = ''
+        self._multi_sig_address_indexes: list = []
 
     @property
     def address(self) -> str:
@@ -84,6 +87,18 @@ class MAddress():
     def namespaces(self) -> list:
         return self._namespaces
 
+    @property
+    def is_multi_sig(self) -> bool:
+        return self._is_multi_sig
+
+    @property
+    def multi_sig_redeem_script(self) -> str:
+        return self._multi_sig_redeem_script
+
+    @property
+    def multi_sig_address_indexes(self) -> list:
+        return self._multi_sig_address_indexes
+
     def set_address(self, address: str) -> None:
         self._address = address
 
@@ -111,6 +126,15 @@ class MAddress():
     def set_namespaces(self, namespaces) -> None:
         self._namespaces = namespaces
 
+    def set_is_multi_sig(self, is_multi_sig) -> None:
+        self._is_multi_sig = is_multi_sig
+
+    def set_multi_sig_redeem_script(self, multi_sig_redeem_script) -> None:
+        self._multi_sig_redeem_script = multi_sig_redeem_script
+
+    def set_multi_sig_address_indexes(self, multi_sig_address_indexes) -> None:
+        self._multi_sig_address_indexes = multi_sig_address_indexes
+
     def add_input_tx(self, tx) -> None:
         self._input_tx.append(tx)
 
@@ -127,4 +151,7 @@ class MAddress():
                 'unconfirmed_receive_balance': self.unconfirmed_receive_balance,
                 'unconfirmed_send_balance': self.unconfirmed_send_balance,
                 'label': self.label, 'history': self.history,
-                'unspent_tx': self.unspent_tx, 'namespaces': self.namespaces}
+                'unspent_tx': self.unspent_tx, 'namespaces': self.namespaces,
+                'is_multi_sig': self.is_multi_sig,
+                'multi_sig_redeem_script': self.multi_sig_redeem_script,
+                'multi_sig_address_indexes': self.multi_sig_address_indexes}
