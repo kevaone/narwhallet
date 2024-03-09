@@ -1,4 +1,5 @@
 from enum import Enum
+from io import BytesIO
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Encoder
 from narwhallet.core.kcl.bip_utils.conf.bip49_coin_conf import Bip49KevacoinMainNet
 from narwhallet.core.ksc.utils import Ut
@@ -24,6 +25,27 @@ class _factory(Enum):
             return Ut.bytes_to_hex(_scri)
 
         return _scri
+
+    @staticmethod
+    def decompile(script: str):
+        _script = BytesIO(Ut.hex_to_bytes(script))
+        _script_len = len(_script.getbuffer())
+        _read = 0
+        _decoded_script = []
+
+        while _read < _script_len:
+            _c, _s = Ut.read_csuint(_script)
+            _read += _s
+
+            if _c >= 81 and _c <= 96:
+                _decoded_script.append(_o.OpNumber(_o(_c)))
+            elif _c >= 1 and _c <= 78:
+                _decoded_script.append(Ut.bytes_to_hex(_script.read(_c)))
+                _read += _c
+            else:
+                _decoded_script.append(_o(_c).name)
+
+        return _decoded_script
 
     @staticmethod
     def compileToScriptHash(params: list, to_hex: bool):
