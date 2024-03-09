@@ -1,0 +1,336 @@
+<CreateMultiSigScreen>
+    address: address
+    address_label: address_label
+    header: header
+    btn_create: btn_create
+    public_keys: public_keys
+    required_signatures: required_signatures
+    from_redeem: from_redeem
+    public_key_data: public_key_data
+    redeem_script: redeem_script
+    redeem_script_data: redeem_script_data
+    display_box: display_box
+    preview: preview
+    preview_label: preview_label
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Header:
+            id: header
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: dp(15)
+            scroll_type: ['bars','content']
+
+            Nwboxlayout:
+                id: display_box
+                orientation: 'vertical'
+                size_hint_y: None
+                height: dp(610)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(35)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        _text: 'Create Multi-Sig Address'
+                        font_size: dp(25)
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+
+                Nwseparator:
+
+                Nwseparator:
+                    color: [54/255, 58/255, 59/255, 1]
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(10)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'Address' + app.translate_text(':')
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(225)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        _text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                    Nwlabel:
+                        id: address
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: root.width - dp(20)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(10)
+                    orientation: 'horizontal'
+
+                Nwseparator:
+
+                Nwseparator:
+                    color: [54/255, 58/255, 59/255, 1]
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(5)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(30)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        _text: 'Label' + app.translate_text(':')
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(60)
+
+                    TextInput:
+                        id: address_label
+                        valign: 'center'
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(250)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(5)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(30)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        valign: 'center'
+                        _text: 'Public Keys' + app.translate_text(':')
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(175)
+
+                    TextInput:
+                        id: public_keys
+                        valign: 'center'
+                        halign: 'center'
+                        _text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(50)
+                        on_text: root.set_public_keys()
+                        input_filter: root.input_filter
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(5)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(30)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        valign: 'center'
+                        _text: 'Required Signatures' + app.translate_text(':')
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(175)
+
+                    TextInput:
+                        id: required_signatures
+                        valign: 'center'
+                        halign: 'center'
+                        _text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(50)
+                        input_filter: root.input_filter
+                        on_text: root.validate()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(10)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        _text: 'From Redeem Script' + app.translate_text(':')
+                        valign: 'center'
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(175)
+
+                    CheckBox:
+                        id: from_redeem
+                        size_hint_x: None
+                        width: dp(25)
+                        on_active: root.on_from_redeem_active()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(10)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    id: redeem_script_data
+                    size_hint_y: None
+                    height: dp(170)
+                    orientation: 'vertical'
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(20)
+                        orientation: 'horizontal'
+
+                        Nwlabel:
+                            halign: 'left'
+                            _text: 'Redeem Script' + app.translate_text(':')
+                            text_size: self.size
+                            padding: [10, 0, 0, 0]
+                            size_hint_x: None
+                            width: dp(225)
+
+                    Nwboxlayout:
+                        size_hint_y: None
+                        height: dp(150)
+                        orientation: 'horizontal'
+
+                        Nwlabel:
+                            _text: ''
+                            size_hint_x: None
+                            width: dp(10)
+
+                        TextInput:
+                            id: redeem_script
+                            halign: 'left'
+                            _text: ''
+                            text_size: self.size
+                            size_hint_x: None
+                            width: root.width - dp(40)
+                            write_tab: False
+                            on_text: root.validate()
+
+                        Nwlabel:
+                            _text: ''
+                            size_hint_x: None
+                            width: dp(5)
+
+                        Nwimage:
+                            id: valid_redeem_script
+                            source: 'narwhallet/core/kui/assets/checkmark.png'
+                            size: (0, 0)
+
+                Nwboxlayout:
+                    id: public_key_data
+                    size_hint_y: None
+                    height: dp(170)
+                    orientation: 'vertical'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(10)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        id: preview_label
+                        _text: 'Public Keys' + app.translate_text(':')
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(175)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(150)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        _text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                    TextInput:
+                        id: preview
+                        readonly: True
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        size_hint: None, None
+                        width: root.width - dp(40)
+                        height: dp(150)
+
+                Nwboxlayout:
+                    orientation: 'horizontal'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+            orientation: 'horizontal'
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: dp(60)
+            orientation: 'horizontal'
+
+            Nwbutton:
+                _text: 'Cancel'
+                on_press: root.manager.current = 'addresses_screen'
+
+            Nwbutton:
+                id: btn_create
+                _text: 'Create'
+                on_press: root.create()

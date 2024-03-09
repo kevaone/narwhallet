@@ -14,6 +14,7 @@ class AddressesScreen(Screen):
     wallet_name = Nwlabel()
     header = Header()
     btn_add = Nwbutton()
+    btn_add_multisig = Nwbutton()
     spn_sort = Nwspinner()
 
     def __init__(self, **kwargs):
@@ -66,6 +67,23 @@ class AddressesScreen(Screen):
 
                         self._addr.append(_a)
                         _idx = _idx + 1
+
+            _idx = 0
+            for address in _w.multi_sig_addresses.addresses:
+                if address is not None:
+                    _a = {
+                    'index': str(_idx),
+                    'address': address.address,
+                    'address_label': address.label,
+                    'balance': str(round(address.balance, 8)),
+                    'transactions': str(len(address.history)),
+                    'wallet_name': wallet_name,
+                    'background_color': [186/255, 86/255, 86/255, 1],
+                    'sm': self.manager}
+
+                    self._addr.append(_a)
+                    _idx = _idx + 1
+
         self.spn_sort._sort = 'bal_dsc'
         self.spn_sort.icon = 'narwhallet/core/kui/assets/balance-sort-down.png'
         self.spn_sort._text = ''

@@ -2,6 +2,7 @@
     address_list: address_list
     header: header
     btn_add: btn_add
+    btn_add_multisig: btn_add_multisig
     spn_sort: spn_sort
 
     GridLayout:
@@ -43,6 +44,11 @@
                 id: btn_add
                 _text: 'Increase Pool'
                 on_press: root.btn_add_click()
+
+            Nwbutton:
+                id: btn_add_multisig
+                _text: 'New Multi-Sig'
+                on_press: root.manager.createmultisig_screen.populate()
 
             Nwbutton:
                 _text: ' '

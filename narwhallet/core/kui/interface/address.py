@@ -32,12 +32,17 @@ class AddressScreen(Screen):
             try:
                 _addr = _w.addresses.get_address_by_name(address)
             except:
-                _addr = _w.change_addresses.get_address_by_name(address)
+                try:
+                    _addr = _w.change_addresses.get_address_by_name(address)
+                except:
+                    _addr = _w.multi_sig_addresses.get_address_by_name(address)
 
             _idx = _w.addresses.get_address_index_by_name(address)
 
             if _idx == -1:
                 _idx = _w.change_addresses.get_address_index_by_name(address)
+                if _idx == -1:
+                    _idx = _w.multi_sig_addresses.get_address_index_by_name(address)
 
             self.address.text = address
             self.balance.text = str(round(_addr.balance, 8))
