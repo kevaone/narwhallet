@@ -7,7 +7,9 @@ class OpCodes(IntEnum):
 
     @classmethod
     def NumberOp(cls, number):
-        if number == 1:
+        if number == 0:
+            _op = cls.OP_0
+        elif number == 1:
             _op = cls.OP_1
         elif number == 2:
             _op = cls.OP_2
@@ -41,6 +43,45 @@ class OpCodes(IntEnum):
             _op = cls.OP_16
 
         return _op
+
+    @classmethod
+    def OpNumber(cls, op):
+        if op == cls.OP_0:
+            _number = 0
+        elif op == cls.OP_1:
+            _number = 1
+        elif op == cls.OP_2:
+            _number = 2
+        elif op == cls.OP_3:
+            _number = 3
+        elif op == cls.OP_4:
+            _number = 4
+        elif op == cls.OP_5:
+            _number = 5
+        elif op == cls.OP_6:
+            _number = 6
+        elif op == cls.OP_7:
+            _number = 7
+        elif op == cls.OP_8:
+            _number = 8
+        elif op == cls.OP_9:
+            _number = 9
+        elif op == cls.OP_10:
+            _number = 10
+        elif op == cls.OP_11:
+            _number = 11
+        elif op == cls.OP_12:
+            _number = 12
+        elif op == cls.OP_13:
+            _number = 13
+        elif op == cls.OP_14:
+            _number = 14
+        elif op == cls.OP_15:
+            _number = 15
+        elif op == cls.OP_16:
+            _number = 16
+
+        return _number
 
     OP_FALSE = 0
     OP_0 = 0
