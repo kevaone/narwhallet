@@ -20,6 +20,23 @@ class Ut():
         return _return
 
     @staticmethod
+    def read_csuint(value):
+        size = struct.unpack('<B', value.read(1))[0]
+        if size == 253:
+            _return = struct.unpack('<H', value.read(2))[0]
+            _read = 2
+        elif size == 254:
+            _return = struct.unpack('<I', value.read(4))[0]
+            _read = 4
+        elif size == 255:
+            _return = struct.unpack('<Q', value.read(8))[0]
+            _read = 8
+        else:
+            _return = size
+            _read = 1
+        return _return, _read
+
+    @staticmethod
     def encode_pushdata(data: bytes) -> bytes:
         if len(data) < 0x4c:
             _return = b'' + bytes([len(data)]) + data  # OP_PD
