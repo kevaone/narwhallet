@@ -116,6 +116,19 @@ class _wallet_utils():
         return bip49_addr.PublicKey().ToAddress()
 
     @staticmethod
+    def get_account_address_index(seed, coin: str, bip: str, public_key: str):
+        _master = _wallet_utils.generate_master_from_seed(seed, coin, bip)
+
+        bip49_acc = _master.Purpose().Coin().Account(0)
+        bip49_change = bip49_acc.Change(Bip44Changes.CHAIN_EXT)
+
+        for _index in range(0, 1000):
+            bip49_addr = bip49_change.AddressIndex(_index)
+            if public_key == bip49_addr.PublicKey().RawCompressed().ToHex():
+                return _index
+        return -1
+
+    @staticmethod
     def get_account_extended_pub(seed, coin: str, bip: str):
         _master = _wallet_utils.generate_master_from_seed(seed, coin, bip)
         bip49_acc = _master.Purpose().Coin().Account(0)
