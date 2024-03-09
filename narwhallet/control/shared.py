@@ -174,6 +174,9 @@ class MShared():
         while True:
             _t = _addrs._addresses[-1].history
             if _t == []:
+                if chain == 1:
+                    if len(_addrs._addresses) == 1:
+                        break
                 del _addrs._addresses[-1]
             else:
                 break
