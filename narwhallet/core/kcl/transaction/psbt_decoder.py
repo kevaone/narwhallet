@@ -18,20 +18,8 @@ class keva_psbt():
         self.psbt_outputs = 0
         self.prep_psbt_data(psbt_dat)
 
-    def read_csuint(self, s):
-        size = struct.unpack('<B', s.read(1))[0]
-        if size == 253:
-            _return = struct.unpack('<H', s.read(2))[0]
-        elif size == 254:
-            _return = struct.unpack('<I', s.read(4))[0]
-        elif size == 255:
-            _return = struct.unpack('<Q', s.read(8))[0]
-        else:
-            _return = size
-        return _return
-
     def read_vec(self, s):
-        size = self.read_csuint(s)
+        size, _ = Ut.read_csuint(s)
         return size, s.read(size)
 
     def deserialize_map(self, psbt, scope):
@@ -46,7 +34,7 @@ class keva_psbt():
 
             # Read the type
             s_key = BytesIO(key_data)
-            rec_type = self.read_csuint(s_key)
+            rec_type, _ = Ut.read_csuint(s_key)
 
             _is_tx = False
             if (rec_type == record_types.GLOBAL.PSBT_GLOBAL_UNSIGNED_TX.value
@@ -68,13 +56,13 @@ class keva_psbt():
                 s_val = BytesIO(value_data)
                 self.tx.set_version(Ut.bytes_to_int(s_val.read(4), 'little'))
 
-                self.psbt_inputs = self.read_csuint(s_val)
+                self.psbt_inputs, _ = Ut.read_csuint(s_val)
                 for _ in range(self.psbt_inputs):
                     _vin = MTransactionInput()
                     (_vin.set_txid(Ut.bytes_to_hex(
                                       Ut.reverse_bytes(s_val.read(32)))))
                     _vin.set_vout(Ut.bytes_to_int(s_val.read(4), 'little'))
-                    _script_size = self.read_csuint(s_val)
+                    _script_size, _ = Ut.read_csuint(s_val)
                     (_vin.scriptSig.set_hex(
                         Ut.bytes_to_hex(s_val.read(_script_size))))
                     if _vin.scriptSig.hex == '':
@@ -83,12 +71,12 @@ class keva_psbt():
                     _vin.set_sequence(Ut.bytes_to_hex(s_val.read(4)))
                     self.tx.add_vin(_vin)
 
-                self.psbt_outputs = self.read_csuint(s_val)
+                self.psbt_outputs, _ = Ut.read_csuint(s_val)
                 for _ in range(self.psbt_outputs):
                     _tx_vout = MTransactionOutput()
                     (_tx_vout.set_value(
                         Ut.bytes_to_int(s_val.read(8), 'little')))
-                    script_size = self.read_csuint(s_val)
+                    script_size, _ = Ut.read_csuint(s_val)
                     (_tx_vout.scriptPubKey
                      .set_hex(Ut.bytes_to_hex(s_val.read(script_size))))
                     self.tx.add_vout(_tx_vout)
