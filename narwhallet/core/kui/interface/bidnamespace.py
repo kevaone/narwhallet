@@ -295,7 +295,7 @@ class BidNamespaceScreen(Screen):
         self.build_bid()
 
         _ns_key = (Ut.hex_to_bytes('0001') + Ut.hex_to_bytes(self.offer_tx.text))
-        _ns_value = self.bid_tx.to_psbt()
+        _ns_value = self.bid_tx.to_psbt(SIGHASH_TYPE.ALL_ANYONECANPAY)
         _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
                                             _ns_address)
         _sh = Scripts.compile(_sh, True)

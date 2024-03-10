@@ -294,7 +294,7 @@ class MTransactionBuilder(MTransaction):
 
         return _sighash
 
-    def to_psbt(self) -> str:
+    def to_psbt(self, sighash_type: SIGHASH_TYPE) -> str:
         _pre = []
         _magic = '70736274'
         _seperator = 'ff'
@@ -326,9 +326,9 @@ class MTransactionBuilder(MTransaction):
             _pre.append(Ut.to_cuint(1))
             _pre.append(Ut.to_cuint(3))
             _shl = (len(Ut.int_to_bytes(
-                    SIGHASH_TYPE.ALL_ANYONECANPAY.value, 4, 'little')))
+                    sighash_type.value, 4, 'little')))
             _pre.append(Ut.to_cuint(_shl))
-            _pre.append(Ut.int_to_bytes(SIGHASH_TYPE.ALL_ANYONECANPAY.value,
+            _pre.append(Ut.int_to_bytes(sighash_type.value,
                                         4, 'little'))
             # _PSBT_IN_REDEEM_SCRIPT '04'
             _pre.append(Ut.to_cuint(1))
