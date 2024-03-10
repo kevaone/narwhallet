@@ -20,10 +20,9 @@ class MTransactionBuilder(MTransaction):
 
         self._fee: int = 0
         self._target_value: int = 0
-        self.inputs_to_spend: List[MTransactionInput] = []
+        self.inputs_to_spend: list = []
         self.input_ref_scripts = []
         self.input_signatures = []
-        self.bid_tx: MTransactionBuilder = None
 
     @staticmethod
     def sort(item):
