@@ -187,25 +187,9 @@ class AcceptNamespaceBidScreen(Screen):
             return False
         return True
 
-    def set_availible_usxo(self, bid):
-        _tmp_usxo = self.wallet.get_usxos()
-        _usxos = []
-
-        for tx in _tmp_usxo:
-            # NOTE Filtering out tx with extra data, mostly namespaces
-            if 'extra' not in tx:
-                _usxos.append(tx)
-                continue
-
-            if self.namespace_address.text != tx['a']:
-                continue
-
-            if self.namespaceid.text == tx['extra']:
-                if bid is False:
-                    _usxos.insert(0, tx)
-
-        if bid is False:
-            self.new_tx.inputs_to_spend = _usxos
+    def set_availible_usxo(self):
+        _usxos = self.wallet.get_usxos(self.namespace_address.text, self.namespaceid.text)
+        self.new_tx.inputs_to_spend = _usxos
 
     def set_output(self):
         pass
@@ -227,7 +211,7 @@ class AcceptNamespaceBidScreen(Screen):
         self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
         self.new_tx.set_fee(int(self.fee_rate))
 
-        self.set_availible_usxo(False)
+        self.set_availible_usxo()
         if len(self.new_tx.inputs_to_spend) == 0:
             _inp_sel = False
         else:

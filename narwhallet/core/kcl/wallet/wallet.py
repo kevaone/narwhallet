@@ -407,15 +407,16 @@ class MWallet():
                 self.incriment_change_index()
         return _a
 
-    def get_usxos(self) -> list:
-        _usxo = []
+    def get_usxos(self, namespace_address=None, namespace_id=None,
+                  bid=False, bid_vin=None) -> list:
+        _tmp_usxo = []
         for _a in self.addresses.addresses:
             for _x in _a.unspent_tx:
                 _ai = self.addresses.get_address_index_by_name(_a.address)
                 _x['a_idx'] = _ai
                 _x['a'] = _a.address
                 _x['ch'] = 1
-                _usxo.append(_x)
+                _tmp_usxo.append(_x)
         for _a in self.change_addresses.addresses:
             for _x in _a.unspent_tx:
                 _ai = (self.change_addresses
@@ -423,8 +424,30 @@ class MWallet():
                 _x['a_idx'] = _ai
                 _x['a'] = _a.address
                 _x['ch'] = 0
-                _usxo.append(_x)
-        return _usxo
+                _tmp_usxo.append(_x)
+
+        _usxos = []
+
+        for tx in _tmp_usxo:
+            if 'extra' not in tx:
+                _used = False
+                if bid_vin is not None:
+                    for _vin in bid_vin:
+                        if _vin.txid == tx['txid'] and _vin.vout == tx['n']:
+                            _used = True
+                if _used == False:
+                    _usxos.append(tx)
+                    continue
+
+            if namespace_address is not None and namespace_id is not None:
+                if namespace_address != tx['a']:
+                    continue
+
+                if namespace_id == tx['extra']:
+                    if bid is False:
+                        _usxos.insert(0, tx)
+
+        return _usxos
 
     def sign_message(self, address_index: int,
                      message: str, chain: int) -> str:

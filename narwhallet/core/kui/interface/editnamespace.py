@@ -291,21 +291,7 @@ class EditNamespaceScreen(Screen):
         return False
 
     def set_availible_usxo(self):
-        _tmp_usxo = self.wallet.get_usxos()
-        _usxos = []
-
-        for tx in _tmp_usxo:
-            # NOTE Filtering out tx with extra data, mostly namespaces
-            if 'extra' not in tx:
-                _usxos.append(tx)
-                continue
-
-            if self.namespace_address.text != tx['a']:
-                continue
-
-            if self.namespace_id.text == tx['extra']:
-                _usxos.insert(0, tx)
-
+        _usxos = self.wallet.get_usxos(self.namespace_address.text, self.namespace_id.text)
         self.new_tx.inputs_to_spend = _usxos
 
     def set_output(self):

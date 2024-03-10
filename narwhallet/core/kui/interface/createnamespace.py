@@ -122,14 +122,7 @@ class CreateNamespaceScreen(Screen):
         return Ut.bytes_to_hex(bytes([53]) + _tx_hash)
 
     def set_availible_usxo(self):
-        _tmp_usxo = self.wallet.get_usxos()
-        _usxos = []
-
-        for tx in _tmp_usxo:
-            # NOTE Filtering out tx with extra data, mostly namespaces
-            if 'extra' not in tx:
-                _usxos.append(tx)
-
+        _usxos = self.wallet.get_usxos()
         self.new_tx.inputs_to_spend = _usxos
 
     def set_output(self):

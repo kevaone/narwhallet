@@ -262,27 +262,9 @@ class BidNamespaceScreen(Screen):
                                      SIGHASH_TYPE.ALL_ANYONECANPAY)
 
     def set_availible_usxo(self, bid):
-        _tmp_usxo = self.wallet.get_usxos()
-        _usxos = []
-
-        for tx in _tmp_usxo:
-            # NOTE Filtering out tx with extra data, mostly namespaces
-            if 'extra' not in tx:
-                _used = False
-                for _vin in self.bid_tx.vin:
-                    if _vin.txid == tx['txid'] and _vin.vout == tx['n']:
-                        _used = True
-                if _used == False:
-                    _usxos.append(tx)
-                    continue
-
-            if self.bid_namespace_address.text != tx['a']:
-                continue
-
-            if self.bid_namespaceid.text == tx['extra']:
-                if bid is False:
-                    _usxos.insert(0, tx)
-
+        _usxos = self.wallet.get_usxos(self.bid_namespace_address.text,
+                                       self.bid_namespaceid.text, bid,
+                                       self.bid_tx.vin)
         if bid is False:
             self.new_tx.inputs_to_spend = _usxos
         else:
