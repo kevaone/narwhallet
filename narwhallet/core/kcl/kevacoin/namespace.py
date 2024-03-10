@@ -87,7 +87,10 @@ class MNamespace():
     def set_social_name(self) -> None:
         for _key in self.keys.keys:
             if _key.dkey == '\x01_KEVA_NS_':
-                self._social_name = json.loads(_key.dvalue)['displayName']
+                try:
+                    self._social_name = json.loads(_key.dvalue)['displayName']
+                except:
+                    self._social_name = _key.dvalue
 
     def set_wallet(self, wallet: str) -> None:
         self._wallet = wallet
