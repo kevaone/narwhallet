@@ -139,9 +139,10 @@ class Scripts(_factory):
             _pub_keys = _pub_keys + Param.public_key(_pub)
 
         _script_multisig = [_req_sigs, _pub_keys, _count_pub_keys, _o.OP_CHECKMULTISIG]
-        _redeem_script = Scripts.compile(_script_multisig, True)
-        _hashed_multisig = Ut.hash160(Ut.hex_to_bytes(_redeem_script))
-        _address = Base58Encoder.CheckEncode(Bip49KevacoinMainNet.AddrConfKey('net_ver') + _hashed_multisig)
+        _witness_script = Scripts.compile(_script_multisig, True)
+        _redeem_script = Scripts.compile(Scripts.P2WSHScriptSig(_witness_script))
+        _hashed_redeem_script = Ut.hash160(_redeem_script)
+        _address = Base58Encoder.CheckEncode(Bip49KevacoinMainNet.AddrConfKey('net_ver') + _hashed_redeem_script)
         _script = Scripts.P2SHAddressScriptHash(_address)
 
         return _script, _redeem_script, _address
@@ -161,4 +162,9 @@ class Scripts(_factory):
     @staticmethod
     def P2WPKHScriptSig(address):
         _script = [_o.OP_0, Param.public_key_hash(address)]
+        return _script
+
+    @staticmethod
+    def P2WSHScriptSig(script):
+        _script = [_o.OP_0, Param.script_hash(script)]
         return _script

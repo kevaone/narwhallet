@@ -24,6 +24,11 @@ class ParamValidators():
         return Ut.to_cuint(len(_pkh)) + _pkh
 
     @staticmethod
+    def script_hash(script: str) -> bytes:
+        _sh = Ut.sha256(Ut.hex_to_bytes(script))
+        return Ut.to_cuint(len(_sh)) + _sh
+
+    @staticmethod
     def public_key(pk: str) -> bytes:
         _pk = Ut.hex_to_bytes(pk)
         return Ut.to_cuint(len(_pk)) + _pk
