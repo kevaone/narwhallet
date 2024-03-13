@@ -145,7 +145,7 @@ class Scripts(_factory):
         _address = Base58Encoder.CheckEncode(Bip49KevacoinMainNet.AddrConfKey('net_ver') + _hashed_redeem_script)
         _script = Scripts.P2SHAddressScriptHash(_address)
 
-        return _script, _redeem_script, _address
+        return _script, _witness_script, _address
 
     @staticmethod
     def P2PKHAddressScriptHash(address):
