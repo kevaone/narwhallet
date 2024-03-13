@@ -126,8 +126,6 @@ class _wallet_utils():
             bip49_addr = bip49_change.AddressIndex(_index)
             if public_key == bip49_addr.PublicKey().RawCompressed().ToHex():
                 return _index
-            if public_key == bip49_addr.PublicKey().RawUncompressed().ToHex():
-                return _index
         return -1
 
     @staticmethod

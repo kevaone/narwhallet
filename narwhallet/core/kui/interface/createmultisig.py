@@ -166,7 +166,7 @@ class CreateMultiSigScreen(Screen):
                 except:
                     return
 
-                if len(_script[_p]) != 66 and len(_script[_p]) != 130:
+                if len(_script[_p]) != 66:
                     return
 
                 _public_keys.append(_script[_p])
