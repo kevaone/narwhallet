@@ -356,7 +356,7 @@ class MShared():
         _ns_data = kex.call(_custom.get_namespace(_ns, 1))
         kex.peers[kex.active_peer].disconnect()
 
-        if _ns_data != b'':
+        if _ns_data != '':
             _keys = json.loads(_ns_data)
             if 'error' not in _keys:
                 return MNamespace(_keys['result'])
@@ -369,7 +369,7 @@ class MShared():
         _tx_data = kex.call(_transaction.get(_tx, True, 1))
         kex.peers[kex.active_peer].disconnect()
 
-        if _tx_data != b'':
+        if _tx_data != '':
             return json.loads(_tx_data)['result']
         
         return {}
