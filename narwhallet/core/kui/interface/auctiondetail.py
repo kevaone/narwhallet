@@ -61,7 +61,8 @@ class AuctionDetailScreen(Screen):
                     _ins.bid = str(_r.dvalue)
                     _ins.transaction = _r.txid
                     _ins.sm = self.manager
-                    self.namespace_key_list.add_widget(_ins)
+                    if str(_r.dvalue) != 'error':
+                        self.namespace_key_list.add_widget(_ins)
                 break
 
         self.manager.current = 'auctiondetail_screen'

@@ -79,9 +79,12 @@ class BidsScreen(Screen):
                     if _r.dtype != 'nft_bid':
                         continue
 
-                    if _r.dvalue > _high_bid:
-                        _high_bid = _r.dvalue
-                        _auction['high_bid'] = str(_high_bid)
+                    try:
+                        if _r.dvalue > _high_bid:
+                            _high_bid = _r.dvalue
+                            _auction['high_bid'] = str(_high_bid)
+                    except:
+                        continue
 
                     if _r.namespaceid == namespaceid and _r.dkey[4:] == bid_tx:
                         _auction['my_bid'] = str(_r.dvalue)

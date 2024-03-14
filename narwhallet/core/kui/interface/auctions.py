@@ -71,8 +71,11 @@ class AuctionsScreen(Screen):
 
                 _hb = 0
                 for _r in _k.replies:
-                    if _r.dvalue > _hb:
-                        _hb = _r.dvalue
+                    try:
+                        if _r.dvalue > _hb:
+                            _hb = _r.dvalue
+                    except:
+                        continue
 
                 _auction['high_bid'] = str(_hb)
                 break
