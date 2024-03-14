@@ -105,15 +105,15 @@ class AcceptNamespaceBidScreen(Screen):
                 self.new_tx = _bid_psbt.tx
                 _idx = 0
                 for _, _r in enumerate(_bid_psbt.psbt_records):
+                    _sig = {}
                     if _r[0] == 'PSBT_IN_WITNESS_UTXO':
                         self.new_tx.vin[_idx].tb_value = (Ut
                                                           .bytes_to_int(
                                                               _r[2][:8],
                                                               'little'))
                     elif _r[0] == 'PSBT_IN_PARTIAL_SIG':
-                        (self.new_tx.input_signatures
-                         .append([Ut.bytes_to_hex(_r[2]),
-                                 Ut.bytes_to_hex(_r[1][1:])]))
+                        _sig[Ut.bytes_to_hex(_r[1][1:])] = Ut.bytes_to_hex(_r[2])
+                        self.new_tx.input_signatures.append(_sig)
                     elif _r[0] == 'PSBT_IN_REDEEM_SCRIPT':
                         (self.new_tx.vin[_idx].scriptSig
                          .set_hex(Ut.bytes_to_hex(_r[2])))
