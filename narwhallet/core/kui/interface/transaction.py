@@ -41,7 +41,7 @@ class TransactionScreen(Screen):
         _asa = MShared.get_transaction(txid, self.app.ctrl.kex)
         self.pvin.vin.clear_widgets()
         self.pvout.vout.clear_widgets()
-        if _asa is not None:
+        if _asa != {}:
             # TODO Interface cache for rest of tx data
             self.tx_hash.text = _asa['hash']
             self.version.text = str(_asa['version'])
