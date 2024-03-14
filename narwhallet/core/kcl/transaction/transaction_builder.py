@@ -1,11 +1,14 @@
 import math
 from typing import List
+from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Encoder
+from narwhallet.core.kcl.bip_utils.conf.bip49_coin_conf import Bip49KevacoinMainNet
 from narwhallet.core.kcl.transaction.transaction import MTransaction
 from narwhallet.core.kcl.transaction.input import MTransactionInput
 from narwhallet.core.kcl.transaction.output import MTransactionOutput
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.ksc import Scripts
+from narwhallet.core.ksc.op_codes import OpCodes
 from narwhallet.core.ksc.utils import Ut
 
 ZHASH = '0000000000000000000000000000000000000000000000000000000000000000'
@@ -21,8 +24,7 @@ class MTransactionBuilder(MTransaction):
         self._fee: int = 0
         self._target_value: int = 0
         self.inputs_to_spend: list = []
-        self.input_ref_scripts = []
-        self.input_signatures = []
+        self.input_signatures: list = []
 
     @staticmethod
     def sort(item):
@@ -218,15 +220,29 @@ class MTransactionBuilder(MTransaction):
             _pre.append(Ut.to_cuint(len(Ut.hex_to_bytes(o.scriptPubKey.hex))))
             _pre.append(Ut.hex_to_bytes(o.scriptPubKey.hex))
 
-        for sg in self.input_signatures:
-            if for_psbt is True:
-                break
+        if for_psbt is False:
+            for _, input_sig_data in enumerate(self.input_signatures):
+                if '_PSBT_IN_WITNESS_UTXO' in input_sig_data:
+                    del input_sig_data['_PSBT_IN_WITNESS_UTXO']
 
-            _pre.append(Ut.to_cuint(len(sg)))
-            for s in sg:
-                _x = Ut.hex_to_bytes(s)
-                _pre.append(Ut.to_cuint(len(_x)))
-                _pre.append(_x)
+                if 'redeem_script' not in input_sig_data:
+                    for pub_key, sig in input_sig_data.items():
+                        _pre.append(Ut.to_cuint(2))
+                        _sig_bytes = Ut.hex_to_bytes(sig)
+                        _pre.append(Ut.to_cuint(len(_sig_bytes)))
+                        _pre.append(_sig_bytes)
+                        _pub_bytes = Ut.hex_to_bytes(pub_key)
+                        _pre.append(Ut.to_cuint(len(_pub_bytes)))
+                        _pre.append(_pub_bytes)
+                else:
+                    _pre.append(Ut.to_cuint(len(input_sig_data.items()) + 1))
+                    _pre.append(OpCodes.OP_0.get())
+
+                    for pub_key, sig in input_sig_data.items():
+                        _sig_bytes = Ut.hex_to_bytes(sig)
+                        _pre.append(Ut.to_cuint(len(_sig_bytes)))
+                        _pre.append(_sig_bytes)
+
         _pre.append(Ut.int_to_bytes(_lock_time, 4, 'little'))
 
         _spre = b''
@@ -237,32 +253,74 @@ class MTransactionBuilder(MTransaction):
         return _spre
 
     def txb_preimage(self, wallet: MWallet, hash_type: SIGHASH_TYPE,
-                     ovr: bool = False):
+                     ovr: bool = False, redeem_script: str | None = None):
         if ovr is False:
             self.input_signatures = []
 
         for c, _vin_idx in enumerate(self.vin):
             if ovr is True and c != len(self.vin) - 1:
                 continue
-            _npk = _vin_idx.tb_address
-            _npkc = _vin_idx.tb_address_chain
-            _pk = wallet.get_publickey_raw(_npk, _npkc)
-            _sighash = self.make_preimage(c, _pk, hash_type)
-            _sig = wallet.sign_message(_npk, _sighash, _npkc)
-            _script = Scripts.P2WPKHScriptSig(_pk)
-            _script = Scripts.compile(_script, True)
-            _vin_idx.scriptSig.set_hex(_script)
-            (self.input_signatures.append(
-                [_sig+Ut.bytes_to_hex(Ut.to_cuint(hash_type.value)), _pk]))
 
-            _addr = wallet.get_address_by_index(_npk, False)
-            _r = Scripts.AddressScriptHash(_addr)
-            _r = Scripts.compile(_r, False)
-            _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
-            _ref = _ref + Ut.to_cuint(len(_r)) + _r
-            self.input_ref_scripts.append(_ref)
+            input_sigs = {}
 
-    def make_preimage(self, i: int, pk: str, hash_type: SIGHASH_TYPE) -> str:
+            if redeem_script is not None:
+                _sighash = self.make_preimage(c, '', hash_type, redeem_script)
+                _public_keys = []
+
+                _decoded_script = Scripts.decompile(redeem_script)
+                _pubk = _decoded_script[-2]
+                for _p in range(1, _pubk + 1):
+                    try:
+                        _ = Ut.hex_to_bytes(_decoded_script[_p])
+                    except:
+                        return
+
+                    if len(_decoded_script[_p]) != 66:
+                        return
+
+                    _address_index = wallet.get_account_address_index(_decoded_script[_p])
+
+                    if _address_index != -1:
+                        _public_keys.append(_address_index)
+
+                for pk in _public_keys:
+                    _signature = wallet.sign_message(pk, _sighash, 0)
+                    input_sigs[pk] = _signature + Ut.bytes_to_hex(Ut.to_cuint(hash_type.value))
+
+                input_sigs['redeem_script'] = redeem_script
+
+                _script = Scripts.compile(Scripts.P2WSHScriptSig(redeem_script), True)
+                _vin_idx.scriptSig.set_hex(_script)
+
+                _hashed_redeem_script = Ut.hash160(Ut.hex_to_bytes(redeem_script))
+                _address = Base58Encoder.CheckEncode(Bip49KevacoinMainNet.AddrConfKey('net_ver') + _hashed_redeem_script)
+                _r = Scripts.compile(Scripts.P2SHAddressScriptHash(_address), False)
+                _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
+                _ref = _ref + Ut.to_cuint(len(_r)) + _r
+                input_sigs['_PSBT_IN_WITNESS_UTXO'] = _ref
+
+                self.input_signatures.append(input_sigs)
+            else:
+                _npk = _vin_idx.tb_address
+                _npkc = _vin_idx.tb_address_chain
+                _pk = wallet.get_publickey_raw(_npk, _npkc)
+                _sighash = self.make_preimage(c, _pk, hash_type)
+                _signature = wallet.sign_message(_npk, _sighash, _npkc)
+                _script = Scripts.compile(Scripts.P2WPKHScriptSig(_pk), True)
+                _vin_idx.scriptSig.set_hex(_script)
+
+                input_sigs[_pk] = _signature + Ut.bytes_to_hex(Ut.to_cuint(hash_type.value))
+
+                _addr = wallet.get_address_by_index(_npk, False)
+                _r = Scripts.compile(Scripts.AddressScriptHash(_addr), False)
+                _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
+                _ref = _ref + Ut.to_cuint(len(_r)) + _r
+                input_sigs['_PSBT_IN_WITNESS_UTXO'] = _ref
+
+                self.input_signatures.append(input_sigs)
+
+    def make_preimage(self, i: int, pk: str, hash_type: SIGHASH_TYPE,
+                      redeem_script: str | None = None) -> str:
         _hash_type = hash_type
         _lock_time = 0
 
@@ -274,9 +332,15 @@ class MTransactionBuilder(MTransaction):
         _outpoint = Ut.reverse_bytes(Ut.hex_to_bytes(self.vin[i].txid))
         _outpoint = _outpoint + Ut.int_to_bytes(self.vin[i].vout, 4, 'little')
         _pre.append(_outpoint)
-        _s3 = Scripts.P2PKHRedeemScript(pk)
-        _s3 = Scripts.compile(_s3, False)
-        _pre.append(Ut.to_cuint(len(_s3)) + _s3)
+
+        if redeem_script is not None:
+            _redeem_script_bytes = Ut.hex_to_bytes(redeem_script)
+            _pre.append(Ut.to_cuint(len(_redeem_script_bytes)))
+            _pre.append(_redeem_script_bytes)
+        else:
+            _s3 = Scripts.P2PKHRedeemScript(pk)
+            _s3 = Scripts.compile(_s3, False)
+            _pre.append(Ut.to_cuint(len(_s3)) + _s3)
 
         _pre.append(Ut.int_to_bytes(self.vin[i].tb_value, 8, 'little'))
         _pre.append(Ut.hex_to_bytes(self.vin[i].sequence))
@@ -293,7 +357,7 @@ class MTransactionBuilder(MTransaction):
 
         return _sighash
 
-    def to_psbt(self, sighash_type: SIGHASH_TYPE) -> str:
+    def to_psbt(self, sighash_type: SIGHASH_TYPE) -> bytes:
         _pre = []
         _magic = '70736274'
         _seperator = 'ff'
@@ -307,20 +371,26 @@ class MTransactionBuilder(MTransaction):
         _pre.append(Ut.to_cuint(len(_tx)))
         _pre.append(_tx)
 
-        for c, i in enumerate(self.input_signatures):
+        for idx, input_sig_data in enumerate(self.input_signatures):
             _pre.append(Ut.to_cuint(0))
             # _PSBT_IN_WITNESS_UTXO '01'
             _pre.append(Ut.to_cuint(1))
-            _sp = self.input_ref_scripts[c]
+            _sp = input_sig_data['_PSBT_IN_WITNESS_UTXO']
             _pre.append(Ut.to_cuint(len(Ut.to_cuint(len(_sp)))))
             _pre.append(Ut.to_cuint(len(_sp)))
             _pre.append(_sp)
             # _PSBT_IN_PARTIAL_SIG '02'
-            _x = Ut.to_cuint(2) + Ut.hex_to_bytes(i[1])
-            _pre.append(Ut.to_cuint(len(_x)))
-            _pre.append(_x)
-            _pre.append(Ut.to_cuint(len(Ut.hex_to_bytes(i[0]))))
-            _pre.append(Ut.hex_to_bytes(i[0]))
+            for pub_key, sig in input_sig_data.items():
+                if pub_key == 'redeem_script':
+                    continue
+                if pub_key == '_PSBT_IN_WITNESS_UTXO':
+                    continue
+                _x = Ut.to_cuint(2) + Ut.hex_to_bytes(pub_key)
+                _pre.append(Ut.to_cuint(len(_x)))
+                _pre.append(_x)
+                _sig_bytes = Ut.hex_to_bytes(sig)
+                _pre.append(Ut.to_cuint(len(_sig_bytes)))
+                _pre.append(_sig_bytes)
             # _PSBT_IN_SIGHASH_TYPE '03'
             _pre.append(Ut.to_cuint(1))
             _pre.append(Ut.to_cuint(3))
@@ -332,7 +402,7 @@ class MTransactionBuilder(MTransaction):
             # _PSBT_IN_REDEEM_SCRIPT '04'
             _pre.append(Ut.to_cuint(1))
             _pre.append(Ut.to_cuint(4))
-            _s = Ut.hex_to_bytes(self.vin[c].scriptSig.hex)
+            _s = Ut.hex_to_bytes(self.vin[idx].scriptSig.hex)
             _pre.append(Ut.to_cuint(len(_s)) + _s)
         _pre.append(Ut.to_cuint(0))
         for i in self.vout:
