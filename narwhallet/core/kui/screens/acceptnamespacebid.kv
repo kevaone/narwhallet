@@ -33,8 +33,7 @@
                         pos: self.pos
                         size: self.size
                 size_hint_y: None
-                rows: 23
-                height: dp(45) * self.rows + (dp(10)*self.rows) if root.width <= dp(650) else dp(45) * self.rows + (dp(10)*self.rows)
+                height: dp(450)
                 cols: 1
                 spacing: dp(5)
                 padding: dp(5)
@@ -93,6 +92,7 @@
                         text_size: self.size
                         size_hint_x: None
                         width: dp(325)
+                        padding: [15, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -117,6 +117,7 @@
                         halign: 'left'
                         _text: ''
                         text_size: self.size
+                        padding: [15, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -141,6 +142,7 @@
                         halign: 'left'
                         _text: ''
                         text_size: self.size
+                        padding: [15, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -153,7 +155,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: dp(100)
+                        width: dp(110)
 
                     Nwlabel:
                         id: wallet_balance
@@ -172,7 +174,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: dp(100)
+                        width: dp(110)
 
                     Nwlabel:
                         id: asking_price
@@ -199,15 +201,11 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(10)
-
-                    Nwlabel:
                         id: description
                         halign: 'left'
                         _text: ''
                         text_size: self.size
+                        padding: [15, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -221,7 +219,7 @@
                         text_size: self.size
                         padding: [10, 0, 0, 0]
                         size_hint_x: None
-                        width: dp(100)
+                        width: dp(110)
 
                     Nwlabel:
                         id: bid_amount
@@ -242,15 +240,11 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(10)
-
-                    Nwlabel:
                         # id: bid_tx
                         halign: 'left'
                         _text: 'Bid Tx:'
                         text_size: self.size
+                        padding: [10, 0, 0, 0]
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -258,15 +252,11 @@
                     orientation: 'horizontal'
 
                     Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(10)
-
-                    Nwlabel:
                         id: bid_tx
                         halign: 'left'
                         _text: ''
                         text_size: self.size
+                        padding: [15, 0, 0, 0]
 
                 Nwboxlayout:
                     orientation: 'horizontal'
