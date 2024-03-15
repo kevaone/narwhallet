@@ -6,7 +6,7 @@
     txvalue: 'txvalue'
     status: 'status'
     size_hint_y: None
-    height: dp(115) if root.width <= dp(650) else dp(90)
+    height: dp(105) if root.width <= dp(650) else dp(85)
 
     canvas:
         Color:
@@ -24,21 +24,23 @@
 
             Nwlabel:
                 _text: root.transaction
+                valign: 'center'
                 text_size: self.size
                 padding: [5, 0, 0, 0]
                 font_size: dp(17)
                 size_hint_y: None
-                height: dp(60) if root.width <= dp(650) else dp(30)
+                height: dp(50) if root.width <= dp(650) else dp(30)
 
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: dp(30)
+            height: dp(25)
 
             Nwlabel:
                 _text: 'Date:'
                 text_size: self.size
                 halign: 'left'
+                valign: 'top'
                 padding: [5, 0, 0, 0]
                 width: dp(55)
                 size_hint_x: None
@@ -46,6 +48,7 @@
             Nwlabel:
                 _text: root.time
                 halign: 'left'
+                valign: 'top'
                 text_size: self.size
 
         BoxLayout:
@@ -55,6 +58,7 @@
 
             Nwlabel:
                 _text: 'Block:'
+                valign: 'top'
                 text_size: self.size
                 padding: [5, 0, 0, 0]
                 size_hint_x: None
@@ -62,24 +66,28 @@
 
             Nwlabel:
                 _text: root.block
+                valign: 'top'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(100)
 
             Nwlabel:
                 _text: root.status
+                valign: 'top'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(75)
 
             Nwlabel:
                 _text: 'Value:'
+                valign: 'top'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(60)
 
             Nwlabel:
                 _text: root.txvalue
+                valign: 'top'
                 text_size: self.size
                 size_hint_x: None
                 width: dp(125)

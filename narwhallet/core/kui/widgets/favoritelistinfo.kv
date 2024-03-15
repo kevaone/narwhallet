@@ -7,7 +7,7 @@
     shortcode: ''
     keys: ''
     size_hint_y: None
-    height: dp(90)
+    height: dp(80)
 
     canvas:
         Color:
@@ -23,7 +23,7 @@
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: dp(10)
+            height: dp(5)
 
         BoxLayout:
             orientation: 'horizontal'
@@ -43,7 +43,7 @@
 
             Nwlabel:
                 _text: root.shortcode
-                valign: 'center'
+                valign: 'top'
                 font_size: dp(20)
                 text_size: self.size
                 padding: [5, 0, 0, 0]
@@ -52,6 +52,7 @@
 
             Nwlabel:
                 _text: root.ns_name
+                valign: 'top'
                 height: dp(25)
                 font_size: dp(20)
                 text_size: self.size
@@ -74,6 +75,7 @@
                 _text: 'Keys:'
                 text_size: self.size
                 halign: 'left'
+                valign: 'top'
                 padding: [5, 0, 0, 0]
                 width: dp(65)
                 size_hint_x: None
@@ -81,10 +83,11 @@
             Nwlabel:
                 _text: root.keys
                 halign: 'left'
+                valign: 'top'
                 padding: [5, 0, 0, 0]
                 text_size: self.size
 
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: dp(10)
+            height: dp(5)

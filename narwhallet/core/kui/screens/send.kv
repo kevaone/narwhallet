@@ -21,11 +21,12 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(20)
+            height: dp(25)
             orientation: 'horizontal'
 
             Nwlabel:
                 halign: 'left'
+                valign: 'top'
                 _text: 'Balance:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]
@@ -35,6 +36,7 @@
             Nwlabel:
                 id: wallet_balance
                 halign: 'left'
+                valign: 'top'
                 _text: ''
                 text_size: self.size
 
@@ -45,6 +47,7 @@
 
             Nwlabel:
                 halign: 'left'
+                valign: 'top'
                 _text: 'Send To:'
                 text_size: self.size
                 padding: [10, 0, 0, 0]

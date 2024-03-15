@@ -6,6 +6,7 @@
     time: ''
     root_shortcode: ''
     desc: ''
+    desc_box: desc_box
     displayName: ''
     price: ''
     bids: ''
@@ -64,6 +65,7 @@
             _text: 'Date:'
             text_size: self.size
             halign: 'left'
+            valign: 'top'
             padding: [5, 0, 0, 0]
             width: dp(55)
             size_hint_x: None
@@ -71,17 +73,19 @@
         Nwlabel:
             _text: root.time
             halign: 'left'
+            valign: 'top'
             text_size: self.size
 
     BoxLayout:
         orientation: 'horizontal'
         size_hint_y: None
-        height: dp(20)
+        height: dp(30)
 
         Nwlabel:
             _text: 'Price:'
             text_size: self.size
             halign: 'left'
+            valign: 'top'
             padding: [5, 0, 0, 0]
             width: dp(55)
             size_hint_x: None
@@ -89,6 +93,7 @@
         Nwlabel:
             _text: root.price
             halign: 'left'
+            valign: 'top'
             text_size: self.size
             width: dp(65)
             size_hint_x: None
@@ -97,12 +102,14 @@
             _text: 'Bids:'
             text_size: self.size
             halign: 'left'
+            valign: 'top'
             width: dp(55)
             size_hint_x: None
 
         Nwlabel:
             _text: root.bids
             halign: 'left'
+            valign: 'top'
             text_size: self.size
             size_hint_x: None
             width: dp(65)
@@ -111,19 +118,22 @@
             _text: 'High Bid:'
             text_size: self.size
             halign: 'left'
+            valign: 'top'
             width: dp(75)
             size_hint_x: None
 
         Nwlabel:
             _text: root.high_bid
             halign: 'left'
+            valign: 'top'
             text_size: self.size
             width: dp(65)
             size_hint_x: None
 
     BoxLayout:
+        id: desc_box
         orientation: 'vertical'
-        # size_hint: 1, None
+        size_hint: 1, None
 
         Nwlabel:
             _text: root.desc
@@ -132,7 +142,7 @@
             padding: [5, 0, 0, 0]
             size_hint: 1, None
             height: self.texture_size[1]
-            on_text: root.get_text_height(self.text, self.font_size, self.width)
+            on_text: root.get_text_height(self.text, self.width)
 
     BoxLayout:
         orientation: 'horizontal'

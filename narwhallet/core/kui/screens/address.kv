@@ -60,6 +60,11 @@
                 font_size: dp(16)
 
         Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+            orientation: 'horizontal'
+
+        Nwboxlayout:
             orientation: 'horizontal'
 
             QR_Code:
@@ -72,6 +77,7 @@
 
             Nwlabel:
                 _text: 'Index:'
+                valign: 'top'
                 font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
@@ -80,11 +86,9 @@
             Nwlabel:
                 id: index
                 _text: '0'
+                valign: 'top'
                 size_hint_x: None
                 font_size: dp(15)
-                # halign: 'left'
-                # padding: [5, 0, 0, 0]
-                # width: dp(50)
 
         Nwboxlayout:
             size_hint_y: None
@@ -93,6 +97,7 @@
 
             Nwlabel:
                 _text: 'Transactions:'
+                valign: 'top'
                 font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
@@ -101,6 +106,7 @@
             Nwlabel:
                 id: transactions
                 _text: '0'
+                valign: 'top'
                 font_size: dp(15)
 
         Nwboxlayout:
@@ -110,6 +116,7 @@
 
             Nwlabel:
                 _text: 'Balance:'
+                valign: 'top'
                 font_size: dp(15)
                 size_hint_x: None
                 padding: [10, 0, 0, 0]
@@ -118,6 +125,7 @@
             Nwlabel:
                 id: balance
                 _text: '0.0'
+                valign: 'top'
                 font_size: dp(15)
 
         Nwboxlayout:

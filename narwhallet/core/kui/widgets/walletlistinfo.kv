@@ -1,6 +1,6 @@
 <WalletListInfo>
     size_hint_y: None
-    height: dp(75)
+    height: dp(80)
     sm: None
     ticker: ticker
     lock_state: lock_state
@@ -47,27 +47,31 @@
                 _text: 'Balance:'
                 text_size: self.size
                 halign: 'right'
+                valign: 'top'
                 padding: [5, 0, 0, 0]
 
             Nwlabel:
                 _text: root.balance
                 halign: 'right'
+                valign: 'top'
                 padding: [5, 0, 20, 0]
                 text_size: self.size
 
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: dp(20)
+            height: dp(25)
 
             Nwlabel:
                 _text: 'Last Updated:'
                 halign: 'right'
+                valign: 'top'
                 padding: [5, 0, 0, 0]
                 text_size: self.size
 
             Nwlabel:
                 _text: root.last_updated
                 halign: 'right'
+                valign: 'top'
                 padding: [5, 0, 20, 0]
                 text_size: self.size

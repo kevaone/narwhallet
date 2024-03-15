@@ -7,7 +7,7 @@
     shortcode: ''
     keys: ''
     size_hint_y: None
-    height: dp(90)
+    height: dp(80)
 
     canvas:
         Color:
@@ -23,7 +23,7 @@
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: dp(10)
+            height: dp(5)
 
         BoxLayout:
             orientation: 'horizontal'
@@ -81,10 +81,11 @@
             Nwlabel:
                 _text: root.keys
                 halign: 'left'
+                valign: 'top'
                 padding: [5, 0, 0, 0]
                 text_size: self.size
 
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: dp(10)
+            height: dp(5)

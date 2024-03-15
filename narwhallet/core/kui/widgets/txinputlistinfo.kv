@@ -3,7 +3,7 @@
     sm: None
     txid: txid
     vout: vout
-    height: dp(90) if root.width < dp(550) else dp(65)
+    height: dp(85) if root.width < dp(550) else dp(65)
 
     canvas:
         Color:
@@ -19,7 +19,7 @@
         height: dp(20)
 
         Nwlabel:
-            _text: 'txid'
+            _text: 'txid:'
             text_size: self.size
             padding: [5, 0, 0, 0]
             size_hint_x: None
@@ -28,7 +28,7 @@
     BoxLayout:
         orientation: 'horizontal'
         size_hint_y: None
-        height: dp(50) if root.width < dp(550) else dp(25)
+        height: dp(45) if root.width < dp(550) else dp(25)
 
         Nwlabel:
             id: txid
@@ -37,7 +37,7 @@
             text_size: self.size
             padding: [5, 0, 0, 0]
             size_hint_y: None
-            height: dp(50) if root.width < dp(550) else dp(25)
+            height: dp(40) if root.width < dp(550) else dp(25)
 
     BoxLayout:
         size_hint_y: None
@@ -56,3 +56,8 @@
             id: vout
             _text: 'vout'
             text_size: self.size
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(5)
+        orientation: 'horizontal'

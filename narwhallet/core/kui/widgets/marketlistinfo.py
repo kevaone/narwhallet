@@ -1,10 +1,10 @@
-from kivy.core.text import Label as CoreLabel
 from kivy.uix.boxlayout import BoxLayout
 from kivy.metrics import dp
 from kivy.properties import StringProperty, ListProperty, BooleanProperty, NumericProperty
 from kivy.uix.screenmanager import ScreenManager
 from narwhallet.core.kcl.favorites.favorite import MFavorite
 from narwhallet.core.kui.widgets.nwimage import Nwimage
+from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.nwmarketimage import Nwmarketimage
 
 
@@ -13,6 +13,7 @@ class MarketListInfo(BoxLayout):
     root_shortcode = StringProperty()
     keys = StringProperty(None)
     desc = StringProperty()
+    desc_box = BoxLayout()
     displayName = StringProperty()
     price = StringProperty()
     namespaceid = StringProperty()
@@ -30,17 +31,25 @@ class MarketListInfo(BoxLayout):
 
     def on_image_path(self, *args):
         if self.image_path != '':
-            self.height = self.y_size + dp(170)
+            self.height = self.y_size + dp(150)
             self.media_size = dp(150)
         else:
             self.height = self.y_size
             self.media_size = dp(0)
 
-    def get_text_height(self, text, font_size, text_width):
-        label = CoreLabel(text=text, font_size=font_size, width=text_width)
-        label.refresh()
-        text_height = label.texture.size[1]
-        self.height = dp(90) + dp(text_height)
+    def get_text_height(self, text, text_width):
+        _label = Nwlabel()
+        _label.font_size = dp(15)
+        _label.width = text_width
+        _label.text_size = (text_width, None)
+        _label.size_hint = (1, None)
+        _label.padding = [5, 0, 0, 0]
+        _label.text = text
+        _label.texture_update()
+
+        text_height = _label.texture_size[1]
+        self.desc_box.height = text_height
+        self.height = dp(90) + text_height
         self.y_size = self.height
 
     def on_touch_down(self, touch):
