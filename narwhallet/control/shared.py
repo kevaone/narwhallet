@@ -1,52 +1,19 @@
-import base64  # TODO Check and add if missing to ConvUtils
+import base64
 import json
-import os
 import math
-import sys
 import time
-
-from typing import List, Optional
+from typing import Optional
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Encoder
 from narwhallet.core.kcl.kevacoin.namespace import MNamespace
-
 from narwhallet.core.kex import KEXclient
 from narwhallet.core.kex.cmd import _custom, _transaction
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.utils import Ut
-# from narwhallet.core.kcl.cache import MCache
-from narwhallet.core.kcl.wallet import MAddress, MAddresses, MWallet
-from narwhallet.core.kcl.transaction import (keva_psbt,
-                                             MTransaction,
-                                             MTransactionInput,
-                                             MTransactionOutput,
-                                             MScriptPubKey)
+from narwhallet.core.kcl.wallet import MWallet
 from narwhallet.core.kcl.bip_utils.base58 import Base58Decoder
 
 
 class MShared():
-    @staticmethod
-    def get_resource_path(file):
-        if hasattr(sys, "_MEIPASS"):
-            _path = os.path.join(sys._MEIPASS, 'assets')
-        else:
-            _path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                                 '../core/kui/ux/assets')
-        _path = os.path.join(_path, file)
-
-        return _path
-
-    @staticmethod
-    def sort_dict(item):
-        return item['time']
-
-    # TODO Remove this, should come from file_uitls
-    @staticmethod
-    def load_message_file(file_path: str):
-        _data = b''
-        with open(file_path, mode='rb') as _file:
-            _data = _file.read()
-        return _data
-
     @staticmethod
     def batch_cmds(commands: list) -> list:
         _batches = []
