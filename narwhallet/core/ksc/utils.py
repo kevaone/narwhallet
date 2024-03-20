@@ -1,5 +1,7 @@
 import base64
+import datetime
 import struct
+import time
 from typing import Optional, Union
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
@@ -104,3 +106,14 @@ class Ut():
             return False
 
         return True
+
+    @staticmethod
+    def get_timestamp(timestamp: float = 0.0):
+        if timestamp == 0.0:
+            _now = time.time()
+        else:
+            _now = timestamp
+        _dt = (datetime.datetime
+               .fromtimestamp(_now)
+               .strftime('%Y-%m-%d %H:%M:%S'))
+        return (_now, _dt)

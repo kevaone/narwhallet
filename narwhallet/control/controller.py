@@ -8,6 +8,7 @@ from narwhallet.core.kcl.file_utils.io import ConfigLoader
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kcl.wallet.wallets import MWallets
 from narwhallet.core.kex.KEXc import KEXclient
+from narwhallet.core.ksc.utils import Ut
 
 
 class Controller():
@@ -112,6 +113,6 @@ class Controller():
         _ = self.kex.peers[self.kex.active_peer].connect()
         MShared.get_addresses(wallet, self.kex)
         self.kex.peers[self.kex.active_peer].disconnect()
-        _update_time = MShared.get_timestamp()
+        _update_time = Ut.get_timestamp()
         wallet.set_last_updated(_update_time[0])
         self.wallets.save_wallet(wallet.name)

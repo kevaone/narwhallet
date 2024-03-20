@@ -1,5 +1,4 @@
 import base64  # TODO Check and add if missing to ConvUtils
-import datetime
 import json
 import os
 import math
@@ -35,17 +34,6 @@ class MShared():
         _path = os.path.join(_path, file)
 
         return _path
-
-    @staticmethod
-    def get_timestamp(timestamp: float = 0.0):
-        if timestamp == 0.0:
-            _now = time.time()
-        else:
-            _now = timestamp
-        _dt = (datetime.datetime
-               .fromtimestamp(_now)
-               .strftime('%Y-%m-%d %H:%M:%S'))
-        return (_now, _dt)
 
     @staticmethod
     def sort_dict(item):

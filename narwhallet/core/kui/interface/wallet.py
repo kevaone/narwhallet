@@ -5,6 +5,7 @@ from kivy.animation import Animation
 from narwhallet.control.shared import MShared
 from narwhallet.core.kcl.wallet import MWallet
 from narwhallet.core.kcl.wallet.wallet_kind import EWalletKind
+from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kui.widgets.loadingspinner import LoadingSpinner
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -55,7 +56,7 @@ class WalletScreen(Screen):
                 self.btn_receive.disabled = True
 
             self.header.value = _w.name
-            self.last_updated._text = MShared.get_timestamp(_w.last_updated)[1]
+            self.last_updated._text = Ut.get_timestamp(_w.last_updated)[1]
             self.wallet_balance._text = str(round(_w.balance, 8))
 
             self.wallet_unconfirmed_balance._text = 'r' + str(round(_w.unconfirmed_balance[0], 8)) + ', s' + str(round(_w.unconfirmed_balance[1], 8))
@@ -93,7 +94,7 @@ class WalletScreen(Screen):
         _ = self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].connect()
         MShared.get_addresses(wallet, self.app.ctrl.kex)
         self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].disconnect()
-        _update_time = MShared.get_timestamp()
+        _update_time = Ut.get_timestamp()
         wallet.set_last_updated(_update_time[0])
         self.app.ctrl.wallets.save_wallet(wallet.name)
         wallet.set_updating(False)

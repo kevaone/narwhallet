@@ -263,7 +263,7 @@ class CreateNamespaceKeyScreen(Screen):
         _ = self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].connect()
         MShared.get_addresses(self.wallet, self.app.ctrl.kex)
         self.app.ctrl.kex.peers[self.app.ctrl.kex.active_peer].disconnect()
-        _update_time = MShared.get_timestamp()
+        _update_time = Ut.get_timestamp()
         self.wallet.set_last_updated(_update_time[0])
         self.app.ctrl.wallets.save_wallet(self.wallet.name)
 

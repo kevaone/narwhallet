@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
 from narwhallet.core.kcl.wallet import MWallet
-from narwhallet.control.shared import MShared
+from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 from narwhallet.core.kui.widgets.header import Header
 
@@ -43,7 +43,7 @@ class WalletInfoScreen(Screen):
             self.change_index.text = str(_w.change_index)
             self.balance.text = str(round(_w.balance, 8))
             self.locked_balance.text = str(round(_w.locked, 8))
-            self.last_updated.text = MShared.get_timestamp(_w.last_updated)[1]
+            self.last_updated.text = Ut.get_timestamp(_w.last_updated)[1]
         self.manager.current = 'walletinfo_screen'
 
     def clear_screen(self):

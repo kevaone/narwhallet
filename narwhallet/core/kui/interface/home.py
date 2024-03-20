@@ -1,7 +1,7 @@
 from kivy.app import App
 from kivy.uix.screenmanager import Screen
+from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kui.widgets.nwgrid import Nwgrid
-from narwhallet.control.shared import MShared
 from narwhallet.core.kui.widgets.header import Header
 
 
@@ -23,7 +23,7 @@ class HomeScreen(Screen):
                 _t['wallet_name'] = _w.name
                 _t['ticker'] = _w.coin
                 _t['balance'] = str(round(_w.balance, 8))
-                _t['last_updated'] = MShared.get_timestamp(_w.last_updated)[1]
+                _t['last_updated'] = Ut.get_timestamp(_w.last_updated)[1]
                 _t['sm'] = self.manager
 
                 if _w.locked == True:
