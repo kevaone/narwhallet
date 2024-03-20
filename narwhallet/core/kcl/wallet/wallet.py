@@ -415,7 +415,7 @@ class MWallet():
                 _ai = self.addresses.get_address_index_by_name(_a.address)
                 _x['a_idx'] = _ai
                 _x['a'] = _a.address
-                _x['ch'] = 1
+                _x['ch'] = 0
                 _tmp_usxo.append(_x)
         for _a in self.change_addresses.addresses:
             for _x in _a.unspent_tx:
@@ -423,7 +423,7 @@ class MWallet():
                        .get_address_index_by_name(_a.address))
                 _x['a_idx'] = _ai
                 _x['a'] = _a.address
-                _x['ch'] = 0
+                _x['ch'] = 1
                 _tmp_usxo.append(_x)
 
         _usxos = []

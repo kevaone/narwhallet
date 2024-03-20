@@ -156,25 +156,25 @@ class MShared():
     def get_addresses(wallet: MWallet, kex: KEXclient):
         _th: list = []
         _tid: dict = {}
-        _th, _tid = MShared._get_addresses_cmds(wallet, 1, _th, _tid, kex)
         _th, _tid = MShared._get_addresses_cmds(wallet, 0, _th, _tid, kex)
+        _th, _tid = MShared._get_addresses_cmds(wallet, 1, _th, _tid, kex)
         _batches = MShared.batch_cmds(_th)
         MShared._get_addresses(wallet, _batches, _tid, kex)
         # NOTE Clip off unused addresses
-        MShared._clip_unused_addresses(wallet, 1)
         MShared._clip_unused_addresses(wallet, 0)
+        MShared._clip_unused_addresses(wallet, 1)
 
     @staticmethod
     def _clip_unused_addresses(wallet: MWallet, chain: int):
-        if chain == 1:
+        if chain == 0:
             _addrs = wallet.addresses
-        elif chain == 0:
+        elif chain == 1:
             _addrs = wallet.change_addresses
 
         while True:
             _t = _addrs._addresses[-1].history
             if _t == []:
-                if chain == 1:
+                if chain == 0:
                     if len(_addrs._addresses) == 1:
                         break
                 del _addrs._addresses[-1]
@@ -190,17 +190,17 @@ class MShared():
             _addrs._names[_a.address] = _idx
         
         if chain == 0:
-            wallet.set_change_index(_len)
-        elif chain == 1:
             wallet.set_account_index(_len)
+        elif chain == 1:
+            wallet.set_change_index(_len)
 
     @staticmethod
     def _get_addresses_cmds(wallet: MWallet, chain: int, _th: list,
                             _tid: dict, kex: KEXclient):
         if chain == 0:
-            _addresses = wallet.change_addresses
-        elif chain == 1:
             _addresses = wallet.addresses
+        elif chain == 1:
+            _addresses = wallet.change_addresses
 
         _idx = -1
         for _a in _addresses.addresses:
@@ -215,7 +215,7 @@ class MShared():
             # _script_hash = Scripts.compileToScriptHash(_script_hash, True)
             _idx = _idx + 1
             # NOTE Filter out spent change addresses
-            if chain == 0 and _a.balance == 0 and _idx < wallet.change_index - 5:
+            if chain == 1 and _a.balance == 0 and _idx < wallet.change_index - 5:
                 continue
             _th.append(kex.api.custom.get_address
                        (_a.address, kex.id))
@@ -233,12 +233,12 @@ class MShared():
         if wallet.kind != 3:
             for _pad in range(0, _scan_pad):
                 if chain == 0:
+                    _pad_value = len(wallet.addresses.addresses) + _pad
+                    _addr = wallet.get_address_by_index(_pad_value, False)
+                elif chain == 1:
                     _pad_value = len(wallet.change_addresses.addresses) + _pad
                     _addr = wallet.get_change_address_by_index(_pad_value,
                                                                False)
-                elif chain == 1:
-                    _pad_value = len(wallet.addresses.addresses) + _pad
-                    _addr = wallet.get_address_by_index(_pad_value, False)
 
                 # _script_hash = Scripts.AddressScriptHash(_addr)
                 # _script_hash = Scripts.compileToScriptHash(_script_hash, True)
@@ -256,9 +256,9 @@ class MShared():
     def _process_addresses(wallet: MWallet, _tid: dict, i: dict):
         _chain = _tid[str(i['id'])]['chain']
         if _chain == 0:
-            _addresses = wallet.change_addresses
-        else:
             _addresses = wallet.addresses
+        else:
+            _addresses = wallet.change_addresses
 
         _a = _tid[str(i['id'])]['address']
         _ax = _addresses.get_address_index_by_name(_a)
@@ -269,15 +269,15 @@ class MShared():
             _p = _tid[str(i['id'])]['pad']
             while _addresses.count < _p:
                 if _chain == 0:
-                    wallet.get_unused_change_address()
-                else:
                     wallet.get_unused_address()
+                else:
+                    wallet.get_unused_change_address()
 
             if _p == _addresses.count:
                 if _chain == 0:
-                    wallet.get_change_address_by_index(_p, True)
-                else:
                     wallet.get_address_by_index(_p, True)
+                else:
+                    wallet.get_change_address_by_index(_p, True)
 
                 _ax = _addresses.get_address_index_by_name(_a)
                 _addresses.addresses[_ax].set_history(i['result'][1]['page_results'])

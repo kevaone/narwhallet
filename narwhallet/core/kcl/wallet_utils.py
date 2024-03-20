@@ -79,18 +79,18 @@ class _wallet_utils():
             _master = _wallet_utils.generate_master_from_seed(seed, coin, bip)
             bip49_acc = _master.Purpose().Coin().Account(0)
             if chain == 0:
-                bip49_change = bip49_acc.Change(Bip44Changes.CHAIN_INT)
-            else:
                 bip49_change = bip49_acc.Change(Bip44Changes.CHAIN_EXT)
+            else:
+                bip49_change = bip49_acc.Change(Bip44Changes.CHAIN_INT)
 
             bip49_addr = bip49_change.AddressIndex(index)
             _return = bip49_addr.PublicKey().RawCompressed().ToHex()
         elif bip == 'bip32':
             bip32_ctx = Bip32Secp256k1.FromExtendedKey(seed)
             if chain == 0:
-                _derive_path = '0\'/1\'/' + str(index) + '\''
-            else:
                 _derive_path = '0\'/0\'/' + str(index) + '\''
+            else:
+                _derive_path = '0\'/1\'/' + str(index) + '\''
             bip32_ctx = bip32_ctx.DerivePath(_derive_path)
             _return = bip32_ctx.PublicKey().RawCompressed().ToHex()
         return _return
@@ -142,9 +142,9 @@ class _wallet_utils():
 
         bip49_acc = _master.Purpose().Coin().Account(0)
         if chain == 0:
-            bip49_change = bip49_acc.Change(Bip44Changes.CHAIN_INT)
-        elif chain == 1:
             bip49_change = bip49_acc.Change(Bip44Changes.CHAIN_EXT)
+        elif chain == 1:
+            bip49_change = bip49_acc.Change(Bip44Changes.CHAIN_INT)
         bip49_addr = bip49_change.AddressIndex(index)
 
         return bip49_addr.PrivateKey().Raw().ToBytes()
@@ -226,9 +226,9 @@ class _wallet_utils():
     def get_bip32_address_private(extended_key: str, idx: int, chain: int):
         bip32_ctx = Bip32Secp256k1.FromExtendedKey(extended_key)
         if chain == 0:
-            _derive_path = '0\'/1\'/' + str(idx) + '\''
-        else:
             _derive_path = '0\'/0\'/' + str(idx) + '\''
+        else:
+            _derive_path = '0\'/1\'/' + str(idx) + '\''
         bip32_ctx = bip32_ctx.DerivePath(_derive_path)
         cc = bip32_ctx.PrivateKey().Raw().ToBytes()
 
