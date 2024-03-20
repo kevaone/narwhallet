@@ -5,7 +5,6 @@ from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.metrics import dp
 from kivy.properties import NumericProperty
-from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
@@ -117,22 +116,23 @@ class TransferNamespaceScreen(Screen):
         return False
 
     def check_address(self, cb=True):
-        try:
-            _ = (Base58Decoder
-                 .CheckDecode(self.new_namespace_address.text))
-            _a, _b, _c = True, True, True
-            self.valid_address.size = (dp(30), dp(30))
-            if cb is True:
-                _a = self.check_amount(False)
-                _b = self.check_key(False)
-                _c = self.check_value(False)
+        _valid = Ut.check_address_valid(self.new_namespace_address.text)
 
-            if _a and _b and _c is True:
-                self.btn_send.disabled = False
-        except Exception:
+        if _valid is False:
             self.valid_address.size = (0, 0)
             self.btn_send.disabled = True
             return False
+
+        _a, _b, _c = True, True, True
+        self.valid_address.size = (dp(30), dp(30))
+        if cb is True:
+            _a = self.check_amount(False)
+            _b = self.check_key(False)
+            _c = self.check_value(False)
+
+        if _a and _b and _c is True:
+            self.btn_send.disabled = False
+
         return True
 
     def check_key(self, cb=True):

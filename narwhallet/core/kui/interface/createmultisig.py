@@ -4,7 +4,6 @@ from kivy.uix.textinput import TextInput
 from kivy.metrics import dp
 from kivy.app import App
 from narwhallet.core.ksc.utils import Ut
-from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.address import MAddress
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
@@ -216,15 +215,17 @@ class CreateMultiSigScreen(Screen):
         self._redeem_script = _redeem_script
         self.address.text = _address
 
-        try:
-            _ = (Base58Decoder
-                 .CheckDecode(self.address.text))
-            try:
-                _ = self.wallet.multi_sig_addresses.get_address_by_name(self.address.text)
-            except:
-                self.btn_create.disabled = False
-        except Exception:
+        _valid = Ut.check_address_valid(self.address.text)
+
+        if _valid is False:
             return
+
+        try:
+            _ = self.wallet.multi_sig_addresses.get_address_by_name(self.address.text)
+        except:
+            self.btn_create.disabled = False
+
+        
 
     def create(self):
         _multi_sig_address = MAddress()

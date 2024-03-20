@@ -7,7 +7,6 @@ from kivy.uix.image import Image
 from kivy.metrics import dp
 from kivy.app import App
 from kivy.properties import NumericProperty
-from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
@@ -250,24 +249,25 @@ class EditNamespaceScreen(Screen):
         return False
 
     def check_address(self, cb=True):
-        try:
-            _ = (Base58Decoder
-                 .CheckDecode(self.namespace_address.text))
-            _a, _b, _c, _d = True, True, True, True
-            if cb is True:
-                # _a = self.check_payment_address(False)
-                _b = self.check_amount(False)
-                _c = self.check_key(False)
-                _d = self.check_ns_value(False)
+        _valid = Ut.check_address_valid(self.namespace_address.text)
 
-            if _a and _b and _c and _d is True:
-                self.btn_send.disabled = False
-            else:
-                self.btn_send.disabled = True
-                return False
-        except Exception:
+        if _valid is False:
             self.btn_send.disabled = True
             return False
+
+        _a, _b, _c, _d = True, True, True, True
+        if cb is True:
+            # _a = self.check_payment_address(False)
+            _b = self.check_amount(False)
+            _c = self.check_key(False)
+            _d = self.check_ns_value(False)
+
+        if _a and _b and _c and _d is True:
+            self.btn_send.disabled = False
+        else:
+            self.btn_send.disabled = True
+            return False
+        
         return True
 
     def check_key(self, cb=True):

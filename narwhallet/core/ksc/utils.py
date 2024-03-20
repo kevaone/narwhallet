@@ -1,6 +1,7 @@
 import base64
 import struct
 from typing import Optional, Union
+from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.bip_utils.utils import CryptoUtils, ConvUtils
 
 
@@ -93,3 +94,13 @@ class Ut():
     @staticmethod
     def base64_encode(data: bytes) -> bytes:
         return base64.b64encode(data)
+
+    @staticmethod
+    def check_address_valid(address: str) -> bool:
+        try:
+            _ = (Base58Decoder
+                 .CheckDecode(address))
+        except:
+            return False
+
+        return True

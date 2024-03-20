@@ -4,7 +4,6 @@ from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
 from kivy.uix.image import Image
 from kivy.metrics import dp
-from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 from narwhallet.core.kui.widgets.nwlabel import Nwlabel
@@ -109,20 +108,21 @@ class SendScreen(Screen):
         return False
 
     def check_address(self, cb=True):
-        try:
-            _ = (Base58Decoder
-                 .CheckDecode(self.send_to.text))
-            _ca = True
-            self.valid_send_to.size = (dp(30), dp(30))
-            if cb is True:
-                _ca = self.check_amount(False)
+        _valid = Ut.check_address_valid(self.send_to.text)
 
-            if _ca is True:
-                self.btn_send.disabled = False
-        except Exception:
+        if _valid is False:
             self.valid_send_to.size = (0, 0)
             self.btn_send.disabled = True
             return False
+
+        _ca = True
+        self.valid_send_to.size = (dp(30), dp(30))
+        if cb is True:
+            _ca = self.check_amount(False)
+
+        if _ca is True:
+            self.btn_send.disabled = False
+
         return True
 
     def set_availible_usxo(self):

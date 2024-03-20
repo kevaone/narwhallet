@@ -4,7 +4,7 @@ from kivy.uix.modalview import ModalView
 from kivy.properties import BooleanProperty, ObjectProperty
 from kivy.uix.textinput import TextInput
 from narwhallet.control.shared import MShared
-from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Decoder
+from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kcl.favorites.favorite import MFavorite
 from narwhallet.core.kui.widgets.nwbutton import Nwbutton
 
@@ -71,14 +71,16 @@ class Nwaddfavorite(ModalView):
             return
         except:
             # Test if namespace id
-            try:
-                _ = Base58Decoder.CheckDecode(self.namespace.text)
-                self.btn_next.disabled = False
-                self.kind = 1
-                return
-            except:
+            _valid = Ut.check_address_valid(self.namespace.text)
+
+            if _valid is False:
                 self.btn_next.disabled = True
                 self.kind = 0
+                return
+
+            self.btn_next.disabled = False
+            self.kind = 1
+            return
 
     def on_enter(self, *args):
         if self.btn_next.disabled is False:
