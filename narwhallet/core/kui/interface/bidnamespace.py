@@ -227,7 +227,7 @@ class BidNamespaceScreen(Screen):
 
     def build_bid(self):
         self.bid_tx = MTransactionBuilder()
-        self.bid_tx.set_version(Ut.hex_to_bytes('00710000'))
+        self.bid_tx.set_version('00710000')
         self.bid_tx.set_fee(int(self.fee_rate))
 
         _bid_amount = Ut.to_sats(float(self.bid_amount.text))
@@ -299,7 +299,7 @@ class BidNamespaceScreen(Screen):
 
     def build_send(self):
         self.new_tx = MTransactionBuilder()
-        self.new_tx.set_version(Ut.hex_to_bytes('00710000'))
+        self.new_tx.set_version('00710000')
         self.new_tx.set_fee(int(self.fee_rate))
 
         self.set_output()

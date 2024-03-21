@@ -1,6 +1,7 @@
 import json
 from typing import List
 from narwhallet.core.kcl.transaction.script_sig import MScriptSig
+from narwhallet.core.ksc.utils import Ut
 
 
 class MTransactionInput():
@@ -12,7 +13,7 @@ class MTransactionInput():
         self._vout: int = -1
         self._scriptSig: MScriptSig = MScriptSig()
         self._txinwitness: List[str] = []
-        self._sequence: int = -1
+        self._sequence: bytes = b''
 
         self.tb_address: int = -1
         self.tb_address_chain: int = -1
@@ -39,7 +40,7 @@ class MTransactionInput():
         return self._txinwitness
 
     @property
-    def sequence(self) -> int:
+    def sequence(self) -> bytes:
         return self._sequence
 
     def set_coinbase(self, coinbase: str) -> None:
@@ -57,7 +58,10 @@ class MTransactionInput():
     def set_txinwitness(self, txinwitness: List[str]) -> None:
         self._txinwitness = txinwitness
 
-    def set_sequence(self, sequence: int) -> None:
+    def set_sequence(self, sequence: bytes | str) -> None:
+        if isinstance(sequence, str):
+            sequence = Ut.hex_to_bytes(sequence)
+
         self._sequence = sequence
 
     def from_sql(self, vin):

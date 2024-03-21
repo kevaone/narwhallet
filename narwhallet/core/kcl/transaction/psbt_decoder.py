@@ -54,7 +54,7 @@ class keva_psbt():
             _, value_data = self.read_vec(psbt)
             if _is_tx:
                 s_val = BytesIO(value_data)
-                self.tx.set_version(Ut.bytes_to_int(s_val.read(4), 'little'))
+                self.tx.set_version(s_val.read(4))
 
                 self.psbt_inputs, _ = Ut.read_csuint(s_val)
                 for _ in range(self.psbt_inputs):
@@ -68,7 +68,7 @@ class keva_psbt():
                     if _vin.scriptSig.hex == '':
                         _vin.scriptSig.set_hex(None)
 
-                    _vin.set_sequence(Ut.bytes_to_hex(s_val.read(4)))
+                    _vin.set_sequence(s_val.read(4))
                     self.tx.add_vin(_vin)
 
                 self.psbt_outputs, _ = Ut.read_csuint(s_val)

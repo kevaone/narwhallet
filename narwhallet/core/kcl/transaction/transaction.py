@@ -2,13 +2,14 @@ import time
 from typing import List
 from narwhallet.core.kcl.transaction.input import MTransactionInput
 from narwhallet.core.kcl.transaction.output import MTransactionOutput
+from narwhallet.core.ksc.utils import Ut
 
 
 class MTransaction():
     def __init__(self):
         self._txid: str = ''
         self._hash: str = ''
-        self._version: int = -1
+        self._version: bytes = b''
         self._size: int = -1
         self._vsize: int = -1
         self._locktime: int = -1
@@ -29,7 +30,7 @@ class MTransaction():
         return self._hash
 
     @property
-    def version(self) -> int:
+    def version(self) -> bytes:
         return self._version
 
     @property
@@ -78,7 +79,12 @@ class MTransaction():
     def set_hash(self, thash: str) -> None:
         self._hash = thash
 
-    def set_version(self, version) -> None:
+    def set_version(self, version: bytes | str | int) -> None:
+        if isinstance(version, str):
+            version = Ut.hex_to_bytes(version)
+        elif isinstance(version, int):
+            version = Ut.int_to_bytes(version, 4, 'little')
+
         self._version = version
 
     def set_size(self, size) -> None:

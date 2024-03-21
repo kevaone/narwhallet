@@ -18,7 +18,7 @@ class MTransactionBuilder(MTransaction):
     def __init__(self):
         super().__init__()
 
-        self._version: bytes = Ut.int_to_bytes(2, 4, 'little')
+        self.set_version(2)
         self._segwit: bytes = Ut.hex_to_bytes('0001')
 
         self._fee: int = 0
@@ -117,7 +117,7 @@ class MTransactionBuilder(MTransaction):
                     len(self.vin) + 1, len(self.vout) + 1))
                 _est_fee = self.fee * _vsize
                 # print('change test est_fee', _est_fee)
-                if (tx['value'] + fv) > (_est_fee + 500000):
+                if (tx['value'] + fv) > _est_fee:
                     # print('Need chage')
                     self.add_input(tx['value'],
                                    str(tx['a_idx'])+':'+str(tx['ch']),
@@ -162,15 +162,14 @@ class MTransactionBuilder(MTransaction):
         _hash_cache = b''
         if hash_type == SIGHASH_TYPE.ALL:
             for inp in self.vin:
-                _hash_cache = _hash_cache + \
-                    Ut.hex_to_bytes(inp.sequence)
+                _hash_cache = _hash_cache + inp.sequence
             _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
         else:
             _hash_cache = Ut.hex_to_bytes(ZHASH)
 
         return _hash_cache
 
-    def hash_outputs(self, hash_type: SIGHASH_TYPE, idx: int = None) -> bytes:
+    def hash_outputs(self, hash_type: SIGHASH_TYPE, idx: int = -1) -> bytes:
         _hash_cache = b''
         if hash_type is not SIGHASH_TYPE.NONE and SIGHASH_TYPE.SINGLE:
             for output in self.vout:
@@ -194,7 +193,7 @@ class MTransactionBuilder(MTransaction):
 
         _pre = []
 
-        _pre.append(self._version)
+        _pre.append(self.version)
         if for_psbt is False:
             _pre.append(self._segwit)
         _pre.append(Ut.to_cuint(len(self.vin)))
@@ -211,7 +210,7 @@ class MTransactionBuilder(MTransaction):
             else:
                 _pre.append(Ut.to_cuint(0))
 
-            _pre.append(Ut.hex_to_bytes(i.sequence))
+            _pre.append(i.sequence)
 
         _pre.append(Ut.to_cuint(len(self.vout)))
 
@@ -325,7 +324,7 @@ class MTransactionBuilder(MTransaction):
         _lock_time = 0
 
         _pre = []
-        _pre.append(self._version)
+        _pre.append(self.version)
         _pre.append(self.hash_prevouts(_hash_type))
         _pre.append(self.hash_seqs(_hash_type))
 
@@ -343,7 +342,7 @@ class MTransactionBuilder(MTransaction):
             _pre.append(Ut.to_cuint(len(_s3)) + _s3)
 
         _pre.append(Ut.int_to_bytes(self.vin[i].tb_value, 8, 'little'))
-        _pre.append(Ut.hex_to_bytes(self.vin[i].sequence))
+        _pre.append(self.vin[i].sequence)
 
         _pre.append(self.hash_outputs(_hash_type))
         _pre.append(Ut.int_to_bytes(_lock_time, 4, 'little'))

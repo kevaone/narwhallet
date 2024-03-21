@@ -5,7 +5,7 @@ from narwhallet.core.kcl.transaction.script_pubkey import MScriptPubKey
 class MTransactionOutput():
     def __init__(self):
         self._n: int = -1
-        self._value: float = 0.0
+        self._value: int = -1
         self._scriptPubKey: MScriptPubKey = MScriptPubKey()
 
     @property
@@ -13,7 +13,7 @@ class MTransactionOutput():
         return self._n
 
     @property
-    def value(self) -> float:
+    def value(self) -> int:
         return self._value
 
     @property
@@ -23,7 +23,7 @@ class MTransactionOutput():
     def set_n(self, n: int) -> None:
         self._n = n
 
-    def set_value(self, value: float) -> None:
+    def set_value(self, value: int) -> None:
         self._value = value
 
     def set_scriptPubKey(self, scriptPubKey) -> None:
