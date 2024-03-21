@@ -21,7 +21,7 @@ class MTransactionBuilder(MTransaction):
         self.set_version(2)
         self._segwit: bytes = Ut.hex_to_bytes('0001')
 
-        self._fee: int = 0
+        self._fee_rate: int = 0
         self._target_value: int = 0
         self.inputs_to_spend: list = []
         self.input_signatures: list = []
@@ -31,11 +31,11 @@ class MTransactionBuilder(MTransaction):
         return int(item['value'])
 
     @property
-    def fee(self) -> int:
-        return self._fee
+    def fee_rate(self) -> int:
+        return self._fee_rate
 
-    def set_fee(self, fee: int):
-        self._fee = fee
+    def set_fee_rate(self, fee_rate: int) -> None:
+        self._fee_rate = fee_rate
 
     def get_size(self, in_count, out_count):
         _out_size = 0
@@ -53,18 +53,18 @@ class MTransactionBuilder(MTransaction):
         return _total_size, _vsize
 
     def get_current_values(self):
-        _i = 0
-        _o = 0
-        _f = 0
+        _input_value = 0
+        _output_value = 0
+        _to_fee = 0
 
         for vi in self.vin:
-            _i += vi.tb_value
+            _input_value += vi.tb_value
 
         for vo in self.vout:
-            _o += vo.value
+            _output_value += vo.value
 
-        _f = _i - _o
-        return _i, _o, _f
+        _to_fee = _input_value - _output_value
+        return _input_value, _output_value, _to_fee
 
     def add_output(self, value: int, address: str) -> str:
         _vout = MTransactionOutput()
@@ -97,27 +97,27 @@ class MTransactionBuilder(MTransaction):
         _enough_inputs = False
         _change_flag = False
         for tx in self.inputs_to_spend:
-            _, _, fv = self.get_current_values()
+            _, _, _to_fee = self.get_current_values()
             _size, _vsize = self.get_size(len(self.vin) + 1, len(self.vout))
-            _est_fee = self.fee * _vsize
+            _est_fee = self.fee_rate * _vsize
             # print('est_fee', _est_fee)
-            if (tx['value'] + fv) == _est_fee:
+            if (tx['value'] + _to_fee) == _est_fee:
                 # print('Worlds align, no change')
                 self.add_input(tx['value'],
                                str(tx['a_idx'])+':'+str(tx['ch']),
                                tx['txid'], tx['n'])
                 _enough_inputs = True
-            elif (tx['value'] + fv) < _est_fee:
+            elif (tx['value'] + _to_fee) < _est_fee:
                 # print('Need more inputs')
                 self.add_input(tx['value'],
                                str(tx['a_idx'])+':'+str(tx['ch']),
                                tx['txid'], tx['n'])
-            elif (tx['value'] + fv) > _est_fee:
+            elif (tx['value'] + _to_fee) > _est_fee:
                 _size, _vsize = (self.get_size(
                     len(self.vin) + 1, len(self.vout) + 1))
-                _est_fee = self.fee * _vsize
+                _est_fee = self.fee_rate * _vsize
                 # print('change test est_fee', _est_fee)
-                if (tx['value'] + fv) > _est_fee:
+                if (tx['value'] + _to_fee) > _est_fee:
                     # print('Need chage')
                     self.add_input(tx['value'],
                                    str(tx['a_idx'])+':'+str(tx['ch']),
@@ -415,7 +415,7 @@ class MTransactionBuilder(MTransaction):
         return _spre
 
     def to_dict(self) -> dict:
-        return {'fee': self._fee, 'vin': self.to_dict_list(self.vin),
+        return {'fee_rate': self.fee_rate, 'vin': self.to_dict_list(self.vin),
                 'vout': self.to_dict_list(self.vout), 'txid': self.txid,
                 'version': self.version, 'size': self.size,
                 'locktime': self.locktime}

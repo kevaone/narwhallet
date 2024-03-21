@@ -296,23 +296,23 @@ class AuctionNamespaceScreen(Screen):
     def build_send(self):
         self.new_tx = MTransactionBuilder()
         self.new_tx.set_version('00710000')
-        self.new_tx.set_fee(int(self.fee_rate))
+        self.new_tx.set_fee_rate(int(self.fee_rate))
         self.set_output()
         self.set_availible_usxo()
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
         
         if _inp_sel is True:
-            _iv, _ov, _fv = self.new_tx.get_current_values()
+            _input_value, _output_value, _to_fee = self.new_tx.get_current_values()
             if _need_change is True:
-                _cv = _fv - _est_fee
+                _cv = _to_fee - _est_fee
                 _change_address = self.wallet.get_unused_change_address()
                 _ = self.new_tx.add_output(_cv, _change_address)
                 self.change_value = _cv
 
             self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)
             _stx = self.new_tx.serialize_tx()
-            self.input_value = _iv
-            self.output_value = _ov
+            self.input_value = _input_value
+            self.output_value = _output_value
             self.set_ready(_stx, _est_fee)
         else:
             self.reset_transactions()

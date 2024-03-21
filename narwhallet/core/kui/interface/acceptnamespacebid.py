@@ -208,7 +208,7 @@ class AcceptNamespaceBidScreen(Screen):
 
     def build_send(self):
         self.new_tx.set_version('00710000')
-        self.new_tx.set_fee(int(self.fee_rate))
+        self.new_tx.set_fee_rate(int(self.fee_rate))
 
         self.set_availible_usxo()
         if len(self.new_tx.inputs_to_spend) == 0:
@@ -223,10 +223,10 @@ class AcceptNamespaceBidScreen(Screen):
         if _inp_sel is True:
             self.new_tx.txb_preimage(self.wallet,
                                          SIGHASH_TYPE.ALL_ANYONECANPAY, True)
-            _, _, _est_fee = self.new_tx.get_current_values()
+            _, _, _to_fee = self.new_tx.get_current_values()
 
             _stx = self.new_tx.serialize_tx()
-            self.set_ready(_stx, _est_fee)
+            self.set_ready(_stx, _to_fee)
             # TODO Validate TX and Broadcast
         else:
             self.reset_transactions()
