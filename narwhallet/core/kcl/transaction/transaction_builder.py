@@ -296,7 +296,7 @@ class MTransactionBuilder(MTransaction):
                 _r = Scripts.compile(Scripts.P2SHAddressScriptHash(_address), False)
                 _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
                 _ref = _ref + Ut.to_cuint(len(_r)) + _r
-                input_sigs['_PSBT_IN_WITNESS_UTXO'] = _ref
+                input_sigs['_PSBT_IN_WITNESS_UTXO'] = Ut.bytes_to_hex(_ref)
 
                 self.input_signatures.append(input_sigs)
             else:
@@ -314,7 +314,7 @@ class MTransactionBuilder(MTransaction):
                 _r = Scripts.compile(Scripts.AddressScriptHash(_addr), False)
                 _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
                 _ref = _ref + Ut.to_cuint(len(_r)) + _r
-                input_sigs['_PSBT_IN_WITNESS_UTXO'] = _ref
+                input_sigs['_PSBT_IN_WITNESS_UTXO'] = Ut.bytes_to_hex(_ref)
 
                 self.input_signatures.append(input_sigs)
 
@@ -374,7 +374,7 @@ class MTransactionBuilder(MTransaction):
             _pre.append(Ut.to_cuint(0))
             # _PSBT_IN_WITNESS_UTXO '01'
             _pre.append(Ut.to_cuint(1))
-            _sp = input_sig_data['_PSBT_IN_WITNESS_UTXO']
+            _sp = Ut.hex_to_bytes(input_sig_data['_PSBT_IN_WITNESS_UTXO'])
             _pre.append(Ut.to_cuint(len(Ut.to_cuint(len(_sp)))))
             _pre.append(Ut.to_cuint(len(_sp)))
             _pre.append(_sp)
