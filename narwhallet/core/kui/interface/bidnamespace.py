@@ -1,4 +1,5 @@
 import json
+import time
 from kivy.clock import Clock
 from kivy.uix.screenmanager import Screen
 from kivy.uix.textinput import TextInput
@@ -15,6 +16,7 @@ from narwhallet.core.kcl.transaction import MTransactionBuilder
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.kui.widgets.header import Header
+from narwhallet.core.kui.widgets.nwpopup import Nwpopup
 from narwhallet.core.kui.widgets.nwrefreshpopup import Nwrefreshpopup
 from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
@@ -38,6 +40,7 @@ class BidNamespaceScreen(Screen):
     valid_bid_amount = Image()
     header = Header()
     btn_send = Nwbutton()
+    btn_file = Nwbutton()
 
     def __init__(self, **kwargs):
         super(BidNamespaceScreen, self).__init__(**kwargs)
@@ -92,6 +95,7 @@ class BidNamespaceScreen(Screen):
         self.change_value = 0
         self.btn_send._text = 'Create TX'
         self.btn_send.disabled = True
+        self.btn_file.disabled = True
         self.fee_rate = str(MShared.get_fee_rate(self.app.ctrl.kex))
         if self.app.ctrl.settings.default_wallet != '':
             self.wallet_name.text = self.app.ctrl.settings.default_wallet
@@ -175,15 +179,19 @@ class BidNamespaceScreen(Screen):
 
                 if _a and _b and _c and _d is True:
                     self.btn_send.disabled = False
+                    self.btn_file.disabled = False
                     return True
                 else:
                     self.btn_send.disabled = True
+                    self.btn_file.disabled = True
                     return False
             else:
-                self.btn_send.disabled = True    
+                self.btn_send.disabled = True
+                self.btn_file.disabled = True
         except Exception:
             self.valid_bid_amount.size = (0, 0)
             self.btn_send.disabled = True
+            self.btn_file.disabled = True
             
         return False
 
@@ -192,6 +200,7 @@ class BidNamespaceScreen(Screen):
 
         if _valid is False:
             self.btn_send.disabled = True
+            self.btn_file.disabled = True
             return False
 
         _a, _b, _c, _d = True, True, True, True
@@ -201,8 +210,10 @@ class BidNamespaceScreen(Screen):
 
         if _a and _b and _c and _d is True:
             self.btn_send.disabled = False
+            self.btn_file.disabled = False
         else:
             self.btn_send.disabled = True
+            self.btn_file.disabled = True
             return False
 
         return True
@@ -212,6 +223,7 @@ class BidNamespaceScreen(Screen):
 
         if _valid is False:
             self.btn_send.disabled = True
+            self.btn_file.disabled = True
             return False
 
         _a, _b, _c, _d = True, True, True, True
@@ -221,6 +233,7 @@ class BidNamespaceScreen(Screen):
 
         if _a and _b and _c and _d is True:
             self.btn_send.disabled = False
+            self.btn_file.disabled = False
 
         return True
 
@@ -294,6 +307,23 @@ class BidNamespaceScreen(Screen):
         self.raw_tx = Ut.bytes_to_hex(_stx)
         self.txhex = Ut.bytes_to_hex(_stx)
         self.process_send()
+
+    def build_file(self):
+        self.new_tx = MTransactionBuilder()
+        self.new_tx.set_version('00710000')
+        self.new_tx.set_fee_rate(int(self.fee_rate))
+
+        self.build_bid()
+
+        _ns_value = self.bid_tx.to_psbt(SIGHASH_TYPE.ALL_ANYONECANPAY)
+        _name = 'bid_' + str(time.time_ns())
+        self.app.ctrl.save_psbt(Ut.bytes_to_hex(_ns_value), _name)
+
+        result_popup = Nwpopup()
+        result_popup.status._text = 'Bid psbt saved: ' + _name + '!'
+
+        result_popup.open()
+        self.manager.current = 'namespacealt_screen'
 
     def build_send(self):
         self.new_tx = MTransactionBuilder()

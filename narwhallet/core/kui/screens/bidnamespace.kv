@@ -15,6 +15,7 @@
     valid_bid_amount: valid_bid_amount
     header: header
     btn_send: btn_send
+    btn_file: btn_file
 
     GridLayout:
         size: root.width, root.height
@@ -390,6 +391,11 @@
             Nwbutton:
                 _text: 'Cancel'
                 on_press: root.manager.current = 'namespacealt_screen'
+
+            Nwbutton:
+                id: btn_file
+                _text: 'Save PSBT'
+                on_press: root.build_file()
 
             Nwbutton:
                 id: btn_send

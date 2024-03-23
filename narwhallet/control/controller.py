@@ -4,7 +4,8 @@ import shutil
 from kivy.utils import platform
 from narwhallet.control.narwhallet_settings import MNarwhalletSettings
 from narwhallet.control.shared import MShared
-from narwhallet.core.kcl.file_utils.io import ConfigLoader
+from narwhallet.core.kcl.file_utils.io import ConfigLoader, _loader
+from narwhallet.core.kcl.transaction.psbt_decoder import keva_psbt
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.kcl.wallet.wallets import MWallets
 from narwhallet.core.kex.KEXc import KEXclient
@@ -43,6 +44,10 @@ class Controller():
         if os.path.isdir(os.path.join(_narwhallet_path, 'tmp_ipfs')) is False:
             # TODO Add error handling
             os.mkdir(os.path.join(_narwhallet_path, 'tmp_ipfs'))
+
+        if os.path.isdir(os.path.join(_narwhallet_path, 'saved_psbt')) is False:
+            # TODO Add error handling
+            os.mkdir(os.path.join(_narwhallet_path, 'saved_psbt'))
 
         if os.path.isfile(os.path.join(_narwhallet_path,
                                         'settings.json')) is False:
@@ -116,3 +121,24 @@ class Controller():
         _update_time = Ut.get_timestamp()
         wallet.set_last_updated(_update_time[0])
         self.wallets.save_wallet(wallet.name)
+
+    def save_psbt(self, psbt: str, name: str) -> None:
+        _path = os.path.join(self.user_path, 'saved_psbt')
+        _loader._save(os.path.join(_path, name + '.pskt'), psbt)
+
+    def load_psbt(self, name: str) -> keva_psbt:
+        _path = os.path.join(self.user_path, 'saved_psbt')
+        _data = _loader._load(os.path.join(_path, name + '.pskt'))
+        _psbt = keva_psbt(_data)
+
+        _idx = 0
+        for _, _r in enumerate(_psbt.psbt_records):
+            if _r[0] == 'PSBT_IN_WITNESS_UTXO':
+                _psbt.tx.vin[_idx].tb_value = (Ut.bytes_to_int(_r[2][:8], 'little'))
+            elif _r[0] == 'PSBT_IN_PARTIAL_SIG':
+                _psbt.tx.add_witness([_r[2], Ut.bytes_to_hex(_r[1][1:])])
+            elif _r[0] == 'PSBT_IN_REDEEM_SCRIPT':
+                _psbt.tx.vin[_idx].set_scriptsig(_r[2])
+                _idx += 1
+
+        return _psbt
