@@ -1,4 +1,3 @@
-from enum import Enum
 from io import BytesIO
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Encoder
 from narwhallet.core.kcl.bip_utils.conf.bip49_coin_conf import Bip49KevacoinMainNet
@@ -7,7 +6,7 @@ from narwhallet.core.ksc.op_codes import OpCodes as _o
 from narwhallet.core.ksc.param_validators import ParamValidators as Param
 
 
-class _factory(Enum):
+class _factory():
     @staticmethod
     def compile(parms: list, to_hex: bool = False):
         _script = []
