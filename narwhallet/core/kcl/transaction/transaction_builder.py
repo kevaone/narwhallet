@@ -1,11 +1,10 @@
-import math
-from typing import List
 from narwhallet.core.kcl.bip_utils.base58.base58 import Base58Encoder
 from narwhallet.core.kcl.bip_utils.conf.bip49_coin_conf import Bip49KevacoinMainNet
 from narwhallet.core.kcl.transaction.transaction import MTransaction
 from narwhallet.core.kcl.transaction.input import MTransactionInput
 from narwhallet.core.kcl.transaction.output import MTransactionOutput
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
+from narwhallet.core.kcl.transaction.witness import MTransactionWitness
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.ksc import Scripts
 from narwhallet.core.ksc.op_codes import OpCodes
@@ -14,17 +13,16 @@ from narwhallet.core.ksc.utils import Ut
 ZHASH = '0000000000000000000000000000000000000000000000000000000000000000'
 
 
+class TransactionBuilderError(Exception):
+    pass
+
 class MTransactionBuilder(MTransaction):
     def __init__(self):
         super().__init__()
 
-        self.set_version(2)
-        self._segwit: bytes = Ut.hex_to_bytes('0001')
-
         self._fee_rate: int = 0
         self._target_value: int = 0
         self.inputs_to_spend: list = []
-        self.input_signatures: list = []
 
     @staticmethod
     def sort(item):
@@ -32,25 +30,11 @@ class MTransactionBuilder(MTransaction):
 
     @property
     def fee_rate(self) -> int:
+        # enable ability to control Child Pays For Parent (CPFP) by bumping fee if parents still in mempool
         return self._fee_rate
 
     def set_fee_rate(self, fee_rate: int) -> None:
         self._fee_rate = fee_rate
-
-    def get_size(self, in_count, out_count):
-        _out_size = 0
-        for _out in self.vout:
-            _out_size += 1 + 8 + len(Ut.hex_to_bytes(_out.scriptPubKey.hex))
-
-        if len(self.vout) + 1 == out_count:
-            _out_size += 32
-
-        _base = (64 * in_count) + _out_size + 10
-        _size = _base + (107 * in_count) + in_count
-        _total_size = _size + 2
-        _vsize = math.ceil((_base * 3 + _total_size) / 4)
-
-        return _total_size, _vsize
 
     def get_current_values(self):
         _input_value = 0
@@ -61,23 +45,22 @@ class MTransactionBuilder(MTransaction):
             _input_value += vi.tb_value
 
         for vo in self.vout:
-            _output_value += vo.value
+            _output_value += Ut.bytes_to_int(vo.amount, 'little')
 
         _to_fee = _input_value - _output_value
         return _input_value, _output_value, _to_fee
 
-    def add_output(self, value: int, address: str) -> str:
+    def add_output(self, value: int, address: str) -> None:
         _vout = MTransactionOutput()
         try:
             _sh = Scripts.AddressScriptHash(address)
-            _sh = Scripts.compile(_sh, True)
-            _vout.set_value(value)
-            _vout.scriptPubKey.set_hex(_sh)
+            _sh = Scripts.compile(_sh)
+            _vout.set_amount(value)
+            _vout.set_scriptpubkey(_sh)
             self.add_vout(_vout)
-        except Exception as ex:
-            # print('ex', ex)
+        except Exception as Ex:
             _sh = None
-        return _sh
+            raise TransactionBuilderError(f'Failed to add transaction output: {Ex}')
 
     def add_input(self, value: int, address: str, txid: str, vout_index: int):
         _vin = MTransactionInput()
@@ -85,7 +68,7 @@ class MTransactionBuilder(MTransaction):
         _vin.tb_address = int(_ads[0])
         _vin.tb_address_chain = int(_ads[1])
         _vin.tb_value = value
-        _vin.set_sequence('ffffffff')
+        # _vin.set_sequence('ffffffff')
         _vin.set_txid(txid)
         _vin.set_vout(vout_index)
 
@@ -98,7 +81,7 @@ class MTransactionBuilder(MTransaction):
         _change_flag = False
         for tx in self.inputs_to_spend:
             _, _, _to_fee = self.get_current_values()
-            _size, _vsize = self.get_size(len(self.vin) + 1, len(self.vout))
+            _size, _vsize = self.calc_size(len(self.vin) + 1, len(self.vout))
             _est_fee = self.fee_rate * _vsize
             # print('est_fee', _est_fee)
             if (tx['value'] + _to_fee) == _est_fee:
@@ -113,7 +96,7 @@ class MTransactionBuilder(MTransaction):
                                str(tx['a_idx'])+':'+str(tx['ch']),
                                tx['txid'], tx['n'])
             elif (tx['value'] + _to_fee) > _est_fee:
-                _size, _vsize = (self.get_size(
+                _size, _vsize = (self.calc_size(
                     len(self.vin) + 1, len(self.vout) + 1))
                 _est_fee = self.fee_rate * _vsize
                 # print('change test est_fee', _est_fee)
@@ -148,9 +131,8 @@ class MTransactionBuilder(MTransaction):
            and SIGHASH_TYPE.NONE_ANYONECANPAY
            and SIGHASH_TYPE.SINGLE_ANYONECANPAY):
             for inp in self.vin:
-                _tx_id = Ut.reverse_bytes(Ut.hex_to_bytes(inp.txid))
-                _hash_cache = _hash_cache + _tx_id + \
-                    Ut.int_to_bytes(inp.vout, 4, 'little')
+                _tx_id = Ut.reverse_bytes(inp.txid)
+                _hash_cache = _hash_cache + _tx_id + inp.vout
 
             _hash_cache = Ut.sha256(Ut.sha256(_hash_cache))
         else:
@@ -173,8 +155,8 @@ class MTransactionBuilder(MTransaction):
         _hash_cache = b''
         if hash_type is not SIGHASH_TYPE.NONE and SIGHASH_TYPE.SINGLE:
             for output in self.vout:
-                _out_value = Ut.int_to_bytes(output.value, 8, 'little')
-                _script = Ut.hex_to_bytes(output.scriptPubKey.hex)
+                _out_value = output.amount
+                _script = output.scriptpubkey.script
 
                 _hash_cache = _hash_cache + _out_value + \
                     Ut.to_cuint(len(_script)) + _script
@@ -189,60 +171,46 @@ class MTransactionBuilder(MTransaction):
         return _hash_cache
 
     def serialize_tx(self, for_psbt: bool = False) -> bytes:
-        _lock_time = 0
-
-        _pre = []
+        _pre: list[bytes] = []
 
         _pre.append(self.version)
         if for_psbt is False:
-            _pre.append(self._segwit)
+            _pre.append(self.marker)
+            _pre.append(self.flag)
         _pre.append(Ut.to_cuint(len(self.vin)))
 
-        for i in self.vin:
-            _outpoint = Ut.reverse_bytes(Ut.hex_to_bytes(i.txid))
-            _outpoint = _outpoint + Ut.int_to_bytes(i.vout, 4, 'little')
+        for _vin in self.vin:
+            _outpoint = Ut.reverse_bytes(_vin.txid)
+            _outpoint = _outpoint + _vin.vout
             _pre.append(_outpoint)
             if for_psbt is False:
-                _s = Ut.hex_to_bytes(i.scriptSig.hex)
+                _s = _vin.scriptsig.script
                 _script_sig = Ut.to_cuint(len(_s)) + _s
                 _pre.append(Ut.to_cuint(len(_script_sig)))
                 _pre.append(_script_sig)
             else:
                 _pre.append(Ut.to_cuint(0))
 
-            _pre.append(i.sequence)
+            _pre.append(_vin.sequence)
 
         _pre.append(Ut.to_cuint(len(self.vout)))
 
-        for o in self.vout:
-            _pre.append(Ut.int_to_bytes(o.value, 8, 'little'))
-            _pre.append(Ut.to_cuint(len(Ut.hex_to_bytes(o.scriptPubKey.hex))))
-            _pre.append(Ut.hex_to_bytes(o.scriptPubKey.hex))
+        for _vout in self.vout:
+            _pre.append(_vout.amount)
+            _pre.append(Ut.to_cuint(len(_vout.scriptpubkey.script)))
+            _pre.append(_vout.scriptpubkey.script)
 
         if for_psbt is False:
-            for _, input_sig_data in enumerate(self.input_signatures):
-                if '_PSBT_IN_WITNESS_UTXO' in input_sig_data:
-                    del input_sig_data['_PSBT_IN_WITNESS_UTXO']
+            if len(self.witnesses) != len(self.vin):
+                raise TransactionBuilderError(f'Failed to serialize transaction output. Witness count does not equal input count.')
 
-                if 'redeem_script' not in input_sig_data:
-                    for pub_key, sig in input_sig_data.items():
-                        _pre.append(Ut.to_cuint(2))
-                        _sig_bytes = Ut.hex_to_bytes(sig)
-                        _pre.append(Ut.to_cuint(len(_sig_bytes)))
-                        _pre.append(_sig_bytes)
-                        _pub_bytes = Ut.hex_to_bytes(pub_key)
-                        _pre.append(Ut.to_cuint(len(_pub_bytes)))
-                        _pre.append(_pub_bytes)
-                else:
-                    _pre.append(Ut.to_cuint(len(input_sig_data.items()) + 1))
-                    _pre.append(OpCodes.OP_0.get())
+            for _witness in self.witnesses:
+                _pre.append(Ut.to_cuint(len(_witness.stack)))
+                for _stack_item in _witness.stack:
+                    _pre.append(Ut.to_cuint(len(_stack_item)))
+                    _pre.append(_stack_item)
 
-                    for pub_key, sig in input_sig_data.items():
-                        _sig_bytes = Ut.hex_to_bytes(sig)
-                        _pre.append(Ut.to_cuint(len(_sig_bytes)))
-                        _pre.append(_sig_bytes)
-
-        _pre.append(Ut.int_to_bytes(_lock_time, 4, 'little'))
+        _pre.append(self.locktime)
 
         _spre = b''
 
@@ -254,16 +222,16 @@ class MTransactionBuilder(MTransaction):
     def txb_preimage(self, wallet: MWallet, hash_type: SIGHASH_TYPE,
                      ovr: bool = False, redeem_script: str | None = None):
         if ovr is False:
-            self.input_signatures = []
+            self.set_witnesses([])
 
-        for c, _vin_idx in enumerate(self.vin):
-            if ovr is True and c != len(self.vin) - 1:
+        for idx, _vin in enumerate(self.vin):
+            if ovr is True and idx != len(self.vin) - 1:
                 continue
 
             input_sigs = {}
 
             if redeem_script is not None:
-                _sighash = self.make_preimage(c, '', hash_type, redeem_script)
+                _sighash = self.make_preimage(idx, '', hash_type, redeem_script)
                 _public_keys = []
 
                 _decoded_script = Scripts.decompile(redeem_script)
@@ -283,53 +251,55 @@ class MTransactionBuilder(MTransaction):
                         _public_keys.append(_address_index)
 
                 for pk in _public_keys:
-                    _signature = wallet.sign_message(pk, _sighash, 0)
-                    input_sigs[pk] = _signature + Ut.bytes_to_hex(Ut.to_cuint(hash_type.value))
+                    _sig = wallet.sign_message(pk, _sighash, 0)
+                    # input_sigs[pk] = _sig + Ut.bytes_to_hex(Ut.to_cuint(hash_type.value))
 
-                input_sigs['redeem_script'] = redeem_script
+                # input_sigs['redeem_script'] = redeem_script
 
                 _script = Scripts.compile(Scripts.P2WSHScriptSig(redeem_script), True)
-                _vin_idx.scriptSig.set_hex(_script)
+                _vin.set_scriptsig(_script)
 
                 _hashed_redeem_script = Ut.hash160(Ut.hex_to_bytes(redeem_script))
                 _address = Base58Encoder.CheckEncode(Bip49KevacoinMainNet.AddrConfKey('net_ver') + _hashed_redeem_script)
                 _r = Scripts.compile(Scripts.P2SHAddressScriptHash(_address), False)
-                _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
+                _ref = Ut.int_to_bytes(_vin.tb_value, 8, 'little')
                 _ref = _ref + Ut.to_cuint(len(_r)) + _r
                 input_sigs['_PSBT_IN_WITNESS_UTXO'] = Ut.bytes_to_hex(_ref)
 
-                self.input_signatures.append(input_sigs)
+                # self.input_signatures.append(input_sigs)
             else:
-                _npk = _vin_idx.tb_address
-                _npkc = _vin_idx.tb_address_chain
+                _npk = _vin.tb_address
+                _npkc = _vin.tb_address_chain
                 _pk = wallet.get_publickey_raw(_npk, _npkc)
-                _sighash = self.make_preimage(c, _pk, hash_type)
-                _signature = wallet.sign_message(_npk, _sighash, _npkc)
-                _script = Scripts.compile(Scripts.P2WPKHScriptSig(_pk), True)
-                _vin_idx.scriptSig.set_hex(_script)
+                _sighash = self.make_preimage(idx, _pk, hash_type)
+                _sig = wallet.sign_message(_npk, _sighash, _npkc)
+                _script = Scripts.compile(Scripts.P2WPKHScriptSig(_pk))
+                _vin.set_scriptsig(_script)
 
-                input_sigs[_pk] = _signature + Ut.bytes_to_hex(Ut.to_cuint(hash_type.value))
+                # input_sigs[_pk] = _signature + Ut.bytes_to_hex(Ut.to_cuint(hash_type.value))
+                _signature = Ut.hex_to_bytes(_sig) + Ut.to_cuint(hash_type.value)
+                _witness = self.add_witness([_signature, Ut.hex_to_bytes(_pk),])
 
                 _addr = wallet.get_address_by_index(_npk, False)
                 _r = Scripts.compile(Scripts.AddressScriptHash(_addr), False)
-                _ref = Ut.int_to_bytes(_vin_idx.tb_value, 8, 'little')
+                _ref = Ut.int_to_bytes(_vin.tb_value, 8, 'little')
                 _ref = _ref + Ut.to_cuint(len(_r)) + _r
-                input_sigs['_PSBT_IN_WITNESS_UTXO'] = Ut.bytes_to_hex(_ref)
+                # input_sigs['_PSBT_IN_WITNESS_UTXO'] = Ut.bytes_to_hex(_ref)
+                _witness.set_PSBT_IN_WITNESS_UTXO(_ref)
 
-                self.input_signatures.append(input_sigs)
+                # self.input_signatures.append(input_sigs)
 
-    def make_preimage(self, i: int, pk: str, hash_type: SIGHASH_TYPE,
+    def make_preimage(self, idx: int, pk: str, hash_type: SIGHASH_TYPE,
                       redeem_script: str | None = None) -> str:
         _hash_type = hash_type
-        _lock_time = 0
 
         _pre = []
         _pre.append(self.version)
         _pre.append(self.hash_prevouts(_hash_type))
         _pre.append(self.hash_seqs(_hash_type))
 
-        _outpoint = Ut.reverse_bytes(Ut.hex_to_bytes(self.vin[i].txid))
-        _outpoint = _outpoint + Ut.int_to_bytes(self.vin[i].vout, 4, 'little')
+        _outpoint = Ut.reverse_bytes(self.vin[idx].txid)
+        _outpoint = _outpoint + self.vin[idx].vout
         _pre.append(_outpoint)
 
         if redeem_script is not None:
@@ -341,11 +311,11 @@ class MTransactionBuilder(MTransaction):
             _s3 = Scripts.compile(_s3, False)
             _pre.append(Ut.to_cuint(len(_s3)) + _s3)
 
-        _pre.append(Ut.int_to_bytes(self.vin[i].tb_value, 8, 'little'))
-        _pre.append(self.vin[i].sequence)
+        _pre.append(Ut.int_to_bytes(self.vin[idx].tb_value, 8, 'little'))
+        _pre.append(self.vin[idx].sequence)
 
         _pre.append(self.hash_outputs(_hash_type))
-        _pre.append(Ut.int_to_bytes(_lock_time, 4, 'little'))
+        _pre.append(self.locktime)
         _pre.append(Ut.int_to_bytes(_hash_type.value, 4, 'little'))
 
         _spre = b''
@@ -370,26 +340,27 @@ class MTransactionBuilder(MTransaction):
         _pre.append(Ut.to_cuint(len(_tx)))
         _pre.append(_tx)
 
-        for idx, input_sig_data in enumerate(self.input_signatures):
+        for idx, _sig_data in enumerate(self.witnesses):
             _pre.append(Ut.to_cuint(0))
             # _PSBT_IN_WITNESS_UTXO '01'
             _pre.append(Ut.to_cuint(1))
-            _sp = Ut.hex_to_bytes(input_sig_data['_PSBT_IN_WITNESS_UTXO'])
-            _pre.append(Ut.to_cuint(len(Ut.to_cuint(len(_sp)))))
-            _pre.append(Ut.to_cuint(len(_sp)))
-            _pre.append(_sp)
+            _pre.append(Ut.to_cuint(len(Ut.to_cuint(len(_sig_data.PSBT_IN_WITNESS_UTXO)))))
+            _pre.append(Ut.to_cuint(len(_sig_data.PSBT_IN_WITNESS_UTXO)))
+            _pre.append(_sig_data.PSBT_IN_WITNESS_UTXO)
             # _PSBT_IN_PARTIAL_SIG '02'
-            for pub_key, sig in input_sig_data.items():
-                if pub_key == 'redeem_script':
-                    continue
-                if pub_key == '_PSBT_IN_WITNESS_UTXO':
-                    continue
-                _x = Ut.to_cuint(2) + Ut.hex_to_bytes(pub_key)
+            # TODO: Find better way to handle the sort
+            if len(_sig_data.stack) == 2:
+                # _sig_data.stack.reverse()
+                _x = Ut.to_cuint(2) + _sig_data.stack[1]
                 _pre.append(Ut.to_cuint(len(_x)))
                 _pre.append(_x)
-                _sig_bytes = Ut.hex_to_bytes(sig)
+                _sig_bytes = _sig_data.stack[0]
                 _pre.append(Ut.to_cuint(len(_sig_bytes)))
                 _pre.append(_sig_bytes)
+            else:
+                for _stack_item in _sig_data.stack:
+                    _pre.append(Ut.to_cuint(len(_stack_item)))
+                    _pre.append(_stack_item)
             # _PSBT_IN_SIGHASH_TYPE '03'
             _pre.append(Ut.to_cuint(1))
             _pre.append(Ut.to_cuint(3))
@@ -401,7 +372,7 @@ class MTransactionBuilder(MTransaction):
             # _PSBT_IN_REDEEM_SCRIPT '04'
             _pre.append(Ut.to_cuint(1))
             _pre.append(Ut.to_cuint(4))
-            _s = Ut.hex_to_bytes(self.vin[idx].scriptSig.hex)
+            _s = self.vin[idx].scriptsig.script
             _pre.append(Ut.to_cuint(len(_s)) + _s)
         _pre.append(Ut.to_cuint(0))
         for i in self.vout:
@@ -414,8 +385,8 @@ class MTransactionBuilder(MTransaction):
 
         return _spre
 
-    def to_dict(self) -> dict:
-        return {'fee_rate': self.fee_rate, 'vin': self.to_dict_list(self.vin),
-                'vout': self.to_dict_list(self.vout), 'txid': self.txid,
-                'version': self.version, 'size': self.size,
-                'locktime': self.locktime}
+    # def to_dict(self) -> dict:
+    #     return {'fee_rate': self.fee_rate, 'vin': self.to_dict_list(self.vin),
+    #             'vout': self.to_dict_list(self.vout), 'txid': self.txid,
+    #             'version': self.version, 'size': self.size,
+    #             'locktime': self.locktime}

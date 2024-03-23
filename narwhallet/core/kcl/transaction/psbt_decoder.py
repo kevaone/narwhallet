@@ -63,10 +63,9 @@ class keva_psbt():
                                       Ut.reverse_bytes(s_val.read(32)))))
                     _vin.set_vout(Ut.bytes_to_int(s_val.read(4), 'little'))
                     _script_size, _ = Ut.read_csuint(s_val)
-                    (_vin.scriptSig.set_hex(
-                        Ut.bytes_to_hex(s_val.read(_script_size))))
-                    if _vin.scriptSig.hex == '':
-                        _vin.scriptSig.set_hex(None)
+                    (_vin.set_scriptsig(s_val.read(_script_size)))
+                    # if _vin.scriptSig.hex == '':
+                    #     _vin.scriptSig.set_hex(None)
 
                     _vin.set_sequence(s_val.read(4))
                     self.tx.add_vin(_vin)
@@ -74,13 +73,11 @@ class keva_psbt():
                 self.psbt_outputs, _ = Ut.read_csuint(s_val)
                 for _ in range(self.psbt_outputs):
                     _tx_vout = MTransactionOutput()
-                    (_tx_vout.set_value(
-                        Ut.bytes_to_int(s_val.read(8), 'little')))
+                    _tx_vout.set_amount(s_val.read(8))
                     script_size, _ = Ut.read_csuint(s_val)
-                    (_tx_vout.scriptPubKey
-                     .set_hex(Ut.bytes_to_hex(s_val.read(script_size))))
+                    _tx_vout.set_scriptpubkey(s_val.read(script_size))
                     self.tx.add_vout(_tx_vout)
-                self.tx.set_locktime(Ut.bytes_to_int(s_val.read(4), 'little'))
+                self.tx.set_locktime(s_val.read(4))
 
             self.psbt_records.append([psbt_type, key_data, value_data])
 
@@ -104,19 +101,19 @@ class keva_psbt():
         for _ in range(self.psbt_outputs):
             self.deserialize_map(self.psbt, 'OUTPUT')
 
-    def to_dict(self) -> dict:
-        _records = []
-        for record in self.psbt_records:
-            _record = []
-            for entry in record:
-                if isinstance(entry, bytes) is True:
-                    _record.append(Ut.bytes_to_hex(entry))
-                else:
-                    _record.append(entry)
-            _records.append(_record)
+    # def to_dict(self) -> dict:
+    #     _records = []
+    #     for record in self.psbt_records:
+    #         _record = []
+    #         for entry in record:
+    #             if isinstance(entry, bytes) is True:
+    #                 _record.append(Ut.bytes_to_hex(entry))
+    #             else:
+    #                 _record.append(entry)
+    #         _records.append(_record)
 
-        return {'psbt_inputs': self.psbt_inputs,
-                'psbt_outputs': self.psbt_outputs,
-                'psbt_records': _records,
-                'tx': self.tx.to_dict()
-                }
+    #     return {'psbt_inputs': self.psbt_inputs,
+    #             'psbt_outputs': self.psbt_outputs,
+    #             'psbt_records': _records,
+    #             'tx': self.tx.to_dict()
+    #             }

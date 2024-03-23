@@ -18,7 +18,6 @@ from narwhallet.core.kui.widgets.nwrefreshpopup import Nwrefreshpopup
 from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
 
-TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
 NS_RESERVATION = 1000000
 
 class TransferNamespaceScreen(Screen):
@@ -185,16 +184,16 @@ class TransferNamespaceScreen(Screen):
         _amount = NS_RESERVATION
         _sh = Scripts.KevaKeyValueUpdate(self.namespace_id.text, self.namespace_key.text,
                                              self.namespace_value.text, self.new_namespace_address.text)
-        _sh = Scripts.compile(_sh, True)
+        _sh = Scripts.compile(_sh)
 
-        _ = self.new_tx.add_output(_amount, self.new_namespace_address.text)
-        self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
+        self.new_tx.add_output(_amount, self.new_namespace_address.text)
+        self.new_tx.vout[0].set_scriptpubkey(_sh)
 
     def reset_transactions(self):
         self.raw_tx = ''
         self.new_tx.set_vin([])
         self.new_tx.set_vout([])
-        self.new_tx.input_signatures = []
+        self.new_tx.set_witnesses([])
 
     def set_ready(self, _stx, _est_fee):
         self.fee = str(_est_fee/100000000)
@@ -217,7 +216,7 @@ class TransferNamespaceScreen(Screen):
             if _need_change is True:
                 _cv = _to_fee - _est_fee
                 _change_address = self.wallet.get_unused_change_address()
-                _ = self.new_tx.add_output(_cv, _change_address)
+                self.new_tx.add_output(_cv, _change_address)
                 self.change_value = _cv
 
             self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)

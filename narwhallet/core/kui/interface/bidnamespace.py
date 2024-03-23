@@ -19,7 +19,6 @@ from narwhallet.core.kui.widgets.nwrefreshpopup import Nwrefreshpopup
 from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
 
-TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
 NS_RESERVATION = 1000000
 
 class BidNamespaceScreen(Screen):
@@ -238,13 +237,12 @@ class BidNamespaceScreen(Screen):
         _ns_key = '\x01_KEVA_NS_'
         _ns_value = json.dumps(_auc, separators=(',', ':'))
         _trans_address = self.wallet.get_unused_address()
-        _trans_address = self.wallet.get_unused_address()
         _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
                                          _trans_address)
-        _sh = Scripts.compile(_sh, True)
-        _ = self.bid_tx.add_output(NS_RESERVATION, _trans_address)
-        self.bid_tx.vout[0].scriptPubKey.set_hex(_sh)
-        _ = self.bid_tx.add_output(_bid_amount,
+        _sh = Scripts.compile(_sh)
+        self.bid_tx.add_output(NS_RESERVATION, _trans_address)
+        self.bid_tx.vout[0].set_scriptpubkey(_sh)
+        self.bid_tx.add_output(_bid_amount,
                                    self.offer_payment_address.text)
 
         self.set_availible_usxo(True)
@@ -255,7 +253,7 @@ class BidNamespaceScreen(Screen):
             _cv = _to_fee - _est_fee
 
             if _need_change is True:
-                _ = self.bid_tx.add_output(_cv, _trans_address)
+                self.bid_tx.add_output(_cv, _trans_address)
 
             self.bid_tx.txb_preimage(self.wallet,
                                      SIGHASH_TYPE.ALL_ANYONECANPAY)
@@ -279,16 +277,16 @@ class BidNamespaceScreen(Screen):
         _ns_value = self.bid_tx.to_psbt(SIGHASH_TYPE.ALL_ANYONECANPAY)
         _sh = Scripts.KevaKeyValueUpdate(_ns, _ns_key, _ns_value,
                                             _ns_address)
-        _sh = Scripts.compile(_sh, True)
+        _sh = Scripts.compile(_sh)
 
-        _ = self.new_tx.add_output(_amount, _ns_address)
-        self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
+        self.new_tx.add_output(_amount, _ns_address)
+        self.new_tx.vout[0].set_scriptpubkey(_sh)
 
     def reset_transactions(self):
         self.raw_tx = ''
         self.new_tx.set_vin([])
         self.new_tx.set_vout([])
-        self.new_tx.input_signatures = []
+        self.new_tx.set_witnesses([])
 
     def set_ready(self, _stx, _est_fee):
         self.fee = str(_est_fee/100000000)
@@ -311,7 +309,7 @@ class BidNamespaceScreen(Screen):
             if _need_change is True:
                 _cv = _to_fee - _est_fee
                 _change_address = self.wallet.get_unused_change_address()
-                _ = self.new_tx.add_output(_cv, _change_address)
+                self.new_tx.add_output(_cv, _change_address)
                 self.change_value = _cv
 
             self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)

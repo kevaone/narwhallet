@@ -87,13 +87,13 @@ class MediaBrowseScreen(Screen):
         _result = float(self.amount)
         _amount = Ut.to_sats(_result)
 
-        _ = self.new_tx.add_output(_amount, _address)
+        self.new_tx.add_output(_amount, _address)
 
     def reset_transactions(self):
         self.raw_tx = ''
         self.new_tx.set_vin([])
         self.new_tx.set_vout([])
-        self.new_tx.input_signatures = []
+        self.new_tx.set_witnesses([])
 
     def set_ready(self, _stx, _est_fee):
         self.fee = str(Ut.from_sats(_est_fee))
@@ -121,7 +121,7 @@ class MediaBrowseScreen(Screen):
             if _need_change is True:
                 _cv = _to_fee - _est_fee
                 _change_address = self.wallet.get_unused_change_address()
-                _ = self.new_tx.add_output(_cv, _change_address)
+                self.new_tx.add_output(_cv, _change_address)
                 self.change_value = _cv
 
             self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)

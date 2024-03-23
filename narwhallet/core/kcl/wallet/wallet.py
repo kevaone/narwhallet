@@ -433,7 +433,7 @@ class MWallet():
                 _used = False
                 if bid_vin is not None:
                     for _vin in bid_vin:
-                        if _vin.txid == tx['txid'] and _vin.vout == tx['n']:
+                        if Ut.bytes_to_hex(_vin.txid) == tx['txid'] and Ut.bytes_to_int(_vin.vout, 'little') == tx['n']:
                             _used = True
                 if _used == False:
                     _usxos.append(tx)

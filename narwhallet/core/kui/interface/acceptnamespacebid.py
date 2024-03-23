@@ -19,7 +19,6 @@ from narwhallet.core.kui.widgets.header import Header
 from narwhallet.core.kui.widgets.nwsendpopup import Nwsendpopup
 
 
-TEMP_TX = 'c1ec98af03dcc874e2c1cf2a799463d14fb71bf29bec4f6b9ea68a38a46e50f2'
 NS_RESERVATION = 1000000
 
 class AcceptNamespaceBidScreen(Screen):
@@ -98,24 +97,21 @@ class AcceptNamespaceBidScreen(Screen):
             _bid_psbt = keva_psbt(_nft_tx[2])
             _sh = (Scripts.AddressScriptHash
                    (self.payment_address.text))
-            _sh = Scripts.compile(_sh, True)
-            if _bid_psbt.tx.vout[1].scriptPubKey.hex == _sh:
-                self.bid_amount.text = str(_bid_psbt.tx.vout[1].value/100000000)
+            _sh = Scripts.compile(_sh)
+            if _bid_psbt.tx.vout[1].scriptpubkey.script == _sh:
+                self.bid_amount.text = str(Ut.bytes_to_int(_bid_psbt.tx.vout[1].amount, 'little')/100000000)
                 self.new_tx = _bid_psbt.tx
                 _idx = 0
                 for _, _r in enumerate(_bid_psbt.psbt_records):
-                    _sig = {}
                     if _r[0] == 'PSBT_IN_WITNESS_UTXO':
                         self.new_tx.vin[_idx].tb_value = (Ut
                                                           .bytes_to_int(
                                                               _r[2][:8],
                                                               'little'))
                     elif _r[0] == 'PSBT_IN_PARTIAL_SIG':
-                        _sig[Ut.bytes_to_hex(_r[1][1:])] = Ut.bytes_to_hex(_r[2])
-                        self.new_tx.input_signatures.append(_sig)
+                        self.new_tx.add_witness([_r[2], Ut.bytes_to_hex(_r[1][1:])])
                     elif _r[0] == 'PSBT_IN_REDEEM_SCRIPT':
-                        (self.new_tx.vin[_idx].scriptSig
-                         .set_hex(Ut.bytes_to_hex(_r[2])))
+                        self.new_tx.vin[_idx].set_scriptsig(_r[2])
                         _idx += 1
 
     def check_amount(self, cb=True):
@@ -197,7 +193,7 @@ class AcceptNamespaceBidScreen(Screen):
         self.raw_tx = ''
         self.new_tx.set_vin([])
         self.new_tx.set_vout([])
-        self.new_tx.input_signatures = []
+        self.new_tx.set_witnesses([])
 
     def set_ready(self, _stx, _est_fee):
         self.fee = str(_est_fee/100000000)

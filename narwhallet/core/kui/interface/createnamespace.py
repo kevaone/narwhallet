@@ -117,7 +117,7 @@ class CreateNamespaceScreen(Screen):
         return False
 
     def tx_to_ns(self, tx, vout):
-        _tx = Ut.reverse_bytes(Ut.hex_to_bytes(tx))
+        _tx = Ut.reverse_bytes(tx)
         _tx_hash = Ut.hash160(_tx + str(vout).encode())
         return Ut.bytes_to_hex(bytes([53]) + _tx_hash)
 
@@ -127,20 +127,20 @@ class CreateNamespaceScreen(Screen):
 
     def set_output(self):
         _amount = NS_RESERVATION
-        _temp_ns = self.tx_to_ns(TEMP_TX, 0)
+        _temp_ns = self.tx_to_ns(Ut.hex_to_bytes(TEMP_TX), 0)
         _ns_value = self.namespace_name.text
         _sh = Scripts.KevaNamespaceCreation(_temp_ns, _ns_value,
                                                 self.namespace_address.text)
-        _sh = Scripts.compile(_sh, True)
+        _sh = Scripts.compile(_sh)
 
-        _ = self.new_tx.add_output(_amount, self.namespace_address.text)
-        self.new_tx.vout[0].scriptPubKey.set_hex(_sh)
+        self.new_tx.add_output(_amount, self.namespace_address.text)
+        self.new_tx.vout[0].set_scriptpubkey(_sh)
 
     def reset_transactions(self):
         self.raw_tx = ''
         self.new_tx.set_vin([])
         self.new_tx.set_vout([])
-        self.new_tx.input_signatures = []
+        self.new_tx.set_witnesses([])
 
     def set_ready(self, _stx, _est_fee):
         self.fee = str(_est_fee/100000000)
@@ -163,16 +163,16 @@ class CreateNamespaceScreen(Screen):
             if _need_change is True:
                 _cv = _to_fee - _est_fee
                 _change_address = self.wallet.get_unused_change_address()
-                _ = self.new_tx.add_output(_cv, _change_address)
+                self.new_tx.add_output(_cv, _change_address)
                 self.change_value = _cv
 
             _ns = self.tx_to_ns(self.new_tx.vin[0].txid,
-                                self.new_tx.vin[0].vout)
+                                Ut.bytes_to_int(self.new_tx.vin[0].vout, 'little'))
             _ns_value = self.namespace_name.text
             _n_sh = (Scripts.KevaNamespaceCreation
                      (_ns, _ns_value, self.namespace_address.text))
-            _n_sh = Scripts.compile(_n_sh, True)
-            self.new_tx.vout[0].scriptPubKey.set_hex(_n_sh)
+            _n_sh = Scripts.compile(_n_sh)
+            self.new_tx.vout[0].set_scriptpubkey(_n_sh)
             
             self.new_tx.txb_preimage(self.wallet, SIGHASH_TYPE.ALL)
 

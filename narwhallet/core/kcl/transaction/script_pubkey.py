@@ -1,5 +1,10 @@
 from typing import List
 
+from narwhallet.core.ksc.utils import Ut
+
+
+class TransactionScriptPubKeyError(Exception):
+    pass
 
 class MScriptPubKey():
     def __init__(self):
@@ -8,6 +13,7 @@ class MScriptPubKey():
         self._reqSigs: int = -1
         self._type: str = ''
         self._addresses: List[str] = []
+        self._script: bytes = b''
 
     @property
     def asm(self) -> str:
@@ -24,6 +30,18 @@ class MScriptPubKey():
     @property
     def type(self) -> str:
         return self._type
+
+    @property
+    def script(self) -> bytes:
+        return self._script
+
+    @property
+    def size(self) -> int:
+        _size = 0
+        _size = _size + len(Ut.to_cuint(len(self._script)))
+        _size = _size + len(self._script)
+
+        return _size
 
     @property
     def addresses(self) -> List[str]:
@@ -43,6 +61,17 @@ class MScriptPubKey():
 
     def set_addresses(self, addresses: List[str]) -> None:
         self._addresses = addresses
+
+    def set_script(self, script: bytes | str) -> None:
+        if isinstance(script, str):
+            try:
+                script = Ut.hex_to_bytes(script)
+            except Exception as Ex:
+                raise TransactionScriptPubKeyError(f'Failed to set transaction scriptsig from hex: {Ex}')
+
+        # TODO: Add script validation
+
+        self._script = script
 
     def add_address(self, address: str) -> None:
         self._addresses.append(address)
