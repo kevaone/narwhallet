@@ -4,10 +4,8 @@ from narwhallet.core.kcl.transaction.transaction import MTransaction
 from narwhallet.core.kcl.transaction.input import MTransactionInput
 from narwhallet.core.kcl.transaction.output import MTransactionOutput
 from narwhallet.core.kcl.transaction.builder.sighash import SIGHASH_TYPE
-from narwhallet.core.kcl.transaction.witness import MTransactionWitness
 from narwhallet.core.kcl.wallet.wallet import MWallet
 from narwhallet.core.ksc import Scripts
-from narwhallet.core.ksc.op_codes import OpCodes
 from narwhallet.core.ksc.utils import Ut
 
 ZHASH = '0000000000000000000000000000000000000000000000000000000000000000'
@@ -384,9 +382,3 @@ class MTransactionBuilder(MTransaction):
             _spre = _spre + p
 
         return _spre
-
-    # def to_dict(self) -> dict:
-    #     return {'fee_rate': self.fee_rate, 'vin': self.to_dict_list(self.vin),
-    #             'vout': self.to_dict_list(self.vout), 'txid': self.txid,
-    #             'version': self.version, 'size': self.size,
-    #             'locktime': self.locktime}

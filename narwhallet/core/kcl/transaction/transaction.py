@@ -17,8 +17,8 @@ class MTransaction():
         self._blocktime: int = -1
 
         self._version: bytes = self.set_version(b'\x02\x00\x00\x00')
-        self._marker: bytes = b'\x00'
-        self._flag: bytes = b'\x01'
+        self._marker: bytes = self.set_marker(b'\x00')
+        self._flag: bytes = self.set_flag(b'\x01')
         self._vin: List[MTransactionInput] = []
         self._vout: List[MTransactionOutput] = []
         self._witnesses: List[MTransactionWitness] = []
@@ -32,10 +32,12 @@ class MTransaction():
 
     @property
     def txid(self) -> str:
+        # TODO: Calculate txid
         return self._txid
 
     @property
     def hash(self) -> str:
+        # TODO: Calculate hash
         return self._hash
 
     @property
@@ -88,17 +90,12 @@ class MTransaction():
 
     @property
     def hex(self) -> str:
+        # TODO: Calculate hex
         return self._hex
 
     @property
     def witnesses(self) -> list[MTransactionWitness]:
         return self._witnesses
-
-    def set_txid(self, txid: str) -> None:
-        self._txid = txid
-
-    def set_hash(self, thash: str) -> None:
-        self._hash = thash
 
     def add_witness(self, witness_data: bytes | str | list) -> MTransactionWitness:
         _witness = MTransactionWitness()
@@ -213,12 +210,6 @@ class MTransaction():
         self._calc_size(in_count, out_count)
         return self.size, self.vsize
 
-    def set_size(self, size) -> None:
-        self._size = size
-
-    def set_vsize(self, vsize) -> None:
-        self._vsize = vsize
-
     def set_locktime(self, locktime: bytes | str | int) -> bytes:
         if isinstance(locktime, str):
             try:
@@ -241,7 +232,7 @@ class MTransaction():
         self._locktime = locktime
         return self._locktime
 
-    def set_marker(self, marker: bytes | str | int) -> None:
+    def set_marker(self, marker: bytes | str | int) -> bytes:
         if isinstance(marker, str):
             try:
                 marker = Ut.hex_to_bytes(marker)
@@ -260,8 +251,9 @@ class MTransaction():
             raise TransactionError(f'Failed to set transaction marker: Unsupported marker, {Ut.bytes_to_hex(marker)}.')
 
         self._marker = marker
+        return self._marker
 
-    def set_flag(self, flag: bytes | str | int) -> None:
+    def set_flag(self, flag: bytes | str | int) -> bytes:
         if isinstance(flag, str):
             try:
                 flag = Ut.hex_to_bytes(flag)
@@ -280,6 +272,7 @@ class MTransaction():
             raise TransactionError(f'Failed to set transaction flag: Unsupported flag, {Ut.bytes_to_hex(flag)}.')
 
         self._flag = flag
+        return self._flag
 
     def set_blockhash(self, blockhash: str) -> None:
         self._blockhash = blockhash
@@ -304,89 +297,3 @@ class MTransaction():
 
     def add_vout(self, vout: MTransactionOutput) -> None:
         self._vout.append(vout)
-
-    def set_hex(self, thex: str) -> None:
-        self._hex = thex
-
-    # @staticmethod
-    # def to_dict_list(v: list) -> List[dict]:
-    #     _l = []
-    #     for i in v:
-    #         if isinstance(i, (MTransactionInput, MTransactionOutput)):
-    #             _l.append(i.to_dict())
-
-    #     return _l
-
-    # def from_sql(self, tx, vin, vout):
-    #     if len(tx) > 0:
-    #         _tx = tx[0]
-    #         self.set_txid(_tx[0])
-    #         self.set_hash(_tx[1])
-    #         self.set_version(_tx[2])
-    #         self.set_size(_tx[3])
-    #         self.set_vsize(_tx[4])
-    #         self.set_locktime(_tx[5])
-    #         self.set_blockhash(_tx[8])
-    #         self.set_confirmations(_tx[9])
-    #         self.set_time(_tx[10])
-    #         self.set_blocktime(_tx[11])
-    #         self.set_hex(_tx[12])
-
-    #         for i in vin:
-    #             _in = MTransactionInput()
-    #             _in.from_sql(i)
-    #             self.add_vin(_in)
-
-    #         for i in vout:
-    #             _out = MTransactionOutput()
-    #             _out.from_sql(i)
-    #             self.add_vout(_out)
-
-    # def from_json(self, json: dict):
-    #     self.set_txid(json['txid'])
-    #     if 'hash' in json:
-    #         self.set_hash(json['hash'])
-    #     if 'version' in json:
-    #         self.set_version(json['version'])
-    #     if 'size' in json:
-    #         self.set_size(json['size'])
-    #     if 'vsize' in json:
-    #         self.set_vsize(json['vsize'])
-    #     if 'locktime' in json:
-    #         self.set_locktime(json['locktime'])
-
-    #     for i in json['vin']:
-    #         _in = MTransactionInput()
-    #         _in.from_json(i)
-    #         self.add_vin(_in)
-
-    #     for i in json['vout']:
-    #         _out = MTransactionOutput()
-    #         _out.from_json(i)
-    #         self.add_vout(_out)
-
-    #     if 'hex' in json:
-    #         self.set_hex(json['hex'])
-
-    #     if 'blockhash' in json:
-    #         self.set_blockhash(json['blockhash'])
-
-    #     if 'confirmations' in json:
-    #         self.set_confirmations(json['confirmations'])
-
-    #     if 'time' in json:
-    #         self.set_time(json['time'])
-    #     else:
-    #         self.set_time(time.time())
-
-    #     if 'blocktime' in json:
-    #         self.set_blocktime(json['blocktime'])
-
-    # def to_dict(self) -> dict:
-    #     return {'hash': self.hash, 'blockhash': self.blockhash,
-    #             'vin': self.to_dict_list(self.vin),
-    #             'vout': self.to_dict_list(self.vout), 'txid': self.txid,
-    #             'hex': self.hex, 'version': self.version, 'size': self.size,
-    #             'vsize': self.vsize, 'locktime': self.locktime,
-    #             'confirmations': self.confirmations, 'time': self.time,
-    #             'blocktime': self.blocktime}
