@@ -67,6 +67,7 @@ from narwhallet.core.kui.interface.nftdetail import NftDetailScreen
 from narwhallet.core.kui.interface.mediamanage import MediaManageScreen
 from narwhallet.core.kui.interface.mediabrowse import MediaBrowseScreen
 from narwhallet.core.kui.interface.createmultisig import CreateMultiSigScreen
+from narwhallet.core.kui.interface.psbt import PsbtScreen
 
 
 class NarwhalletScreens(ScreenManager):
@@ -114,6 +115,7 @@ class NarwhalletScreens(ScreenManager):
     mediabrowse_screen = MediaBrowseScreen()
     mediamanage_screen = MediaManageScreen()
     createmultisig_screen = CreateMultiSigScreen()
+    psbt_screen = PsbtScreen()
     
     def __init__(self, **kwargs):
         super(NarwhalletScreens, self).__init__(**kwargs)

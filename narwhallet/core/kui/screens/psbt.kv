@@ -1,0 +1,379 @@
+<PsbtScreen>
+    txid: txid
+    tx_hash: tx_hash
+    version: version
+    tx_size: tx_size
+    vsize: vsize
+    locktime: locktime
+    blockhash: blockhash
+    vin: vin
+    vout: vout
+    confirmations: confirmations
+    time: time
+    blocktime: blocktime
+    header: header
+
+    GridLayout:
+        size: root.width, root.height
+        cols: 1
+
+        Header:
+            id: header
+
+        ScrollView:
+            size_hint: 1, 1
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: dp(15)
+            scroll_type: ['bars','content']
+
+            GridLayout:
+                size_hint_y: None
+                height: dp(455) if root.width <= dp(550) else dp(380)
+                cols: 1
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'TX ID:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(85)
+                        padding: [10, 0, 0, 0]
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(50) if root.width <= dp(550) else dp(25)
+
+                    Nwlabel:
+                        id: txid
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        padding: [10, 0, 15, 0]
+                        valign: 'center'
+                        size_hint_y: None
+                        height: dp(50) if root.width <= dp(550) else dp(25)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'TX Hash:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(100)
+                        padding: [10, 0, 0, 0]
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(50) if root.width <= dp(550) else dp(25)
+
+                    Nwlabel:
+                        id: tx_hash
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        padding: [10, 0, 15, 0]
+                        valign: 'center'
+                        size_hint_y: None
+                        height: dp(50) if root.width <= dp(550) else dp(25)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'Block Hash:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(100)
+                        padding: [10, 0, 0, 0]
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(50) if root.width <= dp(550) else dp(25)
+
+                    Nwlabel:
+                        id: blockhash
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        padding: [10, 0, 15, 0]
+                        valign: 'center'
+                        size_hint_y: None
+                        height: dp(50) if root.width <= dp(550) else dp(25)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'Block Time:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(125)
+                        padding: [10, 0, 0, 0]
+
+                    Nwlabel:
+                        id: blocktime
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'TX Size:'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(125)
+                        padding: [10, 0, 0, 0]
+
+                    Nwlabel:
+                        id: tx_size
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(85)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'vsize:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(125)
+
+                    Nwlabel:
+                        id: vsize
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(50)
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'time:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(125)
+
+                    Nwlabel:
+                        id: time
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'version:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(125)
+
+                    Nwlabel:
+                        id: version
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'confirmation:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(125)
+
+                    Nwlabel:
+                        id: confirmations
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(20)
+
+                    Nwlabel:
+                        halign: 'left'
+                        _text: 'lock time:'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(125)
+
+                    Nwlabel:
+                        id: locktime
+                        halign: 'left'
+                        _text: ''
+                        text_size: self.size
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(30)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        _text: 'Inputs:'
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(125)
+
+                    Nwlabel:
+                        id: vin
+                        _text: ''
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(25)
+
+                    Nwbutton:
+                        _text: ' '
+                        size_hint_x: None
+                        width: dp(50)
+                        icon: 'narwhallet/core/kui/assets/eye.png'
+                        icon_size: (dp(20), dp(20))
+                        icon_padding: dp(0)
+                        on_press: root.view_inputs()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(30)
+                    orientation: 'horizontal'
+
+                    Nwlabel:
+                        _text: 'Outputs:'
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        padding: [10, 0, 0, 0]
+                        size_hint_x: None
+                        width: dp(125)
+
+                    Nwlabel:
+                        id: vout
+                        _text: ''
+                        halign: 'left'
+                        valign: 'center'
+                        text_size: self.size
+                        size_hint_x: None
+                        width: dp(25)
+
+                    Nwbutton:
+                        _text: ' '
+                        size_hint_x: None
+                        width: dp(50)
+                        icon: 'narwhallet/core/kui/assets/eye.png'
+                        icon_size: (dp(20), dp(20))
+                        icon_padding: dp(0)
+                        on_press: root.view_outputs()
+
+                Nwboxlayout:
+                    size_hint_y: None
+                    height: dp(5)
+                    orientation: 'horizontal'
+
+                Nwboxlayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: dp(40)
+
+                    Nwlabel:
+                        _text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                    Nwbutton:
+                        _text: 'HEX'
+                        size_hint_x: None
+                        width: dp(75)
+                        icon: 'narwhallet/core/kui/assets/eye.png'
+                        icon_size: (dp(20), dp(20))
+                        icon_padding: dp(15)
+                        on_press: root.view_hex()
+
+                    Nwlabel:
+                        _text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                    Nwbutton:
+                        _text: 'JSON'
+                        size_hint_x: None
+                        width: dp(90)
+                        icon: 'narwhallet/core/kui/assets/eye.png'
+                        icon_size: (dp(20), dp(20))
+                        icon_padding: dp(19)
+                        on_press: root.view_json()
+
+                    Nwlabel:
+                        _text: ''
+                        size_hint_x: None
+                        width: dp(10)
+
+                Nwboxlayout:
+                    orientation: 'horizontal'
+                    size_hint_y: None
+                    height: dp(10)
+
+        BoxLayout:
+            canvas:
+                Color:
+                    rgba: 60/255, 61/255, 61/255, 1
+
+                Rectangle:
+                    pos: self.pos
+                    size: self.size
+            size_hint_y: None
+            height: dp(60)
+            orientation: 'horizontal'
+
+            Nwbutton:
+                _text: 'Wallet'
+                icon: 'narwhallet/core/kui/assets/wallet.png'
+                icon_size: (dp(20), dp(20))
+                icon_padding: dp(22)
+                on_press: root.manager.current = 'wallet_screen'

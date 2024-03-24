@@ -29,6 +29,7 @@ class WalletScreen(Screen):
     btn_transactions = Nwbutton()
     btn_send = Nwbutton()
     btn_receive = Nwbutton()
+    btn_psbt = Nwbutton()
     last_updated = Nwlabel()
     btn_update_wallet = LoadingSpinner()
 
