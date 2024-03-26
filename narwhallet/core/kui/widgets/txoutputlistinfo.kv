@@ -3,6 +3,9 @@
     n: n
     value: value
     scriptpubkey_asm: scriptpubkey_asm
+    size_hint_y: None
+    height: self.minimum_height
+    orientation: 'vertical'
 
     canvas:
         Color:
@@ -12,48 +15,54 @@
             pos: self.pos
             size: self.size
 
-    GridLayout:
-        cols: 1
+    BoxLayout:
+        size_hint_y: None
+        height: dp(20)
+        orientation: 'horizontal'
 
-        BoxLayout:
-            size_hint_y: None
-            height: dp(20)
-            orientation: 'horizontal'
+        Nwlabel:
+            _text: 'n:'
+            text_size: self.size
+            size_hint_x: None
+            padding: [10, 0, 0, 0]
+            width: dp(40)
 
-            Nwlabel:
-                _text: 'n:'
-                text_size: self.size
-                size_hint_x: None
-                padding: [10, 0, 0, 0]
-                width: dp(40)
+        Nwlabel:
+            id: n
+            _text: ''
+            text_size: self.size
+            size_hint_x: None
+            width: dp(40)
 
-            Nwlabel:
-                id: n
-                _text: ''
-                text_size: self.size
-                size_hint_x: None
-                width: dp(40)
+        Nwlabel:
+            _text: 'Value:'
+            text_size: self.size
+            size_hint_x: None
+            width: dp(50)
 
-            Nwlabel:
-                _text: 'Value:'
-                text_size: self.size
-                size_hint_x: None
-                width: dp(50)
+        Nwlabel:
+            id: value
+            _text: ''
+            text_size: self.size
 
-            Nwlabel:
-                id: value
-                _text: ''
-                text_size: self.size
+    BoxLayout:
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'horizontal'
 
-        BoxLayout:
-            size_hint_y: None
-            height: dp(60)
-            orientation: 'horizontal'
+        Nwlabel:
+            id: scriptpubkey_asm
+            _text: ''
+            halign: 'left'
+            valign: 'top'
+            padding: [10, 10, 10, 10]
+            # text_size: self.size
 
-            Nwlabel:
-                id: scriptpubkey_asm
-                _text: ''
-                halign: 'left'
-                valign: 'top'
-                padding: [10, 0, 0, 0]
-                text_size: self.size
+            size_hint: 1, None
+            text_size: self.width, None
+            height: self.texture_size[1]
+
+    # BoxLayout:
+    #     size_hint_y: None
+    #     height: dp(5)
+    #     orientation: 'horizontal'

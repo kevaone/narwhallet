@@ -55,7 +55,9 @@ class TransactionScreen(Screen):
                 _i = TXInputListInfo()
                 _i.txid._text = v['txid']
                 _i.vout._text = str(v['vout'])
-                self.pvin.vin.add_widget(_i)
+                _i.sequence._text = str(v['sequence'])
+                # _i.scriptsig_asm._text = v['scriptSig']['asm']
+                self.pvin.vin.add_widget(_i) 
                 
             for o in _asa['vout']:
                 _o = TXOutputListInfo()
