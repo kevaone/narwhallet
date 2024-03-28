@@ -102,7 +102,7 @@ class AcceptNamespaceBidScreen(Screen):
                 self.bid_amount.text = str(Ut.bytes_to_int(_bid_psbt.tx.vout[1].amount, 'little')/100000000)
                 self.new_tx = _bid_psbt.tx
                 _idx = 0
-                for _, _r in enumerate(_bid_psbt.psbt_records):
+                for _, _r in enumerate(_bid_psbt.to_list()):
                     if _r[0] == 'PSBT_IN_WITNESS_UTXO':
                         self.new_tx.vin[_idx].tb_value = (Ut
                                                           .bytes_to_int(

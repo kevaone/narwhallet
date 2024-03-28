@@ -1,17 +1,12 @@
 <PsbtScreen>
-    txid: txid
-    tx_hash: tx_hash
     version: version
     tx_size: tx_size
     vsize: vsize
     locktime: locktime
-    blockhash: blockhash
     vin: vin
     vout: vout
-    confirmations: confirmations
-    time: time
-    blocktime: blocktime
     header: header
+    global_box: global_box
 
     GridLayout:
         size: root.width, root.height
@@ -27,110 +22,48 @@
             bar_width: dp(15)
             scroll_type: ['bars','content']
 
-            GridLayout:
+            Nwboxlayout:
                 size_hint_y: None
-                height: dp(455) if root.width <= dp(550) else dp(380)
-                cols: 1
+                height: self.minimum_height
+                orientation: 'vertical'
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: dp(20)
+                    height: dp(40)
                     orientation: 'horizontal'
 
-                    Nwlabel:
-                        halign: 'left'
-                        _text: 'TX ID:'
-                        text_size: self.size
-                        size_hint_x: None
-                        width: dp(85)
-                        padding: [10, 0, 0, 0]
+                    Nwbutton:
+                        _text: 'Open'
+                        icon: 'narwhallet/core/kui/assets/restore.png'
+                        icon_size: (dp(20), dp(20))
+                        icon_padding: dp(22)
+                        on_press: root.view_browse()
 
                 Nwboxlayout:
                     size_hint_y: None
-                    height: dp(50) if root.width <= dp(550) else dp(25)
-
-                    Nwlabel:
-                        id: txid
-                        halign: 'left'
-                        _text: ''
-                        text_size: self.size
-                        padding: [10, 0, 15, 0]
-                        valign: 'center'
-                        size_hint_y: None
-                        height: dp(50) if root.width <= dp(550) else dp(25)
-
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(20)
+                    height: dp(40)
                     orientation: 'horizontal'
 
-                    Nwlabel:
-                        halign: 'left'
-                        _text: 'TX Hash:'
-                        text_size: self.size
-                        size_hint_x: None
-                        width: dp(100)
-                        padding: [10, 0, 0, 0]
+                    Nwbutton:
+                        _text: 'Save'
+                        icon: 'narwhallet/core/kui/assets/save.png'
+                        icon_size: (dp(20), dp(20))
+                        icon_padding: dp(22)
+                        on_press: root.view_save()
 
                 Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(50) if root.width <= dp(550) else dp(25)
-
-                    Nwlabel:
-                        id: tx_hash
-                        halign: 'left'
-                        _text: ''
-                        text_size: self.size
-                        padding: [10, 0, 15, 0]
-                        valign: 'center'
-                        size_hint_y: None
-                        height: dp(50) if root.width <= dp(550) else dp(25)
-
-                Nwboxlayout:
+                    orientation: 'vertical'
                     size_hint_y: None
                     height: dp(20)
-                    orientation: 'horizontal'
 
                     Nwlabel:
-                        halign: 'left'
-                        _text: 'Block Hash:'
-                        text_size: self.size
-                        size_hint_x: None
-                        width: dp(100)
-                        padding: [10, 0, 0, 0]
+                        _text: 'Psbt Globals -'
 
                 Nwboxlayout:
+                    id: global_box
+                    orientation: 'vertical'
                     size_hint_y: None
-                    height: dp(50) if root.width <= dp(550) else dp(25)
-
-                    Nwlabel:
-                        id: blockhash
-                        halign: 'left'
-                        _text: ''
-                        text_size: self.size
-                        padding: [10, 0, 15, 0]
-                        valign: 'center'
-                        size_hint_y: None
-                        height: dp(50) if root.width <= dp(550) else dp(25)
-
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(20)
-                    orientation: 'horizontal'
-
-                    Nwlabel:
-                        halign: 'left'
-                        _text: 'Block Time:'
-                        text_size: self.size
-                        size_hint_x: None
-                        width: dp(125)
-                        padding: [10, 0, 0, 0]
-
-                    Nwlabel:
-                        id: blocktime
-                        halign: 'left'
-                        _text: ''
-                        text_size: self.size
+                    height: self.minimum_height
 
                 Nwboxlayout:
                     size_hint_y: None
@@ -177,25 +110,6 @@
                 Nwboxlayout:
                     size_hint_y: None
                     height: dp(20)
-                    orientation: 'horizontal'
-
-                    Nwlabel:
-                        halign: 'left'
-                        _text: 'time:'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(125)
-
-                    Nwlabel:
-                        id: time
-                        halign: 'left'
-                        _text: ''
-                        text_size: self.size
-
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(20)
 
                     Nwlabel:
                         halign: 'left'
@@ -207,24 +121,6 @@
 
                     Nwlabel:
                         id: version
-                        halign: 'left'
-                        _text: ''
-                        text_size: self.size
-
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(20)
-
-                    Nwlabel:
-                        halign: 'left'
-                        _text: 'confirmation:'
-                        text_size: self.size
-                        padding: [10, 0, 0, 0]
-                        size_hint_x: None
-                        width: dp(125)
-
-                    Nwlabel:
-                        id: confirmations
                         halign: 'left'
                         _text: ''
                         text_size: self.size
@@ -316,44 +212,44 @@
                     height: dp(5)
                     orientation: 'horizontal'
 
-                Nwboxlayout:
-                    orientation: 'horizontal'
-                    size_hint_y: None
-                    height: dp(40)
+                # Nwboxlayout:
+                #     orientation: 'horizontal'
+                #     size_hint_y: None
+                #     height: dp(40)
 
-                    Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(10)
+                #     Nwlabel:
+                #         _text: ''
+                #         size_hint_x: None
+                #         width: dp(10)
 
-                    Nwbutton:
-                        _text: 'HEX'
-                        size_hint_x: None
-                        width: dp(75)
-                        icon: 'narwhallet/core/kui/assets/eye.png'
-                        icon_size: (dp(20), dp(20))
-                        icon_padding: dp(15)
-                        on_press: root.view_hex()
+                #     Nwbutton:
+                #         _text: 'HEX'
+                #         size_hint_x: None
+                #         width: dp(75)
+                #         icon: 'narwhallet/core/kui/assets/eye.png'
+                #         icon_size: (dp(20), dp(20))
+                #         icon_padding: dp(15)
+                #         on_press: root.view_hex()
 
-                    Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(10)
+                #     Nwlabel:
+                #         _text: ''
+                #         size_hint_x: None
+                #         width: dp(10)
 
-                    Nwbutton:
-                        _text: 'JSON'
-                        size_hint_x: None
-                        width: dp(90)
-                        icon: 'narwhallet/core/kui/assets/eye.png'
-                        icon_size: (dp(20), dp(20))
-                        icon_padding: dp(19)
-                        on_press: root.view_json()
+                #     Nwbutton:
+                #         _text: 'JSON'
+                #         size_hint_x: None
+                #         width: dp(90)
+                #         icon: 'narwhallet/core/kui/assets/eye.png'
+                #         icon_size: (dp(20), dp(20))
+                #         icon_padding: dp(19)
+                #         on_press: root.view_json()
 
-                    Nwlabel:
-                        _text: ''
-                        size_hint_x: None
-                        width: dp(10)
-
+                #     Nwlabel:
+                #         _text: ''
+                #         size_hint_x: None
+                #         width: dp(10)
+                
                 Nwboxlayout:
                     orientation: 'horizontal'
                     size_hint_y: None

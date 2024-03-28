@@ -124,21 +124,20 @@ class Controller():
 
     def save_psbt(self, psbt: str, name: str) -> None:
         _path = os.path.join(self.user_path, 'saved_psbt')
-        _loader._save(os.path.join(_path, name + '.pskt'), psbt)
+        _loader._save(os.path.join(_path, name + '.psbt'), psbt)
 
-    def load_psbt(self, name: str) -> keva_psbt:
-        _path = os.path.join(self.user_path, 'saved_psbt')
-        _data = _loader._load(os.path.join(_path, name + '.pskt'))
+    def load_psbt(self, path: str) -> keva_psbt:
+        _data = _loader._load(path)
         _psbt = keva_psbt(_data)
 
-        _idx = 0
-        for _, _r in enumerate(_psbt.psbt_records):
-            if _r[0] == 'PSBT_IN_WITNESS_UTXO':
-                _psbt.tx.vin[_idx].tb_value = (Ut.bytes_to_int(_r[2][:8], 'little'))
-            elif _r[0] == 'PSBT_IN_PARTIAL_SIG':
-                _psbt.tx.add_witness([_r[2], Ut.bytes_to_hex(_r[1][1:])])
-            elif _r[0] == 'PSBT_IN_REDEEM_SCRIPT':
-                _psbt.tx.vin[_idx].set_scriptsig(_r[2])
-                _idx += 1
+        # _idx = 0
+        # for _, _r in enumerate(_psbt.psbt_records):
+        #     if _r[0] == 'PSBT_IN_WITNESS_UTXO':
+        #         _psbt.tx.vin[_idx].tb_value = (Ut.bytes_to_int(_r[2][:8], 'little'))
+        #     elif _r[0] == 'PSBT_IN_PARTIAL_SIG':
+        #         _psbt.tx.add_witness([_r[2], Ut.bytes_to_hex(_r[1][1:])])
+        #     elif _r[0] == 'PSBT_IN_REDEEM_SCRIPT':
+        #         _psbt.tx.vin[_idx].set_scriptsig(_r[2])
+        #         _idx += 1
 
         return _psbt

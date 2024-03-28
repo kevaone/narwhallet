@@ -139,7 +139,7 @@ class MTransaction():
         if len(version) != 4:
             raise TransactionError(f'Failed to set transaction version: Version is 4 bytes, {len(version)} bytes supplied.')
 
-        if version not in (b'\x01\x00\x00\x00', b'\x02\x00\x00\x00', b'\x00q\x00\x00'):
+        if version not in (b'\x00\x00\x00\x00', b'\x01\x00\x00\x00', b'\x02\x00\x00\x00', b'\x00q\x00\x00'):
             raise TransactionError(f'Failed to set transaction version: Unsupported version, {Ut.bytes_to_hex(version)}.')
 
         self._version = version

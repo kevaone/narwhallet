@@ -1,0 +1,39 @@
+<Mediabrowsepopup>
+    auto_dismiss: False
+    size_hint: 1, 1
+
+    GridLayout:
+        cols: 1
+
+        Header:
+            id: header
+            value: 'Browse'
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(10)
+
+        ScrollView:
+            do_scroll_x: False
+            do_scroll_y: True
+            bar_width: dp(15)
+            scroll_type: ['bars','content']
+
+            FileChooserListView:
+                id: file_chooser
+                multiselect: False
+                filters: ['*.psbt']
+                path: root.home_directory
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(60)
+
+            Nwbutton:
+                _text: 'Cancel'
+                on_release: root.dismiss()
+
+            Nwbutton:
+                id: btn_load
+                _text: 'Load'
+                on_release: root.load(file_chooser.path, file_chooser.selection)
