@@ -56,7 +56,10 @@ class TransactionScreen(Screen):
                 _i.txid._text = v['txid']
                 _i.vout._text = str(v['vout'])
                 _i.sequence._text = str(v['sequence'])
-                # _i.scriptsig_asm._text = v['scriptSig']['asm']
+                if 'scriptSig' in v:
+                    _i.scriptsig._text = v['scriptSig']['asm']
+                else:
+                    _i.scriptsig._text = ''
                 self.pvin.vin.add_widget(_i) 
                 
             for o in _asa['vout']:
