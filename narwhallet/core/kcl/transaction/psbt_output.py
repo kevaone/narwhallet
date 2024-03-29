@@ -114,7 +114,7 @@ class PsbtOutput():
         elif rec_type == 'PSBT_OUT_TAP_LEAF_SCRIPT':
             self.set_PSBT_OUT_TAP_LEAF_SCRIPT(value_data)
         elif rec_type == 'PSBT_OUT_TAP_BIP32_DERIVATION':
-            self.set_PSBT_OUT_BIP32_DERIVATION(key_data[1:], value_data)
+            self.set_PSBT_OUT_TAP_BIP32_DERIVATION(key_data[1:], value_data)
         elif rec_type == 'PSBT_OUT_PROPRIETARY':
             self.set_PSBT_OUT_PROPRIETARY(key_data[1:], value_data)
         else:
@@ -148,7 +148,7 @@ class PsbtOutput():
             _outputs.append(['PSBT_OUT_TAP_LEAF_SCRIPT', self.PSBT_OUT_TAP_LEAF_SCRIPT])
 
         if self.PSBT_OUT_TAP_BIP32_DERIVATION is not None:
-            _outputs.append(['PSBT_OUT_BIP32_DERIVATION', self.PSBT_OUT_TAP_BIP32_DERIVATION])
+            _outputs.append(['PSBT_OUT_TAP_BIP32_DERIVATION', self.PSBT_OUT_TAP_BIP32_DERIVATION])
 
         if self.PSBT_OUT_PROPRIETARY is not None:
             _outputs.append(['PSBT_OUT_PROPRIETARY', self.PSBT_OUT_PROPRIETARY])
