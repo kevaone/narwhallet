@@ -13,7 +13,7 @@ class PsbtInput():
         self._PSBT_IN_SIGHASH_TYPE: bytes | None = None
         self._PSBT_IN_REDEEM_SCRIPT: bytes | None = None
         self._PSBT_IN_WITNESS_SCRIPT: bytes | None = None
-        self._PSBT_IN_BIP32_DERIVATION: Tuple[bytes, bytes] | None = None
+        self._PSBT_IN_BIP32_DERIVATION: Tuple[bytes, bytes] | list | None = None
         self._PSBT_IN_FINAL_SCRIPTSIG: bytes | None = None
         self._PSBT_IN_FINAL_SCRIPTWITNESS: bytes | None = None
         self._PSBT_IN_POR_COMMITMENT: bytes | None = None
@@ -29,7 +29,7 @@ class PsbtInput():
         self._PSBT_IN_TAP_KEY_SIG: bytes | None = None
         self._PSBT_IN_TAP_SCRIPT_SIG: Tuple[bytes, bytes] | None = None
         self._PSBT_IN_TAP_LEAF_SCRIPT: Tuple[bytes, bytes] | None = None
-        self._PSBT_IN_TAP_BIP32_DERIVATION: Tuple[bytes, bytes] | None = None
+        self._PSBT_IN_TAP_BIP32_DERIVATION: Tuple[bytes, bytes] | list | None = None
         self._PSBT_IN_TAP_INTERNAL_KEY: bytes | None = None
         self._PSBT_IN_TAP_MERKLE_ROOT: bytes | None = None
         self._PSBT_IN_PROPRIETARY: Tuple[bytes, bytes] | None = None
@@ -60,7 +60,7 @@ class PsbtInput():
         return self._PSBT_IN_WITNESS_SCRIPT
     
     @property
-    def PSBT_IN_BIP32_DERIVATION(self) -> Tuple[bytes, bytes] | None:
+    def PSBT_IN_BIP32_DERIVATION(self) -> Tuple[bytes, bytes] | list | None:
         return self._PSBT_IN_BIP32_DERIVATION
     
     @property
@@ -124,7 +124,7 @@ class PsbtInput():
         return self._PSBT_IN_TAP_LEAF_SCRIPT
     
     @property
-    def PSBT_IN_TAP_BIP32_DERIVATION(self) -> Tuple[bytes, bytes] | None:
+    def PSBT_IN_TAP_BIP32_DERIVATION(self) -> Tuple[bytes, bytes] | list | None:
         return self._PSBT_IN_TAP_BIP32_DERIVATION
     
     @property
@@ -162,7 +162,12 @@ class PsbtInput():
         self._PSBT_IN_WITNESS_SCRIPT = value
 
     def set_PSBT_IN_BIP32_DERIVATION(self, key: bytes, value: bytes) -> None:
-        self._PSBT_IN_BIP32_DERIVATION = (key, value)
+        if isinstance(self._PSBT_IN_BIP32_DERIVATION, list):
+            self._PSBT_IN_BIP32_DERIVATION.append((key, value))
+        elif self.PSBT_IN_BIP32_DERIVATION is not None:
+            self._PSBT_IN_BIP32_DERIVATION = [self._PSBT_IN_BIP32_DERIVATION, (key, value)]
+        else:
+            self._PSBT_IN_BIP32_DERIVATION = (key, value)
 
     def set_PSBT_IN_FINAL_SCRIPTSIG(self, value: bytes) -> None:
         self._PSBT_IN_FINAL_SCRIPTSIG = value
@@ -210,7 +215,12 @@ class PsbtInput():
         self._PSBT_IN_TAP_LEAF_SCRIPT = (key, value)
 
     def set_PSBT_IN_TAP_BIP32_DERIVATION(self, key: bytes, value: bytes) -> None:
-        self._PSBT_IN_TAP_BIP32_DERIVATION = (key, value)
+        if isinstance(self._PSBT_IN_TAP_BIP32_DERIVATION, list):
+            self._PSBT_IN_TAP_BIP32_DERIVATION.append((key, value))
+        elif self.PSBT_IN_TAP_BIP32_DERIVATION is not None:
+            self._PSBT_IN_TAP_BIP32_DERIVATION = [self._PSBT_IN_TAP_BIP32_DERIVATION, (key, value)]
+        else:
+            self._PSBT_IN_TAP_BIP32_DERIVATION = (key, value)
 
     def set_PSBT_IN_TAP_INTERNAL_KEY(self, value: bytes) -> None:
         self._PSBT_IN_TAP_INTERNAL_KEY = value
@@ -222,6 +232,7 @@ class PsbtInput():
         self._PSBT_IN_PROPRIETARY = (key, value)
 
     def set_UNKNOWN(self, rec_type, key: bytes, value: bytes) -> None:
+        # print('rec_type, key, value', rec_type, key, value)
         self._UNKNOWN = (rec_type, key, value)
 
     def set_input(self, rec_type: str, key_data: bytes, value_data: bytes) -> None:
@@ -279,7 +290,7 @@ class PsbtInput():
         elif rec_type == 'PSBT_IN_PROPRIETARY':
             self.set_PSBT_IN_PROPRIETARY(key_data[1:], value_data)
         else:
-            self.set_UNKNOWN(rec_type, key_data, value_data)
+            self.set_UNKNOWN(rec_type, key_data[1:], value_data)
 
     def to_list(self, to_hex: bool = False) -> list[list[str | bytes | Tuple[bytes, bytes] | Tuple[int, bytes, bytes]]]:
         _inputs: list[list[str | bytes | Tuple[bytes, bytes] | Tuple[int, bytes, bytes]]] = []
@@ -303,7 +314,11 @@ class PsbtInput():
             _inputs.append(['PSBT_IN_WITNESS_SCRIPT', self.PSBT_IN_WITNESS_SCRIPT])
 
         if self.PSBT_IN_BIP32_DERIVATION is not None:
-            _inputs.append(['PSBT_IN_BIP32_DERIVATION', self.PSBT_IN_BIP32_DERIVATION])
+            if isinstance(self.PSBT_IN_BIP32_DERIVATION, list):
+                for i in self.PSBT_IN_BIP32_DERIVATION:
+                    _inputs.append(['PSBT_IN_BIP32_DERIVATION', i])
+            else:
+                _inputs.append(['PSBT_IN_BIP32_DERIVATION', self.PSBT_IN_BIP32_DERIVATION])
 
         if self.PSBT_IN_FINAL_SCRIPTSIG is not None:
             _inputs.append(['PSBT_IN_FINAL_SCRIPTSIG', self.PSBT_IN_FINAL_SCRIPTSIG])
@@ -351,7 +366,11 @@ class PsbtInput():
             _inputs.append(['PSBT_IN_TAP_LEAF_SCRIPT', self.PSBT_IN_TAP_LEAF_SCRIPT])
 
         if self.PSBT_IN_TAP_BIP32_DERIVATION is not None:
-            _inputs.append(['PSBT_IN_TAP_BIP32_DERIVATION', self.PSBT_IN_TAP_BIP32_DERIVATION])
+            if isinstance(self.PSBT_IN_TAP_BIP32_DERIVATION, list):
+                for i in self.PSBT_IN_TAP_BIP32_DERIVATION:
+                    _inputs.append(['PSBT_IN_TAP_BIP32_DEVIATION', i])
+            else:
+                _inputs.append(['PSBT_IN_TAP_BIP32_DERIVATION', self.PSBT_IN_TAP_BIP32_DERIVATION])
 
         if self.PSBT_IN_TAP_INTERNAL_KEY is not None:
             _inputs.append(['PSBT_IN_TAP_INTERNAL_KEY', self.PSBT_IN_TAP_INTERNAL_KEY])
@@ -363,7 +382,7 @@ class PsbtInput():
             _inputs.append(['PSBT_IN_PROPRIETARY', self.PSBT_IN_PROPRIETARY])
 
         if self.UNKNOWN is not None:
-            _inputs.append(['UNKNOWN', self.UNKNOWN])
+            _inputs.append(['IN UNKNOWN', self.UNKNOWN])
 
         if to_hex is True:
             _temp: list[list[str | bytes | Tuple[bytes, bytes] | Tuple[int, bytes, bytes]]] = []
@@ -432,12 +451,21 @@ class PsbtInput():
             _pre.append(self.PSBT_IN_WITNESS_SCRIPT)
 
         if self.PSBT_IN_BIP32_DERIVATION is not None:
-            _bipd = Ut.to_cuint(record_types.INPUT.PSBT_IN_BIP32_DERIVATION.value)
-            _bipd = _bipd + self.PSBT_IN_BIP32_DERIVATION[0]
-            _pre.append(Ut.to_cuint(len(_bipd)))
-            _pre.append(_bipd)
-            _pre.append(Ut.to_cuint(len(self.PSBT_IN_BIP32_DERIVATION[1])))
-            _pre.append(self.PSBT_IN_BIP32_DERIVATION[1])
+            if isinstance(self.PSBT_IN_BIP32_DERIVATION, list):
+                for i in self.PSBT_IN_BIP32_DERIVATION:
+                    _bip = Ut.to_cuint(record_types.INPUT.PSBT_IN_BIP32_DERIVATION.value)
+                    _bip = _bip + i[0]
+                    _pre.append(Ut.to_cuint(len(_bip)))
+                    _pre.append(_bip)
+                    _pre.append(Ut.to_cuint(len(i[1])))
+                    _pre.append(i[1])
+            else:
+                _bipd = Ut.to_cuint(record_types.INPUT.PSBT_IN_BIP32_DERIVATION.value)
+                _bipd = _bipd + self.PSBT_IN_BIP32_DERIVATION[0]
+                _pre.append(Ut.to_cuint(len(_bipd)))
+                _pre.append(_bipd)
+                _pre.append(Ut.to_cuint(len(self.PSBT_IN_BIP32_DERIVATION[1])))
+                _pre.append(self.PSBT_IN_BIP32_DERIVATION[1])
 
         if self.PSBT_IN_FINAL_SCRIPTSIG is not None:
             _pre.append(Ut.to_cuint(1))
@@ -542,12 +570,21 @@ class PsbtInput():
             _pre.append(self.PSBT_IN_TAP_LEAF_SCRIPT[1])
 
         if self.PSBT_IN_TAP_BIP32_DERIVATION is not None:
-            _tbip = Ut.to_cuint(record_types.INPUT.PSBT_IN_TAP_BIP32_DERIVATION.value)
-            _tbip = _tbip + self.PSBT_IN_TAP_BIP32_DERIVATION[0]
-            _pre.append(Ut.to_cuint(len(_tbip)))
-            _pre.append(_tbip)
-            _pre.append(Ut.to_cuint(len(self.PSBT_IN_TAP_BIP32_DERIVATION[1])))
-            _pre.append(self.PSBT_IN_TAP_BIP32_DERIVATION[1])
+            if isinstance(self.PSBT_IN_TAP_BIP32_DERIVATION, list):
+                for i in self.PSBT_IN_TAP_BIP32_DERIVATION:
+                    _tbip = Ut.to_cuint(record_types.INPUT.PSBT_IN_TAP_BIP32_DERIVATION.value)
+                    _tbip = _tbip + i[0]
+                    _pre.append(Ut.to_cuint(len(_tbip)))
+                    _pre.append(_tbip)
+                    _pre.append(Ut.to_cuint(len(i[1])))
+                    _pre.append(i[1])
+            else:
+                _tbip = Ut.to_cuint(record_types.INPUT.PSBT_IN_TAP_BIP32_DERIVATION.value)
+                _tbip = _tbip + self.PSBT_IN_TAP_BIP32_DERIVATION[0]
+                _pre.append(Ut.to_cuint(len(_tbip)))
+                _pre.append(_tbip)
+                _pre.append(Ut.to_cuint(len(self.PSBT_IN_TAP_BIP32_DERIVATION[1])))
+                _pre.append(self.PSBT_IN_TAP_BIP32_DERIVATION[1])
 
         if self.PSBT_IN_TAP_INTERNAL_KEY is not None:
             _pre.append(Ut.to_cuint(1))
@@ -575,7 +612,7 @@ class PsbtInput():
             _pre.append(Ut.to_cuint(len(_pro)))
             _pre.append(_pro)
             _pre.append(Ut.to_cuint(len(self.UNKNOWN[2])))
-            _pre.append(self.UNKNOWN[1])
+            _pre.append(self.UNKNOWN[2])
 
         _pre.append(Ut.to_cuint(0))
 

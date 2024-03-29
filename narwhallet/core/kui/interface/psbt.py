@@ -101,7 +101,7 @@ class PsbtScreen(Screen):
         _psbt: keva_psbt = self.app.ctrl.load_psbt(value)
         self.psbt = _psbt
 
-        for _g in _psbt.globals_to_list():
+        for _g in _psbt.globals_to_list(True):
             _b = Nwboxlayout()
             _b.size_hint_y = None
             _b.height = dp(20)

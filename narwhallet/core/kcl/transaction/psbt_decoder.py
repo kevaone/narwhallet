@@ -21,7 +21,7 @@ class keva_psbt():
         # _magic = '70736274'
         # _seperator = 'ff'
         self._PSBT_GLOBAL_UNSIGNED_TX: bytes | None = None
-        self._PSBT_GLOBAL_XPUB: Tuple[bytes, bytes] | None = None
+        self._PSBT_GLOBAL_XPUB: Tuple[bytes, bytes] | list | None = None
         self._PSBT_GLOBAL_TX_VERSION: bytes | None = None
         self._PSBT_GLOBAL_FALLBACK_LOCKTIME: bytes | None = None
         self._PSBT_GLOBAL_INPUT_COUNT : bytes | None= None
@@ -47,7 +47,7 @@ class keva_psbt():
         return self._PSBT_GLOBAL_UNSIGNED_TX
 
     @property
-    def PSBT_GLOBAL_XPUB(self) -> Tuple[bytes, bytes] | None:
+    def PSBT_GLOBAL_XPUB(self) -> Tuple[bytes, bytes] | list | None:
         return self._PSBT_GLOBAL_XPUB
 
     @property
@@ -106,7 +106,12 @@ class keva_psbt():
         self._PSBT_GLOBAL_UNSIGNED_TX = value
 
     def set_PSBT_GLOBAL_XPUB(self, key: bytes, value: bytes) -> None:
-        self._PSBT_GLOBAL_XPUB = (key, value)
+        if isinstance(self._PSBT_GLOBAL_XPUB, list):
+            self._PSBT_GLOBAL_XPUB.append((key, value))
+        elif self._PSBT_GLOBAL_XPUB is not None:
+            self._PSBT_GLOBAL_XPUB = [self._PSBT_GLOBAL_XPUB, (key, value)]
+        else:
+            self._PSBT_GLOBAL_XPUB = (key, value)
 
     def set_PSBT_GLOBAL_TX_VERSION(self, value: bytes) -> None:
         self._PSBT_GLOBAL_TX_VERSION = value
@@ -160,7 +165,11 @@ class keva_psbt():
             _globals.append(['PSBT_GLOBAL_UNSIGNED_TX', self._PSBT_GLOBAL_UNSIGNED_TX])
 
         if self._PSBT_GLOBAL_XPUB is not None:
-            _globals.append(['PSBT_GLOBAL_XPUB', self._PSBT_GLOBAL_XPUB])
+            if isinstance(self._PSBT_GLOBAL_XPUB, list):
+                for i in self._PSBT_GLOBAL_XPUB:
+                    _globals.append(['PSBT_GLOBAL_XPUB', i])
+            else:
+                _globals.append(['PSBT_GLOBAL_XPUB', self._PSBT_GLOBAL_XPUB])
 
         if self._PSBT_GLOBAL_TX_VERSION is not None:
             _globals.append(['PSBT_GLOBAL_TX_VERSION', self._PSBT_GLOBAL_TX_VERSION])
@@ -187,7 +196,7 @@ class keva_psbt():
             _globals.append(['PSBT_GLOBAL_PROPRIETARY', self._PSBT_GLOBAL_PROPRIETARY])
 
         if self.UNKNOWN is not None:
-            _globals.append(['UNKNOWN', self.UNKNOWN])
+            _globals.append(['GLOBALS UNKNOWN', self.UNKNOWN])
 
         if to_hex is True:
             _temp: list[list[str | bytes | Tuple[bytes, bytes] | Tuple[int, bytes, bytes]]] = []
@@ -351,12 +360,21 @@ class keva_psbt():
             _pre.append(_tx)
 
         if self.PSBT_GLOBAL_XPUB is not None:
-            _xpub = Ut.to_cuint(record_types.GLOBAL.PSBT_GLOBAL_XPUB.value)
-            _xpub = _xpub + self.PSBT_GLOBAL_XPUB[0]
-            _pre.append(Ut.to_cuint(len(_xpub)))
-            _pre.append(_xpub)
-            _pre.append(Ut.to_cuint(len(self.PSBT_GLOBAL_XPUB[1])))
-            _pre.append(self.PSBT_GLOBAL_XPUB[1])
+            if isinstance(self.PSBT_GLOBAL_XPUB, list):
+                for i in self.PSBT_GLOBAL_XPUB:
+                    _xpub = Ut.to_cuint(record_types.GLOBAL.PSBT_GLOBAL_XPUB.value)
+                    _xpub = _xpub + i[0]
+                    _pre.append(Ut.to_cuint(len(_xpub)))
+                    _pre.append(_xpub)
+                    _pre.append(Ut.to_cuint(len(i[1])))
+                    _pre.append(i[1])
+            else:
+                _xpub = Ut.to_cuint(record_types.GLOBAL.PSBT_GLOBAL_XPUB.value)
+                _xpub = _xpub + self.PSBT_GLOBAL_XPUB[0]
+                _pre.append(Ut.to_cuint(len(_xpub)))
+                _pre.append(_xpub)
+                _pre.append(Ut.to_cuint(len(self.PSBT_GLOBAL_XPUB[1])))
+                _pre.append(self.PSBT_GLOBAL_XPUB[1])
 
         if self.PSBT_GLOBAL_TX_VERSION is not None:
             _pre.append(Ut.to_cuint(1))

@@ -9,13 +9,13 @@ class PsbtOutput():
     def __init__(self):
         self._PSBT_OUT_REDEEM_SCRIPT: bytes | None = None
         self._PSBT_OUT_WITNESS_SCRIPT: bytes | None = None
-        self._PSBT_OUT_BIP32_DERIVATION: Tuple[bytes, bytes] | None = None
+        self._PSBT_OUT_BIP32_DERIVATION: Tuple[bytes, bytes] | list | None = None
         self._PSBT_OUT_AMOUNT: bytes | None = None
         self._PSBT_OUT_SCRIPT: bytes | None = None
         self._PSBT_OUT_TAP_INTERNAL_KEY: bytes | None = None
         self._PSBT_OUT_TAP_TREE: bytes | None = None
         self._PSBT_OUT_TAP_LEAF_SCRIPT: bytes | None = None
-        self._PSBT_OUT_TAP_BIP32_DERIVATION: Tuple[bytes, bytes] | None = None
+        self._PSBT_OUT_TAP_BIP32_DERIVATION: Tuple[bytes, bytes] | list | None = None
         self._PSBT_OUT_PROPRIETARY: Tuple[bytes, bytes] | None = None
         self._UNKNOWN: Tuple[int, bytes, bytes] | None = None
 
@@ -28,7 +28,7 @@ class PsbtOutput():
         return self._PSBT_OUT_WITNESS_SCRIPT
 
     @property
-    def PSBT_OUT_BIP32_DERIVATION(self) -> Tuple[bytes, bytes] | None:
+    def PSBT_OUT_BIP32_DERIVATION(self) -> Tuple[bytes, bytes] | list | None:
         return self._PSBT_OUT_BIP32_DERIVATION
 
     @property
@@ -52,8 +52,8 @@ class PsbtOutput():
         return self._PSBT_OUT_TAP_LEAF_SCRIPT
 
     @property
-    def PSBT_OUT_TAP_BIP32_DERIVATION(self) -> Tuple[bytes, bytes] | None:
-        return self._PSBT_OUT_BIP32_DERIVATION
+    def PSBT_OUT_TAP_BIP32_DERIVATION(self) -> Tuple[bytes, bytes] | list | None:
+        return self._PSBT_OUT_TAP_BIP32_DERIVATION
 
     @property
     def PSBT_OUT_PROPRIETARY(self) -> Tuple[bytes, bytes] | None:
@@ -70,7 +70,12 @@ class PsbtOutput():
         self._PSBT_OUT_WITNESS_SCRIPT = value
     
     def set_PSBT_OUT_BIP32_DERIVATION(self, key: bytes, value: bytes) -> None:
-        self._PSBT_OUT_BIP32_DERIVATION = (key, value)
+        if type(self._PSBT_OUT_BIP32_DERIVATION) == list:
+            self._PSBT_OUT_BIP32_DERIVATION.append((key, value))
+        elif self.PSBT_OUT_BIP32_DERIVATION is not None:
+            self._PSBT_OUT_BIP32_DERIVATION = [self._PSBT_OUT_BIP32_DERIVATION, (key, value)]
+        else:
+            self._PSBT_OUT_BIP32_DERIVATION = (key, value)
     
     def set_PSBT_OUT_AMOUNT(self, value: bytes) -> None:
         self._PSBT_OUT_AMOUNT = value
@@ -88,7 +93,12 @@ class PsbtOutput():
         self._PSBT_OUT_TAP_LEAF_SCRIPT = value
     
     def set_PSBT_OUT_TAP_BIP32_DERIVATION(self, key: bytes, value: bytes) -> None:
-        self._PSBT_OUT_TAP_BIP32_DERIVATION = (key, value)
+        if type(self._PSBT_OUT_TAP_BIP32_DERIVATION) == list:
+            self._PSBT_OUT_TAP_BIP32_DERIVATION.append((key, value))
+        elif self.PSBT_OUT_TAP_BIP32_DERIVATION is not None:
+            self._PSBT_OUT_TAP_BIP32_DERIVATION = [self._PSBT_OUT_TAP_BIP32_DERIVATION, (key, value)]
+        else:
+            self._PSBT_OUT_TAP_BIP32_DERIVATION = (key, value)
     
     def set_PSBT_OUT_PROPRIETARY(self, key: bytes, value: bytes) -> None:
         self._PSBT_OUT_PROPRIETARY = (key, value)
@@ -130,7 +140,11 @@ class PsbtOutput():
             _outputs.append(['PSBT_OUT_WITNESS_SCRIPT', self.PSBT_OUT_WITNESS_SCRIPT])
 
         if self.PSBT_OUT_BIP32_DERIVATION is not None:
-            _outputs.append(['PSBT_OUT_BIP32_DERIVATION', self.PSBT_OUT_BIP32_DERIVATION])
+            if isinstance(self.PSBT_OUT_BIP32_DERIVATION, list):
+                for i in self.PSBT_OUT_BIP32_DERIVATION:
+                    _outputs.append(['PSBT_OUT_BIP32_DERIVATION', i])
+            else:
+                _outputs.append(['PSBT_OUT_BIP32_DERIVATION', self.PSBT_OUT_BIP32_DERIVATION])
 
         if self.PSBT_OUT_AMOUNT is not None:
             _outputs.append(['PSBT_OUT_AMOUNT', self.PSBT_OUT_AMOUNT])
@@ -148,13 +162,17 @@ class PsbtOutput():
             _outputs.append(['PSBT_OUT_TAP_LEAF_SCRIPT', self.PSBT_OUT_TAP_LEAF_SCRIPT])
 
         if self.PSBT_OUT_TAP_BIP32_DERIVATION is not None:
-            _outputs.append(['PSBT_OUT_TAP_BIP32_DERIVATION', self.PSBT_OUT_TAP_BIP32_DERIVATION])
+            if isinstance(self.PSBT_OUT_TAP_BIP32_DERIVATION, list):
+                for i in self.PSBT_OUT_TAP_BIP32_DERIVATION:
+                    _outputs.append(['PSBT_OUT_TAP_BIP32_DERIVATION', i])
+            else:
+                _outputs.append(['PSBT_OUT_TAP_BIP32_DERIVATION', self.PSBT_OUT_TAP_BIP32_DERIVATION])
 
         if self.PSBT_OUT_PROPRIETARY is not None:
             _outputs.append(['PSBT_OUT_PROPRIETARY', self.PSBT_OUT_PROPRIETARY])
 
         if self.UNKNOWN is not None:
-            _outputs.append(['UNKNOWN', self.UNKNOWN])
+            _outputs.append(['OUT UNKNOWN', self.UNKNOWN])
 
         if to_hex is True:
             _temp: list[list[str | bytes | Tuple[bytes, bytes] | Tuple[int, bytes, bytes]]] = []
@@ -188,12 +206,21 @@ class PsbtOutput():
             _pre.append(self.PSBT_OUT_WITNESS_SCRIPT)
 
         if self.PSBT_OUT_BIP32_DERIVATION is not None:
-            _bip = Ut.to_cuint(record_types.OUTPUT.PSBT_OUT_BIP32_DERIVATION.value)
-            _bip = _bip + self.PSBT_OUT_BIP32_DERIVATION[0]
-            _pre.append(Ut.to_cuint(len(_bip)))
-            _pre.append(_bip)
-            _pre.append(Ut.to_cuint(len(self.PSBT_OUT_BIP32_DERIVATION[1])))
-            _pre.append(self.PSBT_OUT_BIP32_DERIVATION[1])
+            if isinstance(self.PSBT_OUT_BIP32_DERIVATION, list):
+                for i in self.PSBT_OUT_BIP32_DERIVATION:
+                    _bip = Ut.to_cuint(record_types.OUTPUT.PSBT_OUT_BIP32_DERIVATION.value)
+                    _bip = _bip + i[0]
+                    _pre.append(Ut.to_cuint(len(_bip)))
+                    _pre.append(_bip)
+                    _pre.append(Ut.to_cuint(len(i[1])))
+                    _pre.append(i[1])
+            else:
+                _bip = Ut.to_cuint(record_types.OUTPUT.PSBT_OUT_BIP32_DERIVATION.value)
+                _bip = _bip + self.PSBT_OUT_BIP32_DERIVATION[0]
+                _pre.append(Ut.to_cuint(len(_bip)))
+                _pre.append(_bip)
+                _pre.append(Ut.to_cuint(len(self.PSBT_OUT_BIP32_DERIVATION[1])))
+                _pre.append(self.PSBT_OUT_BIP32_DERIVATION[1])
 
         if self.PSBT_OUT_AMOUNT is not None:
             _pre.append(Ut.to_cuint(1))
@@ -226,12 +253,21 @@ class PsbtOutput():
             _pre.append(self.PSBT_OUT_TAP_LEAF_SCRIPT)
 
         if self.PSBT_OUT_TAP_BIP32_DERIVATION is not None:
-            _tbip = Ut.to_cuint(record_types.OUTPUT.PSBT_OUT_TAP_BIP32_DERIVATION.value)
-            _tbip = _tbip + self.PSBT_OUT_TAP_BIP32_DERIVATION[0]
-            _pre.append(Ut.to_cuint(len(_tbip)))
-            _pre.append(_tbip)
-            _pre.append(Ut.to_cuint(len(self.PSBT_OUT_TAP_BIP32_DERIVATION[1])))
-            _pre.append(self.PSBT_OUT_TAP_BIP32_DERIVATION[1])
+            if isinstance(self.PSBT_OUT_TAP_BIP32_DERIVATION, list):
+                for i in self.PSBT_OUT_TAP_BIP32_DERIVATION:
+                    _tbip = Ut.to_cuint(record_types.OUTPUT.PSBT_OUT_TAP_BIP32_DERIVATION.value)
+                    _tbip = _tbip + i[0]
+                    _pre.append(Ut.to_cuint(len(_tbip)))
+                    _pre.append(_tbip)
+                    _pre.append(Ut.to_cuint(len(i[1])))
+                    _pre.append(i[1])
+            else:
+                _tbip = Ut.to_cuint(record_types.OUTPUT.PSBT_OUT_TAP_BIP32_DERIVATION.value)
+                _tbip = _tbip + self.PSBT_OUT_TAP_BIP32_DERIVATION[0]
+                _pre.append(Ut.to_cuint(len(_tbip)))
+                _pre.append(_tbip)
+                _pre.append(Ut.to_cuint(len(self.PSBT_OUT_TAP_BIP32_DERIVATION[1])))
+                _pre.append(self.PSBT_OUT_TAP_BIP32_DERIVATION[1])
 
         if self.PSBT_OUT_PROPRIETARY is not None:
             _pro = Ut.to_cuint(record_types.OUTPUT.PSBT_OUT_PROPRIETARY.value)
