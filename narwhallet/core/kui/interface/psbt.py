@@ -12,6 +12,7 @@ from narwhallet.core.kcl.transaction.psbt_decoder import keva_psbt
 from narwhallet.core.ksc.utils import Ut
 from narwhallet.core.kui.widgets.mediabrowsepopup import Mediabrowsepopup
 from narwhallet.core.kui.widgets.nwpopup import Nwpopup
+from narwhallet.core.kui.widgets.psbtlistinfo import PsbtListInfo
 from narwhallet.core.kui.widgets.txinputlistinfo import TXInputListInfo
 from narwhallet.core.kui.widgets.txinputlistpopup import Txinputlistpopup
 from narwhallet.core.kui.widgets.txoutputlistinfo import TXOutputListInfo
@@ -72,26 +73,6 @@ class PsbtScreen(Screen):
             _name = 'test_bid_' + str(time.time_ns())
             self.app.ctrl.save_psbt(_p, _name)
 
-            # for li in self.psbt.globals_to_list():
-            #     try:
-            #         print(li[0], Ut.bytes_to_hex(li[1]))
-            #     except:
-            #         print(li[0], Ut.bytes_to_hex(li[1][0]), Ut.bytes_to_hex(li[1][1]))
-
-            # for i in self.psbt.inputs:
-            #     for li in i.to_list():
-            #         try:
-            #             print(li[0], Ut.bytes_to_hex(li[1]))
-            #         except:
-            #             print(li[0], Ut.bytes_to_hex(li[1][0]), Ut.bytes_to_hex(li[1][1]))
-
-            # for o in self.psbt.outputs:
-            #     for li in o.to_list():
-            #         try:
-            #             print(li[0], Ut.bytes_to_hex(li[1]))
-            #         except:
-            #             print(li[0], Ut.bytes_to_hex(li[1][0]), Ut.bytes_to_hex(li[1][1]))
-
     def view_browse(self):
         _browse = Mediabrowsepopup()
         _browse.bind(psbt=partial(self.load_psbt))
@@ -101,23 +82,15 @@ class PsbtScreen(Screen):
         _psbt: keva_psbt = self.app.ctrl.load_psbt(value)
         self.psbt = _psbt
 
-        for _g in _psbt.globals_to_list(True):
-            _b = Nwboxlayout()
-            _b.size_hint_y = None
-            _b.height = dp(20)
-            _b.orientation = 'horizontal'
-            _l = Nwlabel()
-            _l.padding = [10, 0, 0, 0]
-            _l.size_hint_x = None
-            _l.width = dp(225)
-            _v = Nwlabel()
-            
-            _l._text = str(_g[0]) + ':'
-            _v._text = str(_g[1])
-            _b.add_widget(_l)
-            _b.add_widget(_v)
-            self.global_box.add_widget(_b)
-
+        for _g in _psbt.globals_to_list():
+            _e = PsbtListInfo()
+            _e.key_name._text = _g[0]
+            if isinstance(_g[1], bytes):
+                _e.value_data._text = Ut.bytes_to_hex(_g[1])
+            else:
+                _e.key_data._text = Ut.bytes_to_hex(_g[1][0])
+                _e.value_data._text = Ut.bytes_to_hex(_g[1][1])
+            self.global_box.add_widget(_e)
 
         self.vin.text = str(len(_psbt.tx.vin))
         self.vout.text = str(len(_psbt.tx.vout))
@@ -127,53 +100,31 @@ class PsbtScreen(Screen):
             _i.vout._text = str(Ut.bytes_to_int(v.vout, 'little'))
 
             for _inp in _psbt.get_input(idx):
-                _b = BoxLayout()
-                _b.size_hint_y = None
-                _b.height = dp(20)
-                _b.orientation = 'horizontal'
-                _l = Nwlabel()
-                _l.padding = [10, 0, 0, 0]
-                _l.size_hint_x = None
-                _l.width = dp(225)
-                _v = Nwlabel()
-                # _v.size_hint = 1, None
-                # _v.text_size = _v.width, None
-                # _v.height = _v.texture_size[1]
-                
-                _l._text = str(_inp[0]) + ':'
-                _v._text = str(_inp[1])
-                _b.add_widget(_l)
-                _b.add_widget(_v)
-                _i.children[0].add_widget(_b)
+                _e = PsbtListInfo()
+                _e.key_name._text = _inp[0]
+                if isinstance(_inp[1], bytes):
+                    _e.value_data._text = Ut.bytes_to_hex(_inp[1])
+                else:
+                    _e.key_data._text = Ut.bytes_to_hex(_inp[1][0])
+                    _e.value_data._text = Ut.bytes_to_hex(_inp[1][1])
 
-            _i.height = _i.minimum_height
+                _i.children[0].add_widget(_e)
             self.pvin.vin.add_widget(_i)
-            
-            
+
         for i, o in enumerate(_psbt.tx.vout):
             _o = TXOutputListInfo()
             _o.n._text = str(i)
             _o.value._text = str(round(Ut.from_sats(Ut.bytes_to_int(o.amount, 'little')), 8))
             _o.scriptpubkey_asm._text = Ut.bytes_to_hex(o.scriptpubkey.script)
 
-
             for _out in _psbt.get_output(idx):
-                _b = BoxLayout()
-                _b.size_hint_y = None
-                _b.height = dp(20)
-                _b.orientation = 'horizontal'
-                _l = Nwlabel()
-                _l.padding = [10, 0, 0, 0]
-                _l.size_hint_x = None
-                _l.width = dp(225)
-                _v = Nwlabel()
-                # _v.size_hint = 1, None
-                # _v.text_size = _v.width, None
-                # _v.height = _v.texture_size[1]
-                
-                _l._text = str(_out[0]) + ':'
-                _v._text = str(_out[1])
-                _b.add_widget(_l)
-                _b.add_widget(_v)
-                _o.children[0].add_widget(_b)
+                _e = PsbtListInfo()
+                _e.key_name._text = _out[0]
+                if isinstance(_out[1], bytes):
+                    _e.value_data._text = Ut.bytes_to_hex(_out[1])
+                else:
+                    _e.key_data._text = Ut.bytes_to_hex(_out[1][0])
+                    _e.value_data._text = Ut.bytes_to_hex(_out[1][1])
+
+                _o.children[0].add_widget(_e)
             self.pvout.vout.add_widget(_o)

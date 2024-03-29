@@ -1,0 +1,57 @@
+<PsbtListInfo>
+    orientation: 'vertical'
+    key_name: key_name
+    key_data: key_data
+    value_data: value_data
+    size_hint_y: None
+    height: self.minimum_height
+
+    canvas:
+        Color:
+            rgba: (25/255, 27/255, 27/255, 1)
+
+        Rectangle:
+            pos: self.pos
+            size: self.size
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(20)
+
+        Nwlabel:
+            id: key_name
+            _text: ''
+            # valign: 'top'
+            # text_size: self.size
+            padding: [10, 0, 0, 0]
+            # size_hint_x: None
+            # width: dp(50)
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: self.minimum_height
+
+        Nwlabel:
+            id: key_data
+            _text: ''
+            valign: 'top'
+            padding: [15, 5, 15, 5]
+            size_hint: 1, None
+            text_size: self.width, None
+            height: self.texture_size[1]
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: self.minimum_height
+
+        Nwlabel:
+            id: value_data
+            _text: ''
+            valign: 'top'
+            padding: [15, 5, 15, 5]
+            size_hint: 1, None
+            text_size: self.width, None
+            height: self.texture_size[1]
