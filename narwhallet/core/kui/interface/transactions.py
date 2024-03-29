@@ -29,22 +29,24 @@ class TransactionsScreen(Screen):
         self.header.value = wallet_name
         _transactions = 0
         _txd = []
+        _new_tdx = {}
         if _w is not None:
             for address in _w.addresses.addresses:
                 if address is not None:
                     for _h in address.history:
-                        _s = ''
-                        if 'received' in _h:
-                            _s = 'Spend'
-                        else:
-                            _s = 'Receive'
                         _d = {
                                 'time': _h['time'],
                                 'transaction': _h['txid'],
                                 'block': str(_h['block']),
                                 'txvalue': str(Ut.from_sats(_h['value'])),
                                 'sm': self.manager,
-                                'status': _s}
+                                'status': ''} #_s}
+
+                        if _d['transaction'] not in _new_tdx:
+                            _new_tdx[_d['transaction']] = _d
+                        else:
+                            _new_tdx[_d['transaction']]['txvalue'] = str(round(float(_new_tdx[_d['transaction']]['txvalue']) + float(_d['txvalue']), 8))
+                    
                         self.transaction_list.children[0].rows += 1
                         _txd.append(_d)
                         _transactions += 1
@@ -54,21 +56,25 @@ class TransactionsScreen(Screen):
                 for address in _w.change_addresses.addresses:
                     if address is not None:
                         for _h in address.history:
-                            _s = ''
-                            if 'received' in _h:
-                                _s = 'Spend'
-                            else:
-                                _s = 'Receive'
                             _d = {
                                     'time': _h['time'],
                                     'transaction': _h['txid'],
                                     'block': str(_h['block']),
                                     'txvalue': str(Ut.from_sats(_h['value'])),
                                     'sm': self.manager,
-                                    'status': _s}
+                                    'status': ''} #_s}
+
+                            if _d['transaction'] not in _new_tdx:
+                                _new_tdx[_d['transaction']] = _d
+                            else:
+                                _new_tdx[_d['transaction']]['txvalue'] = str(round(float(_new_tdx[_d['transaction']]['txvalue']) + float(_d['txvalue']), 8))
+                        
                             self.transaction_list.children[0].rows += 1
                             _txd.append(_d)
                             _transactions += 1
+
+            for _, v in _new_tdx.items():
+                _txd.append(v)
 
             _txd.sort(reverse=True, key=self.sort_dict)
             self.transaction_list.data = _txd
