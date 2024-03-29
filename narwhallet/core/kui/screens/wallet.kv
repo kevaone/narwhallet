@@ -23,39 +23,15 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(10)
+            height: dp(5)
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(25)
+            height: dp(30)
 
             Nwlabel:
                 halign: 'left'
-                font_size: dp(20)
-                text_size: self.size
-                _text: 'Last Updated:'
-                padding: [10, 0, 0, 0]
-                size_hint_x: None
-                width: dp(175)
-
-            Nwlabel:
-                id: last_updated
-                halign: 'left'
-                font_size: dp(20)
-                text_size: self.size
-                _text: ''
-                size_hint_x: None
-                width: dp(190)
-
-            LoadingSpinner:
-                id: btn_update_wallet
-
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(25)
-
-            Nwlabel:
-                halign: 'left'
+                valign: 'center'
                 font_size: dp(20)
                 text_size: self.size
                 _text: 'Balance:'
@@ -66,16 +42,18 @@
             Nwlabel:
                 id: wallet_balance
                 halign: 'left'
+                valign: 'center'
                 font_size: dp(20)
                 text_size: self.size
                 _text: ''
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(25)
+            height: dp(30)
 
             Nwlabel:
                 halign: 'left'
+                valign: 'center'
                 font_size: dp(20)
                 text_size: self.size
                 _text: 'Unconfirmed:'
@@ -86,9 +64,14 @@
             Nwlabel:
                 id: wallet_unconfirmed_balance
                 halign: 'left'
+                valign: 'center'
                 font_size: dp(20)
                 text_size: self.size
                 _text: ''
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(5)
 
         Nwboxlayout:
             size_hint_y: None
@@ -96,7 +79,34 @@
 
             Nwlabel:
                 halign: 'left'
-                font_size: dp(20)
+                valign: 'center'
+                # font_size: dp(20)
+                text_size: self.size
+                _text: 'Last Updated:'
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(175)
+
+            Nwlabel:
+                id: last_updated
+                halign: 'left'
+                valign: 'center'
+                # font_size: dp(20)
+                text_size: self.size
+                _text: ''
+                size_hint_x: None
+                width: dp(190)
+
+            LoadingSpinner:
+                id: btn_update_wallet
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: dp(20)
+
+            Nwlabel:
+                halign: 'left'
+                # font_size: dp(20)
                 text_size: self.size
                 _text: 'Locked:'
                 padding: [10, 0, 0, 0]
@@ -106,17 +116,17 @@
             Nwlabel:
                 id: wallet_locked_balance
                 halign: 'left'
-                font_size: dp(20)
+                # font_size: dp(20)
                 text_size: self.size
                 _text: ''
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(25)
+            height: dp(20)
 
             Nwlabel:
                 halign: 'left'
-                font_size: dp(20)
+                # font_size: dp(20)
                 text_size: self.size
                 _text: 'Total Sent:'
                 padding: [10, 0, 0, 0]
@@ -126,17 +136,17 @@
             Nwlabel:
                 id: wallet_sent
                 halign: 'left'
-                font_size: dp(20)
+                # font_size: dp(20)
                 text_size: self.size
                 _text: ''
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(25)
+            height: dp(20)
 
             Nwlabel:
                 halign: 'left'
-                font_size: dp(20)
+                # font_size: dp(20)
                 text_size: self.size
                 _text: 'Total Recevied:'
                 padding: [10, 0, 0, 0]
@@ -146,26 +156,45 @@
             Nwlabel:
                 id: wallet_received
                 halign: 'left'
-                font_size: dp(20)
+                # font_size: dp(20)
                 text_size: self.size
                 _text: ''
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(10)
+            height: dp(15)
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(40)
+            height: dp(50)
+
+            Nwbutton:
+                id: btn_transactions
+                font_size: dp(20)
+                _text: 'History'
+                on_press: root.manager.transactions_screen.populate(header.value)
+
+            Nwbutton:
+                id: btn_psbt
+                font_size: dp(25)
+                _text: 'Psbt'
+                on_press: root.manager.psbt_screen.populate()
+                disabled: True
 
             Nwbutton:
                 font_size: dp(20)
-                _text: 'Information'
+                # _text: 'Information'
+                _text: ' '
+                size_hint_x: None
+                width: dp(50)
+                icon: 'narwhallet/core/kui/assets/circle-info.png'
+                icon_size: (dp(25), dp(25))
+                icon_padding: dp(0)
                 on_press: root.manager.walletinfo_screen.populate(header.value)
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(40)
+            height: dp(50)
 
             Nwbutton:
                 id: btn_addresses
@@ -175,7 +204,7 @@
 
         Nwboxlayout:
             size_hint_y: None
-            height: dp(40)
+            height: dp(50)
 
             Nwbutton:
                 id: btn_namespaces
@@ -183,15 +212,11 @@
                 _text: 'Namespaces'
                 on_press: root.manager.namespaces_screen.populate()
 
-        Nwboxlayout:
-            size_hint_y: None
-            height: dp(40)
+        # Nwboxlayout:
+        #     size_hint_y: None
+        #     height: dp(40)
 
-            Nwbutton:
-                id: btn_transactions
-                font_size: dp(20)
-                _text: 'History'
-                on_press: root.manager.transactions_screen.populate(header.value)
+            
 
         Nwboxlayout:
             size_hint_y: None
@@ -206,13 +231,6 @@
                 font_size: dp(25)
                 _text: 'Send'
                 on_press: root.manager.send_screen.populate(header.value)
-
-            Nwbutton:
-                id: btn_psbt
-                font_size: dp(25)
-                _text: 'Psbt'
-                on_press: root.manager.psbt_screen.populate()
-                disabled: True
 
         Nwboxlayout:
             size_hint_y: None
