@@ -6,7 +6,7 @@
     txvalue: 'txvalue'
     status: 'status'
     size_hint_y: None
-    height: dp(105) if root.width <= dp(650) else dp(85)
+    height: dp(125) if root.width <= dp(555) else dp(105)
 
     canvas:
         Color:
@@ -21,18 +21,6 @@
 
         BoxLayout:
             orientation: 'horizontal'
-
-            Nwlabel:
-                _text: root.transaction
-                valign: 'center'
-                text_size: self.size
-                padding: [5, 0, 0, 0]
-                font_size: dp(17)
-                size_hint_y: None
-                height: dp(50) if root.width <= dp(650) else dp(30)
-
-        BoxLayout:
-            orientation: 'horizontal'
             size_hint_y: None
             height: dp(25)
 
@@ -41,7 +29,7 @@
                 text_size: self.size
                 halign: 'left'
                 valign: 'top'
-                padding: [5, 0, 0, 0]
+                padding: [10, 0, 0, 0]
                 width: dp(55)
                 size_hint_x: None
 
@@ -54,13 +42,13 @@
         BoxLayout:
             orientation: 'horizontal'
             size_hint_y: None
-            height: dp(30)
+            height: dp(20)
 
             Nwlabel:
                 _text: 'Block:'
                 valign: 'top'
                 text_size: self.size
-                padding: [5, 0, 0, 0]
+                padding: [10, 0, 0, 0]
                 size_hint_x: None
                 width: dp(60)
 
@@ -91,3 +79,31 @@
                 text_size: self.size
                 size_hint_x: None
                 width: dp(125)
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: dp(20)
+
+            Nwlabel:
+                _text: 'txid:'
+                valign: 'top'
+                text_size: self.size
+                padding: [10, 0, 0, 0]
+                size_hint_x: None
+                width: dp(60)
+
+        BoxLayout:
+            orientation: 'horizontal'
+            size_hint_y: None
+            height: self.minimum_height
+
+            Nwlabel:
+                _text: root.transaction
+                valign: 'top'
+                padding: [15, 5, 15, 15]
+                size_hint: 1, None
+                text_size: self.width, None
+                height: self.texture_size[1]
+
+        

@@ -17,7 +17,7 @@ class TransactionsScreen(Screen):
     @staticmethod
     def sort_dict(item):
         if item['block'] == 'unconfirmed':
-            return 10000000
+            return 100000000
 
         return int(item['block'])
 
@@ -27,7 +27,7 @@ class TransactionsScreen(Screen):
         self.transaction_list.scroll_y = 1
         _w = self.app.ctrl.wallets.get_wallet_by_name(wallet_name)
         self.header.value = wallet_name
-        _transactions = 0
+        # _transactions = 0
         _txd = []
         _new_tdx = {}
         if _w is not None:
@@ -42,14 +42,11 @@ class TransactionsScreen(Screen):
                                 'sm': self.manager,
                                 'status': ''} #_s}
 
-                        if _d['transaction'] not in _new_tdx:
-                            _new_tdx[_d['transaction']] = _d
+                        if _d['transaction'] + _d['block'] not in _new_tdx:
+                            _new_tdx[_d['transaction'] + _d['block']] = _d
                         else:
-                            _new_tdx[_d['transaction']]['txvalue'] = str(round(float(_new_tdx[_d['transaction']]['txvalue']) + float(_d['txvalue']), 8))
-                    
-                        self.transaction_list.children[0].rows += 1
-                        _txd.append(_d)
-                        _transactions += 1
+                            _v = float(_new_tdx[_d['transaction'] + _d['block']]['txvalue']) + float(_d['txvalue'])
+                            _new_tdx[_d['transaction'] + _d['block']]['txvalue'] = str(round(_v, 8))
 
             # Change
             if self.manager.settings_screen.settings.show_change:
@@ -64,14 +61,11 @@ class TransactionsScreen(Screen):
                                     'sm': self.manager,
                                     'status': ''} #_s}
 
-                            if _d['transaction'] not in _new_tdx:
-                                _new_tdx[_d['transaction']] = _d
+                            if _d['transaction'] + _d['block'] not in _new_tdx:
+                                _new_tdx[_d['transaction'] + _d['block']] = _d
                             else:
-                                _new_tdx[_d['transaction']]['txvalue'] = str(round(float(_new_tdx[_d['transaction']]['txvalue']) + float(_d['txvalue']), 8))
-                        
-                            self.transaction_list.children[0].rows += 1
-                            _txd.append(_d)
-                            _transactions += 1
+                                _v = float(_new_tdx[_d['transaction'] + _d['block']]['txvalue']) + float(_d['txvalue'])
+                                _new_tdx[_d['transaction'] + _d['block']]['txvalue'] = str(round(_v, 8))
 
             for _, v in _new_tdx.items():
                 _txd.append(v)
