@@ -5,7 +5,6 @@
     vout: vout
     sequence: sequence
     scriptsig: scriptsig
-    # height: dp(85) if root.width < dp(550) else dp(65)
     size_hint_y: None
     height: self.minimum_height
 
@@ -24,6 +23,7 @@
 
         Nwlabel:
             _text: 'txid:'
+            # valign: 'top'
             text_size: self.size
             padding: [10, 0, 0, 0]
             size_hint_x: None
@@ -32,17 +32,13 @@
     BoxLayout:
         orientation: 'horizontal'
         size_hint_y: None
-        height: self.minimum_height # dp(45) if root.width < dp(550) else dp(25)
+        height: self.minimum_height
 
         Nwlabel:
             id: txid
             _text: 'txid'
-            valign: 'center'
-            # text_size: self.size
-            padding: [10, 5, 10, 5]
-            # size_hint_y: None
-            # height: dp(40) if root.width < dp(550) else dp(25)
-
+            valign: 'top'
+            padding: [15, 5, 15, 5]
             size_hint: 1, None
             text_size: self.width, None
             height: self.texture_size[1]
@@ -54,53 +50,20 @@
 
         Nwlabel:
             _text: 'vout:'
+            valign: 'top'
             text_size: self.size
             halign: 'left'
             padding: [10, 0, 0, 0]
             size_hint_x: None
-            width: dp(50)
+            width: dp(100)
 
         Nwlabel:
             id: vout
             _text: 'vout'
+            valign: 'top'
             text_size: self.size
             size_hint_x: None
             width: dp(50)
-
-    BoxLayout:
-        orientation: 'horizontal'
-        size_hint_y: None
-        height: dp(20)
-
-        Nwlabel:
-            _text: 'scriptsig:'
-            text_size: self.size
-            padding: [10, 0, 0, 0]
-            size_hint_x: None
-            width: dp(75)
-
-    BoxLayout:
-        orientation: 'horizontal'
-        size_hint_y: None
-        height: self.minimum_height # dp(45) if root.width < dp(550) else dp(25)
-
-        Nwlabel:
-            id: scriptsig
-            _text: 'scriptsig'
-            valign: 'center'
-            # text_size: self.size
-            padding: [10, 5, 10, 5]
-            # size_hint_y: None
-            # height: dp(40) if root.width < dp(550) else dp(25)
-
-            size_hint: 1, None
-            text_size: self.width, None
-            height: self.texture_size[1]
-
-    BoxLayout:
-        size_hint_y: None
-        height: dp(5)
-        orientation: 'horizontal'
 
     BoxLayout:
         size_hint_y: None
@@ -111,14 +74,43 @@
             _text: 'sequence:'
             text_size: self.size
             halign: 'left'
+            valign: 'top'
             padding: [10, 0, 0, 0]
             size_hint_x: None
             width: dp(100)
 
         Nwlabel:
             id: sequence
-            _text: 'sequence'
+            _text: ''
+            valign: 'top'
             text_size: self.size
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: dp(20)
+
+        Nwlabel:
+            _text: 'scriptSig:'
+            valign: 'top'
+            text_size: self.size
+            padding: [10, 0, 0, 0]
+            size_hint_x: None
+            width: dp(75)
+
+    BoxLayout:
+        orientation: 'horizontal'
+        size_hint_y: None
+        height: self.minimum_height
+
+        Nwlabel:
+            id: scriptsig
+            _text: ''
+            valign: 'top'
+            padding: [15, 5, 15, 10]
+            size_hint: 1, None
+            text_size: self.width, None
+            height: self.texture_size[1]
 
     BoxLayout:
         orientation: 'vertical'

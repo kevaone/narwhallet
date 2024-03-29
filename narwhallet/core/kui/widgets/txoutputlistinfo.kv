@@ -22,28 +22,51 @@
 
         Nwlabel:
             _text: 'n:'
+            valign: 'top'
             text_size: self.size
             size_hint_x: None
             padding: [10, 0, 0, 0]
-            width: dp(40)
+            width: dp(65)
 
         Nwlabel:
             id: n
+            valign: 'top'
             _text: ''
             text_size: self.size
             size_hint_x: None
-            width: dp(40)
+            width: dp(60)
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(20)
+        orientation: 'horizontal'
 
         Nwlabel:
             _text: 'Value:'
+            valign: 'top'
             text_size: self.size
             size_hint_x: None
-            width: dp(50)
+            padding: [10, 0, 0, 0]
+            width: dp(65)
 
         Nwlabel:
             id: value
+            valign: 'top'
             _text: ''
             text_size: self.size
+
+    BoxLayout:
+        size_hint_y: None
+        height: dp(20)
+        orientation: 'horizontal'
+
+        Nwlabel:
+            _text: 'scriptPubkey:'
+            valign: 'top'
+            text_size: self.size
+            size_hint_x: None
+            padding: [10, 0, 0, 0]
+            width: dp(125)
 
     BoxLayout:
         size_hint_y: None
@@ -55,9 +78,7 @@
             _text: ''
             halign: 'left'
             valign: 'top'
-            padding: [10, 10, 10, 10]
-            # text_size: self.size
-
+            padding: [15, 5, 15, 10]
             size_hint: 1, None
             text_size: self.width, None
             height: self.texture_size[1]
