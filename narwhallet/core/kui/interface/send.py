@@ -164,7 +164,11 @@ class SendScreen(Screen):
         self.set_output()
         self.set_availible_usxo()
         _inp_sel, _need_change, _est_fee = self.new_tx.select_inputs()
-        
+
+        # NOTE Cap fee to core limits.
+        if _est_fee > 10000000:
+            _est_fee = 10000000
+                
         if _inp_sel is True:
             _input_value, _output_value, _to_fee = self.new_tx.get_current_values()
             if _need_change is True:
