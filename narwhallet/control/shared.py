@@ -181,7 +181,7 @@ class MShared():
 
         # NOTE Padding to detect used addresses out of wallets current index's
         if len(_addresses.addresses) == 0:
-            _scan_pad = 100
+            _scan_pad = 1000
         else:
             _scan_pad = 10
 
