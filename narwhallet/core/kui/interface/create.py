@@ -67,6 +67,8 @@ class CreateScreen(Screen):
         if self._w.bip == 'bip49' and self._w.mnemonic != '':
             # TODO Pass password if advanced enabled
             self._w.generate_seed('')
+            if self._w.extended_pub == '':
+                self._w.generate_extended_pub()
 
         self.app.ctrl.wallets.from_mwallet(self._w)
         self.app.ctrl.wallets.save_wallet(self._w.name)

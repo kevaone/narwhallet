@@ -29,6 +29,9 @@ class WalletInfoScreen(Screen):
 
     def populate(self, name):
         _w: MWallet = self.app.ctrl.wallets.get_wallet_by_name(name)
+        if _w.extended_pub == '':
+            _w.generate_extended_pub()
+            self.app.ctrl.wallets.save_wallet(_w.name)
 
         if _w is not None:
             self.header.value = _w.name
