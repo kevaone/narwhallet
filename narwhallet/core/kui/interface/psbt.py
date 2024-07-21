@@ -23,13 +23,13 @@ from narwhallet.core.kui.widgets.nwlabel import Nwlabel
 
 
 class PsbtScreen(Screen):
-    version = ObjectProperty(None)
-    tx_size = ObjectProperty(None)
-    vsize = ObjectProperty(None)
-    locktime = ObjectProperty(None)
-    vin = ObjectProperty(None)
-    vout = ObjectProperty(None)
-    global_box = BoxLayout()
+    version = Nwlabel()
+    tx_size = Nwlabel()
+    vsize = Nwlabel()
+    locktime = Nwlabel()
+    vin = Nwlabel()
+    vout = Nwlabel()
+    global_box = Nwboxlayout()
     header = Header()
 
     def __init__(self, **kwargs):
@@ -49,9 +49,6 @@ class PsbtScreen(Screen):
         #     self.phex.header.value = 'HEX'
         #     self.pjson.status._text = json.dumps(_asa, indent=4)
         #     self.pjson.header.value = 'JSON'
-        #     self.confirmations.text = str(_asa['confirmations'])
-        #     self.time.text = str(_asa['time'])
-        #     self.blocktime.text = str(_asa['blocktime'])
 
         self.manager.current = 'psbt_screen'
 
@@ -81,6 +78,8 @@ class PsbtScreen(Screen):
     def load_psbt(self, instance: Mediabrowsepopup, value: str):
         _psbt: keva_psbt = self.app.ctrl.load_psbt(value)
         self.psbt = _psbt
+        self.pvin.vin.clear_widgets()
+        self.pvout.vout.clear_widgets()
 
         for _g in _psbt.globals_to_list():
             _e = PsbtListInfo()
@@ -98,6 +97,8 @@ class PsbtScreen(Screen):
             _i = TXInputListInfo()
             _i.txid._text = Ut.bytes_to_hex(v.txid)
             _i.vout._text = str(Ut.bytes_to_int(v.vout, 'little'))
+            _i.sequence._text = str(Ut.bytes_to_hex(v.sequence))
+            _i.scriptsig._text = str(Ut.bytes_to_hex(v.scriptsig.script))
 
             for _inp in _psbt.get_input(idx):
                 _e = PsbtListInfo()

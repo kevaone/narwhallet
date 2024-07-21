@@ -15,6 +15,31 @@
         Header:
             id: header
 
+
+        Nwboxlayout:
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+
+            Nwboxlayout:
+                size_hint_y: None
+                height: dp(40)
+                orientation: 'horizontal'
+
+                Nwbutton:
+                    _text: 'Open'
+                    icon: 'narwhallet/core/kui/assets/restore.png'
+                    icon_size: (dp(20), dp(20))
+                    icon_padding: dp(22)
+                    on_press: root.view_browse()
+
+                Nwbutton:
+                    _text: 'Save'
+                    icon: 'narwhallet/core/kui/assets/save.png'
+                    icon_size: (dp(20), dp(20))
+                    icon_padding: dp(22)
+                    on_press: root.view_save()
+
         ScrollView:
             size_hint: 1, 1
             do_scroll_x: False
@@ -26,30 +51,6 @@
                 size_hint_y: None
                 height: self.minimum_height
                 orientation: 'vertical'
-
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(40)
-                    orientation: 'horizontal'
-
-                    Nwbutton:
-                        _text: 'Open'
-                        icon: 'narwhallet/core/kui/assets/restore.png'
-                        icon_size: (dp(20), dp(20))
-                        icon_padding: dp(22)
-                        on_press: root.view_browse()
-
-                Nwboxlayout:
-                    size_hint_y: None
-                    height: dp(40)
-                    orientation: 'horizontal'
-
-                    Nwbutton:
-                        _text: 'Save'
-                        icon: 'narwhallet/core/kui/assets/save.png'
-                        icon_size: (dp(20), dp(20))
-                        icon_padding: dp(22)
-                        on_press: root.view_save()
 
                 Nwboxlayout:
                     orientation: 'vertical'
